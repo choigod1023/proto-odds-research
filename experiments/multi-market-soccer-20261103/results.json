@@ -1,0 +1,183 @@
+{
+  "source_sha256": "9ffddb2dcbc4297c32e6ad3826f392e1842e52e10b509e4cbe47eed1f84b9da4",
+  "source_rows": 171565,
+  "loader_quality_all_sports": {
+    "input_rows": 171565,
+    "valid_unique_market_rows": 165371,
+    "invalid_rows": 1524,
+    "conflicting_reissues_excluded": 316
+  },
+  "definition": "unique nonvoid offers after price/result conflict exclusion; independently joined primary score; certified pregame receipts unavailable",
+  "groups": {
+    "K리그1 / 승무패": {
+      "unique_valid_offers": 762,
+      "score_line_odds_result_linked": 762,
+      "date_range": [
+        "2023-02-25",
+        "2026-05-17"
+      ],
+      "lines": {},
+      "certified_pregame": 0
+    },
+    "K리그1 / 언더오버": {
+      "unique_valid_offers": 763,
+      "score_line_odds_result_linked": 763,
+      "date_range": [
+        "2023-02-25",
+        "2026-05-17"
+      ],
+      "lines": {
+        "2.5": 756,
+        "3.5": 7
+      },
+      "certified_pregame": 0
+    },
+    "K리그1 / 핸디캡": {
+      "unique_valid_offers": 874,
+      "score_line_odds_result_linked": 872,
+      "unsupported_or_push": 2,
+      "date_range": [
+        "2023-02-25",
+        "2026-05-17"
+      ],
+      "lines": {
+        "-1.0": 519,
+        "1.0": 241,
+        "-2.5": 1,
+        "-2.0": 71,
+        "-3.5": 1,
+        "2.0": 41
+      },
+      "certified_pregame": 0
+    },
+    "K리그2 / 승무패": {
+      "unique_valid_offers": 852,
+      "score_line_odds_result_linked": 852,
+      "date_range": [
+        "2023-03-01",
+        "2026-06-07"
+      ],
+      "lines": {},
+      "certified_pregame": 0
+    },
+    "K리그2 / 언더오버": {
+      "unique_valid_offers": 842,
+      "score_line_odds_result_linked": 842,
+      "date_range": [
+        "2023-03-01",
+        "2026-06-07"
+      ],
+      "lines": {
+        "2.5": 836,
+        "3.5": 6
+      },
+      "certified_pregame": 0
+    },
+    "K리그2 / 핸디캡": {
+      "unique_valid_offers": 852,
+      "score_line_odds_result_linked": 851,
+      "unsupported_or_push": 1,
+      "date_range": [
+        "2023-03-01",
+        "2026-06-07"
+      ],
+      "lines": {
+        "-1.0": 519,
+        "1.0": 332,
+        "2.5": 1
+      },
+      "certified_pregame": 0
+    },
+    "기타축구 / 승무패": {
+      "unique_valid_offers": 19326,
+      "score_line_odds_result_linked": 19326,
+      "date_range": [
+        "2023-01-01",
+        "2026-07-01"
+      ],
+      "lines": {},
+      "certified_pregame": 0
+    },
+    "기타축구 / 언더오버": {
+      "unique_valid_offers": 19108,
+      "score_line_odds_result_linked": 19051,
+      "missing_score": 57,
+      "date_range": [
+        "2023-01-01",
+        "2026-07-01"
+      ],
+      "lines": {
+        "2.5": 15501,
+        "3.5": 3451,
+        "4.5": 114,
+        "5.5": 30,
+        "6.5": 5,
+        "1.5": 7
+      },
+      "certified_pregame": 0
+    },
+    "기타축구 / 핸디캡": {
+      "unique_valid_offers": 24940,
+      "score_line_odds_result_linked": 21934,
+      "unsupported_or_push": 2871,
+      "missing_score": 135,
+      "date_range": [
+        "2023-01-01",
+        "2026-07-01"
+      ],
+      "lines": {
+        "1.0": 6125,
+        "-1.0": 12831,
+        "-2.5": 1033,
+        "2.5": 441,
+        "-2.0": 1984,
+        "-3.5": 972,
+        "2.0": 836,
+        "3.5": 285,
+        "-4.0": 33,
+        "-5.5": 20,
+        "-5.0": 14,
+        "-6.5": 10,
+        "4.0": 23,
+        "5.5": 18,
+        "3.0": 42,
+        "4.5": 30,
+        "-3.0": 121,
+        "-4.5": 97,
+        "-6.0": 5,
+        "-7.5": 3,
+        "5.0": 3,
+        "6.5": 2,
+        "-1.5": 2,
+        "1.5": 4,
+        "6.0": 1,
+        "7.5": 1,
+        "-7.0": 2,
+        "-8.5": 2
+      },
+      "certified_pregame": 0
+    }
+  },
+  "descriptive_candidate": {
+    "2023-2024": {
+      "bets": 925,
+      "wins": 483,
+      "hit_rate": 0.5221621621621622,
+      "roi": -0.1483891891891891,
+      "max_daily_close_drawdown_units": 142.72999999999996,
+      "coverage_numerator_offers": 925,
+      "coverage_denominator_linked_1x2_offers": 928,
+      "coverage_ratio": 0.9967672413793104
+    },
+    "2025-2026": {
+      "bets": 663,
+      "wins": 360,
+      "hit_rate": 0.5429864253393665,
+      "roi": -0.127843137254902,
+      "max_daily_close_drawdown_units": 84.96000000000004,
+      "coverage_numerator_offers": 663,
+      "coverage_denominator_linked_1x2_offers": 686,
+      "coverage_ratio": 0.9664723032069971
+    }
+  }
+}

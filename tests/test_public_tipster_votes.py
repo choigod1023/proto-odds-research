@@ -261,8 +261,8 @@ def test_collector_runs_bounded_and_retains_original_observation(tmp_path, monke
     monkeypatch.setattr(mod, "fetch", http)
     result = mod.collect(db, object())
     assert result["written"] == 1 and result["sports"] == {"bk": 1}
-    assert result["errors"] == {"goli:ValueError": 1}
-    assert len(calls) == 6
+    assert result["errors"] == {"goli:ValueError": 1, "goli_reference_listing:ValueError": 1}
+    assert len(calls) == 7
     assert mod.collect(db, object())["written"] == 0
     assert len(db.events("public_tipster_votes")) == 1
 
@@ -308,6 +308,7 @@ def test_latest_article_per_listing_is_checked_while_history_rotates(tmp_path, m
                 [f"https://pick79.com/posts/detail/{c}-{i}/" for i in range(12)]
                 for c in categories}
     listings["https://www.goli.tv/board/analysis"] = [f"https://www.goli.tv/board/analysis/{i}" for i in range(12)]
+    listings["https://www.goli.tv/board/free"] = []
     articles = []
 
     def http(session, url):
@@ -317,7 +318,7 @@ def test_latest_article_per_listing_is_checked_while_history_rotates(tmp_path, m
         raise ValueError("missing_explicit_pick")
 
     monkeypatch.setattr(mod, "fetch", http)
-    latest = {links[0] for links in listings.values()}
+    latest = {links[0] for links in listings.values() if links}
     seen = set()
     for _ in range(6):
         articles.clear()

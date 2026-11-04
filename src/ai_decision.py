@@ -592,7 +592,10 @@ def build_decision_snapshot(
     # Only explicitly captured current input may change a new revision. Saved
     # output/sanitization must never replay stale attached votes as new evidence.
     game.pop("tipster_hybrid", None)
+    game.pop("market_candidates", None)
     if tipster_votes is not None and reconstructed_at is None:
+        from market_diversity import build_market_candidates
+        game["market_candidates"] = build_market_candidates(game, tipster_votes, as_of, built_at or as_of)
         from fixed_tipster_hybrid import context, apply
         info = context(game, tipster_votes, as_of, built_at or as_of)
         if info is not None:

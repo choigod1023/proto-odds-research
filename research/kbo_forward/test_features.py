@@ -1,7 +1,10 @@
 import copy,hashlib,importlib.util,json,sys,unittest
 from pathlib import Path
 from unittest.mock import patch
-sys.path.insert(0,str(Path(__file__).parent));import features
+sys.path.insert(0,str(Path(__file__).parent))
+_spec=importlib.util.spec_from_file_location("kbo_forward_test_features_impl",Path(__file__).with_name("features.py"))
+features=importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(features)
 
 NOW='2026-11-03T08:00:00+00:00'
 def data():

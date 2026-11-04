@@ -151,7 +151,7 @@ def test_loader_uses_time_bounds_and_fails_closed(monkeypatch):
     monkeypatch.setattr(runtime_db.RuntimeDatabase, "iter_events", iterator)
     assert load_votes(AT) == [vote()]
     assert calls == [(stream, {"since": "2026-10-22", "through": "2026-10-26"})
-                     for stream in ("pickster_pick_events", "public_tipster_votes")]
+                     for stream in ("pickster_pick_events", "public_tipster_votes", "public_tipster_market_observations")]
 
 
 def test_new_votes_refresh_unchanged_odds_but_never_frozen_pick(tmp_path, monkeypatch):

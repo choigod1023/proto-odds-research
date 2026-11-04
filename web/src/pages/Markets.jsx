@@ -13,6 +13,7 @@ import TodayPicksBoard from "../components/TodayPicksBoard.jsx";
 import MatchDetailHeader from "../components/MatchDetailHeader.jsx";
 import GameInfoModal from "../components/GameInfoModal.jsx";
 import PickProbabilities from "../components/PickProbabilities.jsx";
+import MarketCandidateComparison from "../components/MarketCandidateComparison.jsx";
 import { ESTIMATE_MESSAGE, PROBABILITY_EXPLANATION } from "../lib/probability-copy.js";
 import BetSaveDialog from "../components/BetSaveDialog.jsx";
 import { AiDecisionPath } from "../components/AiDisclosure.jsx";
@@ -932,6 +933,9 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
         </section>}
         {pick && onSaveBet && <button type="button" className="pick-select-action" disabled={selected || stale || g._liveOddsChanged}
           onClick={() => onSaveBet(g, pick.o)}>{selected ? "✓ 선택 목록에 담김" : "이 픽을 선택 목록에 담기"}</button>}
+        <MarketCandidateComparison game={insightGame} options={opts}
+          blocked={wait || stale || locked || g._liveOddsChanged === true}
+          onSelect={onSaveBet ? (option) => onSaveBet(g, option) : undefined} />
         <MarketHistory rows={g._marketHistory} />
         {g._liveLineChanged && (
           <div className="mb-3 rounded border border-amber-400 bg-amber-50 px-3 py-2 text-[12px] leading-6 text-amber-950" role="status">

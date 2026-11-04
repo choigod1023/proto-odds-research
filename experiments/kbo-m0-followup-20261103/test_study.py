@@ -54,6 +54,30 @@ def test_committed_year_results_match_known_denominators():
 
 def test_full_frozen_scoring_replays_without_overwriting(capsys):
     before=(s.P/"results.json").read_bytes()
-    s.main(verify=True)
+    with patch.object(s.subprocess,"check_output",side_effect=AssertionError("replay must not require old Git objects")):
+        s.main(verify=True)
     assert (s.P/"results.json").read_bytes()==before
     assert "2024" in capsys.readouterr().out
+
+
+def test_corrupt_frozen_blob_is_not_replaced_with_current_git(tmp_path,monkeypatch):
+    manifest=(s.P/"replay-sources.json").read_bytes();(tmp_path/"replay-sources.json").write_bytes(manifest)
+    key,entry=next(iter(json.loads(manifest)["sources"].items()))
+    target=tmp_path/entry["relative_path"];target.parent.mkdir(parents=True);target.write_bytes(gzip.compress(b"changed",mtime=0))
+    monkeypatch.setattr(s,"P",tmp_path)
+    with patch.object(s.subprocess,"check_output",side_effect=AssertionError("must fail closed")):
+        with pytest.raises(ValueError,match="replay blob changed"):s.fixed(*key.split(":",1))
+
+
+def test_corrupt_replay_manifest_is_rejected(tmp_path,monkeypatch):
+    (tmp_path/"replay-sources.json").write_bytes((s.P/"replay-sources.json").read_bytes()+b" ")
+    monkeypatch.setattr(s,"P",tmp_path)
+    with pytest.raises(ValueError,match="replay manifest changed"):s.fixed("TEST","input.jsonl.gz")
+
+
+def test_float_roundoff_does_not_relax_identity_count_or_money_checks():
+    s.assert_replay_equal({"metric":.6},{"metric":.6+1e-14})
+    for left,right in (({"n":1},{"n":2}),({"money":"-29.05"},{"money":"-29.04"}),
+                       ({"sha":"a"},{"sha":"b"}),({"flag":False},{"flag":0}),
+                       ({"metric":.6},{"metric":.6+1e-8}),({"metric":.6},{"metric":float('nan')})):
+        with pytest.raises(ValueError,match="replay"):s.assert_replay_equal(left,right)

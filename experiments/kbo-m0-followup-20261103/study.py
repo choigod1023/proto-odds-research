@@ -4,9 +4,19 @@ from pathlib import Path
 P=Path(__file__).resolve().parent;REPO=P.parents[1];BASE="experiments/kbo-m0-followup-20261103/";sys.path.insert(0,str(P/"vendor/evolution/common"));import core
 import metrics,outcome_metrics
 SOURCES={}
+REPLAY_MANIFEST_SHA256="c9cc637a6e2f5b99441e1184d0cf475ef8b609064c0ec5b0184e79887212d5ec"
 
 def fixed(rev,path,repo=REPO):
- raw=subprocess.check_output(["git","-C",str(repo),"show",rev+":"+path]);SOURCES[rev+":"+path]=hashlib.sha256(raw).hexdigest();body=gzip.decompress(raw) if path.endswith(".gz") else raw;return [json.loads(line) for line in body.splitlines() if line.strip()] if ".jsonl" in path else json.loads(body)
+ # Original local-only commits are absent in a fresh CI checkout. Preserve
+ # their exact blobs, not replacements from the current tree or new results.
+ manifest_raw=(P/"replay-sources.json").read_bytes()
+ if hashlib.sha256(manifest_raw).hexdigest()!=REPLAY_MANIFEST_SHA256:raise ValueError("frozen replay manifest changed")
+ entry=json.loads(manifest_raw)["sources"].get(rev+":"+path)
+ if entry is not None:
+  raw=gzip.decompress((P/entry["relative_path"]).read_bytes())
+  if len(raw)!=entry["raw_bytes"] or hashlib.sha256(raw).hexdigest()!=entry["raw_sha256"]:raise ValueError("frozen replay blob changed")
+ else:raw=subprocess.check_output(["git","-C",str(repo),"show",rev+":"+path])
+ SOURCES[rev+":"+path]=hashlib.sha256(raw).hexdigest();body=gzip.decompress(raw) if path.endswith(".gz") else raw;return [json.loads(line) for line in body.splitlines() if line.strip()] if ".jsonl" in path else json.loads(body)
 def unique(x):return core.unique(x)
 def validate(preds,targets):
  target_map=unique(targets);ids=set(target_map)
@@ -28,6 +38,21 @@ def average(parts,targets):
 def coverage(targets,quotes,labels):
  ids=set(unique(quotes));missing=[r["fixture_id"] for r in targets if r["fixture_id"] not in ids]
  return {"target_n":len(targets),"price_n":len(quotes),"missing_price_n":len(missing),"target_draws":sum(metrics.winner(labels[r["fixture_id"]])=="draw" for r in targets),"price_draws":sum(metrics.winner(labels[f])=="draw" for f in ids),"missing_draws":sum(metrics.winner(labels[f])=="draw" for f in missing),"missing_decisive":sum(metrics.winner(labels[f])!="draw" for f in missing),"excluded_ids":missing}
+
+def assert_replay_equal(expected,actual,path="result"):
+ # Hashes, identities, integer counts and Decimal money strings stay exact.
+ # Floating metrics may differ by libm/NumPy rounding across platforms only.
+ if type(expected) is not type(actual):raise ValueError("replay type mismatch at "+path)
+ if isinstance(expected,dict):
+  if expected.keys()!=actual.keys():raise ValueError("replay keys mismatch at "+path)
+  for key in expected:assert_replay_equal(expected[key],actual[key],path+"/"+str(key))
+ elif isinstance(expected,list):
+  if len(expected)!=len(actual):raise ValueError("replay length mismatch at "+path)
+  for index,(left,right) in enumerate(zip(expected,actual)):assert_replay_equal(left,right,path+"/"+str(index))
+ elif isinstance(expected,float):
+  if not math.isfinite(expected) or not math.isfinite(actual) or abs(expected-actual)>1e-12:
+   raise ValueError(f"replay float mismatch at {path}: {expected!r} != {actual!r}")
+ elif expected!=actual:raise ValueError(f"replay exact mismatch at {path}: {expected!r} != {actual!r}")
 
 def summarize(predictions,labels,quotes,targets):
  validate(predictions,targets);qids=set(unique(quotes));tids=set(unique(targets));tmap=unique(targets)
@@ -70,7 +95,7 @@ def main(verify=False):
    ps={name:[r for r in rs if r["fixture_id"] in fids] for name,rs in predictions[year].items()};ls={f:labels[year][f] for f in fids};qs=[r for r in prices[year] if r["fixture_id"] in fids];result["halves"][str(year)][str(half)]=summarize(ps,ls,qs,t)
  result["2026_strict_price_sensitivity"]=summarize(pred26,labels[2026],[r for r in tiers26["strict_original_time_match"] if r["fixture_id"] in ids],targets[2026]);result["data_join_limitation"]=handoff["draw_selection_limitation"];result["source_hashes"]=SOURCES
  if verify:
-  if json.loads((P/"results.json").read_bytes())!=result:raise ValueError("committed cross-period results differ")
+  assert_replay_equal(json.loads((P/"results.json").read_bytes()),result)
  else:core.dump(P/"results.json",result)
  for year,d in result["annual"].items():
   print(year,{k:v for k,v in d["coverage"].items() if k!="excluded_ids"})

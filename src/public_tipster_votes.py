@@ -290,6 +290,7 @@ def fetch(session, url):
 
 def collect(db, session):
     from bs4 import BeautifulSoup, SoupStrainer
+    from public_market_observations import safe_reference_url, parse_reference_events
     started = time.monotonic()
     def progress(stage):
         print(f"public_tipster_intake stage={stage} elapsed={time.monotonic()-started:.1f}s", flush=True)
@@ -298,6 +299,8 @@ def collect(db, session):
     progress(f"fixtures_ready:{len(fixtures)}")
     now = datetime.now(timezone.utc)
     summary = {"observed_at": now.isoformat(), "source": SOURCE, "written": 0, "parsed": 0,
+               "market_candidates_written": 0,
+               "reference_observations_written": 0,
                "sports": {}, "errors": {}, "rejected": {}}
     counts, rejects, sports = Counter(), Counter(), Counter()
     links = []
@@ -320,6 +323,7 @@ def collect(db, session):
             counts[category+":"+type(exc).__name__] += 1
     for i in range(12):
         links.extend(g[i] for g in groups if len(g) > i)
+    soup = None
     try:
         progress("listing:goli")
         url = "https://www.goli.tv/board/analysis"
@@ -336,13 +340,32 @@ def collect(db, session):
         latest_links.extend(found[:1])
     except (requests.RequestException, ValueError, UnicodeError) as exc:
         counts["goli:"+type(exc).__name__] += 1
+    # Reference discovery survives an analysis listing outage. Keep a bounded
+    # rotating tail so an unsupported newest article cannot starve valid posts.
+    def reference_links_in(listing, base):
+        if listing is None:
+            return []
+        return list(dict.fromkeys(urljoin(base,a["href"]).split("?")[0]
+            for a in listing.select('a[href*="/board/free/"]')
+            if re.search(r"\d{1,2}월\s*\d{1,2}일",a.get_text(" ",strip=True))
+            and "픽" in a.get_text(" ",strip=True)
+            and safe_reference_url(urljoin(base,a["href"]).split("?")[0])))[:12]
+    reference_links = reference_links_in(soup, "https://www.goli.tv/board/analysis")
+    if not reference_links:
+        reference_listing="https://www.goli.tv/board/free"
+        try:
+            ref_soup=BeautifulSoup(fetch(session,reference_listing),"lxml",parse_only=SoupStrainer("a"))
+            reference_links=reference_links_in(ref_soup,reference_listing)
+        except (requests.RequestException,ValueError,UnicodeError) as exc:
+            counts["goli_reference_listing:"+type(exc).__name__]+=1
+    links.extend(reference_links);latest_links.extend(reference_links[:1])
     # A rotating cursor prevents permanent starvation with a bounded workload.
     state = db.get_document("public_tipster_intake") or {}
-    links = list(dict.fromkeys(u for u in links if safe_url(u)))
+    links = list(dict.fromkeys(u for u in links if safe_url(u) or safe_reference_url(u)))
     # Check each listing's latest article on every poll, still within the same
     # 16-body request budget. Rotate the remainder so older evidence also gets
     # checked; a cursor near the end must not delay today's first article.
-    latest_links = list(dict.fromkeys(u for u in latest_links if safe_url(u)))
+    latest_links = list(dict.fromkeys(u for u in latest_links if safe_url(u) or safe_reference_url(u)))
     latest_set = set(latest_links)
     # Reserve at most four slots for uniquely identified upcoming fixtures.
     # Keep latest checks and a rotating share so no source is permanently starved.
@@ -351,16 +374,31 @@ def collect(db, session):
     rotating = [u for u in links if u not in latest_set and u not in priority]
     cursor = int(state.get("cursor", 0)) % max(1, len(rotating))
     rotated = (rotating[cursor:]+rotating[:cursor])[:16-len(latest_links)-len(priority)]
-    candidates = latest_links + priority + rotated
+    candidates = (latest_links + priority + rotated)[:16]
     for index, url in enumerate(candidates):
         progress(f"article:{index+1}/{len(candidates)}")
         try:
             html = fetch(session, url)
+            if safe_reference_url(url):
+                references=parse_reference_events(url,html,datetime.now(timezone.utc).isoformat(),fixtures)
+                summary["reference_observations_written"] += db.append_events(
+                    "public_tipster_market_observations",references,identity_keys=("source","pick_id")) if references else 0
+                progress(f"reference_observations:{len(references)}")
+                continue
             # Timestamp AFTER receiving bytes, never before a slow HTTP request.
             row = parse_page(url, html, datetime.now(timezone.utc).isoformat())
             summary["parsed"] += 1
             event = match_vote(row, fixtures)
             summary["written"] += db.append_events("public_tipster_votes", [event], identity_keys=("source", "pick_id"))
+            # Reuse exactly these received bytes and timestamp: no extra HTTP
+            # poll and no change to the winner-only operating electorate.
+            from public_tipster_market_candidates import candidate_events
+            try:
+                extra = candidate_events(event, url, html)
+                summary["market_candidates_written"] += db.append_events(
+                    "public_tipster_votes", extra, identity_keys=("source", "pick_id")) if extra else 0
+            except (ValueError, KeyError, TypeError, AttributeError) as exc:
+                rejects["market_candidates:"+type(exc).__name__] += 1
             sports[event["sport"]] += 1
             progress(f"matched:{event['sport']}")
         except (requests.RequestException, ValueError, KeyError, TypeError, AttributeError) as exc:
@@ -369,7 +407,7 @@ def collect(db, session):
     summary.update(cursor=(cursor+len(rotated)) % max(1, len(rotating)),
                    candidates=len(candidates), discovered=len(links), errors=dict(counts),
                    rejected=dict(rejects), sports=dict(sports))
-    summary["status"] = "matched" if sports else "no_eligible_votes"
+    summary["status"] = "matched" if sports else "references_only" if summary["reference_observations_written"] else "no_eligible_votes"
     db.put_document("public_tipster_intake", summary, generated_at=summary["observed_at"])
     progress("complete")
     return summary

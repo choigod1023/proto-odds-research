@@ -88,7 +88,10 @@ def test_os_lock_recovers_after_process_termination(tmp_path):
     from locking import single_writer
     path=tmp_path/'killed.lock'
     source='import sys,time;sys.path.insert(0,sys.argv[1]);from locking import single_writer\nwith single_writer(sys.argv[2]) as owned:\n print(owned,flush=True)\n time.sleep(30)'
-    proc=subprocess.Popen([sys.executable,'-B','-c',source,str(Path(__file__).parent),str(path)],stdout=subprocess.PIPE,text=True)
+    # A Windows venv launcher can leave its real Python child holding the lock
+    # when only the launcher is terminated. This probe needs no venv packages.
+    executable=getattr(sys,'_base_executable',sys.executable) if sys.platform=='win32' else sys.executable
+    proc=subprocess.Popen([executable,'-B','-c',source,str(Path(__file__).parent),str(path)],stdout=subprocess.PIPE,text=True)
     try:
         assert proc.stdout.readline().strip()=='True'
         with single_writer(path) as owned:assert not owned

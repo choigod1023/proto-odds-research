@@ -49,6 +49,16 @@ def load_votes(as_of):
                     return [{"_tipster_load_error": True}]  # Never use a silently truncated electorate.
                 if row.get("event_type") == "first_observed":
                     rows.append(row)
+        # Reference-only opinions have a separate cap and error marker so an
+        # unavailable reference stream cannot change the winner electorate.
+        references=[]
+        try:
+            for index,row in enumerate(db.iter_events("public_tipster_market_observations",since=since,through=through)):
+                if index>=2000:
+                    references=[{"_market_reference_load_error":True}];break
+                if row.get("event_type")=="first_observed":references.append(row)
+        except (OSError,ValueError,TypeError,sqlite3.Error):references=[{"_market_reference_load_error":True}]
+        rows.extend(references)
         return rows
     except (OSError, ValueError, TypeError, sqlite3.Error):
         return [{"_tipster_load_error": True}]
