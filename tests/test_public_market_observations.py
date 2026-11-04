@@ -19,14 +19,16 @@ GAMES = [game("bk", "KBL", "서울SK", "한국가스"), game("bk", "WKBL", "신�
 def parse(html=HTML, games=GAMES, now=NOW):
     return parse_reference_events(URL, html, now, games)
 
-def test_real_source_rows_with_api_team_names_withhold_unmapped_volleyball():
+def test_real_source_rows_with_api_team_names():
     events = parse()
-    assert [(e["fixture"][1], e["selected_team"], e["team_line"]) for e in events] == [("KBL", "서울SK", -6), ("WKBL", "우리은행", -7)]
+    assert [(e["fixture"][1], e["selected_team"], e["team_line"], e["side"]) for e in events if e["family"] == "handicap"] == [("KBL", "서울SK", -6, "home"), ("WKBL", "우리은행", -7, "away")]
+    assert [(e["fixture"][1], e["side"], e["line"]) for e in events if e["family"] == "total"] == [("KOVO남", "over", 182.5), ("KOVO여", "over", 179.5)]
     for e in events:
         assert e["reference_only"] and e["is_parlay_leg"] and e["eligible_pre_event"]
         assert e["period"] == e["settlement"] == "unknown"
         assert not e["price_eligible"] and not e["affects_model"] and not e["affects_probability"] and not e["affects_recommendation"]
         assert e["source_odds_text"] == "1.85배"
+        assert e["source_url"] == e["url"] == URL
 
 def test_exact_volleyball_team_pairs_extract_totals_without_alias_guessing():
     games = [*GAMES[:2], game("vl", "KOVO남", "KB손해보험", "OK저축은행"), game("vl", "KOVO여", "흥국생명", "정관장")]
@@ -37,7 +39,9 @@ def test_identity_stable_when_line_changes_and_home_away_preserved():
     changed = parse(HTML.replace("-6점", "-6.5점"))
     assert changed[0]["pick_id"] == parse()[0]["pick_id"]
     swapped = [game("bk", "KBL", "한국가스", "서울SK")]
-    assert parse(games=swapped)[0]["fixture"][2:4] == ["한국가스", "서울SK"]
+    event, = parse(games=swapped)
+    assert event["fixture"][2:4] == ["한국가스", "서울SK"]
+    assert event["side"] == "away" and event["team_line"] == -6
 
 @pytest.mark.parametrize("url", ["http://www.goli.tv/board/free/298798", "https://goli.tv/board/free/298798", "https://www.goli.tv/board/analysis/298798", "https://www.goli.tv/board/free/298798?x=1", "https://www.goli.tv@evil/board/free/298798"])
 def test_restrict_url(url):
@@ -58,3 +62,12 @@ def test_ambiguous_or_future_source_rejected(html):
 def test_duplicate_same_family_withheld():
     fragment = "<p>11월4일 19:00분!!!</p><p>한국남자농구!!!</p><p>3.서울SK:한국가스공사</p><p>서울SK -6점 마핸승!!! 1.85배!!!</p>"
     assert all(e["fixture"][1] != "KBL" for e in parse(HTML.replace("<p>6폴더", fragment + "<p>6폴더")))
+
+
+def test_reference_aliases_are_league_scoped_and_do_not_modify_winner_aliases():
+    from public_market_observations import reference_team
+    from public_tipster_votes import team
+    assert reference_team("OK저축은행", "KOVO남") == "OK저축"
+    assert reference_team("정관장", "KOVO여") == "대전정관"
+    assert reference_team("정관장", "KBL") != "대전정관"
+    assert team("OK저축은행", "KOVO남") != "OK저축"

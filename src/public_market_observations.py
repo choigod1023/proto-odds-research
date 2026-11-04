@@ -11,6 +11,16 @@ from public_tipster_votes import KST, fixture_key, kickoff, stamp, team
 SOURCE = "public_market_reference_v1"
 LEAGUES = {"한국남자농구": ("bk", "KBL"), "한국여자농구": ("bk", "WKBL"),
            "한국남자배구": ("vl", "KOVO남"), "한국여자배구": ("vl", "KOVO여")}
+REFERENCE_ALIASES = {"KOVO남": {"KB손해보험": "KB손보", "OK저축은행": "OK저축"},
+                     "KOVO여": {"정관장": "대전정관"}}
+
+
+def reference_team(name, league):
+    normalized = re.sub(r"\s+", "", str(name)).upper()
+    aliases = {key.upper(): value.upper() for key, value in REFERENCE_ALIASES.get(league, {}).items()}
+    return team(aliases.get(normalized, name), league)
+
+
 DATE = r"(\d{1,2})월\s*(\d{1,2})일"
 BLOCK = re.compile(
     DATE + r"\s+(\d{1,2}):(\d{2})분!+\s*"
@@ -77,7 +87,7 @@ def parse_reference_events(url, html, observed_at, fixtures):
             continue
         if claimed.hour != 19 or claimed.minute != 0:
             continue
-        source_teams = {team(m[6], league), team(m[7], league)}
+        source_teams = {reference_team(m[6], league), reference_team(m[7], league)}
         if len(source_teams) != 2:
             continue
         matches = []
@@ -87,7 +97,7 @@ def parse_reference_events(url, html, observed_at, fixtures):
                 if (game["sport"] == sport and game["league"] == league and start.date() == target
                         and abs((start - claimed).total_seconds()) <= 600
                         and observed + timedelta(minutes=30) < start
-                        and {team(game["home"], league), team(game["away"], league)} == source_teams):
+                        and {reference_team(game["home"], league), reference_team(game["away"], league)} == source_teams):
                     matches.append(game)
             except (KeyError, TypeError, ValueError, AttributeError):
                 continue
@@ -96,8 +106,14 @@ def parse_reference_events(url, html, observed_at, fixtures):
         pick = m[8].strip()
         handicap = re.fullmatch(r"([^\s]+)\s+(-\d+(?:\.\d+)?)점\s+마핸승!+\s*(\d+(?:\.\d+)?)배!+", pick)
         total = re.fullmatch(r"(\d+(?:\.\d+)?)점\s+(오버|언더)!+\s*(\d+(?:\.\d+)?)배!+", pick)
-        if handicap and team(handicap[1], league) in source_teams:
-            fields = dict(family="handicap", selected_team=handicap[1], team_line=float(handicap[2]), source_selection="마핸승")
+        if handicap and reference_team(handicap[1], league) in source_teams:
+            selected = reference_team(handicap[1], league)
+            home = reference_team(matches[0]["home"], league)
+            away = reference_team(matches[0]["away"], league)
+            if home == away or selected not in {home, away}:
+                continue
+            fields = dict(family="handicap", selected_team=handicap[1], team_line=float(handicap[2]),
+                          side="home" if selected == home else "away", source_selection="마핸승")
             price = handicap[3]
         elif total:
             fields = dict(family="total", side={"오버": "over", "언더": "under"}[total[2]], line=float(total[1]))
@@ -108,7 +124,7 @@ def parse_reference_events(url, html, observed_at, fixtures):
         identity = [key, voter, url, fields["family"]]
         event = dict(source=SOURCE, market_type="source_line_reference", event_type="first_observed",
                      eligible_pre_event=True, reference_only=True, is_parlay_leg=True, fixture=key, voter=voter,
-                     observed_at=observed_at, content_hash=hashlib.sha256(html.encode("utf-8")).hexdigest(), url=url,
+                     observed_at=observed_at, content_hash=hashlib.sha256(html.encode("utf-8")).hexdigest(), url=url, source_url=url,
                      period="unknown", settlement="unknown", unit="points",
                      affects_model=False, affects_probability=False, affects_recommendation=False,
                      price_eligible=False, source_odds_text=price + "배", evidence=pick, **fields)
