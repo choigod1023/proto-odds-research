@@ -120,11 +120,40 @@ def normalize(data, meta, start, end):
 
 
 
-def offline_cache(manifest_path, output):
+
+def normalize_v2(data, meta, start, end):
+    """Enrich v1 without altering product, price, timing, or team name fields."""
+    records = normalize(data, meta, start, end)
+    schedules = data['compSchedules']
+    by_sequence = {}
+    for values in schedules['datas']:
+        row = dict(zip(schedules['keys'], values))
+        seq = row.get('matchSeq')
+        if seq in by_sequence:
+            raise ValueError('duplicate source match sequence')
+        by_sequence[seq] = row
+    fields = ('leagueName', 'leagueCode', 'homeId', 'awayId', 'homeName', 'awayName',
+              'gameDate', 'betId', 'betTypId', 'betNm')
+    for record in records:
+        seq = record['payload']['product_id'].rsplit(':', 1)[1]
+        matches = [row for key, row in by_sequence.items() if str(key) == seq]
+        if len(matches) != 1:
+            raise ValueError('ambiguous source identity: ' + seq)
+        row = matches[0]
+        identity = {field: row.get(field) for field in fields}
+        league_name = row.get('leagueName')
+        record['league'] = league_name if isinstance(league_name, str) and league_name.strip() else row['leagueCode']
+        identity['league_basis'] = 'leagueName' if isinstance(league_name, str) and league_name.strip() else 'leagueCode_fallback'
+        record['payload']['source_identity'] = identity
+    return records
+
+
+def offline_cache(manifest_path, output, schema="v1", v2_manifest_path=None):
     """Rebuild only from the frozen, hash-pinned legacy response list; never use HTTP."""
     manifest = json.loads(Path(manifest_path).read_text(encoding='utf-8'))
     start, end = date.fromisoformat(manifest['start']), date.fromisoformat(manifest['end'])
     records = []
+    enriched = []
     seen = set()
     for source in manifest['sources']:
         ts = source['round']
@@ -144,10 +173,26 @@ def offline_cache(manifest_path, output):
             raise ValueError('offline round mismatch: ' + ts)
         meta = {'url': source['source_url'], 'body_sha256': source['body_sha256'],
                 'received_at': source['received_at'], 'timestamp_basis': 'legacy_unverified', 'legacy_cache': True}
-        records.extend(normalize(data, meta, start, end))
+        base = normalize(data, meta, start, end)
+        records.extend(base)
+        if schema == 'v2':
+            v2 = normalize_v2(data, meta, start, end)
+            if len(v2) != len(base) or any(a['record_id'] != b['record_id'] or a['payload']['odds'] != b['payload']['odds'] for a, b in zip(base, v2)):
+                raise ValueError('v2 prices differ from v1')
+            enriched.extend(v2)
     raw_output = ''.join(json.dumps(r, ensure_ascii=False, separators=(',', ':')) + '\n' for r in records).encode('utf-8')
     if len(records) != manifest['record_count'] or digest(raw_output) != manifest['normalized_sha256']:
         raise ValueError('offline normalized output does not match frozen manifest')
+    if schema == 'v2':
+        v2_manifest = json.loads(Path(v2_manifest_path).read_text(encoding='utf-8'))
+        if v2_manifest['sources'] != manifest['sources'] or v2_manifest['v1_normalized_sha256'] != manifest['normalized_sha256']:
+            raise ValueError('v2 sources or v1 reference do not match frozen manifest')
+        raw_output = ''.join(json.dumps(r, ensure_ascii=False, separators=(',', ':')) + '\n' for r in enriched).encode('utf-8')
+        if len(enriched) != v2_manifest['record_count'] or digest(raw_output) != v2_manifest['normalized_sha256']:
+            raise ValueError('v2 normalized output does not match frozen manifest')
+        records = enriched
+    elif schema != 'v1':
+        raise ValueError('invalid schema')
     output = Path(output)
     output.parent.mkdir(parents=True, exist_ok=True)
     if output.suffix == '.gz':
@@ -191,6 +236,8 @@ def run(args):
     cap.mkdir(exist_ok=True)
     state_path = cap / 'state.json'
     config = {'start': args.start, 'end': args.end, 'round': args.round, 'page_size': args.page_size}
+    if getattr(args, 'schema', 'v1') == 'v2':
+        config['schema'] = 'v2'
     if state_path.exists():
         state = json.loads(state_path.read_text(encoding='utf-8'))
         if state['config'] != config:
@@ -270,7 +317,7 @@ def run(args):
             data = json.loads(raw)
             if str(data.get('gmTs')).zfill(6) != ts:
                 raise ValueError('wrong round returned')
-            records = normalize(data, meta, start, end)
+            records = (normalize_v2 if getattr(args, 'schema', 'v1') == 'v2' else normalize)(data, meta, start, end)
             out = cap / ('records-' + ts + '.jsonl')
             out.write_text(''.join(json.dumps(r, ensure_ascii=False) + '\n' for r in records), encoding='utf-8')
             state['next_round_cursor'] += 1
@@ -291,6 +338,7 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--capture-id', help='required for online collection; use a new ID for a fresh capture')
     p.add_argument('--offline-cache', action='store_true', help='rebuild from the frozen historical manifest without network access')
+    p.add_argument('--schema', choices=('v1', 'v2'), default='v1', help='v2 preserves official source identity fields')
     p.add_argument('--evidence', type=Path, default=EVIDENCE, help='capture evidence directory')
     p.add_argument('--output', type=Path, help='combined JSONL output (gzip when the filename ends in .gz)')
     p.add_argument('--start', default='2025-01-01')
@@ -303,7 +351,12 @@ def main():
     if args.offline_cache:
         if args.capture_id or args.round:
             p.error('--offline-cache cannot be combined with --capture-id or --round')
-        result = offline_cache(OFFLINE_ROOT / 'manifest.json', args.output or OFFLINE_ROOT / 'normalized-price-records.jsonl.gz')
+        default_name = 'normalized-price-records-v2.jsonl.gz' if args.schema == 'v2' else 'normalized-price-records.jsonl.gz'
+        output = args.output or OFFLINE_ROOT / default_name
+        frozen_v1 = {OFFLINE_ROOT / 'manifest.json', OFFLINE_ROOT / 'normalized-price-records.jsonl.gz'}
+        if args.schema == 'v2' and Path(output).resolve() in {p.resolve() for p in frozen_v1}:
+            p.error('v2 output cannot overwrite frozen v1 artifacts')
+        result = offline_cache(OFFLINE_ROOT / 'manifest.json', output, args.schema, OFFLINE_ROOT / 'manifest-v2.json')
     else:
         if not args.capture_id:
             p.error('--capture-id is required for online collection')
