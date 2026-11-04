@@ -1,0 +1,30 @@
+{
+  "start": "2026-01-01",
+  "end": "2026-01-01",
+  "nba_cursor": "2026-01-01",
+  "nba_next_cursor": null,
+  "nba_dates_completed": [
+    "2026-01-01"
+  ],
+  "new_url_attempts": 0,
+  "max_new_url_attempts": 4,
+  "total_http_budget": 60,
+  "max_redirects_per_url": 2,
+  "capture_id": "initial",
+  "requests": [
+    {
+      "label": "nba-games-20260101",
+      "url": "https://www.nba.com/games?date=2026-01-01",
+      "final_url": "https://www.nba.com/games?date=2026-01-01",
+      "status": 200,
+      "received_at": "2026-11-04T05:35:27.547715+00:00",
+      "body_sha256": "2f210a13fde341a30c3751f27d5f7f462793ad6e7bb82730c7a98b7a45702a58",
+      "bytes": 425228,
+      "error": null
+    }
+  ],
+  "missing": [],
+  "kbl_pregame_lineup": "missing_unverified_source",
+  "nba_cdn": "not used in date-batch mode; official nba.com game feed used",
+  "output": "experiments\\pregame-basketball-20261104\\nba-2026-sample.jsonl"
+}

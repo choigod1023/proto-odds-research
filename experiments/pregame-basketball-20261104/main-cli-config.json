@@ -1,0 +1,15 @@
+{
+  "description": "Arguments for the main comparison CLI; output is JSONL, and a sibling .manifest.json records cursor and failures. A future run beyond the current authorization needs its own request budget authorization.",
+  "executable": "python",
+  "script": "scripts/collect_basketball_comparison_sources.py",
+  "args": [
+    "--start", "2025-01-01",
+    "--end", "2026-11-04",
+    "--evidence", "C:/Users/user/Documents/Codex/pregame-basketball-evidence",
+    "--output", "experiments/pregame-basketball-20261104/main-cli-records.jsonl",
+    "--nba-cursor", "2025-01-02",
+    "--nba-max-days", "2",
+    "--max-new-requests", "2",
+    "--total-http-budget", "60"
+  ]
+}
