@@ -1,0 +1,54 @@
+[
+  {
+    "record_id": "fixture:20261104SSKT0:4f01ab16bfaefee5",
+    "kind": "fixture",
+    "sport": "bs",
+    "league": "KBO",
+    "kickoff": "2026-11-04T18:30:00+09:00",
+    "home": "KT",
+    "away": "삼성",
+    "source_url": "https://www.koreabaseball.com/ws/Main.asmx/GetKboGameList",
+    "body_sha256": "4f01ab16bfaefee5986f4e69796a043793a066099344f911ff225453dcd1173e",
+    "received_at": "2026-11-04T05:26:47.417149+00:00",
+    "timing_basis": "actual_receipt",
+    "payload": {
+      "source_fixture_id": "20261104SSKT0",
+      "source_state": "1",
+      "source_cancel": "0",
+      "starters": {
+        "source_flag": 1,
+        "status": "announced_both",
+        "announced": {
+          "home": {
+            "player_id": "64001",
+            "name": "고영표"
+          },
+          "away": {
+            "player_id": "56459",
+            "name": "페덱"
+          }
+        }
+      }
+    }
+  },
+  {
+    "record_id": "lineup:20261104SSKT0:467983c65a8d5668",
+    "kind": "lineup",
+    "sport": "bs",
+    "league": "KBO",
+    "kickoff": "2026-11-04T18:30:00+09:00",
+    "home": "KT",
+    "away": "삼성",
+    "source_url": "https://www.koreabaseball.com/ws/Schedule.asmx/GetLineUpAnalysis",
+    "body_sha256": "467983c65a8d56680b45cb494701ec63f440ce4526459b4e1ce88e1e63cdfeb9",
+    "received_at": "2026-11-04T05:26:49.383928+00:00",
+    "timing_basis": "actual_receipt",
+    "payload": {
+      "source_fixture_id": "20261104SSKT0",
+      "status": "not_confirmed",
+      "ordered_nine": null,
+      "pregame_receipt": true,
+      "schedule_pregame_receipt": true
+    }
+  }
+]
