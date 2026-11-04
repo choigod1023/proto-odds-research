@@ -1,0 +1,66 @@
+{
+  "input_sha256": {
+    "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\tipster-year-validation-20261028\\experiments\\tipster-year-20261028\\korean\\candidates.jsonl": "52f510649f8d49baa189c677e4456faf766edb3d1056dfa8f07980fb151721c2",
+    "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\tipster-year-overseas-20261028\\experiments\\tipster-year-20261028\\overseas\\predictions.jsonl": "abbf5f11dd91e251f386b15a948a07f44d1994e67e1a8721bcacfa5ea5986f57",
+    "C:\\Users\\user\\Documents\\Codex\\tipster-extended-evidence\\first-observed-votes.jsonl.gz": "da1ded07e760cee80c58039e0f4153c7b068de691e930bd165d7c2d7183329d6"
+  },
+  "korean_kbo_by_year": {
+    "2026": 294
+  },
+  "overseas_by_league_year": {
+    "MLB:2025": 3,
+    "MLB:2026": 513,
+    "NBA:2025": 412,
+    "NBA:2026": 555,
+    "NPB:2026": 34
+  },
+  "first_observed_by_slate_year_source": {
+    ":public_fullgame_vote_v1": 33,
+    "2026:tailslips_public_html": 14575
+  },
+  "baseball_2025_overseas_candidates": [
+    {
+      "match_date": "2025-10-29",
+      "url": "https://www.tonyspicks.com/2025/10/29/free-mlb-picks-for-today-10-29-2025/",
+      "author": "Tony Tellez",
+      "league": "MLB",
+      "market": "total",
+      "selection": "over",
+      "document_sha256": "9b92db3b95afe604865edf6fe35132eafb9ee3e03b0dcf70124d78d918dffd89",
+      "source_reported_published_at": "2025-10-29T13:00:53Z",
+      "observed_at": "2026-10-28T09:53:31.964037+00:00",
+      "original_american_odds": null,
+      "decimal_odds": null,
+      "recommendation_extract": "Play Toronto and LA over 8"
+    },
+    {
+      "match_date": "2025-10-31",
+      "url": "https://www.tonyspicks.com/2025/10/31/free-mlb-picks-for-today-10-31-2025/",
+      "author": "Tony Tellez",
+      "league": "MLB",
+      "market": "moneyline",
+      "selection": "Toronto Blue Jays",
+      "document_sha256": "9b92db3b95afe604865edf6fe35132eafb9ee3e03b0dcf70124d78d918dffd89",
+      "source_reported_published_at": "2025-10-31T13:10:42Z",
+      "observed_at": "2026-10-28T09:53:31.964037+00:00",
+      "original_american_odds": 125,
+      "decimal_odds": 2.25,
+      "recommendation_extract": "Play Toronto +125"
+    },
+    {
+      "match_date": "2025-11-01",
+      "url": "https://www.tonyspicks.com/2025/11/01/free-mlb-picks-for-today-11-1-2025/",
+      "author": "Tony Tellez",
+      "league": "MLB",
+      "market": "moneyline",
+      "selection": "Los Angeles Dodgers",
+      "document_sha256": "0afd9e950c414aebe3f0c4572b5f55270db8ae822b36f260c0f3fa11f7e0d873",
+      "source_reported_published_at": "2025-11-01T07:35:54Z",
+      "observed_at": "2026-10-28T09:53:36.217820+00:00",
+      "original_american_odds": -137,
+      "decimal_odds": 1.72992700729927,
+      "recommendation_extract": "Play LA -137"
+    }
+  ],
+  "conclusion": "Three MLB candidates from two hashes; postgame observed and different league. No KBO 2025 in these enumerated archives. This is not exhaustive proof of absence. No cross-league KBO model use; first-observed source includes records without slate year."
+}
