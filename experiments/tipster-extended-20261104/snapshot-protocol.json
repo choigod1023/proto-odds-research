@@ -1,0 +1,18 @@
+{
+  "version": "stored-quote-replay-v1",
+  "purpose": "Expand beyond latest prediction-ledger revisions using actually stored pregame odds snapshots, not closing archive prices.",
+  "fixed_weights": [
+    0.9,
+    0.1
+  ],
+  "not_blind": "Original14 and initial21 counterfactual results already seen. This wider cohort is another retrospective diagnostic, not an untouched holdout.",
+  "quote_selection": "For each direct official MLB winner product, take the latest stored quote strictly before T30, exactseason/round/gameNo/teams/date/nway. Then merge duplicate physical event offers deterministically by latest observation; no outcome-based offer choice.",
+  "quote_max_age_hours": 24,
+  "freshness_sensitivity_max_age_minutes": 90,
+  "decision_time": "Counterfactual decision time equals quote.observed_at; votes must have been received by that time. This is NOT a historical captured model prediction. quote timestamp and source row_id preserved, no prediction/capture event fabricated.",
+  "sources": "First observed eligible ungraded native ML text from multiple author handles. An expert-price quote is unnecessary because stake payout uses same captured Proto price vector for all strategies. Optional expert-price text retained but not price input.",
+  "price_model": "Repository devig.shin applied to captured complete two-way vector, normalized; not fitted.",
+  "primary_comparison": "Unique-plurality fixtures common to allthree strategies, rawtie/abstention universe reported separately. No oldoperatingperformance relabelled as vote performance.",
+  "integrity": "Read-only exported quote payload and original vote envelopes hash-pinned, official DOM bytes/row/kickoff/source game verified. Stored observed_at is local source metadata, not external time or executable price certification.",
+  "retained_model_catalog": "Player/M0/M1/M2/residual/lineup families saved separately; no model deletion/automatic adoption/deployment."
+}
