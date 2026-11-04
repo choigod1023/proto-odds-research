@@ -137,3 +137,15 @@ def test_full_game_three_way_draw_and_two_way_draw_held():
     assert grade_selected(f, label, "홈")["hit"] is False
     two, two_label = fixture(1, market="승패"); two_label["result_text"] = "2:2"
     with pytest.raises(ValueError, match="draw"): evaluate([two], [two_label])
+
+
+def test_two_way_zero_draw_votes_allowed_but_positive_draw_votes_rejected():
+    f, _ = fixture(market="승패")
+    f["vote_counts"]["무"] = 0
+    assert select_rules(f)["frozen_vote"] == "홈"
+    invalid = deepcopy(f)
+    invalid["vote_counts"]["무"] = 1
+    invalid["evidence"].append(dict(id="draw-vote", author="draw-author", side="무",
+                                    observed_at="2026-11-01T09:00:00Z"))
+    with pytest.raises(ValueError):
+        select_rules(invalid)
