@@ -654,19 +654,35 @@ class RuntimeDatabase(DatasetStore):
                 record.get("captured_at"), str(record["record_hash"]),
                 json.dumps(record, ensure_ascii=False, sort_keys=True,
                            separators=(",", ":"), allow_nan=False),
+                record.get("previous_record_hash"),
             ))
         if not values:
             return 0
         with self.transaction() as connection:
-            before = connection.total_changes
-            connection.executemany(
-                """INSERT OR IGNORE INTO prediction_records
-                   (ledger_sequence,record_type,identity,event_id,snapshot_id,
-                    captured_at,record_hash,record_json)
-                   VALUES (?,?,?,?,?,?,?,?)""",
-                values,
-            )
-            return connection.total_changes - before
+            tail = connection.execute("SELECT ledger_sequence,record_hash FROM prediction_records "
+                                      "ORDER BY ledger_sequence DESC LIMIT 1").fetchone()
+            sequence, previous_hash = (tail[0], tail[1]) if tail else (0, None)
+            inserted = 0
+            for value in values:
+                existing = connection.execute(
+                    "SELECT ledger_sequence,identity,record_hash,record_json FROM prediction_records "
+                    "WHERE ledger_sequence=? OR identity=? OR record_hash=?",
+                    (value[0], value[2], value[6])).fetchall()
+                if existing:
+                    if (len(existing) == 1 and existing[0][0] == value[0]
+                            and existing[0][1] == value[2] and existing[0][2] == value[6]
+                            and self._canonical(json.loads(existing[0][3])) == value[7]):
+                        continue
+                    raise ValueError("prediction ledger database conflict; retry from verified storage")
+                if value[0] != sequence + 1 or value[8] != previous_hash:
+                    raise ValueError("prediction ledger database tail changed; retry from verified storage")
+                connection.execute(
+                    """INSERT INTO prediction_records
+                       (ledger_sequence,record_type,identity,event_id,snapshot_id,
+                        captured_at,record_hash,record_json) VALUES (?,?,?,?,?,?,?,?)""", value[:8])
+                sequence, previous_hash = value[0], value[6]
+                inserted += 1
+            return inserted
 
     def prediction_records(self) -> list[dict[str, Any]]:
         return list(self.iter_prediction_records())
