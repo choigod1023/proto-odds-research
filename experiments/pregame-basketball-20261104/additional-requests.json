@@ -1,0 +1,62 @@
+[
+  {
+    "label": "kbl-2025-full",
+    "url": "https://api.kbl.or.kr/match/list?fromDate=20250101&toDate=20251231&tcodeList=all",
+    "final_url": "https://api.kbl.or.kr/match/list?fromDate=20250101&toDate=20251231&tcodeList=all",
+    "status": 200,
+    "received_at": "2026-11-04T05:31:19.007175+00:00",
+    "body_sha256": "b9d767baadd14653fae569946c7289e0917e6ba57f3d3c0eb25a85b825854dad",
+    "bytes": 289697,
+    "error": null
+  },
+  {
+    "label": "kbl-2026-full",
+    "url": "https://api.kbl.or.kr/match/list?fromDate=20260101&toDate=20261104&tcodeList=all",
+    "final_url": "https://api.kbl.or.kr/match/list?fromDate=20260101&toDate=20261104&tcodeList=all",
+    "status": 200,
+    "received_at": "2026-11-04T05:31:19.124948+00:00",
+    "body_sha256": "7a2e739fec275274a18b7bcbd6d3588dbf059834a7962213a7b3fa4748edf953",
+    "bytes": 199869,
+    "error": null
+  },
+  {
+    "label": "nba-current-schedule",
+    "url": "https://cdn.nba.com/static/json/staticData/scheduleLeagueV2_1.json",
+    "final_url": "https://cdn.nba.com/static/json/staticData/scheduleLeagueV2_1.json",
+    "status": 403,
+    "received_at": "2026-11-04T05:31:19.190966+00:00",
+    "body_sha256": "9eec375362a31f2188a0ad612df8bac95c112d5f153d9907954b0c6a8bc7c84e",
+    "bytes": 431,
+    "error": null
+  },
+  {
+    "label": "nba-2026-games-page",
+    "url": "https://www.nba.com/games?date=2026-11-04",
+    "final_url": "https://www.nba.com/games?date=2026-11-04",
+    "status": 200,
+    "received_at": "2026-11-04T05:31:19.483827+00:00",
+    "body_sha256": "0d076f58ce41638c847f22c1b8dd0fc7376d79e64d8ceede82cb1b4017a6c0be",
+    "bytes": 566536,
+    "error": null
+  },
+  {
+    "label": "nba-games-20250101",
+    "url": "https://www.nba.com/games?date=2025-01-01",
+    "final_url": "https://www.nba.com/games?date=2025-01-01",
+    "status": 200,
+    "received_at": "2026-11-04T05:32:09.092665+00:00",
+    "body_sha256": "9aeae1377de2763ccd77faebb6d48c7353b16a0a9e7f11a46c5c31103006750f",
+    "bytes": 508466,
+    "error": null
+  },
+  {
+    "label": "nba-games-20260101",
+    "url": "https://www.nba.com/games?date=2026-01-01",
+    "final_url": "https://www.nba.com/games?date=2026-01-01",
+    "status": 200,
+    "received_at": "2026-11-04T05:35:27.547715+00:00",
+    "body_sha256": "2f210a13fde341a30c3751f27d5f7f462793ad6e7bb82730c7a98b7a45702a58",
+    "bytes": 425228,
+    "error": null
+  }
+]

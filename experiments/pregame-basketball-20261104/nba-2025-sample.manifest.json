@@ -1,0 +1,30 @@
+{
+  "start": "2025-01-01",
+  "end": "2025-01-01",
+  "nba_cursor": "2025-01-01",
+  "nba_next_cursor": null,
+  "nba_dates_completed": [
+    "2025-01-01"
+  ],
+  "new_url_attempts": 0,
+  "max_new_url_attempts": 4,
+  "total_http_budget": 60,
+  "max_redirects_per_url": 2,
+  "capture_id": "initial",
+  "requests": [
+    {
+      "label": "nba-games-20250101",
+      "url": "https://www.nba.com/games?date=2025-01-01",
+      "final_url": "https://www.nba.com/games?date=2025-01-01",
+      "status": 200,
+      "received_at": "2026-11-04T05:32:09.092665+00:00",
+      "body_sha256": "9aeae1377de2763ccd77faebb6d48c7353b16a0a9e7f11a46c5c31103006750f",
+      "bytes": 508466,
+      "error": null
+    }
+  ],
+  "missing": [],
+  "kbl_pregame_lineup": "missing_unverified_source",
+  "nba_cdn": "not used in date-batch mode; official nba.com game feed used",
+  "output": "experiments\\pregame-basketball-20261104\\nba-2025-sample.jsonl"
+}

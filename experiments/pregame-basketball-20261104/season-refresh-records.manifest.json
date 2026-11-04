@@ -1,0 +1,63 @@
+{
+  "start": "2025-01-01",
+  "end": "2026-11-04",
+  "nba_cursor": "2026-11-04",
+  "nba_next_cursor": null,
+  "nba_dates_completed": [
+    "2026-11-04"
+  ],
+  "new_url_attempts": 3,
+  "max_new_url_attempts": 4,
+  "total_http_budget": 60,
+  "max_redirects_per_url": 2,
+  "capture_id": "20261104-1437-kst",
+  "requests": [
+    {
+      "label": "kbl-2025-full",
+      "url": "https://api.kbl.or.kr/match/list?fromDate=20250101&toDate=20251231&tcodeList=all",
+      "final_url": "https://api.kbl.or.kr/match/list?fromDate=20250101&toDate=20251231&tcodeList=all",
+      "status": 200,
+      "received_at": "2026-11-04T05:31:19.007175+00:00",
+      "body_sha256": "b9d767baadd14653fae569946c7289e0917e6ba57f3d3c0eb25a85b825854dad",
+      "bytes": 289697,
+      "error": null
+    },
+    {
+      "label": "kbl-20260101-20261104-20261104-1437-kst",
+      "url": "https://api.kbl.or.kr/match/list?fromDate=20260101&toDate=20261104&tcodeList=all",
+      "final_url": "https://api.kbl.or.kr/match/list?fromDate=20260101&toDate=20261104&tcodeList=all",
+      "status": 200,
+      "received_at": "2026-11-04T05:36:55.865996+00:00",
+      "body_sha256": "7a2e739fec275274a18b7bcbd6d3588dbf059834a7962213a7b3fa4748edf953",
+      "bytes": 199869,
+      "error": null,
+      "timestamp_basis": "http_response_body_completed"
+    },
+    {
+      "label": "nba-games-20261104-20261104-1437-kst",
+      "url": "https://www.nba.com/games?date=2026-11-04",
+      "final_url": "https://www.nba.com/games?date=2026-11-04",
+      "status": 200,
+      "received_at": "2026-11-04T05:36:56.522874+00:00",
+      "body_sha256": "d275352ad59ad863af83a212d0f8e1b20a75383bae83ba8150ea6ec9435a1bdb",
+      "bytes": 566488,
+      "error": null,
+      "timestamp_basis": "http_response_body_completed"
+    },
+    {
+      "label": "nba-injury-d839014adf62-20261104-1437-kst",
+      "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-04_12_15AM.pdf",
+      "final_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-04_12_15AM.pdf",
+      "status": 200,
+      "received_at": "2026-11-04T05:36:56.797238+00:00",
+      "body_sha256": "ee714b30af60e27ee91127cd407fdf4e17f6d47bdfeabdcc132763566061e7a4",
+      "bytes": 102332,
+      "error": null,
+      "timestamp_basis": "http_response_body_completed"
+    }
+  ],
+  "missing": [],
+  "kbl_pregame_lineup": "missing_unverified_source",
+  "nba_cdn": "not used in date-batch mode; official nba.com game feed used",
+  "output": "experiments\\pregame-basketball-20261104\\season-refresh-records.jsonl"
+}
