@@ -1,0 +1,158 @@
+{
+  "summary": {
+    "matched_games": 1,
+    "independent_authors": 1,
+    "strict_games": 0,
+    "matched_price_rows": 1,
+    "model_revision_rows": 2,
+    "metrics": {
+      "human_source": {
+        "bets": 1,
+        "wins": 0,
+        "hit_rate_decided": 0,
+        "net_units": -1,
+        "roi": -1
+      },
+      "market": {
+        "bets": 1,
+        "wins": 0,
+        "hit_rate_decided": 0,
+        "net_units": -1,
+        "roi": -1
+      },
+      "market90_source10_multiplicative": {
+        "bets": 1,
+        "wins": 0,
+        "hit_rate_decided": 0,
+        "net_units": -1,
+        "roi": -1
+      },
+      "M0_actual": {
+        "bets": 1,
+        "wins": 0,
+        "hit_rate_decided": 0,
+        "net_units": -1,
+        "roi": -1
+      },
+      "M2_actual": {
+        "bets": 1,
+        "wins": 0,
+        "hit_rate_decided": 0,
+        "net_units": -1,
+        "roi": -1
+      }
+    },
+    "input_sha256": {
+      "C:\\Users\\user\\Documents\\Codex\\kbt25\\experiments\\kbo-actual-lineups-2025-20261103\\actual-lineups-2025.jsonl.gz": "dc7e9b3b539a8e34e2023240990c966946f4e42ae242c515b5efb63d0a0620c5",
+      "C:\\Users\\user\\Documents\\Codex\\kbt25\\experiments\\kbo-actual-lineups-2025-20261103\\raw-evidence.jsonl.gz": "8a214d0e87c8dd84aa9178ae0c2bb8786dadb8c5c6eb4320e6d00e8943833b56",
+      "C:\\Users\\user\\Documents\\Codex\\pregame-baseball\\experiments\\kbo-m0-followup-20261103\\data\\prices-2025.jsonl.gz": "75c382a229cfec4fc81158312dcb907bc661eca7a001de95cc2630f4609e153c",
+      "C:\\Users\\user\\Documents\\Codex\\kbtmodel\\experiments\\kbo-actual-training-20261103\\artifacts\\development.json": "e598cf380f03a8544559592cca8f055217bd4a24f1b58863b60866fa12fdec45",
+      "C:\\Users\\user\\Documents\\Codex\\pregame-compare\\experiments\\pregame-baseball-20261104\\model-manifest.json": "41516c77da0f312fee78ccd4eae329f07591b66c66d0300feadbe638257abe16"
+    },
+    "interpretation": "Retrospective historical publication claim and postgame lineup oracle, not a blind test or strict pregame; N=1."
+  },
+  "rows": [
+    {
+      "fixture_id": "20250719LTLG02025",
+      "official_game_id": "20250719LTLG0",
+      "kickoff_kst": "2025-07-19T18:00:00+09:00",
+      "official_schedule_time_basis": "retrospective official schedule, historical receipt unproven",
+      "home": "LG",
+      "away": "롯데",
+      "home_score": 1,
+      "away_score": 6,
+      "official_winner": "away",
+      "source_url": "https://kboinsight.tistory.com/33",
+      "source_author_claim": "KBOINSIGHT",
+      "source_fixture_evidence": "https://m.sports.naver.com/game/20250719LTLG02025/preview",
+      "source_publication_claim": "2025-07-19T12:36:06+09:00",
+      "source_modification_claim": "2025-07-19T12:36:06+09:00",
+      "source_observed_body_completed_at": "2026-11-04T06:42:53.539013+00:00",
+      "source_body_sha256": "5fb22baeb31aea7d6ee150ecfe447a0823cd58f8f831bc20b18ea21387b29557",
+      "source_full_conclusion_excerpt": "결론: LG 승, 8.5 오버",
+      "source_win_pick_excerpt": "LG 승",
+      "separate_total_pick_excluded": "8.5 오버",
+      "source_pick_period_assumption": "plain team win interpreted full game; overtime not explicitly established",
+      "source_timing_class": "historical publication claim only, first observed postgame; not strict",
+      "result_leakage_audit": "unknown; current page cannot establish historical text or modification history",
+      "official_schedule_sha256": "b1ceb77b2a0a5398d3736a407867fcc023c80485c0dbb28d901b731378393004",
+      "official_schedule_received_at": "2026-11-03T05:32:18.410713+00:00",
+      "market_id": "proto:2025:84:178:full_game_2way",
+      "prices": {
+        "away": 1.87,
+        "home": 1.66
+      },
+      "price_source": {
+        "corroboration": null,
+        "execution_price_verified": false,
+        "historical_quote_receipt_proven": false,
+        "kind": "full_game_2way",
+        "market_id": "proto:2025:84:178:full_game_2way",
+        "odds_observed_at": null,
+        "origin": "archived_domestic_market_raw_quote",
+        "prices": {
+          "away": 1.87,
+          "home": 1.66
+        },
+        "provenance": {
+          "market_source": {
+            "availability_basis": "retrospective_file_no_actual_historical_receipt",
+            "path_or_url": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\internal-game-factors\\data\\processed\\games.csv.tmp",
+            "received_at": null,
+            "sha256": "9ffddb2dcbc4297c32e6ad3826f392e1842e52e10b509e4cbe47eed1f84b9da4",
+            "source_id": "domestic_market"
+          },
+          "raw_row_gzip_sha256": "793f48649b5936d55424e4d48d65166548ffe762fa244381618a27b62e4b1bf2",
+          "raw_row_source_commit": "d08ccb708033fb6b067e84e80eae81ea3c9b4cfa",
+          "source_csv_quote_exactly_matched": true,
+          "source_csv_sha256_verified": true
+        },
+        "quote_tier": "retrospective_archived_raw_quote",
+        "settlement_rule": "draw_void_refund"
+      },
+      "model_probabilities": {
+        "M0_actual": {
+          "away": 0.39054659058099955,
+          "home": 0.6094534094190004
+        },
+        "M2_actual": {
+          "away": 0.40248191577364417,
+          "home": 0.5975180842263559
+        }
+      },
+      "model_identity": {
+        "M0_actual": {
+          "model_id": "kbo-actual-training-2025-M0_actual",
+          "coefficient_sha256": "2a54eb2580f28fa0026c85a7c53ac285ac4d171ee4dc960ebc0caa135bdc3266",
+          "artifact_sha256": "e598cf380f03a8544559592cca8f055217bd4a24f1b58863b60866fa12fdec45"
+        },
+        "M2_actual": {
+          "model_id": "kbo-actual-training-2025-M2_actual",
+          "coefficient_sha256": "add362f61bada9404d49e8133fd6757690fc7f4c92e581db91f7e72b974b222b",
+          "artifact_sha256": "e598cf380f03a8544559592cca8f055217bd4a24f1b58863b60866fa12fdec45"
+        }
+      },
+      "selections": {
+        "human_source": "home",
+        "market": "home",
+        "market90_source10_multiplicative": "home",
+        "M0_actual": "home",
+        "M2_actual": "home"
+      },
+      "profit_units": {
+        "human_source": -1,
+        "market": -1,
+        "market90_source10_multiplicative": -1,
+        "M0_actual": -1,
+        "M2_actual": -1
+      },
+      "strict_eligible": false,
+      "strict_failures": [
+        "no pregame original receipt",
+        "model lineup retrospective oracle",
+        "historical price receipt not proven",
+        "source revision history unproven"
+      ]
+    }
+  ]
+}
