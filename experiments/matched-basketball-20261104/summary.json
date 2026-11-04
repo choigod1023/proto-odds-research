@@ -1,0 +1,505 @@
+{
+  "input_sha256": {
+    "candidates": "ef92afea2f54d2d041ebe1a6496c4e9434e1110f268bab9e38ca79df57de300c",
+    "offers": "54c626a9160c7c7547af6ac1c3e8d6776797eed1aa9929c9d332bd2200cbdb44",
+    "nba_results": "b83dc28799cb6532511eb3e4df9f058a4f1025dfe5c53c096dd9c863b6703a24",
+    "nba_requests": "b58243eaa0b1bea7f25f531a8adefa66e6122133bfbf877efd9666d825ecc5bf",
+    "kbl_results": "0ead90dfe08e2d7cef5afdc9547593ed4fe087d8fb222adbb8912bde1bf97a92",
+    "kbl_season": "dac4176550b0e52934aa31975e01b89391fe6bafdf10e2729de5f74fce3eff3a"
+  },
+  "candidate_count": 583,
+  "candidate_raw_at_least_one_verified": 583,
+  "audit_reasons": {
+    "not_explicit_moneyline_ot": 554,
+    "unmapped_source_teams": 357,
+    "official_fixture_missing_or_ambiguous": 409,
+    "price_missing_or_ambiguous": 437,
+    "invalid_vote": 463,
+    "nba_official_raw_missing_or_mismatch": 146
+  },
+  "strict_source_receipt_rows": 0,
+  "comparison_rows": 24,
+  "unique_fixtures": 24,
+  "strata": [
+    {
+      "category": "retrospective_no_pregame_claim",
+      "league": "KBL",
+      "period": "2025-2026",
+      "fixtures": 14,
+      "methods": {
+        "market": {
+          "hits": 7,
+          "losses": 7,
+          "refunds": 0,
+          "stakes": 14,
+          "profit": -3.54,
+          "roi": -0.252857
+        },
+        "vote": {
+          "hits": 8,
+          "losses": 6,
+          "refunds": 0,
+          "stakes": 14,
+          "profit": 2.16,
+          "roi": 0.154286
+        },
+        "multiplicative_9_1": {
+          "hits": 8,
+          "losses": 6,
+          "refunds": 0,
+          "stakes": 14,
+          "profit": -1.04,
+          "roi": -0.074286
+        }
+      }
+    },
+    {
+      "category": "retrospective_no_pregame_claim",
+      "league": "KBL",
+      "period": "2026",
+      "fixtures": 18,
+      "methods": {
+        "market": {
+          "hits": 7,
+          "losses": 11,
+          "refunds": 0,
+          "stakes": 18,
+          "profit": -7.54,
+          "roi": -0.418889
+        },
+        "vote": {
+          "hits": 12,
+          "losses": 6,
+          "refunds": 0,
+          "stakes": 18,
+          "profit": 8.48,
+          "roi": 0.471111
+        },
+        "multiplicative_9_1": {
+          "hits": 9,
+          "losses": 9,
+          "refunds": 0,
+          "stakes": 18,
+          "profit": -3.25,
+          "roi": -0.180556
+        }
+      }
+    },
+    {
+      "category": "retrospective_no_pregame_claim",
+      "league": "KBL",
+      "period": "2026-03",
+      "fixtures": 11,
+      "methods": {
+        "market": {
+          "hits": 5,
+          "losses": 6,
+          "refunds": 0,
+          "stakes": 11,
+          "profit": -3.46,
+          "roi": -0.314545
+        },
+        "vote": {
+          "hits": 6,
+          "losses": 5,
+          "refunds": 0,
+          "stakes": 11,
+          "profit": 1.82,
+          "roi": 0.165455
+        },
+        "multiplicative_9_1": {
+          "hits": 5,
+          "losses": 6,
+          "refunds": 0,
+          "stakes": 11,
+          "profit": -2.9,
+          "roi": -0.263636
+        }
+      }
+    },
+    {
+      "category": "retrospective_no_pregame_claim",
+      "league": "KBL",
+      "period": "2026-04",
+      "fixtures": 3,
+      "methods": {
+        "market": {
+          "hits": 2,
+          "losses": 1,
+          "refunds": 0,
+          "stakes": 3,
+          "profit": -0.08,
+          "roi": -0.026667
+        },
+        "vote": {
+          "hits": 2,
+          "losses": 1,
+          "refunds": 0,
+          "stakes": 3,
+          "profit": 0.34,
+          "roi": 0.113333
+        },
+        "multiplicative_9_1": {
+          "hits": 3,
+          "losses": 0,
+          "refunds": 0,
+          "stakes": 3,
+          "profit": 1.86,
+          "roi": 0.62
+        }
+      }
+    },
+    {
+      "category": "retrospective_no_pregame_claim",
+      "league": "KBL",
+      "period": "2026-10",
+      "fixtures": 4,
+      "methods": {
+        "market": {
+          "hits": 0,
+          "losses": 4,
+          "refunds": 0,
+          "stakes": 4,
+          "profit": -4.0,
+          "roi": -1.0
+        },
+        "vote": {
+          "hits": 4,
+          "losses": 0,
+          "refunds": 0,
+          "stakes": 4,
+          "profit": 6.32,
+          "roi": 1.58
+        },
+        "multiplicative_9_1": {
+          "hits": 1,
+          "losses": 3,
+          "refunds": 0,
+          "stakes": 4,
+          "profit": -2.21,
+          "roi": -0.5525
+        }
+      }
+    },
+    {
+      "category": "retrospective_no_pregame_claim",
+      "league": "KBL",
+      "period": "2026-2027",
+      "fixtures": 4,
+      "methods": {
+        "market": {
+          "hits": 0,
+          "losses": 4,
+          "refunds": 0,
+          "stakes": 4,
+          "profit": -4.0,
+          "roi": -1.0
+        },
+        "vote": {
+          "hits": 4,
+          "losses": 0,
+          "refunds": 0,
+          "stakes": 4,
+          "profit": 6.32,
+          "roi": 1.58
+        },
+        "multiplicative_9_1": {
+          "hits": 1,
+          "losses": 3,
+          "refunds": 0,
+          "stakes": 4,
+          "profit": -2.21,
+          "roi": -0.5525
+        }
+      }
+    },
+    {
+      "category": "retrospective_no_pregame_claim",
+      "league": "KBL",
+      "period": "all",
+      "fixtures": 18,
+      "methods": {
+        "market": {
+          "hits": 7,
+          "losses": 11,
+          "refunds": 0,
+          "stakes": 18,
+          "profit": -7.54,
+          "roi": -0.418889
+        },
+        "vote": {
+          "hits": 12,
+          "losses": 6,
+          "refunds": 0,
+          "stakes": 18,
+          "profit": 8.48,
+          "roi": 0.471111
+        },
+        "multiplicative_9_1": {
+          "hits": 9,
+          "losses": 9,
+          "refunds": 0,
+          "stakes": 18,
+          "profit": -3.25,
+          "roi": -0.180556
+        }
+      }
+    },
+    {
+      "category": "retrospective_no_pregame_claim",
+      "league": "NBA",
+      "period": "2025-2026",
+      "fixtures": 4,
+      "methods": {
+        "market": {
+          "hits": 3,
+          "losses": 1,
+          "refunds": 0,
+          "stakes": 4,
+          "profit": 0.86,
+          "roi": 0.215
+        },
+        "vote": {
+          "hits": 3,
+          "losses": 1,
+          "refunds": 0,
+          "stakes": 4,
+          "profit": 1.47,
+          "roi": 0.3675
+        },
+        "multiplicative_9_1": {
+          "hits": 3,
+          "losses": 1,
+          "refunds": 0,
+          "stakes": 4,
+          "profit": 0.86,
+          "roi": 0.215
+        }
+      }
+    },
+    {
+      "category": "retrospective_no_pregame_claim",
+      "league": "NBA",
+      "period": "2026",
+      "fixtures": 6,
+      "methods": {
+        "market": {
+          "hits": 4,
+          "losses": 2,
+          "refunds": 0,
+          "stakes": 6,
+          "profit": 0.43,
+          "roi": 0.071667
+        },
+        "vote": {
+          "hits": 4,
+          "losses": 2,
+          "refunds": 0,
+          "stakes": 6,
+          "profit": 1.22,
+          "roi": 0.203333
+        },
+        "multiplicative_9_1": {
+          "hits": 4,
+          "losses": 2,
+          "refunds": 0,
+          "stakes": 6,
+          "profit": 0.61,
+          "roi": 0.101667
+        }
+      }
+    },
+    {
+      "category": "retrospective_no_pregame_claim",
+      "league": "NBA",
+      "period": "2026-03",
+      "fixtures": 2,
+      "methods": {
+        "market": {
+          "hits": 2,
+          "losses": 0,
+          "refunds": 0,
+          "stakes": 2,
+          "profit": 1.15,
+          "roi": 0.575
+        },
+        "vote": {
+          "hits": 1,
+          "losses": 1,
+          "refunds": 0,
+          "stakes": 2,
+          "profit": -0.37,
+          "roi": -0.185
+        },
+        "multiplicative_9_1": {
+          "hits": 2,
+          "losses": 0,
+          "refunds": 0,
+          "stakes": 2,
+          "profit": 1.15,
+          "roi": 0.575
+        }
+      }
+    },
+    {
+      "category": "retrospective_no_pregame_claim",
+      "league": "NBA",
+      "period": "2026-04",
+      "fixtures": 1,
+      "methods": {
+        "market": {
+          "hits": 1,
+          "losses": 0,
+          "refunds": 0,
+          "stakes": 1,
+          "profit": 0.71,
+          "roi": 0.71
+        },
+        "vote": {
+          "hits": 1,
+          "losses": 0,
+          "refunds": 0,
+          "stakes": 1,
+          "profit": 0.71,
+          "roi": 0.71
+        },
+        "multiplicative_9_1": {
+          "hits": 1,
+          "losses": 0,
+          "refunds": 0,
+          "stakes": 1,
+          "profit": 0.71,
+          "roi": 0.71
+        }
+      }
+    },
+    {
+      "category": "retrospective_no_pregame_claim",
+      "league": "NBA",
+      "period": "2026-05",
+      "fixtures": 1,
+      "methods": {
+        "market": {
+          "hits": 0,
+          "losses": 1,
+          "refunds": 0,
+          "stakes": 1,
+          "profit": -1.0,
+          "roi": -1.0
+        },
+        "vote": {
+          "hits": 1,
+          "losses": 0,
+          "refunds": 0,
+          "stakes": 1,
+          "profit": 1.13,
+          "roi": 1.13
+        },
+        "multiplicative_9_1": {
+          "hits": 0,
+          "losses": 1,
+          "refunds": 0,
+          "stakes": 1,
+          "profit": -1.0,
+          "roi": -1.0
+        }
+      }
+    },
+    {
+      "category": "retrospective_no_pregame_claim",
+      "league": "NBA",
+      "period": "2026-10",
+      "fixtures": 2,
+      "methods": {
+        "market": {
+          "hits": 1,
+          "losses": 1,
+          "refunds": 0,
+          "stakes": 2,
+          "profit": -0.43,
+          "roi": -0.215
+        },
+        "vote": {
+          "hits": 1,
+          "losses": 1,
+          "refunds": 0,
+          "stakes": 2,
+          "profit": -0.25,
+          "roi": -0.125
+        },
+        "multiplicative_9_1": {
+          "hits": 1,
+          "losses": 1,
+          "refunds": 0,
+          "stakes": 2,
+          "profit": -0.25,
+          "roi": -0.125
+        }
+      }
+    },
+    {
+      "category": "retrospective_no_pregame_claim",
+      "league": "NBA",
+      "period": "2026-2027",
+      "fixtures": 2,
+      "methods": {
+        "market": {
+          "hits": 1,
+          "losses": 1,
+          "refunds": 0,
+          "stakes": 2,
+          "profit": -0.43,
+          "roi": -0.215
+        },
+        "vote": {
+          "hits": 1,
+          "losses": 1,
+          "refunds": 0,
+          "stakes": 2,
+          "profit": -0.25,
+          "roi": -0.125
+        },
+        "multiplicative_9_1": {
+          "hits": 1,
+          "losses": 1,
+          "refunds": 0,
+          "stakes": 2,
+          "profit": -0.25,
+          "roi": -0.125
+        }
+      }
+    },
+    {
+      "category": "retrospective_no_pregame_claim",
+      "league": "NBA",
+      "period": "all",
+      "fixtures": 6,
+      "methods": {
+        "market": {
+          "hits": 4,
+          "losses": 2,
+          "refunds": 0,
+          "stakes": 6,
+          "profit": 0.43,
+          "roi": 0.071667
+        },
+        "vote": {
+          "hits": 4,
+          "losses": 2,
+          "refunds": 0,
+          "stakes": 6,
+          "profit": 1.22,
+          "roi": 0.203333
+        },
+        "multiplicative_9_1": {
+          "hits": 4,
+          "losses": 2,
+          "refunds": 0,
+          "stakes": 6,
+          "profit": 0.61,
+          "roi": 0.101667
+        }
+      }
+    }
+  ]
+}
