@@ -1,0 +1,11 @@
+{
+  "version": "multisport-pregame-study-v2",
+  "purpose": "Explicit league/source team IDs and curated KBO aliases; no fuzzy or date-only joining.",
+  "preserved_v1": "Initial protocol and preliminary intake-v1 remain preserved. Final intake uses v2 and its own sealed inputs/results.",
+  "league_aliases": {"K1": "K리그1", "K2": "K리그2"},
+  "source_id_namespaces": {"KBO": "existing official two-character team codes", "K리그1_and_K리그2": "official Kxx team IDs", "KBL": "official numeric club codes"},
+  "NBA_and_NPB": "No unverified cross-provider ID mapping is inferred.",
+  "time": "Exact aware kickoff must agree. Doubleheaders and schedule changes are not matched by calendar day alone.",
+  "receipts": "Source IDs only affect identity; never upgrade retrospective or unknown receipt clocks.",
+  "not_blind": "Some prior diagnostic outcomes are already viewed; no parameter optimization or new holdout claim."
+}

@@ -1,0 +1,18 @@
+{
+  "version": "multisport-pregame-study-v1",
+  "from": "2025-01-01T00:00:00+09:00",
+  "through": "execution-time UTC; no future settled fixture",
+  "sports": ["sc", "bs", "bk"],
+  "priority_leagues": ["K리그1", "K리그2", "KBO", "NPB", "MLB", "KBL", "NBA"],
+  "controls": ["unique author plurality", "same-product Shin market favorite", "fixed 90% market + 10% author vote share"],
+  "model_applicability": {"KBO": ["preserved M0", "preserved M1", "preserved M2"], "MLB": ["preserved player-lineup candidate"], "soccer_and_basketball": "KBO models are not applicable; do not relabel or silently substitute a new model"},
+  "primary_cohort": "Intersection of models, original pregame tipster text, same exact full-game product and odds vector, confirmed lineup and player-history lineage, plus official result. Report control-only intersection separately, never as completion of full comparison.",
+  "timing": "Preserved body hash+matching receipt manifest before decision and strictly before T30. Actual historical publication claim alone is insufficient. Legacy quote batch-start times remain unproved.",
+  "retrospective_replays": "Separate diagnostic tier; no historical source/quote receipt reconstruction or promotion. These periods and some outcomes were already viewed.",
+  "training": "Saved recipe/artifact and explicit train_end before forecast as_of; no new fit or threshold optimization in this intake task.",
+  "result_terms": "Full-game winner product and exact regulation/extra-time/refund rule must agree; latest official correction resolves before eligibility filter.",
+  "stake": "10000 won flat singles diagnostic. Monthly -50000 won paper ledger unchanged.",
+  "missing": "Missing model/source proof produces unavailable/null metrics, never fabricated 0% performance or production fallback.",
+  "automation": "Finite Python CLI batches with immutable cache, request cap and resumable progress; AI polling remains disabled. No schedules or production changes activated.",
+  "adoption": "No automatic model adoption, merge, deployment, restart, scaling, live DB writes or betting."
+}
