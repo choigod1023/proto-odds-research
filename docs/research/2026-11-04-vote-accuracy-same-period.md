@@ -45,7 +45,7 @@
 
 as_of·captured_at·market_observed_at과 투표 수신은 T30 이전이어야 하고, 투표 수신이 as_of보다 늦으면 거부한다. 시각은 저장된 수신 기록이지 외부 시각 인증을 뜻하지 않는다. 가격도 기록된 당시 호가이며 독립적으로 구매 가능성을 인증한 것은 아니다.
 
-선택 입력과 결과는 `inputs.json`/`labels.json`으로 분리했다. 엔진은 모든 규칙의 선택을 먼저 정하고 그 다음에만 labels를 읽는다. `input-manifest.json`에 입력·공식 manifest·프로토콜 SHA를 남겼다. 해시는 로컬 자료 무결성 연결이며 독립 기관의 인증이 아니다. 대형 원장/DOM 원본은 저장소에 커밋하지 않았다.
+선택 입력과 결과는 `inputs.json`/`labels.json`으로 분리했다. 엔진은 모든 규칙의 선택을 먼저 정하고 그 다음에만 labels를 읽는다. `input-manifest.json`에 입력·공식 manifest·프로토콜 SHA를 남겼다. 해시는 로컬 자료 무결성 연결이며 독립 기관의 인증이 아니다. 대형 원장/DOM 원본은 저장소에 커밋하지 않았다. 프로토콜의 초기 로컬 CRLF 표현과 최초 커밋의 LF 표현은 JSON 내용이 같음을 확인했다. SHA 기준은 원래 커밋 `5e4d1146`의 LF 바이트로 통일하고 `.gitattributes`로 Windows 체크아웃에서도 보존했다. 매니페스트에 CRLF 상당 표현의 해시도 남겼으며 다른 Windows 체크아웃에서 재검증했다.
 
 재실행: `python scripts/compare_frozen_vote_rules.py evaluate --directory experiments/vote-accuracy-same-period-20261104`
 
@@ -61,4 +61,4 @@ as_of·captured_at·market_observed_at과 투표 수신은 T30 이전이어야 �
 
 ## 검증·운영 상태
 
-연구 엔진·CLI·현행 투표 관련 테스트 70개가 통과했다. 대안 배당 귀속, 결과 변경 시 선택 불변, 동일 부분집합 비교, T30/as_of 이후 수신 거부, 원문 중복, draw/동률/빈 커버리지, 입력·프로토콜 변조 거부를 실행했다. 운영 모델·웹·DB·동결 픽·배당·스케줄은 변경하지 않았다. 연구 PR의 보관과 모델 채택·배포는 별개다.
+연구 엔진·CLI·현행 투표 관련 테스트 71개가 통과했다. 대안 배당 귀속, 결과 변경 시 선택 불변, 동일 부분집합 비교, T30/as_of 이후 수신 거부, 원문 중복, draw/동률/빈 커버리지, 입력·프로토콜 변조 거부를 실행했다. 운영 모델·웹·DB·동결 픽·배당·스케줄은 변경하지 않았다. 연구 PR의 보관과 모델 채택·배포는 별개다.

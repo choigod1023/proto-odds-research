@@ -1,4 +1,5 @@
 import json
+import hashlib
 from pathlib import Path
 import shutil
 import subprocess
@@ -47,3 +48,18 @@ def test_tampered_input_or_protocol_never_produces_a_result(tmp_path, mutation):
     assert process.returncode != 0
     assert not (tmp_path / "results.json").exists()
     assert "changed" in process.stderr
+
+
+def test_windows_checkout_preserves_hash_bound_input_bytes(tmp_path):
+    paths = [str((STUDY / name).relative_to(ROOT)).replace("\\", "/")
+             for name in ("inputs.json", "labels.json", "input-manifest.json", "protocol.json")]
+    process = subprocess.run(["git", "-C", str(ROOT), "-c", "core.autocrlf=true", "checkout-index",
+                              "--prefix=" + tmp_path.as_posix() + "/", "--", *paths],
+                             capture_output=True, text=True, timeout=20)
+    assert process.returncode == 0, process.stderr
+    copied = tmp_path / STUDY.relative_to(ROOT)
+    proof = json.loads((copied / "input-manifest.json").read_bytes())
+    for name, digest in {**proof["files"], "protocol.json": proof["protocol_sha256"]}.items():
+        raw = (copied / name).read_bytes()
+        assert b"\r\n" not in raw
+        assert hashlib.sha256(raw).hexdigest() == digest

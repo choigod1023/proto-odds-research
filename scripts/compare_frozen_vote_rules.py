@@ -141,6 +141,8 @@ def build(args):
                  source_toolkit_pr="https://github.com/choigod1023/proto-odds-research/pull/558",
                  protocol_commit="5e4d1146", files={name: sha(body) for name, body in contents.items()},
                  protocol_sha256=sha((args.output / "protocol.json").read_bytes()),
+                 protocol_windows_crlf_equivalent_sha256=sha((args.output / "protocol.json").read_bytes().replace(b"\r\n", b"\n").replace(b"\n", b"\r\n")),
+                 protocol_normalization="LF bytes of original protocol commit5e4d1146; identical JSON content, stable across Windows/Linux.",
                  note="Rendered official DOM, not raw HTTP bytes; frozen prices are recorded quotes, not independently proven execution prices.")
     for name, body in contents.items():
         (args.output / name).write_bytes(body)
