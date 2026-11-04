@@ -82,6 +82,14 @@ class CollectorTest(unittest.TestCase):
             with patch.object(c,'OLD',[root]), patch.object(c.requests,'post',side_effect=AssertionError('network used')):
                 result=c.offline_cache(root/'manifest.json',root/'out.gz')
                 self.assertEqual(result['record_count'],1); self.assertEqual(gzip.decompress((root/'out.gz').read_bytes()),expected)
+                v2=c.normalize_v2(d,meta,date(2025,1,1),date(2026,12,31))
+                v2raw=''.join(json.dumps(r,ensure_ascii=False,separators=(',',':'))+'\n' for r in v2).encode()
+                v2manifest={'sources':[source],'v1_normalized_sha256':c.digest(expected),'record_count':1,'normalized_sha256':c.digest(v2raw)}
+                (root/'manifest-v2.json').write_text(json.dumps(v2manifest),encoding='utf8')
+                c.offline_cache(root/'manifest.json',root/'out-v2.gz','v2',root/'manifest-v2.json')
+                self.assertEqual(gzip.decompress((root/'out-v2.gz').read_bytes()),v2raw)
+                v2manifest['v1_normalized_sha256']='bad'; (root/'manifest-v2.json').write_text(json.dumps(v2manifest),encoding='utf8')
+                with self.assertRaisesRegex(ValueError,'v1 reference'): c.offline_cache(root/'manifest.json',root/'bad-v2.gz','v2',root/'manifest-v2.json')
                 (root/'raw.gz').write_bytes(gzip.compress(b'wrong'))
                 with self.assertRaisesRegex(ValueError,'SHA-256'): c.offline_cache(root/'manifest.json',root/'other.gz')
                 self.assertFalse((root/'other.gz').exists())
@@ -113,5 +121,37 @@ class CollectorTest(unittest.TestCase):
             self.assertEqual(meta['timestamp_basis'],'http_response_body_completed')
             self.assertEqual(c.body_from_cache(root/'complete',meta),body)
             self.assertTrue(args.output.exists())
+
+    def test_v2_source_identity_preserves_v1_and_fallback(self):
+        d=self.fixture(); keys=d['compSchedules']['keys']; values=d['compSchedules']['datas'][0]
+        for key,value in {'leagueName':'KBL','homeId':'10','awayId':'20'}.items():
+            keys.append(key); values.append(value)
+        a=c.normalize(d,self.meta(),date(2025,1,1),date(2026,12,31))[0]
+        b=c.normalize_v2(d,self.meta(),date(2025,1,1),date(2026,12,31))[0]
+        identity=b['payload'].pop('source_identity')
+        self.assertEqual(identity['homeId'],'10'); self.assertEqual(identity['awayId'],'20')
+        self.assertEqual(identity['leagueCode'],'SC001'); self.assertEqual(identity['leagueName'],'KBL')
+        self.assertEqual(identity['gameDate'],values[keys.index('gameDate')]); self.assertEqual(identity['betNm'],'축구 승무패')
+        self.assertEqual(identity['league_basis'],'leagueName'); self.assertEqual(b['league'],'KBL')
+        b['league']=identity['leagueCode']; self.assertEqual(a,b)
+        values[keys.index('leagueName')]=''
+        fallback=c.normalize_v2(d,self.meta(),date(2025,1,1),date(2026,12,31))[0]
+        self.assertEqual(fallback['league'],'SC001'); self.assertEqual(fallback['payload']['source_identity']['league_basis'],'leagueCode_fallback')
+        self.assertEqual(fallback['payload']['source_identity']['leagueName'],'')
+
+    def test_online_v2_identity_with_completed_response(self):
+        from argparse import Namespace
+        d=self.fixture(); d['compSchedules']['keys'].extend(['leagueName','homeId','awayId']); d['compSchedules']['datas'][0].extend(['KBL','10','20'])
+        class Response:
+            status_code=200
+            def __enter__(self): return self
+            def __exit__(self,*args): pass
+            def iter_content(self,size): yield json.dumps(d,ensure_ascii=False).encode()
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp); args=Namespace(capture_id='v2',start='2025-01-01',end='2026-12-31',round='260130',page_size=20,max_requests=1,total_timeout=10,output=root/'out.jsonl',evidence=root,schema='v2')
+            with patch.object(c,'EVIDENCE',root), patch.object(c.requests,'post',return_value=Response()): c.run(args)
+            row=json.loads(args.output.read_text(encoding='utf8').splitlines()[0]); self.assertEqual(row['league'],'KBL'); self.assertEqual(row['payload']['source_identity']['homeId'],'10')
+            args.schema='v1'
+            with patch.object(c,'EVIDENCE',root), self.assertRaises(ValueError): c.run(args)
 
 if __name__=='__main__': unittest.main()
