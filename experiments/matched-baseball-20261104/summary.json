@@ -14,7 +14,7 @@
     "official_id_team_date_time_verified": 239,
     "matched_source_candidate_rows": 6,
     "matched_source_candidate_games": 6,
-    "baseline_197_unchanged": true,
+    "previous_197_superseded_by_excerpt_validation": true,
     "limitation": "Schedule recovered via existing official-ID bridge and verified raw body, not day/team matching. Source-claim and postgame oracle only. Candidate price association remains existing day/team ledger and is not admitted as exact-ID price. Receipt timestamps are legacy postgame records, not newly asserted body completion."
   },
   "archive_2025_audit": {
@@ -93,755 +93,756 @@
   "dependency": "#567 f76a7d3f read-only artifacts; not proof of point-in-time availability",
   "counts": {
     "kbo_source_rows": 294,
-    "eligible_claim_rows_before_author_dedup": 226,
+    "excerpt_other_or_mixed_market": 25,
     "market_or_selection_ambiguous": 3,
+    "eligible_claim_rows_before_author_dedup": 106,
     "not_moneyline": 26,
     "missing_or_different_price": 8,
     "no_pre_kickoff_publication_claim": 8,
+    "excerpt_no_explicit_selected_team_win": 95,
     "no_exact_price_fixture": 8,
     "no_exact_official_id_result": 15,
     "duplicate_author_rows": 0,
-    "tied_vote_games_excluded": 10,
     "conflicting_author_excluded": 1,
     "no_unambiguous_authors": 1
   },
   "korean_candidate_kbo_rows": 294,
   "retained_games_first_observed_before_kickoff": 0,
   "date_range_kst": [
-    "2026-03-29T14:00:00+09:00",
+    "2026-03-31T18:30:00+09:00",
     "2026-07-23T18:30:00+09:00"
   ],
   "author_count_distribution": {
-    "1": 190,
-    "2": 7
+    "1": 102,
+    "2": 1
   },
-  "single_author_games": 190,
-  "m0_disagreement_games": 16,
-  "independent_games": 197,
-  "price_rows": 197,
-  "model_revision_rows": 985,
+  "single_author_games": 102,
+  "m0_disagreement_games": 7,
+  "independent_games": 103,
+  "price_rows": 103,
+  "model_revision_rows": 515,
   "strict_common_games": 0,
   "strict_failure_reason_game_counts": {
-    "model_and_lineup_not_proven_received_pregame": 197,
-    "original_vote_first_observed_after_game_or_unknown": 197,
-    "price_receipt_time_unverified": 197,
-    "publication_modification_history_unknown": 197
+    "model_and_lineup_not_proven_received_pregame": 103,
+    "original_vote_first_observed_after_game_or_unknown": 103,
+    "price_receipt_time_unverified": 103,
+    "publication_modification_history_unknown": 103
   },
   "cohorts": {
     "all": {
       "market": {
-        "bets": 197,
-        "decided": 197,
-        "wins": 116,
+        "bets": 103,
+        "decided": 103,
+        "wins": 65,
         "refunds": 0,
-        "hit_rate_decided": 0.5888324873096447,
-        "net_units": -21.17,
-        "roi": -0.10746192893401016
+        "hit_rate_decided": 0.6310679611650486,
+        "net_units": -4.15,
+        "roi": -0.04029126213592232
       },
       "vote": {
-        "bets": 197,
-        "decided": 197,
-        "wins": 112,
+        "bets": 103,
+        "decided": 103,
+        "wins": 62,
         "refunds": 0,
-        "hit_rate_decided": 0.5685279187817259,
-        "net_units": -16.97,
-        "roi": -0.08614213197969542
+        "hit_rate_decided": 0.6019417475728155,
+        "net_units": -4.06,
+        "roi": -0.039417475728155335
       },
       "market90_vote10_multiplicative": {
-        "bets": 197,
-        "decided": 197,
-        "wins": 120,
+        "bets": 103,
+        "decided": 103,
+        "wins": 63,
         "refunds": 0,
-        "hit_rate_decided": 0.6091370558375635,
-        "net_units": -11.17,
-        "roi": -0.0567005076142132
+        "hit_rate_decided": 0.6116504854368932,
+        "net_units": -5.92,
+        "roi": -0.05747572815533981
       },
       "kbo-actual-training-2026-M0_actual": {
-        "bets": 197,
-        "decided": 197,
-        "wins": 120,
+        "bets": 103,
+        "decided": 103,
+        "wins": 65,
         "refunds": 0,
-        "hit_rate_decided": 0.6091370558375635,
-        "net_units": -9.96,
-        "roi": -0.050558375634517774
+        "hit_rate_decided": 0.6310679611650486,
+        "net_units": -0.92,
+        "roi": -0.008932038834951452
       },
       "kbo-actual-training-2026-M2_actual": {
-        "bets": 197,
-        "decided": 197,
-        "wins": 106,
+        "bets": 103,
+        "decided": 103,
+        "wins": 61,
         "refunds": 0,
-        "hit_rate_decided": 0.5380710659898477,
-        "net_units": -29.29,
-        "roi": -0.14868020304568527
+        "hit_rate_decided": 0.5922330097087378,
+        "net_units": -6.88,
+        "roi": -0.06679611650485437
       },
       "kbo-player-effects-v2-2026-M0": {
-        "bets": 197,
-        "decided": 197,
-        "wins": 116,
+        "bets": 103,
+        "decided": 103,
+        "wins": 62,
         "refunds": 0,
-        "hit_rate_decided": 0.5888324873096447,
-        "net_units": -16.12,
-        "roi": -0.0818274111675127
+        "hit_rate_decided": 0.6019417475728155,
+        "net_units": -6.13,
+        "roi": -0.05951456310679611
       },
       "kbo-player-effects-v2-2026-M1": {
-        "bets": 197,
-        "decided": 197,
-        "wins": 110,
+        "bets": 103,
+        "decided": 103,
+        "wins": 67,
         "refunds": 0,
-        "hit_rate_decided": 0.5583756345177665,
-        "net_units": -18.35,
-        "roi": -0.09314720812182742
+        "hit_rate_decided": 0.6504854368932039,
+        "net_units": 7.87,
+        "roi": 0.07640776699029125
       },
       "kbo-player-effects-v2-2026-M2": {
-        "bets": 197,
-        "decided": 197,
-        "wins": 108,
+        "bets": 103,
+        "decided": 103,
+        "wins": 61,
         "refunds": 0,
-        "hit_rate_decided": 0.5482233502538071,
-        "net_units": -22.53,
-        "roi": -0.11436548223350254
+        "hit_rate_decided": 0.5922330097087378,
+        "net_units": -5.06,
+        "roi": -0.04912621359223301
       },
       "kbo-actual-training-2026-M0_actual:player90_vote10": {
-        "bets": 197,
-        "decided": 197,
-        "wins": 111,
+        "bets": 103,
+        "decided": 103,
+        "wins": 64,
         "refunds": 0,
-        "hit_rate_decided": 0.5634517766497462,
-        "net_units": -21.48,
-        "roi": -0.10903553299492386
+        "hit_rate_decided": 0.6213592233009708,
+        "net_units": -1.64,
+        "roi": -0.015922330097087375
       },
       "kbo-actual-training-2026-M2_actual:player90_vote10": {
-        "bets": 197,
-        "decided": 197,
-        "wins": 113,
+        "bets": 103,
+        "decided": 103,
+        "wins": 64,
         "refunds": 0,
-        "hit_rate_decided": 0.5736040609137056,
-        "net_units": -17.14,
-        "roi": -0.08700507614213199
+        "hit_rate_decided": 0.6213592233009708,
+        "net_units": -1.84,
+        "roi": -0.01786407766990291
       },
       "kbo-player-effects-v2-2026-M0:player90_vote10": {
-        "bets": 197,
-        "decided": 197,
-        "wins": 112,
+        "bets": 103,
+        "decided": 103,
+        "wins": 63,
         "refunds": 0,
-        "hit_rate_decided": 0.5685279187817259,
-        "net_units": -19.18,
-        "roi": -0.09736040609137056
+        "hit_rate_decided": 0.6116504854368932,
+        "net_units": -3.19,
+        "roi": -0.030970873786407765
       },
       "kbo-player-effects-v2-2026-M1:player90_vote10": {
-        "bets": 197,
-        "decided": 197,
-        "wins": 110,
+        "bets": 103,
+        "decided": 103,
+        "wins": 66,
         "refunds": 0,
-        "hit_rate_decided": 0.5583756345177665,
-        "net_units": -20.2,
-        "roi": -0.10253807106598985
+        "hit_rate_decided": 0.6407766990291263,
+        "net_units": 4.28,
+        "roi": 0.04155339805825243
       },
       "kbo-player-effects-v2-2026-M2:player90_vote10": {
-        "bets": 197,
-        "decided": 197,
-        "wins": 112,
+        "bets": 103,
+        "decided": 103,
+        "wins": 64,
         "refunds": 0,
-        "hit_rate_decided": 0.5685279187817259,
-        "net_units": -19.22,
-        "roi": -0.09756345177664974
+        "hit_rate_decided": 0.6213592233009708,
+        "net_units": -2.12,
+        "roi": -0.020582524271844656
       }
     },
     "2026-03": {
       "market": {
-        "bets": 6,
-        "decided": 6,
-        "wins": 2,
+        "bets": 3,
+        "decided": 3,
+        "wins": 1,
         "refunds": 0,
         "hit_rate_decided": 0.3333333333333333,
-        "net_units": -3.23,
-        "roi": -0.5383333333333333
+        "net_units": -1.64,
+        "roi": -0.5466666666666666
       },
       "vote": {
-        "bets": 6,
-        "decided": 6,
-        "wins": 5,
+        "bets": 3,
+        "decided": 3,
+        "wins": 2,
         "refunds": 0,
-        "hit_rate_decided": 0.8333333333333334,
-        "net_units": 2.52,
-        "roi": 0.42
+        "hit_rate_decided": 0.6666666666666666,
+        "net_units": 0.33,
+        "roi": 0.11000000000000003
       },
       "market90_vote10_multiplicative": {
-        "bets": 6,
-        "decided": 6,
-        "wins": 3,
+        "bets": 3,
+        "decided": 3,
+        "wins": 1,
         "refunds": 0,
-        "hit_rate_decided": 0.5,
-        "net_units": -1.43,
-        "roi": -0.2383333333333333
+        "hit_rate_decided": 0.3333333333333333,
+        "net_units": -1.64,
+        "roi": -0.5466666666666666
       },
       "kbo-actual-training-2026-M0_actual": {
-        "bets": 6,
-        "decided": 6,
-        "wins": 3,
+        "bets": 3,
+        "decided": 3,
+        "wins": 2,
         "refunds": 0,
-        "hit_rate_decided": 0.5,
-        "net_units": -1.26,
-        "roi": -0.21
+        "hit_rate_decided": 0.6666666666666666,
+        "net_units": 0.33,
+        "roi": 0.11000000000000003
       },
       "kbo-actual-training-2026-M2_actual": {
-        "bets": 6,
-        "decided": 6,
-        "wins": 3,
+        "bets": 3,
+        "decided": 3,
+        "wins": 2,
         "refunds": 0,
-        "hit_rate_decided": 0.5,
-        "net_units": -1.26,
-        "roi": -0.21
+        "hit_rate_decided": 0.6666666666666666,
+        "net_units": 0.33,
+        "roi": 0.11000000000000003
       },
       "kbo-player-effects-v2-2026-M0": {
-        "bets": 6,
-        "decided": 6,
-        "wins": 4,
+        "bets": 3,
+        "decided": 3,
+        "wins": 2,
         "refunds": 0,
         "hit_rate_decided": 0.6666666666666666,
-        "net_units": 0.54,
-        "roi": 0.09000000000000001
+        "net_units": 0.33,
+        "roi": 0.11000000000000003
       },
       "kbo-player-effects-v2-2026-M1": {
-        "bets": 6,
-        "decided": 6,
-        "wins": 2,
+        "bets": 3,
+        "decided": 3,
+        "wins": 1,
         "refunds": 0,
         "hit_rate_decided": 0.3333333333333333,
-        "net_units": -3.23,
-        "roi": -0.5383333333333333
+        "net_units": -1.64,
+        "roi": -0.5466666666666666
       },
       "kbo-player-effects-v2-2026-M2": {
-        "bets": 6,
-        "decided": 6,
-        "wins": 3,
-        "refunds": 0,
-        "hit_rate_decided": 0.5,
-        "net_units": -1.26,
-        "roi": -0.21
-      },
-      "kbo-actual-training-2026-M0_actual:player90_vote10": {
-        "bets": 6,
-        "decided": 6,
-        "wins": 3,
-        "refunds": 0,
-        "hit_rate_decided": 0.5,
-        "net_units": -1.26,
-        "roi": -0.21
-      },
-      "kbo-actual-training-2026-M2_actual:player90_vote10": {
-        "bets": 6,
-        "decided": 6,
-        "wins": 3,
-        "refunds": 0,
-        "hit_rate_decided": 0.5,
-        "net_units": -1.26,
-        "roi": -0.21
-      },
-      "kbo-player-effects-v2-2026-M0:player90_vote10": {
-        "bets": 6,
-        "decided": 6,
-        "wins": 4,
-        "refunds": 0,
-        "hit_rate_decided": 0.6666666666666666,
-        "net_units": 0.54,
-        "roi": 0.09000000000000001
-      },
-      "kbo-player-effects-v2-2026-M1:player90_vote10": {
-        "bets": 6,
-        "decided": 6,
+        "bets": 3,
+        "decided": 3,
         "wins": 2,
         "refunds": 0,
+        "hit_rate_decided": 0.6666666666666666,
+        "net_units": 0.33,
+        "roi": 0.11000000000000003
+      },
+      "kbo-actual-training-2026-M0_actual:player90_vote10": {
+        "bets": 3,
+        "decided": 3,
+        "wins": 2,
+        "refunds": 0,
+        "hit_rate_decided": 0.6666666666666666,
+        "net_units": 0.33,
+        "roi": 0.11000000000000003
+      },
+      "kbo-actual-training-2026-M2_actual:player90_vote10": {
+        "bets": 3,
+        "decided": 3,
+        "wins": 2,
+        "refunds": 0,
+        "hit_rate_decided": 0.6666666666666666,
+        "net_units": 0.33,
+        "roi": 0.11000000000000003
+      },
+      "kbo-player-effects-v2-2026-M0:player90_vote10": {
+        "bets": 3,
+        "decided": 3,
+        "wins": 2,
+        "refunds": 0,
+        "hit_rate_decided": 0.6666666666666666,
+        "net_units": 0.33,
+        "roi": 0.11000000000000003
+      },
+      "kbo-player-effects-v2-2026-M1:player90_vote10": {
+        "bets": 3,
+        "decided": 3,
+        "wins": 1,
+        "refunds": 0,
         "hit_rate_decided": 0.3333333333333333,
-        "net_units": -3.23,
-        "roi": -0.5383333333333333
+        "net_units": -1.64,
+        "roi": -0.5466666666666666
       },
       "kbo-player-effects-v2-2026-M2:player90_vote10": {
-        "bets": 6,
-        "decided": 6,
-        "wins": 3,
+        "bets": 3,
+        "decided": 3,
+        "wins": 2,
         "refunds": 0,
-        "hit_rate_decided": 0.5,
-        "net_units": -1.26,
-        "roi": -0.21
+        "hit_rate_decided": 0.6666666666666666,
+        "net_units": 0.33,
+        "roi": 0.11000000000000003
       }
     },
     "2026-04": {
       "market": {
-        "bets": 49,
-        "decided": 49,
-        "wins": 30,
+        "bets": 28,
+        "decided": 28,
+        "wins": 20,
         "refunds": 0,
-        "hit_rate_decided": 0.6122448979591837,
-        "net_units": -3.38,
-        "roi": -0.0689795918367347
+        "hit_rate_decided": 0.7142857142857143,
+        "net_units": 2.49,
+        "roi": 0.08892857142857144
       },
       "vote": {
-        "bets": 49,
-        "decided": 49,
-        "wins": 30,
+        "bets": 28,
+        "decided": 28,
+        "wins": 18,
         "refunds": 0,
-        "hit_rate_decided": 0.6122448979591837,
-        "net_units": -0.94,
-        "roi": -0.019183673469387767
+        "hit_rate_decided": 0.6428571428571429,
+        "net_units": 0.33,
+        "roi": 0.011785714285714288
       },
       "market90_vote10_multiplicative": {
-        "bets": 49,
-        "decided": 49,
-        "wins": 31,
+        "bets": 28,
+        "decided": 28,
+        "wins": 19,
         "refunds": 0,
-        "hit_rate_decided": 0.6326530612244898,
-        "net_units": -0.97,
-        "roi": -0.019795918367346944
+        "hit_rate_decided": 0.6785714285714286,
+        "net_units": 1.31,
+        "roi": 0.046785714285714285
       },
       "kbo-actual-training-2026-M0_actual": {
-        "bets": 49,
-        "decided": 49,
-        "wins": 27,
+        "bets": 28,
+        "decided": 28,
+        "wins": 21,
         "refunds": 0,
-        "hit_rate_decided": 0.5510204081632653,
-        "net_units": -7.43,
-        "roi": -0.15163265306122448
+        "hit_rate_decided": 0.75,
+        "net_units": 5.0,
+        "roi": 0.17857142857142858
       },
       "kbo-actual-training-2026-M2_actual": {
-        "bets": 49,
-        "decided": 49,
-        "wins": 29,
+        "bets": 28,
+        "decided": 28,
+        "wins": 20,
         "refunds": 0,
-        "hit_rate_decided": 0.5918367346938775,
-        "net_units": -3.43,
-        "roi": -0.07
+        "hit_rate_decided": 0.7142857142857143,
+        "net_units": 3.39,
+        "roi": 0.12107142857142858
       },
       "kbo-player-effects-v2-2026-M0": {
-        "bets": 49,
-        "decided": 49,
-        "wins": 28,
+        "bets": 28,
+        "decided": 28,
+        "wins": 21,
         "refunds": 0,
-        "hit_rate_decided": 0.5714285714285714,
-        "net_units": -5.17,
-        "roi": -0.10551020408163266
+        "hit_rate_decided": 0.75,
+        "net_units": 5.23,
+        "roi": 0.1867857142857143
       },
       "kbo-player-effects-v2-2026-M1": {
-        "bets": 49,
-        "decided": 49,
-        "wins": 23,
+        "bets": 28,
+        "decided": 28,
+        "wins": 16,
         "refunds": 0,
-        "hit_rate_decided": 0.46938775510204084,
-        "net_units": -12.29,
-        "roi": -0.25081632653061225
+        "hit_rate_decided": 0.5714285714285714,
+        "net_units": -2.57,
+        "roi": -0.09178571428571429
       },
       "kbo-player-effects-v2-2026-M2": {
-        "bets": 49,
-        "decided": 49,
-        "wins": 30,
+        "bets": 28,
+        "decided": 28,
+        "wins": 18,
         "refunds": 0,
-        "hit_rate_decided": 0.6122448979591837,
-        "net_units": -0.47,
-        "roi": -0.009591836734693887
+        "hit_rate_decided": 0.6428571428571429,
+        "net_units": 0.2,
+        "roi": 0.007142857142857141
       },
       "kbo-actual-training-2026-M0_actual:player90_vote10": {
-        "bets": 49,
-        "decided": 49,
-        "wins": 27,
+        "bets": 28,
+        "decided": 28,
+        "wins": 19,
         "refunds": 0,
-        "hit_rate_decided": 0.5510204081632653,
-        "net_units": -6.93,
-        "roi": -0.14142857142857143
+        "hit_rate_decided": 0.6785714285714286,
+        "net_units": 1.92,
+        "roi": 0.06857142857142857
       },
       "kbo-actual-training-2026-M2_actual:player90_vote10": {
-        "bets": 49,
-        "decided": 49,
-        "wins": 30,
+        "bets": 28,
+        "decided": 28,
+        "wins": 18,
         "refunds": 0,
-        "hit_rate_decided": 0.6122448979591837,
-        "net_units": -0.94,
-        "roi": -0.019183673469387767
+        "hit_rate_decided": 0.6428571428571429,
+        "net_units": 0.33,
+        "roi": 0.011785714285714288
       },
       "kbo-player-effects-v2-2026-M0:player90_vote10": {
-        "bets": 49,
-        "decided": 49,
-        "wins": 27,
+        "bets": 28,
+        "decided": 28,
+        "wins": 17,
         "refunds": 0,
-        "hit_rate_decided": 0.5510204081632653,
-        "net_units": -6.75,
-        "roi": -0.1377551020408163
+        "hit_rate_decided": 0.6071428571428571,
+        "net_units": -1.27,
+        "roi": -0.04535714285714286
       },
       "kbo-player-effects-v2-2026-M1:player90_vote10": {
-        "bets": 49,
-        "decided": 49,
-        "wins": 26,
+        "bets": 28,
+        "decided": 28,
+        "wins": 17,
         "refunds": 0,
-        "hit_rate_decided": 0.5306122448979592,
-        "net_units": -8.45,
-        "roi": -0.17244897959183675
+        "hit_rate_decided": 0.6071428571428571,
+        "net_units": -2.35,
+        "roi": -0.08392857142857144
       },
       "kbo-player-effects-v2-2026-M2:player90_vote10": {
-        "bets": 49,
-        "decided": 49,
-        "wins": 29,
+        "bets": 28,
+        "decided": 28,
+        "wins": 17,
         "refunds": 0,
-        "hit_rate_decided": 0.5918367346938775,
-        "net_units": -2.47,
-        "roi": -0.05040816326530614
+        "hit_rate_decided": 0.6071428571428571,
+        "net_units": -1.2,
+        "roi": -0.04285714285714286
       }
     },
     "2026-05": {
       "market": {
-        "bets": 67,
-        "decided": 67,
-        "wins": 36,
+        "bets": 1,
+        "decided": 1,
+        "wins": 0,
         "refunds": 0,
-        "hit_rate_decided": 0.5373134328358209,
-        "net_units": -12.57,
-        "roi": -0.18761194029850747
+        "hit_rate_decided": 0.0,
+        "net_units": -1,
+        "roi": -1.0
       },
       "vote": {
-        "bets": 67,
-        "decided": 67,
-        "wins": 32,
+        "bets": 1,
+        "decided": 1,
+        "wins": 1,
         "refunds": 0,
-        "hit_rate_decided": 0.47761194029850745,
-        "net_units": -14.87,
-        "roi": -0.22194029850746266
+        "hit_rate_decided": 1.0,
+        "net_units": 0.97,
+        "roi": 0.97
       },
       "market90_vote10_multiplicative": {
-        "bets": 67,
-        "decided": 67,
-        "wins": 39,
+        "bets": 1,
+        "decided": 1,
+        "wins": 0,
         "refunds": 0,
-        "hit_rate_decided": 0.582089552238806,
-        "net_units": -6.19,
-        "roi": -0.09238805970149253
+        "hit_rate_decided": 0.0,
+        "net_units": -1,
+        "roi": -1.0
       },
       "kbo-actual-training-2026-M0_actual": {
-        "bets": 67,
-        "decided": 67,
-        "wins": 44,
+        "bets": 1,
+        "decided": 1,
+        "wins": 1,
         "refunds": 0,
-        "hit_rate_decided": 0.6567164179104478,
-        "net_units": 2.03,
-        "roi": 0.030298507462686565
+        "hit_rate_decided": 1.0,
+        "net_units": 0.97,
+        "roi": 0.97
       },
       "kbo-actual-training-2026-M2_actual": {
-        "bets": 67,
-        "decided": 67,
-        "wins": 34,
+        "bets": 1,
+        "decided": 1,
+        "wins": 1,
         "refunds": 0,
-        "hit_rate_decided": 0.5074626865671642,
-        "net_units": -12.16,
-        "roi": -0.18149253731343284
+        "hit_rate_decided": 1.0,
+        "net_units": 0.97,
+        "roi": 0.97
       },
       "kbo-player-effects-v2-2026-M0": {
-        "bets": 67,
-        "decided": 67,
-        "wins": 42,
+        "bets": 1,
+        "decided": 1,
+        "wins": 1,
         "refunds": 0,
-        "hit_rate_decided": 0.6268656716417911,
-        "net_units": -0.84,
-        "roi": -0.012537313432835822
+        "hit_rate_decided": 1.0,
+        "net_units": 0.97,
+        "roi": 0.97
       },
       "kbo-player-effects-v2-2026-M1": {
-        "bets": 67,
-        "decided": 67,
-        "wins": 34,
+        "bets": 1,
+        "decided": 1,
+        "wins": 1,
         "refunds": 0,
-        "hit_rate_decided": 0.5074626865671642,
-        "net_units": -13.14,
-        "roi": -0.19611940298507463
+        "hit_rate_decided": 1.0,
+        "net_units": 0.97,
+        "roi": 0.97
       },
       "kbo-player-effects-v2-2026-M2": {
-        "bets": 67,
-        "decided": 67,
-        "wins": 35,
+        "bets": 1,
+        "decided": 1,
+        "wins": 1,
         "refunds": 0,
-        "hit_rate_decided": 0.5223880597014925,
-        "net_units": -10.14,
-        "roi": -0.15134328358208957
+        "hit_rate_decided": 1.0,
+        "net_units": 0.97,
+        "roi": 0.97
       },
       "kbo-actual-training-2026-M0_actual:player90_vote10": {
-        "bets": 67,
-        "decided": 67,
-        "wins": 35,
+        "bets": 1,
+        "decided": 1,
+        "wins": 1,
         "refunds": 0,
-        "hit_rate_decided": 0.5223880597014925,
-        "net_units": -10.44,
-        "roi": -0.15582089552238806
+        "hit_rate_decided": 1.0,
+        "net_units": 0.97,
+        "roi": 0.97
       },
       "kbo-actual-training-2026-M2_actual:player90_vote10": {
-        "bets": 67,
-        "decided": 67,
-        "wins": 33,
+        "bets": 1,
+        "decided": 1,
+        "wins": 1,
         "refunds": 0,
-        "hit_rate_decided": 0.4925373134328358,
-        "net_units": -13.48,
-        "roi": -0.20119402985074628
+        "hit_rate_decided": 1.0,
+        "net_units": 0.97,
+        "roi": 0.97
       },
       "kbo-player-effects-v2-2026-M0:player90_vote10": {
-        "bets": 67,
-        "decided": 67,
-        "wins": 34,
+        "bets": 1,
+        "decided": 1,
+        "wins": 1,
         "refunds": 0,
-        "hit_rate_decided": 0.5074626865671642,
-        "net_units": -11.76,
-        "roi": -0.1755223880597015
+        "hit_rate_decided": 1.0,
+        "net_units": 0.97,
+        "roi": 0.97
       },
       "kbo-player-effects-v2-2026-M1:player90_vote10": {
-        "bets": 67,
-        "decided": 67,
-        "wins": 32,
+        "bets": 1,
+        "decided": 1,
+        "wins": 1,
         "refunds": 0,
-        "hit_rate_decided": 0.47761194029850745,
-        "net_units": -16.51,
-        "roi": -0.24641791044776115
+        "hit_rate_decided": 1.0,
+        "net_units": 0.97,
+        "roi": 0.97
       },
       "kbo-player-effects-v2-2026-M2:player90_vote10": {
-        "bets": 67,
-        "decided": 67,
-        "wins": 32,
+        "bets": 1,
+        "decided": 1,
+        "wins": 1,
         "refunds": 0,
-        "hit_rate_decided": 0.47761194029850745,
-        "net_units": -15.28,
-        "roi": -0.2280597014925373
+        "hit_rate_decided": 1.0,
+        "net_units": 0.97,
+        "roi": 0.97
       }
     },
     "2026-06": {
       "market": {
-        "bets": 31,
-        "decided": 31,
-        "wins": 19,
+        "bets": 30,
+        "decided": 30,
+        "wins": 17,
         "refunds": 0,
-        "hit_rate_decided": 0.6129032258064516,
-        "net_units": -2.78,
-        "roi": -0.08967741935483872
+        "hit_rate_decided": 0.5666666666666667,
+        "net_units": -4.91,
+        "roi": -0.16366666666666668
       },
       "vote": {
-        "bets": 31,
-        "decided": 31,
-        "wins": 21,
-        "refunds": 0,
-        "hit_rate_decided": 0.6774193548387096,
-        "net_units": 2.75,
-        "roi": 0.08870967741935484
-      },
-      "market90_vote10_multiplicative": {
-        "bets": 31,
-        "decided": 31,
-        "wins": 22,
-        "refunds": 0,
-        "hit_rate_decided": 0.7096774193548387,
-        "net_units": 3.22,
-        "roi": 0.10387096774193548
-      },
-      "kbo-actual-training-2026-M0_actual": {
-        "bets": 31,
-        "decided": 31,
-        "wins": 21,
-        "refunds": 0,
-        "hit_rate_decided": 0.6774193548387096,
-        "net_units": 2.24,
-        "roi": 0.07225806451612903
-      },
-      "kbo-actual-training-2026-M2_actual": {
-        "bets": 31,
-        "decided": 31,
-        "wins": 21,
-        "refunds": 0,
-        "hit_rate_decided": 0.6774193548387096,
-        "net_units": 1.78,
-        "roi": 0.05741935483870967
-      },
-      "kbo-player-effects-v2-2026-M0": {
-        "bets": 31,
-        "decided": 31,
+        "bets": 30,
+        "decided": 30,
         "wins": 19,
         "refunds": 0,
-        "hit_rate_decided": 0.6129032258064516,
-        "net_units": -1.59,
-        "roi": -0.05129032258064516
+        "hit_rate_decided": 0.6333333333333333,
+        "net_units": 0.62,
+        "roi": 0.020666666666666663
+      },
+      "market90_vote10_multiplicative": {
+        "bets": 30,
+        "decided": 30,
+        "wins": 20,
+        "refunds": 0,
+        "hit_rate_decided": 0.6666666666666666,
+        "net_units": 1.09,
+        "roi": 0.036333333333333336
+      },
+      "kbo-actual-training-2026-M0_actual": {
+        "bets": 30,
+        "decided": 30,
+        "wins": 19,
+        "refunds": 0,
+        "hit_rate_decided": 0.6333333333333333,
+        "net_units": 0.11,
+        "roi": 0.0036666666666666627
+      },
+      "kbo-actual-training-2026-M2_actual": {
+        "bets": 30,
+        "decided": 30,
+        "wins": 19,
+        "refunds": 0,
+        "hit_rate_decided": 0.6333333333333333,
+        "net_units": -0.35,
+        "roi": -0.011666666666666669
+      },
+      "kbo-player-effects-v2-2026-M0": {
+        "bets": 30,
+        "decided": 30,
+        "wins": 17,
+        "refunds": 0,
+        "hit_rate_decided": 0.5666666666666667,
+        "net_units": -3.72,
+        "roi": -0.12399999999999999
       },
       "kbo-player-effects-v2-2026-M1": {
-        "bets": 31,
-        "decided": 31,
+        "bets": 30,
+        "decided": 30,
         "wins": 22,
         "refunds": 0,
-        "hit_rate_decided": 0.7096774193548387,
-        "net_units": 5.58,
-        "roi": 0.18
+        "hit_rate_decided": 0.7333333333333333,
+        "net_units": 6.68,
+        "roi": 0.22266666666666665
       },
       "kbo-player-effects-v2-2026-M2": {
-        "bets": 31,
-        "decided": 31,
+        "bets": 30,
+        "decided": 30,
         "wins": 21,
         "refunds": 0,
-        "hit_rate_decided": 0.6774193548387096,
-        "net_units": 3.01,
-        "roi": 0.09709677419354838
+        "hit_rate_decided": 0.7,
+        "net_units": 4.11,
+        "roi": 0.13699999999999998
       },
       "kbo-actual-training-2026-M0_actual:player90_vote10": {
-        "bets": 31,
-        "decided": 31,
-        "wins": 22,
+        "bets": 30,
+        "decided": 30,
+        "wins": 20,
         "refunds": 0,
-        "hit_rate_decided": 0.7096774193548387,
-        "net_units": 4.57,
-        "roi": 0.1474193548387097
+        "hit_rate_decided": 0.6666666666666666,
+        "net_units": 2.44,
+        "roi": 0.08133333333333333
       },
       "kbo-actual-training-2026-M2_actual:player90_vote10": {
-        "bets": 31,
-        "decided": 31,
-        "wins": 21,
+        "bets": 30,
+        "decided": 30,
+        "wins": 19,
         "refunds": 0,
-        "hit_rate_decided": 0.6774193548387096,
-        "net_units": 2.48,
-        "roi": 0.07999999999999999
+        "hit_rate_decided": 0.6333333333333333,
+        "net_units": 0.35,
+        "roi": 0.011666666666666662
       },
       "kbo-player-effects-v2-2026-M0:player90_vote10": {
-        "bets": 31,
-        "decided": 31,
-        "wins": 23,
+        "bets": 30,
+        "decided": 30,
+        "wins": 21,
         "refunds": 0,
-        "hit_rate_decided": 0.7419354838709677,
-        "net_units": 6.21,
-        "roi": 0.20032258064516129
+        "hit_rate_decided": 0.7,
+        "net_units": 4.08,
+        "roi": 0.136
       },
       "kbo-player-effects-v2-2026-M1:player90_vote10": {
-        "bets": 31,
-        "decided": 31,
+        "bets": 30,
+        "decided": 30,
         "wins": 22,
         "refunds": 0,
-        "hit_rate_decided": 0.7096774193548387,
-        "net_units": 5.66,
-        "roi": 0.18258064516129033
+        "hit_rate_decided": 0.7333333333333333,
+        "net_units": 6.76,
+        "roi": 0.22533333333333333
       },
       "kbo-player-effects-v2-2026-M2:player90_vote10": {
-        "bets": 31,
-        "decided": 31,
-        "wins": 24,
+        "bets": 30,
+        "decided": 30,
+        "wins": 22,
         "refunds": 0,
-        "hit_rate_decided": 0.7741935483870968,
-        "net_units": 7.41,
-        "roi": 0.23903225806451614
+        "hit_rate_decided": 0.7333333333333333,
+        "net_units": 5.28,
+        "roi": 0.17600000000000002
       }
     },
     "2026-07": {
       "market": {
-        "bets": 44,
-        "decided": 44,
-        "wins": 29,
+        "bets": 41,
+        "decided": 41,
+        "wins": 27,
         "refunds": 0,
-        "hit_rate_decided": 0.6590909090909091,
-        "net_units": 0.79,
-        "roi": 0.017954545454545456
+        "hit_rate_decided": 0.6585365853658537,
+        "net_units": 0.91,
+        "roi": 0.022195121951219515
       },
       "vote": {
-        "bets": 44,
-        "decided": 44,
-        "wins": 24,
+        "bets": 41,
+        "decided": 41,
+        "wins": 22,
         "refunds": 0,
-        "hit_rate_decided": 0.5454545454545454,
-        "net_units": -6.43,
-        "roi": -0.14613636363636362
+        "hit_rate_decided": 0.5365853658536586,
+        "net_units": -6.31,
+        "roi": -0.15390243902439024
       },
       "market90_vote10_multiplicative": {
-        "bets": 44,
-        "decided": 44,
-        "wins": 25,
-        "refunds": 0,
-        "hit_rate_decided": 0.5681818181818182,
-        "net_units": -5.8,
-        "roi": -0.1318181818181818
-      },
-      "kbo-actual-training-2026-M0_actual": {
-        "bets": 44,
-        "decided": 44,
-        "wins": 25,
-        "refunds": 0,
-        "hit_rate_decided": 0.5681818181818182,
-        "net_units": -5.54,
-        "roi": -0.12590909090909091
-      },
-      "kbo-actual-training-2026-M2_actual": {
-        "bets": 44,
-        "decided": 44,
-        "wins": 19,
-        "refunds": 0,
-        "hit_rate_decided": 0.4318181818181818,
-        "net_units": -14.22,
-        "roi": -0.3231818181818182
-      },
-      "kbo-player-effects-v2-2026-M0": {
-        "bets": 44,
-        "decided": 44,
+        "bets": 41,
+        "decided": 41,
         "wins": 23,
         "refunds": 0,
-        "hit_rate_decided": 0.5227272727272727,
-        "net_units": -9.06,
-        "roi": -0.20590909090909093
+        "hit_rate_decided": 0.5609756097560976,
+        "net_units": -5.68,
+        "roi": -0.13853658536585364
       },
-      "kbo-player-effects-v2-2026-M1": {
-        "bets": 44,
-        "decided": 44,
-        "wins": 29,
+      "kbo-actual-training-2026-M0_actual": {
+        "bets": 41,
+        "decided": 41,
+        "wins": 22,
         "refunds": 0,
-        "hit_rate_decided": 0.6590909090909091,
-        "net_units": 4.73,
-        "roi": 0.10749999999999998
+        "hit_rate_decided": 0.5365853658536586,
+        "net_units": -7.33,
+        "roi": -0.17878048780487804
       },
-      "kbo-player-effects-v2-2026-M2": {
-        "bets": 44,
-        "decided": 44,
+      "kbo-actual-training-2026-M2_actual": {
+        "bets": 41,
+        "decided": 41,
         "wins": 19,
         "refunds": 0,
-        "hit_rate_decided": 0.4318181818181818,
-        "net_units": -13.67,
-        "roi": -0.31068181818181817
+        "hit_rate_decided": 0.4634146341463415,
+        "net_units": -11.22,
+        "roi": -0.2736585365853658
+      },
+      "kbo-player-effects-v2-2026-M0": {
+        "bets": 41,
+        "decided": 41,
+        "wins": 21,
+        "refunds": 0,
+        "hit_rate_decided": 0.5121951219512195,
+        "net_units": -8.94,
+        "roi": -0.21804878048780488
+      },
+      "kbo-player-effects-v2-2026-M1": {
+        "bets": 41,
+        "decided": 41,
+        "wins": 27,
+        "refunds": 0,
+        "hit_rate_decided": 0.6585365853658537,
+        "net_units": 4.43,
+        "roi": 0.10804878048780488
+      },
+      "kbo-player-effects-v2-2026-M2": {
+        "bets": 41,
+        "decided": 41,
+        "wins": 19,
+        "refunds": 0,
+        "hit_rate_decided": 0.4634146341463415,
+        "net_units": -10.67,
+        "roi": -0.2602439024390244
       },
       "kbo-actual-training-2026-M0_actual:player90_vote10": {
-        "bets": 44,
-        "decided": 44,
-        "wins": 24,
+        "bets": 41,
+        "decided": 41,
+        "wins": 22,
         "refunds": 0,
-        "hit_rate_decided": 0.5454545454545454,
-        "net_units": -7.42,
-        "roi": -0.16863636363636364
+        "hit_rate_decided": 0.5365853658536586,
+        "net_units": -7.3,
+        "roi": -0.17804878048780487
       },
       "kbo-actual-training-2026-M2_actual:player90_vote10": {
-        "bets": 44,
-        "decided": 44,
-        "wins": 26,
+        "bets": 41,
+        "decided": 41,
+        "wins": 24,
         "refunds": 0,
-        "hit_rate_decided": 0.5909090909090909,
-        "net_units": -3.94,
-        "roi": -0.08954545454545454
+        "hit_rate_decided": 0.5853658536585366,
+        "net_units": -3.82,
+        "roi": -0.09317073170731707
       },
       "kbo-player-effects-v2-2026-M0:player90_vote10": {
-        "bets": 44,
-        "decided": 44,
-        "wins": 24,
+        "bets": 41,
+        "decided": 41,
+        "wins": 22,
         "refunds": 0,
-        "hit_rate_decided": 0.5454545454545454,
-        "net_units": -7.42,
-        "roi": -0.16863636363636364
+        "hit_rate_decided": 0.5365853658536586,
+        "net_units": -7.3,
+        "roi": -0.17804878048780487
       },
       "kbo-player-effects-v2-2026-M1:player90_vote10": {
-        "bets": 44,
-        "decided": 44,
-        "wins": 28,
+        "bets": 41,
+        "decided": 41,
+        "wins": 25,
         "refunds": 0,
-        "hit_rate_decided": 0.6363636363636364,
-        "net_units": 2.33,
-        "roi": 0.052954545454545456
+        "hit_rate_decided": 0.6097560975609756,
+        "net_units": 0.54,
+        "roi": 0.013170731707317074
       },
       "kbo-player-effects-v2-2026-M2:player90_vote10": {
-        "bets": 44,
-        "decided": 44,
-        "wins": 24,
+        "bets": 41,
+        "decided": 41,
+        "wins": 22,
         "refunds": 0,
-        "hit_rate_decided": 0.5454545454545454,
-        "net_units": -7.62,
-        "roi": -0.1731818181818182
+        "hit_rate_decided": 0.5365853658536586,
+        "net_units": -7.5,
+        "roi": -0.18292682926829268
       }
     }
   },
-  "rules": "Exact official game ID and identical archived home/away prices; full-game moneyline only; one vote per source+author, conflicting authors excluded; tied vote excludes game; model/market/hybrid ties no bet; draws refund; 1 unit single bets; Fixed market90_vote10_multiplicative is 0.9 multiplicative normalized inverse-price market home probability (not a claim of production Shin probability) + 0.1 author vote home fraction; separately named player90_vote10 uses each model probability. ROI includes refunds in stake denominator; hit rate excludes refunds. Source-claim and retrospective lineup oracle only, not blind or real-time."
+  "rules": "Explicit selected-team win with no period, handicap or totals markers in the stored excerpt; ordinary win/ML is assumed full game and overtime is not explicitly established; no fallback. Exact official game ID and identical archived home/away prices; full-game moneyline only; one vote per source+author, conflicting authors excluded; tied vote excludes game; model/market/hybrid ties no bet; draws refund; 1 unit single bets; Fixed market90_vote10_multiplicative is 0.9 multiplicative normalized inverse-price market home probability (not a claim of production Shin probability) + 0.1 author vote home fraction; separately named player90_vote10 uses each model probability. ROI includes refunds in stake denominator; hit rate excludes refunds. Source-claim and retrospective lineup oracle only, not blind or real-time."
 }
