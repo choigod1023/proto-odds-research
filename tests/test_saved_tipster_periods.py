@@ -148,3 +148,36 @@ def test_reports_use_kst_calendar_month_at_utc_boundary():
     assert '2026-08' in result and '2026-07' not in result
     assert result['2026-08']['all_electorates']['eligible_fixtures'] == 1
     assert result['2026-08']['common_unique_vote_cohort'] is None
+
+
+def test_compressed_replay_authenticates_payload_and_native_record(tmp_path):
+    import gzip
+    from scripts.compare_saved_tipster_periods import digest, encoded, replay
+
+    feature = replay_feature()
+    native = envelope()
+    feature['vote_counts'] = {'홈': 1, '원정': 0}
+    feature['evidence'] = [dict(id='pick-1', author='a', side='홈', observed_at='2026-07-01T22:00:00Z',
+                                raw_text=native['event']['raw_text'], native_record=native['event'],
+                                source_event_hash=native['event_hash'])]
+    label = dict(snapshot_id='s1', event_id='e1', kickoff=feature['kickoff'], market='승패', label='',
+                 n_way=2, result_action='결과보기', result_text='3:1')
+    values = {'inputs': [feature], 'labels': [label], 'results': reports([feature], [label])}
+    manifest = {'raw_payload_sha256': {}}
+    def write(name):
+        raw = encoded(values[name])
+        (tmp_path / (name + '.json.gz')).write_bytes(gzip.compress(raw, mtime=0))
+        manifest['raw_payload_sha256'][name] = digest(raw)
+        (tmp_path / 'artifact-manifest.json').write_bytes(encoded(manifest))
+    for name in values:
+        write(name)
+    assert replay(tmp_path)['all']['frozen_vote']['hit'] == 1
+    values['inputs'][0]['evidence'][0]['native_record']['selection'] = 'BOS ML'
+    write('inputs')
+    with pytest.raises(ValueError, match='hash'):
+        replay(tmp_path)
+    values['inputs'][0]['evidence'][0]['native_record'] = native['event'] = envelope()['event']
+    write('inputs')
+    (tmp_path / 'labels.json.gz').write_bytes(gzip.compress(b'[]', mtime=0))
+    with pytest.raises(ValueError, match='payload changed'):
+        replay(tmp_path)
