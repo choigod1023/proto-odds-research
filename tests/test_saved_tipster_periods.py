@@ -76,7 +76,6 @@ def test_native_quoted_price_and_text_and_team_and_schedule_checks():
             parse_native(envelope(**patch))
 
 
-@pytest.mark.xfail(strict=True, reason='native header teams are not checked against team_a/team_b')
 def test_native_rejects_header_with_conflicting_teams():
     with pytest.raises(ValueError):
         parse_native(envelope(game_header='LAD vs SFG 7:00 PM ET'))
@@ -92,7 +91,6 @@ def test_observed_quote_requires_exact_identity_and_product(tmp_path, patch):
     assert not quotes and sum(held.values()) == 1
 
 
-@pytest.mark.xfail(strict=True, reason='official n-way and market are not checked against observed product')
 def test_observed_quote_rejects_official_three_way_for_two_way_row(tmp_path):
     game, label, row = official_fixture()
     label.update(n_way=3, market='승무패')

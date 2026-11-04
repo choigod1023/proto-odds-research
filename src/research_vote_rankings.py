@@ -29,10 +29,7 @@ def top(scores):
     return winners[0] if len(winners) == 1 else None
 
 
-def select_rules(feature):
-    """Only frozen features enter this function; no result argument exists."""
-    if feature["policy"] != "tipster-vote-v1" or feature["selection_source"] != "actual_tipster_vote":
-        raise ValueError("not the actual vote cohort")
+def _frozen_scores(feature):
     cutoff = instant(feature["kickoff"]) - timedelta(minutes=30)
     if any(instant(feature[key]) >= cutoff for key in ("as_of", "captured_at", "market_observed_at")):
         raise ValueError("frozen clock is not before T30")
@@ -75,20 +72,51 @@ def select_rules(feature):
     if not Decimal("0.99") < total < Decimal("1.01"):
         raise ValueError("frozen probabilities do not form a complete product")
     market = {side: value / total for side, value in market.items()}
+    return expected, evidence, votes, market
+
+
+def _ranks(expected, evidence, votes, market):
     vote = top({side: votes.get(side, 0) for side in expected})
-    if vote is None or vote != feature["original_selection"]:
-        raise ValueError("not the saved unique vote winner")
-    saved = next(row for row in options if row["selection"] == vote)
-    if (saved["selection_id"] != feature["original_selection_id"]
-            or saved["offer_id"] != feature["original_offer_id"]
-            or number(saved["odds"]) != number(feature["original_odds"])):
-        raise ValueError("saved selected price or identity differs")
     favorite = top(market)
     mixed = {side: Decimal("0.90") * market[side]
              + Decimal("0.10") * votes.get(side, 0) / len(evidence) for side in expected}
     return dict(frozen_vote=vote, market_same_product=favorite,
                 market90_vote10=top(mixed),
                 vote_market_agreement=vote if vote == favorite else None)
+
+
+def select_rules(feature):
+    """Actual saved operating picks; no result argument exists."""
+    if feature["policy"] != "tipster-vote-v1" or feature["selection_source"] != "actual_tipster_vote":
+        raise ValueError("not the actual vote cohort")
+    scores = _frozen_scores(feature)
+    choices = _ranks(*scores)
+    vote = choices["frozen_vote"]
+    if vote is None or vote != feature["original_selection"]:
+        raise ValueError("not the saved unique vote winner")
+    saved = next(row for row in feature["options"] if row["selection"] == vote)
+    if (saved["selection_id"] != feature["original_selection_id"]
+            or saved["offer_id"] != feature["original_offer_id"]
+            or number(saved["odds"]) != number(feature["original_odds"])):
+        raise ValueError("saved selected price or identity differs")
+    return choices
+
+
+def select_replayed_rules(feature):
+    """Historical counterfactual from saved inputs, not an operating-policy grade."""
+    if feature.get("comparison_mode") != "counterfactual_saved_pregame_votes":
+        raise ValueError("explicit counterfactual mode required")
+    if feature.get("capture_kind") == "quote_observation_not_model_prediction":
+        if feature.get("captured_at") is not None:
+            raise ValueError("a quote must not fabricate forecast capture")
+        observed = instant(feature["quote_observed_at"])
+        if observed != instant(feature["as_of"]) or observed != instant(feature["market_observed_at"]):
+            raise ValueError("counterfactual input clock differs from observed quote")
+        # This is only the recorded quote clock, not a proved HTTP receipt.
+        # Legacy snapshots use batch-start time; captured_at stays None in the
+        # artifact, and their timing limitation must remain in its audit.
+        feature = dict(feature, captured_at=feature["quote_observed_at"])
+    return _ranks(*_frozen_scores(feature))
 
 
 def grade_selected(feature, label, side, stake=10000):
@@ -126,7 +154,7 @@ def summarize(rows, eligible, stake):
                 net_won=str(net), staked_won=stake*len(rows))
 
 
-def evaluate(features, labels, stake=10000):
+def evaluate(features, labels, stake=10000, *, selector=select_rules):
     if type(stake) is not int or stake <= 0 or not features:
         raise ValueError("nonempty fixed cohort and positive stake required")
     ids = [row["snapshot_id"] for row in features]
@@ -136,7 +164,7 @@ def evaluate(features, labels, stake=10000):
     if len(set(label_ids)) != len(label_ids) or set(ids) != set(label_ids):
         raise ValueError("exact complete label coverage required")
     # Freeze every choice before touching any outcomes.
-    choices = {row["snapshot_id"]: select_rules(row) for row in features}
+    choices = {row["snapshot_id"]: selector(row) for row in features}
     label_index = {row["snapshot_id"]: row for row in labels}
     results, all_rows = {}, {}
     for rule in RULES:

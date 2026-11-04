@@ -21,6 +21,7 @@
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 import sys
 import time
@@ -239,13 +240,18 @@ def snap(year: int, rounds: list[int]) -> int:
     preview = []
     for rnd in rounds:
         last = _load_last(year, rnd)
+        fetch_started_at = _now()
         try:
             rows = _fetch(sess, year, rnd)
+            # A batch-start clock cannot establish when later rounds' prices
+            # actually became available. Use a conservative completion bound.
+            fetch_completed_at = _now()
         except Exception as e:                       # noqa: BLE001
             print(f"  [{year}-{rnd}] 오류 {type(e).__name__}: {e}", flush=True)
             continue
         if rows is None:
             continue
+        ts = fetch_completed_at
         # ⚠️ 배당이 아직 공개되지 않은 행(odds=[])이 섞여 있다.
         #    2026-88·89회차처럼 경기 목록만 먼저 뜨고 배당은 나중에 붙는다.
         #    이걸 세면 '변동 0건'이 실제보다 안정적으로 보인다.
@@ -270,6 +276,19 @@ def snap(year: int, rounds: list[int]) -> int:
                 changes.append({**rec, "prev_odds": prev})
         if database is not None:
             database.insert_odds(new_rows)
+            receipt = {
+                "source": "wisetoto_snapshot_fetch", "schema_version": "snapshot-receipt-v1",
+                "year": year, "round": rnd, "fetch_started_at": fetch_started_at,
+                "fetch_completed_at": fetch_completed_at, "observed_at": fetch_completed_at,
+                "timestamp_basis": "fetch_parse_completed_upper_bound",
+                "priced_rows": len(new_rows),
+                "batch_sha256": hashlib.sha256(json.dumps(
+                    new_rows, ensure_ascii=False, sort_keys=True, separators=(",", ":"),
+                    allow_nan=False).encode("utf-8")).hexdigest(),
+            }
+            database.append_events(
+                "odds_snapshot_receipts", [receipt],
+                identity_keys=("year", "round", "fetch_completed_at", "batch_sha256"))
             if changes:
                 database.append_events("odds_changes", changes, observed_at_key="ts")
         else:

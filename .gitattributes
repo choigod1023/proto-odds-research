@@ -12,6 +12,8 @@ scripts/evaluate_draw_calibration_holdout.py text eol=lf
 
 # The fixed-cohort manifest hashes JSON bytes on Windows and Linux alike.
 /experiments/vote-accuracy-same-period-20261104/*.json text eol=lf
+/experiments/tipster-extended-20261104/** text eol=lf
+/experiments/tipster-extended-20261104/**/*.gz -text
 
 /experiments/kbo-m0-followup-20261103/** -text
 /experiments/kbo-m0-followup-20261103/vendor/evolution/common/inputs/baseline-reference.json whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
