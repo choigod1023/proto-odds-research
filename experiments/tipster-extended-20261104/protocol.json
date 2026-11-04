@@ -1,0 +1,26 @@
+{
+  "version": "extended-saved-votes-v1",
+  "frozen_before_extended_grading": true,
+  "not_a_new_blind_holdout": true,
+  "rules": [
+    "author plurality",
+    "same-product frozen market top",
+    "fixed90percentmarket10percentvote"
+  ],
+  "market_weight": "0.90",
+  "universe": "All authenticated pre-T30 frozen winner-product records linked by exact event/selection/offer IDs to saved direct official Betman DOM; Aug28-Nov3 2026, availability-driven, never old-policy ROI relabelled as current model ROI.",
+  "periods": [
+    "earlier_before2026-10-29KST",
+    "previous14window2026-10-29through11-03KST"
+  ],
+  "expert_inputs": "first_observed pregame source-native pick text; non-baseline, ungraded, no-parlay, full-game explicit ML, author first vote, same author conflicting earliest votes held. Team/date/scheduled ET kickoff mapped uniquely; no retrospective graded events as features. Missing expert quoted odds is allowed for explicit ML text because evaluation prices come solely from frozen Proto offers; present American quote must be consistent.",
+  "timing": "vote received <= frozen market/asof/capture cutoff and strictly before kickoff-T30, quote/capture beforeT30; no source publication claim substituted for actual first receipt.",
+  "moneyline_tie": "vote tie abstains; common unique-vote cohort is primary for matched performance; all-fixture coverage reported separately.",
+  "raw_proof": "Preserve source-native raw_text and metadata hashes; do not pretend a raw_text snapshot is complete HTML. Public HTML hash-only rows form a separate evidence tier if original bytes absent.",
+  "historical_claim_tier": "Existing postgame-collected articles may be matched diagnostically only in a separate retrospective-source-claim tier; do not certify pregame availability or purchase-time prices.",
+  "pricing": "Use each chosen side own original frozen option; never source-quoted or closing odds in primary comparison.",
+  "grading": "Official full-game same product; exclude pending/void/ambiguous score units, validate row/file hashes and fixture+kickoff+offer identities.",
+  "stakes": "10000won equal single-stake diagnostic; no wallet/schedule/model changes; monthly -50000won paper ledger unchanged.",
+  "no_fitting_or_threshold_search": true,
+  "models_retained": "Separate inventory of all preserved model families; do not substitute player-model historical test ROI for these fixtures."
+}
