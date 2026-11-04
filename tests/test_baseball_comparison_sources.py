@@ -12,7 +12,7 @@ class Tests(unittest.TestCase):
  def test_cache_keeps_real_receipt_and_detects_corruption(self):
   with tempfile.TemporaryDirectory() as d:
    p=Path(d);s=Session();raw,r=m.fetch(p,'one','https://example.org',{'a':'b'},s);raw2,r2=m.fetch(p,'one','https://example.org',{'a':'b'},s)
-   self.assertEqual((raw,r),(raw2,r2));self.assertEqual(s.calls,1)
+   self.assertEqual((raw,r),(raw2,r2));self.assertEqual(s.calls,1);self.assertEqual(r['timestamp_basis'],'http_response_body_completed')
    (p/r['body_file']).write_bytes(gzip.compress(b'changed'))
    with self.assertRaisesRegex(ValueError,'hash mismatch'):m.fetch(p,'one','https://example.org',{'a':'b'},s)
  def test_fixture_timing_and_unconfirmed(self):
@@ -20,8 +20,16 @@ class Tests(unittest.TestCase):
   meta={'received_at':'2026-11-04T05:00:00+00:00','url':'https://example.org','body_sha256':'f'*64}
   doc=json.dumps({'code':'100','game':[g]}).encode(); lineup=json.dumps([[{'LINEUP_CK':False}],[],[],[],[]]).encode()
   rows=m.records(doc,meta,lineup,meta)
-  self.assertEqual(rows[0]['payload']['status'],'not_confirmed');self.assertTrue(rows[0]['payload']['pregame_receipt']);self.assertIsNone(rows[0]['payload']['ordered_nine'])
+  self.assertEqual(rows[0]['timestamp_basis'],'unknown');self.assertEqual(rows[0]['payload']['status'],'not_confirmed');self.assertTrue(rows[0]['payload']['pregame_receipt']);self.assertIsNone(rows[0]['payload']['ordered_nine'])
   meta['received_at']='2026-11-04T10:00:00+00:00';self.assertFalse(m.records(doc,meta,lineup,meta)[0]['payload']['pregame_receipt'])
+ def test_legacy_cache_keeps_unknown_basis_and_original_time(self):
+  with tempfile.TemporaryDirectory() as d:
+   p=Path(d); raw=b'{}'; name='legacy'; digest=m.sha(raw)
+   (p/(digest+'.body.gz')).write_bytes(gzip.compress(raw))
+   rec={'url':'https://example.org','params':{},'http_status':200,'body_file':digest+'.body.gz','body_sha256':digest,'received_at':'2020-01-01T00:00:00+00:00'}
+   (p/(name+'.json')).write_text(json.dumps(rec),encoding='utf8')
+   before=(p/(name+'.json')).read_bytes(); out,observed=m.fetch(p,name,'https://example.org',{},Session())
+   self.assertEqual(observed,rec);self.assertNotIn('timestamp_basis',observed);self.assertEqual(before,(p/(name+'.json')).read_bytes())
  def test_identity_mismatch_rejected(self):
   with tempfile.TemporaryDirectory() as d:
    p=Path(d);m.fetch(p,'one','https://example.org',{'a':'b'},Session())

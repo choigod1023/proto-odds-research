@@ -1,7 +1,7 @@
 # 야구 경기 전 자료 감사 및 회고 교집합 (2026-11-04)
 
 ## 실제 수집
-최초 공식 KBO 일정과 타순 API 각 1회, 수정한 배치 수집기로 같은 경기의 현재 상태를 각 1회 다시 호출했다(총 직접 요청 4회, 재시도 0회). `capture.json`의 20261104SSKT0(KT–삼성, 18:30 KST)은 05:26:47 UTC에 두 선발 발표를 확인했고 05:26:49 UTC 타순은 미확정이었다. 경기 전 수신된 선발 발표 1경기, 경기 전 수신된 확정 타순 0경기, 완전 선수모델·배당·투표·결과 결합 0경기다. 해당 시간은 실제 수신 시각이며 과거 페이지 게시 시각의 대용이 아니다. 수집기 재실행은 응답 해시를 검증하고 원래 수신 시각을 유지한다. 압축 원문은 Git 밖 `C:/Users/user/Documents/Codex/pregame-baseball-evidence`, 요청 파라미터·URL·시간·해시는 이 폴더의 metadata JSON에 있다. 단일 요청 timeout 연결 5초/읽기 15초, 호출 한도 최대 60회, 날짜 최대 31일 처리 후 cursor를 남기고, 여러 경기를 차례로 처리하며 1.5초 간격이다. 오류는 기록하고 같은 cursor에서 재시도할 수 있다. HTTP 실패는 실패로 남긴다.
+최초 공식 KBO 일정과 타순 API 각 1회, 수정한 배치 수집기로 같은 경기의 현재 상태를 각 2회 다시 호출했다(총 직접 요청 6회, 재시도 0회). `capture.json`의 20261104SSKT0(KT–삼성, 18:30 KST)은 05:26:47 UTC에 두 선발 발표를 확인했고 05:26:49 UTC 타순은 미확정이었다. 경기 전 수신된 선발 발표 1경기, 경기 전 수신된 확정 타순 0경기, 완전 선수모델·배당·투표·결과 결합 0경기다. 해당 시간은 실제 수신 시각이며 과거 페이지 게시 시각의 대용이 아니다. 수집기 재실행은 응답 해시를 검증하고 원래 수신 시각을 유지한다. 압축 원문은 Git 밖 `C:/Users/user/Documents/Codex/pregame-baseball-evidence`, 요청 파라미터·URL·시간·해시는 이 폴더의 metadata JSON에 있다. 단일 요청 timeout 연결 5초/읽기 15초, 호출 한도 최대 60회, 날짜 최대 31일 처리 후 cursor를 남기고, 여러 경기를 차례로 처리하며 1.5초 간격이다. 오류는 기록하고 같은 cursor에서 재시도할 수 있다. HTTP 실패는 실패로 남긴다.
 
 ## 원천 및 모델 감사
 - PR #532–535와 `kbt25`, `kbtrain`, `kbtmodel`, `kbeffects`, `kbmforward`, main의 `kbo-m0-followup`과 `src/pregame_player_capture.py`를 확인했다. 2025년 공식 타순·실제 선발 731경기, 2026 평가 709경기는 사후 수집·재구성이다. 과거 사전 발표/수신 검증은 0건이며 2025 일정 시각 불일치 9건은 남아 있다.
@@ -28,3 +28,9 @@ actual-training의 M0_actual(-4.36%)과 player-effects-v2의 M0(-8.30%)는 이�
 `model-predictions.jsonl.gz`는 기존 2025 actual-training M0/M2 각 727개, 2026 actual-training M0/M2 각 470개, 2026 player-effects-v2 M0/M1/M2 각 470개로 총 3,804개를 내보낸다. 원본 2025 각 731개·2026 각 709개 중 시작시각/팀 메타데이터가 빠진 예측은 내보내지 않고 manifest에 1,203 모델-경기 단위로 명시했다. 각 모델의 계수/코드 해시, 입력 계열, 실제 원본 파일 해시와 fixture ID를 제공한다. train_end는 학습 경기의 마지막 날짜이지 모델이 그날 이미 만들어졌다는 뜻이 아니다. `as_of`와 `received_at`은 null, `timing_basis=retrospective`, `input_record_ids=[]`이며 선수 입력 레코드 그래프가 없어 엄격 경기 전 판정이나 완전한 공통 엔진 결합을 주장하지 않는다. actual-training M1은 두 해 모두 `notimplemented`다.
 
 `--start YYYY-MM-DD --end YYYY-MM-DD --max-requests N --evidence ... --output ... --cursor ...`로 제한 배치를 실행한다. 각 호출은 최대 60개 HTTP 요청 및 날짜 31일까지만 진행하고 날짜와 경기 인덱스를 cursor에 저장한다. 동일 cursor로 재개하며 완료 후 `--refresh` 또는 새 `--capture-id`는 현재·미래 경기의 별도 관측을 추가한다. 과거 완료 타순은 해시 검증된 원문을 재사용한다. 요청 실패와 빈 날짜는 구분한다. 전체 기간 수집을 실행하거나 완료했다고 주장하지 않는다. 두 번째 실제 조회의 metadata와 `batch-records.jsonl`도 보존했다.
+
+## 본문 수신 완료 시각 기준
+
+새 HTTP 응답은 `response.content`를 읽은 뒤 실제 UTC를 기록하며 metadata와 교환 레코드에 `timestamp_basis=http_response_body_completed`를 남긴다. 기존 캐시 metadata를 변경하거나 수신 시각을 새로 만들지 않는다. 기존에 기준이 없는 캐시에서 레코드를 만들면 `timestamp_basis=unknown`이다. 엄격 gate에는 실제 수신, 원문 해시 검증, 알려진 본문 완료 기준이 모두 필요하며 batch 시작 시각을 수신 완료 시각으로 사용하지 않는다. 과거 경기의 사후 조회는 새 본문 완료 시각이 있어도 경기 전 수신 증명이 아니다.
+
+completion-basis-20261104 관측의 원문과 metadata는 이전 관측과 별개로 추가했다. 이전 metadata·레코드에는 기준을 소급 삽입하지 않았다. 모델 예측에는 실제 과거 수신과 본문 완료 증거가 없으며 retrospective로 유지한다.

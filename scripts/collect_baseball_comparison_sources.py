@@ -26,7 +26,7 @@ def fetch(evidence,name,url,params,session=None):
         response=sess.post(url,data=params,timeout=(5,15),allow_redirects=False,headers={'User-Agent':'Mozilla/5.0','Referer':probe.BASE+'/Schedule/GameCenter/Main.aspx'})
         raw=response.content; received=now(); digest=sha(raw); filename=digest+'.body.gz'; path=evidence/filename
         if not path.exists(): path.write_bytes(gzip.compress(raw,mtime=0))
-        rec=dict(name=name,url=url,params=params,requested_at=requested,received_at=received,http_status=response.status_code,body_sha256=digest,body_file=filename)
+        rec=dict(name=name,url=url,params=params,requested_at=requested,received_at=received,timestamp_basis='http_response_body_completed',http_status=response.status_code,body_sha256=digest,body_file=filename)
     except requests.RequestException as exc:
         rec=dict(name=name,url=url,params=params,requested_at=requested,failed_at=now(),http_status=None,error_type=type(exc).__name__)
         (evidence/(name+'-error-'+datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')+'.json')).write_text(json.dumps(rec,ensure_ascii=False,indent=2)+'\n',encoding='utf8'); raise
@@ -46,7 +46,7 @@ def records(schedule_raw,schedule_meta,lineup_raw=None,lineup_meta=None,game_id=
         base=dict(sport='bs',league='KBO',kickoff=start.isoformat(),home=str(g['HOME_NM']).strip(),away=str(g['AWAY_NM']).strip())
         def make(kind,meta,payload):
             rid=sha((kind+str(g['G_ID'])+meta['body_sha256']+meta['received_at']).encode())[:24]
-            return dict(record_id=kind+':'+rid,kind=kind,**base,source_url=meta['url'],body_sha256=meta['body_sha256'],received_at=meta['received_at'],timing_basis='actual_receipt',payload={'source_fixture_id':str(g['G_ID']),**payload})
+            return dict(record_id=kind+':'+rid,kind=kind,**base,source_url=meta['url'],body_sha256=meta['body_sha256'],received_at=meta['received_at'],timestamp_basis=meta.get('timestamp_basis','unknown'),timing_basis='actual_receipt',payload={'source_fixture_id':str(g['G_ID']),**payload})
         if lineup_raw is None:
             out.append(make('fixture',schedule_meta,{'source_state':g.get('GAME_STATE_SC'),'source_cancel':g.get('CANCEL_SC_ID'),'starters':probe.starter_metadata(g)}))
         else:
