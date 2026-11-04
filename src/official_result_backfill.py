@@ -17,9 +17,17 @@ from src.prediction_runtime import _latest_predictions
 def plan_backfill(records, rows, *, snapshot_ids, observed_at, source):
     """Return reviewable entries and holds. No I/O or ledger mutation occurs."""
     observed = _aware_timestamp(observed_at)
-    if observed is None or not isinstance(source, dict) or not source.get('name'):
-        raise ValueError('timezone-aware observed_at and named source required')
+    if (observed is None or not isinstance(source, dict) or
+            not source.get('name') or not source.get('provenance')):
+        raise ValueError('timezone-aware observed_at and source name and provenance required')
     selected = set(snapshot_ids)
+    rows_by_event = {}
+    for row in rows:
+        try:
+            game = {**row, 'year': int(row['year']), 'round': int(row['round'])}
+            rows_by_event.setdefault(event_id(game), []).append(row)
+        except (KeyError, TypeError, ValueError, OverflowError):
+            continue
     latest = _latest_predictions(records)
     settled = {r['snapshot_id'] for r in records if r.get('record_type') == 'settlement'}
     entries, holds = [], []
@@ -37,14 +45,17 @@ def plan_backfill(records, rows, *, snapshot_ids, observed_at, source):
         fixture = (pred.get('features') or {}).get('fixture') or {}
         options = (pred.get('features') or {}).get('options') or []
         matches = []
-        for row in rows:
+        for row in rows_by_event.get(event, ()):
             try:
                 year, rnd, nway = int(row['year']), int(row['round']), int(row['n_way'])
                 if isinstance(row['n_way'], bool) or nway != row['n_way']:
                     continue
-                if any(row.get(k) != fixture.get(k) for k in ('sport', 'league', 'home', 'away', 'date')):
+                if any(fixture.get(k) is not None and row.get(k) != fixture[k]
+                       for k in ('sport', 'league', 'home', 'away', 'date',
+                                 'source_event_id', 'match_id')):
                     continue
-                if year != int(fixture['year']) or rnd != int(fixture['round']):
+                if ((fixture.get('year') is not None and year != int(fixture['year'])) or
+                        (fixture.get('round') is not None and rnd != int(fixture['round']))):
                     continue
                 if not row.get('game_no') or row.get('result') in UNPLAYED:
                     continue
@@ -52,7 +63,10 @@ def plan_backfill(records, rows, *, snapshot_ids, observed_at, source):
                 if event_id(game) != event:
                     continue
                 kickoff = _game_kickoff(game, observed)
-                if kickoff is None or kickoff.replace(tzinfo=KST) > observed:
+                frozen_kickoff = _aware_timestamp(pred.get('kickoff'))
+                if (kickoff is None or frozen_kickoff is None or
+                        kickoff.replace(tzinfo=KST) != frozen_kickoff or
+                        frozen_kickoff > observed):
                     continue
                 names = SEL_NAMES.get((row.get('market'), nway))
                 if not names:
@@ -68,7 +82,8 @@ def plan_backfill(records, rows, *, snapshot_ids, observed_at, source):
                     option = {'market': row.get('market'), 'label': row.get('label') or '',
                               'line': line, '선택': name, '게임번호': str(row['game_no'])}
                     generated.append((selection_id(game, option), offer_id(game, option)))
-                # The frozen option vector must prove the complete n-way offer.
+                # An available option vector proves n-way; otherwise require
+                # the selected side to identify exactly one supported n-way.
                 frozen = set()
                 for o in options:
                     option = {'market': o.get('market'), 'label': o.get('label') or '',
@@ -80,27 +95,39 @@ def plan_backfill(records, rows, *, snapshot_ids, observed_at, source):
                             o.get('line') == line and
                             identity == (o.get('selection_id'), o.get('offer_id'))):
                         frozen.add(identity)
-                if set(generated) != frozen or (p.get('selection_id'), p.get('offer_id')) not in generated:
+                selected_identity = (p.get('selection_id'), p.get('offer_id'))
+                if selected_identity not in generated:
                     continue
+                if options:
+                    if set(generated) != frozen:
+                        continue
+                else:
+                    side = names[generated.index(selected_identity)]
+                    possible = {count for (market, count), labels in SEL_NAMES.items()
+                                if market == row.get('market') and side in labels}
+                    if possible != {nway}:
+                        continue
                 void = row.get('result') in {'취소', '연기', '중단', '무효'} or (row.get('market') == '승패' and nway == 2 and row.get('result') == '무승부')
                 winner = winner_index(nway, row.get('result'))
                 if not void and (winner is None or winner >= nway):
                     continue
                 index = generated.index((p['selection_id'], p['offer_id']))
                 result = 'void' if void else 'hit' if index == winner else 'miss'
-                matches.append((row, result))
+                matches.append((row, result, nway, line))
             except (KeyError, TypeError, ValueError, OverflowError):
                 continue
         if len(matches) != 1:
             holds.append({'snapshot_id': sid, 'reason': 'ambiguous_or_unmatched', 'matches': len(matches)})
             continue
-        row, result = matches[0]
+        row, result, nway, line = matches[0]
         outcome = {'result': result, 'selection_id': p['selection_id'], 'official_result': row['result']}
         version = 'official-' + hashlib.sha256(json.dumps(outcome, ensure_ascii=False, sort_keys=True, separators=(',', ':')).encode('utf-8')).hexdigest()[:16]
         entries.append({'event_id': event, 'snapshot_id': sid, 'outcome': outcome,
                         'settled_at': observed.isoformat(), 'settlement_version': version,
                         'source': {**source, 'year': int(row['year']), 'round': int(row['round']),
-                                   'game_no': str(row['game_no']), 'game_date': row['date']}})
+                                   'game_no': str(row['game_no']), 'game_date': row['date'],
+                                   'market': row['market'], 'label': row.get('label') or '',
+                                   'n_way': nway, 'line': line}})
     found = {p['snapshot_id'] for p in latest.values()}
     holds.extend({'snapshot_id': sid, 'reason': 'not_latest_or_missing'} for sid in sorted(selected - found))
     return {'entries': entries, 'holds': holds}

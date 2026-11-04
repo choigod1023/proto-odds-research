@@ -67,3 +67,61 @@ def test_latest_withhold_does_not_resurrect_selection(tmp_path):
     p = plan_backfill(records, [row], snapshot_ids=[sid, 'withhold'], observed_at=TIME, source=SOURCE)
     assert not p['entries']
     assert {h['reason'] for h in p['holds']} == {'latest_not_selected', 'not_latest_or_missing'}
+
+
+def test_missing_fixture_and_options_use_exact_hashes(tmp_path):
+    runtime, row, sid = inputs(tmp_path)
+    records = deepcopy(runtime.ledger.records())
+    records[0]['features'].pop('fixture')
+    records[0]['features'].pop('options')
+    before = deepcopy(records)
+    def check(rows):
+        return plan_backfill(records, rows, snapshot_ids=[sid], observed_at=TIME, source=SOURCE)
+    assert len(check([row])['entries']) == 1
+    assert records == before
+    for field, value in [('year', 2025), ('round', 103), ('game_no', '9999'),
+                         ('n_way', 3), ('home', 'other'), ('label', 'other')]:
+        assert not check([{**row, field: value}])['entries']
+    assert not check([row, {**row, 'result': '홈패'}])['entries']
+
+
+def test_present_fixture_and_ledger_kickoff_must_agree(tmp_path):
+    runtime, row, sid = inputs(tmp_path)
+    records = deepcopy(runtime.ledger.records())
+    records[0]['features']['fixture']['home'] = 'conflict'
+    p = plan_backfill(records, [row], snapshot_ids=[sid], observed_at=TIME, source=SOURCE)
+    assert not p['entries']
+    records[0]['features']['fixture'] = {}
+    records[0]['kickoff'] = '2026-08-30T10:00:00+00:00'
+    p = plan_backfill(records, [row], snapshot_ids=[sid], observed_at=TIME, source=SOURCE)
+    assert not p['entries']
+
+
+def test_requires_source_provenance(tmp_path):
+    runtime, row, sid = inputs(tmp_path)
+    with pytest.raises(ValueError):
+        plan_backfill(runtime.ledger.records(), [row], snapshot_ids=[sid],
+                      observed_at=TIME, source={'name': 'unknown'})
+
+
+def test_missing_fixture_append_to_verified_ledger(tmp_path, monkeypatch):
+    import src.prediction_runtime as module
+    original = module.ledger_features
+
+    def without_fixture(game):
+        features = original(game)
+        features.pop('fixture', None)
+        features.pop('options', None)
+        return features
+
+    monkeypatch.setattr(module, 'ledger_features', without_fixture)
+    runtime, row, sid = inputs(tmp_path)
+    before = runtime.ledger.records()
+    p = plan(runtime, row, sid)
+    assert len(p['entries']) == 1
+    runtime.ledger._clock = lambda: __import__('datetime').datetime(2027, 1, 2, tzinfo=__import__('datetime').timezone.utc)
+    assert apply_backfill(runtime.ledger, p, [row], observed_at=TIME, source=SOURCE)[0].appended
+    after = runtime.ledger.records()
+    assert after[0] == before[0]
+    assert after[-1]['snapshot_id'] == sid
+    assert after[-1]['source']['provenance'] == 'synthetic'
