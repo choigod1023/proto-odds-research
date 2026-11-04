@@ -28,3 +28,9 @@
 Windows에서 `flyctl ssh console -q --pty=false`는 정상 `123` 출력 뒤에도 `Error: The handle is invalid.`와 종료 코드 1을 반환했다. 합성 공식 ID를 사용한 실제 읽기 전용 exporter 점검에서도 JSON과 운영 행 36개가 돌아왔지만 종료 코드는 1이었다. 함수는 출력이 있더라도 모든 비영 종료 코드를 거부하므로 현재 Windows에서 실제 source refresh는 막힌다. OS/CLI 처리 문제의 독립적인 수정과 성공적 종료 검증 전까지 source 연결 성공으로 표시하지 않는다. 기존 main common ledger는 `market_id=null`인 degraded 표본을 의도적으로 거부한다.
 
 시장 기준 선택은 운영 원장에 저장된 시장 확률의 순위를 재사용하지 않고, 비교에 쓰는 실제 양쪽 공통 배당의 역수를 정규화해 산출한다. 배당이 같으면 동률로 제외한다. 운영 모델의 저장 확률과 정책은 바꾸지 않는다.
+
+## Fly Machines API 전송 확인
+
+후속 점검에서 SSH 대신 이미 실행 중인 `proto-odds-collector` 머신을 `flyctl machine exec -j`로 읽었다. 머신 목록은 메모리에서 ID·상태·process group만 확인하고 전체 설정이나 환경변수는 출력·저장하지 않는다. 합성 공식 ID와 상품 후보를 이용한 단일 제한 export는 CLI 종료 0, 원격 종료 0, exporter 바이트 해시 일치, 운영 prediction 36행, 양쪽 엄격 offer ID 일치였다. 실제 M0 사전 capture나 공식 Betman 상품을 확인한 결과는 아니다. `-j` 성공 응답은 zero `exit_code` 필드를 생략하며, 비영 원격 종료는 `exit_code`로 반환하는 것을 별도 명령으로 확인했다. bridge는 CLI와 원격 종료를 각각 검사하고 비영 종료를 모두 거부한다.
+
+이제 `refresh_operating_export`는 실행 중인 app 머신이 정확히 하나일 때 `flyctl_machine_exec` 수신 기록을 만든다. 한 경기 결과에 `export_path`, `source_receipt_path`, `source_receipt`, `export_sha256`, M0 원문 루트가 포함된다. 복수 경기면 `exports_by_official_id`, `errors_by_official_id`로 분리한다. 실제 네트워크·DB 조회는 빈 이벤트에서는 일어나지 않는다. 파일 재생과 비영 원격 종료 거부는 mock 전송 테스트로 검증했다. 위 단일 실제 점검은 API 응답과 해시를 검사한 시험이며 수신 기록 파일의 실전 생성까지 확인한 것은 아니다.

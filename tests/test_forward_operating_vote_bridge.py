@@ -119,7 +119,7 @@ def test_shadow_uses_saved_operating_price_and_blocks_late_or_withheld(monkeypat
     monkeypatch.setattr(b, '_verify_market_bytes', lambda *a: None)
     def make_export(rows):
         return {'records': rows, 'evidence': {}, 'export_sha256': 'a'*64,
-                'source_receipt': {'transport': 'flyctl_ssh', 'export_sha256': 'a'*64, 'received_at': '2026-11-06T08:10:00+00:00'},
+                'source_receipt': {'transport': 'flyctl_ssh', 'exit_code': 0, 'export_sha256': 'a'*64, 'received_at': '2026-11-06T08:10:00+00:00'},
                 'metadata': {'schema': 'operating-event-export-v1', 'query_mode': 'sqlite_readonly_transaction',
                              'exporter_sha256': hashlib.sha256(Path('scripts/export_forward_operating_votes.py').read_bytes().replace(b'\r\n', b'\n')).hexdigest(),
                              'exporter_raw_sha256': hashlib.sha256(Path('scripts/export_forward_operating_votes.py').read_bytes()).hexdigest(),
@@ -248,7 +248,7 @@ def test_loader_completeness_requires_receipt_bound_to_export_bytes(tmp_path):
     path = tmp_path/'export.json'
     path.write_text(json.dumps(result), encoding='utf8')
     file_hash = hashlib.sha256(path.read_bytes()).hexdigest()
-    receipt = {'transport': 'flyctl_ssh', 'export_sha256': file_hash, 'received_at': query.isoformat()}
+    receipt = {'transport': 'flyctl_ssh', 'exit_code': 0, 'export_sha256': file_hash, 'received_at': query.isoformat()}
     state = {'export_path': path, 'source_receipt': receipt}
     assert b.load_operating_export(state, ['g1'], query.isoformat())['complete'] is True
     receipt['export_sha256'] = 'wrong'
@@ -323,7 +323,12 @@ def test_refresh_transport_replay_and_idle(tmp_path, monkeypatch):
     observed = []
     class Fake:
         def __init__(self, args, **kwargs):
-            observed.append((args, kwargs)); self.stdout = io.BytesIO(raw); self.stderr = io.BytesIO(b'')
+            observed.append((args, kwargs))
+            if args[2] == 'list':
+                body = json.dumps([{'id': '784e666f002328', 'state': 'started', 'config': {'metadata': {'fly_process_group': 'app'}, 'env': {'secret': 'not for receipt'}}}]).encode()
+            else:
+                body = json.dumps({'stdout': raw.decode()}).encode()
+            self.stdout = io.BytesIO(body); self.stderr = io.BytesIO(b'')
         def wait(self, timeout=None): return 0
         def kill(self): pass
     monkeypatch.setattr(b.subprocess, 'Popen', Fake)
@@ -333,11 +338,13 @@ def test_refresh_transport_replay_and_idle(tmp_path, monkeypatch):
     assert observed == [] and not (tmp_path/'state').exists()
     got = b.refresh_operating_export(state, [event], now, clock=lambda: now)
     assert observed[0][1]['stdin'] is b.subprocess.DEVNULL
-    assert '--pty=false' in observed[0][0] and '-q' in observed[0][0]
+    assert observed[0][0][1:3] == ['machine', 'list']
+    assert observed[1][0][1:3] == ['machine', 'exec'] and '-j' in observed[1][0]
     assert Path(got['export_path']).read_bytes() == raw
     assert hashlib.sha256(raw).hexdigest() == got['export_sha256']
     receipt = json.loads(Path(got['source_receipt_path']).read_bytes())
-    assert receipt == got['source_receipt'] and receipt['exit_code'] == 0
+    assert receipt == got['source_receipt'] and receipt['exit_code'] == 0 and receipt['remote_exit_code'] == 0
+    assert receipt['transport'] == 'flyctl_machine_exec' and 'secret' not in json.dumps(receipt)
     replay = b.load_operating_export({**state, 'export_path': got['export_path'], 'source_receipt': receipt}, ['g1'], now.isoformat())
     assert replay['records'] == [one] and replay['export_sha256'] == got['export_sha256']
     assert got['m0_archive_root'] == 'model' and got['m0_price_archive_root'] == 'prices'
@@ -362,14 +369,14 @@ def test_transport_rejects_nonzero_timeout_and_output_overflow(monkeypatch):
         def kill(self): pass
     monkeypatch.setattr(b.subprocess, 'Popen', Fake)
     with pytest.raises(ValueError, match='nonzero_exit:1'):
-        b._bounded_fly('safe-command')
+        b._bounded_process(['fake'], 64)
     Fake.rc = 0; Fake.timeout = True
     with pytest.raises(ValueError, match='transport_timeout'):
-        b._bounded_fly('safe-command')
+        b._bounded_process(['fake'], 64)
     Fake.timeout = False; Fake.out = b'x' * 65; Fake.err = b''
     monkeypatch.setattr(b, 'MAX_EXPORT_BYTES', 64)
     with pytest.raises(ValueError, match='stdout_limit_exceeded'):
-        b._bounded_fly('safe-command')
+        b._bounded_process(['fake'], 64)
 
 
 def test_refresh_checks_script_and_refuses_bad_event(tmp_path, monkeypatch):
@@ -377,11 +384,12 @@ def test_refresh_checks_script_and_refuses_bad_event(tmp_path, monkeypatch):
     event = {'official_game_id': 'g1', 'season': 2026, 'home_id': 'SS', 'away_id': 'KT',
              'kickoff_at': '2026-11-06T18:30:00+09:00', 'market_id': 'G101:260131:44'}
     state = {'export_path': tmp_path/'export.json'}
+    monkeypatch.setattr(b, '_running_machine', lambda: '784e666f002328')
     with pytest.raises(ValueError, match='refresh_event_identity_invalid'):
         b.refresh_operating_export(state, [{**event, 'market_id': 'x;touch'}], now, clock=lambda: now)
     with pytest.raises(ValueError, match='refresh_event_limit_exceeded'):
         b.refresh_operating_export(state, [event]*6, now, clock=lambda: now)
-    monkeypatch.setattr(b, '_bounded_fly', lambda command: json.dumps({'metadata': {'exporter_raw_sha256': 'bad'}}).encode())
+    monkeypatch.setattr(b, '_machine_export', lambda machine, command: json.dumps({'metadata': {'exporter_raw_sha256': 'bad'}}).encode())
     with pytest.raises(ValueError, match='remote_exporter_hash_or_clock_mismatch'):
         b.refresh_operating_export(state, [event], now, clock=lambda: now)
     assert not (tmp_path/'operating-export-archive').exists()
@@ -418,12 +426,37 @@ def test_refresh_multiple_events_isolates_partial_failures(tmp_path, monkeypatch
                           'kickoff': event['kickoff_at'], 'market_id': event['market_id'], 'internal_event_id': 'e'}},
               'records': [one], 'evidence': {}}
     raw = json.dumps(result).encode()
-    def transport(command):
+    def transport(machine, command):
         if '--official-id g2 ' in command: raise ValueError('fly_transport_nonzero_exit:1')
         return raw
-    monkeypatch.setattr(b, '_bounded_fly', transport)
+    monkeypatch.setattr(b, '_running_machine', lambda: '784e666f002328')
+    monkeypatch.setattr(b, '_machine_export', transport)
     got = b.refresh_operating_export({'export_path': tmp_path/'export.json'},
                                      [event, {**event, 'official_game_id': 'g2'}], now, clock=lambda: now)
     assert set(got['exports_by_official_id']) == {'g1'}
     assert got['errors_by_official_id'] == {'g2': 'fly_transport_nonzero_exit:1'}
     assert Path(got['exports_by_official_id']['g1']['source_receipt_path']).is_file()
+
+
+def test_machine_exec_rejects_remote_nonzero_even_when_cli_succeeds(monkeypatch):
+    monkeypatch.setattr(b, '_bounded_process', lambda *args: json.dumps({'exit_code': 7, 'stdout': '{"looks":"valid"}'}).encode())
+    with pytest.raises(ValueError, match='remote_nonzero_exit'):
+        b._machine_export('784e666f002328', 'safe-command')
+    monkeypatch.setattr(b, '_bounded_process', lambda *args: json.dumps({'stdout': '{"ok":true}'}).encode())
+    assert b._machine_export('784e666f002328', 'safe-command') == b'{"ok":true}'
+    monkeypatch.setattr(b, '_bounded_process', lambda *args: json.dumps({'stdout': '{}', 'stderr': 'failure'}).encode())
+    with pytest.raises(ValueError, match='output_invalid'):
+        b._machine_export('784e666f002328', 'safe-command')
+
+
+def test_machine_selection_requires_single_started_app(monkeypatch):
+    def machine(machine_id, state='started', group='app'):
+        return {'id': machine_id, 'state': state, 'config': {'metadata': {'fly_process_group': group}, 'env': {'TOKEN': 'hidden'}}}
+    monkeypatch.setattr(b, '_bounded_process', lambda *args: json.dumps([machine('784e666f002328'), machine('abcdef12345678', 'stopped')]).encode())
+    assert b._running_machine() == '784e666f002328'
+    monkeypatch.setattr(b, '_bounded_process', lambda *args: json.dumps([machine('784e666f002328'), machine('abcdef12345678')]).encode())
+    with pytest.raises(ValueError, match='ambiguous'):
+        b._running_machine()
+    monkeypatch.setattr(b, '_bounded_process', lambda *args: json.dumps([machine('abcdef12345678', 'stopped')]).encode())
+    with pytest.raises(ValueError, match='missing_or_ambiguous'):
+        b._running_machine()
