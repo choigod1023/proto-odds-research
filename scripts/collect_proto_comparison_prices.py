@@ -1,5 +1,6 @@
 """Bounded Betman G101 snapshot collector. Historical snapshots are not historical quotes."""
 import argparse
+from collections import Counter
 import gzip
 import hashlib
 import json
@@ -15,6 +16,8 @@ BASE = 'https://www.betman.co.kr'
 DETAIL = BASE + '/buyPsblGame/gameInfoInq.do'
 CLOSED = BASE + '/buyPsblGame/closedList.do'
 EVIDENCE = Path('C:/Users/user/Documents/Codex/pregame-proto-price-evidence')
+MAX_BODY_BYTES = 16 * 1024 * 1024
+OFFLINE_ROOT = Path(__file__).resolve().parents[1] / 'experiments/pregame-proto-prices-20261104'
 KST = timezone(timedelta(hours=9))
 OLD = [Path('C:/Users/user/Documents/Codex/kbo-official-odds-20261103/experiments/kbo-official-odds-20261103'), Path('C:/Users/user/Documents/Codex/klprice/experiments/kleague-official-prices-20261103')]
 
@@ -116,6 +119,55 @@ def normalize(data, meta, start, end):
     return result
 
 
+
+def offline_cache(manifest_path, output):
+    """Rebuild only from the frozen, hash-pinned legacy response list; never use HTTP."""
+    manifest = json.loads(Path(manifest_path).read_text(encoding='utf-8'))
+    start, end = date.fromisoformat(manifest['start']), date.fromisoformat(manifest['end'])
+    records = []
+    seen = set()
+    for source in manifest['sources']:
+        ts = source['round']
+        if ts in seen or not re.fullmatch(r'\d{6}', ts):
+            raise ValueError('duplicate or invalid offline round')
+        seen.add(ts)
+        root = OLD[source['source_root_index']]
+        path = (root / source['body_file']).resolve()
+        if not path.is_relative_to(root.resolve()):
+            raise ValueError('legacy source outside expected root')
+        raw = path.read_bytes()
+        raw = gzip.decompress(raw) if raw.startswith(b'\x1f\x8b') else raw
+        if digest(raw) != source['body_sha256']:
+            raise ValueError('offline source SHA-256 mismatch: ' + ts)
+        data = json.loads(raw)
+        if str(data.get('gmTs')).zfill(6) != ts:
+            raise ValueError('offline round mismatch: ' + ts)
+        meta = {'url': source['source_url'], 'body_sha256': source['body_sha256'],
+                'received_at': source['received_at'], 'timestamp_basis': 'legacy_unverified', 'legacy_cache': True}
+        records.extend(normalize(data, meta, start, end))
+    raw_output = ''.join(json.dumps(r, ensure_ascii=False, separators=(',', ':')) + '\n' for r in records).encode('utf-8')
+    if len(records) != manifest['record_count'] or digest(raw_output) != manifest['normalized_sha256']:
+        raise ValueError('offline normalized output does not match frozen manifest')
+    output = Path(output)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    if output.suffix == '.gz':
+        output.write_bytes(gzip.compress(raw_output, mtime=0))
+    else:
+        output.write_bytes(raw_output)
+    return {'status': 'completed', 'source_round_count': len(seen), 'record_count': len(records),
+            'sports': dict(Counter(r['sport'] for r in records)), 'normalized_sha256': digest(raw_output), 'output': str(output)}
+
+
+def write_selected_output(cap, state, output):
+    chunks = []
+    for ts in state['rounds'][:state['next_round_cursor']]:
+        chunks.append((cap / ('records-' + ts + '.jsonl')).read_bytes())
+    raw = b''.join(chunks)
+    output = Path(output)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_bytes(gzip.compress(raw, mtime=0) if output.suffix == '.gz' else raw)
+
+
 def run(args):
     if not re.fullmatch(r'[A-Za-z0-9_-]{1,80}', args.capture_id):
         raise ValueError('invalid capture id')
@@ -124,11 +176,18 @@ def run(args):
     start, end = date.fromisoformat(args.start), date.fromisoformat(args.end)
     if start > end:
         raise ValueError('invalid date range')
-    EVIDENCE.mkdir(parents=True, exist_ok=True)
+    evidence = Path(getattr(args, 'evidence', None) or EVIDENCE)
+    evidence.mkdir(parents=True, exist_ok=True)
     # A restriction remains in force across capture IDs; never bypass by changing labels.
-    if (EVIDENCE / 'STOP_403_429.json').exists():
+    if (EVIDENCE / 'STOP_403_429.json').exists() or (evidence / 'STOP_403_429.json').exists():
         raise RuntimeError('previous 403/429: stop; no automatic retry')
-    cap = EVIDENCE / args.capture_id
+    def stop_all(meta):
+        # A different --evidence path must not bypass a previous 403/429.
+        EVIDENCE.mkdir(parents=True, exist_ok=True)
+        write_json(EVIDENCE / 'STOP_403_429.json', meta)
+        if evidence.resolve() != EVIDENCE.resolve():
+            write_json(evidence / 'STOP_403_429.json', meta)
+    cap = evidence / args.capture_id
     cap.mkdir(exist_ok=True)
     state_path = cap / 'state.json'
     config = {'start': args.start, 'end': args.end, 'round': args.round, 'page_size': args.page_size}
@@ -161,11 +220,15 @@ def run(args):
         remaining = deadline - time.monotonic()
         with requests.post(url, json=payload, stream=True, timeout=(min(10, remaining), min(5, remaining)), headers={'User-Agent': 'Mozilla/5.0', 'X-Requested-With': 'XMLHttpRequest', 'Referer': BASE + '/main/mainPage/gamebuy/closedGameList.do'}, allow_redirects=False) as response:
             if response.status_code in (403, 429):
-                write_json(EVIDENCE / 'STOP_403_429.json', {'url': url, 'http_status': response.status_code, 'headers_received_at': now()})
+                stop_all({'url': url, 'http_status': response.status_code, 'headers_received_at': now()})
             parts = []
+            size = 0
             for chunk in response.iter_content(65536):
                 if time.monotonic() >= deadline:
                     raise TimeoutError('total timeout during body read')
+                size += len(chunk)
+                if size > MAX_BODY_BYTES:
+                    raise ValueError('response body exceeds 16 MiB limit')
                 parts.append(chunk)
             raw = b''.join(parts)
             received = now()
@@ -173,7 +236,7 @@ def run(args):
             (cap / meta['body_file']).write_bytes(gzip.compress(raw, mtime=0))
             write_json(mp, meta)
             if response.status_code in (403, 429):
-                write_json(EVIDENCE / 'STOP_403_429.json', meta)
+                stop_all(meta)
                 raise PermissionError(f'HTTP {response.status_code}')
             if response.status_code != 200:
                 raise RuntimeError(f'HTTP {response.status_code}')
@@ -219,12 +282,17 @@ def run(args):
         event('interrupted' if isinstance(exc, (PermissionError, KeyboardInterrupt)) else 'failed', reason=str(exc), requests=count)
         if not isinstance(exc, KeyboardInterrupt):
             raise
+    if getattr(args, 'output', None):
+        write_selected_output(cap, state, args.output)
     return state
 
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument('--capture-id', required=True)
+    p.add_argument('--capture-id', help='required for online collection; use a new ID for a fresh capture')
+    p.add_argument('--offline-cache', action='store_true', help='rebuild from the frozen historical manifest without network access')
+    p.add_argument('--evidence', type=Path, default=EVIDENCE, help='capture evidence directory')
+    p.add_argument('--output', type=Path, help='combined JSONL output (gzip when the filename ends in .gz)')
     p.add_argument('--start', default='2025-01-01')
     p.add_argument('--end', default='2026-11-04')
     p.add_argument('--round', help='explicit six-digit G101 round; fetches a fresh snapshot')
@@ -232,7 +300,15 @@ def main():
     p.add_argument('--max-requests', type=int, default=20)
     p.add_argument('--total-timeout', type=float, default=120)
     args = p.parse_args()
-    print(json.dumps(run(args), ensure_ascii=False))
+    if args.offline_cache:
+        if args.capture_id or args.round:
+            p.error('--offline-cache cannot be combined with --capture-id or --round')
+        result = offline_cache(OFFLINE_ROOT / 'manifest.json', args.output or OFFLINE_ROOT / 'normalized-price-records.jsonl.gz')
+    else:
+        if not args.capture_id:
+            p.error('--capture-id is required for online collection')
+        result = run(args)
+    print(json.dumps(result, ensure_ascii=False))
 
 
 if __name__ == '__main__':

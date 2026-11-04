@@ -70,4 +70,48 @@ class CollectorTest(unittest.TestCase):
             state=c.run(args); self.assertEqual(state['events'][-1]['status'],'interrupted'); self.assertEqual(state['next_round_cursor'],0)
             state=c.run(args); self.assertEqual(state['events'][-1]['status'],'completed'); self.assertEqual(state['next_round_cursor'],1); self.assertEqual(post.call_count,2)
 
+    def test_offline_rebuild_pins_source_and_never_requests(self):
+        d=self.fixture(); raw=json.dumps(d,ensure_ascii=False).encode(); ts='260130'
+        meta=self.meta(); meta['body_sha256']=c.digest(raw); meta['timestamp_basis']='legacy_unverified'; meta['legacy_cache']=True
+        records=c.normalize(d,meta,date(2025,1,1),date(2026,12,31))
+        expected=''.join(json.dumps(r,ensure_ascii=False,separators=(',',':'))+'\n' for r in records).encode()
+        source={'round':ts,'source_root_index':0,'body_file':'raw.gz','body_sha256':c.digest(raw),'source_url':c.DETAIL,'received_at':meta['received_at']}
+        manifest={'start':'2025-01-01','end':'2026-12-31','sources':[source],'record_count':1,'normalized_sha256':c.digest(expected)}
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp); (root/'raw.gz').write_bytes(gzip.compress(raw)); (root/'manifest.json').write_text(json.dumps(manifest),encoding='utf8')
+            with patch.object(c,'OLD',[root]), patch.object(c.requests,'post',side_effect=AssertionError('network used')):
+                result=c.offline_cache(root/'manifest.json',root/'out.gz')
+                self.assertEqual(result['record_count'],1); self.assertEqual(gzip.decompress((root/'out.gz').read_bytes()),expected)
+                (root/'raw.gz').write_bytes(gzip.compress(b'wrong'))
+                with self.assertRaisesRegex(ValueError,'SHA-256'): c.offline_cache(root/'manifest.json',root/'other.gz')
+                self.assertFalse((root/'other.gz').exists())
+
+    def test_body_limit_and_completion_timestamp(self):
+        from argparse import Namespace
+        args=Namespace(capture_id='large',start='2025-01-01',end='2026-12-31',round='260130',page_size=20,max_requests=1,total_timeout=10,output=None,evidence=None)
+        class Response:
+            status_code=200
+            def __init__(self,chunks,mark): self.chunks=chunks; self.mark=mark
+            def __enter__(self): return self
+            def __exit__(self,*args): pass
+            def iter_content(self,size):
+                yield from self.chunks
+                self.mark.append('complete')
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp); args.evidence=root
+            with patch.object(c,'EVIDENCE',root), patch.object(c.requests,'post',return_value=Response([b'x' * c.MAX_BODY_BYTES,b'x'],[])):
+                with self.assertRaisesRegex(ValueError,'16 MiB'): c.run(args)
+            state=json.loads((root/'large/state.json').read_text(encoding='utf8'))
+            self.assertEqual(state['events'][-1]['status'],'failed'); self.assertFalse((root/'large/round-260130.body.gz').exists())
+            mark=[]; args.capture_id='complete'; args.output=root/'combined.jsonl'
+            body=json.dumps(self.fixture(),ensure_ascii=False).encode()
+            def clock(): return '2026-11-04T00:00:02+00:00' if mark else '2026-11-04T00:00:01+00:00'
+            with patch.object(c,'EVIDENCE',root), patch.object(c,'now',side_effect=clock), patch.object(c.requests,'post',return_value=Response([body[:20],body[20:]],mark)):
+                c.run(args)
+            meta=json.loads((root/'complete/round-260130.json').read_text(encoding='utf8'))
+            self.assertEqual(meta['received_at'],'2026-11-04T00:00:02+00:00')
+            self.assertEqual(meta['timestamp_basis'],'http_response_body_completed')
+            self.assertEqual(c.body_from_cache(root/'complete',meta),body)
+            self.assertTrue(args.output.exists())
+
 if __name__=='__main__': unittest.main()
