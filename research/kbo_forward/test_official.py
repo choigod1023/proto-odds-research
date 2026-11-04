@@ -315,3 +315,19 @@ class OfficialTests(unittest.TestCase):
         with self.assertRaises(ValueError): OfficialClient(self.tmp.name, max_lineup_requests=6)
 
 if __name__ == '__main__': unittest.main()
+
+class ReadinessProbeTests(unittest.TestCase):
+    def test_403_stops_without_second_request_and_preserves_receipt(self):
+        import base64, importlib.util, subprocess
+        from unittest.mock import patch
+        path = Path(__file__).resolve().parents[2] / 'scripts/probe_m1_input_readiness.py'
+        spec = importlib.util.spec_from_file_location('m1_readiness_probe_test', path)
+        mod = importlib.util.module_from_spec(spec); spec.loader.exec_module(mod)
+        response = subprocess.CompletedProcess([], 0, stdout=json.dumps({'status':403, 'body':base64.b64encode(b'forbidden').decode()}), stderr='')
+        with tempfile.TemporaryDirectory() as folder, patch.object(mod.subprocess, 'run', return_value=response) as run:
+            result = mod.probe(Path(folder))
+            self.assertEqual(run.call_count, 1)
+            self.assertEqual(run.call_args.kwargs['timeout'], 15)
+            self.assertTrue(result['stop_on_403_429'])
+            self.assertEqual((Path(folder)/result['receipts'][0]['body_file']).read_bytes(), b'forbidden')
+            self.assertFalse(result['forecast_generated'])
