@@ -186,19 +186,33 @@ def _row(row, year, rnd, received):
             'raw_market_scope': raw_market, 'raw_result_text': raw_result, 'raw_label': raw_label}
 
 
-def normalize_betman_result_dom(document):
+def normalize_betman_result_dom(document, *, evidence_sha256):
     """Return mapped rows, rejected rows/reason counts, and auditable DOM evidence."""
+    if not isinstance(evidence_sha256, str) or not re.fullmatch(r'[0-9a-f]{64}', evidence_sha256):
+        raise ValueError('evidence_sha256 must be the lowercase capture file SHA-256')
     year, rnd, selected, received = _document_identity(document)
     digest = hashlib.sha256(json.dumps(document, ensure_ascii=False, sort_keys=True,
                                        separators=(',', ':')).encode('utf-8')).hexdigest()
     evidence = {'name': 'betman_closed_slip_dom', 'provenance': 'captured_betman_website_dom',
                 'url': document['url'], 'selected_round': selected,
-                'received_at': received.isoformat(), 'document_sha256_canonical_json': digest}
+                'received_at': received.isoformat(), 'evidence_sha256': evidence_sha256,
+                'document_sha256_canonical_json': digest}
     mapped, rejected = [], []
     for index, row in enumerate(document['rows']):
         try:
-            mapped.append({**_row(row, year, rnd, received), 'dom_row_index': index,
-                           'dom_evidence': evidence})
+            normalized_row = _row(row, year, rnd, received)
+            official_source = {'url': document['url'], 'evidence_sha256': evidence_sha256,
+                               'received_at': received.isoformat(),
+                               'result_text': row['result_text'], 'result_action': row['result_action'],
+                               'market_text': row['market_text'],
+                               'label': row['label'], 'row_index': index,
+                               'kickoff_text': row['kickoff_text'], 'rowname': row['rowname'],
+                               'game_name': row['game_name'], 'game_no': row['game_no'],
+                               'league': row['league'],
+                               'options': [{'key': opt['key'], 'side': opt['text'].splitlines()[1].strip()}
+                                           for opt in row['options']]}
+            mapped.append({**normalized_row, 'dom_row_index': index,
+                           'dom_evidence': evidence, 'official_source': official_source})
         except Rejected as exc:
             rejected.append({'row_index': index, 'reason': str(exc), 'row': row})
     return {'mapped_rows': mapped, 'rejected': rejected,

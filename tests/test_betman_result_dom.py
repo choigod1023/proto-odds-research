@@ -1,14 +1,22 @@
 from copy import deepcopy
-from datetime import datetime
+from datetime import datetime, timezone
+import os
+from pathlib import Path
+import subprocess
+import sys
 from zoneinfo import ZoneInfo
 
 import pytest
 
-from src.betman_result_dom import normalize_betman_result_dom
+from src.betman_result_dom import normalize_betman_result_dom as _normalize
 from src.bets import winner_index
-from src.official_result_backfill import plan_backfill
+from src.official_result_backfill import apply_backfill, plan_backfill
 from tests.test_live_ledger_settlement import setup_runtime
 from tests.test_live_market_refresh import admissible_votes_for_offer_ledger_regressions
+
+
+def normalize_betman_result_dom(document):
+    return _normalize(document, evidence_sha256='a' * 64)
 
 
 def document(market='축구 승무패', label='', result='1:0', sides=('승', '무', '패')):
@@ -37,6 +45,8 @@ def test_fixture_and_provenance():
     assert row['dom_evidence'] == x['source']
     assert x['source']['received_at'] == '2026-11-04T02:31:41.210000+00:00'
     assert len(x['source']['document_sha256_canonical_json']) == 64
+    assert row['official_source']['evidence_sha256'] == 'a' * 64
+    assert row['official_source']['result_text'] == '1:0'
 
 
 @pytest.mark.parametrize('market,label,score,sides,expected', [
@@ -124,4 +134,43 @@ def test_normalized_row_matches_backfill_contract(tmp_path):
                          snapshot_ids=[sid], observed_at=d['received_at'], source=normalized['source'])
     assert len(plan['entries']) == 1
     assert plan['entries'][0]['outcome']['result'] == 'hit'
-    assert plan['entries'][0]['source']['document_sha256_canonical_json'] == normalized['source']['document_sha256_canonical_json']
+    evidence = plan['entries'][0]['source']['official_source']
+    assert evidence == normalized['mapped_rows'][0]['official_source']
+    assert evidence['result_text'] == '4:2' and evidence['evidence_sha256'] == 'a' * 64
+    for field, value in [('evidence_sha256', 'bad'), ('result_text', '0:2'),
+                         ('url', 'https://example.com/'), ('received_at', 'bad'),
+                         ('kickoff_text', '20260830190000'), ('result_action', ''),
+                         ('game_name', 'other:SSG')]:
+        altered = deepcopy(normalized['mapped_rows'])
+        altered[0]['official_source'][field] = value
+        held = plan_backfill(runtime.ledger.records(), altered, snapshot_ids=[sid],
+                             observed_at=d['received_at'], source=normalized['source'])
+        assert not held['entries'] and held['holds'][0]['reason'] == 'invalid_official_source'
+        with pytest.raises(ValueError):
+            apply_backfill(runtime.ledger, plan, altered, observed_at=d['received_at'], source=normalized['source'])
+    altered = deepcopy(normalized['mapped_rows'])
+    altered[0]['result'] = '홈패'
+    held = plan_backfill(runtime.ledger.records(), altered, snapshot_ids=[sid],
+                         observed_at=d['received_at'], source=normalized['source'])
+    assert held['holds'][0]['reason'] == 'invalid_official_source'
+    runtime.ledger._clock = lambda: datetime(2027, 1, 2, tzinfo=timezone.utc)
+    apply_backfill(runtime.ledger, plan, normalized['mapped_rows'],
+                   observed_at=d['received_at'], source=normalized['source'])
+    assert runtime.ledger.records()[-1]['source']['official_source'] == evidence
+
+
+@pytest.mark.parametrize(('module', 'root'), [
+    ('src.betman_result_dom', True), ('betman_result_dom', False),
+    ('src.official_result_backfill', True), ('official_result_backfill', False),
+])
+def test_import_from_cli_working_directory(tmp_path, module, root):
+    project = Path(__file__).resolve().parents[1]
+    env = {**os.environ, 'PYTHONPATH': str(project if root else project / 'src')}
+    subprocess.run([sys.executable, '-c', f'import {module}'], cwd=tmp_path,
+                   env=env, check=True, capture_output=True, text=True)
+
+
+def test_capture_file_hash_is_required():
+    for sha in ('bad', 'A' * 64, None):
+        with pytest.raises(ValueError):
+            _normalize(document(), evidence_sha256=sha)

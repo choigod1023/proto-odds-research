@@ -7,11 +7,70 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
+from urllib.parse import parse_qs, urlsplit
 
-from src.live_market_refresh import (KST, LINE, SEL_NAMES, UNPLAYED, _aware_timestamp,
+if __package__:
+    from src.live_market_refresh import (KST, LINE, SEL_NAMES, UNPLAYED, _aware_timestamp,
+                                         _game_kickoff, event_id, offer_id, selection_id,
+                                         winner_index)
+    from src.prediction_runtime import _latest_predictions
+    from src.betman_result_dom import _row as _normalize_official_row
+else:
+    from live_market_refresh import (KST, LINE, SEL_NAMES, UNPLAYED, _aware_timestamp,
                                      _game_kickoff, event_id, offer_id, selection_id,
                                      winner_index)
-from src.prediction_runtime import _latest_predictions
+    from prediction_runtime import _latest_predictions
+    from betman_result_dom import _row as _normalize_official_row
+
+
+def _official_source(row, year, rnd, observed, source):
+    evidence = row.get('official_source')
+    required = ('raw_result_text' in row or 'raw_market_scope' in row or
+                source.get('provenance') == 'captured_betman_website_dom')
+    if evidence is None and not required:
+        return None
+    if not isinstance(evidence, dict):
+        raise ValueError('missing official source')
+    url = urlsplit(evidence.get('url', ''))
+    query = parse_qs(url.query, keep_blank_values=True)
+    sha = evidence.get('evidence_sha256')
+    received = _aware_timestamp(evidence.get('received_at'))
+    kickoff = _game_kickoff({**row, 'year': year, 'round': rnd}, observed)
+    if (url.scheme != 'https' or url.hostname != 'www.betman.co.kr' or
+            url.path != '/main/mainPage/gamebuy/closedGameSlipIFR.do' or
+            query.get('gmId') != ['G101'] or
+            query.get('gmTs') != [f'{year % 100:02d}{rnd:04d}'] or
+            not isinstance(sha, str) or not re.fullmatch(r'[0-9a-f]{64}', sha) or
+            received is None or received > observed or
+            evidence.get('result_text') != row.get('raw_result_text') or
+            evidence.get('market_text') != row.get('raw_market_scope') or
+            evidence.get('label') != row.get('raw_label') or
+            not isinstance(evidence.get('row_index'), int) or isinstance(evidence.get('row_index'), bool) or
+            evidence['row_index'] < 0 or evidence['row_index'] != row.get('dom_row_index') or
+            not isinstance(evidence.get('kickoff_text'), str) or
+            not re.fullmatch(r'\d{14}', evidence['kickoff_text']) or
+            kickoff is None or evidence['kickoff_text'] != kickoff.strftime('%Y%m%d%H%M%S') or
+            not isinstance(evidence.get('rowname'), str) or
+            not evidence['rowname'].endswith('_' + str(int(kickoff.replace(tzinfo=KST).timestamp() * 1000)))):
+        raise ValueError('invalid official source')
+    try:
+        options = [{'key': option['key'], 'text': 'fixture\n' + option['side']}
+                   for option in evidence['options']]
+        raw = {'game_name': evidence['game_name'], 'game_no': evidence['game_no'],
+               'league': evidence['league'], 'kickoff_text': evidence['kickoff_text'],
+               'rowname': evidence['rowname'], 'market_text': evidence['market_text'],
+               'label': evidence['label'], 'result_text': evidence['result_text'],
+               'result_action': evidence['result_action'], 'options': options}
+        normalized = _normalize_official_row(raw, year, rnd, received)
+        if any(row.get(key) != normalized.get(key) for key in (
+                'year', 'round', 'game_no', 'date', 'sport', 'league', 'home', 'away',
+                'market', 'label', 'n_way', 'result', 'raw_market_scope', 'raw_label',
+                'raw_result_text')):
+            raise ValueError('official source does not reproduce normalized result')
+    except (KeyError, TypeError, ValueError):
+        raise ValueError('invalid official source') from None
+    return dict(evidence)
 
 
 def plan_backfill(records, rows, *, snapshot_ids, observed_at, source):
@@ -107,19 +166,27 @@ def plan_backfill(records, rows, *, snapshot_ids, observed_at, source):
                                 if market == row.get('market') and side in labels}
                     if possible != {nway}:
                         continue
+                try:
+                    evidence = _official_source(row, year, rnd, observed, source)
+                except (TypeError, ValueError):
+                    matches.append((None, None, None, None, None))
+                    continue
                 void = row.get('result') in {'취소', '연기', '중단', '무효'} or (row.get('market') == '승패' and nway == 2 and row.get('result') == '무승부')
                 winner = winner_index(nway, row.get('result'))
                 if not void and (winner is None or winner >= nway):
                     continue
                 index = generated.index((p['selection_id'], p['offer_id']))
                 result = 'void' if void else 'hit' if index == winner else 'miss'
-                matches.append((row, result, nway, line))
+                matches.append((row, result, nway, line, evidence))
             except (KeyError, TypeError, ValueError, OverflowError):
                 continue
         if len(matches) != 1:
             holds.append({'snapshot_id': sid, 'reason': 'ambiguous_or_unmatched', 'matches': len(matches)})
             continue
-        row, result, nway, line = matches[0]
+        row, result, nway, line, evidence = matches[0]
+        if row is None:
+            holds.append({'snapshot_id': sid, 'reason': 'invalid_official_source'})
+            continue
         outcome = {'result': result, 'selection_id': p['selection_id'], 'official_result': row['result']}
         version = 'official-' + hashlib.sha256(json.dumps(outcome, ensure_ascii=False, sort_keys=True, separators=(',', ':')).encode('utf-8')).hexdigest()[:16]
         entries.append({'event_id': event, 'snapshot_id': sid, 'outcome': outcome,
@@ -127,7 +194,8 @@ def plan_backfill(records, rows, *, snapshot_ids, observed_at, source):
                         'source': {**source, 'year': int(row['year']), 'round': int(row['round']),
                                    'game_no': str(row['game_no']), 'game_date': row['date'],
                                    'market': row['market'], 'label': row.get('label') or '',
-                                   'n_way': nway, 'line': line}})
+                                   'n_way': nway, 'line': line,
+                                   **({'official_source': evidence} if evidence else {})}})
     found = {p['snapshot_id'] for p in latest.values()}
     holds.extend({'snapshot_id': sid, 'reason': 'not_latest_or_missing'} for sid in sorted(selected - found))
     return {'entries': entries, 'holds': holds}
