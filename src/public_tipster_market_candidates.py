@@ -68,6 +68,34 @@ def extract_candidates(section):
     return [items[0] for items in found.values() if len(items) == 1 and items[0] is not None]
 
 
+
+def extract_unverified_pick79(section):
+    """Record explicit pick79 rows whose period/settlement are unspecified.
+
+    Observations are deliberately incompatible with match_candidate: they do
+    not establish fixture orientation, settlement rules or an eligible event.
+    """
+    lines = [line.strip() for line in section.splitlines() if line.strip()]
+    if not lines or lines[0] != "추천 픽":
+        return []
+    found = {"total": [], "handicap": []}
+    for i, label in enumerate(lines):
+        family = {"O/U": "total", "핸디캡": "handicap"}.get(label)
+        if family is None:
+            continue
+        value = None
+        if i + 2 < len(lines):
+            choice, raw_line = lines[i + 1:i + 3]
+            line = _line(raw_line) if re.fullmatch(_NUMBER, raw_line) else None
+            if family == "total" and choice in {"언더", "오버"} and line is not None and line >= 0:
+                value = dict(family=family, side={"언더": "under", "오버": "over"}[choice], line=float(line))
+            elif family == "handicap" and line is not None and re.fullmatch(r"[가-힣A-Za-z0-9 ._-]+", choice) and choice not in {"홈", "원정", "무", "승", "패"}:
+                value = dict(family=family, selected_team=choice, team_line=float(line))
+            if value is not None:
+                value.update(period="unknown", settlement="unknown", evidence=" / ".join(lines[i:i + 3]))
+        found[family].append(value)
+    return [items[0] for items in found.values() if len(items) == 1 and items[0] is not None]
+
 def match_candidate(candidate, game):
     """Match exactly one complete option market; return its unmodified option.
 

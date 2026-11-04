@@ -62,3 +62,22 @@ def test_reject_duplicate_markets_invalid_odds_and_half_markets():
     game["options"][0]["배당"] = float("nan")
     assert match_candidate(candidate, game) is None
     assert match_candidate(candidate, options("전반언더오버", "8.5", 8.5, ["언더", "오버"])) is None
+
+
+def test_pick79_observed_rows_are_recorded_but_never_matched():
+    from public_tipster_market_candidates import extract_unverified_pick79
+    section = (Path(__file__).parent / "fixtures_public_market" / "pick79-20261028-san-antonio.txt").read_text(encoding="utf-8")
+    assert extract_candidates(section) == []
+    total, handicap = extract_unverified_pick79(section)
+    assert (total["side"], total["line"], total["period"], total["settlement"]) == ("over", 187.5, "unknown", "unknown")
+    assert (handicap["selected_team"], handicap["team_line"], handicap["period"], handicap["settlement"]) == ("샌안토니오 스퍼스", -4.5, "unknown", "unknown")
+    assert match_candidate(total, options("언더오버", "187.5", 187.5, ["언더", "오버"])) is None
+    assert match_candidate(handicap, options("핸디캡", "H -4.5", -4.5, ["핸디홈", "핸디원정"])) is None
+    assert extract_unverified_pick79("추천 픽\nO/U\n언더\n177.5") == [dict(family="total", side="under", line=177.5, period="unknown", settlement="unknown", evidence="O/U / 언더 / 177.5")]
+
+
+def test_pick79_unverified_duplicate_and_bad_rows_are_withheld():
+    from public_tipster_market_candidates import extract_unverified_pick79
+    assert extract_unverified_pick79("추천 픽\nO/U\n오버\n2.5\nO/U\n언더\n2.5") == []
+    assert extract_unverified_pick79("추천 픽\n핸디캡\n홈\n-4.5\nO/U\n오버\n2.25") == []
+    assert extract_unverified_pick79("전반전\nO/U\n오버\n187.5") == []
