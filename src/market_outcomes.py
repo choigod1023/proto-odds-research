@@ -22,7 +22,7 @@ class Market:
             raise ValueError('game number required')
         if self.period not in ('regulation', 'full_including_extra'):
             raise ValueError('unsupported period')
-        allowed = {'total': ('total_push', 'total_half'), 'handicap': ('handicap_3way',),
+        allowed = {'total': ('total_push', 'total_half'), 'handicap': ('handicap_3way', 'handicap_half'),
                    'winner': ('winner_2way_draw_refund', 'winner_3way')}
         if self.rule not in allowed.get(self.kind, ()):
             raise ValueError('unsupported market rule; hold')
@@ -42,6 +42,8 @@ class Market:
                     raise ValueError('integer total settlement not established')
                 if self.rule == 'handicap_3way' and value != value.to_integral_value():
                     raise ValueError('three-way handicap requires integer line')
+                if self.rule == 'handicap_half' and value == value.to_integral_value():
+                    raise ValueError('two-way handicap requires verified half line')
                 object.__setattr__(self, 'line', str(value.normalize()))
             except InvalidOperation as exc:
                 raise ValueError('invalid line') from exc

@@ -26,3 +26,15 @@ test('recommendations preserve product identity and never turn votes into probab
   assert.equal(currentMarketRecommendations({...game,market_recommendations:{version:'unknown',items:[item]}},options).length,0);
  } finally {await server.close();}
 });
+
+
+test('market performance distinguishes pending capture from zero-return settlement', async () => {
+ const server=await createServer({server:{middlewareMode:true},appType:'custom',optimizeDeps:{noDiscovery:true,include:[]}});
+ try {
+  const {MarketRecommendationPerformance:View}=await server.ssrLoadModule('/src/components/MarketRecommendations.jsx');
+  const html=renderToStaticMarkup(createElement(View,{data:{by_market:{언더오버:{captured:4,bets:0},핸디캡:{captured:2,bets:2,hits:1,decided:2,refunds:0,roi:0}}}}));
+  assert.match(html,/기록 4건 · 정산 대기 · ROI 미산출/);
+  assert.match(html,/정산 2건 · 적중 1\/2 · 환불 0건 · ROI 0.00%/);
+  assert.match(html,/지갑과 별도/);
+ } finally {await server.close();}
+});

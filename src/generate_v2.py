@@ -993,6 +993,11 @@ def _remove_hindsight_prediction(game: dict) -> None:
     game.pop("decision_snapshot", None)
     game.pop("probability_pipeline", None)
     recorded_forecast = (game.get("prediction_record") or {}).get("score_forecast")
+    recorded_markets = game.get('market_prediction_record') or {}
+    if recorded_markets.get('market_recommendations'):
+        game['market_recommendations'] = recorded_markets['market_recommendations']
+    else:
+        game.pop('market_recommendations', None)
     if recorded_forecast:
         game["score_forecast"] = recorded_forecast
     else:
@@ -1047,6 +1052,8 @@ def _withhold_unrecorded_prediction(game: dict, reason: str) -> None:
     game["추천"] = None
     game.pop("decision_snapshot", None)
     game.pop("prediction_record", None)
+    game.pop('market_recommendations', None)
+    game.pop('market_prediction_record', None)
     game["prediction_revision_id"] = None
     game["prediction_status"] = "prediction_ledger_required"
     game["prediction_ledger_reason"] = reason
@@ -1261,6 +1268,7 @@ def _sync_prediction_runtime(
         try:
             result = runtime.settle_latest(
                 key,
+                expected_snapshot_id=record.get('prediction_snapshot_id'),
                 outcome=outcome,
                 settled_at=observed_at,
                 source={
@@ -1366,6 +1374,8 @@ def main() -> int:
     legacy_predictions = _recorded_predictions()
     prediction_runtime = PredictionRuntime(PREDICTION_LEDGER)
     ledger_predictions = prediction_runtime.ui_records()
+    market_predictions = prediction_runtime.market_records()
+    from multi_market_recommendations import performance as market_performance
     prior_predictions = {**legacy_predictions, **ledger_predictions}
     probability_artifact = _load_probability_artifact()
     st = team_lambdas()
@@ -1712,8 +1722,13 @@ def main() -> int:
         observed_at=feature_cutoff_at,
     )
     ledger_predictions = prediction_runtime.ui_records()
+    market_predictions = prediction_runtime.market_records()
+    from multi_market_recommendations import performance as market_performance
     prior_predictions = {**legacy_predictions, **ledger_predictions}
     for game in out:
+        market_record = market_predictions.get(game.get('event_id') or event_id(game))
+        if market_record is not None:
+            game['market_prediction_record'] = market_record
         _attach_prediction_record(game, prior_predictions)
     past_g = [g for g in out if g["status"] == "정산"]
     unresolved_g = [g for g in out if g["status"] == "결과확인"]
@@ -1752,12 +1767,13 @@ def main() -> int:
             ),
             "minimum_pristine_predictions_for_promotion": 300,
         },
-        "note": ("야구·축구·농구·배구는 경기 전체 승패/승무패 최유력 픽을 선택합니다. 경기 전 유효 픽스터 투표가 있으면 "
-                 "시장 90%·투표 10%를 적용하고, 없으면 시장 확률을 유지하며 픽스터 미반영으로 표시합니다."),
-        "warning": ("9:1 혼합은 사용자 승인 운영 정책이며 수익성은 미검증입니다. "
+        "note": ("승패/승무패와 언더오버·핸디캡을 상품별로 구분합니다. 같은 상품의 경기 전 유효 픽스터 투표가 있으면 "
+                 "최다 득표 방향을 선택하고, 없으면 시장 최유력으로 표시합니다. 동률·자료 장애·정산 규칙 미확인은 보류합니다."),
+        "warning": ("시장별 자동 추천은 사용자 승인 정책이며 수익성은 미검증입니다. "
                     "구조 모델과 선수 정보 AI는 연구·설명 단계로 분리되어 최종 확률을 바꾸지 않습니다. "
                     "정산 적중률은 경기 전에 저장된 추천 원장만 집계합니다. "
                     "스코어 전망은 아직 추천 확률을 바꾸지 않는 연구값입니다."),
+        "market_recommendation_performance": market_performance(market_predictions),
         "decision_schema": "decision-snapshot-v2",
         "decision_manifest": decision_manifest(),
     }

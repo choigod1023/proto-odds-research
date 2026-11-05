@@ -540,6 +540,8 @@ def _evidence(
 def _input_revision_hash(game: dict, evidence: list[dict]) -> str:
     payload = {
         **({"tipster_hybrid": game["tipster_hybrid"]} if game.get("tipster_hybrid") else {}),
+        **({'market_recommendations_hash': game['market_recommendations'].get('evidence_hash')}
+           if (game.get('market_recommendations') or {}).get('items') else {}),
         "event_id": event_id(game),
         "options": sorted((
             option.get("selection_id"), option.get("offer_id"),
@@ -593,6 +595,8 @@ def build_decision_snapshot(
     # output/sanitization must never replay stale attached votes as new evidence.
     game.pop("tipster_hybrid", None)
     game.pop("market_candidates", None)
+    prior_market_recommendations = game.get('market_recommendations')
+    game.pop('market_recommendations', None)
     if tipster_votes is not None and reconstructed_at is None:
         from market_diversity import build_market_candidates
         game["market_candidates"] = build_market_candidates(game, tipster_votes, as_of, built_at or as_of)
@@ -600,6 +604,15 @@ def build_decision_snapshot(
         info = context(game, tipster_votes, as_of, built_at or as_of)
         if info is not None:
             selected = apply(game, info)
+        from multi_market_recommendations import build as build_market_recommendations
+        if prior_market_recommendations is not None:
+            game['market_recommendations'] = prior_market_recommendations
+        try:
+            game['market_recommendations'] = build_market_recommendations(
+                game, tipster_votes, as_of, built_at or as_of, market_candidates=game.get('market_candidates'))
+        except (OSError, ValueError, TypeError, KeyError, ImportError) as exc:
+            game['market_recommendations'] = {'version': 'multi-market-recommendations-v1',
+                'status': 'unavailable', 'items': [], 'reason': type(exc).__name__, 'validated_edge': False}
     game["추천"] = selected
     market = _number(selected.get("시장확률")) if selected else None
     shadow = _number(selected.get("모델확률")) if selected else None

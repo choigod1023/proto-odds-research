@@ -114,5 +114,6 @@ def build_market_candidates(game, rows, as_of, built_at):
             "status":"candidate" if side else "ambiguous_or_tied",
             "price_receipt_verified":False,
             "evidence":[{"author":r["voter"],"observed_at":r["observed_at"],
-                         "source_url":r["source_url"],"text":r.get("evidence","")[:200]} for r,o in first]})
+                         "source_url":r["source_url"],"content_hash":r.get('content_hash'),
+                         "pick_id":r.get('pick_id'),"text":r.get("evidence","")[:200]} for r,o in first]})
     return dict(result,status="candidates" if result["offers"] else "no_eligible_market_candidates")
