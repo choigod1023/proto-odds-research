@@ -20,7 +20,8 @@ def test_stream_write_keeps_exact_text_type_revision_and_snapshot(tmp_path, monk
     db.store_artifact('picks_v2', old)
     previous = stored(db)
     payload = {'generated_at': 'new', 'live': [{'한글😀': '⚾' * 40000, 'integer': 10 ** 45,
-        'float': -0.0, 'yes': True, 'no': False, 'missing': None}]}
+        'float': -0.0, 'yes': True, 'no': False, 'missing': None}, {'home': '두산'}],
+        'past': [{'result': '적중'}, {'result': '미적중'}], 'nested': {'past': [1, 2]}}
     original = runtime_db._json_chunks
     calls = 0
     def chunks(value):
@@ -37,7 +38,7 @@ def test_stream_write_keeps_exact_text_type_revision_and_snapshot(tmp_path, monk
     assert db.get_artifact('picks_v2') == payload
 
 
-@pytest.mark.parametrize('failure', ['nan', 'short', 'long', 'midwrite', 'spoolwrite'])
+@pytest.mark.parametrize('failure', ['nan', 'nan_game', 'short', 'long', 'midwrite', 'spoolwrite'])
 def test_failed_stream_write_rolls_back_body_and_revision(tmp_path, monkeypatch, failure):
     db = RuntimeDatabase(tmp_path / 'db.sqlite3')
     db.store_artifact('picks_v2', {'generated_at': 'old', 'live': []})
@@ -62,6 +63,7 @@ def test_failed_stream_write_rolls_back_body_and_revision(tmp_path, monkeypatch,
             return self.file.read(n)
     payload = {'live': [1, 2, 3]}
     if failure=='nan':payload['bad']=float('nan')
+    elif failure=='nan_game':payload['live'].append({'probability': float('nan')})
     else:monkeypatch.setattr(runtime_db.tempfile,'TemporaryFile',lambda **kw:BrokenSpool())
     with pytest.raises((ValueError,OSError)):
         db.store_artifact('picks_v2',payload)

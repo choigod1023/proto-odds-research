@@ -103,10 +103,36 @@ def _build_json(events):
     return builder.value
 
 
+def _picks_json_fragments(payload, encoder):
+    if type(payload) is not dict or not all(isinstance(key, str) for key in payload):
+        yield from encoder.iterencode(payload)
+        return
+
+    yield "{"
+    for index, (key, value) in enumerate(payload.items()):
+        if index:
+            yield ","
+        yield encoder.encode(key)
+        yield ":"
+        if key not in ("live", "past") or type(value) is not list:
+            yield from encoder.iterencode(value)
+            continue
+
+        # Encode one fixture with the native JSON encoder. Iterating every
+        # field through Python is expensive for thousands of archived games.
+        yield "["
+        for row_index, game in enumerate(value):
+            if row_index:
+                yield ","
+            yield encoder.encode(game)
+        yield "]"
+    yield "}"
+
+
 def _json_chunks(payload):
     encoder = json.JSONEncoder(ensure_ascii=False, separators=(",", ":"), allow_nan=False)
     pending = bytearray()
-    for token in encoder.iterencode(payload):
+    for token in _picks_json_fragments(payload, encoder):
         pending.extend(token.encode("utf-8"))
         if len(pending) >= 65536:
             yield bytes(pending)
