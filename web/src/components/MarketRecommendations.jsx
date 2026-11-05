@@ -87,9 +87,10 @@ export function savedMarketRecommendations(game) {
   });
 }
 
-export function resultLabel(result) {
+export function resultLabel(result, { compact = false } = {}) {
   if (!result) return "결과 대기";
   const name = {hit: "적중", miss: "미적중", void: "무효"}[result.result];
+  if (compact) return name;
   return `${name}${result.net == null ? "" : ` · 순손익 ${result.net > 0 ? "+" : ""}${result.net.toFixed(2)}단위 (베팅액 1단위 기준 · 지갑 거래 아님)`}`;
 }
 
@@ -105,9 +106,9 @@ export const LEAGUE_HANDICAP_LABELS = {
   'kleague1-team-poisson-handicap-v1': 'K리그1 팀 득점 모델',
   'kbl-team-margin-handicap-v1': 'KBL 팀 점수차 모델',
 };
-const modelLabel = (model) => ({
+export const marketModelLabel = (model) => ({
   'tipster-market-vote-v1': '같은 기준점의 픽스터 투표',
-  'market-baseline-v1': '현재 배당 기준',
+  'market-baseline-v1': '시장 배당 기준',
   ...LEAGUE_HANDICAP_LABELS,
 })[model] || model || '미제공';
 const ruleLabel = (item) => ({total_half:'총점 기준 미만/초과',handicap_half:'홈팀 핸디캡 적용 승패',handicap_3way:'홈팀 핸디캡 적용 승무패'})[item.settlement_rule] || '상품별 공식 결과';
@@ -135,11 +136,11 @@ export function MarketRecommendationPerformance({ data }) {
 export default function MarketRecommendations({ recommendations, onSelect, selected = () => false }) {
   if (!recommendations.length) return null;
   return <section className="my-3 rounded border border-rule2 p-3" aria-label="시장별 자동 추천">
-    <h3 className="m-0 text-[13px] font-semibold">핸디캡 · 언더오버 자동 추천</h3>
+    <h3 className="m-0 text-[13px] font-semibold">시장별 자동 추천 · 핸디캡 / 언더오버</h3>
     {recommendations.map(({item, option, result, saved, capturedAt, generatedAt, comparisonVersion}) => <article className="mt-2 rounded border border-rule2 p-2 text-[12px] leading-6" key={`${item.selection_id}|${item.offer_id}`}>
       <b>{item.market} {item.label} · {item.selection} · 배당 {Number(item.odds).toFixed(2)}배</b>
       <p className="my-1">{saved ? `보존된 경기 전 추천 · 기록 ${capturedAt} · ${resultLabel(result)} · ` : ""}{validationLabel(item)} · 기준점 {item.line} · 정산 {ruleLabel(item)}</p>
-      <p className="my-1 text-ink3">선정 기준: {modelLabel(item.model)} · 출처 {Array.isArray(item.source_ids) && item.source_ids.length ? item.source_ids.map((source) => source === "proto_official_current_market" ? "현재 프로토 배당" : modelLabel(source)).join(", ") : "미제공"}
+      <p className="my-1 text-ink3">선정 기준: {marketModelLabel(item.model)} · 출처 {Array.isArray(item.source_ids) && item.source_ids.length ? item.source_ids.map((source) => source === "proto_official_current_market" ? "현재 프로토 배당" : marketModelLabel(source)).join(", ") : "미제공"}
         {generatedAt ? ` · 생성 ${generatedAt}` : ""}</p>
       <p className="my-1 text-ink3">{probabilityLabel(item) && fraction(item.probability) ? `예상 적중확률 ${percent(item.probability)} (${probabilityLabel(item)})` : "예상 적중확률 미제공"}
         {fraction(item.p_push) ? ` · 무효 확률 ${percent(item.p_push)}` : " · 무효 확률 미제공"}

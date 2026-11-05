@@ -32,7 +32,7 @@ test("modal comparison distinguishes estimates, settled history and a frozen fin
       "bs|KBO|언더오버|total_half|9.5|언더|frontier_m0_actual": {hit_rate: 1, hits: 7, decided: 7, bets: 7, roi: 1},
     }};
     const html = renderToStaticMarkup(createElement(View, {recommendations, options, game, performance}));
-    for (const value of ["지표 기준 최종 픽", "M1 선수 효과", "58.0%", "+10.2%", "50.0% (2/4)", "-12.5%", "정산 표본 없음"]) {
+    for (const value of ["세 모델 합의 픽 · 연구용", "M1 선수 효과", "58.0%", "+10.2%", "50.0% (2/4)", "-12.5%", "정산 표본 없음"]) {
       assert.ok(html.includes(value), value);
     }
     assert.doesNotMatch(html, /100\.0%/);
@@ -57,16 +57,34 @@ test("modal comparison distinguishes estimates, settled history and a frozen fin
     assert.doesNotMatch(leagueHtml, /세 모델/);
 
     const international = "international-team-poisson-handicap-v1";
-    const research = {...handicap, comparisons: {
-      [international]: {...base, selection: "핸디홈", model: international, probability_basis: "score_model",
+    const market = {...base, selection: "핸디홈", model: "market-baseline-v1",
+      probability_basis: "market_inverse_odds", probability: .52, estimated_roi: -.012};
+    const research = {...handicap, settlement_rule: "handicap_3way", line: -1, label: "H -1",
+      model: market.model, selection_id: base.selection_id, offer_id: base.offer_id, odds: base.odds, comparisons: {
+      market,
+      [international]: {...base, selection_id: "away", offer_id: "b", selection: "핸디원정",
+        model: international, probability_basis: "score_model",
         probability: .60, estimated_roi: .14},
     }};
-    const researchHtml = renderToStaticMarkup(createElement(View, {recommendations: [
-      {item: research, saved: true, comparisonVersion: "exact-market-frontier-v1"},
+    const grade = {market: "핸디캡", line: -1, settlement_rule: "handicap_3way", odds: "1.9"};
+    const result = {comparisons: {
+      market: {...grade, selection_id: "under", offer_id: "a", model: market.model, result: "miss"},
+      [international]: {...grade, selection_id: "away", offer_id: "b", model: international, result: "hit"},
+    }};
+    const renderResearch = (item, result) => renderToStaticMarkup(createElement(View, {recommendations: [
+      {item, result, saved: true, comparisonVersion: "exact-market-frontier-v1"},
     ], game: {sport: "sc", league: "EPL"}}));
+    const researchHtml = renderResearch(research, result);
     assert.match(researchHtml, /리그별 팀 득점 모델 · 연구 비교/);
     assert.match(researchHtml, /60\.0%/);
+    assert.match(researchHtml, /시장 최저 배당.*운영 픽.*>미적중<\/td>/);
+    assert.match(researchHtml, /리그별 팀 득점 모델.*>적중<\/td>/);
     assert.doesNotMatch(researchHtml, /세 모델/);
+    const wrongGrade = {...result, comparisons: {...result.comparisons,
+      [international]: {...result.comparisons[international], line: -2}}};
+    assert.match(renderResearch(research, wrongGrade), /리그별 팀 득점 모델.*>결과 대기<\/td>/);
+    const marketOnly = renderResearch({...research, comparisons: {market}}, result);
+    assert.doesNotMatch(marketOnly, /세 모델|최종 픽 보류|팀 득점 모델/);
   } finally {
     await server.close();
   }
