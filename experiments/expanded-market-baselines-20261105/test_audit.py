@@ -29,3 +29,18 @@ def test_two_way_half_and_general_result():
 def test_metrics_chronological_drawdown():
     rows=[dict(kickoff=str(i),fixture=str(i),round=1,matchSeq=i,win=w,price=2) for i,w in enumerate([False,True,False,False])]
     x=m.metrics(rows); assert x['n']==4 and x['wins']==1 and x['net_units']==-2 and x['max_drawdown']==2
+
+
+def test_baseball_draw_general_refund_does_not_refund_handicap_or_total():
+    r,g=sample(); g.update(mchScore='5:5',gameResult='4'); r.update(itemCode='BS',winHandi=-2.5,loseHandi=2.5,drawAllot=0,gameResult='2')
+    result,error=m.evaluate(r,[g],'handicap')
+    assert error is None and result['result']==2 and not result['win']
+    r.update(winHandi=9.5,loseHandi=9.5,gameResult='2')
+    assert m.evaluate(r,[g],'total')[0]['result']==2
+    g['gameResult']='1'; assert m.evaluate(r,[g],'total')[1]=='general_result_code_mismatch'
+    r['itemCode']='BK'; assert m.evaluate(r,[g],'total')[1]=='basketball_general_draw'
+
+def test_conflicting_round_product_identity():
+    first={'matchSeq':9,'homeId':'A'}; same=dict(first); other={'matchSeq':9,'homeId':'B'}
+    assert m.conflicting_sequences([first,same])==set()
+    assert m.conflicting_sequences([first,other])=={'9'}

@@ -39,7 +39,8 @@ def evaluate(r, general, kind):
         score=str(g['mchScore']).split(':'); assert len(score)==2 and all(x.isdigit() for x in score)
         h,a=map(int,score)
     except (KeyError,AssertionError): return None,'general_score_invalid'
-    general_result = 0 if h > a else 2 if h < a else 1
+    if h == a and r['itemCode'] == 'BK': return None,'basketball_general_draw'
+    general_result = 0 if h > a else 2 if h < a else 4 if r['itemCode'] == 'BS' else 1
     if str(g.get('gameResult')) != str(general_result): return None,'general_result_code_mismatch'
     line=number(r.get('winHandi')); other=number(r.get('loseHandi'))
     if line is None or other is None or line*2 != int(line*2): return None,'invalid_or_quarter_line'
@@ -64,6 +65,12 @@ def evaluate(r, general, kind):
     pick=next(i for i in labels if prices[i]==minprice)
     return dict(line=line,score=[h,a],result=result,pick=pick,price=prices[pick],prices=prices,win=pick==result, general_matchSeq=g['matchSeq'],general_result=g.get('gameResult'),general_status=g.get('protoStatus'),product_status=r.get('protoStatus'),product_score=r.get('mchScore'),betId=r.get('betId'),betTypId=r.get('betTypId'),handi=r.get('handi')),None
 
+def conflicting_sequences(rows):
+    by_seq=collections.defaultdict(set)
+    for row in rows:
+        by_seq[str(row.get('matchSeq'))].add(json.dumps(row,sort_keys=True,ensure_ascii=False))
+    return {seq for seq, variants in by_seq.items() if len(variants)>1}
+
 def main(manifest_path=MANIFEST):
     manifest_path = Path(manifest_path)
     manifest=json.loads(manifest_path.read_text(encoding='utf8')); counts=collections.Counter(); candidates=collections.defaultdict(list); sourceproof=[]
@@ -72,8 +79,18 @@ def main(manifest_path=MANIFEST):
         if sha!=source['body_sha256']: raise ValueError('hash mismatch '+str(path))
         sourceproof.append(dict(round=source['round'],path=str(path),sha256=sha))
         d=json.loads(raw)['compSchedules']; rows=[dict(zip(d['keys'],v)) for v in d['datas']]; generals=collections.defaultdict(list)
+        # A round + matchSeq must identify one physical product globally.
+        conflicts=conflicting_sequences(rows)
+        seen=set(); unique=[]
         for r in rows:
-            if ident(r) in GENERAL: generals[fixture(r)].append(r)
+            fingerprint=json.dumps(r,sort_keys=True,ensure_ascii=False)
+            if fingerprint in seen:
+                counts['exact_duplicate_raw_rows']+=1
+                continue
+            seen.add(fingerprint); unique.append(r)
+        rows=unique
+        for r in rows:
+            if ident(r) in GENERAL and str(r.get('matchSeq')) not in conflicts: generals[fixture(r)].append(r)
         for r in rows:
             sport=r.get('itemCode'); legacy=not r.get('betId') or not r.get('betTypId'); era='legacy' if legacy else 'modern'
             counts[f'{era}|{sport}|all_raw_rows']+=1
@@ -86,16 +103,16 @@ def main(manifest_path=MANIFEST):
             counts[f'{era}|{sport}|{kind}|candidate']+=1
             key=fixture(r)
             if not key: counts[f'{era}|{sport}|{kind}|missing_fixture_identity']+=1; continue
-            candidates[(key,kind)].append((int(source['round']),int(r['matchSeq']),r,generals.get(key,[]),source))
+            candidates[(key,kind)].append((int(source['round']),int(r['matchSeq']),r,generals.get(key,[]),source,str(r.get('matchSeq')) in conflicts))
     primary=[]; allrows=[]
     conflicts=set()
     for (key,kind), products in candidates.items():
-        scores={str(g[0].get('mchScore')) for _,_,_,g,_ in products if len(g)==1 and str(g[0].get('protoStatus'))=='4' and g[0].get('gameReject')=='0' and g[0].get('mchScore')}
+        scores={str(g[0].get('mchScore')) for _,_,_,g,_,_ in products if len(g)==1 and str(g[0].get('protoStatus'))=='4' and g[0].get('gameReject')=='0' and g[0].get('mchScore')}
         if len(scores)>1: conflicts.add(key)
     for (key,kind), products in sorted(candidates.items()):
         products.sort(key=lambda x:(x[0],x[1]))
-        for idx,(rnd,seq,r,g,s) in enumerate(products):
-            values,reason=(None,'conflicting_general_scores') if key in conflicts else evaluate(r,g,kind)
+        for idx,(rnd,seq,r,g,s,duplicate_conflict) in enumerate(products):
+            values,reason=(None,'conflicting_product_identity') if duplicate_conflict else (None,'conflicting_general_scores') if key in conflicts else evaluate(r,g,kind)
             prefix=f"modern|{r['itemCode']}|{kind}|"
             counts[prefix+('excluded_'+reason if reason else 'eligible_product')]+=1
             if idx==0: counts[prefix+('representative_excluded_'+reason if reason else 'representative_eligible')]+=1
