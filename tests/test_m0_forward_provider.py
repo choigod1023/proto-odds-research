@@ -76,7 +76,10 @@ def test_actual_capture_exact_identity_and_cached_verification(capture):
                       'away_mean': actual['away_rate'], 'source_available_at': now.isoformat(),
                       'capture_hash': record['hash'], 'artifact_hash': record['model_metadata']['bundle_sha256'],
                       'official_game_id': game['official_game_id'], 'kickoff_at': game['kickoff_at'],
-                      'scope': 'full_game', 'source_evidence_hash': observer.digest(observer.canonical(record['input']['evidence']))}
+                      'scope': 'full_game', 'source_evidence_hash': observer.digest(observer.canonical(record['input']['evidence'])),
+                      'companions': {name: {'home_mean': record['models'][name]['home_rate'],
+                                            'away_mean': record['models'][name]['away_rate']}
+                                     for name in ('m0_projected', 'm1_projected')}}
     assert checks == ['archive']
     assert query(capture) == result and checks == ['archive']
     path.write_bytes(path.read_bytes())
@@ -155,6 +158,16 @@ def test_forecast_from_different_candidate_is_not_used(capture):
     record['models']['lam_baseline'] = {'home_rate': 99, 'away_rate': 99}
     rewrite(path, record)
     assert query(capture)['status'] == 'unavailable'
+
+
+def test_tampered_companion_is_excluded_without_discarding_verified_m0(capture):
+    _, path, original, _, _, _ = capture
+    record = deepcopy(original)
+    record['models']['m1_projected']['home_rate'] += 1
+    rewrite(path, record)
+    distribution = query(capture)
+    assert distribution['status'] == 'available'
+    assert set(distribution['companions']) == {'m0_projected'}
 
 
 def test_priced_capture_verifies_market_archive(capture):

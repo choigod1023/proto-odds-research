@@ -39,6 +39,67 @@ def vote(g,side='over',voter='a'):
 def unavailable():return {'status':'unavailable','reason':'no_announced_lineup'}
 
 
+def score_distribution(m1=2.):
+    return dict(status='available', home_mean=2., away_mean=2., capture_hash='b'*64,
+                companions={'m0_projected': {'home_mean': 2.2, 'away_mean': 2.2},
+                            'm1_projected': {'home_mean': m1, 'away_mean': m1}})
+
+
+def test_frontier_agrees_on_one_exact_pick_without_replacing_operating_vote():
+    g = game()
+    r = build(g, [vote(g)], NOW.isoformat(), NOW.isoformat(), distribution=score_distribution())
+    total = next(i for i in r['items'] if i['market']=='언더오버')
+    final = total['comparisons']['frontier_consensus']
+    assert total['selection'] == '오버' and final['selection'] == '언더'
+    arms = [total['comparisons']['frontier_'+m] for m in ('m0_actual', 'm0_projected', 'm1_projected')]
+    assert final['probability'] == min(a['probability'] for a in arms)
+    assert final['estimated_roi'] == min(a['estimated_roi'] for a in arms)
+    assert final['probability'] >= .55 and final['estimated_roi'] > 0
+    assert len([i for i in r['items'] if 'frontier_consensus' in i['comparisons']]) == 1
+    assert total['comparisons']['frontier_tipster']['probability'] == pytest.approx(1.8 / 3.8)
+    assert not total['validated_edge']
+
+
+@pytest.mark.parametrize('case', ['disagreement', 'missing_model', 'duplicate_offer'])
+def test_frontier_holds_for_unverified_or_conflicting_inputs(case):
+    g = game()
+    g['options'] = g['options'][:2]
+    distribution = score_distribution()
+    if case == 'disagreement':
+        distribution = score_distribution(m1=10.)
+    elif case == 'missing_model':
+        distribution['companions'].pop('m1_projected')
+    else:
+        g['options'] += [dict(o, 게임번호='33') for o in g['options']]
+    r = build(g, [], NOW.isoformat(), NOW.isoformat(), distribution=distribution)
+    assert r['items']
+    assert not any('frontier_consensus' in i['comparisons'] for i in r['items'])
+
+
+def test_frozen_frontier_settles_its_own_direction_and_price(tmp_path, monkeypatch):
+    import m0_forward_provider
+    monkeypatch.setattr(m0_forward_provider, 'get_distribution', lambda *args: score_distribution())
+    g = game()
+    g['decision_snapshot'] = build_decision_snapshot(g, as_of=NOW.isoformat(),
+        tipster_votes=[vote(g)], built_at=NOW.isoformat())
+    path = tmp_path/'frontier.jsonl'
+    r = PredictionRuntime(path, clock=lambda: NOW)
+    r.record_pregame(g, kickoff='2026-11-06T10:00:00Z', market_observed_at=NOW.isoformat())
+    r = PredictionRuntime(path, clock=lambda: NOW+timedelta(hours=10))
+    feed = _result_feed(g, 14, [('31','언더오버','U 8.5','언더')])
+    feed['markets']['131']['31']['odds'] = [1.55, 2.4]
+    assert settle_live_market_results(feed, r) == 1
+    frozen = next(iter(r.market_records().values()))
+    grade = next(iter(frozen['market_recommendation_results'].values()))
+    assert grade['result'] == 'miss'
+    assert grade['comparisons']['frontier_consensus']['result'] == 'hit'
+    assert grade['comparisons']['frontier_consensus']['net_units'] == '0.8'
+    context = performance(r.market_records())['comparison_by_context']
+    assert context['bs|KBO|언더오버|total_half|8.5|언더|frontier_consensus']['roi'] == pytest.approx(.8)
+    assert context['bs|KBO|언더오버|total_half|8.5|언더|frontier_m1_projected']['hit_rate'] == 1
+    assert settle_live_market_results(feed, r) == 0
+
+
 def test_actual_market_selections_and_rules_with_no_vote():
     g=game();r=build(g,[],NOW.isoformat(),NOW.isoformat(),distribution=unavailable())
     assert r['status']=='recommended' and len(r['items'])==2

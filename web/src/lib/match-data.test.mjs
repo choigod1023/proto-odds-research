@@ -23,6 +23,25 @@ test('old collector route fallback only for 404, not errors',async t=>{
   await assert.rejects(readMatchJson('/api/matches?scope=recent'),/503/);
 });
 
+test('modal gets comparison rows only for the same evidence and frozen snapshot', () => {
+  const compact = {pick_comparison_version:"exact-market-frontier-v1", evidence_hash:"e", items:[{offer_id:"o"}]};
+  const full = {...compact, items:[{offer_id:"o", comparisons:{frontier_consensus:{odds:2}}}]};
+  const record = {prediction_snapshot_id:"p", market_recommendations:compact, result:"hit"};
+  const summary = {_detail_key:"k", year:2026, round:1, sport:"bs", league:"KBO", date:"09.22", home:"H", away:"A",
+    market_recommendations:compact, market_prediction_record:record};
+  const detail = {...summary, market_recommendations:full,
+    market_prediction_record:{...record, result:"pending", market_recommendations:full}};
+  const merged = mergeMatchDetail(summary, {revision:"r", game:detail}, "r");
+  assert.equal(merged.market_recommendations, full);
+  assert.equal(merged.market_prediction_record.market_recommendations, full);
+  assert.equal(merged.market_prediction_record.result, "hit");
+  const wrong = {...detail, market_recommendations:{...full, evidence_hash:"other"},
+    market_prediction_record:{...detail.market_prediction_record, prediction_snapshot_id:"other"}};
+  const rejected = mergeMatchDetail(summary, {revision:"r", game:wrong}, "r");
+  assert.equal(rejected.market_recommendations, compact);
+  assert.equal(rejected.market_prediction_record, record);
+});
+
 test('stale detail revision refreshes list once per path without bypassing revision checks',async t=>{
   t.mock.method(globalThis,'fetch',async()=>({status:409,ok:false}));
   const path='/api/match-detail?key=k&revision=old';

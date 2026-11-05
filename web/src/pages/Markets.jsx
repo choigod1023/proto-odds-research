@@ -15,6 +15,7 @@ import GameInfoModal from "../components/GameInfoModal.jsx";
 import PickProbabilities from "../components/PickProbabilities.jsx";
 import MarketCandidateComparison from "../components/MarketCandidateComparison.jsx";
 import MarketRecommendations, { currentMarketRecommendations, savedMarketRecommendations, resultLabel, validationLabel, MarketRecommendationPerformance } from "../components/MarketRecommendations.jsx";
+import MarketPickComparison from "../components/MarketPickComparison.jsx";
 import { ESTIMATE_MESSAGE, PROBABILITY_EXPLANATION } from "../lib/probability-copy.js";
 import BetSaveDialog from "../components/BetSaveDialog.jsx";
 import { AiDecisionPath } from "../components/AiDisclosure.jsx";
@@ -554,7 +555,7 @@ export function GameList({ data, grades, caps, stale, today, marketOdds, liveGen
 <details className="detail-favorites"><summary>팀·리그 즐겨찾기</summary><FavoriteControls game={modalGame} favorites={favorites} onToggle={toggleFavorite} /></details>
         <Game g={modalGame} opts={modalGame.options || []} wait={modalGame.status === "배당대기"}
           grades={grades} lv={modalGame._liveState || null} stale={stale}
-          generatedAt={data.generated_at} year={data.year} detailOnly
+          generatedAt={data.generated_at} year={data.year} detailOnly marketPerformance={data.market_recommendation_performance}
           todayMembership={modalSelection.membership} todayOption={modalSelection.option}
           highlightedToday={modalSelection.membership?.recommended === true}
           selections={selections} onSaveBet={selectOption} />
@@ -758,7 +759,7 @@ function MarketHistory({ rows }) {
 }
 
 export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMembership,
-  todayOption, highlightedToday, onSaveBet, onOpen, selections = [], detailOnly = false }) {
+  todayOption, highlightedToday, onSaveBet, onOpen, selections = [], detailOnly = false, marketPerformance }) {
   // 같은 마켓의 두 선택지가 같은 등급이면 '=' — 어느 쪽을 사도 같아 고를 근거가 없다
   const tie = useMemo(() => {
     const by = {}, t = {};
@@ -937,6 +938,8 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
         </section>}
         {pick && onSaveBet && <button type="button" className="pick-select-action" disabled={selected || stale || g._liveOddsChanged}
           onClick={() => onSaveBet(g, pick.o)}>{selected ? "✓ 선택 목록에 담김" : "이 픽을 선택 목록에 담기"}</button>}
+        <MarketPickComparison game={g} options={g.options || opts} performance={marketPerformance}
+          recommendations={liveClosed && !locked ? [] : marketRecommendations} />
         <MarketRecommendations recommendations={marketRecommendations}
           selected={(option) => selections.some((item) => item.key === selectionKey(g, option))}
           onSelect={onSaveBet ? (option) => onSaveBet(g, option) : undefined} />

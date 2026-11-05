@@ -68,8 +68,28 @@ def game_key(game):
     return hashlib.sha256(json.dumps(identity, ensure_ascii=False).encode()).hexdigest()[:32]
 
 
+def _compact_markets(markets):
+    if not isinstance(markets, dict) or markets.get('pick_comparison_version') != 'exact-market-frontier-v1':
+        return markets
+    return dict(markets, items=[{k: v for k, v in item.items() if k != 'comparisons'}
+                                for item in markets.get('items', [])])
+
+
+def _compact_pick_record(record):
+    if isinstance(record, dict) and 'market_recommendations' in record:
+        return dict(record, market_recommendations=_compact_markets(record['market_recommendations']))
+    return record
+
+
 def card_game(game):
     result = dict(game, _detail_key=game_key(game))
+    # Candidate rows are modal-only. Avoid sending them in every game on the
+    # list (including duplicate current and frozen market records).
+    if 'market_recommendations' in result:
+        result['market_recommendations'] = _compact_markets(result['market_recommendations'])
+    for field in ('market_prediction_record', 'prediction_record'):
+        if field in result:
+            result[field] = _compact_pick_record(result[field])
     # Keep exactly the player names shown on compact cards; full player records are detail-only.
     info = game.get('선발')
     if isinstance(info, dict):
@@ -93,6 +113,8 @@ def card_game(game):
 def result_game(game):
     keys = ('home', 'away', 'sport', 'league', 'date', 'round', 'prediction_record')
     result = {k: game[k] for k in keys if k in game}
+    if 'prediction_record' in result:
+        result['prediction_record'] = _compact_pick_record(result['prediction_record'])
     result['options'] = [{k: option[k] for k in ('selection_id', '적중') if k in option}
                          for option in game.get('options', []) if isinstance(option.get('적중'), bool)]
     return result
@@ -127,6 +149,7 @@ def performance_payload(payload):
             if not game.get('prediction_record'):
                 continue
             row = {k: game[k] for k in fields if k in game}
+            row['prediction_record'] = _compact_pick_record(row['prediction_record'])
             row['decision_snapshot'] = {'event_id': (game.get('decision_snapshot') or {}).get('event_id')}
             row['options'] = [{k: option[k] for k in option_fields if k in option}
                               for option in game.get('options', [])]

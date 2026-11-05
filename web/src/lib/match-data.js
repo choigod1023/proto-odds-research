@@ -26,5 +26,20 @@ export function mergeMatchDetail(summary, response, revision) {
   if (!detail || !['year','round','sport','league','date','home','away'].every(k =>
     String(detail[k] ?? '') === String(summary[k] ?? ''))) return null;
   // Keep current live prices, frozen picks and live feed from the synchronized card.
-  return {...detail, ...summary, 선발:detail.선발};
+  const merged = {...detail, ...summary, 선발:detail.선발};
+  // Lists omit the model rows. Restore them only for the identical market
+  // evidence and pregame snapshot, keeping the live state from the list.
+  const sameMarkets = (a, b) => a?.pick_comparison_version === "exact-market-frontier-v1"
+    && a.evidence_hash && a.evidence_hash === b?.evidence_hash;
+  if (sameMarkets(summary.market_recommendations, detail.market_recommendations)) {
+    merged.market_recommendations = detail.market_recommendations;
+  }
+  for (const field of ["market_prediction_record", "prediction_record"]) {
+    const card = summary[field], full = detail[field];
+    if (card?.prediction_snapshot_id && card.prediction_snapshot_id === full?.prediction_snapshot_id
+      && sameMarkets(card.market_recommendations, full.market_recommendations)) {
+      merged[field] = {...card, market_recommendations: full.market_recommendations};
+    }
+  }
+  return merged;
 }
