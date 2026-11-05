@@ -10,6 +10,7 @@ import hashlib
 import json
 import math
 from pathlib import Path
+import re
 import sys
 import tempfile
 import threading
@@ -26,9 +27,11 @@ from research.m1_service import model, observer
 ROOT = Path('/data/research')
 MAX_BYTES = 8 * 1024 * 1024
 MAX_CAPTURES = 20
+MAX_INDEX_BYTES = 256 * 1024
 KST = timezone(timedelta(hours=9))
 _lock = threading.Lock()
 _cache = {}
+_index_cache = {}
 
 
 def _time(value):
@@ -129,15 +132,121 @@ def _verified_capture(record, root, meta):
             'home_mean': actual['home_rate'], 'away_mean': actual['away_rate']}
 
 
+def _read_bounded(path, maximum, description):
+    before = _stat(path)
+    if before[2] > maximum:
+        raise ValueError(f'{description} exceeds size limit')
+    with path.open('rb') as stream:
+        raw = stream.read(maximum + 1)
+    if len(raw) > maximum or len(raw) != before[2] or _stat(path) != before:
+        raise ValueError(f'{description} changed during read or exceeds size limit')
+    return raw, before
+
+
+def _index_entries(state, index):
+    if index.is_symlink() or not index.is_file():
+        raise ValueError('invalid capture index file')
+    index_stat = _stat(index)
+    key = str(index.resolve())
+    cached = _index_cache.get(key)
+    if cached and cached[0] == index_stat:
+        return cached[1], index_stat
+    raw, index_stat = _read_bounded(index, MAX_INDEX_BYTES, 'capture index')
+    data = json.loads(raw)
+    if not isinstance(data, dict) or data.get('schema') != 'm0-capture-index-v1':
+        raise ValueError('invalid capture index schema')
+    entries = data.get('captures')
+    if not isinstance(entries, list) or len(entries) > MAX_CAPTURES:
+        raise ValueError('invalid capture index count')
+    base = (state / 'capture-index').resolve()
+    if not base.is_relative_to(state.resolve()):
+        raise ValueError('capture directory outside state')
+    seen = set()
+    for entry in entries:
+        if not isinstance(entry, dict):
+            raise ValueError('invalid capture index entry')
+        digest = entry.get('hash')
+        if not isinstance(digest, str) or not re.fullmatch('[0-9a-f]{64}', digest) or digest in seen:
+            raise ValueError('invalid or duplicate indexed hash')
+        seen.add(digest)
+        if entry.get('file') != f'capture-index/{digest}.json' or not isinstance(entry.get('event'), dict):
+            raise ValueError('invalid indexed path or event')
+    _index_cache.clear()
+    _index_cache[key] = (index_stat, entries)
+    return entries, index_stat
+
+
+def _load_index(root, state, index):
+    entries, index_stat = _index_entries(state, index)
+    files = []
+    for entry in entries:
+        path = state / entry['file']
+        if path.is_symlink() or not path.is_file() or not path.resolve().is_relative_to(state.resolve()):
+            raise ValueError('indexed capture outside state or missing')
+        files.append((path, _stat(path)))
+    artifact_stat = _stat(model.PATH)
+    fingerprint = ('index', index_stat, artifact_stat, tuple(stat for _, stat in files))
+    key = str(root.resolve())
+    cached = _cache.get(key)
+    if cached and cached[0] == fingerprint:
+        return cached[1]
+    if hashlib.sha256(model.PATH.read_bytes()).hexdigest() != model.BUNDLE_SHA256:
+        raise ValueError('frozen model artifact hash mismatch')
+    meta = model.metadata()
+    eligible = []
+    for entry, (path, initial) in zip(entries, files):
+        raw, current = _read_bounded(path, MAX_BYTES, 'indexed capture')
+        if current != initial:
+            raise ValueError('indexed capture changed during validation')
+        record = json.loads(raw)
+        if not isinstance(record, dict):
+            raise ValueError('invalid indexed capture record')
+        canonical_record = observer.canonical(record)
+        if raw not in (canonical_record, canonical_record + b'\n'):
+            raise ValueError('indexed capture is not canonical')
+        core = dict(record)
+        claimed = core.pop('hash', None)
+        if (claimed != entry['hash'] or observer.digest(observer.canonical(core)) != claimed
+                or not isinstance(core.get('previous_hash'), str)
+                or not re.fullmatch('[0-9a-f]{64}', core['previous_hash'])
+                or record.get('input', {}).get('event') != entry['event']):
+            raise ValueError('indexed capture hash or event mismatch')
+        # The source checks are independent of the original ledger chain.
+        try:
+            eligible.append(_verified_capture(record, root, meta))
+        except (KeyError, TypeError, ValueError, OSError, OverflowError, AttributeError, EOFError, SourceError):
+            continue
+    if (_stat(index) != index_stat or _stat(model.PATH) != artifact_stat
+            or any(_stat(path) != before for path, before in files)):
+        raise ValueError('capture index changed during validation')
+    _cache.clear()
+    _cache[key] = (fingerprint, eligible)
+    return eligible
+
+
 def _load(root):
-    path = root / 'kbo-m0-actual-forward-v1' / 'predictions.jsonl'
+    state = root / 'kbo-m0-actual-forward-v1'
+    index = state / 'capture-index.json'
+    try:
+        index.lstat()
+    except FileNotFoundError:
+        pass
+    else:
+        return _load_index(root, state, index)
+    path = state / 'predictions.jsonl'
     before = _stat(path)
     artifact_stat = _stat(model.PATH)
     if before[2] > MAX_BYTES:
         raise ValueError('ledger exceeds 8 MiB limit')
     key = str(root.resolve())
     cached = _cache.get(key)
-    if cached and cached[0] == (before, artifact_stat):
+    if cached and cached[0] == ('ledger', before, artifact_stat):
+        try:
+            index.lstat()
+        except FileNotFoundError:
+            pass
+        else:
+            raise ValueError('capture index appeared during ledger lookup')
         return cached[1]
     # Bounded read first, then use the existing chain verifier on a private
     # snapshot. A concurrent append cannot make observer.read exceed the cap.
@@ -167,9 +276,15 @@ def _load(root):
             break
     if _stat(path) != before or _stat(model.PATH) != artifact_stat:
         raise ValueError('ledger changed during validation')
+    try:
+        index.lstat()
+    except FileNotFoundError:
+        pass
+    else:
+        raise ValueError('capture index appeared during ledger validation')
     # Keep memory bounded even when callers use several test roots.
     _cache.clear()
-    _cache[key] = ((before, artifact_stat), eligible)
+    _cache[key] = (('ledger', before, artifact_stat), eligible)
     return eligible
 
 
