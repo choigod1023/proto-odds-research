@@ -197,19 +197,26 @@ _market_cycle_pending = threading.Event()
 _next_recommendation_refresh = 0.0
 _tipster_wait_started = None
 _tailslips_wait_started = None
+_m0_wait_started = None
 _tipster_publish_pending = threading.Event()
 # Written by the odds looper; recommendation workers read the yield timestamps.
 _odds_yielded_tipster_waits = {}
 TIPSTER_LOOPERS = {"공개 픽스터", "다종목 픽스터"}
+PRIORITY_SOURCE_LOOPERS = TIPSTER_LOOPERS | {"KBO M0 사전예측"}
 TIPSTER_YIELD_RETRY_SECONDS = 900
 TIPSTER_YIELD_WINDOW_SECONDS = 60
 
 
+def _source_waits():
+    # Preserve oldest-first admission for every T-30 input producer.
+    return (("다종목 픽스터", _tipster_wait_started),
+            ("공개 픽스터", _tailslips_wait_started),
+            ("KBO M0 사전예측", _m0_wait_started))
+
+
 def _preferred_tipster():
     now = time.monotonic()
-    waiting = [(started, name) for started, name in (
-        (_tipster_wait_started, "다종목 픽스터"),
-        (_tailslips_wait_started, "공개 픽스터"))
+    waiting = [(started, name) for name, started in _source_waits()
         if started is not None and now - started >= 120]
     return min(waiting)[1] if waiting else None
 
@@ -217,8 +224,7 @@ def _preferred_tipster():
 def _tipster_yield_active():
     """Protect one odds interval for a waiting collector, without blocking retries forever."""
     now = time.monotonic()
-    for name, started in (("다종목 픽스터", _tipster_wait_started),
-                          ("공개 픽스터", _tailslips_wait_started)):
+    for name, started in _source_waits():
         if started is not None:
             yielded = _odds_yielded_tipster_waits.get((name, started))
             if yielded is not None and 0 <= now - yielded < TIPSTER_YIELD_WINDOW_SECONDS:
@@ -273,7 +279,7 @@ def _background_slot(name: str):
             preferred = _preferred_tipster()
             priority_pending = (_market_cycle_pending.is_set()
                                 or (preferred is not None and name != preferred))
-            if (name in TIPSTER_LOOPERS and preferred == name and not priority_pending
+            if (name in PRIORITY_SOURCE_LOOPERS and preferred == name and not priority_pending
                     and available is not None and available < BACKGROUND_MIN_AVAILABLE_MB
                     and time.monotonic() >= next_reclaim):
                 # Free only rebuildable parent caches under the existing lock.
@@ -659,11 +665,13 @@ def run_looper(name: str, cmd: list[str], interval: int,
         try:
             lock = _memory_heavy_lock if name in MEMORY_HEAVY_LOOPERS else None
             if lock:
-                global _tipster_wait_started, _tailslips_wait_started
+                global _tipster_wait_started, _tailslips_wait_started, _m0_wait_started
                 if name == "다종목 픽스터":
                     _tipster_wait_started = time.monotonic()
                 elif name == "공개 픽스터":
                     _tailslips_wait_started = time.monotonic()
+                elif name == "KBO M0 사전예측":
+                    _m0_wait_started = time.monotonic()
                 try:
                     with _background_slot(name):
                         if name in TIPSTER_LOOPERS or name == 'KBO M0 사전예측':
@@ -675,6 +683,8 @@ def run_looper(name: str, cmd: list[str], interval: int,
                         _tipster_wait_started = None
                     elif name == "공개 픽스터":
                         _tailslips_wait_started = None
+                    elif name == "KBO M0 사전예측":
+                        _m0_wait_started = None
             elif name == "실시간 배당":
                 # The independent recommendation worker must not race a new
                 # odds child between checking headroom and starting its process.
@@ -761,9 +771,7 @@ def _run_odds_cycle(cmd, market_retry=False):
     """
     # An overdue collector gets a bounded recurring opportunity. Never skip a
     # pending market retry, and do not yield more than once per 15 minutes.
-    waits = {(name, started) for name, started in (
-        ("다종목 픽스터", _tipster_wait_started),
-        ("공개 픽스터", _tailslips_wait_started)) if started is not None}
+    waits = {(name, started) for name, started in _source_waits() if started is not None}
     for finished in set(_odds_yielded_tipster_waits) - waits:
         del _odds_yielded_tipster_waits[finished]
     eligible = sorted((started, name) for name, started in waits
@@ -776,7 +784,7 @@ def _run_odds_cycle(cmd, market_retry=False):
         _odds_yielded_tipster_waits[preferred] = now
         # An expired retry window may still hold the previous reservation.
         _market_cycle_pending.clear()
-        log("새 배당 수집 한 주기 양보 — 오래 기다린 픽스터 자동 수집 우선")
+        log("새 배당 수집 한 주기 양보 — 오래 기다린 사전 원천 수집 우선")
         return 0, False
     _market_cycle_pending.set()
     try:
