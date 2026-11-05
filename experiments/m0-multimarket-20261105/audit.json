@@ -1,0 +1,49 @@
+{
+  "forecast_rows": 709,
+  "winner_cohort_rows": 667,
+  "archive_2026_sources_verified": 76,
+  "archive_2026_sources_missing": 0,
+  "raw_audit": {
+    "raw_total_rows": 679,
+    "raw_handicap_rows": 45,
+    "matched_result_event_rounds": 45,
+    "matched_result_total_event_rounds": 45,
+    "matched_result_handicap_event_rounds": 45,
+    "winner_rows_not_unique_event_rounds": 317,
+    "total_fails_price_result_or_terms_event_rounds": 1
+  },
+  "unique_winner_cohort_fixtures_with_raw_total": 311,
+  "eligible_total_fixtures": 44,
+  "multiple_matching_rounds_excluded": 0,
+  "comparisons": {
+    "m0_total": {
+      "n": 44,
+      "hits": 23,
+      "refunds": 0,
+      "accuracy": 0.5227272727272727,
+      "net_units": -4.63,
+      "roi": -0.10522727272727272
+    },
+    "market_favorite_total": {
+      "n": 44,
+      "hits": 25,
+      "refunds": 0,
+      "accuracy": 0.5681818181818182,
+      "net_units": -2.7,
+      "roi": -0.06136363636363637
+    },
+    "m0_winner": {
+      "n": 44,
+      "decided": 43,
+      "hits": 25,
+      "refunds": 1,
+      "accuracy": 0.5813953488372093,
+      "net_units": -3.29,
+      "roi": -0.07477272727272727
+    }
+  },
+  "handicap_roi": null,
+  "handicap_reason": "KBO two-way handicap settlement rule is unverified; held",
+  "retrospective": true,
+  "pregame_receipt_proven": false
+}
