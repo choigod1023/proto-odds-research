@@ -55,4 +55,27 @@ class IdentityChecks(unittest.TestCase):
         self.assertFalse(a.winner_kind({'betId':'108','betTypId':'3','handi':0},True))
         self.assertFalse(a.winner_kind({'betId':None,'betTypId':None,'handi':0},True))
         self.assertTrue(a.winner_kind({'betId':None,'betTypId':None,'handi':0},False))
+class AliasChecks(unittest.TestCase):
+    def setUp(self):
+        self.fid='score:2026-07-28:x:y'
+        self.info={'official_game_id':'game-1','event_date':'2026-07-28','home_id':'LG','away_id':'WO','kickoff':'2026-07-28T18:30:00+09:00','schedule_body_sha256':'abc','betman_sources':[{'round':'260088','body_sha256':'def'}]}
+    def test_index_uses_metadata_not_synthetic_id(self):
+        idx=a.resolved_index({self.fid:{}},{},{'resolved':{self.fid:self.info}})
+        self.assertEqual(idx[('20260728','LG','WO')],[self.fid])
+    def test_reject_duplicate_official_id_or_team_date(self):
+        info=dict(self.info,official_game_id='20260328HTSK0')
+        with self.assertRaisesRegex(ValueError,'duplicate official'):
+            a.resolved_index({self.fid:{}},{('20260328','SK','HT'):['20260328HTSK02026']},{'resolved':{self.fid:info}})
+        with self.assertRaisesRegex(ValueError,'ambiguous date'):
+            a.resolved_index({self.fid:{}},{('20260728','LG','WO'):['other2026']},{'resolved':{self.fid:self.info}})
+    def test_kickoff_and_round_proof_must_match(self):
+        ts=a.datetime.datetime.fromisoformat(self.info['kickoff']).timestamp()*1000
+        self.assertTrue(a.alias_source_matches(self.info,ts,{'round':'260088','sha256':'def'}))
+        self.assertFalse(a.alias_source_matches(self.info,ts+60000,{'round':'260088','sha256':'def'}))
+        self.assertFalse(a.alias_source_matches(self.info,ts,{'round':'260089','sha256':'def'}))
+        self.assertFalse(a.alias_source_matches(self.info,ts,{'round':'260088','sha256':'bad'}))
+    def test_reject_missing_kickoff_proof(self):
+        info=dict(self.info,betman_sources=[])
+        with self.assertRaisesRegex(ValueError,'missing alias source'):
+            a.resolved_index({self.fid:{}},{},{'resolved':{self.fid:info}})
 if __name__=='__main__':unittest.main()

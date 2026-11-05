@@ -17,6 +17,29 @@ def fixture_index(forecasts):
             idx[(fid[:8],fid[10:12],fid[8:10])].append(fid)
     return idx
 
+def resolved_index(forecasts, base, payload):
+    resolved=payload['resolved']
+    idx=collections.defaultdict(list, {k:list(v) for k,v in base.items()})
+    existing_ids={fid[:-4] for ids in base.values() for fid in ids}
+    seen_ids=set(existing_ids)
+    for fid,info in resolved.items():
+        if fid not in forecasts or not fid.startswith('score:'): raise ValueError('alias forecast identity invalid')
+        game=info['official_game_id']; date=info['event_date']; home=info['home_id']; away=info['away_id']
+        kickoff=datetime.datetime.fromisoformat(info['kickoff'])
+        if kickoff.utcoffset()!=datetime.timedelta(hours=9) or kickoff.date().isoformat()!=date or not home or not away or home==away: raise ValueError('alias metadata invalid')
+        if not game or game in seen_ids: raise ValueError('duplicate official game id')
+        seen_ids.add(game)
+        key=(date.replace('-',''),home,away)
+        if idx.get(key): raise ValueError('ambiguous date home away')
+        if not info.get('schedule_body_sha256') or not info.get('betman_sources'): raise ValueError('missing alias source proof')
+        idx[key].append(fid)
+    return idx
+
+def alias_source_matches(info,ts,source):
+    moment=datetime.datetime.fromtimestamp(ts/1000,datetime.timezone(datetime.timedelta(hours=9)))
+    return (moment==datetime.datetime.fromisoformat(info['kickoff']) and
+            any(str(x['round'])==str(source['round']) and x['body_sha256']==source['sha256'] for x in info['betman_sources']))
+
 def product_kind(row, strict):
     bet,typ=str(row.get('betId')),str(row.get('betTypId'))
     if bet=='79' and typ=='7' and row.get('handi')==9: return 'total'
@@ -88,7 +111,7 @@ def summary(rows):
     return {k:{'model':metric(v,'model_selection'),'market':metric(v,'market_selection'),'disagreements':sum(x['model_selection']!=x['market_selection'] for x in v),'model_hits_on_disagreements':sum(x['model_selection']!=x['market_selection'] and x['model_selection']==x['outcome'] for x in v),'market_hits_on_disagreements':sum(x['model_selection']!=x['market_selection'] and x['market_selection']==x['outcome'] for x in v)} for k,v in groups.items()}
 
 def main():
-    parser=argparse.ArgumentParser(); parser.add_argument('--manifest',type=Path,default=OUT/'source-manifest.json'); args=parser.parse_args()
+    parser=argparse.ArgumentParser(); parser.add_argument('--manifest',type=Path,default=OUT/'source-manifest.json'); parser.add_argument('--identity-aliases',type=Path); args=parser.parse_args()
     mp=args.manifest; fp=SRC/'m1-service-20261104/replay/replayed-709.json.gz'; cp=SRC/'m0-multimarket-20261105/cohort.json'; rp=SRC/'m1-service-20261104/replay/service-replay.json'
     manifest=read(mp); forecasts=json.loads(gzip.decompress(fp.read_bytes())); old=read(cp); replay=read(rp)
     if len(forecasts)!=709 or len(old)!=44 or len(replay['rows'])!=667: raise ValueError('unexpected input cohort size')
@@ -96,7 +119,19 @@ def main():
     counts=collections.Counter(); sources=[]
     counts['forecast_without_official_id']=len(forecasts)-sum(len(v) for v in idx.values())
     counts['forecast_official_id']=sum(len(v) for v in idx.values())
-    raw={mode:collections.defaultdict(list) for mode in ('strict','sensitivity')}
+    modes=['strict','sensitivity']; aliases={}; alias_doc=None
+    indexes={'strict':idx,'sensitivity':idx}
+    if args.identity_aliases:
+        alias_doc=read(args.identity_aliases)
+        for name,entry in alias_doc['inputs'].items():
+            if sha(Path(entry['path']).read_bytes())!=entry['sha256']: raise ValueError('alias input hash mismatch: '+name)
+        if alias_doc['inputs']['forecast']['sha256']!=sha(fp.read_bytes()) or alias_doc['inputs']['manifest']['sha256']!=sha(mp.read_bytes()): raise ValueError('alias forecast or manifest mismatch')
+        alias_audit_path=args.identity_aliases.with_name('audit.json'); alias_audit=read(alias_audit_path)
+        aliases=alias_doc['resolved']; indexes['strict_resolved']=resolved_index(forecasts,idx,alias_doc)
+        if set(x['fixture_id'] for x in alias_audit['excluded']) != {fid for fid in forecasts if fid.startswith('score:') and fid not in aliases}: raise ValueError('resolver audit exclusion mismatch')
+        modes.append('strict_resolved'); counts['verified_aliases']=len(aliases)
+        counts['unresolved_score_forecasts']=sum(fid.startswith('score:') and fid not in aliases for fid in forecasts)
+    raw={mode:collections.defaultdict(list) for mode in modes}
     winners={mode:collections.defaultdict(lambda:collections.defaultdict(list)) for mode in raw}
     for src in manifest['sources']:
         if not src['round'].startswith('26'): continue
@@ -108,9 +143,12 @@ def main():
             r=dict(zip(data['keys'],vals))
             if r.get('leagueCode')=='BS001': groups[(r['gameDate'],r['homeId'],r['awayId'])].append(r)
         for (ts,home,away),items in groups.items():
-            date=datetime.datetime.fromtimestamp(ts/1000,datetime.timezone(datetime.timedelta(hours=9))).strftime('%Y%m%d'); ids=idx.get((date,home,away),[])
+            date=datetime.datetime.fromtimestamp(ts/1000,datetime.timezone(datetime.timedelta(hours=9))).strftime('%Y%m%d')
             for mode in raw:
-                strict=mode=='strict'
+                ids=indexes[mode].get((date,home,away),[])
+                if len(ids)==1 and ids[0] in aliases and mode=='strict_resolved' and not alias_source_matches(aliases[ids[0]],ts,source):
+                    counts[mode+'_alias_source_or_kickoff_mismatch_groups']+=1; continue
+                strict=mode!='sensitivity'
                 if len(ids)==1:
                     winners[mode][ids[0]][src['round']].extend((r,source) for r in items if winner_kind(r,strict))
                 for row in items:
@@ -132,7 +170,9 @@ def main():
             if len(products)>1 and products[0][:2]==products[1][:2]: raise ValueError('duplicate_product_key')
             wrnd,winner,wsource=choose_winner(winners[mode][fid])
             result=calc(market,row,winner,forecasts[fid]['m0_actual'])
-            result.update(fixture_id=fid,date=fid[:4]+'-'+fid[4:6]+'-'+fid[6:8],market=market,round=str(rnd),game_no=seq,body_sha256=source['sha256'],betId=row.get('betId'),betTypId=row.get('betTypId'),general_round=str(wrnd),general_game_no=winner['matchSeq'],general_body_sha256=wsource['sha256'],general_body_path=wsource['path'],general_betId=winner.get('betId'),general_betTypId=winner.get('betTypId'))
+            result.update(fixture_id=fid,date=aliases[fid]['event_date'] if mode=='strict_resolved' and fid in aliases else fid[:4]+'-'+fid[4:6]+'-'+fid[6:8],market=market,round=str(rnd),game_no=seq,body_sha256=source['sha256'],betId=row.get('betId'),betTypId=row.get('betTypId'),general_round=str(wrnd),general_game_no=winner['matchSeq'],general_body_sha256=wsource['sha256'],general_body_path=wsource['path'],general_betId=winner.get('betId'),general_betTypId=winner.get('betTypId'))
+            if mode=='strict_resolved' and fid in aliases:
+                result['resolved_identity']={k:aliases[fid][k] for k in ('official_game_id','event_date','home_id','away_id','kickoff','schedule_body_sha256')}
             cohorts[mode].append(result);counts[prefix+'_eligible']+=1
         except (KeyError,TypeError,ValueError,ArithmeticError) as e:
             reason=str(e);counts[prefix+'_excluded_'+reason]+=1; exclusions.append(dict(cohort=mode,fixture_id=fid,market=market,round=rnd,game_no=seq,reason=reason))
@@ -156,6 +196,11 @@ def main():
             'date_ranges':{mode:{m:[min((r['date'] for r in rows if r['market']==m),default=None),max((r['date'] for r in rows if r['market']==m),default=None)] for m in ('total','handicap')} for mode,rows in cohorts.items()},
             'handicap_distribution':{mode:hc_distribution(rows) for mode,rows in cohorts.items()},
             'old44':{'total':summary(old_total),'handicap':summary(old_hc)},'exclusions':exclusions}
+    if args.identity_aliases:
+        alias_rows=[r for r in cohorts['strict_resolved'] if r['fixture_id'] in aliases]
+        result['canonical']['resolved_only']={m:summary([r for r in alias_rows if r['market']==m]) for m in ('total','handicap')}
+        result['date_ranges']['resolved_only']={m:[min((r['date'] for r in alias_rows if r['market']==m),default=None),max((r['date'] for r in alias_rows if r['market']==m),default=None)] for m in ('total','handicap')}
+        result['identity_aliases']={'path':str(args.identity_aliases),'sha256':sha(args.identity_aliases.read_bytes()),'unresolved_forecast_ids':[fid for fid in forecasts if fid.startswith('score:') and fid not in aliases], 'inputs':alias_doc['inputs'],'resolver_audit_path':str(alias_audit_path),'resolver_audit_sha256':sha(alias_audit_path.read_bytes()),'resolver_exclusions':alias_audit['excluded']}
     for name,obj in [('audit.json',result),('canonical.json',cohorts)]: (OUT/name).write_text(json.dumps(obj,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
     print(json.dumps({'counts':dict(counts),'date_ranges':result['date_ranges'],'distribution':result['handicap_distribution'],'canonical':{mode:{k:v['all'] for k,v in groups.items()} for mode,groups in result['canonical'].items()}},ensure_ascii=False,indent=2))
 if __name__=='__main__': main()
