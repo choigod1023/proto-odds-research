@@ -46,7 +46,7 @@ def score_distribution(m1=2.):
 
 
 @pytest.mark.parametrize('league,sport,home,away,line,sides,expected,model', [
-    ('K리그1', 'sc', '울산HD', 'FC서울', -1., ('핸디홈', '핸디무', '핸디원정'),
+    ('K리그1', 'sc', '울산HD', '대전하나', -1., ('핸디홈', '핸디무', '핸디원정'),
      '핸디원정', 'kleague1-team-poisson-handicap-v1'),
     ('KBL', 'bk', '울산모비', '서울삼성', -10.5, ('핸디홈', '핸디원정'),
      '핸디원정', 'kbl-team-margin-handicap-v1'),

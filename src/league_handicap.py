@@ -10,7 +10,7 @@ from market_outcomes import probabilities
 from market_pick_frontier import estimate, score_pick
 
 ARTIFACT = Path(__file__).resolve().parents[1] / 'data/model_candidates/handicap-v1.json'
-ARTIFACT_SHA256 = 'c928e703b026f08ebf3b149d3f4092d9a059c0fe8ade897c769039094af9f559'
+ARTIFACT_SHA256 = 'afd2f2eeb6afce482a95c0494e860ab849115e98feccb5c15175242241484bfd'
 MODELS = {
     ('sc', 'K리그1', 'regulation', 'handicap_3way'): 'kleague1-team-poisson-handicap-v1',
     ('bk', 'KBL', 'full_including_extra', 'handicap_half'): 'kbl-team-margin-handicap-v1',
