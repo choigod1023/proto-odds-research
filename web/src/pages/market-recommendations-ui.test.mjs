@@ -11,13 +11,19 @@ test('game card and detail display automatic picks without replacing winner; sta
  try {
   const {Game}=await server.ssrLoadModule('/src/pages/Markets.jsx');
   const options=['언더','오버'].map((name,i)=>({게임번호:'2',market:'언더오버',label:'U 2.5',line:2.5,n_way:2,선택:name,배당:i?1.9:1.8,selection_id:`s${i}`,offer_id:`o${i}`,period:'full_game',settlement_scope:'regulation'}));
-  const item={selection_id:'s1',offer_id:'o1',market:'언더오버',label:'U 2.5',line:2.5,selection:'오버',odds:1.9,game_no:'2',settlement_rule:'regulation'};
+  const item={selection_id:'s1',offer_id:'o1',market:'언더오버',label:'U 2.5',line:2.5,selection:'오버',odds:1.9,game_no:'2',settlement_rule:'regulation',model:'market-baseline-v1'};
   const g={year:2099,date:'09.06(일) 18:00',round:1,status:'경기전',sport:'bs',league:'리그',home:'홈팀',away:'원정팀',options,market_recommendations:{version:'multi-market-recommendations-v1',items:[item]}};
   const props={g,opts:options,wait:false,onSaveBet:()=>{},todayOption:{market:'승패',선택:'홈',배당:1.8,시장확률:.6}};
   for(const detailOnly of [false,true]){
     const html=renderToStaticMarkup(createElement(Game,{...props,detailOnly}));
     assert.match(html,/언더오버 U 2\.5/);assert.match(html,/오버/);assert.match(html,/승패/);
-    if(detailOnly) assert.match(html,/이 추천을 선택 목록에 담기/);
+    if(detailOnly) {
+      assert.match(html,/이 추천을 선택 목록에 담기/);
+      assert.ok(html.indexOf('시장별 자동 추천') < html.indexOf('모델별 픽 비교'));
+    } else {
+      assert.match(html,/시장별 자동 추천.*1\.90배.*시장 배당 기준/);
+      assert.doesNotMatch(html,/모델별 픽 비교/);
+    }
   }
   const fixture=Object.fromEntries(['sport','league','home','away','year','round','date'].map(k=>[k,g[k]]));
   const record={prediction_snapshot_id:'snapshot',fixture,kickoff:'2099-09-06T09:00:00Z',captured_at:'2099-09-06T07:00:00Z',
@@ -27,9 +33,15 @@ test('game card and detail display automatic picks without replacing winner; sta
   Date.now=()=>Date.parse('2099-09-06T08:45:00Z');
   for(const detailOnly of [false,true]){
     const html=renderToStaticMarkup(createElement(Game,{...props,g:{...g,market_prediction_record:record},detailOnly}));
-    assert.match(html,/보존된 경기 전 추천/);assert.match(html,/순손익 \+0\.90단위/);assert.doesNotMatch(html,/이 추천을 선택 목록에 담기/);
+    if(detailOnly) {
+      assert.match(html,/보존된 경기 전 추천.*순손익 \+0\.90단위/);
+    } else {
+      assert.match(html,/보존된 시장별 추천.*1\.90배.*적중/);
+      assert.doesNotMatch(html,/2099-09-06T07:00:00Z|순손익/);
+    }
+    assert.doesNotMatch(html,/이 추천을 선택 목록에 담기/);
   }
-  const savedRender = (recordChanges, gameChanges={}) => renderToStaticMarkup(createElement(Game,{...props,g:{...g,...gameChanges,market_prediction_record:{...record,...recordChanges}}}));
+  const savedRender = (recordChanges, gameChanges={}) => renderToStaticMarkup(createElement(Game,{...props,detailOnly:true,g:{...g,...gameChanges,market_prediction_record:{...record,...recordChanges}}}));
   assert.match(savedRender({}, {options:[]}),/보존된 경기 전 추천/);
   assert.match(savedRender({fixture:undefined,market_recommendation_options:[]}),/보존된 경기 전 추천/);
   assert.doesNotMatch(savedRender({fixture:undefined}, {options:[]}),/보존된 경기 전 추천/);
@@ -47,7 +59,7 @@ test('game card and detail display automatic picks without replacing winner; sta
   assert.doesNotMatch(savedRender({market_recommendation_results:[{...record.market_recommendation_results[0],net_units:'900'}]}),/순손익/);
   Date.now=()=>Date.parse('2099-09-06T00:00:00Z');
   for(const extra of [{stale:true},{wait:true},{g:{...g,_liveStarted:true}},{g:{...g,_liveOddsChanged:true}}]){
-    const html=renderToStaticMarkup(createElement(Game,{...props,...extra}));assert.doesNotMatch(html,/자동 추천 · 언더오버/);
+    const html=renderToStaticMarkup(createElement(Game,{...props,...extra}));assert.doesNotMatch(html,/시장별 자동 추천/);
   }
  } finally {Date.now=now;await server.close();}
 });
