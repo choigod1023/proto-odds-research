@@ -1,0 +1,332 @@
+{
+  "archive_manifest_sha256": "08e21bac036a49356c9121e87a318b84219743a5d434f99a67cfa462856e2ded",
+  "published_picks_sha256": "abe9350eee06ccf8a510c0295d4af8364e5d168f9174ee94d2c286c697822efa",
+  "retrospective": true,
+  "report": {
+    "EPL": {
+      "training_fixtures": 239,
+      "archive_evaluation_fixtures": 154,
+      "status": "no_switch",
+      "common_fixtures": 137,
+      "product_counts": {
+        "products": 264,
+        "unseen_team": 34
+      },
+      "metrics": {
+        "model": {
+          "hits": 167,
+          "accuracy": 0.6325757575757576,
+          "roi": -0.05185606060606063
+        },
+        "market": {
+          "hits": 173,
+          "accuracy": 0.6553030303030303,
+          "roi": -0.017007575757575763
+        },
+        "blend": {
+          "hits": 173,
+          "accuracy": 0.6553030303030303,
+          "roi": -0.017007575757575763
+        }
+      },
+      "blend_model_weight": 0.0,
+      "tuning_fixtures": 65,
+      "mapped_teams": 23,
+      "site_aliases": 18
+    },
+    "라리가": {
+      "training_fixtures": 251,
+      "archive_evaluation_fixtures": 233,
+      "status": "no_switch",
+      "common_fixtures": 202,
+      "product_counts": {
+        "products": 263,
+        "unseen_team": 40
+      },
+      "metrics": {
+        "model": {
+          "hits": 130,
+          "accuracy": 0.49429657794676807,
+          "roi": -0.19136882129277566
+        },
+        "market": {
+          "hits": 147,
+          "accuracy": 0.55893536121673,
+          "roi": -0.11163498098859316
+        },
+        "blend": {
+          "hits": 147,
+          "accuracy": 0.55893536121673,
+          "roi": -0.11163498098859316
+        }
+      },
+      "blend_model_weight": 0.0,
+      "tuning_fixtures": 65,
+      "mapped_teams": 23,
+      "site_aliases": 17
+    },
+    "분데스리": {
+      "training_fixtures": 223,
+      "archive_evaluation_fixtures": 144,
+      "status": "no_switch",
+      "common_fixtures": 121,
+      "product_counts": {
+        "products": 223,
+        "unseen_team": 46
+      },
+      "metrics": {
+        "model": {
+          "hits": 134,
+          "accuracy": 0.600896860986547,
+          "roi": -0.027982062780269074
+        },
+        "market": {
+          "hits": 145,
+          "accuracy": 0.6502242152466368,
+          "roi": -0.003991031390134541
+        },
+        "blend": {
+          "hits": 145,
+          "accuracy": 0.6502242152466368,
+          "roi": -0.003991031390134541
+        }
+      },
+      "blend_model_weight": 0.0,
+      "tuning_fixtures": 63,
+      "mapped_teams": 20,
+      "site_aliases": 15
+    },
+    "세리에A": {
+      "training_fixtures": 233,
+      "archive_evaluation_fixtures": 172,
+      "status": "no_switch",
+      "common_fixtures": 162,
+      "product_counts": {
+        "products": 202,
+        "tied_market": 1,
+        "unseen_team": 10
+      },
+      "metrics": {
+        "model": {
+          "hits": 80,
+          "accuracy": 0.39603960396039606,
+          "roi": -0.2783663366336634
+        },
+        "market": {
+          "hits": 95,
+          "accuracy": 0.47029702970297027,
+          "roi": -0.18376237623762381
+        },
+        "blend": {
+          "hits": 87,
+          "accuracy": 0.4306930693069307,
+          "roi": -0.26301980198019803
+        }
+      },
+      "blend_model_weight": 0.25,
+      "tuning_fixtures": 63,
+      "mapped_teams": 23,
+      "site_aliases": 19
+    },
+    "프리그1": {
+      "training_fixtures": 232,
+      "archive_evaluation_fixtures": 148,
+      "status": "no_switch",
+      "common_fixtures": 131,
+      "product_counts": {
+        "products": 153,
+        "unseen_team": 20
+      },
+      "metrics": {
+        "model": {
+          "hits": 72,
+          "accuracy": 0.47058823529411764,
+          "roi": -0.11601307189542479
+        },
+        "market": {
+          "hits": 75,
+          "accuracy": 0.49019607843137253,
+          "roi": -0.14320261437908494
+        },
+        "blend": {
+          "hits": 75,
+          "accuracy": 0.49019607843137253,
+          "roi": -0.14320261437908494
+        }
+      },
+      "blend_model_weight": 0.0,
+      "tuning_fixtures": 63,
+      "mapped_teams": 21,
+      "site_aliases": 16
+    },
+    "에레디비": {
+      "training_fixtures": 226,
+      "archive_evaluation_fixtures": 169,
+      "status": "no_switch",
+      "common_fixtures": 149,
+      "product_counts": {
+        "products": 176,
+        "unseen_team": 25,
+        "tied_market": 1
+      },
+      "metrics": {
+        "model": {
+          "hits": 85,
+          "accuracy": 0.48295454545454547,
+          "roi": -0.008238636363636356
+        },
+        "market": {
+          "hits": 94,
+          "accuracy": 0.5340909090909091,
+          "roi": -0.046136363636363635
+        },
+        "blend": {
+          "hits": 90,
+          "accuracy": 0.5113636363636364,
+          "roi": -0.07147727272727272
+        }
+      },
+      "blend_model_weight": 0.25,
+      "tuning_fixtures": 62,
+      "mapped_teams": 21,
+      "site_aliases": 16
+    },
+    "UCL": {
+      "training_fixtures": 43,
+      "archive_evaluation_fixtures": 79,
+      "status": "insufficient_training"
+    },
+    "UEL": {
+      "training_fixtures": 55,
+      "archive_evaluation_fixtures": 61,
+      "status": "insufficient_training"
+    },
+    "UECL": {
+      "training_fixtures": 43,
+      "archive_evaluation_fixtures": 18,
+      "status": "insufficient_training"
+    },
+    "MLS": {
+      "training_fixtures": 149,
+      "archive_evaluation_fixtures": 442,
+      "status": "no_switch",
+      "common_fixtures": 432,
+      "product_counts": {
+        "products": 457,
+        "ambiguous_round_or_line": 13
+      },
+      "metrics": {
+        "model": {
+          "hits": 243,
+          "accuracy": 0.5317286652078774,
+          "roi": -0.061159737417943096
+        },
+        "market": {
+          "hits": 252,
+          "accuracy": 0.5514223194748359,
+          "roi": -0.060875273522975934
+        },
+        "blend": {
+          "hits": 252,
+          "accuracy": 0.5514223194748359,
+          "roi": -0.060875273522975934
+        }
+      },
+      "blend_model_weight": 0.0,
+      "tuning_fixtures": 57,
+      "mapped_teams": 27,
+      "site_aliases": 27
+    },
+    "J1리그": {
+      "training_fixtures": 315,
+      "archive_evaluation_fixtures": 130,
+      "status": "no_switch",
+      "common_fixtures": 81,
+      "product_counts": {
+        "products": 82,
+        "unseen_team": 33,
+        "ambiguous_round_or_line": 16
+      },
+      "metrics": {
+        "model": {
+          "hits": 39,
+          "accuracy": 0.47560975609756095,
+          "roi": -0.18548780487804878
+        },
+        "market": {
+          "hits": 42,
+          "accuracy": 0.5121951219512195,
+          "roi": -0.1120731707317073
+        },
+        "blend": {
+          "hits": 42,
+          "accuracy": 0.5121951219512195,
+          "roi": -0.1120731707317073
+        }
+      },
+      "blend_model_weight": 0.0,
+      "tuning_fixtures": 50,
+      "mapped_teams": 20,
+      "site_aliases": 17
+    },
+    "ACLE": {
+      "training_fixtures": 17,
+      "archive_evaluation_fixtures": 51,
+      "status": "insufficient_training"
+    },
+    "ACL2": {
+      "training_fixtures": 28,
+      "archive_evaluation_fixtures": 30,
+      "status": "insufficient_training"
+    },
+    "코파 리베르타도레스": {
+      "training_fixtures": 0,
+      "archive_evaluation_fixtures": 27,
+      "status": "insufficient_training"
+    },
+    "축구 월드컵": {
+      "training_fixtures": 0,
+      "archive_evaluation_fixtures": 49,
+      "status": "insufficient_training"
+    },
+    "축월드예": {
+      "training_fixtures": 124,
+      "archive_evaluation_fixtures": 5,
+      "status": "insufficient_evaluation",
+      "common_fixtures": 4,
+      "product_counts": {
+        "products": 4,
+        "unseen_team": 1
+      },
+      "metrics": {
+        "model": {
+          "hits": 2,
+          "accuracy": 0.5,
+          "roi": 0.08250000000000002
+        },
+        "market": {
+          "hits": 1,
+          "accuracy": 0.25,
+          "roi": -0.5675
+        },
+        "blend": {
+          "hits": 1,
+          "accuracy": 0.25,
+          "roi": -0.5675
+        }
+      },
+      "blend_model_weight": 0.0,
+      "tuning_fixtures": 33
+    },
+    "UEFA 네이션스리그": {
+      "training_fixtures": 0,
+      "archive_evaluation_fixtures": 103,
+      "status": "insufficient_training"
+    },
+    "남축INTL": {
+      "training_fixtures": 56,
+      "archive_evaluation_fixtures": 146,
+      "status": "insufficient_training"
+    }
+  }
+}

@@ -45,6 +45,30 @@ def score_distribution(m1=2.):
                             'm1_projected': {'home_mean': m1, 'away_mean': m1}})
 
 
+def test_international_research_handicap_is_saved_alongside_the_operating_pick():
+    from league_handicap import INTERNATIONAL_MODEL
+
+    g = game()
+    g.update(league='EPL', sport='sc', home='아스널', away='맨체스터시티', options=[])
+    g['options'] = [
+        dict(게임번호='32', market='핸디캡', label='H -1', line=-1., n_way=3, 선택=side, 배당=price)
+        for side, price in zip(('핸디홈', '핸디무', '핸디원정'), (1.6, 3.4, 3.8))
+    ]
+    annotate_options(g)
+    item, = build(g, [], NOW.isoformat(), NOW.isoformat(), distribution=unavailable())['items']
+    assert item['model'] == 'market-baseline-v1'
+    assert item['selection'] == '핸디홈'
+    research = item['comparisons'][INTERNATIONAL_MODEL]
+    assert research['selection'] != item['selection']
+    assert research['probability_basis'] == 'score_model'
+    assert len(research['model_artifact_sha256']) == 64
+    assert not item['validated_edge']
+
+    g['away'] = '미등록팀'
+    item, = build(g, [], NOW.isoformat(), NOW.isoformat(), distribution=unavailable())['items']
+    assert INTERNATIONAL_MODEL not in item['comparisons']
+
+
 @pytest.mark.parametrize('league,sport,home,away,line,sides,expected,model', [
     ('K리그1', 'sc', '울산HD', '대전하나', -1., ('핸디홈', '핸디무', '핸디원정'),
      '핸디원정', 'kleague1-team-poisson-handicap-v1'),

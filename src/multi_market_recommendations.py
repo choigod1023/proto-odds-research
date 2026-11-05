@@ -13,7 +13,8 @@ import math
 import re
 
 from fixed_tipster_hybrid import stamp
-from league_handicap import MODELS as LEAGUE_HANDICAP_MODELS, recommend as league_handicap_pick
+from league_handicap import INTERNATIONAL_MODEL, MODELS as LEAGUE_HANDICAP_MODELS, compare_international
+from league_handicap import recommend as league_handicap_pick
 from market_pick_frontier import ARM_NAMES, FINAL, MODELS, choose_final, market_estimate, score_pick
 from public_tipster_votes import kickoff
 
@@ -204,6 +205,13 @@ def build(game, rows, as_of, built_at, *, distribution=None, market_candidates=N
                         model='frontier_tipster', basis='tipster_direction_market_odds')
                 if model_arm is not None:
                     comparisons[model] = model_arm
+                elif observed_price:
+                    try:
+                        research = compare_international(terms, game, offers, price_time=price_time)
+                        if research is not None:
+                            comparisons[INTERNATIONAL_MODEL] = research
+                    except (OSError, ValueError, TypeError, KeyError, OverflowError):
+                        pass  # Keep the regular pick if research inputs cannot be loaded.
                 if m0:
                     companions = distribution.get('companions') or {}
                     for name in MODELS:
@@ -297,7 +305,8 @@ def performance(records):
                 line_key = format(Decimal(str(line or 0)).normalize(), 'f')
                 for name, arm in (item.get('comparisons') or {}).items():
                     side = arm.get('selection')
-                    if (name in ('market', 'frontier_tipster', FINAL, *ARM_NAMES, *LEAGUE_HANDICAP_MODELS.values())
+                    if (name in ('market', 'frontier_tipster', FINAL, INTERNATIONAL_MODEL,
+                                 *ARM_NAMES, *LEAGUE_HANDICAP_MODELS.values())
                             and isinstance(side, str) and side and '|' not in side
                             and arm.get('selection_id') and arm.get('offer_id')):
                         settled = ((grade or {}).get('comparisons') or {}).get(name)
