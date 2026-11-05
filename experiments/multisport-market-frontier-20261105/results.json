@@ -1,0 +1,333 @@
+{
+  "retrospective": true,
+  "certified_pregame_products": 0,
+  "agreed_three_model_picks": null,
+  "forecast_cohort": "retrospective_year_strict__claimed_time_only",
+  "forecast_kickoff_range": [
+    "2026-03-07T14:00:00+09:00",
+    "2026-10-24T09:00:00+09:00"
+  ],
+  "leagues": {
+    "K리그1": {
+      "frozen_fixtures": 15,
+      "total": {
+        "archive_products": 429,
+        "matched_fixtures": 15,
+        "ambiguous_line_matches": 0,
+        "models": {
+          "market": {
+            "n": 15,
+            "hits": 8,
+            "accuracy": 0.5333333333333333,
+            "roi": -0.13066666666666665
+          },
+          "score-static": {
+            "n": 15,
+            "hits": 6,
+            "accuracy": 0.4,
+            "roi": -0.328
+          },
+          "score-dynamic": {
+            "n": 15,
+            "hits": 5,
+            "accuracy": 0.3333333333333333,
+            "roi": -0.4326666666666667
+          }
+        }
+      },
+      "handicap": {
+        "archive_products": 669,
+        "matched_fixtures": 15,
+        "ambiguous_line_matches": 0,
+        "models": {
+          "market": {
+            "n": 26,
+            "hits": 16,
+            "accuracy": 0.6153846153846154,
+            "roi": -0.16692307692307692
+          },
+          "score-static": {
+            "n": 26,
+            "hits": 17,
+            "accuracy": 0.6538461538461539,
+            "roi": -0.06115384615384614
+          },
+          "score-dynamic": {
+            "n": 26,
+            "hits": 17,
+            "accuracy": 0.6538461538461539,
+            "roi": -0.06115384615384614
+          }
+        }
+      }
+    },
+    "K리그2": {
+      "frozen_fixtures": 9,
+      "total": {
+        "archive_products": 509,
+        "matched_fixtures": 9,
+        "ambiguous_line_matches": 0,
+        "models": {
+          "market": {
+            "n": 9,
+            "hits": 4,
+            "accuracy": 0.4444444444444444,
+            "roi": -0.26
+          },
+          "score-static": {
+            "n": 9,
+            "hits": 5,
+            "accuracy": 0.5555555555555556,
+            "roi": -0.060000000000000005
+          },
+          "score-dynamic": {
+            "n": 9,
+            "hits": 6,
+            "accuracy": 0.6666666666666666,
+            "roi": 0.1711111111111111
+          }
+        }
+      },
+      "handicap": {
+        "archive_products": 517,
+        "matched_fixtures": 9,
+        "ambiguous_line_matches": 0,
+        "models": {
+          "market": {
+            "n": 9,
+            "hits": 1,
+            "accuracy": 0.1111111111111111,
+            "roi": -0.8366666666666667
+          },
+          "score-static": {
+            "n": 9,
+            "hits": 1,
+            "accuracy": 0.1111111111111111,
+            "roi": -0.8366666666666667
+          },
+          "score-dynamic": {
+            "n": 9,
+            "hits": 1,
+            "accuracy": 0.1111111111111111,
+            "roi": -0.8366666666666667
+          }
+        }
+      }
+    },
+    "NPB": {
+      "frozen_fixtures": 110,
+      "total": {
+        "archive_products": 1278,
+        "matched_fixtures": 72,
+        "ambiguous_line_matches": 0,
+        "models": {
+          "market": {
+            "n": 72,
+            "hits": 27,
+            "accuracy": 0.375,
+            "roi": -0.3734722222222222
+          },
+          "score-static": {
+            "n": 72,
+            "hits": 34,
+            "accuracy": 0.4722222222222222,
+            "roi": -0.1663888888888889
+          },
+          "score-dynamic": {
+            "n": 72,
+            "hits": 35,
+            "accuracy": 0.4861111111111111,
+            "roi": -0.14847222222222223
+          }
+        }
+      },
+      "handicap": {
+        "archive_products": 528,
+        "matched_fixtures": 2,
+        "ambiguous_line_matches": 0,
+        "models": {
+          "market": {
+            "n": 2,
+            "hits": 1,
+            "accuracy": 0.5,
+            "roi": -0.42000000000000004
+          },
+          "score-static": {
+            "n": 2,
+            "hits": 1,
+            "accuracy": 0.5,
+            "roi": -0.42000000000000004
+          },
+          "score-dynamic": {
+            "n": 2,
+            "hits": 1,
+            "accuracy": 0.5,
+            "roi": -0.42000000000000004
+          }
+        }
+      }
+    },
+    "MLB": {
+      "frozen_fixtures": 112,
+      "total": {
+        "archive_products": 3696,
+        "matched_fixtures": 85,
+        "ambiguous_line_matches": 5,
+        "models": {
+          "market": {
+            "n": 85,
+            "hits": 49,
+            "accuracy": 0.5764705882352941,
+            "roi": -0.03717647058823531
+          },
+          "score-static": {
+            "n": 85,
+            "hits": 47,
+            "accuracy": 0.5529411764705883,
+            "roi": -0.04564705882352941
+          },
+          "score-dynamic": {
+            "n": 85,
+            "hits": 48,
+            "accuracy": 0.5647058823529412,
+            "roi": -0.02047058823529412
+          }
+        }
+      },
+      "handicap": {
+        "archive_products": 1324,
+        "matched_fixtures": 2,
+        "ambiguous_line_matches": 0,
+        "models": {
+          "market": {
+            "n": 2,
+            "hits": 2,
+            "accuracy": 1.0,
+            "roi": 0.18999999999999995
+          },
+          "score-static": {
+            "n": 2,
+            "hits": 2,
+            "accuracy": 1.0,
+            "roi": 0.18999999999999995
+          },
+          "score-dynamic": {
+            "n": 2,
+            "hits": 2,
+            "accuracy": 1.0,
+            "roi": 0.18999999999999995
+          }
+        }
+      }
+    },
+    "KBL": {
+      "frozen_fixtures": 0,
+      "total": {
+        "archive_products": 198,
+        "matched_fixtures": 0,
+        "ambiguous_line_matches": 0,
+        "models": {
+          "market": {
+            "n": 0,
+            "hits": 0,
+            "accuracy": null,
+            "roi": null
+          },
+          "score-static": {
+            "n": 0,
+            "hits": 0,
+            "accuracy": null,
+            "roi": null
+          },
+          "score-dynamic": {
+            "n": 0,
+            "hits": 0,
+            "accuracy": null,
+            "roi": null
+          }
+        }
+      },
+      "handicap": {
+        "archive_products": 158,
+        "matched_fixtures": 0,
+        "ambiguous_line_matches": 0,
+        "models": {
+          "market": {
+            "n": 0,
+            "hits": 0,
+            "accuracy": null,
+            "roi": null
+          },
+          "score-static": {
+            "n": 0,
+            "hits": 0,
+            "accuracy": null,
+            "roi": null
+          },
+          "score-dynamic": {
+            "n": 0,
+            "hits": 0,
+            "accuracy": null,
+            "roi": null
+          }
+        }
+      }
+    },
+    "NBA": {
+      "frozen_fixtures": 0,
+      "total": {
+        "archive_products": 665,
+        "matched_fixtures": 0,
+        "ambiguous_line_matches": 0,
+        "models": {
+          "market": {
+            "n": 0,
+            "hits": 0,
+            "accuracy": null,
+            "roi": null
+          },
+          "score-static": {
+            "n": 0,
+            "hits": 0,
+            "accuracy": null,
+            "roi": null
+          },
+          "score-dynamic": {
+            "n": 0,
+            "hits": 0,
+            "accuracy": null,
+            "roi": null
+          }
+        }
+      },
+      "handicap": {
+        "archive_products": 674,
+        "matched_fixtures": 0,
+        "ambiguous_line_matches": 0,
+        "models": {
+          "market": {
+            "n": 0,
+            "hits": 0,
+            "accuracy": null,
+            "roi": null
+          },
+          "score-static": {
+            "n": 0,
+            "hits": 0,
+            "accuracy": null,
+            "roi": null
+          },
+          "score-dynamic": {
+            "n": 0,
+            "hits": 0,
+            "accuracy": null,
+            "roi": null
+          }
+        }
+      }
+    }
+  },
+  "manifest_sha256": "08e21bac036a49356c9121e87a318b84219743a5d434f99a67cfa462856e2ded",
+  "bridge_sha256": "820e46c60eaec875618164c32b2fd88ebe3d38343a627d247219e7e59bf218c1",
+  "forecasts_sha256": "41fca09ed45b3be5a5c06bb369143233b85198e0d3d43aacd67225b9d8fc12bd"
+}

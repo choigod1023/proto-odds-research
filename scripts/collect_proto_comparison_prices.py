@@ -6,6 +6,7 @@ import hashlib
 import json
 import math
 import re
+import sys
 import time
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
@@ -148,6 +149,62 @@ def normalize_v2(data, meta, start, end):
     return records
 
 
+def normalize_markets(data, meta, start, end):
+    """Record whole-game totals and handicaps with their original receipt clocks."""
+    src = str(Path(__file__).resolve().parents[1] / 'src')
+    if src not in sys.path:
+        sys.path.insert(0, src)
+    from proto_full_game_markets import full_game_product
+
+    ts = str(data['gmTs']).zfill(6)
+    lottery = data['currentLottery']
+    if lottery.get('gmId') != 'G101' or str(lottery.get('gmTs')).zfill(6) != ts:
+        raise ValueError('unexpected round identity')
+    schedule = data['compSchedules']
+    keys = schedule['keys']
+    if len(set(keys)) != len(keys):
+        raise ValueError('duplicate response keys')
+    received = datetime.fromisoformat(meta['received_at'])
+    if received.utcoffset() is None:
+        raise ValueError('aware receipt time required')
+    records = []
+    for values in schedule['datas']:
+        row = dict(zip(keys, values, strict=True))
+        sport = str(row.get('itemCode') or '').lower()
+        unit = {'sc': 'goals', 'bs': 'runs', 'bk': 'points'}.get(sport)
+        if (not unit or not row.get('leagueName') or not str(row.get('leagueCode')).startswith(sport.upper())
+                or not row.get('homeId') or not row.get('awayId') or row['homeId'] == row['awayId']
+                or any(row.get(key) in (None, '', '미정') for key in ('homeName', 'awayName'))
+                or row.get('gameReject') != '0' or row.get('buyReject') != '0'):
+            continue
+        try:
+            parsed = full_game_product(row, sport)
+            kickoff = datetime.fromtimestamp(row['gameDate'] / 1000, KST)
+        except (TypeError, ValueError, KeyError, OverflowError, OSError):
+            continue
+        if parsed is None or not start <= kickoff.date() <= end:
+            continue
+        market, odds = parsed
+        opened = (lottery.get('saleProgress') is True
+                  and isinstance(lottery.get('saleStartDate'), (int, float))
+                  and isinstance(lottery.get('saleEndDate'), (int, float))
+                  and lottery['saleStartDate'] <= received.timestamp()*1000 < lottery['saleEndDate']
+                  and received <= kickoff-timedelta(minutes=30) and not meta.get('legacy_cache')
+                  and meta.get('timestamp_basis') == 'http_response_body_completed')
+        product = f'G101:{ts}:{market.game_no}'
+        record_id = digest((product + ':' + meta['body_sha256'] + ':' + meta['received_at']).encode())
+        records.append(dict(record_id=record_id, kind='price', sport=sport, league=row['leagueName'],
+                            kickoff=kickoff.isoformat(), home=row['homeName'], away=row['awayName'],
+                            source_url=meta['url'], body_sha256=meta['body_sha256'], received_at=meta['received_at'],
+                            timing_basis='actual_receipt' if opened else 'retrospective', timestamp_basis=meta['timestamp_basis'],
+                            payload=dict(product_id=product, period=market.period, market=market.kind, line=market.line,
+                                         odds=odds, settlement_rule=market.rule, unit=unit, execution_price_verified=False,
+                                         source_identity={key: row.get(key) for key in ('leagueCode', 'homeId', 'awayId', 'gameDate', 'betId', 'betTypId', 'betNm')})))
+    if len(records) != len({r['payload']['product_id'] for r in records}):
+        raise ValueError('duplicate product IDs')
+    return records
+
+
 def offline_cache(manifest_path, output, schema="v1", v2_manifest_path=None):
     """Rebuild only from the frozen, hash-pinned legacy response list; never use HTTP."""
     manifest = json.loads(Path(manifest_path).read_text(encoding='utf-8'))
@@ -236,8 +293,10 @@ def run(args):
     cap.mkdir(exist_ok=True)
     state_path = cap / 'state.json'
     config = {'start': args.start, 'end': args.end, 'round': args.round, 'page_size': args.page_size}
-    if getattr(args, 'schema', 'v1') == 'v2':
-        config['schema'] = 'v2'
+    schema = getattr(args, 'schema', 'v1')
+    normalizer = {'v1': normalize, 'v2': normalize_v2, 'markets-v1': normalize_markets}[schema]
+    if schema != 'v1':
+        config['schema'] = schema
     if state_path.exists():
         state = json.loads(state_path.read_text(encoding='utf-8'))
         if state['config'] != config:
@@ -317,7 +376,7 @@ def run(args):
             data = json.loads(raw)
             if str(data.get('gmTs')).zfill(6) != ts:
                 raise ValueError('wrong round returned')
-            records = (normalize_v2 if getattr(args, 'schema', 'v1') == 'v2' else normalize)(data, meta, start, end)
+            records = normalizer(data, meta, start, end)
             out = cap / ('records-' + ts + '.jsonl')
             out.write_text(''.join(json.dumps(r, ensure_ascii=False) + '\n' for r in records), encoding='utf-8')
             state['next_round_cursor'] += 1
@@ -338,7 +397,8 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--capture-id', help='required for online collection; use a new ID for a fresh capture')
     p.add_argument('--offline-cache', action='store_true', help='rebuild from the frozen historical manifest without network access')
-    p.add_argument('--schema', choices=('v1', 'v2'), default='v1', help='v2 preserves official source identity fields')
+    p.add_argument('--schema', choices=('v1', 'v2', 'markets-v1'), default='v1',
+                   help='markets-v1 captures full-game total/handicap products')
     p.add_argument('--evidence', type=Path, default=EVIDENCE, help='capture evidence directory')
     p.add_argument('--output', type=Path, help='combined JSONL output (gzip when the filename ends in .gz)')
     p.add_argument('--start', default='2025-01-01')
@@ -349,6 +409,8 @@ def main():
     p.add_argument('--total-timeout', type=float, default=120)
     args = p.parse_args()
     if args.offline_cache:
+        if args.schema == 'markets-v1':
+            p.error('use replay_multisport_market_frontier.py to replay the preserved market archive')
         if args.capture_id or args.round:
             p.error('--offline-cache cannot be combined with --capture-id or --round')
         default_name = 'normalized-price-records-v2.jsonl.gz' if args.schema == 'v2' else 'normalized-price-records.jsonl.gz'
