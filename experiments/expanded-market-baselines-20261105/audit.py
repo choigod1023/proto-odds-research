@@ -1,5 +1,5 @@
 """Reproduce retrospective Betman market favorite census from hash-verified archives."""
-import collections, datetime as dt, gzip, hashlib, json, math, sys
+import argparse, collections, datetime as dt, gzip, hashlib, json, math
 from pathlib import Path
 
 OUT = Path(__file__).resolve().parent
@@ -64,8 +64,9 @@ def evaluate(r, general, kind):
     pick=next(i for i in labels if prices[i]==minprice)
     return dict(line=line,score=[h,a],result=result,pick=pick,price=prices[pick],prices=prices,win=pick==result, general_matchSeq=g['matchSeq'],general_result=g.get('gameResult'),general_status=g.get('protoStatus'),product_status=r.get('protoStatus'),product_score=r.get('mchScore'),betId=r.get('betId'),betTypId=r.get('betTypId'),handi=r.get('handi')),None
 
-def main():
-    manifest=json.loads(MANIFEST.read_text(encoding='utf8')); counts=collections.Counter(); candidates=collections.defaultdict(list); sourceproof=[]
+def main(manifest_path=MANIFEST):
+    manifest_path = Path(manifest_path)
+    manifest=json.loads(manifest_path.read_text(encoding='utf8')); counts=collections.Counter(); candidates=collections.defaultdict(list); sourceproof=[]
     for source in manifest['sources']:
         path=Path(manifest['source_roots'][source['source_root_index']])/source['body_file']; raw=gzip.decompress(path.read_bytes()); sha=hashlib.sha256(raw).hexdigest()
         if sha!=source['body_sha256']: raise ValueError('hash mismatch '+str(path))
@@ -108,9 +109,12 @@ def main():
         for r in rows:
             for name,key in [('overall','all'),('sport_market',r['sport']+'|'+r['market']),('league_market',r['sport']+'|'+r['leagueCode']+'|'+r['league']+'|'+r['market']),('month_market',r['sport']+'|'+r['market']+'|'+r['kickoff'][:7]),('year_market',r['sport']+'|'+r['market']+'|'+r['kickoff'][:4])]: groups[(name,key)].append(r)
         return {name:{k:metrics(v) for (n,k),v in sorted(groups.items()) if n==name} for name in ('overall','sport_market','league_market','month_market','year_market')}
-    result=dict(manifest=str(MANIFEST),manifest_sha256=hashlib.sha256(MANIFEST.read_bytes()).hexdigest(),sources=sourceproof,counts=dict(sorted(counts.items())),primary=breakdown(primary),all_products_nonindependent=breakdown(allrows))
+    result=dict(manifest=str(manifest_path),manifest_sha256=hashlib.sha256(manifest_path.read_bytes()).hexdigest(),sources=sourceproof,counts=dict(sorted(counts.items())),primary=breakdown(primary),all_products_nonindependent=breakdown(allrows))
     (OUT/'audit.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
     for name,rows in [('primary.jsonl',primary),('all-products.jsonl',allrows)]:
         (OUT/name).write_text(''.join(json.dumps(r,ensure_ascii=False)+'\n' for r in rows),encoding='utf8')
     print(json.dumps(dict(sources=len(sourceproof),primary=result['primary']['sport_market'],all_products=result['all_products_nonindependent']['sport_market']),ensure_ascii=False))
-if __name__=='__main__': main()
+if __name__=='__main__':
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--manifest', type=Path, default=MANIFEST)
+    main(parser.parse_args().manifest)
