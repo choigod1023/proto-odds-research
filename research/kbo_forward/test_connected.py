@@ -1,4 +1,5 @@
 import copy,sys,importlib.util
+from datetime import datetime
 from pathlib import Path
 from unittest.mock import patch
 import pytest
@@ -12,10 +13,19 @@ with patch.dict(sys.modules,{"features":_features}):
     import connected
 from test_ledger import payload
 
-def test_unannounced_game_never_materializes_or_fetches_history(tmp_path):
+def test_unannounced_game_outside_prewarm_window_does_not_fetch_history(tmp_path):
     client=connected.ConnectedOfficial(tmp_path)
-    with patch.object(connected.OfficialClient,'snapshot',return_value={'source_verified':False,'announcement_verified':False,'missing':['confirmed_lineups']}),patch.object(connected,'seed_from_frozen',side_effect=AssertionError('unnecessary history work')):
+    observed_at = datetime(2026, 11, 5, 18, 1, tzinfo=connected.KST)
+    with (
+        patch.object(connected, 'now_utc', return_value=observed_at),
+        patch.object(connected.OfficialClient, 'snapshot', return_value={
+            'source_verified': False, 'announcement_verified': False,
+            'missing': ['confirmed_lineups'],
+        }),
+        patch.object(client, 'prepare_history') as prepare_history,
+    ):
         assert not client.snapshot({'source':{'G_DT':'20261105','G_TM':'18:30'}})['source_verified']
+    prepare_history.assert_not_called()
 
 def test_verified_source_bundles_are_preserved_and_tamper_is_detected(tmp_path):
     client=connected.ConnectedOfficial(tmp_path);x=payload();x.pop('market');x['evidence'].pop('odds');x['row']['history_coverage']={k:{'status':'complete'} for k in ('home','away')}
