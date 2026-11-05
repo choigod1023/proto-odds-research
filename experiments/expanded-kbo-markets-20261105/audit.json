@@ -575,16 +575,23 @@
   "counts": {
     "forecast_without_official_id": 239,
     "forecast_official_id": 470,
+    "verified_aliases": 237,
+    "unresolved_score_forecasts": 2,
     "sensitivity_handicap_raw_rows": 854,
     "sensitivity_total_raw_rows": 854,
     "strict_handicap_raw_rows": 784,
     "strict_total_raw_rows": 784,
+    "strict_resolved_handicap_raw_rows": 784,
+    "strict_resolved_total_raw_rows": 784,
     "strict_handicap_no_forecast": 453,
     "strict_total_no_forecast": 453,
     "sensitivity_handicap_no_forecast": 458,
     "sensitivity_total_no_forecast": 458,
+    "strict_resolved_handicap_no_forecast": 134,
+    "strict_resolved_total_no_forecast": 134,
     "strict_ambiguous_general_fixture_rounds": 0,
     "sensitivity_ambiguous_general_fixture_rounds": 0,
+    "strict_resolved_ambiguous_general_fixture_rounds": 0,
     "strict_handicap_fixture_candidates": 275,
     "strict_handicap_noncanonical_products": 56,
     "strict_handicap_eligible": 209,
@@ -610,7 +617,20 @@
     "sensitivity_handicap_excluded_winner_missing_or_ambiguous": 10,
     "sensitivity_total_excluded_winner_missing_or_ambiguous": 10,
     "sensitivity_total_forecast_fixtures_without_candidate": 369,
-    "sensitivity_handicap_forecast_fixtures_without_candidate": 369
+    "sensitivity_handicap_forecast_fixtures_without_candidate": 369,
+    "strict_resolved_handicap_fixture_candidates": 512,
+    "strict_resolved_handicap_noncanonical_products": 138,
+    "strict_resolved_handicap_eligible": 368,
+    "strict_resolved_total_fixture_candidates": 512,
+    "strict_resolved_total_noncanonical_products": 138,
+    "strict_resolved_total_eligible": 353,
+    "strict_resolved_handicap_excluded_line": 134,
+    "strict_resolved_total_excluded_line": 134,
+    "strict_resolved_total_excluded_market_tie": 15,
+    "strict_resolved_handicap_excluded_winner_missing_or_ambiguous": 10,
+    "strict_resolved_total_excluded_winner_missing_or_ambiguous": 10,
+    "strict_resolved_total_forecast_fixtures_without_candidate": 197,
+    "strict_resolved_handicap_forecast_fixtures_without_candidate": 197
   },
   "canonical": {
     "strict": {
@@ -1130,6 +1150,616 @@
           "market_hits_on_disagreements": 0
         }
       }
+    },
+    "strict_resolved": {
+      "total": {
+        "all": {
+          "model": {
+            "n": 353,
+            "hits": 172,
+            "refunds": 0,
+            "hit_rate": 0.48725212464589235,
+            "net_units": -53.6,
+            "roi": -0.1518413597733711,
+            "max_drawdown_units": 59.31
+          },
+          "market": {
+            "n": 353,
+            "hits": 180,
+            "refunds": 0,
+            "hit_rate": 0.509915014164306,
+            "net_units": -50.81,
+            "roi": -0.14393767705382446,
+            "max_drawdown_units": 51.42
+          },
+          "disagreements": 158,
+          "model_hits_on_disagreements": 75,
+          "market_hits_on_disagreements": 83
+        },
+        "2026-04": {
+          "model": {
+            "n": 20,
+            "hits": 7,
+            "refunds": 0,
+            "hit_rate": 0.35,
+            "net_units": -7.75,
+            "roi": -0.3875,
+            "max_drawdown_units": 8.36
+          },
+          "market": {
+            "n": 20,
+            "hits": 8,
+            "refunds": 0,
+            "hit_rate": 0.4,
+            "net_units": -6.65,
+            "roi": -0.33249999999999996,
+            "max_drawdown_units": 7.26
+          },
+          "disagreements": 7,
+          "model_hits_on_disagreements": 3,
+          "market_hits_on_disagreements": 4
+        },
+        "2026-05": {
+          "model": {
+            "n": 82,
+            "hits": 38,
+            "refunds": 0,
+            "hit_rate": 0.4634146341463415,
+            "net_units": -16.48,
+            "roi": -0.2009756097560976,
+            "max_drawdown_units": 18.21
+          },
+          "market": {
+            "n": 82,
+            "hits": 42,
+            "refunds": 0,
+            "hit_rate": 0.5121951219512195,
+            "net_units": -12.47,
+            "roi": -0.15207317073170734,
+            "max_drawdown_units": 20.06
+          },
+          "disagreements": 36,
+          "model_hits_on_disagreements": 16,
+          "market_hits_on_disagreements": 20
+        },
+        "2026-06": {
+          "model": {
+            "n": 38,
+            "hits": 19,
+            "refunds": 0,
+            "hit_rate": 0.5,
+            "net_units": -4.71,
+            "roi": -0.12394736842105265,
+            "max_drawdown_units": 7.06
+          },
+          "market": {
+            "n": 38,
+            "hits": 21,
+            "refunds": 0,
+            "hit_rate": 0.5526315789473685,
+            "net_units": -2.31,
+            "roi": -0.06078947368421054,
+            "max_drawdown_units": 8.49
+          },
+          "disagreements": 18,
+          "model_hits_on_disagreements": 8,
+          "market_hits_on_disagreements": 10
+        },
+        "2026-07": {
+          "model": {
+            "n": 70,
+            "hits": 35,
+            "refunds": 0,
+            "hit_rate": 0.5,
+            "net_units": -9.26,
+            "roi": -0.1322857142857143,
+            "max_drawdown_units": 13.99
+          },
+          "market": {
+            "n": 70,
+            "hits": 40,
+            "refunds": 0,
+            "hit_rate": 0.5714285714285714,
+            "net_units": -2.69,
+            "roi": -0.03842857142857145,
+            "max_drawdown_units": 10.88
+          },
+          "disagreements": 33,
+          "model_hits_on_disagreements": 14,
+          "market_hits_on_disagreements": 19
+        },
+        "2026-08": {
+          "model": {
+            "n": 57,
+            "hits": 29,
+            "refunds": 0,
+            "hit_rate": 0.5087719298245614,
+            "net_units": -6.45,
+            "roi": -0.11315789473684212,
+            "max_drawdown_units": 10.65
+          },
+          "market": {
+            "n": 57,
+            "hits": 29,
+            "refunds": 0,
+            "hit_rate": 0.5087719298245614,
+            "net_units": -8.37,
+            "roi": -0.1468421052631579,
+            "max_drawdown_units": 13.24
+          },
+          "disagreements": 26,
+          "model_hits_on_disagreements": 13,
+          "market_hits_on_disagreements": 13
+        },
+        "2026-09": {
+          "model": {
+            "n": 56,
+            "hits": 24,
+            "refunds": 0,
+            "hit_rate": 0.42857142857142855,
+            "net_units": -13.63,
+            "roi": -0.24339285714285713,
+            "max_drawdown_units": 14.96
+          },
+          "market": {
+            "n": 56,
+            "hits": 24,
+            "refunds": 0,
+            "hit_rate": 0.42857142857142855,
+            "net_units": -15.12,
+            "roi": -0.26999999999999996,
+            "max_drawdown_units": 17.27
+          },
+          "disagreements": 24,
+          "model_hits_on_disagreements": 12,
+          "market_hits_on_disagreements": 12
+        },
+        "2026-10": {
+          "model": {
+            "n": 30,
+            "hits": 20,
+            "refunds": 0,
+            "hit_rate": 0.6666666666666666,
+            "net_units": 4.68,
+            "roi": 0.15600000000000006,
+            "max_drawdown_units": 3.53
+          },
+          "market": {
+            "n": 30,
+            "hits": 16,
+            "refunds": 0,
+            "hit_rate": 0.5333333333333333,
+            "net_units": -3.2,
+            "roi": -0.10666666666666669,
+            "max_drawdown_units": 4.98
+          },
+          "disagreements": 14,
+          "model_hits_on_disagreements": 9,
+          "market_hits_on_disagreements": 5
+        }
+      },
+      "handicap": {
+        "all": {
+          "model": {
+            "n": 368,
+            "hits": 231,
+            "refunds": 0,
+            "hit_rate": 0.6277173913043478,
+            "net_units": -53.66,
+            "roi": -0.14581521739130432,
+            "max_drawdown_units": 56.73
+          },
+          "market": {
+            "n": 368,
+            "hits": 233,
+            "refunds": 0,
+            "hit_rate": 0.6331521739130435,
+            "net_units": -50.2,
+            "roi": -0.13641304347826086,
+            "max_drawdown_units": 53.27
+          },
+          "disagreements": 2,
+          "model_hits_on_disagreements": 0,
+          "market_hits_on_disagreements": 2
+        },
+        "2026-04": {
+          "model": {
+            "n": 20,
+            "hits": 16,
+            "refunds": 0,
+            "hit_rate": 0.8,
+            "net_units": 1.4,
+            "roi": 0.07000000000000002,
+            "max_drawdown_units": 3.05
+          },
+          "market": {
+            "n": 20,
+            "hits": 16,
+            "refunds": 0,
+            "hit_rate": 0.8,
+            "net_units": 1.4,
+            "roi": 0.07000000000000002,
+            "max_drawdown_units": 3.05
+          },
+          "disagreements": 0,
+          "model_hits_on_disagreements": 0,
+          "market_hits_on_disagreements": 0
+        },
+        "2026-05": {
+          "model": {
+            "n": 88,
+            "hits": 55,
+            "refunds": 0,
+            "hit_rate": 0.625,
+            "net_units": -14.32,
+            "roi": -0.1627272727272727,
+            "max_drawdown_units": 15.32
+          },
+          "market": {
+            "n": 88,
+            "hits": 55,
+            "refunds": 0,
+            "hit_rate": 0.625,
+            "net_units": -14.32,
+            "roi": -0.1627272727272727,
+            "max_drawdown_units": 15.32
+          },
+          "disagreements": 0,
+          "model_hits_on_disagreements": 0,
+          "market_hits_on_disagreements": 0
+        },
+        "2026-06": {
+          "model": {
+            "n": 40,
+            "hits": 28,
+            "refunds": 0,
+            "hit_rate": 0.7,
+            "net_units": -2.1,
+            "roi": -0.05249999999999997,
+            "max_drawdown_units": 5.22
+          },
+          "market": {
+            "n": 40,
+            "hits": 28,
+            "refunds": 0,
+            "hit_rate": 0.7,
+            "net_units": -2.1,
+            "roi": -0.05249999999999997,
+            "max_drawdown_units": 5.22
+          },
+          "disagreements": 0,
+          "model_hits_on_disagreements": 0,
+          "market_hits_on_disagreements": 0
+        },
+        "2026-07": {
+          "model": {
+            "n": 71,
+            "hits": 42,
+            "refunds": 0,
+            "hit_rate": 0.5915492957746479,
+            "net_units": -12.54,
+            "roi": -0.1766197183098591,
+            "max_drawdown_units": 15.23
+          },
+          "market": {
+            "n": 71,
+            "hits": 43,
+            "refunds": 0,
+            "hit_rate": 0.6056338028169014,
+            "net_units": -10.82,
+            "roi": -0.15239436619718305,
+            "max_drawdown_units": 13.83
+          },
+          "disagreements": 1,
+          "model_hits_on_disagreements": 0,
+          "market_hits_on_disagreements": 1
+        },
+        "2026-08": {
+          "model": {
+            "n": 57,
+            "hits": 33,
+            "refunds": 0,
+            "hit_rate": 0.5789473684210527,
+            "net_units": -11.58,
+            "roi": -0.20315789473684215,
+            "max_drawdown_units": 12.43
+          },
+          "market": {
+            "n": 57,
+            "hits": 34,
+            "refunds": 0,
+            "hit_rate": 0.5964912280701754,
+            "net_units": -9.84,
+            "roi": -0.1726315789473684,
+            "max_drawdown_units": 10.69
+          },
+          "disagreements": 1,
+          "model_hits_on_disagreements": 0,
+          "market_hits_on_disagreements": 1
+        },
+        "2026-09": {
+          "model": {
+            "n": 60,
+            "hits": 37,
+            "refunds": 0,
+            "hit_rate": 0.6166666666666667,
+            "net_units": -10.23,
+            "roi": -0.17050000000000004,
+            "max_drawdown_units": 11.99
+          },
+          "market": {
+            "n": 60,
+            "hits": 37,
+            "refunds": 0,
+            "hit_rate": 0.6166666666666667,
+            "net_units": -10.23,
+            "roi": -0.17050000000000004,
+            "max_drawdown_units": 11.99
+          },
+          "disagreements": 0,
+          "model_hits_on_disagreements": 0,
+          "market_hits_on_disagreements": 0
+        },
+        "2026-10": {
+          "model": {
+            "n": 32,
+            "hits": 20,
+            "refunds": 0,
+            "hit_rate": 0.625,
+            "net_units": -4.29,
+            "roi": -0.13406249999999997,
+            "max_drawdown_units": 6.7
+          },
+          "market": {
+            "n": 32,
+            "hits": 20,
+            "refunds": 0,
+            "hit_rate": 0.625,
+            "net_units": -4.29,
+            "roi": -0.13406249999999997,
+            "max_drawdown_units": 6.7
+          },
+          "disagreements": 0,
+          "model_hits_on_disagreements": 0,
+          "market_hits_on_disagreements": 0
+        }
+      }
+    },
+    "resolved_only": {
+      "total": {
+        "all": {
+          "model": {
+            "n": 153,
+            "hits": 79,
+            "refunds": 0,
+            "hit_rate": 0.5163398692810458,
+            "net_units": -14.62,
+            "roi": -0.09555555555555553,
+            "max_drawdown_units": 20.63
+          },
+          "market": {
+            "n": 153,
+            "hits": 74,
+            "refunds": 0,
+            "hit_rate": 0.48366013071895425,
+            "net_units": -28.25,
+            "roi": -0.18464052287581711,
+            "max_drawdown_units": 28.94
+          },
+          "disagreements": 71,
+          "model_hits_on_disagreements": 38,
+          "market_hits_on_disagreements": 33
+        },
+        "2026-07": {
+          "model": {
+            "n": 10,
+            "hits": 6,
+            "refunds": 0,
+            "hit_rate": 0.6,
+            "net_units": 0.78,
+            "roi": 0.07800000000000003,
+            "max_drawdown_units": 1.27
+          },
+          "market": {
+            "n": 10,
+            "hits": 5,
+            "refunds": 0,
+            "hit_rate": 0.5,
+            "net_units": -1.56,
+            "roi": -0.156,
+            "max_drawdown_units": 2.25
+          },
+          "disagreements": 7,
+          "model_hits_on_disagreements": 4,
+          "market_hits_on_disagreements": 3
+        },
+        "2026-08": {
+          "model": {
+            "n": 57,
+            "hits": 29,
+            "refunds": 0,
+            "hit_rate": 0.5087719298245614,
+            "net_units": -6.45,
+            "roi": -0.11315789473684212,
+            "max_drawdown_units": 10.65
+          },
+          "market": {
+            "n": 57,
+            "hits": 29,
+            "refunds": 0,
+            "hit_rate": 0.5087719298245614,
+            "net_units": -8.37,
+            "roi": -0.1468421052631579,
+            "max_drawdown_units": 13.24
+          },
+          "disagreements": 26,
+          "model_hits_on_disagreements": 13,
+          "market_hits_on_disagreements": 13
+        },
+        "2026-09": {
+          "model": {
+            "n": 56,
+            "hits": 24,
+            "refunds": 0,
+            "hit_rate": 0.42857142857142855,
+            "net_units": -13.63,
+            "roi": -0.24339285714285713,
+            "max_drawdown_units": 14.96
+          },
+          "market": {
+            "n": 56,
+            "hits": 24,
+            "refunds": 0,
+            "hit_rate": 0.42857142857142855,
+            "net_units": -15.12,
+            "roi": -0.26999999999999996,
+            "max_drawdown_units": 17.27
+          },
+          "disagreements": 24,
+          "model_hits_on_disagreements": 12,
+          "market_hits_on_disagreements": 12
+        },
+        "2026-10": {
+          "model": {
+            "n": 30,
+            "hits": 20,
+            "refunds": 0,
+            "hit_rate": 0.6666666666666666,
+            "net_units": 4.68,
+            "roi": 0.15600000000000006,
+            "max_drawdown_units": 3.53
+          },
+          "market": {
+            "n": 30,
+            "hits": 16,
+            "refunds": 0,
+            "hit_rate": 0.5333333333333333,
+            "net_units": -3.2,
+            "roi": -0.10666666666666669,
+            "max_drawdown_units": 4.98
+          },
+          "disagreements": 14,
+          "model_hits_on_disagreements": 9,
+          "market_hits_on_disagreements": 5
+        }
+      },
+      "handicap": {
+        "all": {
+          "model": {
+            "n": 159,
+            "hits": 98,
+            "refunds": 0,
+            "hit_rate": 0.6163522012578616,
+            "net_units": -25.41,
+            "roi": -0.15981132075471693,
+            "max_drawdown_units": 27.62
+          },
+          "market": {
+            "n": 159,
+            "hits": 100,
+            "refunds": 0,
+            "hit_rate": 0.6289308176100629,
+            "net_units": -21.95,
+            "roi": -0.13805031446540886,
+            "max_drawdown_units": 25.88
+          },
+          "disagreements": 2,
+          "model_hits_on_disagreements": 0,
+          "market_hits_on_disagreements": 2
+        },
+        "2026-07": {
+          "model": {
+            "n": 10,
+            "hits": 8,
+            "refunds": 0,
+            "hit_rate": 0.8,
+            "net_units": 0.69,
+            "roi": 0.06900000000000003,
+            "max_drawdown_units": 2
+          },
+          "market": {
+            "n": 10,
+            "hits": 9,
+            "refunds": 0,
+            "hit_rate": 0.9,
+            "net_units": 2.41,
+            "roi": 0.24100000000000002,
+            "max_drawdown_units": 1.0
+          },
+          "disagreements": 1,
+          "model_hits_on_disagreements": 0,
+          "market_hits_on_disagreements": 1
+        },
+        "2026-08": {
+          "model": {
+            "n": 57,
+            "hits": 33,
+            "refunds": 0,
+            "hit_rate": 0.5789473684210527,
+            "net_units": -11.58,
+            "roi": -0.20315789473684215,
+            "max_drawdown_units": 12.43
+          },
+          "market": {
+            "n": 57,
+            "hits": 34,
+            "refunds": 0,
+            "hit_rate": 0.5964912280701754,
+            "net_units": -9.84,
+            "roi": -0.1726315789473684,
+            "max_drawdown_units": 10.69
+          },
+          "disagreements": 1,
+          "model_hits_on_disagreements": 0,
+          "market_hits_on_disagreements": 1
+        },
+        "2026-09": {
+          "model": {
+            "n": 60,
+            "hits": 37,
+            "refunds": 0,
+            "hit_rate": 0.6166666666666667,
+            "net_units": -10.23,
+            "roi": -0.17050000000000004,
+            "max_drawdown_units": 11.99
+          },
+          "market": {
+            "n": 60,
+            "hits": 37,
+            "refunds": 0,
+            "hit_rate": 0.6166666666666667,
+            "net_units": -10.23,
+            "roi": -0.17050000000000004,
+            "max_drawdown_units": 11.99
+          },
+          "disagreements": 0,
+          "model_hits_on_disagreements": 0,
+          "market_hits_on_disagreements": 0
+        },
+        "2026-10": {
+          "model": {
+            "n": 32,
+            "hits": 20,
+            "refunds": 0,
+            "hit_rate": 0.625,
+            "net_units": -4.29,
+            "roi": -0.13406249999999997,
+            "max_drawdown_units": 6.7
+          },
+          "market": {
+            "n": 32,
+            "hits": 20,
+            "refunds": 0,
+            "hit_rate": 0.625,
+            "net_units": -4.29,
+            "roi": -0.13406249999999997,
+            "max_drawdown_units": 6.7
+          },
+          "disagreements": 0,
+          "model_hits_on_disagreements": 0,
+          "market_hits_on_disagreements": 0
+        }
+      }
     }
   },
   "date_ranges": {
@@ -1152,6 +1782,26 @@
         "2026-03-28",
         "2026-07-26"
       ]
+    },
+    "strict_resolved": {
+      "total": [
+        "2026-04-21",
+        "2026-10-27"
+      ],
+      "handicap": [
+        "2026-04-21",
+        "2026-10-27"
+      ]
+    },
+    "resolved_only": {
+      "total": [
+        "2026-07-28",
+        "2026-10-27"
+      ],
+      "handicap": [
+        "2026-07-28",
+        "2026-10-27"
+      ]
     }
   },
   "handicap_distribution": {
@@ -1170,6 +1820,16 @@
       "selected_market_favorite": 274,
       "line_2.5": 123,
       "pick_home": 123
+    },
+    "strict_resolved": {
+      "line_-2.5": 207,
+      "pick_away": 207,
+      "selected_line_2.5": 366,
+      "selected_market_favorite": 366,
+      "line_2.5": 161,
+      "pick_home": 161,
+      "selected_line_-2.5": 2,
+      "selected_market_underdog": 2
     }
   },
   "old44": {
@@ -3580,6 +4240,2476 @@
       "round": 260087,
       "game_no": 8577,
       "reason": "market_tie"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260422HHLG02026",
+      "market": "handicap",
+      "round": 260046,
+      "game_no": 296,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260422HHLG02026",
+      "market": "total",
+      "round": 260046,
+      "game_no": 297,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260422HTKT02026",
+      "market": "handicap",
+      "round": 260046,
+      "game_no": 320,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260422HTKT02026",
+      "market": "total",
+      "round": 260046,
+      "game_no": 321,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260422NCWO02026",
+      "market": "handicap",
+      "round": 260046,
+      "game_no": 328,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260422NCWO02026",
+      "market": "total",
+      "round": 260046,
+      "game_no": 329,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260422OBLT02026",
+      "market": "handicap",
+      "round": 260046,
+      "game_no": 304,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260422OBLT02026",
+      "market": "total",
+      "round": 260046,
+      "game_no": 305,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260422SKSS02026",
+      "market": "handicap",
+      "round": 260046,
+      "game_no": 312,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260422SKSS02026",
+      "market": "total",
+      "round": 260046,
+      "game_no": 313,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260424KTSK02026",
+      "market": "handicap",
+      "round": 260047,
+      "game_no": 767,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260424KTSK02026",
+      "market": "total",
+      "round": 260047,
+      "game_no": 768,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260424LGOB02026",
+      "market": "handicap",
+      "round": 260047,
+      "game_no": 759,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260424LGOB02026",
+      "market": "total",
+      "round": 260047,
+      "game_no": 760,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260424LTHT02026",
+      "market": "handicap",
+      "round": 260047,
+      "game_no": 775,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260424LTHT02026",
+      "market": "total",
+      "round": 260047,
+      "game_no": 776,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260424NCHH02026",
+      "market": "handicap",
+      "round": 260047,
+      "game_no": 791,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260424NCHH02026",
+      "market": "total",
+      "round": 260047,
+      "game_no": 792,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260424SSWO02026",
+      "market": "handicap",
+      "round": 260047,
+      "game_no": 783,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260424SSWO02026",
+      "market": "total",
+      "round": 260047,
+      "game_no": 784,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260503LTSK02026",
+      "market": "total",
+      "round": 260051,
+      "game_no": 3117,
+      "reason": "market_tie"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260505NCSK02026",
+      "market": "total",
+      "round": 260052,
+      "game_no": 3553,
+      "reason": "market_tie"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260506HHHT02026",
+      "market": "handicap",
+      "round": 260052,
+      "game_no": 3867,
+      "reason": "winner_missing_or_ambiguous"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260506HHHT02026",
+      "market": "total",
+      "round": 260052,
+      "game_no": 3868,
+      "reason": "winner_missing_or_ambiguous"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260506LTKT02026",
+      "market": "handicap",
+      "round": 260052,
+      "game_no": 3859,
+      "reason": "winner_missing_or_ambiguous"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260506LTKT02026",
+      "market": "total",
+      "round": 260052,
+      "game_no": 3860,
+      "reason": "winner_missing_or_ambiguous"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260506NCSK02026",
+      "market": "handicap",
+      "round": 260052,
+      "game_no": 3843,
+      "reason": "winner_missing_or_ambiguous"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260506NCSK02026",
+      "market": "total",
+      "round": 260052,
+      "game_no": 3844,
+      "reason": "winner_missing_or_ambiguous"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260506OBLG02026",
+      "market": "handicap",
+      "round": 260052,
+      "game_no": 3835,
+      "reason": "winner_missing_or_ambiguous"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260506OBLG02026",
+      "market": "total",
+      "round": 260052,
+      "game_no": 3836,
+      "reason": "winner_missing_or_ambiguous"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260506WOSS02026",
+      "market": "handicap",
+      "round": 260052,
+      "game_no": 3851,
+      "reason": "winner_missing_or_ambiguous"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260506WOSS02026",
+      "market": "total",
+      "round": 260052,
+      "game_no": 3852,
+      "reason": "winner_missing_or_ambiguous"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260510HTLT02026",
+      "market": "total",
+      "round": 260054,
+      "game_no": 4707,
+      "reason": "market_tie"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260512NCLT02026",
+      "market": "total",
+      "round": 260055,
+      "game_no": 5139,
+      "reason": "market_tie"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260513HHWO02026",
+      "market": "handicap",
+      "round": 260055,
+      "game_no": 5356,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260513HHWO02026",
+      "market": "total",
+      "round": 260055,
+      "game_no": 5357,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260513NCLT02026",
+      "market": "handicap",
+      "round": 260055,
+      "game_no": 5332,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260513NCLT02026",
+      "market": "total",
+      "round": 260055,
+      "game_no": 5333,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260513OBHT02026",
+      "market": "handicap",
+      "round": 260055,
+      "game_no": 5348,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260513OBHT02026",
+      "market": "total",
+      "round": 260055,
+      "game_no": 5349,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260513SKKT02026",
+      "market": "handicap",
+      "round": 260055,
+      "game_no": 5340,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260513SKKT02026",
+      "market": "total",
+      "round": 260055,
+      "game_no": 5341,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260513SSLG02026",
+      "market": "handicap",
+      "round": 260055,
+      "game_no": 5324,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260513SSLG02026",
+      "market": "total",
+      "round": 260055,
+      "game_no": 5325,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260514SSLG02026",
+      "market": "total",
+      "round": 260056,
+      "game_no": 5600,
+      "reason": "market_tie"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260515HHKT02026",
+      "market": "handicap",
+      "round": 260056,
+      "game_no": 5779,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260515HHKT02026",
+      "market": "total",
+      "round": 260056,
+      "game_no": 5780,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260515HTSS02026",
+      "market": "handicap",
+      "round": 260056,
+      "game_no": 5763,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260515HTSS02026",
+      "market": "total",
+      "round": 260056,
+      "game_no": 5764,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260515LGSK02026",
+      "market": "handicap",
+      "round": 260056,
+      "game_no": 5755,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260515LGSK02026",
+      "market": "total",
+      "round": 260056,
+      "game_no": 5756,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260515LTOB02026",
+      "market": "handicap",
+      "round": 260056,
+      "game_no": 5747,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260515LTOB02026",
+      "market": "total",
+      "round": 260056,
+      "game_no": 5748,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260515WONC02026",
+      "market": "handicap",
+      "round": 260056,
+      "game_no": 5771,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260515WONC02026",
+      "market": "total",
+      "round": 260056,
+      "game_no": 5772,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260522NCKT02026",
+      "market": "total",
+      "round": 260060,
+      "game_no": 7220,
+      "reason": "market_tie"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260527HHNC02026",
+      "market": "handicap",
+      "round": 260061,
+      "game_no": 8220,
+      "reason": "winner_missing_or_ambiguous"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260527HHNC02026",
+      "market": "total",
+      "round": 260061,
+      "game_no": 8221,
+      "reason": "winner_missing_or_ambiguous"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260527HTWO02026",
+      "market": "handicap",
+      "round": 260061,
+      "game_no": 8228,
+      "reason": "winner_missing_or_ambiguous"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260527HTWO02026",
+      "market": "total",
+      "round": 260061,
+      "game_no": 8229,
+      "reason": "winner_missing_or_ambiguous"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260527KTOB02026",
+      "market": "handicap",
+      "round": 260061,
+      "game_no": 8196,
+      "reason": "winner_missing_or_ambiguous"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260527KTOB02026",
+      "market": "total",
+      "round": 260061,
+      "game_no": 8197,
+      "reason": "winner_missing_or_ambiguous"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260527LGLT02026",
+      "market": "handicap",
+      "round": 260061,
+      "game_no": 8212,
+      "reason": "winner_missing_or_ambiguous"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260527LGLT02026",
+      "market": "total",
+      "round": 260061,
+      "game_no": 8213,
+      "reason": "winner_missing_or_ambiguous"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260527SSSK02026",
+      "market": "handicap",
+      "round": 260061,
+      "game_no": 8204,
+      "reason": "winner_missing_or_ambiguous"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260527SSSK02026",
+      "market": "total",
+      "round": 260061,
+      "game_no": 8205,
+      "reason": "winner_missing_or_ambiguous"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260605HHLT02026",
+      "market": "handicap",
+      "round": 260065,
+      "game_no": 9826,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260605HHLT02026",
+      "market": "total",
+      "round": 260065,
+      "game_no": 9827,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260605KTSK02026",
+      "market": "handicap",
+      "round": 260065,
+      "game_no": 9834,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260605KTSK02026",
+      "market": "total",
+      "round": 260065,
+      "game_no": 9835,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260605LGNC02026",
+      "market": "handicap",
+      "round": 260065,
+      "game_no": 9850,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260605LGNC02026",
+      "market": "total",
+      "round": 260065,
+      "game_no": 9851,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260605SSHT02026",
+      "market": "handicap",
+      "round": 260065,
+      "game_no": 9842,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260605SSHT02026",
+      "market": "total",
+      "round": 260065,
+      "game_no": 9843,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260605WOOB02026",
+      "market": "handicap",
+      "round": 260065,
+      "game_no": 9818,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260605WOOB02026",
+      "market": "total",
+      "round": 260065,
+      "game_no": 9819,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260606KTSK02026",
+      "market": "total",
+      "round": 260066,
+      "game_no": 74,
+      "reason": "market_tie"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260617HHNC02026",
+      "market": "handicap",
+      "round": 260070,
+      "game_no": 2123,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260617HHNC02026",
+      "market": "total",
+      "round": 260070,
+      "game_no": 2124,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260617KTOB02026",
+      "market": "handicap",
+      "round": 260070,
+      "game_no": 2091,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260617KTOB02026",
+      "market": "total",
+      "round": 260070,
+      "game_no": 2092,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260617LGHT02026",
+      "market": "handicap",
+      "round": 260070,
+      "game_no": 2115,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260617LGHT02026",
+      "market": "total",
+      "round": 260070,
+      "game_no": 2116,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260617LTSK02026",
+      "market": "handicap",
+      "round": 260070,
+      "game_no": 2107,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260617LTSK02026",
+      "market": "total",
+      "round": 260070,
+      "game_no": 2108,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260617WOSS02026",
+      "market": "handicap",
+      "round": 260070,
+      "game_no": 2099,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260617WOSS02026",
+      "market": "total",
+      "round": 260070,
+      "game_no": 2100,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260619HTKT02026",
+      "market": "handicap",
+      "round": 260071,
+      "game_no": 2458,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260619HTKT02026",
+      "market": "total",
+      "round": 260071,
+      "game_no": 2459,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260619LTWO02026",
+      "market": "handicap",
+      "round": 260071,
+      "game_no": 2482,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260619LTWO02026",
+      "market": "total",
+      "round": 260071,
+      "game_no": 2483,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260619OBLG02026",
+      "market": "handicap",
+      "round": 260071,
+      "game_no": 2450,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260619OBLG02026",
+      "market": "total",
+      "round": 260071,
+      "game_no": 2451,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260619SKNC02026",
+      "market": "handicap",
+      "round": 260071,
+      "game_no": 2466,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260619SKNC02026",
+      "market": "total",
+      "round": 260071,
+      "game_no": 2467,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260619SSHH02026",
+      "market": "handicap",
+      "round": 260071,
+      "game_no": 2474,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260619SSHH02026",
+      "market": "total",
+      "round": 260071,
+      "game_no": 2475,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260621OBLG02026",
+      "market": "total",
+      "round": 260072,
+      "game_no": 2856,
+      "reason": "market_tie"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260703HHLG02026",
+      "market": "handicap",
+      "round": 260077,
+      "game_no": 5036,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260703HHLG02026",
+      "market": "total",
+      "round": 260077,
+      "game_no": 5037,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260703LTKT02026",
+      "market": "handicap",
+      "round": 260077,
+      "game_no": 5060,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260703LTKT02026",
+      "market": "total",
+      "round": 260077,
+      "game_no": 5061,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260703NCHT02026",
+      "market": "handicap",
+      "round": 260077,
+      "game_no": 5052,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260703NCHT02026",
+      "market": "total",
+      "round": 260077,
+      "game_no": 5053,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260703OBWO02026",
+      "market": "handicap",
+      "round": 260077,
+      "game_no": 5068,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260703OBWO02026",
+      "market": "total",
+      "round": 260077,
+      "game_no": 5069,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260703SSSK02026",
+      "market": "handicap",
+      "round": 260077,
+      "game_no": 5044,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260703SSSK02026",
+      "market": "total",
+      "round": 260077,
+      "game_no": 5045,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260708HTLT02026",
+      "market": "handicap",
+      "round": 260079,
+      "game_no": 6048,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260708HTLT02026",
+      "market": "total",
+      "round": 260079,
+      "game_no": 6049,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260708LGSS02026",
+      "market": "handicap",
+      "round": 260079,
+      "game_no": 6040,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260708LGSS02026",
+      "market": "total",
+      "round": 260079,
+      "game_no": 6041,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260708SKOB02026",
+      "market": "handicap",
+      "round": 260079,
+      "game_no": 6032,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260708SKOB02026",
+      "market": "total",
+      "round": 260079,
+      "game_no": 6033,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260708WOKT02026",
+      "market": "handicap",
+      "round": 260079,
+      "game_no": 6056,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260708WOKT02026",
+      "market": "total",
+      "round": 260079,
+      "game_no": 6057,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260717HTSK02026",
+      "market": "handicap",
+      "round": 260083,
+      "game_no": 7131,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260717HTSK02026",
+      "market": "total",
+      "round": 260083,
+      "game_no": 7132,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260717KTLG02026",
+      "market": "handicap",
+      "round": 260083,
+      "game_no": 7115,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260717KTLG02026",
+      "market": "total",
+      "round": 260083,
+      "game_no": 7116,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260717OBNC02026",
+      "market": "handicap",
+      "round": 260083,
+      "game_no": 7139,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260717OBNC02026",
+      "market": "total",
+      "round": 260083,
+      "game_no": 7140,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260717WOHH02026",
+      "market": "handicap",
+      "round": 260083,
+      "game_no": 7147,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260717WOHH02026",
+      "market": "total",
+      "round": 260083,
+      "game_no": 7148,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260722HHHT02026",
+      "market": "handicap",
+      "round": 260085,
+      "game_no": 8092,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260722HHHT02026",
+      "market": "total",
+      "round": 260085,
+      "game_no": 8093,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260722SKLT02026",
+      "market": "handicap",
+      "round": 260085,
+      "game_no": 8084,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260722SKLT02026",
+      "market": "total",
+      "round": 260085,
+      "game_no": 8085,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260722SSWO02026",
+      "market": "handicap",
+      "round": 260085,
+      "game_no": 8108,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260722SSWO02026",
+      "market": "total",
+      "round": 260085,
+      "game_no": 8109,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260724KTLT02026",
+      "market": "handicap",
+      "round": 260086,
+      "game_no": 8423,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260724KTLT02026",
+      "market": "total",
+      "round": 260086,
+      "game_no": 8424,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260724LGHH02026",
+      "market": "handicap",
+      "round": 260086,
+      "game_no": 8447,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260724LGHH02026",
+      "market": "total",
+      "round": 260086,
+      "game_no": 8448,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260724NCSK02026",
+      "market": "handicap",
+      "round": 260086,
+      "game_no": 8431,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260724NCSK02026",
+      "market": "total",
+      "round": 260086,
+      "game_no": 8432,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260724SSOB02026",
+      "market": "handicap",
+      "round": 260086,
+      "game_no": 8415,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260724SSOB02026",
+      "market": "total",
+      "round": 260086,
+      "game_no": 8416,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260724WOHT02026",
+      "market": "handicap",
+      "round": 260086,
+      "game_no": 8439,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260724WOHT02026",
+      "market": "total",
+      "round": 260086,
+      "game_no": 8440,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "20260725NCSK02026",
+      "market": "total",
+      "round": 260087,
+      "game_no": 8577,
+      "reason": "market_tie"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-07-29:LG:키움",
+      "market": "handicap",
+      "round": 260088,
+      "game_no": 9211,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-07-29:LG:키움",
+      "market": "total",
+      "round": 260088,
+      "game_no": 9212,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-07-29:NC:KT",
+      "market": "handicap",
+      "round": 260088,
+      "game_no": 9235,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-07-29:NC:KT",
+      "market": "total",
+      "round": 260088,
+      "game_no": 9236,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-07-29:SSG:두산",
+      "market": "handicap",
+      "round": 260088,
+      "game_no": 9227,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-07-29:SSG:두산",
+      "market": "total",
+      "round": 260088,
+      "game_no": 9228,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-07-29:삼성:KIA",
+      "market": "handicap",
+      "round": 260088,
+      "game_no": 9219,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-07-29:삼성:KIA",
+      "market": "total",
+      "round": 260088,
+      "game_no": 9220,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-07-29:한화:롯데",
+      "market": "handicap",
+      "round": 260088,
+      "game_no": 9243,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-07-29:한화:롯데",
+      "market": "total",
+      "round": 260088,
+      "game_no": 9244,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-07-31:KT:한화",
+      "market": "handicap",
+      "round": 260089,
+      "game_no": 9524,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-07-31:KT:한화",
+      "market": "total",
+      "round": 260089,
+      "game_no": 9525,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-07-31:NC:KIA",
+      "market": "handicap",
+      "round": 260089,
+      "game_no": 9532,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-07-31:NC:KIA",
+      "market": "total",
+      "round": 260089,
+      "game_no": 9533,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-07-31:두산:LG",
+      "market": "handicap",
+      "round": 260089,
+      "game_no": 9508,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-07-31:두산:LG",
+      "market": "total",
+      "round": 260089,
+      "game_no": 9509,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-07-31:롯데:삼성",
+      "market": "handicap",
+      "round": 260089,
+      "game_no": 9516,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-07-31:롯데:삼성",
+      "market": "total",
+      "round": 260089,
+      "game_no": 9517,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-07-31:키움:SSG",
+      "market": "handicap",
+      "round": 260089,
+      "game_no": 9540,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-07-31:키움:SSG",
+      "market": "total",
+      "round": 260089,
+      "game_no": 9541,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-12:KIA:삼성",
+      "market": "handicap",
+      "round": 260094,
+      "game_no": 1743,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-12:KIA:삼성",
+      "market": "total",
+      "round": 260094,
+      "game_no": 1744,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-12:NC:KT",
+      "market": "handicap",
+      "round": 260094,
+      "game_no": 1751,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-12:NC:KT",
+      "market": "total",
+      "round": 260094,
+      "game_no": 1752,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-12:SSG:롯데",
+      "market": "handicap",
+      "round": 260094,
+      "game_no": 1735,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-12:SSG:롯데",
+      "market": "total",
+      "round": 260094,
+      "game_no": 1736,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-12:두산:한화",
+      "market": "handicap",
+      "round": 260094,
+      "game_no": 1727,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-12:두산:한화",
+      "market": "total",
+      "round": 260094,
+      "game_no": 1728,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-12:키움:LG",
+      "market": "handicap",
+      "round": 260094,
+      "game_no": 1759,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-12:키움:LG",
+      "market": "total",
+      "round": 260094,
+      "game_no": 1760,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-14:KIA:두산",
+      "market": "handicap",
+      "round": 260095,
+      "game_no": 2055,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-14:KIA:두산",
+      "market": "total",
+      "round": 260095,
+      "game_no": 2056,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-14:KT:키움",
+      "market": "handicap",
+      "round": 260095,
+      "game_no": 2063,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-14:KT:키움",
+      "market": "total",
+      "round": 260095,
+      "game_no": 2064,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-14:LG:SSG",
+      "market": "handicap",
+      "round": 260095,
+      "game_no": 2031,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-14:LG:SSG",
+      "market": "total",
+      "round": 260095,
+      "game_no": 2032,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-14:롯데:NC",
+      "market": "handicap",
+      "round": 260095,
+      "game_no": 2047,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-14:롯데:NC",
+      "market": "total",
+      "round": 260095,
+      "game_no": 2048,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-14:삼성:한화",
+      "market": "handicap",
+      "round": 260095,
+      "game_no": 2039,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-14:삼성:한화",
+      "market": "total",
+      "round": 260095,
+      "game_no": 2040,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-19:LG:KT",
+      "market": "handicap",
+      "round": 260097,
+      "game_no": 4826,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-19:LG:KT",
+      "market": "total",
+      "round": 260097,
+      "game_no": 4827,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-19:NC:두산",
+      "market": "handicap",
+      "round": 260097,
+      "game_no": 4850,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-19:NC:두산",
+      "market": "total",
+      "round": 260097,
+      "game_no": 4851,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-19:롯데:키움",
+      "market": "handicap",
+      "round": 260097,
+      "game_no": 4842,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-19:롯데:키움",
+      "market": "total",
+      "round": 260097,
+      "game_no": 4843,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-19:삼성:SSG",
+      "market": "handicap",
+      "round": 260097,
+      "game_no": 4834,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-19:삼성:SSG",
+      "market": "total",
+      "round": 260097,
+      "game_no": 4835,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-19:한화:KIA",
+      "market": "handicap",
+      "round": 260097,
+      "game_no": 4858,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-19:한화:KIA",
+      "market": "total",
+      "round": 260097,
+      "game_no": 4859,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-21:NC:삼성",
+      "market": "handicap",
+      "round": 260098,
+      "game_no": 5323,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-21:NC:삼성",
+      "market": "total",
+      "round": 260098,
+      "game_no": 5324,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-21:두산:롯데",
+      "market": "handicap",
+      "round": 260098,
+      "game_no": 5307,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-21:두산:롯데",
+      "market": "total",
+      "round": 260098,
+      "game_no": 5308,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-21:키움:KIA",
+      "market": "handicap",
+      "round": 260098,
+      "game_no": 5339,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-21:키움:KIA",
+      "market": "total",
+      "round": 260098,
+      "game_no": 5340,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-21:한화:LG",
+      "market": "handicap",
+      "round": 260098,
+      "game_no": 5331,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-21:한화:LG",
+      "market": "total",
+      "round": 260098,
+      "game_no": 5332,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-26:KIA:롯데",
+      "market": "handicap",
+      "round": 260100,
+      "game_no": 6569,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-26:KIA:롯데",
+      "market": "total",
+      "round": 260100,
+      "game_no": 6570,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-26:KT:두산",
+      "market": "handicap",
+      "round": 260100,
+      "game_no": 6577,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-26:KT:두산",
+      "market": "total",
+      "round": 260100,
+      "game_no": 6578,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-26:LG:NC",
+      "market": "handicap",
+      "round": 260100,
+      "game_no": 6553,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-26:LG:NC",
+      "market": "total",
+      "round": 260100,
+      "game_no": 6554,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-26:SSG:한화",
+      "market": "handicap",
+      "round": 260100,
+      "game_no": 6561,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-26:SSG:한화",
+      "market": "total",
+      "round": 260100,
+      "game_no": 6562,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-26:키움:삼성",
+      "market": "handicap",
+      "round": 260100,
+      "game_no": 6585,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-08-26:키움:삼성",
+      "market": "total",
+      "round": 260100,
+      "game_no": 6586,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-01:두산:LG",
+      "market": "total",
+      "round": 260103,
+      "game_no": 8248,
+      "reason": "market_tie"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-02:KT:한화",
+      "market": "handicap",
+      "round": 260103,
+      "game_no": 8454,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-02:KT:한화",
+      "market": "total",
+      "round": 260103,
+      "game_no": 8455,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-02:NC:KIA",
+      "market": "handicap",
+      "round": 260103,
+      "game_no": 8462,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-02:NC:KIA",
+      "market": "total",
+      "round": 260103,
+      "game_no": 8463,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-02:두산:LG",
+      "market": "handicap",
+      "round": 260103,
+      "game_no": 8438,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-02:두산:LG",
+      "market": "total",
+      "round": 260103,
+      "game_no": 8439,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-02:삼성:롯데",
+      "market": "handicap",
+      "round": 260103,
+      "game_no": 8446,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-02:삼성:롯데",
+      "market": "total",
+      "round": 260103,
+      "game_no": 8447,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-02:키움:SSG",
+      "market": "handicap",
+      "round": 260103,
+      "game_no": 8470,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-02:키움:SSG",
+      "market": "total",
+      "round": 260103,
+      "game_no": 8471,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-03:삼성:롯데",
+      "market": "total",
+      "round": 260104,
+      "game_no": 8651,
+      "reason": "market_tie"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-04:KIA:KT",
+      "market": "handicap",
+      "round": 260104,
+      "game_no": 8793,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-04:KIA:KT",
+      "market": "total",
+      "round": 260104,
+      "game_no": 8794,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-04:LG:삼성",
+      "market": "handicap",
+      "round": 260104,
+      "game_no": 8769,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-04:LG:삼성",
+      "market": "total",
+      "round": 260104,
+      "game_no": 8770,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-04:롯데:한화",
+      "market": "handicap",
+      "round": 260104,
+      "game_no": 8777,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-04:롯데:한화",
+      "market": "total",
+      "round": 260104,
+      "game_no": 8778,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-04:키움:NC",
+      "market": "handicap",
+      "round": 260104,
+      "game_no": 8801,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-04:키움:NC",
+      "market": "total",
+      "round": 260104,
+      "game_no": 8802,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-09:KIA:NC",
+      "market": "handicap",
+      "round": 260106,
+      "game_no": 205,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-09:KIA:NC",
+      "market": "total",
+      "round": 260106,
+      "game_no": 206,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-09:삼성:KT",
+      "market": "handicap",
+      "round": 260106,
+      "game_no": 197,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-09:삼성:KT",
+      "market": "total",
+      "round": 260106,
+      "game_no": 198,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-09:한화:LG",
+      "market": "handicap",
+      "round": 260106,
+      "game_no": 213,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-09:한화:LG",
+      "market": "total",
+      "round": 260106,
+      "game_no": 214,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-11:KIA:SSG",
+      "market": "handicap",
+      "round": 260107,
+      "game_no": 709,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-11:KIA:SSG",
+      "market": "total",
+      "round": 260107,
+      "game_no": 710,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-11:롯데:KT",
+      "market": "handicap",
+      "round": 260107,
+      "game_no": 701,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-11:롯데:KT",
+      "market": "total",
+      "round": 260107,
+      "game_no": 702,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-11:삼성:키움",
+      "market": "handicap",
+      "round": 260107,
+      "game_no": 693,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-11:삼성:키움",
+      "market": "total",
+      "round": 260107,
+      "game_no": 694,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-11:한화:NC",
+      "market": "handicap",
+      "round": 260107,
+      "game_no": 717,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-11:한화:NC",
+      "market": "total",
+      "round": 260107,
+      "game_no": 718,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-16:NC:LG",
+      "market": "handicap",
+      "round": 260109,
+      "game_no": 2133,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-16:NC:LG",
+      "market": "total",
+      "round": 260109,
+      "game_no": 2134,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-16:두산:삼성",
+      "market": "handicap",
+      "round": 260109,
+      "game_no": 2117,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-16:두산:삼성",
+      "market": "total",
+      "round": 260109,
+      "game_no": 2118,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-16:한화:KT",
+      "market": "handicap",
+      "round": 260109,
+      "game_no": 2141,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-16:한화:KT",
+      "market": "total",
+      "round": 260109,
+      "game_no": 2142,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-18:KT:LG",
+      "market": "handicap",
+      "round": 260110,
+      "game_no": 2699,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-18:KT:LG",
+      "market": "total",
+      "round": 260110,
+      "game_no": 2700,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-18:두산:키움",
+      "market": "handicap",
+      "round": 260110,
+      "game_no": 2683,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-18:두산:키움",
+      "market": "total",
+      "round": 260110,
+      "game_no": 2684,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-18:한화:삼성",
+      "market": "handicap",
+      "round": 260110,
+      "game_no": 2707,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-18:한화:삼성",
+      "market": "total",
+      "round": 260110,
+      "game_no": 2708,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-19:KT:두산",
+      "market": "total",
+      "round": 260111,
+      "game_no": 2906,
+      "reason": "market_tie"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-22:한화:롯데",
+      "market": "total",
+      "round": 260112,
+      "game_no": 3896,
+      "reason": "market_tie"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-23:KT:NC",
+      "market": "handicap",
+      "round": 260112,
+      "game_no": 4079,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-23:KT:NC",
+      "market": "total",
+      "round": 260112,
+      "game_no": 4080,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-23:두산:KIA",
+      "market": "handicap",
+      "round": 260112,
+      "game_no": 4071,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-23:두산:KIA",
+      "market": "total",
+      "round": 260112,
+      "game_no": 4072,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-23:한화:롯데",
+      "market": "handicap",
+      "round": 260112,
+      "game_no": 4087,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-23:한화:롯데",
+      "market": "total",
+      "round": 260112,
+      "game_no": 4088,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-25:NC:한화",
+      "market": "handicap",
+      "round": 260113,
+      "game_no": 4436,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-25:NC:한화",
+      "market": "total",
+      "round": 260113,
+      "game_no": 4437,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-30:KIA:KT",
+      "market": "handicap",
+      "round": 260115,
+      "game_no": 5652,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-30:KIA:KT",
+      "market": "total",
+      "round": 260115,
+      "game_no": 5653,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-30:SSG:LG",
+      "market": "handicap",
+      "round": 260115,
+      "game_no": 5644,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-30:SSG:LG",
+      "market": "total",
+      "round": 260115,
+      "game_no": 5645,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-30:두산:NC",
+      "market": "handicap",
+      "round": 260115,
+      "game_no": 5620,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-30:두산:NC",
+      "market": "total",
+      "round": 260115,
+      "game_no": 5621,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-30:롯데:키움",
+      "market": "handicap",
+      "round": 260115,
+      "game_no": 5636,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-30:롯데:키움",
+      "market": "total",
+      "round": 260115,
+      "game_no": 5637,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-30:삼성:한화",
+      "market": "handicap",
+      "round": 260115,
+      "game_no": 5628,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-09-30:삼성:한화",
+      "market": "total",
+      "round": 260115,
+      "game_no": 5629,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-10-05:KT:롯데",
+      "market": "handicap",
+      "round": 260117,
+      "game_no": 6451,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-10-05:KT:롯데",
+      "market": "total",
+      "round": 260117,
+      "game_no": 6452,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-10-05:LG:KIA",
+      "market": "handicap",
+      "round": 260117,
+      "game_no": 6435,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-10-05:LG:KIA",
+      "market": "total",
+      "round": 260117,
+      "game_no": 6436,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-10-05:NC:SSG",
+      "market": "handicap",
+      "round": 260117,
+      "game_no": 6459,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-10-05:NC:SSG",
+      "market": "total",
+      "round": 260117,
+      "game_no": 6460,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-10-05:삼성:두산",
+      "market": "handicap",
+      "round": 260117,
+      "game_no": 6443,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-10-05:삼성:두산",
+      "market": "total",
+      "round": 260117,
+      "game_no": 6444,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-10-05:한화:키움",
+      "market": "handicap",
+      "round": 260117,
+      "game_no": 6467,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-10-05:한화:키움",
+      "market": "total",
+      "round": 260117,
+      "game_no": 6468,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-10-07:KT:삼성",
+      "market": "handicap",
+      "round": 260118,
+      "game_no": 6839,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-10-07:KT:삼성",
+      "market": "total",
+      "round": 260118,
+      "game_no": 6840,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-10-07:LG:두산",
+      "market": "handicap",
+      "round": 260118,
+      "game_no": 6815,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-10-07:LG:두산",
+      "market": "total",
+      "round": 260118,
+      "game_no": 6816,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-10-07:롯데:KIA",
+      "market": "handicap",
+      "round": 260118,
+      "game_no": 6823,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-10-07:롯데:KIA",
+      "market": "total",
+      "round": 260118,
+      "game_no": 6824,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-10-07:키움:한화",
+      "market": "handicap",
+      "round": 260118,
+      "game_no": 6847,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-10-07:키움:한화",
+      "market": "total",
+      "round": 260118,
+      "game_no": 6848,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-10-10:한화:NC",
+      "market": "total",
+      "round": 260120,
+      "game_no": 7229,
+      "reason": "market_tie"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-10-12:KIA:LG",
+      "market": "handicap",
+      "round": 260120,
+      "game_no": 7795,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-10-12:KIA:LG",
+      "market": "total",
+      "round": 260120,
+      "game_no": 7796,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-10-12:두산:롯데",
+      "market": "handicap",
+      "round": 260120,
+      "game_no": 7779,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-10-12:두산:롯데",
+      "market": "total",
+      "round": 260120,
+      "game_no": 7780,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-10-12:삼성:KT",
+      "market": "handicap",
+      "round": 260120,
+      "game_no": 7787,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-10-12:삼성:KT",
+      "market": "total",
+      "round": 260120,
+      "game_no": 7788,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-10-17:KIA:LG",
+      "market": "total",
+      "round": 260123,
+      "game_no": 8807,
+      "reason": "market_tie"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-10-26:삼성:KIA",
+      "market": "handicap",
+      "round": 260126,
+      "game_no": 798,
+      "reason": "line"
+    },
+    {
+      "cohort": "strict_resolved",
+      "fixture_id": "score:2026-10-26:삼성:KIA",
+      "market": "total",
+      "round": 260126,
+      "game_no": 799,
+      "reason": "line"
     }
-  ]
+  ],
+  "identity_aliases": {
+    "path": "C:\\Users\\user\\Documents\\Codex\\expanded-kbo-identities-20261105\\experiments\\expanded-kbo-identities-20261105\\resolved.json",
+    "sha256": "f57b1107a60f02cb92cc663294c8b9f2153cb3ffba685555a8f2add99049234a",
+    "unresolved_forecast_ids": [
+      "score:2026-08-02:롯데:삼성",
+      "score:2026-08-29:삼성:KT"
+    ],
+    "inputs": {
+      "features": {
+        "path": "C:\\Users\\user\\Documents\\Codex\\kbeffects\\experiments\\kbo-player-effects-20261103\\inputs\\features.jsonl.gz",
+        "sha256": "346edd84d4388f99cc9ad23f7ad530560445b4bc06b6f841b745dabffa1a8b42"
+      },
+      "forecast": {
+        "path": "C:\\Users\\user\\Documents\\Codex\\market-outcomes-validation\\experiments\\m1-service-20261104\\replay\\replayed-709.json.gz",
+        "sha256": "a597ed066534cce92cfb12606d7f7e3edcc7591b3a6c1d17e7777c8b04e8b505"
+      },
+      "fresh": {
+        "path": "C:\\Users\\user\\Documents\\Codex\\kbeffects\\experiments\\kbo-player-effects-20261103\\inputs\\fresh-history-2026-official_batting_and_starter.jsonl.gz",
+        "sha256": "82a1e8630fafe2e790957900e981512fdfc8e70ba536f5ced45ac785f79dc706"
+      },
+      "manifest": {
+        "path": "C:\\Users\\user\\Documents\\Codex\\expanded-kbo-markets-20261105-worker\\experiments\\expanded-kbo-markets-20261105\\source-manifest.json",
+        "sha256": "2c0aa54de595bf9d44e0f4bba2d0666f1eaf311294c17667313b28a6415d9b5f"
+      },
+      "official_raw": {
+        "path": "C:\\Users\\user\\Documents\\Codex\\kbtdata\\experiments\\kbo-actual-training-data-20261103\\actual-starters-2026-raw.jsonl.gz",
+        "sha256": "1203fd23f085c56937273a5a42c0780ed703369b4b715fededc0a84a82e6e786"
+      },
+      "starters": {
+        "path": "C:\\Users\\user\\Documents\\Codex\\kbtmodel\\experiments\\kbo-actual-training-20261103\\inputs\\actual-starters-2026.jsonl.gz",
+        "sha256": "ca1d6dbc1f301ee4681237cbf1cd864df5079a3ab9364c2f7b50129a9574a69d"
+      }
+    },
+    "resolver_audit_path": "C:\\Users\\user\\Documents\\Codex\\expanded-kbo-identities-20261105\\experiments\\expanded-kbo-identities-20261105\\audit.json",
+    "resolver_audit_sha256": "c9a12bc192f277b531a51b52a152501989e7f73b1b0dd276f2a369a90e830c01",
+    "resolver_exclusions": [
+      {
+        "fixture_id": "score:2026-08-02:롯데:삼성",
+        "reason": "kickoff_mismatch:18:00:18:30"
+      },
+      {
+        "fixture_id": "score:2026-08-29:삼성:KT",
+        "reason": "kickoff_mismatch:18:00:18:40"
+      }
+    ]
+  }
 }
