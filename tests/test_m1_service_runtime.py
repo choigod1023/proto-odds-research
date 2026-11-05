@@ -235,3 +235,22 @@ def test_two_and_three_way_paper_results_stay_separate(tmp_path, monkeypatch):
     assert result['captured'] == 2 and result['unique_fixtures'] == 1
     assert result['by_product']['full_game_2way']['models']['m1_projected']['roi'] == 0
     assert result['by_product']['full_game_3way']['models']['m1_projected']['roi'] == -1
+
+
+def test_newer_unchanged_result_blocks_older_conflicting_correction(tmp_path, monkeypatch):
+    from research.m1_service import observer
+    monkeypatch.setattr(observer,'_verify_archives',lambda *a:None)
+    monkeypatch.setattr(observer,'_verify_market_bytes',lambda *a:None)
+    p,now=packet();recorder=Recorder(tmp_path/'m1.jsonl',test_validator,clock=lambda:now)
+    recorder.capture(p)
+    first=moment(p['event']['kickoff_at'])+timedelta(hours=3)
+    recorder.clock=lambda:first;recorder.settle(final_result(p,first,3,1))
+    recorder.clock=lambda:first+timedelta(minutes=2)
+    repeated=final_result(p,first+timedelta(minutes=2),3,1)
+    assert recorder.settle(repeated)[0]['type']=='result_observation'
+    assert recorder.settle(repeated)==[]
+    with pytest.raises(ValueError,match='backwards'):
+        recorder.settle(final_result(p,first+timedelta(minutes=1),1,3))
+    with pytest.raises(ValueError,match='same receipt'):
+        recorder.settle(final_result(p,first+timedelta(minutes=2),1,3))
+    assert recorder.summary()['settled']==1

@@ -58,7 +58,7 @@ def packet(snapshot):
     if set(x["row"].get("history_coverage",{}))!={"home","away"} or any(c.get("status")!="complete" for c in x["row"]["history_coverage"].values()):raise ValueError("verified history coverage incomplete")
     return {k:copy.deepcopy(x[k]) for k in ("event","row","announcement","evidence")}
 
-def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.infer_frozen,m1_state=None):
+def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.infer_frozen,m1_state=None,operating_fn=None):
     state=Path(state);state.mkdir(parents=True,exist_ok=True)
     with single_writer(state/"observer.lock") as owned:
         if not owned:return {"status":"another_run_active"}
@@ -167,10 +167,15 @@ def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.
                 try:report['m1_comparison']=m1_observer.summary()
                 except Exception as exc:report['m1_comparison']={'status':'failed','reason':str(exc)[:300]}
                 report['m1_status']=('blocked' if report.get('m1_candidate_excluded') or report['m1_comparison'].get('status')=='failed' else 'recorded' if report['m1_comparison'].get('captured') else 'waiting_for_eligible_inputs')
+                try:
+                    from research.kbo_forward.common_comparison import reconcile
+                    report['common_comparison']=reconcile(m1_observer,m1_state,clock(),source_fn=operating_fn)
+                except Exception as exc:
+                    report['common_comparison']={'status':'blocked','reason':str(exc)[:250],'production_policy_changed':False}
             atomic_json(state/"summary.json",report["comparison"]);atomic_json(state/"last-run.json",report)
             # A digest-addressed history retains changes; identical repeated skips are quiet.
             meaningful={k:report[k] for k in ("status","excluded","comparison")}
-            if m1_state is not None:meaningful.update({k:report.get(k) for k in ('m1_status','m1_comparison','m1_candidate_excluded')})
+            if m1_state is not None:meaningful.update({k:report.get(k) for k in ('m1_status','m1_comparison','m1_candidate_excluded','common_comparison')})
             key=ledger.digest(ledger.canonical(meaningful))
             if key!=previous.get("notification_digest"):
                 atomic_json(state/"reports"/(key+".json"),report)

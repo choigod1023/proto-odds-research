@@ -307,12 +307,17 @@ class Recorder:
             economics = {'status': status, 'home_score': h, 'away_score': a, 'profits': profits, 'outcomes': outcomes}
             def make(rows):
                 prior = next((r for r in reversed(rows) if r['type'] == 'settlement' and r['event_key'] == c['event_key']), None)
-                if prior and moment(ev['received_at']) < moment(prior['evidence']['received_at']):
+                observed=[r for r in rows if r.get('event_key')==c['event_key'] and r['type'] in ('settlement','result_observation')]
+                latest_received=max((moment(r['evidence']['received_at']) if r['type']=='settlement' else moment(r['received_at']) for r in observed),default=None)
+                if latest_received is not None and moment(ev['received_at']) < latest_received:
                     raise ValueError('result correction receipt moved backwards')
-                if prior and moment(ev['received_at']) == moment(prior['evidence']['received_at']) and prior['economics'] != economics:
+                if prior and moment(ev['received_at']) == latest_received and prior['economics'] != economics:
                     raise ValueError('conflicting result at same receipt time')
                 if prior and prior['economics'] == economics:
-                    return None
+                    if moment(ev['received_at'])==latest_received:return None
+                    return {'type':'result_observation','event_key':c['event_key'],'capture_hash':c['hash'],
+                            'received_at':ev['received_at'],'source_sha256':ev['sha256'],
+                            'economics_sha256':digest(canonical(economics)),'paper_wallet_changed':False}
                 return {'type': 'settlement', 'event_key': c['event_key'], 'capture_hash': c['hash'],
                         'settled_at': now.isoformat(), 'supersedes_hash': prior['hash'] if prior else None,
                         'economics': economics, 'evidence': deepcopy(ev), 'paper_wallet_changed': False}

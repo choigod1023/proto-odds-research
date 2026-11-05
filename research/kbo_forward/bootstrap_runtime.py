@@ -3,7 +3,7 @@ import argparse,hashlib,io,json,subprocess,sys,tarfile
 from pathlib import Path
 
 REPO=Path(__file__).resolve().parents[2]
-PREFIXES=('research/kbo_forward','research/m1_service','experiments/kbo-m0-followup-20261103','src')
+PREFIXES=('research/kbo_forward','research/m1_service','experiments/kbo-m0-followup-20261103','src','scripts/export_forward_operating_votes.py')
 
 def bootstrap(state,m1_state=None):
     state=Path(state).resolve();state.mkdir(parents=True,exist_ok=True)
