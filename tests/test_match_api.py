@@ -60,6 +60,26 @@ def test_summary_preserves_decision_and_separates_detail_history():
     assert len(summary(payload,'r','all')['past'])==1
 
 
+def test_frontier_rows_only_in_detail_preserve_frozen_identity(tmp_path):
+    current = game()
+    market = {'pick_comparison_version': 'exact-market-frontier-v1', 'evidence_hash': 'same',
+              'items': [{'offer_id': 'o', 'comparisons': {'frontier_consensus': {'selection': '언더'}}}]}
+    current['market_recommendations'] = market
+    current['prediction_record'].update(prediction_snapshot_id='frozen', market_recommendations=market)
+    current['market_prediction_record'] = current['prediction_record']
+    db = RuntimeDatabase(tmp_path / 'detail.sqlite3')
+    db.store_artifact('picks_v2', {'live': [current]})
+    views = MatchViews(db)
+    cards = views.get('all')
+    for record in (cards['live'][0], cards['live'][0]['market_prediction_record'],
+                   cards['result_games'][0]['prediction_record'], views.get('performance')['live'][0]['prediction_record']):
+        assert record['market_recommendations']['evidence_hash'] == 'same'
+        assert 'comparisons' not in record['market_recommendations']['items'][0]
+    full = views.get('detail', key=game_key(current), revision=cards['view']['revision'])['game']
+    assert full['market_recommendations'] == market
+    assert full['market_prediction_record']['market_recommendations'] == market
+
+
 def test_year_boundary_and_collision_safe_identity():
     rows=[game('12.31(목) 23:00'),game('01.01(금) 10:00',2027),game('01.01(목) 10:00',2026)]
     result=summary({'live':rows},'r',now=datetime(2027,1,1,tzinfo=KST))

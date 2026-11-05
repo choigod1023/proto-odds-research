@@ -1,0 +1,48 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { createServer } from "vite";
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+
+test("modal comparison distinguishes estimates, settled history and a frozen final pick", async () => {
+  const server = await createServer({server: {middlewareMode: true}, appType: "custom",
+    optimizeDeps: {noDiscovery: true, include: []}});
+  try {
+    const {default: View, comparisonRows} = await server.ssrLoadModule("/src/components/MarketPickComparison.jsx");
+    const base = {selection_id: "under", offer_id: "a", selection: "언더", odds: 1.9, p_push: 0};
+    const scores = [
+      ["frontier_m0_actual", .65, .235], ["frontier_m0_projected", .60, .14],
+      ["frontier_m1_projected", .58, .102],
+    ];
+    const comparisons = Object.fromEntries(scores.map(([model, probability, estimated_roi]) =>
+      [model, {...base, model, probability_basis: "score_model", probability, estimated_roi}]));
+    comparisons.frontier_consensus = {...base, model: "frontier_consensus", probability_basis: "score_model_min",
+      probability: .58, estimated_roi: .102};
+    comparisons.frontier_tipster = {...base, model: "frontier_tipster", probability_basis: "vote_share",
+      probability: 1, estimated_roi: .9};
+    const item = {game_no: "3", market: "언더오버", label: "U 8.5", line: 8.5,
+      settlement_rule: "total_half", result_period: "full_including_extra", comparisons};
+    const recommendations = [{item, comparisonVersion: "exact-market-frontier-v1"}];
+    const options = [{selection_id: "under", offer_id: "a", "게임번호": "3", market: item.market,
+      label: item.label, line: item.line, "배당": 1.9, "선택": "언더", settlement_rule: item.settlement_rule,
+      result_period: item.result_period}];
+    const game = {sport: "bs", league: "KBO"};
+    const performance = {comparison_by_context: {
+      "bs|KBO|언더오버|total_half|8.5|언더|frontier_m1_projected": {hit_rate: .5, hits: 2, decided: 4, bets: 4, roi: -.125},
+      "bs|KBO|언더오버|total_half|9.5|언더|frontier_m0_actual": {hit_rate: 1, hits: 7, decided: 7, bets: 7, roi: 1},
+    }};
+    const html = renderToStaticMarkup(createElement(View, {recommendations, options, game, performance}));
+    for (const value of ["지표 기준 최종 픽", "M1 선수 효과", "58.0%", "+10.2%", "50.0% (2/4)", "-12.5%", "정산 표본 없음"]) {
+      assert.ok(html.includes(value), value);
+    }
+    assert.doesNotMatch(html, /100\.0%/);
+    const changed = [{...options[0], "배당": 1.8}];
+    assert.deepEqual(comparisonRows(recommendations, changed), {rows: [], final: null});
+    assert.equal(comparisonRows(recommendations.map(r => ({...r, saved: true})), changed).final.arm.odds, 1.9);
+    delete comparisons.frontier_m1_projected;
+    assert.equal(comparisonRows(recommendations, options).final, null);
+    assert.equal(comparisonRows(recommendations.map(r => ({...r, comparisonVersion: undefined})), options).rows.length, 0);
+  } finally {
+    await server.close();
+  }
+});

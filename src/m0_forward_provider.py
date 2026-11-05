@@ -122,12 +122,20 @@ def _verified_capture(record, root, meta):
         if any(captured >= _time(payload['market'][k]) for k in ('close_at', 'round_close_at')):
             raise ValueError('market closed at capture')
     actual = record['models']['m0_actual']
-    if not _same(actual, model.forecast(row)['m0_actual']):
+    recomputed = model.forecast(row)
+    if not _same(actual, recomputed['m0_actual']):
         raise ValueError('frozen actual M0 forecast mismatch')
     if any(not isinstance(actual[k], (int, float)) or isinstance(actual[k], bool)
            or not math.isfinite(actual[k]) or actual[k] <= 0 for k in ('home_rate', 'away_rate')):
         raise ValueError('invalid actual M0 rates')
-    return {'event': event, 'captured': captured, 'capture_hash': record['hash'],
+    # Reuse the existing verification pass. A missing or altered research arm
+    # cannot enter the comparison or break the already verified M0 capture.
+    companions = {
+        name: {'home_mean': arm['home_rate'], 'away_mean': arm['away_rate']}
+        for name in ('m0_projected', 'm1_projected')
+        if (arm := record['models'].get(name)) is not None and _same(arm, recomputed[name])
+    }
+    return {'event': event, 'captured': captured, 'capture_hash': record['hash'], 'companions': companions,
             'artifact_hash': meta['bundle_sha256'], 'source_evidence_hash': observer.digest(observer.canonical(payload['evidence'])),
             'home_mean': actual['home_rate'], 'away_mean': actual['away_rate']}
 
@@ -322,6 +330,7 @@ def get_distribution(game, as_of, built_at, *, root=None):
                 'away_mean': c['away_mean'], 'source_available_at': c['captured'].isoformat(),
                 'capture_hash': c['capture_hash'], 'artifact_hash': c['artifact_hash'],
                 'official_game_id': c['event']['official_game_id'], 'kickoff_at': c['event']['kickoff_at'],
-                'scope': 'full_game', 'source_evidence_hash': c['source_evidence_hash']}
+                'scope': 'full_game', 'source_evidence_hash': c['source_evidence_hash'],
+                'companions': {name: dict(rates) for name, rates in c['companions'].items()}}
     except (OSError, ValueError, TypeError, KeyError, OverflowError, AttributeError, EOFError) as exc:
         return {'status': 'unavailable', 'reason': str(exc)}

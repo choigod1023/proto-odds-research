@@ -4,7 +4,7 @@ The original winner policy is independent. M0 is KBO-only; explicit same-line
 tipster votes can select other supported products. Neither is a profit claim.
 """
 from copy import deepcopy
-from collections import defaultdict
+from collections import Counter, defaultdict
 from datetime import timedelta
 from decimal import Decimal
 import hashlib
@@ -13,6 +13,7 @@ import math
 import re
 
 from fixed_tipster_hybrid import stamp
+from market_pick_frontier import ARM_NAMES, FINAL, MODELS, choose_final, market_estimate, score_pick
 from public_tipster_votes import kickoff
 
 VERSION = 'multi-market-recommendations-v1'
@@ -108,7 +109,11 @@ def build(game, rows, as_of, built_at, *, distribution=None, market_candidates=N
     from market_diversity import build_market_candidates
     candidates = market_candidates if market_candidates is not None else build_market_candidates(game, rows, as_of, built_at)
     groups = defaultdict(list)
+    numbers = Counter()
+    selections = Counter()
     for option in game.get('options', []):
+        numbers[str(option.get('게임번호', ''))] += 1
+        selections[option.get('selection_id')] += 1
         if option.get('market') in {'언더오버', '핸디캡'}:
             key = (str(option.get('게임번호', '')), option['market'], str(option.get('label') or ''),
                    str(option.get('line')))
@@ -133,8 +138,10 @@ def build(game, rows, as_of, built_at, *, distribution=None, market_candidates=N
                 raise ValueError('tied_exact_line_tipster_votes')
             m0 = distribution.get('status') == 'available' and game.get('league') == 'KBO'
             comparisons = {}
+            score_masses = {}
             if m0:
                 masses = probabilities(terms, distribution['home_mean'], distribution['away_mean'])
+                score_masses['m0_actual'] = masses
                 ranks = {s: p['p_win']/(1-p['p_push']) if p['p_push'] < 1 else 0 for s, p in masses.items()}
                 leaders = [s for s, p in ranks.items() if abs(p-max(ranks.values())) < 1e-12]
                 if len(leaders) == 1:
@@ -170,6 +177,32 @@ def build(game, rows, as_of, built_at, *, distribution=None, market_candidates=N
                 reference = offers[market_leaders[0]]
                 comparisons['market'] = {'selection': market_leaders[0], 'model': 'market-baseline-v1',
                     'selection_id': reference['selection_id'], 'offer_id': reference['offer_id'], 'odds': _number(reference['배당'])}
+            # The extra research comparison never replaces the operating side.
+            # Refuse reissued/ambiguous numbers even if one group alone looks valid.
+            if (re.fullmatch(r'\d+', key[0]) and numbers[key[0]] == len(options)
+                    and all(selections[o['selection_id']] == 1 for o in options)
+                    and len({o['offer_id'] for o in options}) == len(options)):
+                if 'market' in comparisons:
+                    comparisons['market'].update(market_estimate(market_leaders[0], offers,
+                        model='market-baseline-v1', basis='market_inverse_odds'))
+                if vote is not None and side == vote.get('selection'):
+                    comparisons['frontier_tipster'] = market_estimate(side, offers,
+                        model='frontier_tipster', basis='tipster_direction_market_odds')
+                if m0:
+                    companions = distribution.get('companions') or {}
+                    for name in MODELS:
+                        try:
+                            model_masses = score_masses.get(name)
+                            if model_masses is None:
+                                rates = companions.get(name)
+                                if not rates:
+                                    continue
+                                model_masses = probabilities(terms, rates['home_mean'], rates['away_mean'])
+                            arm = score_pick('frontier_' + name, model_masses, offers)
+                            if arm:
+                                comparisons[arm['model']] = dict(arm, capture_hash=distribution['capture_hash'])
+                        except (ValueError, TypeError, KeyError, OverflowError):
+                            continue  # Invalid research data must not drop the operating recommendation.
             option = offers[side]; price = _number(option['배당'])
             evidence = (vote or {}).get('evidence') or []
             vote_summary = ({k: vote.get(k) for k in ('authors','vote_counts','selection','status')}
@@ -200,6 +233,9 @@ def build(game, rows, as_of, built_at, *, distribution=None, market_candidates=N
         except (ValueError, TypeError, KeyError, OverflowError) as exc:
             result['rejected'].append({'game_no': key[0], 'market': key[1], 'label': key[2], 'reason': str(exc)[:140]})
     result['status'] = 'recommended' if result['items'] else result['status']
+    if result['items']:
+        choose_final(result['items'])
+        result['pick_comparison_version'] = 'exact-market-frontier-v1'
     result['evidence_hash'] = _hash({k: v for k, v in result.items() if k != 'generated_at'})
     prior = game.get('market_recommendations') or {}
     if prior.get('version') == VERSION and prior.get('evidence_hash') == result['evidence_hash']:
@@ -227,12 +263,25 @@ def result_for_offer(item, status):
 
 def performance(records):
     """Actual prospective per-product results; refunds stay in ROI denominator."""
-    selected = []; unique = set()
+    selected = []; unique = set(); comparison_context = defaultdict(list)
     for event, record in records.items():
         for item in (record.get('market_recommendations') or {}).get('items', []):
             unique.add(event)
             grade = (record.get('market_recommendation_results') or {}).get(item['offer_id'])
             selected.append((item, grade))
+            terms = item.get('terms') or {}
+            context = [terms.get('sport'), terms.get('league'), item.get('market'), item.get('settlement_rule')]
+            line = item.get('line')
+            if (type(line) in (int, float) and math.isfinite(line)
+                    and all(isinstance(k, str) and k and '|' not in k for k in context)):
+                line_key = format(Decimal(str(line or 0)).normalize(), 'f')
+                for name, arm in (item.get('comparisons') or {}).items():
+                    side = arm.get('selection')
+                    if (name in ('market', 'frontier_tipster', FINAL, *ARM_NAMES)
+                            and isinstance(side, str) and side and '|' not in side
+                            and arm.get('selection_id') and arm.get('offer_id')):
+                        settled = ((grade or {}).get('comparisons') or {}).get(name)
+                        comparison_context['|'.join([*context, line_key, side, name])].append((item, settled))
     def group(rows):
         final = [g for _, g in rows if g and g.get('result') in {'hit', 'miss', 'void'}]
         decided = [g for g in final if g['result'] != 'void']
@@ -257,6 +306,7 @@ def performance(records):
             'by_model': {m: group([(i,g) for i,g in selected if i['model']==m])
                         for m in sorted({i['model'] for i,_ in selected})},
             'comparison_models': {name: group(rows) for name, rows in sorted(comparison_rows.items())},
+            'comparison_by_context': {key: group(rows) for key, rows in sorted(comparison_context.items())},
             'matched_m0_comparison': {name: group(rows) for name, rows in matched_rows.items()},
             'unique_fixtures': len(unique), 'paper_wallet_changed': False,
             'scope': 'prospective_per_exact_product_not_independent_game_counts'}
