@@ -13,6 +13,7 @@ import math
 import re
 
 from fixed_tipster_hybrid import stamp
+from league_handicap import MODELS as LEAGUE_HANDICAP_MODELS, recommend as league_handicap_pick
 from market_pick_frontier import ARM_NAMES, FINAL, MODELS, choose_final, market_estimate, score_pick
 from public_tipster_votes import kickoff
 
@@ -76,7 +77,7 @@ def _number(value):
     return value
 
 
-def build(game, rows, as_of, built_at, *, distribution=None, market_candidates=None):
+def build(game, rows, as_of, built_at, *, distribution=None, market_candidates=None, market_observed_at=None):
     """Pure except for the bounded local M0 provider; never HTTP or fitting."""
     result = {'version': VERSION, 'status': 'no_eligible_recommendations', 'items': [],
               'rejected': [], 'policy_authorized': True, 'validated_edge': False,
@@ -87,7 +88,8 @@ def build(game, rows, as_of, built_at, *, distribution=None, market_candidates=N
             return dict(result, status='after_t30')
         if game.get('status') in {'cancelled', 'finished', 'ended', 'live', '정산', '결과확인', '취소', '경기중'} or game.get('no_odds') or game.get('betting_closed'):
             return dict(result, status='not_open_pregame')
-        price_time = stamp(game.get('live_market_observed_at') or as_of)
+        observed_price = game.get('live_market_observed_at') or market_observed_at
+        price_time = stamp(observed_price or as_of)
         if price_time > decision:
             return dict(result, status='future_market_receipt')
     except (ValueError, TypeError, KeyError, AttributeError):
@@ -128,11 +130,20 @@ def build(game, rows, as_of, built_at, *, distribution=None, market_candidates=N
             offers = {o['선택']: o for o in options}
             if any(not o.get('selection_id') or not o.get('offer_id') or _number(o['배당']) <= 1 for o in options):
                 raise ValueError('unidentified_or_invalid_offer')
+            exact = (re.fullmatch(r'\d+', key[0]) and numbers[key[0]] == len(options)
+                     and all(selections[o['selection_id']] == 1 for o in options)
+                     and len({o['offer_id'] for o in options}) == len(options))
+            model_arm = None
+            if exact and observed_price:
+                try:
+                    model_arm = league_handicap_pick(terms, game, offers, price_time=price_time)
+                except (OSError, ValueError, TypeError, KeyError, OverflowError):
+                    pass
             vote_matches = [c for c in candidates.get('offers', []) if c.get('status') == 'candidate'
                             and str(c.get('game_no')) == key[0] and c.get('market') == key[1]
                             and str(c.get('label') or '') == key[2]]
             vote = vote_matches[0] if len(vote_matches) == 1 else None
-            if any(c.get('status') == 'ambiguous_or_tied' and str(c.get('game_no')) == key[0]
+            if model_arm is None and any(c.get('status') == 'ambiguous_or_tied' and str(c.get('game_no')) == key[0]
                    and c.get('market') == key[1] and str(c.get('label') or '') == key[2]
                    for c in candidates.get('offers', [])):
                 raise ValueError('tied_exact_line_tipster_votes')
@@ -154,8 +165,13 @@ def build(game, rows, as_of, built_at, *, distribution=None, market_candidates=N
                         'adopted': False, 'reason': 'retrospective_total_roi_not_superior'}
                 else:
                     comparisons['m0_actual'] = {'status': 'withheld', 'reason': 'tied_m0_probabilities', 'adopted': False}
-            if vote is not None and vote.get('selection') in offers:
-                side = vote['selection']; mass = None; model = 'tipster-market-vote-v1'
+            if model_arm is not None:
+                side = model_arm['selection']
+                model = model_arm['model']
+                probability = model_arm['probability']
+                basis = model_arm['probability_basis']
+            elif vote is not None and vote.get('selection') in offers:
+                side = vote['selection']; model = 'tipster-market-vote-v1'
                 probability = _number(offers[side]['시장확률']); basis = 'market_conditional_decisive'
                 if not 0 < probability < 1:
                     raise ValueError('invalid_market_probability')
@@ -167,7 +183,7 @@ def build(game, rows, as_of, built_at, *, distribution=None, market_candidates=N
                 leaders = [s for s, o in offers.items() if _number(o['배당']) == minimum]
                 if len(leaders) != 1:
                     raise ValueError('tied_market_probabilities')
-                side = leaders[0]; mass = None; model = 'market-baseline-v1'
+                side = leaders[0]; model = 'market-baseline-v1'
                 total = sum(1/_number(o['배당']) for o in options)
                 probability = (1/_number(offers[side]['배당']))/total
                 basis = 'normalized_inverse_market_conditional_decisive'
@@ -179,15 +195,15 @@ def build(game, rows, as_of, built_at, *, distribution=None, market_candidates=N
                     'selection_id': reference['selection_id'], 'offer_id': reference['offer_id'], 'odds': _number(reference['배당'])}
             # The extra research comparison never replaces the operating side.
             # Refuse reissued/ambiguous numbers even if one group alone looks valid.
-            if (re.fullmatch(r'\d+', key[0]) and numbers[key[0]] == len(options)
-                    and all(selections[o['selection_id']] == 1 for o in options)
-                    and len({o['offer_id'] for o in options}) == len(options)):
+            if exact:
                 if 'market' in comparisons:
                     comparisons['market'].update(market_estimate(market_leaders[0], offers,
                         model='market-baseline-v1', basis='market_inverse_odds'))
                 if vote is not None and side == vote.get('selection'):
                     comparisons['frontier_tipster'] = market_estimate(side, offers,
                         model='frontier_tipster', basis='tipster_direction_market_odds')
+                if model_arm is not None:
+                    comparisons[model] = model_arm
                 if m0:
                     companions = distribution.get('companions') or {}
                     for name in MODELS:
@@ -221,14 +237,18 @@ def build(game, rows, as_of, built_at, *, distribution=None, market_candidates=N
                     'game_no': key[0], 'selection': side, 'odds': price, 'probability': probability,
                     'probability_basis': basis, 'model': model, 'terms': terms,
                     'settlement_rule': terms['settlement_rule'], 'period': 'full_game', 'result_period': terms['period'],
-                    'p_push': mass['p_push'] if mass is not None else None,
-                    'estimated_roi': mass['p_win']*(price-1)-mass['p_loss'] if mass is not None else None,
+                    'p_push': model_arm['p_push'] if model_arm is not None else None,
+                    'estimated_roi': model_arm['estimated_roi'] if model_arm is not None else None,
                     'validation_status': 'user_authorized_unvalidated', 'validated_edge': False,
                     'automatic_recommendation': True, 'candidate_only': False,
                     'source_ids': sorted({e['source_url'] for e in evidence})[:8] if vote else ['proto_official_current_market'],
                     'source_evidence': deepcopy(evidence[:32]), 'comparisons': comparisons,
                     'rule_source': RULE_SOURCE, 'tipster_vote': vote_summary, 'market_observed_at': price_time.isoformat(),
                     'selection_source': 'exact_line_vote' if vote else 'market_fallback_no_exact_line_votes'}
+            if model_arm is not None:
+                item.update(selection_source='frozen_league_handicap_model',
+                            model_artifact_sha256=model_arm['model_artifact_sha256'],
+                            source_ids=['proto_official_current_market', model])
             result['items'].append(item)
         except (ValueError, TypeError, KeyError, OverflowError) as exc:
             result['rejected'].append({'game_no': key[0], 'market': key[1], 'label': key[2], 'reason': str(exc)[:140]})
@@ -277,7 +297,7 @@ def performance(records):
                 line_key = format(Decimal(str(line or 0)).normalize(), 'f')
                 for name, arm in (item.get('comparisons') or {}).items():
                     side = arm.get('selection')
-                    if (name in ('market', 'frontier_tipster', FINAL, *ARM_NAMES)
+                    if (name in ('market', 'frontier_tipster', FINAL, *ARM_NAMES, *LEAGUE_HANDICAP_MODELS.values())
                             and isinstance(side, str) and side and '|' not in side
                             and arm.get('selection_id') and arm.get('offer_id')):
                         settled = ((grade or {}).get('comparisons') or {}).get(name)

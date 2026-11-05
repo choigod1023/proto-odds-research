@@ -42,6 +42,19 @@ test("modal comparison distinguishes estimates, settled history and a frozen fin
     delete comparisons.frontier_m1_projected;
     assert.equal(comparisonRows(recommendations, options).final, null);
     assert.equal(comparisonRows(recommendations.map(r => ({...r, comparisonVersion: undefined})), options).rows.length, 0);
+
+    const model = "kbl-team-margin-handicap-v1";
+    const handicap = {...item, market: "핸디캡", line: -3.5, label: "H -3.5",
+      settlement_rule: "handicap_half", comparisons: {
+        [model]: {...base, selection: "핸디홈", model, probability_basis: "frozen_league_handicap_score_model",
+          probability: .60, estimated_roi: .14},
+      }};
+    const leagueHtml = renderToStaticMarkup(createElement(View, {recommendations: [
+      {item: handicap, saved: true, comparisonVersion: "exact-market-frontier-v1"},
+    ], game: {sport: "bk", league: "KBL"}}));
+    assert.match(leagueHtml, /KBL 팀 점수차 모델/);
+    assert.match(leagueHtml, /60.0%/);
+    assert.doesNotMatch(leagueHtml, /세 모델/);
   } finally {
     await server.close();
   }

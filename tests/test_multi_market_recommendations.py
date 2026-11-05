@@ -45,6 +45,35 @@ def score_distribution(m1=2.):
                             'm1_projected': {'home_mean': m1, 'away_mean': m1}})
 
 
+@pytest.mark.parametrize('league,sport,home,away,line,sides,expected,model', [
+    ('K리그1', 'sc', '울산HD', 'FC서울', -1., ('핸디홈', '핸디무', '핸디원정'),
+     '핸디원정', 'kleague1-team-poisson-handicap-v1'),
+    ('KBL', 'bk', '울산모비', '서울삼성', -10.5, ('핸디홈', '핸디원정'),
+     '핸디원정', 'kbl-team-margin-handicap-v1'),
+])
+def test_league_handicap_replaces_only_current_exact_handicap(league, sport, home, away, line, sides, expected, model):
+    g = game()
+    g.update(league=league, sport=sport, home=home, away=away, options=g['options'][:2])
+    g['options'].extend(dict(게임번호='32', market='핸디캡', label=f'H {line:g}', line=line,
+                             n_way=len(sides), 선택=side, 배당=price)
+                        for side, price in zip(sides, (1.55, 2.25, 2.8)))
+    annotate_options(g)
+    r = build(g, [], NOW.isoformat(), NOW.isoformat(), distribution=unavailable())
+    total, handicap = r['items']
+    assert total['model'] == 'market-baseline-v1'
+    assert handicap['model'] == model and handicap['selection'] == expected
+    assert handicap['comparisons']['market']['selection'] == '핸디홈'
+    assert handicap['comparisons'][model]['offer_id'] == handicap['offer_id']
+    assert handicap['estimated_roi'] == pytest.approx(handicap['probability'] * handicap['odds'] - 1)
+    assert len(handicap['model_artifact_sha256']) == 64
+
+    # An older record without a price clock retains the pre-existing policy.
+    g.pop('live_market_observed_at')
+    assert build(g, [], NOW.isoformat(), NOW.isoformat(), distribution=unavailable())['items'][1]['model'] == 'market-baseline-v1'
+    freeze = NOW + timedelta(hours=2, minutes=30)
+    assert build(g, [], NOW.isoformat(), freeze.isoformat(), distribution=unavailable())['status'] == 'after_t30'
+
+
 def test_frontier_agrees_on_one_exact_pick_without_replacing_operating_vote():
     g = game()
     r = build(g, [vote(g)], NOW.isoformat(), NOW.isoformat(), distribution=score_distribution())
