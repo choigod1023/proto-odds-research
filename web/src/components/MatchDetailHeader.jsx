@@ -3,7 +3,7 @@ import { odds, pct } from "../lib/fmt.js";
 
 /** Detail-only presentation for the score and pregame picks. */
 export default function MatchDetailHeader({ game, score, status, phase, option, openingProbability,
-  estimate, message, capturedAt, recommended, outcome, selected, children, predictionTitle, probabilityLabel, marketPicks }) {
+  estimate, message, capturedAt, recommended, outcome, selected, children, predictionTitle, probabilityLabel, marketPicks, recommendation }) {
   return <div className="match-detail-summary">
     <header className="detail-scoreboard" aria-label="경기 점수판">
       <div className="detail-match-meta"><span>{game.league} · {game.date}</span><b>{status}</b></div>
@@ -16,6 +16,7 @@ export default function MatchDetailHeader({ game, score, status, phase, option, 
       <div className="detail-prediction-labels"><h3>{marketPicks ? "경기 전 예측 픽" : predictionTitle || (option ? "경기 전 예측 픽" : "예측 정보")}</h3>
         {recommended && <span className="recommendation-badge">관심 픽 · 수익성 미검증</span>}
         {selected && <span className="selection-badge">✓ 내 선택</span>}</div>
+      {recommendation}
       {option ? <p className="detail-pick">{option.market} {option.label} · <b>{option.선택}</b> <span>배당 {odds(option.배당)}</span></p>
         : <p>{marketPicks ? "승패 계열 사전 픽 없음" : "사전 예측 기록 없음"}</p>}
       {marketPicks && predictionTitle && <p className="review-note">{predictionTitle}</p>}

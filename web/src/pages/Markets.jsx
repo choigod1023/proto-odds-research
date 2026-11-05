@@ -11,6 +11,8 @@ import { matchEvidence } from "../lib/match-evidence.js";
 import PredictionPanel from "../components/PredictionPanel.jsx";
 import TodayPicksBoard from "../components/TodayPicksBoard.jsx";
 import MatchDetailHeader from "../components/MatchDetailHeader.jsx";
+import PregameRecommendation from "../components/PregameRecommendation.jsx";
+import { pregameRecommendation } from "../lib/pregame-recommendation.js";
 import GameInfoModal from "../components/GameInfoModal.jsx";
 import PickProbabilities from "../components/PickProbabilities.jsx";
 import MarketCandidateComparison from "../components/MarketCandidateComparison.jsx";
@@ -848,6 +850,8 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
   const selectedForGame = selections.filter((item) => ["sport", "league", "round", "date", "home", "away"].every((key) => String(item.game[key]) === String(g[key])));
   const selected = pick && selections.some((item) => item.key === selectionKey(g, pick.o));
   const marketRecommendations = locked ? savedMarketRecommendations(g) : wait || stale || disruption ? [] : currentMarketRecommendations(g, g.options || opts);
+  const recommendation = !locked && !wait && !stale && !disruption && !g._liveOddsChanged
+    ? pregameRecommendation(pick?.o, marketRecommendations, g.options || opts) : null;
   const Row = "button";
   const Surface = detailOnly ? "div" : Card;
   return (
@@ -859,6 +863,7 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
         openingProbability={voteWithheld ? null : locked ? openingProbability : currentProbability}
         estimate={liveProbability} message={probabilityMessage} capturedAt={saved?.capturedAt}
         recommended={highlightedToday} outcome={outcome} selected={selectedForGame.length > 0}
+        recommendation={recommendation && <PregameRecommendation recommendation={recommendation} />}
         marketPicks={marketRecommendations.length > 0 ? <MarketRecommendations recommendations={marketRecommendations}
           selected={(option) => selections.some((item) => item.key === selectionKey(g, option))}
           onSelect={onSaveBet ? (option) => onSaveBet(g, option) : undefined} /> : null}>
@@ -896,6 +901,7 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
           {highlightedToday && <span className="recommendation-badge">관심 픽 · 수익성 미검증</span>}
           {selectedForGame.length > 0 && <span className="selection-badge">✓ 내 선택 {selectedForGame.map((item) => item.option.선택).join(" · ")}</span>}
           <small>{phase === "finished" ? "예측 결과" : playing ? "실시간 경기" : "사전 예측 픽"}</small>
+          {recommendation && <PregameRecommendation recommendation={recommendation} />}
           <b>{phase === "finished"
             ? `${outcome.label}${resultHeadline ? ` · ${resultHeadline}` : ""}`
             : pick ? `${pick.o.market}${pick.o.label ? ` ${pick.o.label}` : ""} ${pick.o["선택"]}${todayLabel ? ` · ${todayLabel}` : ""}`

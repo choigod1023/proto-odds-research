@@ -14,7 +14,7 @@ test('recommendations preserve product identity and never turn votes into probab
   const found=currentMarketRecommendations(game,options);
   assert.equal(found.length,1);assert.equal(found[0].option,options[1]);
   const html=renderToStaticMarkup(createElement(View,{recommendations:found,onSelect:()=>{}}));
-  for(const text of ['자동 추천','오버','수익성 미검증','57.0%','8.3%','10.0%','M0','source','선택 목록']) assert.ok(html.includes(text),text);
+  for(const text of ['사전 픽','오버','수익성 미검증','57.0%','8.3%','10.0%','M0','source','선택 목록']) assert.ok(html.includes(text),text);
   const vote=renderToStaticMarkup(createElement(View,{recommendations:[{item:{...item,probability_basis:'vote_share'},option:options[1]}]}));
   assert.doesNotMatch(vote,/57\.0%|8\.3%/);assert.match(vote,/예상 적중확률 미제공/);
   const market=renderToStaticMarkup(createElement(View,{recommendations:[{item:{...item,probability_basis:'market_conditional_decisive'},option:options[1]}]}));
