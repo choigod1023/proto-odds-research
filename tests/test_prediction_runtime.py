@@ -286,11 +286,11 @@ def test_settlement_batch_verifies_once_and_matches_single_results(tmp_path, mon
     current[0] = datetime(2026, 8, 28, 12, 0, tzinfo=UTC)
     calls = [0, 0]
     for i, runtime in enumerate(runtimes):
-        original = runtime.ledger._read_verified
+        original = runtime.ledger._read_verified_storage
         def counted(original=original, i=i):
             calls[i] += 1
             return original()
-        monkeypatch.setattr(runtime.ledger, "_read_verified", counted)
+        monkeypatch.setattr(runtime.ledger, "_read_verified_storage", counted)
     entries = [dict(event_id=event, outcome={"result": "hit"},
                     settled_at="2026-08-28T11:55:00+00:00", source="proto_official")
                for event in events]
@@ -299,7 +299,9 @@ def test_settlement_batch_verifies_once_and_matches_single_results(tmp_path, mon
     assert len(runtimes[1].settle_latest_batch(entries)) == 12
     assert calls == [12, 1]
     assert runtimes[1].settle_latest_batch(entries) == []
-    assert calls == [12, 1]
+    # A new lock acquisition must check for another process's corrections,
+    # even when this caller repeats its own unchanged inputs.
+    assert calls == [12, 2]
     assert runtimes[0].ui_records() == runtimes[1].ui_records()
     assert runtimes[0].ledger.records() == runtimes[1].ledger.records()
 

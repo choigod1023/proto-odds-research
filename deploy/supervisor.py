@@ -56,6 +56,9 @@ LOOPERS = [
     # 미결 픽만 전향적으로 검증한다.
     ("공개 픽스터", [sys.executable, "-u", "src/pickster_watch.py"], 900),
     ("다종목 픽스터", [sys.executable, "-u", "src/public_tipster_votes.py"], 900),
+    ("KBO M0 사전예측", [sys.executable, "-u", "research/kbo_forward/server_cycle.py",
+                      "--state", "/data/research/kbo-m0-forward-v1",
+                      "--m1-state", "/data/research/kbo-m0-actual-forward-v1"], 300),
     # API 키가 필요 없는 Open-Meteo 예보 변경 이력을 보존해 T-24h/T-6h
     # 당시 정보로 백테스트할 수 있게 한다.
     ("무료 날씨", [sys.executable, "-u", "src/weather_watch.py",
@@ -77,6 +80,7 @@ LOOPER_START_DELAYS = {
     "선수·팀 정보": 240,
     "공개 픽스터": 0,
     "다종목 픽스터": 0,
+    "KBO M0 사전예측": 120,
     "무료 날씨": 360,
 }
 
@@ -227,7 +231,7 @@ def _tipster_overdue():
 
 
 _player_memory_opportunity = threading.Event()
-MEMORY_HEAVY_LOOPERS = {"선수·팀 정보", "공개 픽스터", "다종목 픽스터", "무료 날씨", "무료 야구 컨텍스트"}
+MEMORY_HEAVY_LOOPERS = {"선수·팀 정보", "공개 픽스터", "다종목 픽스터", "무료 날씨", "무료 야구 컨텍스트", "KBO M0 사전예측"}
 # Admission headroom, not a hard memory limit: workers can still grow after launch.
 # Keep realtime scores, odds collection and HTTP outside this background gate.
 BACKGROUND_MIN_AVAILABLE_MB = int(os.environ.get("BACKGROUND_MIN_AVAILABLE_MB", "512"))
@@ -602,6 +606,13 @@ def push_data() -> None:
     # 다음 재시작의 fetch까지 maintenance lock에 묶일 수 있다.
 def _tipster_revision(name):
     """Indexed last-event reads; no history scan or large artifact decoding."""
+    if name == 'KBO M0 사전예측':
+        path = Path('/data/research/kbo-m0-actual-forward-v1/capture-index.json')
+        try:
+            stat = path.stat()
+            return (stat.st_size, stat.st_mtime_ns)
+        except FileNotFoundError:
+            return None
     if not os.environ.get("PROODD_DB_PATH"):
         return None
     from runtime_db import RuntimeDatabase
@@ -622,7 +633,7 @@ def _collect_tipster_and_publish(name, cmd):
     """
     before = _tipster_revision(name)
     try:
-        result = subprocess.run(cmd, cwd=REPO, timeout=600)
+        result = subprocess.run(cmd, cwd=REPO, timeout=180 if name == 'KBO M0 사전예측' else 600)
     finally:
         after = _tipster_revision(name)
         if after is not None and after != before:
@@ -655,7 +666,7 @@ def run_looper(name: str, cmd: list[str], interval: int,
                     _tailslips_wait_started = time.monotonic()
                 try:
                     with _background_slot(name):
-                        if name in TIPSTER_LOOPERS:
+                        if name in TIPSTER_LOOPERS or name == 'KBO M0 사전예측':
                             rc = _collect_tipster_and_publish(name, cmd)
                         else:
                             rc = subprocess.run(cmd, cwd=REPO).returncode
@@ -690,7 +701,7 @@ def run_looper(name: str, cmd: list[str], interval: int,
             log(f"{name} 예외: {type(e).__name__}: {e}")
             rc = -1
         delay = interval if rc == 0 else min(60, interval)
-        if name in TIPSTER_LOOPERS:
+        if name in TIPSTER_LOOPERS or name == 'KBO M0 사전예측':
             delay = interval  # Do not hammer public publishers during outages.
         if name == "실시간 배당" and market_retry:
             delay = retry_window.delay

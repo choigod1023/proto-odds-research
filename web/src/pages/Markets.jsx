@@ -14,6 +14,7 @@ import MatchDetailHeader from "../components/MatchDetailHeader.jsx";
 import GameInfoModal from "../components/GameInfoModal.jsx";
 import PickProbabilities from "../components/PickProbabilities.jsx";
 import MarketCandidateComparison from "../components/MarketCandidateComparison.jsx";
+import MarketRecommendations, { currentMarketRecommendations, savedMarketRecommendations, resultLabel, validationLabel, MarketRecommendationPerformance } from "../components/MarketRecommendations.jsx";
 import { ESTIMATE_MESSAGE, PROBABILITY_EXPLANATION } from "../lib/probability-copy.js";
 import BetSaveDialog from "../components/BetSaveDialog.jsx";
 import { AiDecisionPath } from "../components/AiDisclosure.jsx";
@@ -202,6 +203,7 @@ export default function Markets() {
       {picksError && <p role="status">경기 목록 갱신에 실패했습니다. 마지막 정상 목록을 유지합니다. <button onClick={retryPicks}>다시 시도</button></p>}
       {livePicks?.view?.day && livePicks.view.day !== new Intl.DateTimeFormat('sv-SE', {timeZone:'Asia/Seoul'}).format(new Date()) && <p role="status">날짜 변경 후 목록 갱신 대기 중입니다. {livePicks.view.day}에 준비한 마지막 정상 목록이며 새 경기가 아직 빠져 있을 수 있습니다.</p>}
       <RecommendationResults today={liveToday} data={synchronized} odds={liveOdds} />
+      <MarketRecommendationPerformance data={synchronized.market_recommendation_performance} />
       <p><a href="./dashboard.html#per-event-shadow">경기별 새 픽 가상 비교 · 선택/보류 사유와 정산 성적 보기</a></p>
       <details className="overall-accuracy-secondary" onToggle={event => setAccuracyOpen(event.currentTarget.open)}><summary>전체 사전 픽 성적 보기</summary>
         {accuracyOpen && (accuracyData ? <OverallAccuracy data={accuracyData} /> : <p role="status">{accuracyError ? '성적을 불러오지 못했습니다.' : '전체 성적을 불러오는 중입니다.'}{accuracyError && <button onClick={retryAccuracy}>다시 시도</button>}</p>)}
@@ -844,6 +846,7 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
   const evidence = stale || g._liveOddsChanged ? { frozen: false, facts: [], summary: "" } : matchEvidence(g, pick?.o);
   const selectedForGame = selections.filter((item) => ["sport", "league", "round", "date", "home", "away"].every((key) => String(item.game[key]) === String(g[key])));
   const selected = pick && selections.some((item) => item.key === selectionKey(g, pick.o));
+  const marketRecommendations = locked ? savedMarketRecommendations(g) : wait || stale || disruption ? [] : currentMarketRecommendations(g, g.options || opts);
   const Row = "button";
   const Surface = detailOnly ? "div" : Card;
   return (
@@ -915,6 +918,7 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
                   title={`${pick.o.market}${pick.o.label ? ` ${pick.o.label}` : ""} · ${pick.o.선택} 배당`} />
               : <OddsChip label="판정" value={pendingLabel} />}
         </span>
+        {marketRecommendations.length > 0 && <span className="pregame-probability">{locked ? "보존된 경기 전 추천" : "자동 추천"} · {marketRecommendations.map(({item, result, capturedAt}) => `${item.market} ${item.label} ${item.selection} (${validationLabel(item)})${locked ? ` · 기록 ${capturedAt} · ${resultLabel(result)}` : ""}`).join(" / ")}</span>}
         {!detailOnly && highlightedToday && evidence.summary && <span className="match-reason-preview"><b>경기력 근거</b> {evidence.summary}</span>}
         {votePolicy && !stale && !g._liveOddsChanged && <span className="pregame-probability">{voteSummary.text}{voteWithheld ? ` · ${tipsterWithholdLabel(voteInfo)}` : voteSummary.share !== null ? ` · 투표 ${(voteSummary.share * 100).toFixed(1)}% (지지율 · 예상 적중률 아님)` : ""}</span>}
         {!detailOnly && phase === "upcoming" && pick && !stale && !g._liveOddsChanged && <span className="pregame-probability">{votePolicy ? "배당 기반 시장확률" : locked ? "경기 전 확률" : hybridApplied ? "혼합 모델 확률" : "배당 기준 확률"} {locked ? (Number.isFinite(openingProbability) ? pct(openingProbability) : "기록 없음") : pct(currentProbability)} · {locked ? "경기 전 예상" : hybridApplied ? "시장 90% + 픽스터 10% · 수익성 미검증" : "현재 배당 기준"}</span>}
@@ -933,6 +937,9 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
         </section>}
         {pick && onSaveBet && <button type="button" className="pick-select-action" disabled={selected || stale || g._liveOddsChanged}
           onClick={() => onSaveBet(g, pick.o)}>{selected ? "✓ 선택 목록에 담김" : "이 픽을 선택 목록에 담기"}</button>}
+        <MarketRecommendations recommendations={marketRecommendations}
+          selected={(option) => selections.some((item) => item.key === selectionKey(g, option))}
+          onSelect={onSaveBet ? (option) => onSaveBet(g, option) : undefined} />
         <MarketCandidateComparison game={insightGame} options={opts}
           blocked={wait || stale || locked || g._liveOddsChanged === true}
           onSelect={onSaveBet ? (option) => onSaveBet(g, option) : undefined} />

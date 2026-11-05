@@ -8,6 +8,7 @@ the one shown and settled.
 from __future__ import annotations
 
 from collections.abc import Mapping
+from contextlib import contextmanager
 from datetime import datetime, timedelta, timezone
 import hashlib
 import json
@@ -16,7 +17,7 @@ from pathlib import Path
 from typing import Any, Callable
 from zoneinfo import ZoneInfo
 
-from prediction_ledger import AppendResult, PredictionLedger
+from prediction_ledger import AppendResult, PredictionLedger, PredictionLedgerError
 from operating_model_capture import capture as capture_model_comparison
 from score_scenarios import ScoreForecastError, forecast_from_lambdas
 
@@ -144,6 +145,8 @@ def ledger_features(game: Mapping[str, Any]) -> dict[str, Any]:
             "sport", "league", "home", "away", "year", "round", "date",
             "source_event_id", "match_id")},
         **({"tipster_hybrid": game["tipster_hybrid"]} if game.get("tipster_hybrid") else {}),
+        **({'market_recommendations': game['market_recommendations']}
+           if game.get('market_recommendations') else {}),
         **({"research_player_inputs": game["research_player_inputs"]}
            if "research_player_inputs" in game else {}),
         "score_inputs": {
@@ -200,6 +203,8 @@ def prediction_payload(game: Mapping[str, Any]) -> dict[str, Any]:
         "probability_detail": snapshot.get("probability") or {},
         "gate_codes": snapshot.get("gate_codes") or [],
         "score_forecast": game.get("score_forecast"),
+        **({'market_recommendations': game['market_recommendations']}
+           if game.get('market_recommendations') else {}),
     })
 
 
@@ -287,6 +292,7 @@ class PredictionRuntime:
         # in-memory view after successful appends.
         self._record_cache: list[dict[str, Any]] | None = None
         self._latest_cache: dict[str, dict[str, Any]] | None = None
+        self._settlement_cache: dict[str, dict[str, Any]] | None = None
 
     def _cached_records(self) -> list[dict[str, Any]]:
         if self._record_cache is None:
@@ -304,6 +310,52 @@ class PredictionRuntime:
         self._cached_records().append(result.record)
         if result.record.get("record_type") == "prediction":
             self._cached_latest()[result.record["event_id"]] = result.record
+        elif result.record.get('record_type') == 'settlement' and self._settlement_cache is not None:
+            self._settlement_cache[result.record['snapshot_id']] = result.record
+
+    def _cached_settlements(self):
+        if self._settlement_cache is None:
+            self._settlement_cache = {r['snapshot_id']:r for r in self._cached_records()
+                                      if r.get('record_type')=='settlement'}
+        return self._settlement_cache
+
+    @contextmanager
+    def settlement_session(self):
+        """Read/merge/write one current state under the existing process lock."""
+        with self.ledger.verified_session():
+            self._record_cache = self.ledger.records()
+            self._latest_cache = None
+            self._settlement_cache = None
+            yield
+
+    @staticmethod
+    def _prepare_settlement(prior, incoming, settled_at):
+        normalized = _safe_json(incoming)
+        if prior is not None:
+            current_time = datetime.fromisoformat(str(settled_at).replace('Z','+00:00')) if not isinstance(settled_at,datetime) else settled_at
+            previous_value = prior['settled_at']
+            previous_time = (datetime.fromisoformat(previous_value.replace('Z','+00:00'))
+                             if not isinstance(previous_value,datetime) else previous_value)
+            if current_time.utcoffset() is None:
+                raise PredictionLedgerError('settlement clock requires a timezone')
+            if current_time < previous_time:
+                return None
+            old = prior.get('outcome') or {}
+            merged = {**old, **normalized}
+            # Independent products and research arms arrive in partial feeds.
+            # A winner-only writer must not erase already confirmed products.
+            for name in ('market_recommendation_results','research_candidate_results'):
+                if name in old or name in normalized:
+                    merged[name] = {**(old.get(name) or {}), **(normalized.get(name) or {})}
+            if old.get('result') in {'hit','miss','void'} and normalized.get('result') not in {'hit','miss','void'}:
+                merged['result'] = old['result']
+            normalized = merged
+            if normalized == old:
+                return None
+        # Include the prior revision, allowing a valid A→B→A official correction.
+        content = normalized if prior is None else [prior['settlement_version'], normalized]
+        version = 'official-'+hashlib.sha256(_canonical_json(content).encode('utf-8')).hexdigest()[:16]
+        return normalized, version
 
     def records(self) -> list[dict[str, Any]]:
         return list(self._cached_records())
@@ -408,23 +460,22 @@ class PredictionRuntime:
         outcome: Mapping[str, Any],
         settled_at: str | datetime,
         source: Mapping[str, Any] | str,
+        expected_snapshot_id: str | None = None,
     ) -> AppendResult | None:
-        records = self._cached_records()
+        with self.settlement_session():
+            return self._settle_latest_locked(event_id,outcome=outcome,settled_at=settled_at,source=source,
+                                              expected_snapshot_id=expected_snapshot_id)
+
+    def _settle_latest_locked(self,event_id,*,outcome,settled_at,source,expected_snapshot_id=None):
         prediction = self._cached_latest().get(event_id)
         if prediction is None:
             return None
-        normalized_outcome = _safe_json(outcome)
-        version_hash = hashlib.sha256(
-            _canonical_json(normalized_outcome).encode("utf-8")
-        ).hexdigest()[:16]
-        settlement_version = f"official-{version_hash}"
-        if any(
-            row.get("record_type") == "settlement"
-            and row.get("snapshot_id") == prediction["snapshot_id"]
-            and row.get("settlement_version") == settlement_version
-            for row in records
-        ):
+        if expected_snapshot_id is not None and prediction['snapshot_id'] != expected_snapshot_id:
             return None
+        prepared = self._prepare_settlement(self._cached_settlements().get(prediction['snapshot_id']),outcome,settled_at)
+        if prepared is None:
+            return None
+        normalized_outcome, settlement_version = prepared
         result = self.ledger.append_settlement(
             prediction["snapshot_id"],
             outcome=normalized_outcome,
@@ -461,30 +512,60 @@ class PredictionRuntime:
 
     def settle_latest_batch(self, entries: list[Mapping[str, Any]]) -> list[AppendResult]:
         """Resolve exact latest revisions, then verify/write the ledger only once."""
+        with self.settlement_session():
+            return self._settle_latest_batch_locked(entries)
+
+    def _settle_latest_batch_locked(self, entries):
         latest = self._cached_latest()
-        known = {(row.get("snapshot_id"), row.get("settlement_version"))
-                 for row in self._cached_records()
-                 if row.get("record_type") == "settlement"}
+        settlements = dict(self._cached_settlements())
         pending = []
         for entry in entries:
             prediction = latest.get(entry["event_id"])
             if prediction is None:
                 continue
-            outcome = _safe_json(entry["outcome"])
-            version = "official-" + hashlib.sha256(
-                _canonical_json(outcome).encode("utf-8")).hexdigest()[:16]
-            identity = (prediction["snapshot_id"], version)
-            if identity in known:
+            if entry.get('expected_snapshot_id') is not None and entry['expected_snapshot_id'] != prediction['snapshot_id']:
                 continue
-            known.add(identity)
+            prepared = self._prepare_settlement(settlements.get(prediction['snapshot_id']),entry['outcome'],entry['settled_at'])
+            if prepared is None:
+                continue
+            outcome, version = prepared
             pending.append({"snapshot_id": prediction["snapshot_id"],
                             "outcome": outcome, "settled_at": entry["settled_at"],
                             "source": _safe_json(entry["source"]),
                             "settlement_version": version})
+            settlements[prediction['snapshot_id']] = pending[-1]
         results = self.ledger.append_settlements(pending)
         for result in results:
             self._remember(result)
         return results
+
+    def market_records(self) -> dict[str, dict[str, Any]]:
+        """Independent actual market recommendations, including winner abstains."""
+        records = self._cached_records()
+        settlements = {r['snapshot_id']: r for r in records if r.get('record_type') == 'settlement'}
+        result = {}
+        for event, prediction in self._cached_latest().items():
+            payload = prediction.get('predictions') or {}
+            markets = payload.get('market_recommendations') or {}
+            if markets.get('version') != 'multi-market-recommendations-v1' or not markets.get('items'):
+                continue
+            try:
+                cutoff = datetime.fromisoformat(prediction['kickoff'].replace('Z','+00:00'))-timedelta(minutes=30)
+                if any(datetime.fromisoformat(prediction[k].replace('Z','+00:00')) >= cutoff for k in ('as_of','captured_at')):
+                    continue
+            except (KeyError, TypeError, ValueError):
+                continue
+            outcome = (settlements.get(prediction['snapshot_id']) or {}).get('outcome') or {}
+            result[event] = {'prediction_snapshot_id': prediction['snapshot_id'],
+                'event_id': event, 'fixture': (prediction.get('features') or {}).get('fixture') or {},
+                'captured_at': prediction['captured_at'], 'kickoff': prediction['kickoff'],
+                'market_recommendations': markets,
+                'market_recommendation_options': [dict(selection_id=i['selection_id'], offer_id=i['offer_id'],
+                    market=i['market'], label=i.get('label') or '', line=i['line'], 선택=i['selection'],
+                    배당=i['odds'], 게임번호=i['game_no']) for i in markets['items']],
+                'market_recommendation_results': outcome.get('market_recommendation_results') or {},
+                'settled_at': (settlements.get(prediction['snapshot_id']) or {}).get('settled_at')}
+        return result
 
     def ui_records(self) -> dict[str, dict[str, Any]]:
         records = self.records()
@@ -514,6 +595,9 @@ class PredictionRuntime:
                 "fixture": (prediction.get("features") or {}).get("fixture") or {},
                 "result": outcome.get("result") or "pending",
                 "score_forecast": payload.get("score_forecast"),
+                **({'market_recommendations': payload['market_recommendations'],
+                    'market_recommendation_results': outcome.get('market_recommendation_results') or {}}
+                   if payload.get('market_recommendations') else {}),
                 **({"settled_at": settlement.get("settled_at")} if settlement else {}),
             }
         return result

@@ -85,11 +85,14 @@ def test_noninteger_three_way_handicap_rejected():
     assert extract_candidates("[핸디 3way] 무 -1.5")==[]
     assert extract_candidates("[핸디 2way] 원정 -1.5")==[]
 
-def test_snapshot_keeps_operating_winner_while_exposing_other_market_candidate():
+def test_snapshot_keeps_winner_but_versions_new_actual_market_recommendation():
     g=fixture();e=event();snapshot=build_decision_snapshot(g,as_of=AT,built_at=AT,tipster_votes=[e])
     other=build_decision_snapshot(fixture(),as_of=AT,built_at=AT,tipster_votes=[])
     assert g["market_candidates"]["offers"][0]["selection"]=="오버"
     assert g["추천"]["market"]=="승무패"
     assert snapshot["probability"]["final"]!=1
-    for key in ("selection_id","offer_id","input_revision_hash","probability"):
+    for key in ("selection_id","offer_id","probability"):
         assert snapshot[key]==other[key]
+    assert snapshot['input_revision_hash'] != other['input_revision_hash']
+    assert g['market_recommendations']['items'][0]['selection']=='오버'
+    assert g['market_recommendations']['items'][0]['candidate_only'] is False

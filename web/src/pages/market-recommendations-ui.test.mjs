@@ -1,0 +1,53 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {createElement} from 'react';
+import {renderToStaticMarkup} from 'react-dom/server';
+import {createServer} from 'vite';
+import {fileURLToPath} from 'node:url';
+
+test('game card and detail display automatic picks without replacing winner; started and stale games do not',async()=>{
+ const now=Date.now;Date.now=()=>Date.parse('2099-09-06T00:00:00Z');
+ const server=await createServer({configFile:false,root:fileURLToPath(new URL('../../',import.meta.url)),esbuild:{jsx:'automatic'},optimizeDeps:{noDiscovery:true,include:[]},server:{middlewareMode:true,watch:null,hmr:false},appType:'custom'});
+ try {
+  const {Game}=await server.ssrLoadModule('/src/pages/Markets.jsx');
+  const options=['언더','오버'].map((name,i)=>({게임번호:'2',market:'언더오버',label:'U 2.5',line:2.5,n_way:2,선택:name,배당:i?1.9:1.8,selection_id:`s${i}`,offer_id:`o${i}`,period:'full_game',settlement_scope:'regulation'}));
+  const item={selection_id:'s1',offer_id:'o1',market:'언더오버',label:'U 2.5',line:2.5,selection:'오버',odds:1.9,game_no:'2',settlement_rule:'regulation'};
+  const g={year:2099,date:'09.06(일) 18:00',round:1,status:'경기전',sport:'bs',league:'리그',home:'홈팀',away:'원정팀',options,market_recommendations:{version:'multi-market-recommendations-v1',items:[item]}};
+  const props={g,opts:options,wait:false,onSaveBet:()=>{},todayOption:{market:'승패',선택:'홈',배당:1.8,시장확률:.6}};
+  for(const detailOnly of [false,true]){
+    const html=renderToStaticMarkup(createElement(Game,{...props,detailOnly}));
+    assert.match(html,/언더오버 U 2\.5/);assert.match(html,/오버/);assert.match(html,/승패/);
+    if(detailOnly) assert.match(html,/이 추천을 선택 목록에 담기/);
+  }
+  const fixture=Object.fromEntries(['sport','league','home','away','year','round','date'].map(k=>[k,g[k]]));
+  const record={prediction_snapshot_id:'snapshot',fixture,kickoff:'2099-09-06T09:00:00Z',captured_at:'2099-09-06T07:00:00Z',
+    market_recommendations:{version:'multi-market-recommendations-v1',generated_at:'2099-09-06T06:59:00Z',items:[item]},
+    market_recommendation_options:options,
+    market_recommendation_results:[{result:'hit',selection_id:'s1',offer_id:'o1',market:'언더오버',line:2.5,settlement_rule:'regulation',odds:'1.9',net_units:'0.9'}]};
+  Date.now=()=>Date.parse('2099-09-06T08:45:00Z');
+  for(const detailOnly of [false,true]){
+    const html=renderToStaticMarkup(createElement(Game,{...props,g:{...g,market_prediction_record:record},detailOnly}));
+    assert.match(html,/보존된 경기 전 추천/);assert.match(html,/순손익 \+0\.90단위/);assert.doesNotMatch(html,/이 추천을 선택 목록에 담기/);
+  }
+  const savedRender = (recordChanges, gameChanges={}) => renderToStaticMarkup(createElement(Game,{...props,g:{...g,...gameChanges,market_prediction_record:{...record,...recordChanges}}}));
+  assert.match(savedRender({}, {options:[]}),/보존된 경기 전 추천/);
+  assert.match(savedRender({fixture:undefined,market_recommendation_options:[]}),/보존된 경기 전 추천/);
+  assert.doesNotMatch(savedRender({fixture:undefined}, {options:[]}),/보존된 경기 전 추천/);
+  assert.doesNotMatch(savedRender({kickoff:'2099-09-07T09:00:00Z'}),/보존된 경기 전 추천/);
+  const keyed = {o1:{result:'hit',market:'언더오버',line:2.5,odds:'1.9',net_units:'0.9'}};
+  assert.match(savedRender({market_recommendation_results:keyed}),/순손익 \+0\.90단위/);
+  assert.doesNotMatch(savedRender({prediction_snapshot_id:null}, {_decisionFrozen:true}),/보존된 경기 전 추천/);
+  assert.match(savedRender({market_recommendation_results:{o1:{...keyed.o1,result:'miss',net_units:'-1'}}}),/미적중 · 순손익 -1\.00단위/);
+  assert.match(savedRender({market_recommendation_results:{o1:{...keyed.o1,result:'void',net_units:'0'}}}),/무효 · 순손익 0\.00단위/);
+  assert.match(savedRender({market_recommendation_results:{}}),/결과 대기/);
+  assert.doesNotMatch(savedRender({fixture:{...fixture,home:'다른 팀'}}),/보존된 경기 전 추천/);
+  assert.doesNotMatch(savedRender({market_recommendation_options:[]}, {options:options.map(o=>({...o,offer_id:'changed'}))}),/보존된 경기 전 추천/);
+  assert.doesNotMatch(savedRender({captured_at:'2099-09-06T08:45:00Z'}),/보존된 경기 전 추천/);
+  assert.doesNotMatch(savedRender({market_recommendation_results:[{...record.market_recommendation_results[0],offer_id:'other'}]}),/순손익/);
+  assert.doesNotMatch(savedRender({market_recommendation_results:[{...record.market_recommendation_results[0],net_units:'900'}]}),/순손익/);
+  Date.now=()=>Date.parse('2099-09-06T00:00:00Z');
+  for(const extra of [{stale:true},{wait:true},{g:{...g,_liveStarted:true}},{g:{...g,_liveOddsChanged:true}}]){
+    const html=renderToStaticMarkup(createElement(Game,{...props,...extra}));assert.doesNotMatch(html,/자동 추천 · 언더오버/);
+  }
+ } finally {Date.now=now;await server.close();}
+});

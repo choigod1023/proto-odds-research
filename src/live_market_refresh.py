@@ -190,6 +190,19 @@ def record_live_market_revisions(
 
     latest_ui = runtime.ui_records()
     document["prediction_performance"] = performance_index(latest_ui)
+    market_records = runtime.market_records()
+    from multi_market_recommendations import performance as market_performance
+    document['market_recommendation_performance'] = market_performance(market_records)
+    for game in [*(document.get('live') or []), *(document.get('past') or [])]:
+        record = market_records.get(game.get('event_id') or event_id(game))
+        if record is not None:
+            game['market_prediction_record'] = record
+        current = game.get('market_recommendations') or {}
+        snapshot = game.get('decision_snapshot') or {}
+        if current.get('items') and (record is None or (snapshot.get('decision_id')
+                and record['prediction_snapshot_id'] != snapshot['decision_id'])):
+            game['market_recommendations'] = {'version': 'multi-market-recommendations-v1',
+                'status': 'unrecorded_revision', 'items': [], 'validated_edge': False}
     for game, record in touched:
         snapshot = game.get("decision_snapshot") or {}
         game["prediction_revision_id"] = record.get("snapshot_id")
@@ -501,9 +514,21 @@ def refresh_document(document: dict, live_odds: dict, *,
                 # prices and winner votes are unchanged; do not rewrite the pick.
                 game["market_candidates"] = market_candidates
                 display_changed = True
+            if old_signature == new_signature:
+                from multi_market_recommendations import build as build_market_recommendations
+                try:
+                    market_recommendations = build_market_recommendations(
+                        game, tipster_votes or [], decision_clock.isoformat(), decision_clock.isoformat(),
+                        market_candidates=market_candidates)
+                    prior_market = game.get('market_recommendations') or {}
+                    if (market_recommendations.get('evidence_hash'), market_recommendations.get('status')) != (
+                            prior_market.get('evidence_hash'), prior_market.get('status')):
+                        tipster_changed = True
+                except (OSError, ValueError, TypeError, KeyError, ImportError):
+                    pass  # Full build reports source failures without dropping winner picks.
             info = tipster_context(game, tipster_votes or [], decision_clock.isoformat(), decision_clock.isoformat())
             prior = snapshot.get("tipster_hybrid") or {}
-            tipster_changed = (info.get("version"), info.get("status"), info.get("reason"), info.get("evidence_hash")) != (prior.get("version"), prior.get("input_status", prior.get("status")), prior.get("input_reason", prior.get("reason")), prior.get("evidence_hash"))
+            tipster_changed = tipster_changed or (info.get("version"), info.get("status"), info.get("reason"), info.get("evidence_hash")) != (prior.get("version"), prior.get("input_status", prior.get("status")), prior.get("input_reason", prior.get("reason")), prior.get("evidence_hash"))
             # Old no-vote snapshots withheld the pick under the same input
             # status/reason. Re-evaluate once before T-30 under the new policy.
             if (info.get("reason") == "no_eligible_pregame_votes"
@@ -605,6 +630,12 @@ def refresh_document(document: dict, live_odds: dict, *,
 
 
 def settle_live_market_results(live_odds: dict, runtime: PredictionRuntime) -> int:
+    """Compose partial results from fresh state while owning the ledger lock."""
+    with runtime.settlement_session():
+        return _settle_live_market_results_locked(live_odds, runtime)
+
+
+def _settle_live_market_results_locked(live_odds: dict, runtime: PredictionRuntime) -> int:
     """Append exact-offer official outcomes without editing frozen predictions.
 
     Works even when a finished game has left picks_v2. No fuzzy matching, new
@@ -655,7 +686,8 @@ def settle_live_market_results(live_odds: dict, runtime: PredictionRuntime) -> i
         if record.get("result") == result:
             continue  # Full generator may already have settled with extra score metadata.
         pending.append(dict(
-            event_id=event, outcome={"result": result, "selection_id": record["selection_id"],
+            event_id=event, expected_snapshot_id=record.get('prediction_snapshot_id'),
+            outcome={"result": result, "selection_id": record["selection_id"],
                             "official_result": row.get("result")},
             settled_at=observed.isoformat(),
             source={"name": "proto_official", "round": round_no,
@@ -666,6 +698,41 @@ def settle_live_market_results(live_odds: dict, runtime: PredictionRuntime) -> i
     from decimal import Decimal,ROUND_HALF_UP
     import math
     indexed={entry['event_id']:entry for entry in pending}
+    from multi_market_recommendations import result_for_offer
+    for event, record in runtime.market_records().items():
+        grades = dict(record.get('market_recommendation_results') or {})
+        source = None
+        for item in record['market_recommendations']['items']:
+            matches = candidates.get((event, item.get('selection_id'), item.get('offer_id')), [])
+            if len(matches) != 1:
+                continue
+            status, row, round_no = matches[0]
+            grade = result_for_offer(item, status)
+            source = {'name': 'proto_official', 'round': round_no, 'game_no': row.get('game_no'),
+                      'game_date': row.get('date'), 'path': 'live_odds'}
+            grade['source'] = source
+            comparisons = {}
+            for name, arm in (item.get('comparisons') or {}).items():
+                comparison_rows = candidates.get((event, arm.get('selection_id'), arm.get('offer_id')), [])
+                if len(comparison_rows) == 1:
+                    comparison = dict(item, **{k: arm[k] for k in ('selection_id','offer_id','odds','model')})
+                    comparisons[name] = result_for_offer(comparison, comparison_rows[0][0])
+                    comparisons[name]['source'] = source
+            grade['comparisons'] = comparisons
+            grades[item['offer_id']] = grade
+        if source is None or grades == record.get('market_recommendation_results'):
+            continue
+        prior_time = _aware_timestamp(record.get('settled_at'))
+        if prior_time is not None and observed <= prior_time:
+            continue  # No backward or same-clock conflicting official correction.
+        if event not in indexed:
+            operating = runtime._cached_latest()[event].get('predictions') or {}
+            matches = candidates.get((event, operating.get('selection_id'), operating.get('offer_id')), [])
+            entry = dict(event_id=event, expected_snapshot_id=record['prediction_snapshot_id'],
+                        outcome={'result': matches[0][0] if len(matches)==1 else 'not_selected' if operating.get('action')=='withhold' else 'pending',
+                        'selection_id': operating.get('selection_id')}, settled_at=observed.isoformat(), source=source)
+            indexed[event] = entry; pending.append(entry)
+        indexed[event]['outcome']['market_recommendation_results'] = grades
     for event,record in runtime.candidate_records().items():
         outcomes={};official=None;source=None
         for name,arm in record['arms'].items():
@@ -738,8 +805,15 @@ def refresh_once(live_odds: dict | None = None) -> int:
             ) if changed else {"predictions": 0, "skipped": 0, "withheld": 0}
             ledger_sync["settlements"] = settled
             records = runtime.ui_records()
+            market_records = runtime.market_records()
+            from multi_market_recommendations import performance as market_performance
+            document['market_recommendation_performance'] = market_performance(market_records)
         attached = 0
         for game in [*(document.get("live") or []), *(document.get("past") or [])]:
+            market_record = market_records.get(game.get('event_id') or event_id(game))
+            if market_record is not None and game.get('market_prediction_record') != market_record:
+                game['market_prediction_record'] = market_record
+                attached += 1
             record = records.get(game.get("event_id") or event_id(game))
             if (record and record.get("result") != "pending"
                     and game.get("prediction_record") != record):
