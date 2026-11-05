@@ -62,8 +62,10 @@ def metrics(rows, model):
         return {"n": 0, "hit_rate": None, "roi": None}
     hits = sum(r["picks"][model] == r["outcome"] for r in rows)
     cumulative = peak = drawdown = 0.
+    daily = defaultdict(float)
     for r in rows:
         cumulative += r["returns"][model]
+        daily[r["date"]] += r["returns"][model]
         peak = max(peak, cumulative)
         drawdown = max(drawdown, peak - cumulative)
     # Wilson interval describes this cohort only; no claim of random sampling.
@@ -71,8 +73,15 @@ def metrics(rows, model):
     p = hits / n
     center = (p + z*z/(2*n)) / (1 + z*z/n)
     radius = z*math.sqrt(p*(1-p)/n + z*z/(4*n*n)) / (1 + z*z/n)
+    day_net = day_peak = day_drawdown = 0.
+    for date in sorted(daily):
+        day_net += daily[date]
+        day_peak = max(day_peak, day_net)
+        day_drawdown = max(day_drawdown, day_peak - day_net)
     return {"n": n, "hits": hits, "hit_rate": p, "net_units": round(cumulative, 6),
             "roi": cumulative / n, "max_drawdown_units": round(drawdown, 6),
+            "drawdown_order": "date then fixture id; intraday order not verified",
+            "daily_close_max_drawdown_units": round(day_drawdown, 6),
             "descriptive_wilson95": [center-radius, center+radius]}
 
 
@@ -135,13 +144,19 @@ def main():
     forecasts = json.loads(gzip.decompress(args.forecasts.read_bytes()))
     rows, excluded = [], []
     for row in cohort:
+        try:
+            event_forecasts = {m: forecasts[row["fixture_id"]][m] for m in MODELS}
+        except KeyError as e:
+            excluded.append({"fixture_id": row["fixture_id"], "market": row["market"],
+                             "reason": "missing_common_forecast: " + str(e)})
+            continue
         for model in MODELS:
-            f = forecasts[row["fixture_id"]][model]
+            f = event_forecasts[model]
             if (f["model_bundle_sha256"] != BUNDLE_SHA256 or f["event_date"] != row["date"]
                     or f["fixture_id"] != row["fixture_id"]):
                 raise ValueError("frozen model bundle or fixture identity mismatch")
         try:
-            probs = {m: side_probabilities(row, forecasts[row["fixture_id"]][m]) for m in MODELS}
+            probs = {m: side_probabilities(row, event_forecasts[m]) for m in MODELS}
             picks = {m: max(v, key=v.get) for m, v in probs.items()}
         except (ValueError, KeyError, TypeError) as e:
             excluded.append({"fixture_id": row["fixture_id"], "market": row["market"], "reason": str(e)})

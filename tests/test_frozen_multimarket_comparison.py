@@ -1,9 +1,10 @@
 import math
 import json
+import gzip
 
 import pytest
 
-from scripts.compare_frozen_multimarket_models import choose, crosscheck, metrics, paired_day_interval, profit
+from scripts.compare_frozen_multimarket_models import choose, crosscheck, main, metrics, paired_day_interval, profit
 
 
 def row(**updates):
@@ -58,3 +59,27 @@ def test_crosscheck_requires_same_price_line_and_score(tmp_path):
     p.write_text(json.dumps(other) + "\n", encoding="utf-8")
     with pytest.raises(ValueError, match="baseline mismatch"):
         crosscheck([original], p)
+
+
+def test_missing_forecast_is_audited_in_common_cohort(tmp_path, monkeypatch):
+    cohort = tmp_path / "cohort.json"
+    forecasts = tmp_path / "forecasts.json.gz"
+    output = tmp_path / "output.json"
+    cohort.write_text(json.dumps([row()]), encoding="utf-8")
+    forecasts.write_bytes(gzip.compress(b'{}'))
+    monkeypatch.setattr("sys.argv", ["compare", "--cohort", str(cohort),
+                                    "--forecasts", str(forecasts), "--output", str(output)])
+    main()
+    result = json.loads(output.read_bytes())
+    assert len(result["excluded_common_cohort"]) == 1
+    assert "missing_common_forecast" in result["excluded_common_cohort"][0]["reason"]
+    assert result["markets"]["total"]["models"]["m0_actual"]["all"]["n"] == 0
+
+
+def test_daily_drawdown_is_invariant_to_intraday_fixture_order():
+    rows = [row(date="2026-05-01", fixture_id=str(i), picks={"model": "over"},
+                returns={"model": v}) for i, v in enumerate([-1., 2., -1.])]
+    assert metrics(rows, "model")["daily_close_max_drawdown_units"] == 0
+    for r in rows:
+        r["fixture_id"] = str(3-int(r["fixture_id"]))
+    assert metrics(rows, "model")["daily_close_max_drawdown_units"] == 0
