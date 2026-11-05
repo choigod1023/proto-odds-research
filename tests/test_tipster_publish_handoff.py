@@ -13,6 +13,7 @@ def isolated(monkeypatch):
     monkeypatch.setattr(s, '_tipster_wait_started', None)
     monkeypatch.setattr(s, '_odds_yielded_tipster_waits', {})
     monkeypatch.setattr(s, '_tailslips_wait_started', None)
+    monkeypatch.setattr(s, '_m0_wait_started', None, raising=False)
     monkeypatch.setattr(s, '_available_memory_mb', lambda: 700)
 
 
@@ -219,3 +220,54 @@ def test_pending_market_retry_prevents_tipster_reclaim(monkeypatch):
         assert not s._memory_heavy_lock.locked();s._market_cycle_pending.clear();now[0]+=seconds
     monkeypatch.setattr(s.time,'sleep',wait)
     with s._background_slot('다종목 픽스터'): assert s._memory_heavy_lock.locked()
+
+
+@pytest.mark.parametrize('name,field,timeout', [('공개 픽스터','_tailslips_wait_started',600),('다종목 픽스터','_tipster_wait_started',600),('KBO M0 사전예측','_m0_wait_started',180)])
+def test_each_source_tracks_wait_and_releases_priority_after_failure(monkeypatch,name,field,timeout):
+    monkeypatch.setattr(s.time,'monotonic',lambda:200.)
+    def collect(cmd,**kw):
+        assert getattr(s,field)==200.
+        assert s._memory_heavy_lock.locked()
+        assert kw['timeout']==timeout
+        raise ValueError('synthetic source failure')
+    monkeypatch.setattr(s.subprocess,'run',collect)
+    monkeypatch.setattr(s.time,'sleep',lambda _:(_ for _ in ()).throw(StopIteration()))
+    with pytest.raises(StopIteration):s.run_looper(name,['collector'],300)
+    assert getattr(s,field) is None
+    assert not s._memory_heavy_lock.locked()
+
+
+def test_oldest_m0_gets_same_bounded_source_opportunity(monkeypatch):
+    now=[200.]
+    monkeypatch.setattr(s.time,'monotonic',lambda:now[0])
+    monkeypatch.setattr(s,'_m0_wait_started',0.)
+    monkeypatch.setattr(s,'_tipster_wait_started',30.)
+    assert s._preferred_tipster()=='KBO M0 사전예측'
+    calls=[]
+    monkeypatch.setattr(s.subprocess,'run',lambda *a,**kw:calls.append('odds') or SimpleNamespace(returncode=0))
+    monkeypatch.setattr(s,'_refresh_market_after_collection',lambda:0)
+    s._market_cycle_pending.set()
+    assert s._run_odds_cycle(['odds'])==(0,False) and not calls
+    assert not s._market_cycle_pending.is_set() and s._tipster_yield_active()
+    assert s._run_odds_cycle(['odds'],market_retry=True)==(0,False)
+    now[0]+=60
+    assert not s._tipster_yield_active()
+    assert s._run_odds_cycle(['odds'])==(0,False) and calls==['odds']
+    monkeypatch.setattr(s,'_m0_wait_started',None)
+    assert s._preferred_tipster()=='다종목 픽스터'
+
+
+def test_reserved_m0_still_requires_headroom_and_does_not_overlap(monkeypatch):
+    monkeypatch.setattr(s.time,'monotonic',lambda:200.)
+    monkeypatch.setattr(s,'_m0_wait_started',0.)
+    monkeypatch.setattr(s,'_release_match_working_set',lambda:None)
+    monkeypatch.setattr(s,'release_unused_heap',lambda:None)
+    monkeypatch.setattr(s,'_available_memory_mb',lambda:511)
+    monkeypatch.setattr(s.time,'sleep',lambda _:(_ for _ in ()).throw(RuntimeError('bounded synthetic wait')))
+    with pytest.raises(RuntimeError,match="bounded synthetic wait"):
+        with s._background_slot('KBO M0 사전예측'):pytest.fail('below unchanged 512MiB gate')
+    assert not s._memory_heavy_lock.locked()
+    monkeypatch.setattr(s,'_available_memory_mb',lambda:512)
+    with s._background_slot('KBO M0 사전예측'):
+        assert s._memory_heavy_lock.locked()
+    assert not s._memory_heavy_lock.locked()
