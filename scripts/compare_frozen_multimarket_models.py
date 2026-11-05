@@ -131,14 +131,15 @@ def crosscheck(rows, baseline_path):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--cohort", type=Path, required=True)
-    parser.add_argument("--cohort-group", choices=("strict", "strict_resolved", "sensitivity"), default="strict")
+    parser.add_argument("--cohort-group", choices=("strict", "strict_resolved", "resolved_only", "sensitivity"), default="strict")
     parser.add_argument("--forecasts", type=Path, required=True)
     parser.add_argument("--baseline", type=Path)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     cohort = json.loads(args.cohort.read_bytes())
     if isinstance(cohort, dict):
-        cohort = cohort[args.cohort_group]
+        cohort = ([r for r in cohort["strict_resolved"] if r.get("resolved_identity")]
+                  if args.cohort_group == "resolved_only" else cohort[args.cohort_group])
     if not isinstance(cohort, list) or not all(isinstance(r, dict) for r in cohort):
         raise ValueError("cohort must contain explicit audited product rows")
     forecasts = json.loads(gzip.decompress(args.forecasts.read_bytes()))
@@ -201,7 +202,7 @@ def main():
                     forecasts[r["fixture_id"]][m]["home_rate"] + forecasts[r["fixture_id"]][m]["away_rate"] for r in chosen)/n if n else None
         report["markets"][market]["observed_mean_total_runs"] = sum(sum(r["score"]) for r in chosen)/len(chosen) if chosen else None
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
     print(json.dumps({k: {m: r["all"] for m, r in v["models"].items()} for k, v in report["markets"].items()}))
 
 

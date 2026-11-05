@@ -201,6 +201,6 @@ def main():
         result['canonical']['resolved_only']={m:summary([r for r in alias_rows if r['market']==m]) for m in ('total','handicap')}
         result['date_ranges']['resolved_only']={m:[min((r['date'] for r in alias_rows if r['market']==m),default=None),max((r['date'] for r in alias_rows if r['market']==m),default=None)] for m in ('total','handicap')}
         result['identity_aliases']={'path':str(args.identity_aliases),'sha256':sha(args.identity_aliases.read_bytes()),'unresolved_forecast_ids':[fid for fid in forecasts if fid.startswith('score:') and fid not in aliases], 'inputs':alias_doc['inputs'],'resolver_audit_path':str(alias_audit_path),'resolver_audit_sha256':sha(alias_audit_path.read_bytes()),'resolver_exclusions':alias_audit['excluded']}
-    for name,obj in [('audit.json',result),('canonical.json',cohorts)]: (OUT/name).write_text(json.dumps(obj,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
+    for name,obj in [('audit.json',result),('canonical.json',cohorts)]: (OUT/name).write_text(json.dumps(obj,ensure_ascii=False,indent=2)+'\n',encoding='utf8',newline='\n')
     print(json.dumps({'counts':dict(counts),'date_ranges':result['date_ranges'],'distribution':result['handicap_distribution'],'canonical':{mode:{k:v['all'] for k,v in groups.items()} for mode,groups in result['canonical'].items()}},ensure_ascii=False,indent=2))
 if __name__=='__main__': main()

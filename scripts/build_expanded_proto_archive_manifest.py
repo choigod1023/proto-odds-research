@@ -116,7 +116,7 @@ def main() -> None:
     args = parser.parse_args()
     manifest = build(args.base_manifest, args.attempts)
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    args.output.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\r\n")
     print(json.dumps({"rounds": manifest["source_round_count"],
                       "duplicate_captures": manifest["duplicate_captures"],
                       "round_variants": len(manifest["excluded_round_variants"]),

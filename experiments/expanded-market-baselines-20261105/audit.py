@@ -127,9 +127,9 @@ def main(manifest_path=MANIFEST):
             for name,key in [('overall','all'),('sport_market',r['sport']+'|'+r['market']),('league_market',r['sport']+'|'+r['leagueCode']+'|'+r['league']+'|'+r['market']),('month_market',r['sport']+'|'+r['market']+'|'+r['kickoff'][:7]),('year_market',r['sport']+'|'+r['market']+'|'+r['kickoff'][:4])]: groups[(name,key)].append(r)
         return {name:{k:metrics(v) for (n,k),v in sorted(groups.items()) if n==name} for name in ('overall','sport_market','league_market','month_market','year_market')}
     result=dict(manifest=str(manifest_path),manifest_sha256=hashlib.sha256(manifest_path.read_bytes()).hexdigest(),sources=sourceproof,counts=dict(sorted(counts.items())),primary=breakdown(primary),all_products_nonindependent=breakdown(allrows))
-    (OUT/'audit.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
+    (OUT/'audit.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf8',newline='\n')
     for name,rows in [('primary.jsonl',primary),('all-products.jsonl',allrows)]:
-        (OUT/name).write_text(''.join(json.dumps(r,ensure_ascii=False)+'\n' for r in rows),encoding='utf8')
+        (OUT/name).write_text(''.join(json.dumps(r,ensure_ascii=False)+'\n' for r in rows),encoding='utf8',newline='\n')
     print(json.dumps(dict(sources=len(sourceproof),primary=result['primary']['sport_market'],all_products=result['all_products_nonindependent']['sport_market']),ensure_ascii=False))
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)

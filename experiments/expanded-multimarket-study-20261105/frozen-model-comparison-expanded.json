@@ -1,0 +1,633 @@
+{
+  "cohort": "experiments\\expanded-kbo-markets-20261105\\canonical.json",
+  "cohort_group": "strict_resolved",
+  "cohort_sha256": "2b0d2398abc85f218b4839e8cc92f434451982ef0a011a31e7b8637d53512065",
+  "forecasts_sha256": "a597ed066534cce92cfb12606d7f7e3edcc7591b3a6c1d17e7777c8b04e8b505",
+  "frozen_model_bundle_sha256": "4bc13aaceb3b04f0a8c413034ea033b9d9eab1fcca156ff09c73e4aab8b3f50b",
+  "retrospective": true,
+  "probability_calibrated": false,
+  "pregame_receipt_proven": false,
+  "excluded_common_cohort": [],
+  "markets": {
+    "total": {
+      "date_min": "2026-04-21",
+      "date_max": "2026-10-27",
+      "descriptive_split_date": "2026-07-30",
+      "models": {
+        "m0_actual": {
+          "all": {
+            "n": 353,
+            "hits": 172,
+            "hit_rate": 0.48725212464589235,
+            "net_units": -53.6,
+            "roi": -0.1518413597733711,
+            "max_drawdown_units": 59.31,
+            "drawdown_order": "date then fixture id; intraday order not verified",
+            "daily_close_max_drawdown_units": 58.28,
+            "descriptive_wilson95": [
+              0.4355283723449763,
+              0.5392503430269886
+            ]
+          },
+          "earlier": {
+            "n": 205,
+            "hits": 96,
+            "hit_rate": 0.4682926829268293,
+            "net_units": -38.78,
+            "roi": -0.18917073170731705,
+            "max_drawdown_units": 40.59,
+            "drawdown_order": "date then fixture id; intraday order not verified",
+            "daily_close_max_drawdown_units": 38.98,
+            "descriptive_wilson95": [
+              0.40119739014412004,
+              0.5365544333041088
+            ]
+          },
+          "later": {
+            "n": 148,
+            "hits": 76,
+            "hit_rate": 0.5135135135135135,
+            "net_units": -14.82,
+            "roi": -0.10013513513513514,
+            "max_drawdown_units": 20.63,
+            "drawdown_order": "date then fixture id; intraday order not verified",
+            "daily_close_max_drawdown_units": 20.08,
+            "descriptive_wilson95": [
+              0.4336714275713848,
+              0.5926718388267831
+            ]
+          },
+          "paired_with_market": {
+            "reference": "market",
+            "day_clusters": 88,
+            "iterations": 5000,
+            "roi_difference": -0.00790368271954674,
+            "descriptive_day_cluster_bootstrap95": [
+              -0.13470152986886832,
+              0.12246029643756906
+            ]
+          },
+          "paired_with_m0_actual": {
+            "reference": "m0_actual",
+            "day_clusters": 88,
+            "iterations": 5000,
+            "roi_difference": 0.0,
+            "descriptive_day_cluster_bootstrap95": [
+              0.0,
+              0.0
+            ]
+          },
+          "changed_picks": 158,
+          "diagnostics": {
+            "selected_sides": {
+              "under": 138,
+              "over": 215
+            },
+            "mean_selected_probability": 0.6083660492241317,
+            "binary_brier": 0.2667551440962154,
+            "log_loss": 0.7297290191751378,
+            "mean_predicted_total_runs": 9.824287145408531
+          }
+        },
+        "m0_projected": {
+          "all": {
+            "n": 353,
+            "hits": 169,
+            "hit_rate": 0.47875354107648727,
+            "net_units": -58.69,
+            "roi": -0.16626062322946172,
+            "max_drawdown_units": 66.22,
+            "drawdown_order": "date then fixture id; intraday order not verified",
+            "daily_close_max_drawdown_units": 65.19,
+            "descriptive_wilson95": [
+              0.4271509481050716,
+              0.5308135775148699
+            ]
+          },
+          "earlier": {
+            "n": 205,
+            "hits": 93,
+            "hit_rate": 0.45365853658536587,
+            "net_units": -44.32,
+            "roi": -0.2161951219512195,
+            "max_drawdown_units": 45.66,
+            "drawdown_order": "date then fixture id; intraday order not verified",
+            "daily_close_max_drawdown_units": 44.32,
+            "descriptive_wilson95": [
+              0.3869849576124123,
+              0.5220369381965375
+            ]
+          },
+          "later": {
+            "n": 148,
+            "hits": 76,
+            "hit_rate": 0.5135135135135135,
+            "net_units": -14.37,
+            "roi": -0.09709459459459457,
+            "max_drawdown_units": 22.0,
+            "drawdown_order": "date then fixture id; intraday order not verified",
+            "daily_close_max_drawdown_units": 21.45,
+            "descriptive_wilson95": [
+              0.4336714275713848,
+              0.5926718388267831
+            ]
+          },
+          "paired_with_market": {
+            "reference": "market",
+            "day_clusters": 88,
+            "iterations": 5000,
+            "roi_difference": -0.02232294617563739,
+            "descriptive_day_cluster_bootstrap95": [
+              -0.1430490814451928,
+              0.1012588837250871
+            ]
+          },
+          "paired_with_m0_actual": {
+            "reference": "m0_actual",
+            "day_clusters": 88,
+            "iterations": 5000,
+            "roi_difference": -0.014419263456090651,
+            "descriptive_day_cluster_bootstrap95": [
+              -0.05665783514492754,
+              0.028496891891891817
+            ]
+          },
+          "changed_picks": 159,
+          "diagnostics": {
+            "selected_sides": {
+              "under": 139,
+              "over": 214
+            },
+            "mean_selected_probability": 0.6114284105936216,
+            "binary_brier": 0.266621154188199,
+            "log_loss": 0.7292614644367477,
+            "mean_predicted_total_runs": 9.812498511186048
+          }
+        },
+        "m1_projected": {
+          "all": {
+            "n": 353,
+            "hits": 185,
+            "hit_rate": 0.5240793201133145,
+            "net_units": -28.51,
+            "roi": -0.08076487252124645,
+            "max_drawdown_units": 37.0,
+            "drawdown_order": "date then fixture id; intraday order not verified",
+            "daily_close_max_drawdown_units": 36.64,
+            "descriptive_wilson95": [
+              0.4720019798464937,
+              0.5756382244509061
+            ]
+          },
+          "earlier": {
+            "n": 205,
+            "hits": 100,
+            "hit_rate": 0.4878048780487805,
+            "net_units": -30.2,
+            "roi": -0.14731707317073173,
+            "max_drawdown_units": 31.01,
+            "drawdown_order": "date then fixture id; intraday order not verified",
+            "daily_close_max_drawdown_units": 30.2,
+            "descriptive_wilson95": [
+              0.4202365019892699,
+              0.5558218916446642
+            ]
+          },
+          "later": {
+            "n": 148,
+            "hits": 85,
+            "hit_rate": 0.5743243243243243,
+            "net_units": 1.69,
+            "roi": 0.011418918918918927,
+            "max_drawdown_units": 8.18,
+            "drawdown_order": "date then fixture id; intraday order not verified",
+            "daily_close_max_drawdown_units": 6.9,
+            "descriptive_wilson95": [
+              0.4937765409597366,
+              0.6511114242301873
+            ]
+          },
+          "paired_with_market": {
+            "reference": "market",
+            "day_clusters": 88,
+            "iterations": 5000,
+            "roi_difference": 0.06317280453257791,
+            "descriptive_day_cluster_bootstrap95": [
+              -0.07884852392116007,
+              0.2015480600200904
+            ]
+          },
+          "paired_with_m0_actual": {
+            "reference": "m0_actual",
+            "day_clusters": 88,
+            "iterations": 5000,
+            "roi_difference": 0.07107648725212466,
+            "descriptive_day_cluster_bootstrap95": [
+              -0.04060504109960257,
+              0.1769653046854649
+            ]
+          },
+          "changed_picks": 173,
+          "diagnostics": {
+            "selected_sides": {
+              "under": 179,
+              "over": 174
+            },
+            "mean_selected_probability": 0.6409232486929161,
+            "binary_brier": 0.2758783813381358,
+            "log_loss": 0.7559969002556703,
+            "mean_predicted_total_runs": 9.640331054774986
+          }
+        },
+        "market": {
+          "all": {
+            "n": 353,
+            "hits": 180,
+            "hit_rate": 0.509915014164306,
+            "net_units": -50.81,
+            "roi": -0.14393767705382438,
+            "max_drawdown_units": 51.42,
+            "drawdown_order": "date then fixture id; intraday order not verified",
+            "daily_close_max_drawdown_units": 51.07,
+            "descriptive_wilson95": [
+              0.4579407008446211,
+              0.5616758538660728
+            ]
+          },
+          "earlier": {
+            "n": 205,
+            "hits": 109,
+            "hit_rate": 0.5317073170731708,
+            "net_units": -22.5,
+            "roi": -0.1097560975609756,
+            "max_drawdown_units": 26.6,
+            "drawdown_order": "date then fixture id; intraday order not verified",
+            "daily_close_max_drawdown_units": 25.66,
+            "descriptive_wilson95": [
+              0.46344556669589115,
+              0.5988026098558799
+            ]
+          },
+          "later": {
+            "n": 148,
+            "hits": 71,
+            "hit_rate": 0.4797297297297297,
+            "net_units": -28.31,
+            "roi": -0.19128378378378388,
+            "max_drawdown_units": 28.94,
+            "drawdown_order": "date then fixture id; intraday order not verified",
+            "daily_close_max_drawdown_units": 28.31,
+            "descriptive_wilson95": [
+              0.4007777542712146,
+              0.5597073461315334
+            ]
+          },
+          "paired_with_market": {
+            "reference": "market",
+            "day_clusters": 88,
+            "iterations": 5000,
+            "roi_difference": 0.0,
+            "descriptive_day_cluster_bootstrap95": [
+              0.0,
+              0.0
+            ]
+          },
+          "paired_with_m0_actual": {
+            "reference": "m0_actual",
+            "day_clusters": 88,
+            "iterations": 5000,
+            "roi_difference": 0.00790368271954674,
+            "descriptive_day_cluster_bootstrap95": [
+              -0.12246029643756919,
+              0.13470152986886824
+            ]
+          },
+          "changed_picks": 0,
+          "diagnostics": {
+            "selected_sides": {
+              "under": 154,
+              "over": 199
+            },
+            "mean_selected_probability": 0.5227019643374244,
+            "binary_brier": 0.25006440904548033,
+            "log_loss": 0.6932768158965695
+          }
+        }
+      },
+      "observed_mean_total_runs": 10.203966005665722
+    },
+    "handicap": {
+      "date_min": "2026-04-21",
+      "date_max": "2026-10-27",
+      "descriptive_split_date": "2026-07-30",
+      "models": {
+        "m0_actual": {
+          "all": {
+            "n": 368,
+            "hits": 231,
+            "hit_rate": 0.6277173913043478,
+            "net_units": -53.66,
+            "roi": -0.14581521739130432,
+            "max_drawdown_units": 56.73,
+            "drawdown_order": "date then fixture id; intraday order not verified",
+            "daily_close_max_drawdown_units": 55.73,
+            "descriptive_wilson95": [
+              0.5772456180859541,
+              0.6755502920261772
+            ]
+          },
+          "earlier": {
+            "n": 214,
+            "hits": 136,
+            "hit_rate": 0.6355140186915887,
+            "net_units": -29.1,
+            "roi": -0.1359813084112149,
+            "max_drawdown_units": 32.65,
+            "drawdown_order": "date then fixture id; intraday order not verified",
+            "daily_close_max_drawdown_units": 30.5,
+            "descriptive_wilson95": [
+              0.5691679141231281,
+              0.6970807619277422
+            ]
+          },
+          "later": {
+            "n": 154,
+            "hits": 95,
+            "hit_rate": 0.6168831168831169,
+            "net_units": -24.56,
+            "roi": -0.15948051948051942,
+            "max_drawdown_units": 27.62,
+            "drawdown_order": "date then fixture id; intraday order not verified",
+            "daily_close_max_drawdown_units": 27.36,
+            "descriptive_wilson95": [
+              0.5381440482159345,
+              0.6899329112152093
+            ]
+          },
+          "paired_with_market": {
+            "reference": "market",
+            "day_clusters": 89,
+            "iterations": 5000,
+            "roi_difference": -0.009402173913043477,
+            "descriptive_day_cluster_bootstrap95": [
+              -0.02379284730421094,
+              0.0
+            ]
+          },
+          "paired_with_m0_actual": {
+            "reference": "m0_actual",
+            "day_clusters": 89,
+            "iterations": 5000,
+            "roi_difference": 0.0,
+            "descriptive_day_cluster_bootstrap95": [
+              0.0,
+              0.0
+            ]
+          },
+          "changed_picks": 2,
+          "diagnostics": {
+            "selected_sides": {
+              "home": 161,
+              "away": 207
+            },
+            "mean_selected_probability": 0.7415871513728015,
+            "binary_brier": 0.2485717420615733,
+            "log_loss": 0.7000437700860591,
+            "mean_predicted_total_runs": 9.828859908913106
+          }
+        },
+        "m0_projected": {
+          "all": {
+            "n": 368,
+            "hits": 233,
+            "hit_rate": 0.6331521739130435,
+            "net_units": -50.17,
+            "roi": -0.1363315217391304,
+            "max_drawdown_units": 53.24,
+            "drawdown_order": "date then fixture id; intraday order not verified",
+            "daily_close_max_drawdown_units": 52.24,
+            "descriptive_wilson95": [
+              0.5827719314193739,
+              0.6807812514634864
+            ]
+          },
+          "earlier": {
+            "n": 214,
+            "hits": 137,
+            "hit_rate": 0.6401869158878505,
+            "net_units": -27.38,
+            "roi": -0.1279439252336448,
+            "max_drawdown_units": 31.25,
+            "drawdown_order": "date then fixture id; intraday order not verified",
+            "daily_close_max_drawdown_units": 29.65,
+            "descriptive_wilson95": [
+              0.5739331245814937,
+              0.7014965402987171
+            ]
+          },
+          "later": {
+            "n": 154,
+            "hits": 96,
+            "hit_rate": 0.6233766233766234,
+            "net_units": -22.79,
+            "roi": -0.14798701298701294,
+            "max_drawdown_units": 25.85,
+            "drawdown_order": "date then fixture id; intraday order not verified",
+            "daily_close_max_drawdown_units": 25.59,
+            "descriptive_wilson95": [
+              0.544723972153564,
+              0.6960239294681988
+            ]
+          },
+          "paired_with_market": {
+            "reference": "market",
+            "day_clusters": 89,
+            "iterations": 5000,
+            "roi_difference": 8.152173913043486e-05,
+            "descriptive_day_cluster_bootstrap95": [
+              -0.014141805675549944,
+              0.014197860962566847
+            ]
+          },
+          "paired_with_m0_actual": {
+            "reference": "m0_actual",
+            "day_clusters": 89,
+            "iterations": 5000,
+            "roi_difference": 0.009483695652173914,
+            "descriptive_day_cluster_bootstrap95": [
+              0.0,
+              0.023907252316464716
+            ]
+          },
+          "changed_picks": 2,
+          "diagnostics": {
+            "selected_sides": {
+              "home": 161,
+              "away": 207
+            },
+            "mean_selected_probability": 0.7479168470401472,
+            "binary_brier": 0.2490057197547177,
+            "log_loss": 0.7020100338303689,
+            "mean_predicted_total_runs": 9.812232464591792
+          }
+        },
+        "m1_projected": {
+          "all": {
+            "n": 368,
+            "hits": 227,
+            "hit_rate": 0.6168478260869565,
+            "net_units": -49.66,
+            "roi": -0.13494565217391302,
+            "max_drawdown_units": 51.52,
+            "drawdown_order": "date then fixture id; intraday order not verified",
+            "daily_close_max_drawdown_units": 50.74,
+            "descriptive_wilson95": [
+              0.5662126402403875,
+              0.665068724330286
+            ]
+          },
+          "earlier": {
+            "n": 214,
+            "hits": 134,
+            "hit_rate": 0.6261682242990654,
+            "net_units": -24.9,
+            "roi": -0.11635514018691583,
+            "max_drawdown_units": 27.24,
+            "drawdown_order": "date then fixture id; intraday order not verified",
+            "daily_close_max_drawdown_units": 25.31,
+            "descriptive_wilson95": [
+              0.5596565671694581,
+              0.6882301312227314
+            ]
+          },
+          "later": {
+            "n": 154,
+            "hits": 93,
+            "hit_rate": 0.6038961038961039,
+            "net_units": -24.76,
+            "roi": -0.16077922077922077,
+            "max_drawdown_units": 27.82,
+            "drawdown_order": "date then fixture id; intraday order not verified",
+            "daily_close_max_drawdown_units": 27.56,
+            "descriptive_wilson95": [
+              0.5250258825516004,
+              0.6777091924983053
+            ]
+          },
+          "paired_with_market": {
+            "reference": "market",
+            "day_clusters": 89,
+            "iterations": 5000,
+            "roi_difference": 0.0014673913043478262,
+            "descriptive_day_cluster_bootstrap95": [
+              -0.049785027472527485,
+              0.05598353418620035
+            ]
+          },
+          "paired_with_m0_actual": {
+            "reference": "m0_actual",
+            "day_clusters": 89,
+            "iterations": 5000,
+            "roi_difference": 0.010869565217391304,
+            "descriptive_day_cluster_bootstrap95": [
+              -0.03869102315358978,
+              0.06402986111111102
+            ]
+          },
+          "changed_picks": 32,
+          "diagnostics": {
+            "selected_sides": {
+              "home": 163,
+              "away": 205
+            },
+            "mean_selected_probability": 0.7270517887052862,
+            "binary_brier": 0.25949986678056564,
+            "log_loss": 0.741810889799505,
+            "mean_predicted_total_runs": 9.635692090668908
+          }
+        },
+        "market": {
+          "all": {
+            "n": 368,
+            "hits": 233,
+            "hit_rate": 0.6331521739130435,
+            "net_units": -50.2,
+            "roi": -0.13641304347826086,
+            "max_drawdown_units": 53.27,
+            "drawdown_order": "date then fixture id; intraday order not verified",
+            "daily_close_max_drawdown_units": 52.27,
+            "descriptive_wilson95": [
+              0.5827719314193739,
+              0.6807812514634864
+            ]
+          },
+          "earlier": {
+            "n": 214,
+            "hits": 137,
+            "hit_rate": 0.6401869158878505,
+            "net_units": -27.38,
+            "roi": -0.1279439252336448,
+            "max_drawdown_units": 31.25,
+            "drawdown_order": "date then fixture id; intraday order not verified",
+            "daily_close_max_drawdown_units": 29.65,
+            "descriptive_wilson95": [
+              0.5739331245814937,
+              0.7014965402987171
+            ]
+          },
+          "later": {
+            "n": 154,
+            "hits": 96,
+            "hit_rate": 0.6233766233766234,
+            "net_units": -22.82,
+            "roi": -0.14818181818181816,
+            "max_drawdown_units": 25.88,
+            "drawdown_order": "date then fixture id; intraday order not verified",
+            "daily_close_max_drawdown_units": 25.62,
+            "descriptive_wilson95": [
+              0.544723972153564,
+              0.6960239294681988
+            ]
+          },
+          "paired_with_market": {
+            "reference": "market",
+            "day_clusters": 89,
+            "iterations": 5000,
+            "roi_difference": 0.0,
+            "descriptive_day_cluster_bootstrap95": [
+              0.0,
+              0.0
+            ]
+          },
+          "paired_with_m0_actual": {
+            "reference": "m0_actual",
+            "day_clusters": 89,
+            "iterations": 5000,
+            "roi_difference": 0.009402173913043477,
+            "descriptive_day_cluster_bootstrap95": [
+              0.0,
+              0.023792847304210916
+            ]
+          },
+          "changed_picks": 0,
+          "diagnostics": {
+            "selected_sides": {
+              "home": 161,
+              "away": 207
+            },
+            "mean_selected_probability": 0.646058855916033,
+            "binary_brier": 0.2338426059570736,
+            "log_loss": 0.6606943872078245
+          }
+        }
+      },
+      "observed_mean_total_runs": 10.217391304347826
+    }
+  },
+  "independent_baseline_crosscheck": {
+    "matched_exact_products": 721,
+    "not_same_representative": 0,
+    "mismatches": 0,
+    "baseline_sha256": "6aa3319c0195cc123d2c1c8fe85eaf297f8c0daeaacbf982e40ca51d4ea56cc9"
+  }
+}
