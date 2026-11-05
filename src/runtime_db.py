@@ -18,6 +18,7 @@ import os
 from pathlib import Path
 import re
 import sqlite3
+import tempfile
 from typing import Any, Iterable, Iterator, Mapping
 try:
     import ijson.backends.python as streaming_json
@@ -750,24 +751,30 @@ class RuntimeDatabase(DatasetStore):
             )
 
     def _store_picks_stream(self, payload):
-        # Validate/count before reserving the writer. Keep SQL TEXT and the same
-        # transaction/revision semantics without a document-sized Unicode buffer.
-        size = sum(len(chunk) for chunk in _json_chunks(payload))
-        with self.transaction() as connection:
-            now = self._next_artifact_stamp(connection, "picks_v2")
-            connection.execute("""INSERT INTO artifacts(name,generated_at,payload_json,stored_at)
-                VALUES ('picks_v2',?,CAST(zeroblob(?) AS TEXT),?)
-                ON CONFLICT(name) DO UPDATE SET generated_at=excluded.generated_at,
-                payload_json=excluded.payload_json,stored_at=excluded.stored_at""",
-                (payload.get("generated_at"), size, now))
-            rowid = connection.execute("SELECT rowid FROM artifacts WHERE name='picks_v2'").fetchone()[0]
-            written = 0
-            with connection.blobopen("artifacts", "payload_json", rowid) as blob:
-                for chunk in _json_chunks(payload):
-                    blob.write(chunk)
-                    written += len(chunk)
-            if written != size:
-                raise ValueError("picks payload changed during serialization")
+        # Encode/validate exactly once before taking SQLite's sole writer. An
+        # anonymous spool bounds RAM and is closed on every success/failure.
+        # Readers keep the previous committed TEXT until the transaction ends.
+        with tempfile.TemporaryFile(mode="w+b", prefix="proto-picks-") as spool:
+            size = 0
+            for chunk in _json_chunks(payload):
+                spool.write(chunk)
+                size += len(chunk)
+            spool.seek(0)
+            with self.transaction() as connection:
+                now = self._next_artifact_stamp(connection, "picks_v2")
+                connection.execute("""INSERT INTO artifacts(name,generated_at,payload_json,stored_at)
+                    VALUES ('picks_v2',?,CAST(zeroblob(?) AS TEXT),?)
+                    ON CONFLICT(name) DO UPDATE SET generated_at=excluded.generated_at,
+                    payload_json=excluded.payload_json,stored_at=excluded.stored_at""",
+                    (payload.get("generated_at"), size, now))
+                rowid = connection.execute("SELECT rowid FROM artifacts WHERE name='picks_v2'").fetchone()[0]
+                written = 0
+                with connection.blobopen("artifacts", "payload_json", rowid) as blob:
+                    while chunk := spool.read(1024 * 1024):
+                        blob.write(chunk)
+                        written += len(chunk)
+                if written != size:
+                    raise ValueError("picks spool size changed during copy")
 
     def get_artifact(self, name: str) -> dict[str, Any] | None:
         if name == "picks_v2" and ijson is not None:

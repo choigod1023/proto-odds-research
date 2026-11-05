@@ -37,31 +37,57 @@ def test_stream_write_keeps_exact_text_type_revision_and_snapshot(tmp_path, monk
     assert db.get_artifact('picks_v2') == payload
 
 
-@pytest.mark.parametrize('failure', ['nan', 'short', 'long', 'midwrite'])
+@pytest.mark.parametrize('failure', ['nan', 'short', 'long', 'midwrite', 'spoolwrite'])
 def test_failed_stream_write_rolls_back_body_and_revision(tmp_path, monkeypatch, failure):
     db = RuntimeDatabase(tmp_path / 'db.sqlite3')
     db.store_artifact('picks_v2', {'generated_at': 'old', 'live': []})
     before = stored(db)
-    original = runtime_db._json_chunks
-    calls = 0
-    def broken(value):
-        nonlocal calls
-        calls += 1
-        if calls == 1:
-            yield from original(value)
-        else:
-            if failure == 'short':
-                yield b'{}'
-            elif failure == 'long':
-                yield b'x' * 10000
-            else:
-                yield b'{'
-                raise OSError('synthetic interrupted writer')
+    factory = runtime_db.tempfile.TemporaryFile
+    class BrokenSpool:
+        def __init__(self):self.file=factory(mode='w+b');self.reads=0
+        def __enter__(self):return self
+        def __exit__(self,*args):self.file.close()
+        def write(self,data):
+            if failure=='spoolwrite':raise OSError('synthetic spool full')
+            return self.file.write(data)
+        def seek(self,*args):return self.file.seek(*args)
+        def read(self,n):
+            self.reads+=1
+            assert stored(db)==before  # Reader sees old committed body even mid-copy.
+            if failure=='short':return b''
+            if failure=='long':return b'x'*10000
+            if failure=='midwrite':
+                if self.reads==1:return self.file.read(1)
+                raise OSError('synthetic interrupted copy')
+            return self.file.read(n)
     payload = {'live': [1, 2, 3]}
-    if failure == 'nan':
-        payload['bad'] = float('nan')
-    else:
-        monkeypatch.setattr(runtime_db, '_json_chunks', broken)
-    with pytest.raises((ValueError, OSError)):
-        db.store_artifact('picks_v2', payload)
-    assert stored(db) == before
+    if failure=='nan':payload['bad']=float('nan')
+    else:monkeypatch.setattr(runtime_db.tempfile,'TemporaryFile',lambda **kw:BrokenSpool())
+    with pytest.raises((ValueError,OSError)):
+        db.store_artifact('picks_v2',payload)
+    assert stored(db)==before
+
+
+def test_picks_encode_once_before_sqlite_writer_is_reserved(tmp_path,monkeypatch):
+    from contextlib import contextmanager
+    db=RuntimeDatabase(tmp_path/'db.sqlite3')
+    original_chunks=runtime_db._json_chunks
+    original_transaction=db.transaction
+    reserved=False; calls=[]
+    @contextmanager
+    def transaction():
+        nonlocal reserved
+        with original_transaction() as connection:
+            reserved=True
+            try:yield connection
+            finally:reserved=False
+    def chunks(payload):
+        assert not reserved, 'JSON encoding holds the SQLite writer'
+        calls.append(1)
+        yield from original_chunks(payload)
+    monkeypatch.setattr(db,'transaction',transaction)
+    monkeypatch.setattr(runtime_db,'_json_chunks',chunks)
+    payload={'generated_at':'new','live':[{'한글':'⚾'*10000}]}
+    db.store_artifact('picks_v2',payload)
+    assert len(calls)==1
+    assert db.get_artifact('picks_v2')==payload
