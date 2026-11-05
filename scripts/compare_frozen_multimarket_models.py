@@ -17,6 +17,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from src.market_outcomes import normalize_market, probabilities
 
 MODELS = ("m0_actual", "m0_projected", "m1_projected")
+BUNDLE_SHA256 = "4bc13aaceb3b04f0a8c413034ea033b9d9eab1fcca156ff09c73e4aab8b3f50b"
 
 
 def profit(row, side):
@@ -70,11 +71,11 @@ def metrics(rows, model):
             "descriptive_wilson95": [center-radius, center+radius]}
 
 
-def paired_day_interval(rows, model, iterations=5000):
+def paired_day_interval(rows, model, iterations=5000, reference="market"):
     days = defaultdict(lambda: [0., 0])
     for r in rows:
         values = days[r["date"]]
-        values[0] += r["returns"][model] - r["returns"]["market"]
+        values[0] += r["returns"][model] - r["returns"][reference]
         values[1] += 1
     if not days:
         return None
@@ -83,9 +84,34 @@ def paired_day_interval(rows, model, iterations=5000):
     draws = rng.integers(0, len(matrix), size=(iterations, len(matrix)))
     samples = matrix[draws].sum(axis=1)
     deltas = samples[:, 0] / samples[:, 1]
-    return {"day_clusters": len(days), "iterations": iterations,
+    return {"reference": reference, "day_clusters": len(days), "iterations": iterations,
             "roi_difference": float(matrix[:, 0].sum() / matrix[:, 1].sum()),
             "descriptive_day_cluster_bootstrap95": list(map(float, np.quantile(deltas, [.025, .975])))}
+
+
+def crosscheck(rows, baseline_path):
+    index = {}
+    for line in baseline_path.read_text(encoding="utf-8").splitlines():
+        r = json.loads(line)
+        key = (str(r["round"]), int(r["matchSeq"]), r["market"])
+        if key in index:
+            raise ValueError("ambiguous baseline product key")
+        index[key] = r
+    matched = absent = 0
+    for row in rows:
+        other = index.get((str(row["round"]), int(row["game_no"]), row["market"]))
+        if other is None:
+            absent += 1
+            continue
+        sides = ("under", "over") if row["market"] == "total" else ("home", "away")
+        selected = sides[0] if other["pick"] == 0 else sides[1]
+        if (row["line"] != other["line"] or row["score"] != other["score"]
+                or row["market_selection"] != selected
+                or Decimal(str(row["prices"][selected])) != Decimal(str(other["price"]))):
+            raise ValueError("independent exact-product baseline mismatch")
+        matched += 1
+    return {"matched_exact_products": matched, "not_same_representative": absent,
+            "mismatches": 0, "baseline_sha256": hashlib.sha256(baseline_path.read_bytes()).hexdigest()}
 
 
 def main():
@@ -93,6 +119,7 @@ def main():
     parser.add_argument("--cohort", type=Path, required=True)
     parser.add_argument("--cohort-group", choices=("strict", "sensitivity"), default="strict")
     parser.add_argument("--forecasts", type=Path, required=True)
+    parser.add_argument("--baseline", type=Path)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     cohort = json.loads(args.cohort.read_bytes())
@@ -103,6 +130,11 @@ def main():
     forecasts = json.loads(gzip.decompress(args.forecasts.read_bytes()))
     rows, excluded = [], []
     for row in cohort:
+        for model in MODELS:
+            f = forecasts[row["fixture_id"]][model]
+            if (f["model_bundle_sha256"] != BUNDLE_SHA256 or f["event_date"] != row["date"]
+                    or f["fixture_id"] != row["fixture_id"]):
+                raise ValueError("frozen model bundle or fixture identity mismatch")
         try:
             picks = {m: choose(row, forecasts[row["fixture_id"]][m]) for m in MODELS}
         except (ValueError, KeyError, TypeError) as e:
@@ -114,8 +146,11 @@ def main():
         rows.append({**row, "picks": picks, "returns": {m: profit(row, s) for m, s in picks.items()}})
     report = {"cohort": str(args.cohort), "cohort_group": args.cohort_group, "cohort_sha256": hashlib.sha256(args.cohort.read_bytes()).hexdigest(),
               "forecasts_sha256": hashlib.sha256(args.forecasts.read_bytes()).hexdigest(),
+              "frozen_model_bundle_sha256": BUNDLE_SHA256,
               "retrospective": True, "probability_calibrated": False, "pregame_receipt_proven": False,
               "excluded_common_cohort": excluded, "markets": {}}
+    if args.baseline:
+        report["independent_baseline_crosscheck"] = crosscheck(rows, args.baseline)
     for market in ("total", "handicap"):
         chosen = [r for r in rows if r["market"] == market]
         dates = sorted({r["date"] for r in chosen})
@@ -126,6 +161,7 @@ def main():
                 "earlier": metrics([r for r in chosen if r["date"] < cutoff], m),
                 "later": metrics([r for r in chosen if r["date"] >= cutoff], m),
                 "paired_with_market": paired_day_interval(chosen, m),
+                "paired_with_m0_actual": paired_day_interval(chosen, m, reference="m0_actual"),
                 "changed_picks": sum(r["picks"][m] != r["picks"]["market"] for r in chosen)}
                 for m in (*MODELS, "market")}}
     args.output.parent.mkdir(parents=True, exist_ok=True)

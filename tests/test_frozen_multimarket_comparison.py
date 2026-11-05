@@ -1,8 +1,9 @@
 import math
+import json
 
 import pytest
 
-from scripts.compare_frozen_multimarket_models import choose, metrics, paired_day_interval, profit
+from scripts.compare_frozen_multimarket_models import choose, crosscheck, metrics, paired_day_interval, profit
 
 
 def row(**updates):
@@ -44,3 +45,16 @@ def test_bootstrap_groups_days_and_identical_models_have_zero_difference():
     assert m["day_clusters"] == 2
     assert m["roi_difference"] == 0
     assert m["descriptive_day_cluster_bootstrap95"] == [0., 0.]
+
+
+def test_crosscheck_requires_same_price_line_and_score(tmp_path):
+    p = tmp_path / "baseline.jsonl"
+    original = row(market_selection="over", score=[5, 6])
+    other = dict(round=260001, matchSeq=3, market="total", pick=2,
+                 line=8.5, score=[5, 6], price=1.77)
+    p.write_text(json.dumps(other) + "\n", encoding="utf-8")
+    assert crosscheck([original], p)["matched_exact_products"] == 1
+    other["price"] = 1.78
+    p.write_text(json.dumps(other) + "\n", encoding="utf-8")
+    with pytest.raises(ValueError, match="baseline mismatch"):
+        crosscheck([original], p)
