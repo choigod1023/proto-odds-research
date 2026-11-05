@@ -27,4 +27,4 @@
 
 구형 원본의 2025년 자료는 betId/betTypId 누락으로 전체 경기 여부를 증명하지 못해 성적에 사용하지 않았다. 구형 잠재 시장 행은 농구 2,276, 야구 6,045, 축구 10,952건이다. 이는 상품 행 수이며 고유 경기 수가 아니다. 현대·구형 전체 행, 제외 사유별 카운트, 리그·월·연도별 결과와 전체 상품 민감도는 audit.json에 있다. 리그·월·연도별 최대 낙폭도 해당 하위 집합의 경기 시간 순서로 계산한다.
 
-재현: `python experiments/expanded-market-baselines-20261105/audit.py`; 검증: `python -m pytest -q experiments/expanded-market-baselines-20261105/test_audit.py`. 다른 환경에서는 MANIFEST 경로와 그 안의 보존 원본 경로를 맞춰야 한다. primary.jsonl 및 all-products.jsonl은 원본 해시, 상품 ID, 기준점, 가격, 일반 행 번호·점수, 결과 코드, 픽을 보존한다.
+재현: `python experiments/expanded-market-baselines-20261105/audit.py --manifest <manifest-v2.json>` (생략 시 위 외부 매니페스트); 검증: `python -m pytest -q experiments/expanded-market-baselines-20261105/test_audit.py`. 다른 환경에서는 MANIFEST 경로와 그 안의 보존 원본 경로를 맞춰야 한다. primary.jsonl 및 all-products.jsonl은 원본 해시, 상품 ID, 기준점, 가격, 일반 행 번호·점수, 결과 코드, 픽을 보존한다.
