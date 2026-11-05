@@ -85,15 +85,19 @@ def replay(products):
         except (ValueError, TypeError, OverflowError): c['invalid_line_or_price'] += 1; continue
         implied = 1/prices[side]; market_p = implied/(implied+1/prices[other]); y = int(outcome==side)
         for name, prob in (('static',static),('team',team),('market',market_p)):
-            result['arms'][name].append((min(1-1e-15,max(1e-15,prob)),y))
+            selection = side if prob >= .5 else other
+            net = prices[selection] - 1 if selection == outcome else -1.
+            result['arms'][name].append((min(1-1e-15,max(1e-15,prob)), y, net))
         c['evaluated'] += 1
     output = {}
     for (league,kind), result in sorted(groups.items()):
         arms = {}
         for name, vals in result['arms'].items():
             n=len(vals)
-            arms[name]={'n':n,'accuracy':sum((p>=.5)==bool(y) for p,y in vals)/n,
-                        'brier':sum((p-y)**2 for p,y in vals)/n,
-                        'log_loss':sum(-log(p if y else 1-p) for p,y in vals)/n}
+            hits = sum((p>=.5)==bool(y) for p,y,_ in vals)
+            arms[name]={'n':n,'hits':hits,'accuracy':hits/n,
+                        'roi':sum(net for _,_,net in vals)/n,
+                        'brier':sum((p-y)**2 for p,y,_ in vals)/n,
+                        'log_loss':sum(-log(p if y else 1-p) for p,y,_ in vals)/n}
         output[league+'/'+kind]={'counts':dict(result['counts']),'arms':arms}
     return {'training': {k:{'fixtures':v['n'],'means_total_margin':v['means'],'sd_total_margin':v['sd'],'teams':len(v['teams'])} for k,v in models.items()},'groups':output}

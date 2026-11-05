@@ -20,6 +20,7 @@ from scipy.stats import poisson, skellam
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'src'))
+from basketball_archive_replay import replay as replay_basketball
 from market_outcomes import ALIASES, settle
 from market_pick_frontier import score_pick
 from proto_full_game_markets import full_game_product
@@ -235,7 +236,8 @@ def replay(products, predictions, bridge, quadrature):
                 continue
             key = (league, kickoff, official['betman_home_name'], official['betman_away_name'])
             offers = [r for r in by_key[key] if r[0] == str(official['gmTs']).zfill(6)
-                      and r[1] == official['response_sha256'] and list(r[6]) == official['official_score']]
+                      and r[1] == official['response_sha256'] and list(r[6]) == official['official_score']
+                      and list(r[2][4:]) == [official['home_team_id'], official['away_team_id']]]
         else:
             offers = baseball[baseball_key(fixture)]
             if len({r[2][4:] for r in offers}) > 1 or len({r[6] for r in offers}) > 1:
@@ -285,8 +287,9 @@ def main():
     model = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(model)
     manifest, bridge = MANIFEST.read_bytes(), args.kleague_bridge.read_bytes()
-    result = replay(archived_products(read_rounds(json.loads(manifest), args.archive_root)),
-                    jsonl(paths[1].read_bytes()), jsonl(bridge), model.quadrature)
+    products = archived_products(read_rounds(json.loads(manifest), args.archive_root))
+    result = replay(products, jsonl(paths[1].read_bytes()), jsonl(bridge), model.quadrature)
+    result['basketball'] = replay_basketball(products)
     print(json.dumps(dict(result, manifest_sha256=sha(manifest), bridge_sha256=sha(bridge),
                           forecasts_sha256=sha(paths[1].read_bytes())), ensure_ascii=False, indent=2))
 

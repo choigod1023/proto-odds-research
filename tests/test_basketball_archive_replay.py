@@ -30,6 +30,7 @@ class ReplayTest(unittest.TestCase):
         self.assertEqual(g['counts']['invalid_line_or_price'],1)
         self.assertEqual({v['n'] for v in g['arms'].values()},{1})
         self.assertEqual(g['arms']['market']['brier'],.25)
+        self.assertAlmostEqual(g['arms']['market']['roi'], .9)
     def test_handicap_home_probability_follows_line_direction(self):
         model=fit(self.train)['NBA']
         key=('NBA',datetime(2026,1,1,tzinfo=timezone.utc),'a','b')
