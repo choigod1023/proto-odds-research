@@ -1,0 +1,585 @@
+{
+  "cohort": "experiments\\expanded-kbo-markets-20261105\\canonical.json",
+  "cohort_group": "strict",
+  "cohort_sha256": "4825a9aad6de167f0c044969f567aa5bbe049b13c19ae983160ceb5a26cb9456",
+  "forecasts_sha256": "a597ed066534cce92cfb12606d7f7e3edcc7591b3a6c1d17e7777c8b04e8b505",
+  "frozen_model_bundle_sha256": "4bc13aaceb3b04f0a8c413034ea033b9d9eab1fcca156ff09c73e4aab8b3f50b",
+  "retrospective": true,
+  "probability_calibrated": false,
+  "pregame_receipt_proven": false,
+  "excluded_common_cohort": [],
+  "markets": {
+    "total": {
+      "date_min": "2026-04-21",
+      "date_max": "2026-07-26",
+      "descriptive_split_date": "2026-05-31",
+      "models": {
+        "m0_actual": {
+          "all": {
+            "n": 200,
+            "hits": 93,
+            "hit_rate": 0.465,
+            "net_units": -38.98,
+            "roi": -0.19489999999999996,
+            "max_drawdown_units": 39.59,
+            "descriptive_wilson95": [
+              0.3971856415700402,
+              0.5341335312763685
+            ]
+          },
+          "earlier": {
+            "n": 97,
+            "hits": 43,
+            "hit_rate": 0.44329896907216493,
+            "net_units": -22.73,
+            "roi": -0.23432989690721645,
+            "max_drawdown_units": 23.34,
+            "descriptive_wilson95": [
+              0.34847593432042534,
+              0.5424419467907645
+            ]
+          },
+          "later": {
+            "n": 103,
+            "hits": 50,
+            "hit_rate": 0.4854368932038835,
+            "net_units": -16.25,
+            "roi": -0.15776699029126215,
+            "max_drawdown_units": 16.25,
+            "descriptive_wilson95": [
+              0.391190583237978,
+              0.5807304291376137
+            ]
+          },
+          "paired_with_market": {
+            "reference": "market",
+            "day_clusters": 43,
+            "iterations": 5000,
+            "roi_difference": -0.0821,
+            "descriptive_day_cluster_bootstrap95": [
+              -0.2617139060688055,
+              0.09804986895748383
+            ]
+          },
+          "paired_with_m0_actual": {
+            "reference": "m0_actual",
+            "day_clusters": 43,
+            "iterations": 5000,
+            "roi_difference": 0.0,
+            "descriptive_day_cluster_bootstrap95": [
+              0.0,
+              0.0
+            ]
+          },
+          "changed_picks": 87,
+          "diagnostics": {
+            "selected_sides": {
+              "under": 74,
+              "over": 126
+            },
+            "mean_selected_probability": 0.6052062059458456,
+            "binary_brier": 0.2695276079481312,
+            "log_loss": 0.7353829362053095,
+            "mean_predicted_total_runs": 9.813087756610626
+          }
+        },
+        "m0_projected": {
+          "all": {
+            "n": 200,
+            "hits": 91,
+            "hit_rate": 0.455,
+            "net_units": -42.67,
+            "roi": -0.21334999999999998,
+            "max_drawdown_units": 43.28,
+            "descriptive_wilson95": [
+              0.387482193098835,
+              0.524213886275119
+            ]
+          },
+          "earlier": {
+            "n": 97,
+            "hits": 43,
+            "hit_rate": 0.44329896907216493,
+            "net_units": -22.76,
+            "roi": -0.23463917525773192,
+            "max_drawdown_units": 23.37,
+            "descriptive_wilson95": [
+              0.34847593432042534,
+              0.5424419467907645
+            ]
+          },
+          "later": {
+            "n": 103,
+            "hits": 48,
+            "hit_rate": 0.46601941747572817,
+            "net_units": -19.91,
+            "roi": -0.19330097087378648,
+            "max_drawdown_units": 19.91,
+            "descriptive_wilson95": [
+              0.3726437920092655,
+              0.5618385702004485
+            ]
+          },
+          "paired_with_market": {
+            "reference": "market",
+            "day_clusters": 43,
+            "iterations": 5000,
+            "roi_difference": -0.10055,
+            "descriptive_day_cluster_bootstrap95": [
+              -0.2663206676136363,
+              0.06830481155778889
+            ]
+          },
+          "paired_with_m0_actual": {
+            "reference": "m0_actual",
+            "day_clusters": 43,
+            "iterations": 5000,
+            "roi_difference": -0.01845,
+            "descriptive_day_cluster_bootstrap95": [
+              -0.07285804931109499,
+              0.03459739723972395
+            ]
+          },
+          "changed_picks": 85,
+          "diagnostics": {
+            "selected_sides": {
+              "under": 78,
+              "over": 122
+            },
+            "mean_selected_probability": 0.6112952167188339,
+            "binary_brier": 0.2696428746638775,
+            "log_loss": 0.73545640283715,
+            "mean_predicted_total_runs": 9.796054906942294
+          }
+        },
+        "m1_projected": {
+          "all": {
+            "n": 200,
+            "hits": 98,
+            "hit_rate": 0.49,
+            "net_units": -28.78,
+            "roi": -0.14390000000000003,
+            "max_drawdown_units": 28.86,
+            "descriptive_wilson95": [
+              0.42156278331213176,
+              0.5588141232154135
+            ]
+          },
+          "earlier": {
+            "n": 97,
+            "hits": 46,
+            "hit_rate": 0.4742268041237113,
+            "net_units": -17.73,
+            "roi": -0.18278350515463915,
+            "max_drawdown_units": 18.39,
+            "descriptive_wilson95": [
+              0.3777449221838968,
+              0.5726722965030077
+            ]
+          },
+          "later": {
+            "n": 103,
+            "hits": 52,
+            "hit_rate": 0.5048543689320388,
+            "net_units": -11.05,
+            "roi": -0.10728155339805825,
+            "max_drawdown_units": 17.54,
+            "descriptive_wilson95": [
+              0.4098754392292435,
+              0.5994842233122258
+            ]
+          },
+          "paired_with_market": {
+            "reference": "market",
+            "day_clusters": 43,
+            "iterations": 5000,
+            "roi_difference": -0.031099999999999985,
+            "descriptive_day_cluster_bootstrap95": [
+              -0.23203890937563154,
+              0.16241892297307425
+            ]
+          },
+          "paired_with_m0_actual": {
+            "reference": "m0_actual",
+            "day_clusters": 43,
+            "iterations": 5000,
+            "roi_difference": 0.051,
+            "descriptive_day_cluster_bootstrap95": [
+              -0.10133736416324562,
+              0.20069324257425736
+            ]
+          },
+          "changed_picks": 100,
+          "diagnostics": {
+            "selected_sides": {
+              "under": 97,
+              "over": 103
+            },
+            "mean_selected_probability": 0.632537681795158,
+            "binary_brier": 0.2784917629459113,
+            "log_loss": 0.7593115238927376,
+            "mean_predicted_total_runs": 9.71005400915246
+          }
+        },
+        "market": {
+          "all": {
+            "n": 200,
+            "hits": 106,
+            "hit_rate": 0.53,
+            "net_units": -22.56,
+            "roi": -0.1128,
+            "max_drawdown_units": 26.6,
+            "descriptive_wilson95": [
+              0.4609168291500183,
+              0.5979524512673458
+            ]
+          },
+          "earlier": {
+            "n": 97,
+            "hits": 49,
+            "hit_rate": 0.5051546391752577,
+            "net_units": -15.8,
+            "roi": -0.1628865979381443,
+            "max_drawdown_units": 16.41,
+            "descriptive_wilson95": [
+              0.4073747907022528,
+              0.6025417655603663
+            ]
+          },
+          "later": {
+            "n": 103,
+            "hits": 57,
+            "hit_rate": 0.5533980582524272,
+            "net_units": -6.76,
+            "roi": -0.06563106796116501,
+            "max_drawdown_units": 12.39,
+            "descriptive_wilson95": [
+              0.4571921114296619,
+              0.645764176526502
+            ]
+          },
+          "paired_with_market": {
+            "reference": "market",
+            "day_clusters": 43,
+            "iterations": 5000,
+            "roi_difference": 0.0,
+            "descriptive_day_cluster_bootstrap95": [
+              0.0,
+              0.0
+            ]
+          },
+          "paired_with_m0_actual": {
+            "reference": "m0_actual",
+            "day_clusters": 43,
+            "iterations": 5000,
+            "roi_difference": 0.0821,
+            "descriptive_day_cluster_bootstrap95": [
+              -0.09804986895748398,
+              0.26171390606880546
+            ]
+          },
+          "changed_picks": 0,
+          "diagnostics": {
+            "selected_sides": {
+              "under": 83,
+              "over": 117
+            },
+            "mean_selected_probability": 0.5233545815505533,
+            "binary_brier": 0.24940851459593602,
+            "log_loss": 0.6919614651004306
+          }
+        }
+      },
+      "observed_mean_total_runs": 10.335
+    },
+    "handicap": {
+      "date_min": "2026-04-21",
+      "date_max": "2026-07-26",
+      "descriptive_split_date": "2026-05-31",
+      "models": {
+        "m0_actual": {
+          "all": {
+            "n": 209,
+            "hits": 133,
+            "hit_rate": 0.6363636363636364,
+            "net_units": -28.25,
+            "roi": -0.1351674641148325,
+            "max_drawdown_units": 31.25,
+            "descriptive_wilson95": [
+              0.5692297807430287,
+              0.698575186934904
+            ]
+          },
+          "earlier": {
+            "n": 103,
+            "hits": 69,
+            "hit_rate": 0.6699029126213593,
+            "net_units": -10.49,
+            "roi": -0.10184466019417474,
+            "max_drawdown_units": 12.98,
+            "descriptive_wilson95": [
+              0.5744179163258332,
+              0.7531702726255971
+            ]
+          },
+          "later": {
+            "n": 106,
+            "hits": 64,
+            "hit_rate": 0.6037735849056604,
+            "net_units": -17.76,
+            "roi": -0.16754716981132073,
+            "max_drawdown_units": 18.66,
+            "descriptive_wilson95": [
+              0.5086034113317569,
+              0.691685261417145
+            ]
+          },
+          "paired_with_market": {
+            "reference": "market",
+            "day_clusters": 43,
+            "iterations": 5000,
+            "roi_difference": 0.0,
+            "descriptive_day_cluster_bootstrap95": [
+              0.0,
+              0.0
+            ]
+          },
+          "paired_with_m0_actual": {
+            "reference": "m0_actual",
+            "day_clusters": 43,
+            "iterations": 5000,
+            "roi_difference": 0.0,
+            "descriptive_day_cluster_bootstrap95": [
+              0.0,
+              0.0
+            ]
+          },
+          "changed_picks": 0,
+          "diagnostics": {
+            "selected_sides": {
+              "home": 98,
+              "away": 111
+            },
+            "mean_selected_probability": 0.7392652733824614,
+            "binary_brier": 0.2452485989241535,
+            "log_loss": 0.6924912323978714,
+            "mean_predicted_total_runs": 9.825008539424276
+          }
+        },
+        "m0_projected": {
+          "all": {
+            "n": 209,
+            "hits": 133,
+            "hit_rate": 0.6363636363636364,
+            "net_units": -28.25,
+            "roi": -0.1351674641148325,
+            "max_drawdown_units": 31.25,
+            "descriptive_wilson95": [
+              0.5692297807430287,
+              0.698575186934904
+            ]
+          },
+          "earlier": {
+            "n": 103,
+            "hits": 69,
+            "hit_rate": 0.6699029126213593,
+            "net_units": -10.49,
+            "roi": -0.10184466019417474,
+            "max_drawdown_units": 12.98,
+            "descriptive_wilson95": [
+              0.5744179163258332,
+              0.7531702726255971
+            ]
+          },
+          "later": {
+            "n": 106,
+            "hits": 64,
+            "hit_rate": 0.6037735849056604,
+            "net_units": -17.76,
+            "roi": -0.16754716981132073,
+            "max_drawdown_units": 18.66,
+            "descriptive_wilson95": [
+              0.5086034113317569,
+              0.691685261417145
+            ]
+          },
+          "paired_with_market": {
+            "reference": "market",
+            "day_clusters": 43,
+            "iterations": 5000,
+            "roi_difference": 0.0,
+            "descriptive_day_cluster_bootstrap95": [
+              0.0,
+              0.0
+            ]
+          },
+          "paired_with_m0_actual": {
+            "reference": "m0_actual",
+            "day_clusters": 43,
+            "iterations": 5000,
+            "roi_difference": 0.0,
+            "descriptive_day_cluster_bootstrap95": [
+              0.0,
+              0.0
+            ]
+          },
+          "changed_picks": 0,
+          "diagnostics": {
+            "selected_sides": {
+              "home": 98,
+              "away": 111
+            },
+            "mean_selected_probability": 0.7466986856578816,
+            "binary_brier": 0.24462025415463087,
+            "log_loss": 0.6912323303164464,
+            "mean_predicted_total_runs": 9.801523432717728
+          }
+        },
+        "m1_projected": {
+          "all": {
+            "n": 209,
+            "hits": 131,
+            "hit_rate": 0.6267942583732058,
+            "net_units": -24.05,
+            "roi": -0.11507177033492819,
+            "max_drawdown_units": 25.84,
+            "descriptive_wilson95": [
+              0.559488983111719,
+              0.6895226535010955
+            ]
+          },
+          "earlier": {
+            "n": 103,
+            "hits": 69,
+            "hit_rate": 0.6699029126213593,
+            "net_units": -6.6,
+            "roi": -0.06407766990291261,
+            "max_drawdown_units": 8.99,
+            "descriptive_wilson95": [
+              0.5744179163258332,
+              0.7531702726255971
+            ]
+          },
+          "later": {
+            "n": 106,
+            "hits": 62,
+            "hit_rate": 0.5849056603773585,
+            "net_units": -17.45,
+            "roi": -0.16462264150943398,
+            "max_drawdown_units": 18.35,
+            "descriptive_wilson95": [
+              0.4897414310888927,
+              0.6741311193420271
+            ]
+          },
+          "paired_with_market": {
+            "reference": "market",
+            "day_clusters": 43,
+            "iterations": 5000,
+            "roi_difference": 0.020095693779904306,
+            "descriptive_day_cluster_bootstrap95": [
+              -0.054718673828653974,
+              0.09712433737645998
+            ]
+          },
+          "paired_with_m0_actual": {
+            "reference": "m0_actual",
+            "day_clusters": 43,
+            "iterations": 5000,
+            "roi_difference": 0.020095693779904306,
+            "descriptive_day_cluster_bootstrap95": [
+              -0.054718673828653974,
+              0.09712433737645998
+            ]
+          },
+          "changed_picks": 20,
+          "diagnostics": {
+            "selected_sides": {
+              "home": 96,
+              "away": 113
+            },
+            "mean_selected_probability": 0.7261515483383453,
+            "binary_brier": 0.2518896817863136,
+            "log_loss": 0.7269180858373001,
+            "mean_predicted_total_runs": 9.69658909421337
+          }
+        },
+        "market": {
+          "all": {
+            "n": 209,
+            "hits": 133,
+            "hit_rate": 0.6363636363636364,
+            "net_units": -28.25,
+            "roi": -0.1351674641148325,
+            "max_drawdown_units": 31.25,
+            "descriptive_wilson95": [
+              0.5692297807430287,
+              0.698575186934904
+            ]
+          },
+          "earlier": {
+            "n": 103,
+            "hits": 69,
+            "hit_rate": 0.6699029126213593,
+            "net_units": -10.49,
+            "roi": -0.10184466019417474,
+            "max_drawdown_units": 12.98,
+            "descriptive_wilson95": [
+              0.5744179163258332,
+              0.7531702726255971
+            ]
+          },
+          "later": {
+            "n": 106,
+            "hits": 64,
+            "hit_rate": 0.6037735849056604,
+            "net_units": -17.76,
+            "roi": -0.16754716981132073,
+            "max_drawdown_units": 18.66,
+            "descriptive_wilson95": [
+              0.5086034113317569,
+              0.691685261417145
+            ]
+          },
+          "paired_with_market": {
+            "reference": "market",
+            "day_clusters": 43,
+            "iterations": 5000,
+            "roi_difference": 0.0,
+            "descriptive_day_cluster_bootstrap95": [
+              0.0,
+              0.0
+            ]
+          },
+          "paired_with_m0_actual": {
+            "reference": "m0_actual",
+            "day_clusters": 43,
+            "iterations": 5000,
+            "roi_difference": 0.0,
+            "descriptive_day_cluster_bootstrap95": [
+              0.0,
+              0.0
+            ]
+          },
+          "changed_picks": 0,
+          "diagnostics": {
+            "selected_sides": {
+              "home": 98,
+              "away": 111
+            },
+            "mean_selected_probability": 0.646112914556653,
+            "binary_brier": 0.2327191925629991,
+            "log_loss": 0.6584084469891647
+          }
+        }
+      },
+      "observed_mean_total_runs": 10.373205741626794
+    }
+  },
+  "independent_baseline_crosscheck": {
+    "matched_exact_products": 409,
+    "not_same_representative": 0,
+    "mismatches": 0,
+    "baseline_sha256": "ad8184a58a5997a6097473323ddca8f8f378db049d7e6b258e9b477f8aae1c8b"
+  }
+}

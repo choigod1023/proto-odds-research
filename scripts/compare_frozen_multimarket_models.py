@@ -29,7 +29,7 @@ def profit(row, side):
     return float(price - 1 if side == row["outcome"] else Decimal(-1))
 
 
-def choose(row, forecast):
+def side_probabilities(row, forecast):
     sides = ("under", "over") if row["market"] == "total" else ("home", "away")
     labels = {"under": "언더", "over": "오버", "home": "핸디홈", "away": "핸디원정"}
     options = [dict(market=row["market"], game_no=str(row["game_no"]), line=str(row["line"]),
@@ -47,7 +47,12 @@ def choose(row, forecast):
         raise ValueError("invalid predicted probability")
     if abs(sum(values) - 1) > 1e-8 or values[0] == values[1]:
         raise ValueError("non-exhaustive or tied prediction")
-    return sides[int(values[1] > values[0])]
+    return dict(zip(sides, values))
+
+
+def choose(row, forecast):
+    values = side_probabilities(row, forecast)
+    return max(values, key=values.get)
 
 
 def metrics(rows, model):
@@ -117,7 +122,7 @@ def crosscheck(rows, baseline_path):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--cohort", type=Path, required=True)
-    parser.add_argument("--cohort-group", choices=("strict", "sensitivity"), default="strict")
+    parser.add_argument("--cohort-group", choices=("strict", "strict_resolved", "sensitivity"), default="strict")
     parser.add_argument("--forecasts", type=Path, required=True)
     parser.add_argument("--baseline", type=Path)
     parser.add_argument("--output", type=Path, required=True)
@@ -136,14 +141,18 @@ def main():
                     or f["fixture_id"] != row["fixture_id"]):
                 raise ValueError("frozen model bundle or fixture identity mismatch")
         try:
-            picks = {m: choose(row, forecasts[row["fixture_id"]][m]) for m in MODELS}
+            probs = {m: side_probabilities(row, forecasts[row["fixture_id"]][m]) for m in MODELS}
+            picks = {m: max(v, key=v.get) for m, v in probs.items()}
         except (ValueError, KeyError, TypeError) as e:
             excluded.append({"fixture_id": row["fixture_id"], "market": row["market"], "reason": str(e)})
             continue
         if picks["m0_actual"] != row["model_selection"]:
             raise ValueError("independent probability replay disagrees with audited M0 selection")
         picks["market"] = row["market_selection"]
-        rows.append({**row, "picks": picks, "returns": {m: profit(row, s) for m, s in picks.items()}})
+        inverse = {s: 1/float(p) for s, p in row["prices"].items()}
+        probs["market"] = {s: p/sum(inverse.values()) for s, p in inverse.items()}
+        rows.append({**row, "picks": picks, "probs": probs,
+                     "returns": {m: profit(row, s) for m, s in picks.items()}})
     report = {"cohort": str(args.cohort), "cohort_group": args.cohort_group, "cohort_sha256": hashlib.sha256(args.cohort.read_bytes()).hexdigest(),
               "forecasts_sha256": hashlib.sha256(args.forecasts.read_bytes()).hexdigest(),
               "frozen_model_bundle_sha256": BUNDLE_SHA256,
@@ -164,6 +173,18 @@ def main():
                 "paired_with_m0_actual": paired_day_interval(chosen, m, reference="m0_actual"),
                 "changed_picks": sum(r["picks"][m] != r["picks"]["market"] for r in chosen)}
                 for m in (*MODELS, "market")}}
+        for m in (*MODELS, "market"):
+            d = report["markets"][market]["models"][m]
+            n = len(chosen)
+            sides = ("under", "over") if market == "total" else ("home", "away")
+            d["diagnostics"] = {"selected_sides": {s: sum(r["picks"][m] == s for r in chosen) for s in sides},
+                "mean_selected_probability": sum(r["probs"][m][r["picks"][m]] for r in chosen)/n if n else None,
+                "binary_brier": sum((r["probs"][m][sides[0]] - (r["outcome"] == sides[0]))**2 for r in chosen)/n if n else None,
+                "log_loss": -sum(math.log(max(r["probs"][m][r["outcome"]], 1e-15)) for r in chosen)/n if n else None}
+            if m in MODELS:
+                d["diagnostics"]["mean_predicted_total_runs"] = sum(
+                    forecasts[r["fixture_id"]][m]["home_rate"] + forecasts[r["fixture_id"]][m]["away_rate"] for r in chosen)/n if n else None
+        report["markets"][market]["observed_mean_total_runs"] = sum(sum(r["score"]) for r in chosen)/len(chosen) if chosen else None
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({k: {m: r["all"] for m, r in v["models"].items()} for k, v in report["markets"].items()}))
