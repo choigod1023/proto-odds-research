@@ -50,6 +50,23 @@ def rewrite(path, record):
     path.write_bytes(observer.canonical(record)+b'\n')
 
 
+def write_index(capture, record=None):
+    root, _, original, _, _, _ = capture
+    record = deepcopy(original if record is None else record)
+    state = root/'kbo-m0-actual-forward-v1'
+    folder = state/'capture-index'; folder.mkdir(exist_ok=True)
+    digest = record['hash']
+    (folder/f'{digest}.json').write_bytes(observer.canonical(record)+b'\n')
+    entry = {'hash': digest, 'event': record['input']['event'], 'file': f'capture-index/{digest}.json'}
+    index = state/'capture-index.json'
+    index.write_bytes(observer.canonical({'schema': 'm0-capture-index-v1', 'captures': [entry]}))
+    return index, folder/f'{digest}.json', entry
+
+
+def put_index(path, entries, schema='m0-capture-index-v1'):
+    path.write_bytes(observer.canonical({'schema': schema, 'captures': entries}))
+
+
 def test_actual_capture_exact_identity_and_cached_verification(capture):
     root, path, record, game, now, checks = capture
     checks.clear()
@@ -195,3 +212,82 @@ def test_kbo_league_is_bound_to_archived_schedule(tmp_path, monkeypatch):
     wrapper['archived_canonical_bundle_sha256'] = sha
     with pytest.raises(ValueError, match='league identity'):
         provider._verify_kbo_league(payload, root)
+
+
+def test_index_preferred_over_oversized_ledger_and_cached(capture):
+    _, ledger, record, _, _, checks = capture
+    index, item, _ = write_index(capture)
+    with ledger.open('wb') as out:
+        out.truncate(provider.MAX_BYTES + 1)
+    checks.clear()
+    result = query(capture)
+    assert result['status'] == 'available' and result['capture_hash'] == record['hash']
+    assert checks == ['archive']
+    assert query(capture) == result and checks == ['archive']
+    item.write_bytes(item.read_bytes())
+    assert query(capture) == result and checks == ['archive', 'archive']
+    index.unlink()
+    assert '8 MiB' in query(capture)['reason']
+
+
+@pytest.mark.parametrize('failure', ['schema', 'path', 'hash', 'event', 'missing', 'count', 'duplicate', 'oversize'])
+def test_bad_index_never_falls_back_to_valid_ledger(capture, failure):
+    index, item, entry = write_index(capture)
+    if failure == 'schema':
+        put_index(index, [entry], 'wrong')
+    elif failure == 'path':
+        entry['file'] = '../predictions.jsonl'; put_index(index, [entry])
+    elif failure == 'hash':
+        item.write_bytes(item.read_bytes().replace(b'"promoted":false', b'"promoted":true'))
+    elif failure == 'event':
+        entry['event']['home_id'] = 'LG'; put_index(index, [entry])
+    elif failure == 'missing':
+        item.unlink()
+    elif failure == 'count':
+        put_index(index, [entry] * (provider.MAX_CAPTURES+1))
+    elif failure == 'duplicate':
+        put_index(index, [entry, entry])
+    else:
+        with index.open('wb') as out:
+            out.truncate(provider.MAX_INDEX_BYTES + 1)
+    assert query(capture)['status'] == 'unavailable'
+
+
+def test_index_does_not_trust_rehashed_forecast(capture):
+    record = deepcopy(capture[2])
+    record['models']['m0_actual']['home_rate'] += 1
+    record.pop('hash')
+    record['hash'] = observer.digest(observer.canonical(record))
+    write_index(capture, record)
+    assert query(capture)['status'] == 'unavailable'
+
+
+def test_index_record_must_be_canonical_and_within_cap(capture):
+    _, item, _ = write_index(capture)
+    item.write_text(json.dumps(capture[2], ensure_ascii=False, indent=2), encoding='utf8')
+    assert query(capture)['status'] == 'unavailable'
+    with item.open('wb') as out:
+        out.truncate(provider.MAX_BYTES + 1)
+    assert query(capture)['status'] == 'unavailable'
+
+
+def test_index_empty_does_not_fallback(capture):
+    index, _, _ = write_index(capture)
+    put_index(index, [])
+    assert query(capture)['status'] == 'unavailable'
+
+
+def test_index_replays_source_without_claiming_complete_chain(capture):
+    record = deepcopy(capture[2])
+    record['previous_hash'] = 'a' * 64
+    record.pop('hash')
+    record['hash'] = observer.digest(observer.canonical(record))
+    write_index(capture, record)
+    result = query(capture)
+    assert result['status'] == 'available' and result['capture_hash'] == record['hash']
+
+
+def test_index_source_failure_never_falls_back(capture, monkeypatch):
+    write_index(capture)
+    monkeypatch.setattr(observer, '_verify_archives', lambda *args: (_ for _ in ()).throw(ValueError('bad source')))
+    assert query(capture)['status'] == 'unavailable'
