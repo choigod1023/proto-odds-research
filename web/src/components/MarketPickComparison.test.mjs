@@ -53,8 +53,20 @@ test("modal comparison distinguishes estimates, settled history and a frozen fin
       {item: handicap, saved: true, comparisonVersion: "exact-market-frontier-v1"},
     ], game: {sport: "bk", league: "KBL"}}));
     assert.match(leagueHtml, /KBL 팀 점수차 모델/);
-    assert.match(leagueHtml, /60.0%/);
+    assert.match(leagueHtml, /60\.0%/);
     assert.doesNotMatch(leagueHtml, /세 모델/);
+
+    const international = "international-team-poisson-handicap-v1";
+    const research = {...handicap, comparisons: {
+      [international]: {...base, selection: "핸디홈", model: international, probability_basis: "score_model",
+        probability: .60, estimated_roi: .14},
+    }};
+    const researchHtml = renderToStaticMarkup(createElement(View, {recommendations: [
+      {item: research, saved: true, comparisonVersion: "exact-market-frontier-v1"},
+    ], game: {sport: "sc", league: "EPL"}}));
+    assert.match(researchHtml, /리그별 팀 득점 모델 · 연구 비교/);
+    assert.match(researchHtml, /60\.0%/);
+    assert.doesNotMatch(researchHtml, /세 모델/);
   } finally {
     await server.close();
   }

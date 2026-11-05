@@ -2,6 +2,7 @@ import { LEAGUE_HANDICAP_LABELS } from "./MarketRecommendations.jsx";
 
 const MODELS = ["frontier_m0_actual", "frontier_m0_projected", "frontier_m1_projected"];
 const FINAL = "frontier_consensus";
+const INTERNATIONAL = "international-team-poisson-handicap-v1";
 const LABELS = {
   frontier_m0_actual: "M0 실제 타순 학습",
   frontier_m0_projected: "M0 추정 타순 학습",
@@ -9,6 +10,7 @@ const LABELS = {
   market: "시장 최저 배당",
   frontier_tipster: "픽스터 방향 · 배당 기준",
   ...LEAGUE_HANDICAP_LABELS,
+  [INTERNATIONAL]: "리그별 팀 득점 모델 · 연구 비교",
   [FINAL]: "세 모델 공통",
 };
 const BASIS = {
@@ -74,6 +76,7 @@ function historyText(history) {
 export default function MarketPickComparison({ recommendations = [], options = [], performance, game }) {
   const {rows, final} = comparisonRows(recommendations, options);
   const hasLeagueModel = rows.some(({name}) => Object.hasOwn(LEAGUE_HANDICAP_LABELS, name));
+  const hasInternational = rows.some(({name}) => name === INTERNATIONAL);
   const history = ({item, arm, name}) => historyText(performance?.comparison_by_context?.[
     [game?.sport, game?.league, item.market, item.settlement_rule, item.line, arm.selection, name].join("|")
   ]);
@@ -85,6 +88,7 @@ export default function MarketPickComparison({ recommendations = [], options = [
         {" · "}{final.arm.odds.toFixed(2)}배 · 예상 적중확률 {percent(final.arm.probability)} · 기대 ROI {signed(final.arm.estimated_roi)}
         <br /><span className="text-ink3">과거 실적: {history(final)}</span></p>
       : hasLeagueModel ? <p className="my-1">리그 모델의 핸디캡 선택과 같은 상품의 시장 기준을 비교합니다.</p>
+      : hasInternational ? <p className="my-1">리그별 득점 모델과 시장 기준의 핸디캡 예측을 비교합니다.</p>
       : <p className="my-1"><b>지표 기준 최종 픽 보류</b> · {rows.length
         ? "세 모델이 같은 픽에서 적중확률 55% 이상과 기대 ROI 양수를 모두 충족한 단일 후보가 없습니다."
         : "같은 상품의 경기 전 비교 자료가 없습니다."}</p>}
@@ -103,6 +107,6 @@ export default function MarketPickComparison({ recommendations = [], options = [
     </div>}
     <p className="mb-0 text-ink3">예상값은 정상 정산을 가정한 미검증 추정치입니다. 픽스터 투표는 방향만 사용합니다.
       과거 실적은 같은 리그·시장·기준점·방향·정산 규칙의 모델별 사전 기록을 공식 결과로 정산한 값입니다.
-      {!hasLeagueModel && "최종 픽은 세 모델의 확률과 기대 ROI 중 각각 가장 낮은 값으로 비교합니다. 지표 기준 픽은 기존 자동 추천과 별도로 표시합니다."}</p>
+      {!hasLeagueModel && !hasInternational && "최종 픽은 세 모델의 확률과 기대 ROI 중 각각 가장 낮은 값으로 비교합니다. 지표 기준 픽은 기존 자동 추천과 별도로 표시합니다."}</p>
   </section>;
 }
