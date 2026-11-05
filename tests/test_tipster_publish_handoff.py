@@ -231,7 +231,9 @@ def test_each_source_tracks_wait_and_releases_priority_after_failure(monkeypatch
         assert kw['timeout']==timeout
         raise ValueError('synthetic source failure')
     monkeypatch.setattr(s.subprocess,'run',collect)
-    monkeypatch.setattr(s.time,'sleep',lambda _:(_ for _ in ()).throw(StopIteration()))
+    def stop_after_cycle(_):
+        raise StopIteration
+    monkeypatch.setattr(s.time,'sleep',stop_after_cycle)
     with pytest.raises(StopIteration):s.run_looper(name,['collector'],300)
     assert getattr(s,field) is None
     assert not s._memory_heavy_lock.locked()
