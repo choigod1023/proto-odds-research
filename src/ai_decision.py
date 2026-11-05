@@ -609,7 +609,8 @@ def build_decision_snapshot(
             game['market_recommendations'] = prior_market_recommendations
         try:
             game['market_recommendations'] = build_market_recommendations(
-                game, tipster_votes, as_of, built_at or as_of, market_candidates=game.get('market_candidates'))
+                game, tipster_votes, as_of, built_at or as_of,
+                market_candidates=game.get('market_candidates'), market_observed_at=market_observed_at)
         except (OSError, ValueError, TypeError, KeyError, ImportError) as exc:
             game['market_recommendations'] = {'version': 'multi-market-recommendations-v1',
                 'status': 'unavailable', 'items': [], 'reason': type(exc).__name__, 'validated_edge': False}

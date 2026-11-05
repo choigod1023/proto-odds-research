@@ -99,8 +99,17 @@ const probabilityLabel = (item) => ({
   m0_score_model_conditional_decisive: "M0 모델 · 무효 제외 조건부",
   market_conditional_decisive: "배당 기반 · 무효 제외 조건부",
   normalized_inverse_market_conditional_decisive: "배당 기반 · 무효 제외 조건부",
+  frozen_league_handicap_score_model: "리그 득점 모델 · 무효 제외 조건부",
 })[item.probability_basis] || null;
-const modelLabel = (model) => ({'tipster-market-vote-v1':'같은 기준점의 픽스터 투표','market-baseline-v1':'현재 배당 기준'})[model] || model || '미제공';
+export const LEAGUE_HANDICAP_LABELS = {
+  'kleague1-team-poisson-handicap-v1': 'K리그1 팀 득점 모델',
+  'kbl-team-margin-handicap-v1': 'KBL 팀 점수차 모델',
+};
+const modelLabel = (model) => ({
+  'tipster-market-vote-v1': '같은 기준점의 픽스터 투표',
+  'market-baseline-v1': '현재 배당 기준',
+  ...LEAGUE_HANDICAP_LABELS,
+})[model] || model || '미제공';
 const ruleLabel = (item) => ({total_half:'총점 기준 미만/초과',handicap_half:'홈팀 핸디캡 적용 승패',handicap_3way:'홈팀 핸디캡 적용 승무패'})[item.settlement_rule] || '상품별 공식 결과';
 export const validationLabel = (item) => item.validation_status === "validated_profitable"
   ? "수익성 검증됨" : "자동 추천 · 수익성 미검증";
@@ -130,7 +139,7 @@ export default function MarketRecommendations({ recommendations, onSelect, selec
     {recommendations.map(({item, option, result, saved, capturedAt, generatedAt, comparisonVersion}) => <article className="mt-2 rounded border border-rule2 p-2 text-[12px] leading-6" key={`${item.selection_id}|${item.offer_id}`}>
       <b>{item.market} {item.label} · {item.selection} · 배당 {Number(item.odds).toFixed(2)}배</b>
       <p className="my-1">{saved ? `보존된 경기 전 추천 · 기록 ${capturedAt} · ${resultLabel(result)} · ` : ""}{validationLabel(item)} · 기준점 {item.line} · 정산 {ruleLabel(item)}</p>
-      <p className="my-1 text-ink3">선정 기준: {modelLabel(item.model)} · 출처 {Array.isArray(item.source_ids) && item.source_ids.length ? item.source_ids.map((source) => source === "proto_official_current_market" ? "현재 프로토 배당" : source).join(", ") : "미제공"}
+      <p className="my-1 text-ink3">선정 기준: {modelLabel(item.model)} · 출처 {Array.isArray(item.source_ids) && item.source_ids.length ? item.source_ids.map((source) => source === "proto_official_current_market" ? "현재 프로토 배당" : modelLabel(source)).join(", ") : "미제공"}
         {generatedAt ? ` · 생성 ${generatedAt}` : ""}</p>
       <p className="my-1 text-ink3">{probabilityLabel(item) && fraction(item.probability) ? `예상 적중확률 ${percent(item.probability)} (${probabilityLabel(item)})` : "예상 적중확률 미제공"}
         {fraction(item.p_push) ? ` · 무효 확률 ${percent(item.p_push)}` : " · 무효 확률 미제공"}
