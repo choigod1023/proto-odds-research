@@ -852,6 +852,8 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
   const marketRecommendations = locked ? savedMarketRecommendations(g) : wait || stale || disruption ? [] : currentMarketRecommendations(g, g.options || opts);
   const recommendation = !locked && !wait && !stale && !disruption && !g._liveOddsChanged
     ? pregameRecommendation(pick?.o, marketRecommendations, g.options || opts) : null;
+  const oddsOption = recommendation?.option ?? pick?.o;
+  const oddsGrade = recommendation ? gradeOf(grades, recommendation.price) : pick?.g;
   const Row = "button";
   const Surface = detailOnly ? "div" : Card;
   return (
@@ -902,6 +904,7 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
           {selectedForGame.length > 0 && <span className="selection-badge">✓ 내 선택 {selectedForGame.map((item) => item.option.선택).join(" · ")}</span>}
           <small>{phase === "finished" ? "예측 결과" : playing ? "실시간 경기" : "사전 예측 픽"}</small>
           {recommendation && <PregameRecommendation recommendation={recommendation} />}
+          {recommendation && <small>시장별 사전 픽</small>}
           <b>{phase === "finished"
             ? `${outcome.label}${resultHeadline ? ` · ${resultHeadline}` : ""}`
             : pick ? `${pick.o.market}${pick.o.label ? ` ${pick.o.label}` : ""} ${pick.o["선택"]}${todayLabel ? ` · ${todayLabel}` : ""}`
@@ -928,17 +931,17 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
               </span>
             : liveClosed ? <OddsChip label="판정" value="마감" />
             : wait ? <OddsChip label="배당" value={stale ? "갱신 지연" : waitText === "상태 확인 불가" ? "확인 불가" : "확인 중"} />
-            : pick ? <OddsChip
-                  label={pick.o["선택"]}
-                  value={odds(pick.o["배당"])}
-                  grade={pick.g ? gcls(pick.g.grade) : "U"}
-                  highlighted={highlightedToday}
-                  title={`${pick.o.market}${pick.o.label ? ` ${pick.o.label}` : ""} · ${pick.o.선택} 배당`} />
+            : oddsOption ? <OddsChip
+                  label={recommendation && oddsOption.label ? `${oddsOption.선택} · ${oddsOption.label}` : oddsOption.선택}
+                  value={odds(oddsOption.배당)}
+                  grade={oddsGrade ? gcls(oddsGrade.grade) : "U"}
+                  highlighted={!recommendation && highlightedToday}
+                  title={`${recommendation ? "경기 추천 1픽 · " : ""}${oddsOption.market}${oddsOption.label ? ` ${oddsOption.label}` : ""} · ${oddsOption.선택} 배당`} />
               : <OddsChip label="판정" value={pendingLabel} />}
         </span>
         {!detailOnly && highlightedToday && evidence.summary && <span className="match-reason-preview"><b>경기력 근거</b> {evidence.summary}</span>}
         {votePolicy && !stale && !g._liveOddsChanged && <span className="pregame-probability">{voteSummary.text}{voteWithheld ? ` · ${tipsterWithholdLabel(voteInfo)}` : voteSummary.share !== null ? ` · 투표 ${(voteSummary.share * 100).toFixed(1)}% (지지율 · 예상 적중률 아님)` : ""}</span>}
-        {!detailOnly && phase === "upcoming" && pick && !stale && !g._liveOddsChanged && <span className="pregame-probability">{votePolicy ? "배당 기반 시장확률" : locked ? "경기 전 확률" : hybridApplied ? "혼합 모델 확률" : "배당 기준 확률"} {locked ? (Number.isFinite(openingProbability) ? pct(openingProbability) : "기록 없음") : pct(currentProbability)} · {locked ? "경기 전 예상" : hybridApplied ? "시장 90% + 픽스터 10% · 수익성 미검증" : "현재 배당 기준"}</span>}
+        {!detailOnly && phase === "upcoming" && !recommendation && pick && !stale && !g._liveOddsChanged && <span className="pregame-probability">{votePolicy ? "배당 기반 시장확률" : locked ? "경기 전 확률" : hybridApplied ? "혼합 모델 확률" : "배당 기준 확률"} {locked ? (Number.isFinite(openingProbability) ? pct(openingProbability) : "기록 없음") : pct(currentProbability)} · {locked ? "경기 전 예상" : hybridApplied ? "시장 90% + 픽스터 10% · 수익성 미검증" : "현재 배당 기준"}</span>}
         {!detailOnly && !highlightedToday && evidence.summary && <span className="match-evidence-preview"><span>경기력</span> {evidence.summary}<span className="detail-link">상세 근거 ›</span></span>}
       </Row>
       </>}
