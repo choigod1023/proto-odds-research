@@ -38,3 +38,23 @@ def test_archived_public_response_checks_bytes_and_clock(tmp_path):
     [(body, clock)] = cycle.archived(tmp_path)
     assert clock == received
     assert body["view"]["revision"] == "1"
+
+
+def test_tipster_active_round_requires_open_football_with_time_before_cutoff():
+    from scripts import tipster_forward_cycle as tipster
+
+    def game(number, date, **overrides):
+        return {"sport": "sc", "status": "경기전", "year": 2026,
+                "round": number, "date": date, **overrides}
+
+    received = datetime(2026, 11, 6, 9, tzinfo=timezone.utc)
+    rows = [
+        game(131, "11.06 21:00"),
+        game(132, "11.06 19:00"),
+        game(133, "11.06 18:30"),
+        game(134, "11.06 21:00", sport="bs"),
+        game(135, "11.06 21:00", status="종료"),
+        game(136, "unknown"),
+    ]
+    assert tipster.active_round({"live": rows}, received) == "260132"
+    assert tipster.active_round({"live": rows[2:]}, received) is None
