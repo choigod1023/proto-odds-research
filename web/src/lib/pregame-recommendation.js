@@ -1,39 +1,31 @@
-import { recordedMarketOffers } from "./recorded-market-offers.js";
-import { PREFERRED_AUTO_ODDS } from "./recommendation-policy.js";
+import { scheduledAt } from "./match-status.js";
 
-const WINNER_MARKETS = new Set(["승패", "승무패"]);
-const LINE_MARKETS = new Set(["핸디캡", "언더오버"]);
-const FULL_GAME = new Set(["full", "full_game"]);
+/** Show the exact recorded selection, including its frozen price after T-30. */
+export function pregameRecommendation(game, { frozen = false } = {}) {
+  const record = game.featured_pick_record;
+  const pick = record?.pick;
+  const kickoff = scheduledAt(game);
+  const captured = Date.parse(record?.captured_at);
+  if (pick?.version !== "featured-pregame-v1" || !record.prediction_snapshot_id ||
+      !Number.isFinite(kickoff) || Date.parse(record.kickoff) !== kickoff ||
+      !Number.isFinite(captured) || captured >= kickoff - 1800000 ||
+      !pick.selection_id || !pick.offer_id ||
+      !Number.isFinite(pick.odds) || pick.odds <= 1 ||
+      !Number.isFinite(pick.probability) || !Number.isFinite(pick.estimated_roi)) return null;
 
-/** Rank existing operating picks with a common market probability basis. */
-export function pregameRecommendation(winner, recommendations, options) {
-  const candidates = recommendations.filter(({item}) => item.automatic_recommendation === true
-    && item.candidate_only !== true && LINE_MARKETS.has(item.market)).map(({option}) => option);
-  if (WINNER_MARKETS.has(winner?.market) && !winner.label) candidates.push(winner);
-  if (!candidates.length) return null;
-
-  const offers = recordedMarketOffers(options);
-  const ranked = candidates.flatMap((option) => {
-    if (!option?.selection_id || !option.offer_id) return [];
-    const matches = options.filter((row) => row?.selection_id === option.selection_id);
+  if (!frozen) {
+    const matches = (game.options || []).filter((row) => row.selection_id === pick.selection_id);
     const row = matches[0];
-    if (matches.length !== 1 || row.offer_id !== option.offer_id || row.market !== option.market
-      || (row.label || "") !== (option.label || "") || row.선택 !== option.선택
-      || Number(row.배당) !== Number(option.배당)) return [];
+    if (game._liveOddsChanged || game.prediction_revision_id !== record.prediction_snapshot_id ||
+        matches.length !== 1 || row.offer_id !== pick.offer_id || row.market !== pick.market ||
+        (row.label || "") !== pick.label || (row.line ?? null) !== (pick.line ?? null) ||
+        row.선택 !== pick.selection || String(row.게임번호) !== pick.game_no ||
+        Number(row.배당) !== pick.odds) return null;
+  }
 
-    const offer = offers.find((entry) => entry.gameNo === String(row.게임번호)
-      && entry.market === row.market && entry.label === (row.label || ""));
-    if (!offer || (offer.period && !FULL_GAME.has(offer.period))
-      || (LINE_MARKETS.has(row.market) && !FULL_GAME.has(offer.period))) return [];
-
-    const price = Number(row.배당);
-    const inverseSum = offer.selections.reduce((sum, side) => sum + 1 / side.odds, 0);
-    const probability = 1 / (price * inverseSum);
-    return [{option, price, probability, estimatedRoi: probability * price - 1}];
-  });
-  // Keep the existing price preference and use the lower-price pool only as a fallback.
-  const preferred = ranked.filter(({price}) => price >= PREFERRED_AUTO_ODDS);
-  return (preferred.length ? preferred : ranked).sort((a, b) => b.probability - a.probability
-    || b.estimatedRoi - a.estimatedRoi
-    || a.option.selection_id.localeCompare(b.option.selection_id))[0] ?? null;
+  return {
+    option: {market: pick.market, label: pick.label, 선택: pick.selection, 배당: pick.odds},
+    price: pick.odds, probability: pick.probability, estimatedRoi: pick.estimated_roi,
+    frozen, result: record.result?.result,
+  };
 }

@@ -20,7 +20,7 @@ except ImportError:  # Windows development fixtures retain the portable lock.
     fcntl = None
 from contextlib import contextmanager
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Callable, Iterable, Iterator, Mapping
 
@@ -179,6 +179,7 @@ class PredictionLedger:
         model: Mapping[str, Any] | None = None,
         as_of: str | datetime | None = None,
         deduplication_key: str | None = None,
+        freeze_at_t30: bool = False,
     ) -> AppendResult:
         """Append one immutable pregame prediction.
 
@@ -249,7 +250,10 @@ class PredictionLedger:
             if not isinstance(deduplication_key, str) or not deduplication_key:
                 raise PredictionLedgerError("deduplication_key must be a non-empty string")
             record["deduplication_key"] = deduplication_key
-        return self._append(record, must_capture_before=kickoff_time)
+        cutoff = kickoff_time - timedelta(minutes=30) if freeze_at_t30 else kickoff_time
+        if as_of_time >= cutoff:
+            raise PredictionLedgerError("prediction as_of must be before the freeze cutoff")
+        return self._append(record, must_capture_before=cutoff)
 
     def append_predictions(
         self,
@@ -285,6 +289,7 @@ class PredictionLedger:
                         model=entry.get("model"),
                         as_of=entry.get("as_of"),
                         deduplication_key=entry.get("deduplication_key"),
+                        freeze_at_t30=entry.get("freeze_at_t30", False),
                     )
                     for entry in requests
                 ]
@@ -449,7 +454,7 @@ class PredictionLedger:
 
         captured_time = _parse_time(self._clock(), "clock")
         if must_capture_before is not None and captured_time >= must_capture_before:
-            raise PredictionLedgerError("prediction cannot be captured at or after kickoff")
+            raise PredictionLedgerError("prediction cannot be captured at or after kickoff or pregame cutoff")
         if as_of_time is not None and as_of_time > captured_time:
             raise PredictionLedgerError("prediction as_of cannot be after capture time")
         if core.get("record_type") == "settlement":

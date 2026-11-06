@@ -18,6 +18,10 @@ test('the pregame pick area includes winner, handicap and total in the card and 
   const item={selection_id:'s1',offer_id:'o1',market:'언더오버',label:'U 2.5',line:2.5,selection:'오버',odds:1.9,game_no:'2',settlement_rule:'regulation',model:'market-baseline-v1',automatic_recommendation:true};
   const handicap={...item,selection_id:'h0',offer_id:'ho0',market:'핸디캡',label:'H -1.5',line:-1.5,selection:'핸디홈',odds:1.8,game_no:'3'};
   const g={year:2099,date:'09.06(일) 18:00',round:1,status:'경기전',sport:'bs',league:'리그',home:'홈팀',away:'원정팀',options:[...options,...winnerOptions],market_recommendations:{version:'multi-market-recommendations-v1',items:[item,handicap]}};
+  const featured = {prediction_snapshot_id:'snapshot',kickoff:'2099-09-06T09:00:00Z',
+    captured_at:'2099-09-06T07:00:00Z',
+    pick:{...handicap,version:'featured-pregame-v1',probability:.514,estimated_roi:-.075}};
+  Object.assign(g,{prediction_revision_id:'snapshot',featured_pick_record:featured});
   const props={g,opts:g.options,wait:false,onSaveBet:()=>{},todayOption:winnerOptions[0]};
   for(const detailOnly of [false,true]){
     const html=renderToStaticMarkup(createElement(Game,{...props,detailOnly}));
@@ -53,7 +57,7 @@ test('the pregame pick area includes winner, handicap and total in the card and 
     market_recommendation_results:[{result:'hit',selection_id:'s1',offer_id:'o1',market:'언더오버',line:2.5,settlement_rule:'regulation',odds:'1.9',net_units:'0.9'}]};
   Date.now=()=>Date.parse('2099-09-06T08:45:00Z');
   for(const detailOnly of [false,true]){
-    const html=renderToStaticMarkup(createElement(Game,{...props,g:{...g,market_prediction_record:record},detailOnly}));
+    const html=renderToStaticMarkup(createElement(Game,{...props,g:{...g,market_prediction_record:record,featured_pick_record:{...featured,result:{result:"hit"}}},detailOnly}));
     if(detailOnly) {
       assert.match(html,/보존된 경기 전 추천.*순손익 \+0\.90단위/);
     } else {
@@ -61,7 +65,7 @@ test('the pregame pick area includes winner, handicap and total in the card and 
       assert.doesNotMatch(html,/2099-09-06T07:00:00Z|순손익/);
     }
     assert.doesNotMatch(html,/이 추천을 선택 목록에 담기/);
-    assert.doesNotMatch(html,/경기 추천 1픽/);
+    assert.match(html,/경기 추천 1픽 · 사전 보존 · 적중.*핸디캡 H -1\.5 · 핸디홈/);
   }
   const savedRender = (recordChanges, gameChanges={}) => renderToStaticMarkup(createElement(Game,{...props,detailOnly:true,g:{...g,...gameChanges,market_prediction_record:{...record,...recordChanges}}}));
   assert.match(savedRender({}, {options:[]}),/보존된 경기 전 추천/);
@@ -80,7 +84,7 @@ test('the pregame pick area includes winner, handicap and total in the card and 
   assert.doesNotMatch(savedRender({market_recommendation_results:[{...record.market_recommendation_results[0],offer_id:'other'}]}),/순손익/);
   assert.doesNotMatch(savedRender({market_recommendation_results:[{...record.market_recommendation_results[0],net_units:'900'}]}),/순손익/);
   Date.now=()=>Date.parse('2099-09-06T00:00:00Z');
-  for(const extra of [{stale:true},{wait:true},{g:{...g,_liveStarted:true}},{g:{...g,_liveOddsChanged:true}}]){
+  for(const extra of [{stale:true},{wait:true},{g:{...g,_liveOddsChanged:true}}]){
     const html=renderToStaticMarkup(createElement(Game,{...props,...extra}));assert.doesNotMatch(html,/경기 추천 1픽|언더오버 U 2\.5 · 오버|핸디캡 H -1\.5 · 핸디홈/);
   }
  } finally {Date.now=now;await server.close();}

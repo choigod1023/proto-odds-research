@@ -99,3 +99,70 @@ def test_retry_repairs_ui_after_ledger_already_committed(tmp_path, monkeypatch):
     assert published[0]["live"][0]["prediction_record"]["result"] == "hit"
     assert len(runtime.records()) == 2
 from tests.test_live_market_refresh import admissible_votes_for_offer_ledger_regressions
+
+
+
+def test_featured_pick_freezes_one_offer_and_settles_independently(tmp_path):
+    from featured_pick import performance
+
+    odds = feed()
+    odds["markets"]["102"]["7101"] = {
+        **odds["markets"]["102"]["7100"], "game_no": "7101", "market": "언더오버",
+        "label": "U 9.5", "odds": [1.51, 2.24],
+    }
+    doc, _ = refresh_document({"live": [], "past": []}, odds)
+    game = doc["live"][0]
+    under = next(row for row in game["options"] if row["선택"] == "언더")
+    for row in game["options"]:
+        if row["market"] == "언더오버":
+            row.update(period="full_game", settlement_scope="total_half")
+    game["market_recommendations"] = {
+        "version": "multi-market-recommendations-v1",
+        "items": [dict(selection_id=under["selection_id"], offer_id=under["offer_id"],
+                       market="언더오버", label="U 9.5", line=9.5, selection="언더",
+                       odds=1.51, game_no="7101", settlement_rule="total_half",
+                       automatic_recommendation=True, model="market-baseline-v1")],
+    }
+    clock = [datetime(2026, 8, 30, 1, 5, tzinfo=UTC)]
+    runtime = PredictionRuntime(tmp_path / "ledger.jsonl", clock=lambda: clock[0])
+    record_live_market_revisions(doc, odds["generated_at"], runtime)
+    frozen = deepcopy(runtime.records()[0])
+    event = frozen["event_id"]
+    pick = runtime.featured_records()[event]["pick"]
+    assert pick["market"] == "언더오버"
+    assert pick["odds"] == 1.51
+    assert performance(runtime.featured_records())["pending"] == 1
+
+    clock[0] = datetime(2026, 8, 30, 14, tzinfo=UTC)
+    odds["generated_at"] = "2026-08-30T13:00:00+00:00"
+    odds["markets"]["102"]["7100"]["result"] = "홈패"
+    odds["markets"]["102"]["7101"].update(label="U 10.5", result="언더", odds=[2.1, 1.5])
+    assert settle_live_market_results(odds, runtime) == 1
+    assert runtime.featured_records()[event]["result"] is None
+    odds["markets"]["102"]["7101"]["label"] = "U 9.5"
+    assert settle_live_market_results(odds, runtime) == 1
+    assert settle_live_market_results(odds, runtime) == 0
+    assert runtime.records()[0] == frozen
+    assert runtime.ui_records()[event]["result"] == "miss"
+    assert runtime.featured_records()[event]["result"]["net_units"] == "0.51"
+    assert performance(runtime.featured_records())["roi"] == .51
+    assert performance(runtime.featured_records())["hit_rate"] == 1
+
+    odds["generated_at"] = "2026-08-30T13:01:00+00:00"
+    odds["markets"]["102"]["7101"]["result"] = "취소"
+    assert settle_live_market_results(odds, runtime) == 1
+    summary = performance(runtime.featured_records())
+    assert (summary["captured"], summary["settled"], summary["refunds"]) == (1, 1, 1)
+    assert summary["roi"] == 0 and summary["hit_rate"] is None
+
+
+def test_late_capture_is_not_eligible_for_featured_performance(tmp_path):
+    odds = feed()
+    doc, _ = refresh_document({"live": [], "past": []}, odds)
+    runtime = PredictionRuntime(tmp_path / "ledger.jsonl",
+                                clock=lambda: datetime(2026, 8, 30, 8, 30, tzinfo=UTC))
+    from prediction_ledger import PredictionLedgerError
+    with pytest.raises(PredictionLedgerError, match="cutoff"):
+        record_live_market_revisions(doc, odds["generated_at"], runtime)
+    assert runtime.records() == []
+    assert runtime.featured_records() == {}
