@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { recommendationResults } from './recommendation-results.js';
 const now=Date.parse('2026-09-06T15:00:00+09:00');
-const row=(id='1',extra={})=>({id,home:'H',away:'A',sport:'bs',league:'MLB',date:'09.06(일) 12:00',round:1,game_no:id,
+const row=(id='1',extra={})=>({id,home:`H${id}`,away:'A',sport:'bs',league:'MLB',date:'09.06(일) 12:00',round:1,game_no:id,
   kickoff_at:'2026-09-06T12:00:00+09:00',published_at:'2026-09-06T09:00:00+09:00',recorded_at:'2026-09-06T09:00:00+09:00',
   market:'승패',market_label:'',sel:'홈',odds:1.6,recommended:true,result:'hit',result_source:'official',...extra});
 
@@ -35,9 +35,29 @@ test('latest ten chosen by kickoff regardless of outcome; void and pending separ
 test('official offer result can update archive; wrong line and score cannot',()=>{
   const entry=row('1',{result:undefined,result_source:undefined});
   const today={recommendation_history:{a:entry}};
-  const official={home:'H',away:'A',date:entry.date,market:'승패',label:'',game_no:'1',n_way:2,result:'홈패'};
+  const official={home:entry.home,away:entry.away,date:entry.date,market:'승패',label:'',game_no:'1',n_way:2,result:'홈패'};
   const odds={markets:{1:{1:official}}};
   assert.equal(recommendationResults(today,null,odds,now).settled[0].outcome.state,'miss');
   official.label='different';
   assert.equal(recommendationResults(today,{live:[{...entry,status:'정산',score:[5,1]}]},odds,now).settled.length,0);
+});
+
+test('revisions of one match count once and the selected revision does not depend on results',()=>{
+  const fixture={home:'H',away:'A'};
+  const entries=[
+    row('early',{...fixture,result:'hit'}),
+    row('late',{...fixture,round:2,odds:1.85,result:'miss',
+      published_at:'2026-09-06T10:30:00+09:00',recorded_at:'2026-09-06T10:31:00+09:00'}),
+    row('too-late',{...fixture,published_at:'2026-09-06T11:30:00+09:00',recorded_at:'2026-09-06T11:30:00+09:00'}),
+    row('rematch',{...fixture,kickoff_at:'2026-09-06T14:00:00+09:00'}),
+  ];
+  const makeToday=()=>({recommendation_history:Object.fromEntries(entries.map(r=>[r.id,r]))});
+  const result=recommendationResults(makeToday(),null,null,now);
+  assert.deepEqual(result.settled.map(r=>r.id),['rematch','late']);
+  assert.equal(result.hit,1);
+  assert.equal(result.settled[1].odds,1.85);
+  entries[1].result='pending';
+  const pending=recommendationResults(makeToday(),null,null,now);
+  assert.deepEqual(pending.settled.map(r=>r.id),['rematch']);
+  assert.equal(pending.pending,1);
 });
