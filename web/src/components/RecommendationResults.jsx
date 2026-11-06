@@ -24,7 +24,7 @@ export default function RecommendationResults({today,data,odds,now=Date.now()}) 
     </div>
     <h2>{sport!=='all' && `${SPORT_NAMES[sport]} · `}{result.settled.length ? <>최근 추천 {result.settled.length}건 중 <strong>{result.hit}건 적중</strong></> : '추천 결과를 기다리고 있어요'}</h2>
     <p className="recommendation-result-scope">당시 추천 정책 기준 · 이전 정책 기록 포함. 현재 55%·배당 1.50 이상 정책만의 성적이 아닙니다.</p>
-    <p className="recommendation-result-rules">최근 90일 사전 보존 기록 · {sport==='all'?'전체 종목':'선택한 종목'}에서 공식 결과 확정된 최근 최대 10건 · 진행 중·무효 제외</p>
+    <p className="recommendation-result-rules">최근 90일 사전 보존 기록 · 경기당 마지막 추천 한 건 · {sport==='all'?'전체 종목':'선택한 종목'}의 공식 결과 확정 경기 최대 10개 · 진행 중·무효 제외</p>
     {result.settled.length ? <>
       <ul className="recommendation-result-sports" aria-label="최근 추천 내 종목별 적중">
         {sports.map(s => <li key={s.name}>{s.name} · {s.total}건 중 {s.hit}건 적중</li>)}

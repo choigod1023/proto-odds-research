@@ -4,13 +4,24 @@ const sportKey = row => RECOMMENDATION_SPORTS.includes(row.sport) ? row.sport : 
 
 /** Only archived pre-T30 roster entries count. Never infer old membership. */
 export function recommendationResults(today, data, odds, now = Date.now(), sport = 'all') {
-  const all = [];
+  const latest = new Map();
   for (const entry of Object.values(today?.recommendation_history || {})) {
     const kickoff = Date.parse(entry.kickoff_at), published = Date.parse(entry.published_at);
     const recorded = Date.parse(entry.recorded_at);
     if (entry.recommended !== true || !entry.id || !Number.isFinite(kickoff)
         || !Number.isFinite(published) || !Number.isFinite(recorded)
         || Math.max(published, recorded) >= kickoff - 30*60000 || published > now || recorded > now) continue;
+    const key = entry.home && entry.away
+      ? JSON.stringify([kickoff, entry.sport, entry.league, entry.home, entry.away])
+      : entry.id;
+    const prior = latest.get(key);
+    // Choose the last published recommendation before looking at any result.
+    if (!prior || (published - prior.published || recorded - prior.recorded
+        || entry.id.localeCompare(prior.entry.id)) > 0) {
+      latest.set(key, {entry, kickoff, published, recorded});
+    }
+  }
+  const archived = [...latest.values()].map(({entry, kickoff}) => {
     const game = (data?.result_games || [...(data?.live || []), ...(data?.past || [])]).find(g =>
       g.home === entry.home && g.away === entry.away && g.sport === entry.sport
       && g.league === entry.league && g.date === entry.date && String(g.round) === String(entry.round));
@@ -33,9 +44,8 @@ export function recommendationResults(today, data, odds, now = Date.now(), sport
         outcome = {state:option.적중?'hit':'miss',source:'official'};
     }
     if (outcome.source !== 'official' || kickoff > now) outcome = {state:'pending'};
-    all.push({...entry,game, outcome, kickoff});
-  }
-  const archived = [...new Map(all.map(r=>[r.id,r])).values()];
+    return {...entry,game, outcome, kickoff};
+  });
   // Filter the entire eligible archive BEFORE selecting the latest ten.
   const unique = archived.filter(r => sport === 'all' || sportKey(r) === sport);
   const settled = unique.filter(r=>['hit','miss'].includes(r.outcome.state))

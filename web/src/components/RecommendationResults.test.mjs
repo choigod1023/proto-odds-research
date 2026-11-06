@@ -10,7 +10,7 @@ test('count headline, small scope, labeled tiles and honest empty state',async()
     const now=Date.parse('2026-09-06T15:00:00+09:00');
     const history=Object.fromEntries(Array.from({length:10},(_,i)=>[i,{id:String(i),recommended:true,
       kickoff_at:'2026-09-06T12:00:00+09:00',published_at:'2026-09-06T09:00:00+09:00',recorded_at:'2026-09-06T09:00:00+09:00',
-      result:i<7?'hit':'miss',result_source:'official',home:'H',away:'A'}]));
+      result:i<7?'hit':'miss',result_source:'official',home:`H${i}`,away:'A'}]));
     const html=renderToStaticMarkup(createElement(View,{today:{recommendation_history:history},now}));
     assert.match(html,/최근 추천 10건 중/);assert.match(html,/7건 적중/);
     assert.match(html,/aria-label="최근 추천 결과 종목 선택"/);
@@ -18,6 +18,7 @@ test('count headline, small scope, labeled tiles and honest empty state',async()
     for (const label of ['축구','야구','농구','배구','아이스하키']) assert.ok(html.includes(`>${label}</button>`));
     assert.match(html,/class="recommendation-result-scope">당시 추천 정책 기준/);
     assert.match(html,/현재 55%·배당 1.50 이상 정책만의 성적이 아닙니다/);
+    assert.match(html,/경기당 마지막 추천 한 건/);
     assert.equal((html.match(/aria-haspopup="dialog"/g)||[]).length,10);
     assert.doesNotMatch(html.match(/<h2>.*?<\/h2>/)[0],/%/);
     const empty=renderToStaticMarkup(createElement(View,{now}));
