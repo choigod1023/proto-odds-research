@@ -73,7 +73,9 @@ def _receipt_evidence(receipt, instant, bodies):
     """Reparse retained exact bytes when the bounded local slot still holds them."""
     if bodies is None:
         return "parsed_only"
-    path = receipt_body_slot(bodies, receipt["body_sha256"])
+    digest = receipt["body_sha256"]
+    archived_body = bodies / (digest + ".html.gz")
+    path = archived_body if archived_body.is_file() else receipt_body_slot(bodies, digest)
     try:
         with gzip.open(path, "rb") as handle:
             body = handle.read(MAX_RECEIPT_BODY + 1)
