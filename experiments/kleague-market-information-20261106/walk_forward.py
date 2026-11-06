@@ -33,6 +33,10 @@ def classwise(features):
     return (features[:, :, None, None] * np.eye(3)[None, None, :, :]).reshape(n, 3 * d, 3)
 
 
+def dirichlet_regressors(log_winner, league_bias):
+    return np.column_stack([league_bias, centered(log_winner)[:, :2]])
+
+
 def design(rows):
     n = len(rows)
     quotes = [row["quotes"] for row in rows]
@@ -42,7 +46,7 @@ def design(rows):
     league = np.array([1 if row["league"] == 1 else -1 for row in rows])
     league_bias = np.column_stack([np.ones(n), league])
     bias_temperature = np.concatenate([temperature, classwise(league_bias)], axis=1)
-    dirichlet = np.column_stack([league_bias, centered(log_winner)[:, :2]])
+    dirichlet = dirichlet_regressors(log_winner, league_bias)
     total = np.array([quote["total"]["odds"] for quote in quotes])
     handicap = np.array([quote["handicap"]["odds"] for quote in quotes])
     extra = np.column_stack([

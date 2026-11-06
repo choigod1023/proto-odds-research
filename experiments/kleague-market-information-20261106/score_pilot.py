@@ -30,7 +30,7 @@ def collect(evidence, league, year=2026, month=11):
     return receipt, document["data"]["scheduleList"]
 
 
-def settle(frozen, schedules, *, expected=14, allow_rescheduled=False):
+def settle(frozen, schedules, *, expected=14, allow_rescheduled=False, challenger="poisson_three"):
     fixtures = frozen["fixtures"]
     if (not fixtures or (expected is not None and len(fixtures) != expected)
             or len({row["official_fixture_id"] for row in fixtures}) != len(fixtures)):
@@ -77,7 +77,7 @@ def settle(frozen, schedules, *, expected=14, allow_rescheduled=False):
         metrics = {model: {"mean_log_score": float(result["log_score"].mean()), "hits": int(result["hit"].sum()),
                            "roi": float(result["pnl"].mean())} for model, result in values.items()}
         metrics["paired_log_gain_nats"] = float(
-            (values["poisson_three"]["log_score"] - values["winner_implied"]["log_score"]).mean())
+            (values[challenger]["log_score"] - values["winner_implied"]["log_score"]).mean())
     return {"n_frozen": len(fixtures), "n_joined": len(joined), "unresolved": waiting, "metrics": metrics,
             "joined": joined}
 

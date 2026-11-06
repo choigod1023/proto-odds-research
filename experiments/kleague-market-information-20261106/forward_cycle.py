@@ -33,7 +33,7 @@ def load_parser(directory):
     return parser
 
 
-def capture(directory, parser, year, round_no):
+def capture(directory, parser, year, round_no, *, parse_snapshot=None):
     round_id = (year % 100) * 10000 + round_no
     params = {"gmId": "G101", "gmTs": str(round_id), "gameYear": str(year), "_sbmInfo": {"debugMode": "false"}}
     headers = {"Referer": "https://www.betman.co.kr/main/mainPage/gamebuy/gameSlip.do",
@@ -55,7 +55,7 @@ def capture(directory, parser, year, round_no):
     (directory / meta["body_file"]).write_bytes(gzip.compress(raw, mtime=0))
     metadata = directory / "betman.json"
     metadata.write_bytes(encoded(meta))
-    return parser.pregame_snapshot(metadata)
+    return (parse_snapshot or parser.pregame_snapshot)(metadata)
 
 
 def schedule_key(row):

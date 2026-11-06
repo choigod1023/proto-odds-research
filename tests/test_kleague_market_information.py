@@ -127,3 +127,64 @@ def test_walk_forward_ignores_results_inside_embargo_and_test_week(monkeypatch):
     assert replay["selected"] == target["selected"]
     assert replay["predictions"] == target["predictions"]
     assert replay["train_n"] == target["train_n"]
+
+
+def test_dirichlet_frozen_coefficients_reproduce_historical_design_without_extra_markets(monkeypatch, tmp_path):
+    monkeypatch.syspath_prepend(str(ROOT))
+    import prospective_dirichlet as cycle
+    from walk_forward import design
+
+    rows = list(map(json.loads, (ROOT / "historical.picks.jsonl").read_bytes().splitlines()))
+    logp, design_by_model, _ = design(rows)
+    winner_only = [dict(league=r["league"], quotes={"winner": r["quotes"]["winner"]}) for r in rows]
+    winner_logp, winner_matrix = cycle.winner_design(winner_only)
+    np.testing.assert_array_equal(winner_logp, logp)
+    np.testing.assert_array_equal(winner_matrix, design_by_model["dirichlet"])
+    target = tmp_path / "model.json"
+    np.testing.assert_allclose(cycle.prepare(target)["coefficients"], json.loads(cycle.MODEL.read_bytes())["coefficients"],
+                               atol=1e-8)
+    with pytest.raises(FileExistsError):
+        cycle.prepare(target)
+
+
+def test_dirichlet_uses_separate_immutable_forecasts_and_official_results(monkeypatch, tmp_path):
+    monkeypatch.syspath_prepend(str(ROOT))
+    import prospective_dirichlet as cycle
+
+    original = cycle.pilot()["fixtures"][0]
+    kickoff = "2026-11-09T19:30:00+09:00"
+    before = datetime.fromisoformat("2026-11-09T08:00:00+00:00")
+    monkeypatch.setattr(cycle, "now", lambda: before)
+    monkeypatch.setattr(cycle, "load_parser", lambda _: None)
+    quotes = {"winner": {"odds": [2.0, 3.0, 4.0],
+                         "sale_ends_ms": datetime.fromisoformat(kickoff).timestamp() * 1000}}
+    new = {"league": "K1", "kickoff_kst": kickoff, "home_team_id": "K01", "away_team_id": "K02",
+           "quotes": quotes}
+    official = {"leagueId": 1, "gameId": 987, "homeTeam": "K01", "awayTeam": "K02",
+                "gameDate": "2026.11.09", "gameTime": "19:30", "endYn": "N"}
+    old_game = int(original["official_fixture_id"].split(":")[-1])
+    old_division = int(original["league"][1:])
+    day, time = original["kickoff_kst"][:16].split("T")
+    old_schedule = {"leagueId": old_division, "gameId": old_game, "homeTeam": original["home_team_id"],
+                    "awayTeam": original["away_team_id"], "gameDate": day.replace("-", "."), "gameTime": time,
+                    "endYn": "N"}
+    monkeypatch.setattr(cycle, "collect", lambda _, league, *_period: ({}, [
+        r for r in (official, old_schedule) if r["leagueId"] == league]))
+    monkeypatch.setattr(cycle, "capture", lambda _, __, ___, number, **____: {
+        "round": 260000 + number, "received_at_utc": before.isoformat(), "fixtures": [original, new]})
+    assert cycle.capture_round(tmp_path, 133)["n_frozen"] == 1
+    assert cycle.capture_round(tmp_path, 133)["status"] == "already_frozen"
+    assert cycle.capture_round(tmp_path, 134)["n_frozen"] == 0
+    batch, = cycle.saved(tmp_path)
+    row, = batch["fixtures"]
+    assert row["official_fixture_id"] == "kleague:2026:1:987"
+    assert set(row["probabilities"]) == {cycle.BASELINE, cycle.CANDIDATE}
+    assert all(np.isclose(sum(p), 1) for p in row["probabilities"].values())
+    assert "outcome" not in row
+
+    receipt = {"received_at_utc": "2026-11-09T13:00:00+00:00", "sha256": "official"}
+    official.update(gameStatus="FE", endYn="Y", homeGoal=0, awayGoal=0)
+    result = cycle.settle(batch, {(1, 2026, 11): (receipt, [official])}, expected=None, challenger=cycle.CANDIDATE)
+    p = row["probabilities"]
+    assert np.isclose(result["metrics"]["paired_log_gain_nats"], np.log(p[cycle.CANDIDATE][1] / p[cycle.BASELINE][1]))
+    assert result["joined"][0]["probabilities"] == p
