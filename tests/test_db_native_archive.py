@@ -5,6 +5,7 @@ import csv
 import gzip
 import sqlite3
 import sys
+from datetime import datetime
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -135,14 +136,16 @@ def test_snapshots_persist_each_round_without_exports(database, monkeypatch):
         if rnd == 106:
             # The preceding round is already durable before the next fetch.
             assert database.counts()["odds_snapshots"] >= 1
-        return wisetoto.parse_rows(html(), year, rnd)
+        return (wisetoto.parse_rows(html(), year, rnd),
+                datetime.fromisoformat(snapshot._now()), html().encode())
 
-    monkeypatch.setattr(snapshot, "_fetch", fetch)
+    monkeypatch.setattr(snapshot, "_fetch_observation", fetch)
     assert snapshot.snap(2026, [105, 106]) == 0
     assert len(snapshot._load_last(2026, 105)) == 1
     monkeypatch.setattr(snapshot, "_now", lambda: "2026-09-01T10:01:00+00:00")
-    monkeypatch.setattr(snapshot, "_fetch", lambda sess, year, rnd:
-                        wisetoto.parse_rows(html(odds="1.75"), year, rnd))
+    monkeypatch.setattr(snapshot, "_fetch_observation", lambda sess, year, rnd:
+                        (wisetoto.parse_rows(html(odds="1.75"), year, rnd),
+                         datetime.fromisoformat(snapshot._now()), html(odds="1.75").encode()))
     assert snapshot.snap(2026, [105]) == 1
     assert database.counts()["odds_snapshots"] == 3
     changes = database.events("odds_changes")
