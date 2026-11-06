@@ -58,6 +58,56 @@ def packet(snapshot):
     if set(x["row"].get("history_coverage",{}))!={"home","away"} or any(c.get("status")!="complete" for c in x["row"]["history_coverage"].values()):raise ValueError("verified history coverage incomplete")
     return {k:copy.deepcopy(x[k]) for k in ("event","row","announcement","evidence")}
 
+def capture_lineup_revisions(state, official, games, quotes, clock, infer, report):
+    from research.kbo_forward.lineup_m0 import capture_path, revision_anchor
+    from research.kbo_forward.lineup_revisions import CUTOFF
+    from research.m1_service.observer import _verify_archives
+
+    report["revised_m0_captured_this_run"] = 0
+    report["lineup_revision_excluded"] = []
+    for game in games:
+        fixture = event(game)
+        game_id = fixture["official_game_id"]
+        if clock() > ledger.moment(fixture["kickoff_at"]) - CUTOFF:
+            continue
+        try:
+            probe = official.fetch_lineup(game["source"])
+            markets = [q for q in quotes if q["official_game_id"] == game_id
+                       and q["kind"] == "full_game_2way"]
+            if not markets:
+                continue
+            _, receipt = probe
+            revision = revision_anchor(official, game, receipt, clock())
+            if not revision or all(ledger.read(capture_path(state, revision, q["market_id"]))
+                                   for q in markets):
+                continue
+            snapshot = official.snapshot(game)
+            if not snapshot.get("source_verified"):
+                report["lineup_revision_excluded"].append(
+                    {"official_game_id": game_id, "reasons": snapshot.get("missing", ["unverified_source"])}
+                )
+                continue
+            actual_receipt = snapshot["lineup_receipt"]
+            if actual_receipt != receipt:
+                revision = revision_anchor(official, game, actual_receipt, clock())
+                if not revision:
+                    continue
+            payload = packet(snapshot)
+            _verify_archives(payload, official.root, clock())
+            payload["lineup_revision"] = revision
+            for quote in markets:
+                path = capture_path(state, revision, quote["market_id"])
+                if ledger.read(path):
+                    continue
+                payload["market"], payload["evidence"]["odds"] = price_packet(quote, state, payload["event"])
+                record = ledger.capture(payload, path, clock=clock, infer=infer)
+                report["revised_m0_captured_this_run"] += int(record is not None)
+        except Exception as exc:
+            report["lineup_revision_excluded"].append(
+                {"official_game_id": game_id, "error_type": type(exc).__name__, "reason": str(exc)[:300]}
+            )
+
+
 def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.infer_frozen,m1_state=None,watch_lineup_revisions=False):
     state=Path(state);state.mkdir(parents=True,exist_ok=True)
     with single_writer(state/"observer.lock") as owned:
@@ -132,8 +182,6 @@ def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.
                         )
                     )
                     if already_unpriced or already_priced:
-                        if watch_lineup_revisions and clock()<=ledger.moment(event(g)["kickoff_at"])-timedelta(minutes=30):
-                            official.fetch_lineup(g["source"])
                         continue
                     s=official.snapshot(g)
                     if not s.get("source_verified"):
@@ -171,6 +219,8 @@ def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.
                         try:m1_observer.settle(r)
                         except Exception as exc:report.setdefault('m1_candidate_excluded',[]).append({'official_game_id':e['official_game_id'],'reason':str(exc)[:300]})
                 except Exception as exc:report["excluded"].append({"official_game_id":e["official_game_id"],"result_error_type":type(exc).__name__,"reason":str(exc)[:300]})
+            if watch_lineup_revisions:
+                capture_lineup_revisions(state, official, selected, price_result["quotes"], clock, infer, report)
             report["requests"]=getattr(official,"count",0)
         except Exception as exc:
             report.update(status="failed",error_type=type(exc).__name__,reason=str(exc)[:300]);report["requests"]=getattr(official,"count",0)
@@ -196,11 +246,14 @@ def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.
 
 def main():
     ap=argparse.ArgumentParser();ap.add_argument("--state",type=Path,default=DEFAULT_STATE);ap.add_argument("--status",action="store_true");ap.add_argument('--m1-state',type=Path,help='opt-in separate frozen M1 rehearsal; never promotes operating picks')
-    ap.add_argument("--watch-lineup-revisions", action="store_true", help="keep collecting raw research receipts after the first forecast")
+    ap.add_argument("--watch-lineup-revisions", action="store_true", help="collect revision receipts and freeze separate verified research forecasts")
     args=ap.parse_args()
     if args.status:
         print(json.dumps(ledger.summary(args.state/"paired-ledger.jsonl"),ensure_ascii=False));return
     result=run_once(args.state,m1_state=args.m1_state,watch_lineup_revisions=args.watch_lineup_revisions)
-    print(json.dumps({k:result.get(k) for k in ("status","captured_this_run","unpriced_this_run","settled_this_run","requests")},ensure_ascii=False))
+    keys = ("status", "captured_this_run", "unpriced_this_run", "settled_this_run", "requests")
+    if args.watch_lineup_revisions:
+        keys += ("revised_m0_captured_this_run", "lineup_revision_excluded")
+    print(json.dumps({k:result.get(k) for k in keys},ensure_ascii=False))
     if result["status"]=="failed":sys.exit(1)
 if __name__=="__main__":main()
