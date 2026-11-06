@@ -107,3 +107,23 @@ def test_forward_deduplicates_matches_and_updates_only_result_block(monkeypatch,
     content = manuscript.read_text(encoding="utf-8")
     assert content.startswith(f"Before\n{START}") and content.endswith(f"{END}\nAfter\n")
     assert "공식 정산 1개" in content and "-0.58779" in content
+
+
+def test_walk_forward_ignores_results_inside_embargo_and_test_week(monkeypatch):
+    monkeypatch.syspath_prepend(str(ROOT))
+    import walk_forward
+
+    monkeypatch.setattr(walk_forward, "MIN_TRAIN", 20)
+    monkeypatch.setattr(walk_forward, "MIN_VALIDATION", 12)
+    monkeypatch.setattr(walk_forward, "L2_STRENGTHS", (0.50,))
+    raw = (ROOT / "historical.picks.jsonl").read_bytes().splitlines()[:90]
+    rows = list(map(json.loads, raw))
+    original = walk_forward.predict(rows)
+    target = original[-1]
+    assert target["selected"] is not None
+    changed = [row | {"outcome": (row["outcome"] + 1) % 3}
+               if row["kickoff_kst"][:10] >= target["train_before"] else row for row in rows]
+    replay = walk_forward.predict(changed)[-1]
+    assert replay["selected"] == target["selected"]
+    assert replay["predictions"] == target["predictions"]
+    assert replay["train_n"] == target["train_n"]
