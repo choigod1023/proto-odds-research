@@ -854,6 +854,7 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
     ? pregameRecommendation(pick?.o, marketRecommendations, g.options || opts) : null;
   const oddsOption = recommendation?.option ?? pick?.o;
   const oddsGrade = recommendation ? gradeOf(grades, recommendation.price) : pick?.g;
+  const pickPrice = Number(pick?.o?.배당);
   const Row = "button";
   const Surface = detailOnly ? "div" : Card;
   return (
@@ -907,7 +908,11 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
           {recommendation && <small>시장별 사전 픽</small>}
           <b>{phase === "finished"
             ? `${outcome.label}${resultHeadline ? ` · ${resultHeadline}` : ""}`
-            : pick ? `${pick.o.market}${pick.o.label ? ` ${pick.o.label}` : ""} ${pick.o["선택"]}${todayLabel ? ` · ${todayLabel}` : ""}`
+            : pick ? <>
+              {pick.o.market}{pick.o.label ? ` ${pick.o.label}` : ""} {pick.o.선택}
+              {recommendation && Number.isFinite(pickPrice) && pickPrice > 1 && <> · <span className="tnum">{odds(pickPrice)}배</span></>}
+              {todayLabel ? ` · ${todayLabel}` : ""}
+            </>
             : marketRecommendations.length > 0 ? "승패 계열 사전 픽 없음" : forecast?.headline || fallbackForecast}</b>
           {marketRecommendations.length > 0 && <span className="grid gap-1">
             {locked && <small>보존된 시장별 추천</small>}

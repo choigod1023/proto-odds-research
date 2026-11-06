@@ -36,6 +36,7 @@ test('the pregame pick area includes winner, handicap and total in the card and 
       assert.ok(html.indexOf('핸디캡 · 언더오버 사전 픽') < html.indexOf('모델별 픽 비교'));
     } else {
       assert.doesNotMatch(html,/모델별 픽 비교/);
+      assert.match(pickArea,/<b>승패 홈 · <span[^>]*>2\.10배<\/span><\/b>/);
       assert.match(html,/title="경기 추천 1픽 · 핸디캡 H -1\.5 · 핸디홈 배당"[^>]*>.*?핸디홈 · H -1\.5<\/span><span[^>]*>1\.80<\/span>/);
       assert.doesNotMatch(html,/title="승패 · 홈 배당"|배당 기준 확률 45\.0%/);
     }
