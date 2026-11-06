@@ -51,6 +51,36 @@ def test_price_unavailable_records_forecast_but_never_roi(tmp_path):
     assert a['unpriced_this_run']==1 and b['unpriced_this_run']==0 and o.snapshot_calls==1
     assert b['comparison']['captured']==0 and not b['comparison']['groups']
 
+
+def test_opt_in_keeps_raw_lineup_requests_after_first_forecast(tmp_path):
+    x = payload()
+    now = ledger.moment(x['event']['kickoff_at']) - timedelta(hours=2)
+
+    class Observer(Official):
+        def __init__(self, packet):
+            super().__init__(packet)
+            self.lineup_calls = []
+
+        def schedule(self, dates):
+            self.dates = dates
+            return super().schedule(dates)
+
+        def fetch_lineup(self, game):
+            self.lineup_calls.append(game)
+
+    observer = Observer(x)
+    empty_prices = lambda *a: {'quotes': [], 'excluded': [], 'requests': []}
+    runner.run_once(tmp_path, observer, empty_prices, clock=lambda: now, infer=old.fake_infer)
+    path = tmp_path / 'paired-ledger.jsonl'
+    first_forecast = path.read_bytes()
+    runner.run_once(tmp_path, observer, empty_prices, clock=lambda: now + timedelta(minutes=5),
+                    infer=old.fake_infer, watch_lineup_revisions=True)
+    assert observer.lineup_calls == [observer.game['source']]
+    assert observer.snapshot_calls == 1
+    assert len(observer.dates) == 3
+    assert path.read_bytes() == first_forecast
+
+
 def test_postdeadline_run_does_not_backfill_or_fetch_prices(tmp_path):
     x=payload();now=ledger.moment(x['event']['kickoff_at'])-timedelta(minutes=29);o=Official(x)
     def forbidden(*a):raise AssertionError('unnecessary price request')
