@@ -113,7 +113,7 @@ export const marketModelLabel = (model) => ({
 })[model] || model || '미제공';
 const ruleLabel = (item) => ({total_half:'총점 기준 미만/초과',handicap_half:'홈팀 핸디캡 적용 승패',handicap_3way:'홈팀 핸디캡 적용 승무패'})[item.settlement_rule] || '상품별 공식 결과';
 export const validationLabel = (item) => item.validation_status === "validated_profitable"
-  ? "수익성 검증됨" : "자동 추천 · 수익성 미검증";
+  ? "수익성 검증됨" : "수익성 미검증";
 
 export function MarketRecommendationPerformance({ data }) {
   if (!data || !data.by_market) return null;
@@ -135,8 +135,8 @@ export function MarketRecommendationPerformance({ data }) {
 
 export default function MarketRecommendations({ recommendations, onSelect, selected = () => false }) {
   if (!recommendations.length) return null;
-  return <section className="my-3 rounded border border-rule2 p-3" aria-label="시장별 자동 추천">
-    <h3 className="m-0 text-[13px] font-semibold">시장별 자동 추천 · 핸디캡 / 언더오버</h3>
+  return <section className="my-3 rounded border border-rule2 p-3" aria-label="핸디캡 · 언더오버 사전 픽">
+    <h3 className="m-0 text-[13px] font-semibold">핸디캡 · 언더오버 사전 픽</h3>
     {recommendations.map(({item, option, result, saved, capturedAt, generatedAt, comparisonVersion}) => <article className="mt-2 rounded border border-rule2 p-2 text-[12px] leading-6" key={`${item.selection_id}|${item.offer_id}`}>
       <b>{item.market} {item.label} · {item.selection} · 배당 {Number(item.odds).toFixed(2)}배</b>
       <p className="my-1">{saved ? `보존된 경기 전 추천 · 기록 ${capturedAt} · ${resultLabel(result)} · ` : ""}{validationLabel(item)} · 기준점 {item.line} · 정산 {ruleLabel(item)}</p>

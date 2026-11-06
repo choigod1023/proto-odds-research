@@ -14,10 +14,11 @@ test('the pregame pick area includes winner, handicap and total in the card and 
     ...['언더','오버'].map((name,i)=>({게임번호:'2',market:'언더오버',label:'U 2.5',line:2.5,n_way:2,선택:name,배당:i?1.9:1.8,selection_id:`s${i}`,offer_id:`o${i}`,period:'full_game',settlement_scope:'regulation'})),
     ...['핸디홈','핸디원정'].map((name,i)=>({게임번호:'3',market:'핸디캡',label:'H -1.5',line:-1.5,n_way:2,선택:name,배당:i?1.9:1.8,selection_id:`h${i}`,offer_id:`ho${i}`,period:'full_game',settlement_scope:'regulation'})),
   ];
-  const item={selection_id:'s1',offer_id:'o1',market:'언더오버',label:'U 2.5',line:2.5,selection:'오버',odds:1.9,game_no:'2',settlement_rule:'regulation',model:'market-baseline-v1'};
+  const winnerOptions=['홈','원정'].map((name,i)=>({게임번호:'1',market:'승패',n_way:2,선택:name,배당:i?1.7:1.8,시장확률:i?.54:.46,selection_id:`w${i}`,offer_id:`wo${i}`}));
+  const item={selection_id:'s1',offer_id:'o1',market:'언더오버',label:'U 2.5',line:2.5,selection:'오버',odds:1.9,game_no:'2',settlement_rule:'regulation',model:'market-baseline-v1',automatic_recommendation:true};
   const handicap={...item,selection_id:'h0',offer_id:'ho0',market:'핸디캡',label:'H -1.5',line:-1.5,selection:'핸디홈',odds:1.8,game_no:'3'};
-  const g={year:2099,date:'09.06(일) 18:00',round:1,status:'경기전',sport:'bs',league:'리그',home:'홈팀',away:'원정팀',options,market_recommendations:{version:'multi-market-recommendations-v1',items:[item,handicap]}};
-  const props={g,opts:options,wait:false,onSaveBet:()=>{},todayOption:{market:'승패',선택:'홈',배당:1.8,시장확률:.6}};
+  const g={year:2099,date:'09.06(일) 18:00',round:1,status:'경기전',sport:'bs',league:'리그',home:'홈팀',away:'원정팀',options:[...options,...winnerOptions],market_recommendations:{version:'multi-market-recommendations-v1',items:[item,handicap]}};
+  const props={g,opts:g.options,wait:false,onSaveBet:()=>{},todayOption:winnerOptions[0]};
   for(const detailOnly of [false,true]){
     const html=renderToStaticMarkup(createElement(Game,{...props,detailOnly}));
     const pickArea = detailOnly
@@ -28,14 +29,16 @@ test('the pregame pick area includes winner, handicap and total in the card and 
     assert.match(pickArea,/언더오버 U 2\.5 · 오버/);
     assert.match(pickArea,/핸디캡 H -1\.5 · 핸디홈/);
     assert.match(pickArea,/1\.90배.*시장 배당 기준/);
+    assert.equal((html.match(/aria-label="경기 추천 1픽"/g) || []).length,1);
+    assert.match(pickArea,/경기 추천 1픽.*핸디캡 H -1\.5 · 핸디홈.*배당 기준 적중 가능성 51\.4%/);
     if(detailOnly) {
       assert.match(html,/이 추천을 선택 목록에 담기/);
-      assert.ok(html.indexOf('시장별 자동 추천') < html.indexOf('모델별 픽 비교'));
+      assert.ok(html.indexOf('핸디캡 · 언더오버 사전 픽') < html.indexOf('모델별 픽 비교'));
     } else {
       assert.doesNotMatch(html,/모델별 픽 비교/);
     }
   }
-  const marketOnly=renderToStaticMarkup(createElement(Game,{...props,todayOption:null,detailOnly:true}));
+  const marketOnly=renderToStaticMarkup(createElement(Game,{...props,g:{...g,options},opts:options,todayOption:null,detailOnly:true}));
   assert.match(marketOnly,/승패 계열 사전 픽 없음.*언더오버 U 2\.5 · 오버/);
   const fixture=Object.fromEntries(['sport','league','home','away','year','round','date'].map(k=>[k,g[k]]));
   const record={prediction_snapshot_id:'snapshot',fixture,kickoff:'2099-09-06T09:00:00Z',captured_at:'2099-09-06T07:00:00Z',
@@ -52,6 +55,7 @@ test('the pregame pick area includes winner, handicap and total in the card and 
       assert.doesNotMatch(html,/2099-09-06T07:00:00Z|순손익/);
     }
     assert.doesNotMatch(html,/이 추천을 선택 목록에 담기/);
+    assert.doesNotMatch(html,/경기 추천 1픽/);
   }
   const savedRender = (recordChanges, gameChanges={}) => renderToStaticMarkup(createElement(Game,{...props,detailOnly:true,g:{...g,...gameChanges,market_prediction_record:{...record,...recordChanges}}}));
   assert.match(savedRender({}, {options:[]}),/보존된 경기 전 추천/);
@@ -71,7 +75,7 @@ test('the pregame pick area includes winner, handicap and total in the card and 
   assert.doesNotMatch(savedRender({market_recommendation_results:[{...record.market_recommendation_results[0],net_units:'900'}]}),/순손익/);
   Date.now=()=>Date.parse('2099-09-06T00:00:00Z');
   for(const extra of [{stale:true},{wait:true},{g:{...g,_liveStarted:true}},{g:{...g,_liveOddsChanged:true}}]){
-    const html=renderToStaticMarkup(createElement(Game,{...props,...extra}));assert.doesNotMatch(html,/언더오버 U 2\.5 · 오버|핸디캡 H -1\.5 · 핸디홈/);
+    const html=renderToStaticMarkup(createElement(Game,{...props,...extra}));assert.doesNotMatch(html,/경기 추천 1픽|언더오버 U 2\.5 · 오버|핸디캡 H -1\.5 · 핸디홈/);
   }
  } finally {Date.now=now;await server.close();}
 });
