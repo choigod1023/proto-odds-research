@@ -35,7 +35,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from snapshot import find_live_rounds, _fetch, UNPLAYED  # noqa: E402
+from snapshot import find_live_rounds, _fetch, _fetch_observation, UNPLAYED  # noqa: E402
 from wisetoto import CACHE, _session                   # noqa: E402
 from runtime_db import (export_site_artifacts, load_artifact,  # noqa: E402
                         persist_artifact, database_enabled, RuntimeDatabase)
@@ -88,8 +88,22 @@ def _recent_scan_rounds(previous_odds: dict | None) -> list[int] | None:
 
 
 def collect(previous_picks: dict | None = None,
-            previous_odds: dict | None = None) -> dict:
+            previous_odds: dict | None = None, *, price_windows=None) -> dict:
     sess = _session()
+
+    def fetch(year, rnd):
+        if price_windows is None:
+            return _fetch(sess, year, rnd)
+        observation = _fetch_observation(sess, year, rnd)
+        if observation is None:
+            return None
+        rows, received, body = observation
+        try:
+            price_windows.observe(year, rnd, rows, received, body)
+        except Exception as exc:  # Research evidence must not block odds publishing.
+            print(f"  [{year}-{rnd}] K리그 배당 원본 보존 실패: {type(exc).__name__}", flush=True)
+        return rows
+
     season = datetime.now(timezone.utc).year
     hint = _start_hint(season)
     # 운영에서는 회차 HTML 캐시를 쓰지 않는다. 캐시가 비었다고 1회차부터
@@ -125,7 +139,7 @@ def collect(previous_picks: dict | None = None,
         probe |= {max(rounds) + 1}
     for known in sorted(probe - set(rounds)):
         try:
-            rows = _fetch(sess, season, known)
+            rows = fetch(season, known)
         except Exception as e:                          # noqa: BLE001
             print(f"  [{season}-{known}] 회차 확인 오류 {type(e).__name__}: {e}",
                   flush=True)
@@ -143,7 +157,7 @@ def collect(previous_picks: dict | None = None,
     n = 0
     for rnd in rounds:
         try:
-            rows = _fetch(sess, season, rnd)
+            rows = fetch(season, rnd)
         except Exception as e:                          # noqa: BLE001
             print(f"  [{season}-{rnd}] 오류 {type(e).__name__}: {e}", flush=True)
             continue
@@ -270,11 +284,16 @@ def main(argv: list[str]) -> int:
     while True:
         exit_code = 0
         try:
-            previous_picks = (RuntimeDatabase().odds_collection_context()
-                              if database_enabled() else load_artifact("picks_v2", PICKS))
+            database = RuntimeDatabase() if database_enabled() else None
+            previous_picks = (database.odds_collection_context()
+                              if database is not None else load_artifact("picks_v2", PICKS))
             previous_odds = load_artifact("live_odds", OUT)
+            options = {}
+            if database is not None and "--kleague-price-windows" in argv:
+                from kleague_price_windows import PriceWindowRecorder
+                options["price_windows"] = PriceWindowRecorder(database)
             data = merge_market_history(
-                collect(previous_picks, previous_odds), previous_odds,
+                collect(previous_picks, previous_odds, **options), previous_odds,
                 previous_picks,
             )
             # refresh_once reads the latest DB revision again. Release the collection
