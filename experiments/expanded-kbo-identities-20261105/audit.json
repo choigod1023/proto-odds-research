@@ -1,0 +1,47 @@
+{
+  "betman_body_count": 220,
+  "excluded": [
+    {
+      "fixture_id": "score:2026-08-02:롯데:삼성",
+      "reason": "kickoff_mismatch:18:00:18:30"
+    },
+    {
+      "fixture_id": "score:2026-08-29:삼성:KT",
+      "reason": "kickoff_mismatch:18:00:18:40"
+    }
+  ],
+  "excluded_count": 2,
+  "existing_official_count": 470,
+  "forecast_count": 709,
+  "inputs": {
+    "features": {
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbeffects\\experiments\\kbo-player-effects-20261103\\inputs\\features.jsonl.gz",
+      "sha256": "346edd84d4388f99cc9ad23f7ad530560445b4bc06b6f841b745dabffa1a8b42"
+    },
+    "forecast": {
+      "path": "C:\\Users\\user\\Documents\\Codex\\market-outcomes-validation\\experiments\\m1-service-20261104\\replay\\replayed-709.json.gz",
+      "sha256": "a597ed066534cce92cfb12606d7f7e3edcc7591b3a6c1d17e7777c8b04e8b505"
+    },
+    "fresh": {
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbeffects\\experiments\\kbo-player-effects-20261103\\inputs\\fresh-history-2026-official_batting_and_starter.jsonl.gz",
+      "sha256": "82a1e8630fafe2e790957900e981512fdfc8e70ba536f5ced45ac785f79dc706"
+    },
+    "manifest": {
+      "path": "C:\\Users\\user\\Documents\\Codex\\expanded-kbo-markets-20261105-worker\\experiments\\expanded-kbo-markets-20261105\\source-manifest.json",
+      "sha256": "2c0aa54de595bf9d44e0f4bba2d0666f1eaf311294c17667313b28a6415d9b5f"
+    },
+    "official_raw": {
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbtdata\\experiments\\kbo-actual-training-data-20261103\\actual-starters-2026-raw.jsonl.gz",
+      "sha256": "1203fd23f085c56937273a5a42c0780ed703369b4b715fededc0a84a82e6e786"
+    },
+    "starters": {
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbtmodel\\experiments\\kbo-actual-training-20261103\\inputs\\actual-starters-2026.jsonl.gz",
+      "sha256": "ca1d6dbc1f301ee4681237cbf1cd864df5079a3ab9364c2f7b50129a9574a69d"
+    }
+  },
+  "note": "Identity evidence is retrospective; no historical receipt or execution price proven. Scores and outcomes are not used.",
+  "official_schedule_body_count": 66,
+  "resolved_count": 237,
+  "schema": "kbo-synthetic-identity-audit-v1",
+  "synthetic_count": 239
+}
