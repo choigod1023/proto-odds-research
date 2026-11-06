@@ -65,7 +65,7 @@ LOOPERS = [
                  "--league", "all"], 21600),
     # 실시간 배당 — 화면 배당이 한 시간씩 낡지 않게 한다(아래 serve_live 가 서빙).
     # 2026-08-13 실측: 화면 배당 231건 중 73건(32%)이 원천과 달랐다.
-    ("실시간 배당", [sys.executable, "-u", "src/odds_live.py", "--collect-only"], 60),
+    ("실시간 배당", [sys.executable, "-u", "src/odds_live.py", "--collect-only", "--kleague-price-windows"], 60),
     # Reclaim the collector's heap before starting decision refresh in a fresh
     # process. Both stages share the odds/recommendation lock.
 ]

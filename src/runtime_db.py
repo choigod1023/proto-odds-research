@@ -174,9 +174,11 @@ class RuntimeDatabase(DatasetStore):
         return connection
 
     @contextmanager
-    def transaction(self) -> Iterator[sqlite3.Connection]:
+    def transaction(self, *, busy_timeout_ms: int | None = None) -> Iterator[sqlite3.Connection]:
         connection = self.connect()
         try:
+            if busy_timeout_ms is not None:
+                connection.execute(f"PRAGMA busy_timeout={int(busy_timeout_ms)}")
             connection.execute("BEGIN IMMEDIATE")
             yield connection
             connection.commit()
@@ -593,7 +595,7 @@ class RuntimeDatabase(DatasetStore):
                     writer.writerow(json.loads(row["payload_json"]))
             temporary.replace(path)
 
-    def insert_odds(self, rows: Iterable[Mapping[str, Any]]) -> int:
+    def insert_odds(self, rows: Iterable[Mapping[str, Any]], *, busy_timeout_ms: int | None = None) -> int:
         values = []
         for row in rows:
             try:
@@ -613,7 +615,7 @@ class RuntimeDatabase(DatasetStore):
                 continue
         if not values:
             return 0
-        with self.transaction() as connection:
+        with self.transaction(busy_timeout_ms=busy_timeout_ms) as connection:
             before = connection.total_changes
             connection.executemany(
                 """INSERT OR IGNORE INTO odds_snapshots
