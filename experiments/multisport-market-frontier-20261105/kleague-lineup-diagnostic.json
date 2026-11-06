@@ -1,0 +1,141 @@
+{
+  "audit_sha256": "453af381d0b8eda5e7cef11303cc4ae9a3b660ea8f573c8be236d52c9ce0589e",
+  "groups": {
+    "K리그1/handicap": {
+      "fixtures": 113,
+      "models": {
+        "market": {
+          "n": 226,
+          "hits": 158,
+          "accuracy": 0.6991150442477876,
+          "roi": -0.012256637168141597
+        },
+        "poisson_team": {
+          "n": 226,
+          "hits": 161,
+          "accuracy": 0.7123893805309734,
+          "roi": 0.026902654867256633
+        },
+        "poisson_lineup": {
+          "n": 226,
+          "hits": 161,
+          "accuracy": 0.7123893805309734,
+          "roi": 0.026902654867256633
+        }
+      }
+    },
+    "K리그1/total": {
+      "fixtures": 113,
+      "models": {
+        "market": {
+          "n": 113,
+          "hits": 59,
+          "accuracy": 0.5221238938053098,
+          "roi": -0.15584070796460175
+        },
+        "poisson_team": {
+          "n": 113,
+          "hits": 52,
+          "accuracy": 0.46017699115044247,
+          "roi": -0.21460176991150443
+        },
+        "poisson_lineup": {
+          "n": 113,
+          "hits": 52,
+          "accuracy": 0.46017699115044247,
+          "roi": -0.21460176991150443
+        }
+      }
+    },
+    "K리그2/handicap": {
+      "fixtures": 125,
+      "models": {
+        "market": {
+          "n": 125,
+          "hits": 64,
+          "accuracy": 0.512,
+          "roi": -0.12128
+        },
+        "poisson_team_only": {
+          "n": 125,
+          "hits": 65,
+          "accuracy": 0.52,
+          "roi": -0.07704000000000001
+        },
+        "dc_team_only": {
+          "n": 125,
+          "hits": 65,
+          "accuracy": 0.52,
+          "roi": -0.07704000000000001
+        },
+        "poisson_lineup": {
+          "n": 125,
+          "hits": 65,
+          "accuracy": 0.52,
+          "roi": -0.07704000000000001
+        },
+        "dc_lineup": {
+          "n": 125,
+          "hits": 65,
+          "accuracy": 0.52,
+          "roi": -0.07704000000000001
+        }
+      }
+    },
+    "K리그2/total": {
+      "fixtures": 126,
+      "models": {
+        "market": {
+          "n": 126,
+          "hits": 67,
+          "accuracy": 0.5317460317460317,
+          "roi": -0.13095238095238096
+        },
+        "poisson_team_only": {
+          "n": 126,
+          "hits": 71,
+          "accuracy": 0.5634920634920635,
+          "roi": -0.03412698412698413
+        },
+        "dc_team_only": {
+          "n": 126,
+          "hits": 70,
+          "accuracy": 0.5555555555555556,
+          "roi": -0.05103174603174604
+        },
+        "poisson_lineup": {
+          "n": 126,
+          "hits": 68,
+          "accuracy": 0.5396825396825397,
+          "roi": -0.057380952380952394
+        },
+        "dc_lineup": {
+          "n": 126,
+          "hits": 67,
+          "accuracy": 0.5317460317460317,
+          "roi": -0.07444444444444445
+        }
+      }
+    }
+  },
+  "retrospective": true,
+  "pregame_receipt_proven": false,
+  "inputs": {
+    "K1": {
+      "revision": "b8f5117d2ec60f37562007dcd050c62d35e25d23",
+      "path": "experiments/kleague1-lineup-challenger-20261103/frozen/predictions.jsonl",
+      "sha256": "9cd736435efb23f76758f373498792e9fcacc83621436e324717e77c5abc0"
+    },
+    "K2": {
+      "revision": "32c690e55df246db5e122a037fd4eda0cd2c6be2",
+      "path": "experiments/kleague2-lineup-challenger-20261103/frozen/test-predictions.jsonl",
+      "sha256": "96006c7e54b335d31bc83a4c7bebc2ed07b31427ff196a567a9d41a8257a8872"
+    },
+    "K2_DC": {
+      "revision": "32c690e55df246db5e122a037fd4eda0cd2c6be2",
+      "path": "experiments/kleague2-dc-lineup-20261103/frozen/test-predictions.jsonl",
+      "sha256": "b3e4783a3af9c16fdd04dfe6d37b9a565f765091c4b18b7805cf6ba62e13bf13"
+    }
+  },
+  "method": "Use existing fixture-ID bridge to locate the hash-pinned official round; match team IDs, directions, archived score, product number, line and official settlement. K1 model output has game date only; K2 output also has kickoff. Apply score_pick to Poisson or Dixon–Coles probability masses and settle one unit per eligible product."
+}
