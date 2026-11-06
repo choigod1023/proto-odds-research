@@ -24,3 +24,16 @@ scripts/evaluate_draw_calibration_holdout.py text eol=lf
 /research/m1_service/frozen-models.json -text
 /experiments/m1-service-20261104/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 /experiments/m1-input-readiness-20261104/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+
+# Expanded replay manifests and output hashes must survive Windows checkouts.
+/experiments/expanded-multimarket-study-20261105/**/*.json text eol=lf
+/experiments/expanded-multimarket-study-20261105/*.json text eol=lf
+/experiments/expanded-kbo-markets-20261105/**/*.json text eol=lf
+/experiments/expanded-kbo-markets-20261105/*.json text eol=lf
+/experiments/expanded-market-baselines-20261105/*.json text eol=lf
+/experiments/expanded-market-baselines-20261105/*.jsonl text eol=lf
+/experiments/expanded-kbo-identities-20261105/*.json text eol=lf
+
+# Preserve the original captured manifest bytes pinned by the identity resolver.
+/experiments/expanded-multimarket-study-20261105/source-manifest.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+/experiments/expanded-kbo-markets-20261105/source-manifest.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

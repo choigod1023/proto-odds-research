@@ -1,0 +1,3996 @@
+{
+  "inputs": {
+    "features": {
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbeffects\\experiments\\kbo-player-effects-20261103\\inputs\\features.jsonl.gz",
+      "sha256": "346edd84d4388f99cc9ad23f7ad530560445b4bc06b6f841b745dabffa1a8b42"
+    },
+    "forecast": {
+      "path": "C:\\Users\\user\\Documents\\Codex\\market-outcomes-validation\\experiments\\m1-service-20261104\\replay\\replayed-709.json.gz",
+      "sha256": "a597ed066534cce92cfb12606d7f7e3edcc7591b3a6c1d17e7777c8b04e8b505"
+    },
+    "fresh": {
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbeffects\\experiments\\kbo-player-effects-20261103\\inputs\\fresh-history-2026-official_batting_and_starter.jsonl.gz",
+      "sha256": "82a1e8630fafe2e790957900e981512fdfc8e70ba536f5ced45ac785f79dc706"
+    },
+    "manifest": {
+      "path": "C:\\Users\\user\\Documents\\Codex\\expanded-kbo-markets-20261105-worker\\experiments\\expanded-kbo-markets-20261105\\source-manifest.json",
+      "sha256": "2c0aa54de595bf9d44e0f4bba2d0666f1eaf311294c17667313b28a6415d9b5f"
+    },
+    "official_raw": {
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbtdata\\experiments\\kbo-actual-training-data-20261103\\actual-starters-2026-raw.jsonl.gz",
+      "sha256": "1203fd23f085c56937273a5a42c0780ed703369b4b715fededc0a84a82e6e786"
+    },
+    "starters": {
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbtmodel\\experiments\\kbo-actual-training-20261103\\inputs\\actual-starters-2026.jsonl.gz",
+      "sha256": "ca1d6dbc1f301ee4681237cbf1cd864df5079a3ab9364c2f7b50129a9574a69d"
+    }
+  },
+  "resolved": {
+    "score:2026-07-28:LG:키움": {
+      "away_id": "WO",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-88.body.gz",
+          "body_sha256": "3d6845160b8d635fa0625559e64b3013e5e0d3234ea2adcb2b61115e06ba3bf9",
+          "round": "260088"
+        }
+      ],
+      "event_date": "2026-07-28",
+      "home_id": "LG",
+      "kickoff": "2026-07-28T18:30:00+09:00",
+      "official_game_id": "20260728WOLG0",
+      "schedule_body_sha256": "f971b1f6d219e01cdabbe77f89b0fa7e3f1b138fd4006329fc1f8198a2b9ff17"
+    },
+    "score:2026-07-28:NC:KT": {
+      "away_id": "KT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-88.body.gz",
+          "body_sha256": "3d6845160b8d635fa0625559e64b3013e5e0d3234ea2adcb2b61115e06ba3bf9",
+          "round": "260088"
+        }
+      ],
+      "event_date": "2026-07-28",
+      "home_id": "NC",
+      "kickoff": "2026-07-28T18:30:00+09:00",
+      "official_game_id": "20260728KTNC0",
+      "schedule_body_sha256": "f971b1f6d219e01cdabbe77f89b0fa7e3f1b138fd4006329fc1f8198a2b9ff17"
+    },
+    "score:2026-07-28:SSG:두산": {
+      "away_id": "OB",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-88.body.gz",
+          "body_sha256": "3d6845160b8d635fa0625559e64b3013e5e0d3234ea2adcb2b61115e06ba3bf9",
+          "round": "260088"
+        }
+      ],
+      "event_date": "2026-07-28",
+      "home_id": "SK",
+      "kickoff": "2026-07-28T18:30:00+09:00",
+      "official_game_id": "20260728OBSK0",
+      "schedule_body_sha256": "f971b1f6d219e01cdabbe77f89b0fa7e3f1b138fd4006329fc1f8198a2b9ff17"
+    },
+    "score:2026-07-28:삼성:KIA": {
+      "away_id": "HT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-88.body.gz",
+          "body_sha256": "3d6845160b8d635fa0625559e64b3013e5e0d3234ea2adcb2b61115e06ba3bf9",
+          "round": "260088"
+        }
+      ],
+      "event_date": "2026-07-28",
+      "home_id": "SS",
+      "kickoff": "2026-07-28T18:30:00+09:00",
+      "official_game_id": "20260728HTSS0",
+      "schedule_body_sha256": "f971b1f6d219e01cdabbe77f89b0fa7e3f1b138fd4006329fc1f8198a2b9ff17"
+    },
+    "score:2026-07-28:한화:롯데": {
+      "away_id": "LT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-88.body.gz",
+          "body_sha256": "3d6845160b8d635fa0625559e64b3013e5e0d3234ea2adcb2b61115e06ba3bf9",
+          "round": "260088"
+        }
+      ],
+      "event_date": "2026-07-28",
+      "home_id": "HH",
+      "kickoff": "2026-07-28T18:30:00+09:00",
+      "official_game_id": "20260728LTHH0",
+      "schedule_body_sha256": "f971b1f6d219e01cdabbe77f89b0fa7e3f1b138fd4006329fc1f8198a2b9ff17"
+    },
+    "score:2026-07-29:LG:키움": {
+      "away_id": "WO",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-88.body.gz",
+          "body_sha256": "3d6845160b8d635fa0625559e64b3013e5e0d3234ea2adcb2b61115e06ba3bf9",
+          "round": "260088"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-89.body.gz",
+          "body_sha256": "8f490976e19b8916e193d474395a0026609f44b5c4764531f1eb6d05dc7a5256",
+          "round": "260089"
+        }
+      ],
+      "event_date": "2026-07-29",
+      "home_id": "LG",
+      "kickoff": "2026-07-29T18:30:00+09:00",
+      "official_game_id": "20260729WOLG0",
+      "schedule_body_sha256": "79e873a1ae25055f39e41e8e87a21c2456b14fb1662ac65a8da52453437dcb6b"
+    },
+    "score:2026-07-29:NC:KT": {
+      "away_id": "KT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-88.body.gz",
+          "body_sha256": "3d6845160b8d635fa0625559e64b3013e5e0d3234ea2adcb2b61115e06ba3bf9",
+          "round": "260088"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-89.body.gz",
+          "body_sha256": "8f490976e19b8916e193d474395a0026609f44b5c4764531f1eb6d05dc7a5256",
+          "round": "260089"
+        }
+      ],
+      "event_date": "2026-07-29",
+      "home_id": "NC",
+      "kickoff": "2026-07-29T18:30:00+09:00",
+      "official_game_id": "20260729KTNC0",
+      "schedule_body_sha256": "79e873a1ae25055f39e41e8e87a21c2456b14fb1662ac65a8da52453437dcb6b"
+    },
+    "score:2026-07-29:SSG:두산": {
+      "away_id": "OB",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-88.body.gz",
+          "body_sha256": "3d6845160b8d635fa0625559e64b3013e5e0d3234ea2adcb2b61115e06ba3bf9",
+          "round": "260088"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-89.body.gz",
+          "body_sha256": "8f490976e19b8916e193d474395a0026609f44b5c4764531f1eb6d05dc7a5256",
+          "round": "260089"
+        }
+      ],
+      "event_date": "2026-07-29",
+      "home_id": "SK",
+      "kickoff": "2026-07-29T18:30:00+09:00",
+      "official_game_id": "20260729OBSK0",
+      "schedule_body_sha256": "79e873a1ae25055f39e41e8e87a21c2456b14fb1662ac65a8da52453437dcb6b"
+    },
+    "score:2026-07-29:삼성:KIA": {
+      "away_id": "HT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-88.body.gz",
+          "body_sha256": "3d6845160b8d635fa0625559e64b3013e5e0d3234ea2adcb2b61115e06ba3bf9",
+          "round": "260088"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-89.body.gz",
+          "body_sha256": "8f490976e19b8916e193d474395a0026609f44b5c4764531f1eb6d05dc7a5256",
+          "round": "260089"
+        }
+      ],
+      "event_date": "2026-07-29",
+      "home_id": "SS",
+      "kickoff": "2026-07-29T18:30:00+09:00",
+      "official_game_id": "20260729HTSS0",
+      "schedule_body_sha256": "79e873a1ae25055f39e41e8e87a21c2456b14fb1662ac65a8da52453437dcb6b"
+    },
+    "score:2026-07-29:한화:롯데": {
+      "away_id": "LT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-88.body.gz",
+          "body_sha256": "3d6845160b8d635fa0625559e64b3013e5e0d3234ea2adcb2b61115e06ba3bf9",
+          "round": "260088"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-89.body.gz",
+          "body_sha256": "8f490976e19b8916e193d474395a0026609f44b5c4764531f1eb6d05dc7a5256",
+          "round": "260089"
+        }
+      ],
+      "event_date": "2026-07-29",
+      "home_id": "HH",
+      "kickoff": "2026-07-29T18:30:00+09:00",
+      "official_game_id": "20260729LTHH0",
+      "schedule_body_sha256": "79e873a1ae25055f39e41e8e87a21c2456b14fb1662ac65a8da52453437dcb6b"
+    },
+    "score:2026-07-30:LG:키움": {
+      "away_id": "WO",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-89.body.gz",
+          "body_sha256": "8f490976e19b8916e193d474395a0026609f44b5c4764531f1eb6d05dc7a5256",
+          "round": "260089"
+        }
+      ],
+      "event_date": "2026-07-30",
+      "home_id": "LG",
+      "kickoff": "2026-07-30T18:30:00+09:00",
+      "official_game_id": "20260730WOLG0",
+      "schedule_body_sha256": "5e1d547ed67196d499ed7d554e9658f5f4b6e44eea85432510240877729af9a7"
+    },
+    "score:2026-07-30:NC:KT": {
+      "away_id": "KT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-89.body.gz",
+          "body_sha256": "8f490976e19b8916e193d474395a0026609f44b5c4764531f1eb6d05dc7a5256",
+          "round": "260089"
+        }
+      ],
+      "event_date": "2026-07-30",
+      "home_id": "NC",
+      "kickoff": "2026-07-30T18:30:00+09:00",
+      "official_game_id": "20260730KTNC0",
+      "schedule_body_sha256": "5e1d547ed67196d499ed7d554e9658f5f4b6e44eea85432510240877729af9a7"
+    },
+    "score:2026-07-30:SSG:두산": {
+      "away_id": "OB",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-89.body.gz",
+          "body_sha256": "8f490976e19b8916e193d474395a0026609f44b5c4764531f1eb6d05dc7a5256",
+          "round": "260089"
+        }
+      ],
+      "event_date": "2026-07-30",
+      "home_id": "SK",
+      "kickoff": "2026-07-30T18:30:00+09:00",
+      "official_game_id": "20260730OBSK0",
+      "schedule_body_sha256": "5e1d547ed67196d499ed7d554e9658f5f4b6e44eea85432510240877729af9a7"
+    },
+    "score:2026-07-30:삼성:KIA": {
+      "away_id": "HT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-89.body.gz",
+          "body_sha256": "8f490976e19b8916e193d474395a0026609f44b5c4764531f1eb6d05dc7a5256",
+          "round": "260089"
+        }
+      ],
+      "event_date": "2026-07-30",
+      "home_id": "SS",
+      "kickoff": "2026-07-30T18:30:00+09:00",
+      "official_game_id": "20260730HTSS0",
+      "schedule_body_sha256": "5e1d547ed67196d499ed7d554e9658f5f4b6e44eea85432510240877729af9a7"
+    },
+    "score:2026-07-30:한화:롯데": {
+      "away_id": "LT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-89.body.gz",
+          "body_sha256": "8f490976e19b8916e193d474395a0026609f44b5c4764531f1eb6d05dc7a5256",
+          "round": "260089"
+        }
+      ],
+      "event_date": "2026-07-30",
+      "home_id": "HH",
+      "kickoff": "2026-07-30T18:30:00+09:00",
+      "official_game_id": "20260730LTHH0",
+      "schedule_body_sha256": "5e1d547ed67196d499ed7d554e9658f5f4b6e44eea85432510240877729af9a7"
+    },
+    "score:2026-07-31:KT:한화": {
+      "away_id": "HH",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-89.body.gz",
+          "body_sha256": "8f490976e19b8916e193d474395a0026609f44b5c4764531f1eb6d05dc7a5256",
+          "round": "260089"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-90.body.gz",
+          "body_sha256": "7285ffb8a7bfb726cfff85e5854d482e847b95c3600b73df16984aee78392aa3",
+          "round": "260090"
+        }
+      ],
+      "event_date": "2026-07-31",
+      "home_id": "KT",
+      "kickoff": "2026-07-31T18:30:00+09:00",
+      "official_game_id": "20260731HHKT0",
+      "schedule_body_sha256": "f4a1ccacad4f358666e7f6f26cbeaae120bace244adea80cca402ce94e26ff20"
+    },
+    "score:2026-07-31:NC:KIA": {
+      "away_id": "HT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-89.body.gz",
+          "body_sha256": "8f490976e19b8916e193d474395a0026609f44b5c4764531f1eb6d05dc7a5256",
+          "round": "260089"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-90.body.gz",
+          "body_sha256": "7285ffb8a7bfb726cfff85e5854d482e847b95c3600b73df16984aee78392aa3",
+          "round": "260090"
+        }
+      ],
+      "event_date": "2026-07-31",
+      "home_id": "NC",
+      "kickoff": "2026-07-31T18:30:00+09:00",
+      "official_game_id": "20260731HTNC0",
+      "schedule_body_sha256": "f4a1ccacad4f358666e7f6f26cbeaae120bace244adea80cca402ce94e26ff20"
+    },
+    "score:2026-07-31:두산:LG": {
+      "away_id": "LG",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-89.body.gz",
+          "body_sha256": "8f490976e19b8916e193d474395a0026609f44b5c4764531f1eb6d05dc7a5256",
+          "round": "260089"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-90.body.gz",
+          "body_sha256": "7285ffb8a7bfb726cfff85e5854d482e847b95c3600b73df16984aee78392aa3",
+          "round": "260090"
+        }
+      ],
+      "event_date": "2026-07-31",
+      "home_id": "OB",
+      "kickoff": "2026-07-31T18:30:00+09:00",
+      "official_game_id": "20260731LGOB0",
+      "schedule_body_sha256": "f4a1ccacad4f358666e7f6f26cbeaae120bace244adea80cca402ce94e26ff20"
+    },
+    "score:2026-07-31:롯데:삼성": {
+      "away_id": "SS",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-89.body.gz",
+          "body_sha256": "8f490976e19b8916e193d474395a0026609f44b5c4764531f1eb6d05dc7a5256",
+          "round": "260089"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-90.body.gz",
+          "body_sha256": "7285ffb8a7bfb726cfff85e5854d482e847b95c3600b73df16984aee78392aa3",
+          "round": "260090"
+        }
+      ],
+      "event_date": "2026-07-31",
+      "home_id": "LT",
+      "kickoff": "2026-07-31T18:30:00+09:00",
+      "official_game_id": "20260731SSLT0",
+      "schedule_body_sha256": "f4a1ccacad4f358666e7f6f26cbeaae120bace244adea80cca402ce94e26ff20"
+    },
+    "score:2026-07-31:키움:SSG": {
+      "away_id": "SK",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-89.body.gz",
+          "body_sha256": "8f490976e19b8916e193d474395a0026609f44b5c4764531f1eb6d05dc7a5256",
+          "round": "260089"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-90.body.gz",
+          "body_sha256": "7285ffb8a7bfb726cfff85e5854d482e847b95c3600b73df16984aee78392aa3",
+          "round": "260090"
+        }
+      ],
+      "event_date": "2026-07-31",
+      "home_id": "WO",
+      "kickoff": "2026-07-31T18:30:00+09:00",
+      "official_game_id": "20260731SKWO0",
+      "schedule_body_sha256": "f4a1ccacad4f358666e7f6f26cbeaae120bace244adea80cca402ce94e26ff20"
+    },
+    "score:2026-08-01:KT:한화": {
+      "away_id": "HH",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-90.body.gz",
+          "body_sha256": "7285ffb8a7bfb726cfff85e5854d482e847b95c3600b73df16984aee78392aa3",
+          "round": "260090"
+        }
+      ],
+      "event_date": "2026-08-01",
+      "home_id": "KT",
+      "kickoff": "2026-08-01T18:00:00+09:00",
+      "official_game_id": "20260801HHKT0",
+      "schedule_body_sha256": "4f2e34bfa8bbf12c7e349e0637c6d5bb5e2a9469795d3f6952e41034017ba158"
+    },
+    "score:2026-08-01:두산:LG": {
+      "away_id": "LG",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-90.body.gz",
+          "body_sha256": "7285ffb8a7bfb726cfff85e5854d482e847b95c3600b73df16984aee78392aa3",
+          "round": "260090"
+        }
+      ],
+      "event_date": "2026-08-01",
+      "home_id": "OB",
+      "kickoff": "2026-08-01T18:00:00+09:00",
+      "official_game_id": "20260801LGOB0",
+      "schedule_body_sha256": "4f2e34bfa8bbf12c7e349e0637c6d5bb5e2a9469795d3f6952e41034017ba158"
+    },
+    "score:2026-08-01:키움:SSG": {
+      "away_id": "SK",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-90.body.gz",
+          "body_sha256": "7285ffb8a7bfb726cfff85e5854d482e847b95c3600b73df16984aee78392aa3",
+          "round": "260090"
+        }
+      ],
+      "event_date": "2026-08-01",
+      "home_id": "WO",
+      "kickoff": "2026-08-01T18:00:00+09:00",
+      "official_game_id": "20260801SKWO0",
+      "schedule_body_sha256": "4f2e34bfa8bbf12c7e349e0637c6d5bb5e2a9469795d3f6952e41034017ba158"
+    },
+    "score:2026-08-02:KT:한화": {
+      "away_id": "HH",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-90.body.gz",
+          "body_sha256": "7285ffb8a7bfb726cfff85e5854d482e847b95c3600b73df16984aee78392aa3",
+          "round": "260090"
+        }
+      ],
+      "event_date": "2026-08-02",
+      "home_id": "KT",
+      "kickoff": "2026-08-02T18:00:00+09:00",
+      "official_game_id": "20260802HHKT0",
+      "schedule_body_sha256": "bc5d93a11df7ef046d0c216f68eb686df9889ab7f5948ab928c8e5b5e0b52d68"
+    },
+    "score:2026-08-02:두산:LG": {
+      "away_id": "LG",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-90.body.gz",
+          "body_sha256": "7285ffb8a7bfb726cfff85e5854d482e847b95c3600b73df16984aee78392aa3",
+          "round": "260090"
+        }
+      ],
+      "event_date": "2026-08-02",
+      "home_id": "OB",
+      "kickoff": "2026-08-02T18:00:00+09:00",
+      "official_game_id": "20260802LGOB0",
+      "schedule_body_sha256": "bc5d93a11df7ef046d0c216f68eb686df9889ab7f5948ab928c8e5b5e0b52d68"
+    },
+    "score:2026-08-02:키움:SSG": {
+      "away_id": "SK",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-90.body.gz",
+          "body_sha256": "7285ffb8a7bfb726cfff85e5854d482e847b95c3600b73df16984aee78392aa3",
+          "round": "260090"
+        }
+      ],
+      "event_date": "2026-08-02",
+      "home_id": "WO",
+      "kickoff": "2026-08-02T14:00:00+09:00",
+      "official_game_id": "20260802SKWO0",
+      "schedule_body_sha256": "bc5d93a11df7ef046d0c216f68eb686df9889ab7f5948ab928c8e5b5e0b52d68"
+    },
+    "score:2026-08-04:SSG:LG": {
+      "away_id": "LG",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-91.body.gz",
+          "body_sha256": "f03de52d555ea2d2fdb666b516e250ec8ad13c0bfa17cbf39d7558cc7ee645c5",
+          "round": "260091"
+        }
+      ],
+      "event_date": "2026-08-04",
+      "home_id": "SK",
+      "kickoff": "2026-08-04T18:30:00+09:00",
+      "official_game_id": "20260804LGSK0",
+      "schedule_body_sha256": "f231908792c7387bb4e3289f917188e12615785b17af55817d46ee221bf6847d"
+    },
+    "score:2026-08-04:롯데:키움": {
+      "away_id": "WO",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-91.body.gz",
+          "body_sha256": "f03de52d555ea2d2fdb666b516e250ec8ad13c0bfa17cbf39d7558cc7ee645c5",
+          "round": "260091"
+        }
+      ],
+      "event_date": "2026-08-04",
+      "home_id": "LT",
+      "kickoff": "2026-08-04T18:30:00+09:00",
+      "official_game_id": "20260804WOLT0",
+      "schedule_body_sha256": "f231908792c7387bb4e3289f917188e12615785b17af55817d46ee221bf6847d"
+    },
+    "score:2026-08-04:삼성:한화": {
+      "away_id": "HH",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-91.body.gz",
+          "body_sha256": "f03de52d555ea2d2fdb666b516e250ec8ad13c0bfa17cbf39d7558cc7ee645c5",
+          "round": "260091"
+        }
+      ],
+      "event_date": "2026-08-04",
+      "home_id": "SS",
+      "kickoff": "2026-08-04T18:30:00+09:00",
+      "official_game_id": "20260804HHSS0",
+      "schedule_body_sha256": "f231908792c7387bb4e3289f917188e12615785b17af55817d46ee221bf6847d"
+    },
+    "score:2026-08-11:KIA:삼성": {
+      "away_id": "SS",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-94.body.gz",
+          "body_sha256": "5da9b4862777baa7dec984b4641e23e1910f97ecd1c752685932466cd24a056c",
+          "round": "260094"
+        }
+      ],
+      "event_date": "2026-08-11",
+      "home_id": "HT",
+      "kickoff": "2026-08-11T19:00:00+09:00",
+      "official_game_id": "20260811SSHT0",
+      "schedule_body_sha256": "d4d8f081760dcd0d796b9161666f2a797e15cf1069a007e5ad6adbd6fa73b279"
+    },
+    "score:2026-08-11:NC:KT": {
+      "away_id": "KT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-94.body.gz",
+          "body_sha256": "5da9b4862777baa7dec984b4641e23e1910f97ecd1c752685932466cd24a056c",
+          "round": "260094"
+        }
+      ],
+      "event_date": "2026-08-11",
+      "home_id": "NC",
+      "kickoff": "2026-08-11T19:00:00+09:00",
+      "official_game_id": "20260811KTNC0",
+      "schedule_body_sha256": "d4d8f081760dcd0d796b9161666f2a797e15cf1069a007e5ad6adbd6fa73b279"
+    },
+    "score:2026-08-11:SSG:롯데": {
+      "away_id": "LT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-94.body.gz",
+          "body_sha256": "5da9b4862777baa7dec984b4641e23e1910f97ecd1c752685932466cd24a056c",
+          "round": "260094"
+        }
+      ],
+      "event_date": "2026-08-11",
+      "home_id": "SK",
+      "kickoff": "2026-08-11T19:00:00+09:00",
+      "official_game_id": "20260811LTSK0",
+      "schedule_body_sha256": "d4d8f081760dcd0d796b9161666f2a797e15cf1069a007e5ad6adbd6fa73b279"
+    },
+    "score:2026-08-11:두산:한화": {
+      "away_id": "HH",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-94.body.gz",
+          "body_sha256": "5da9b4862777baa7dec984b4641e23e1910f97ecd1c752685932466cd24a056c",
+          "round": "260094"
+        }
+      ],
+      "event_date": "2026-08-11",
+      "home_id": "OB",
+      "kickoff": "2026-08-11T19:00:00+09:00",
+      "official_game_id": "20260811HHOB0",
+      "schedule_body_sha256": "d4d8f081760dcd0d796b9161666f2a797e15cf1069a007e5ad6adbd6fa73b279"
+    },
+    "score:2026-08-11:키움:LG": {
+      "away_id": "LG",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-94.body.gz",
+          "body_sha256": "5da9b4862777baa7dec984b4641e23e1910f97ecd1c752685932466cd24a056c",
+          "round": "260094"
+        }
+      ],
+      "event_date": "2026-08-11",
+      "home_id": "WO",
+      "kickoff": "2026-08-11T19:00:00+09:00",
+      "official_game_id": "20260811LGWO0",
+      "schedule_body_sha256": "d4d8f081760dcd0d796b9161666f2a797e15cf1069a007e5ad6adbd6fa73b279"
+    },
+    "score:2026-08-12:KIA:삼성": {
+      "away_id": "SS",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-94.body.gz",
+          "body_sha256": "5da9b4862777baa7dec984b4641e23e1910f97ecd1c752685932466cd24a056c",
+          "round": "260094"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-95.body.gz",
+          "body_sha256": "d368fe0f0d3d817558178cdcf2e2409942e0b8c8b3a486bb79e619dbe9e0ba79",
+          "round": "260095"
+        }
+      ],
+      "event_date": "2026-08-12",
+      "home_id": "HT",
+      "kickoff": "2026-08-12T19:00:00+09:00",
+      "official_game_id": "20260812SSHT0",
+      "schedule_body_sha256": "b30c34b47ca1e665b74fc890f313cc04d380d00c34c3b92f78daf55f46142014"
+    },
+    "score:2026-08-12:NC:KT": {
+      "away_id": "KT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-94.body.gz",
+          "body_sha256": "5da9b4862777baa7dec984b4641e23e1910f97ecd1c752685932466cd24a056c",
+          "round": "260094"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-95.body.gz",
+          "body_sha256": "d368fe0f0d3d817558178cdcf2e2409942e0b8c8b3a486bb79e619dbe9e0ba79",
+          "round": "260095"
+        }
+      ],
+      "event_date": "2026-08-12",
+      "home_id": "NC",
+      "kickoff": "2026-08-12T19:00:00+09:00",
+      "official_game_id": "20260812KTNC0",
+      "schedule_body_sha256": "b30c34b47ca1e665b74fc890f313cc04d380d00c34c3b92f78daf55f46142014"
+    },
+    "score:2026-08-12:SSG:롯데": {
+      "away_id": "LT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-94.body.gz",
+          "body_sha256": "5da9b4862777baa7dec984b4641e23e1910f97ecd1c752685932466cd24a056c",
+          "round": "260094"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-95.body.gz",
+          "body_sha256": "d368fe0f0d3d817558178cdcf2e2409942e0b8c8b3a486bb79e619dbe9e0ba79",
+          "round": "260095"
+        }
+      ],
+      "event_date": "2026-08-12",
+      "home_id": "SK",
+      "kickoff": "2026-08-12T19:00:00+09:00",
+      "official_game_id": "20260812LTSK0",
+      "schedule_body_sha256": "b30c34b47ca1e665b74fc890f313cc04d380d00c34c3b92f78daf55f46142014"
+    },
+    "score:2026-08-12:두산:한화": {
+      "away_id": "HH",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-94.body.gz",
+          "body_sha256": "5da9b4862777baa7dec984b4641e23e1910f97ecd1c752685932466cd24a056c",
+          "round": "260094"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-95.body.gz",
+          "body_sha256": "d368fe0f0d3d817558178cdcf2e2409942e0b8c8b3a486bb79e619dbe9e0ba79",
+          "round": "260095"
+        }
+      ],
+      "event_date": "2026-08-12",
+      "home_id": "OB",
+      "kickoff": "2026-08-12T19:00:00+09:00",
+      "official_game_id": "20260812HHOB0",
+      "schedule_body_sha256": "b30c34b47ca1e665b74fc890f313cc04d380d00c34c3b92f78daf55f46142014"
+    },
+    "score:2026-08-12:키움:LG": {
+      "away_id": "LG",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-94.body.gz",
+          "body_sha256": "5da9b4862777baa7dec984b4641e23e1910f97ecd1c752685932466cd24a056c",
+          "round": "260094"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-95.body.gz",
+          "body_sha256": "d368fe0f0d3d817558178cdcf2e2409942e0b8c8b3a486bb79e619dbe9e0ba79",
+          "round": "260095"
+        }
+      ],
+      "event_date": "2026-08-12",
+      "home_id": "WO",
+      "kickoff": "2026-08-12T19:00:00+09:00",
+      "official_game_id": "20260812LGWO0",
+      "schedule_body_sha256": "b30c34b47ca1e665b74fc890f313cc04d380d00c34c3b92f78daf55f46142014"
+    },
+    "score:2026-08-13:KIA:삼성": {
+      "away_id": "SS",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-95.body.gz",
+          "body_sha256": "d368fe0f0d3d817558178cdcf2e2409942e0b8c8b3a486bb79e619dbe9e0ba79",
+          "round": "260095"
+        }
+      ],
+      "event_date": "2026-08-13",
+      "home_id": "HT",
+      "kickoff": "2026-08-13T19:00:00+09:00",
+      "official_game_id": "20260813SSHT0",
+      "schedule_body_sha256": "3d5004a1f78531a69ee3f1cf229b9216c909f4c93bbf64625e22c03fdc4a99d3"
+    },
+    "score:2026-08-13:NC:KT": {
+      "away_id": "KT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-95.body.gz",
+          "body_sha256": "d368fe0f0d3d817558178cdcf2e2409942e0b8c8b3a486bb79e619dbe9e0ba79",
+          "round": "260095"
+        }
+      ],
+      "event_date": "2026-08-13",
+      "home_id": "NC",
+      "kickoff": "2026-08-13T19:00:00+09:00",
+      "official_game_id": "20260813KTNC0",
+      "schedule_body_sha256": "3d5004a1f78531a69ee3f1cf229b9216c909f4c93bbf64625e22c03fdc4a99d3"
+    },
+    "score:2026-08-13:SSG:롯데": {
+      "away_id": "LT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-95.body.gz",
+          "body_sha256": "d368fe0f0d3d817558178cdcf2e2409942e0b8c8b3a486bb79e619dbe9e0ba79",
+          "round": "260095"
+        }
+      ],
+      "event_date": "2026-08-13",
+      "home_id": "SK",
+      "kickoff": "2026-08-13T19:00:00+09:00",
+      "official_game_id": "20260813LTSK0",
+      "schedule_body_sha256": "3d5004a1f78531a69ee3f1cf229b9216c909f4c93bbf64625e22c03fdc4a99d3"
+    },
+    "score:2026-08-13:두산:한화": {
+      "away_id": "HH",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-95.body.gz",
+          "body_sha256": "d368fe0f0d3d817558178cdcf2e2409942e0b8c8b3a486bb79e619dbe9e0ba79",
+          "round": "260095"
+        }
+      ],
+      "event_date": "2026-08-13",
+      "home_id": "OB",
+      "kickoff": "2026-08-13T19:00:00+09:00",
+      "official_game_id": "20260813HHOB0",
+      "schedule_body_sha256": "3d5004a1f78531a69ee3f1cf229b9216c909f4c93bbf64625e22c03fdc4a99d3"
+    },
+    "score:2026-08-13:키움:LG": {
+      "away_id": "LG",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-95.body.gz",
+          "body_sha256": "d368fe0f0d3d817558178cdcf2e2409942e0b8c8b3a486bb79e619dbe9e0ba79",
+          "round": "260095"
+        }
+      ],
+      "event_date": "2026-08-13",
+      "home_id": "WO",
+      "kickoff": "2026-08-13T19:00:00+09:00",
+      "official_game_id": "20260813LGWO0",
+      "schedule_body_sha256": "3d5004a1f78531a69ee3f1cf229b9216c909f4c93bbf64625e22c03fdc4a99d3"
+    },
+    "score:2026-08-14:KIA:두산": {
+      "away_id": "OB",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-95.body.gz",
+          "body_sha256": "d368fe0f0d3d817558178cdcf2e2409942e0b8c8b3a486bb79e619dbe9e0ba79",
+          "round": "260095"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-96.body.gz",
+          "body_sha256": "4a65f20d4a5c59a6a9768c473e5d92d2b1f6bf26c2d03c0f22b9acbe1a30a126",
+          "round": "260096"
+        }
+      ],
+      "event_date": "2026-08-14",
+      "home_id": "HT",
+      "kickoff": "2026-08-14T19:00:00+09:00",
+      "official_game_id": "20260814OBHT0",
+      "schedule_body_sha256": "0a2aa2bd6198459ca7ea0ff38bc412e58ad6095481456a4873fab70a953ac5a0"
+    },
+    "score:2026-08-14:KT:키움": {
+      "away_id": "WO",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-95.body.gz",
+          "body_sha256": "d368fe0f0d3d817558178cdcf2e2409942e0b8c8b3a486bb79e619dbe9e0ba79",
+          "round": "260095"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-96.body.gz",
+          "body_sha256": "4a65f20d4a5c59a6a9768c473e5d92d2b1f6bf26c2d03c0f22b9acbe1a30a126",
+          "round": "260096"
+        }
+      ],
+      "event_date": "2026-08-14",
+      "home_id": "KT",
+      "kickoff": "2026-08-14T19:00:00+09:00",
+      "official_game_id": "20260814WOKT0",
+      "schedule_body_sha256": "0a2aa2bd6198459ca7ea0ff38bc412e58ad6095481456a4873fab70a953ac5a0"
+    },
+    "score:2026-08-14:LG:SSG": {
+      "away_id": "SK",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-95.body.gz",
+          "body_sha256": "d368fe0f0d3d817558178cdcf2e2409942e0b8c8b3a486bb79e619dbe9e0ba79",
+          "round": "260095"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-96.body.gz",
+          "body_sha256": "4a65f20d4a5c59a6a9768c473e5d92d2b1f6bf26c2d03c0f22b9acbe1a30a126",
+          "round": "260096"
+        }
+      ],
+      "event_date": "2026-08-14",
+      "home_id": "LG",
+      "kickoff": "2026-08-14T19:00:00+09:00",
+      "official_game_id": "20260814SKLG0",
+      "schedule_body_sha256": "0a2aa2bd6198459ca7ea0ff38bc412e58ad6095481456a4873fab70a953ac5a0"
+    },
+    "score:2026-08-14:롯데:NC": {
+      "away_id": "NC",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-95.body.gz",
+          "body_sha256": "d368fe0f0d3d817558178cdcf2e2409942e0b8c8b3a486bb79e619dbe9e0ba79",
+          "round": "260095"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-96.body.gz",
+          "body_sha256": "4a65f20d4a5c59a6a9768c473e5d92d2b1f6bf26c2d03c0f22b9acbe1a30a126",
+          "round": "260096"
+        }
+      ],
+      "event_date": "2026-08-14",
+      "home_id": "LT",
+      "kickoff": "2026-08-14T19:00:00+09:00",
+      "official_game_id": "20260814NCLT0",
+      "schedule_body_sha256": "0a2aa2bd6198459ca7ea0ff38bc412e58ad6095481456a4873fab70a953ac5a0"
+    },
+    "score:2026-08-14:삼성:한화": {
+      "away_id": "HH",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-95.body.gz",
+          "body_sha256": "d368fe0f0d3d817558178cdcf2e2409942e0b8c8b3a486bb79e619dbe9e0ba79",
+          "round": "260095"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-96.body.gz",
+          "body_sha256": "4a65f20d4a5c59a6a9768c473e5d92d2b1f6bf26c2d03c0f22b9acbe1a30a126",
+          "round": "260096"
+        }
+      ],
+      "event_date": "2026-08-14",
+      "home_id": "SS",
+      "kickoff": "2026-08-14T19:00:00+09:00",
+      "official_game_id": "20260814HHSS0",
+      "schedule_body_sha256": "0a2aa2bd6198459ca7ea0ff38bc412e58ad6095481456a4873fab70a953ac5a0"
+    },
+    "score:2026-08-15:KIA:두산": {
+      "away_id": "OB",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-96.body.gz",
+          "body_sha256": "4a65f20d4a5c59a6a9768c473e5d92d2b1f6bf26c2d03c0f22b9acbe1a30a126",
+          "round": "260096"
+        }
+      ],
+      "event_date": "2026-08-15",
+      "home_id": "HT",
+      "kickoff": "2026-08-15T19:00:00+09:00",
+      "official_game_id": "20260815OBHT0",
+      "schedule_body_sha256": "3ceb8ed628c7396653e6042b5f4bf849f790ec875cc9cc3ad2615dc9ed9d0081"
+    },
+    "score:2026-08-15:KT:키움": {
+      "away_id": "WO",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-96.body.gz",
+          "body_sha256": "4a65f20d4a5c59a6a9768c473e5d92d2b1f6bf26c2d03c0f22b9acbe1a30a126",
+          "round": "260096"
+        }
+      ],
+      "event_date": "2026-08-15",
+      "home_id": "KT",
+      "kickoff": "2026-08-15T19:00:00+09:00",
+      "official_game_id": "20260815WOKT0",
+      "schedule_body_sha256": "3ceb8ed628c7396653e6042b5f4bf849f790ec875cc9cc3ad2615dc9ed9d0081"
+    },
+    "score:2026-08-15:LG:SSG": {
+      "away_id": "SK",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-96.body.gz",
+          "body_sha256": "4a65f20d4a5c59a6a9768c473e5d92d2b1f6bf26c2d03c0f22b9acbe1a30a126",
+          "round": "260096"
+        }
+      ],
+      "event_date": "2026-08-15",
+      "home_id": "LG",
+      "kickoff": "2026-08-15T19:00:00+09:00",
+      "official_game_id": "20260815SKLG0",
+      "schedule_body_sha256": "3ceb8ed628c7396653e6042b5f4bf849f790ec875cc9cc3ad2615dc9ed9d0081"
+    },
+    "score:2026-08-15:롯데:NC": {
+      "away_id": "NC",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-96.body.gz",
+          "body_sha256": "4a65f20d4a5c59a6a9768c473e5d92d2b1f6bf26c2d03c0f22b9acbe1a30a126",
+          "round": "260096"
+        }
+      ],
+      "event_date": "2026-08-15",
+      "home_id": "LT",
+      "kickoff": "2026-08-15T19:00:00+09:00",
+      "official_game_id": "20260815NCLT0",
+      "schedule_body_sha256": "3ceb8ed628c7396653e6042b5f4bf849f790ec875cc9cc3ad2615dc9ed9d0081"
+    },
+    "score:2026-08-15:삼성:한화": {
+      "away_id": "HH",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-96.body.gz",
+          "body_sha256": "4a65f20d4a5c59a6a9768c473e5d92d2b1f6bf26c2d03c0f22b9acbe1a30a126",
+          "round": "260096"
+        }
+      ],
+      "event_date": "2026-08-15",
+      "home_id": "SS",
+      "kickoff": "2026-08-15T19:00:00+09:00",
+      "official_game_id": "20260815HHSS0",
+      "schedule_body_sha256": "3ceb8ed628c7396653e6042b5f4bf849f790ec875cc9cc3ad2615dc9ed9d0081"
+    },
+    "score:2026-08-16:KIA:두산": {
+      "away_id": "OB",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-96.body.gz",
+          "body_sha256": "4a65f20d4a5c59a6a9768c473e5d92d2b1f6bf26c2d03c0f22b9acbe1a30a126",
+          "round": "260096"
+        }
+      ],
+      "event_date": "2026-08-16",
+      "home_id": "HT",
+      "kickoff": "2026-08-16T19:00:00+09:00",
+      "official_game_id": "20260816OBHT0",
+      "schedule_body_sha256": "45a2cdb7b6d38c3c81860d5abf4cbadd012cc0311ab81d44c9d376930f0dd625"
+    },
+    "score:2026-08-16:KT:키움": {
+      "away_id": "WO",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-96.body.gz",
+          "body_sha256": "4a65f20d4a5c59a6a9768c473e5d92d2b1f6bf26c2d03c0f22b9acbe1a30a126",
+          "round": "260096"
+        }
+      ],
+      "event_date": "2026-08-16",
+      "home_id": "KT",
+      "kickoff": "2026-08-16T19:00:00+09:00",
+      "official_game_id": "20260816WOKT0",
+      "schedule_body_sha256": "45a2cdb7b6d38c3c81860d5abf4cbadd012cc0311ab81d44c9d376930f0dd625"
+    },
+    "score:2026-08-16:LG:SSG": {
+      "away_id": "SK",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-96.body.gz",
+          "body_sha256": "4a65f20d4a5c59a6a9768c473e5d92d2b1f6bf26c2d03c0f22b9acbe1a30a126",
+          "round": "260096"
+        }
+      ],
+      "event_date": "2026-08-16",
+      "home_id": "LG",
+      "kickoff": "2026-08-16T19:00:00+09:00",
+      "official_game_id": "20260816SKLG0",
+      "schedule_body_sha256": "45a2cdb7b6d38c3c81860d5abf4cbadd012cc0311ab81d44c9d376930f0dd625"
+    },
+    "score:2026-08-18:LG:KT": {
+      "away_id": "KT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-97.body.gz",
+          "body_sha256": "0d49d05f90ff01c776f95df8d203fb9efd1430914a0f3aac6501c4cc762d1c5b",
+          "round": "260097"
+        }
+      ],
+      "event_date": "2026-08-18",
+      "home_id": "LG",
+      "kickoff": "2026-08-18T19:00:00+09:00",
+      "official_game_id": "20260818KTLG0",
+      "schedule_body_sha256": "62350f88278220c65cc17abc03611874aa1bf7fb54b875826616f5ca50d7649b"
+    },
+    "score:2026-08-18:NC:두산": {
+      "away_id": "OB",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-97.body.gz",
+          "body_sha256": "0d49d05f90ff01c776f95df8d203fb9efd1430914a0f3aac6501c4cc762d1c5b",
+          "round": "260097"
+        }
+      ],
+      "event_date": "2026-08-18",
+      "home_id": "NC",
+      "kickoff": "2026-08-18T19:00:00+09:00",
+      "official_game_id": "20260818OBNC0",
+      "schedule_body_sha256": "62350f88278220c65cc17abc03611874aa1bf7fb54b875826616f5ca50d7649b"
+    },
+    "score:2026-08-18:롯데:키움": {
+      "away_id": "WO",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-97.body.gz",
+          "body_sha256": "0d49d05f90ff01c776f95df8d203fb9efd1430914a0f3aac6501c4cc762d1c5b",
+          "round": "260097"
+        }
+      ],
+      "event_date": "2026-08-18",
+      "home_id": "LT",
+      "kickoff": "2026-08-18T19:00:00+09:00",
+      "official_game_id": "20260818WOLT0",
+      "schedule_body_sha256": "62350f88278220c65cc17abc03611874aa1bf7fb54b875826616f5ca50d7649b"
+    },
+    "score:2026-08-18:삼성:SSG": {
+      "away_id": "SK",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-97.body.gz",
+          "body_sha256": "0d49d05f90ff01c776f95df8d203fb9efd1430914a0f3aac6501c4cc762d1c5b",
+          "round": "260097"
+        }
+      ],
+      "event_date": "2026-08-18",
+      "home_id": "SS",
+      "kickoff": "2026-08-18T19:00:00+09:00",
+      "official_game_id": "20260818SKSS0",
+      "schedule_body_sha256": "62350f88278220c65cc17abc03611874aa1bf7fb54b875826616f5ca50d7649b"
+    },
+    "score:2026-08-18:한화:KIA": {
+      "away_id": "HT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-97.body.gz",
+          "body_sha256": "0d49d05f90ff01c776f95df8d203fb9efd1430914a0f3aac6501c4cc762d1c5b",
+          "round": "260097"
+        }
+      ],
+      "event_date": "2026-08-18",
+      "home_id": "HH",
+      "kickoff": "2026-08-18T19:00:00+09:00",
+      "official_game_id": "20260818HTHH0",
+      "schedule_body_sha256": "62350f88278220c65cc17abc03611874aa1bf7fb54b875826616f5ca50d7649b"
+    },
+    "score:2026-08-19:LG:KT": {
+      "away_id": "KT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-97.body.gz",
+          "body_sha256": "0d49d05f90ff01c776f95df8d203fb9efd1430914a0f3aac6501c4cc762d1c5b",
+          "round": "260097"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-98.body.gz",
+          "body_sha256": "a589b58ed4185f7598ff6d6d6664f216110ae021c755a488fc03b7bc65328e33",
+          "round": "260098"
+        }
+      ],
+      "event_date": "2026-08-19",
+      "home_id": "LG",
+      "kickoff": "2026-08-19T19:00:00+09:00",
+      "official_game_id": "20260819KTLG0",
+      "schedule_body_sha256": "d381ad6c5b8cb99e4a5983d2ac131e18bc11924adc9cbbc5158fe3a41fa2cbfb"
+    },
+    "score:2026-08-19:NC:두산": {
+      "away_id": "OB",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-97.body.gz",
+          "body_sha256": "0d49d05f90ff01c776f95df8d203fb9efd1430914a0f3aac6501c4cc762d1c5b",
+          "round": "260097"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-98.body.gz",
+          "body_sha256": "a589b58ed4185f7598ff6d6d6664f216110ae021c755a488fc03b7bc65328e33",
+          "round": "260098"
+        }
+      ],
+      "event_date": "2026-08-19",
+      "home_id": "NC",
+      "kickoff": "2026-08-19T19:00:00+09:00",
+      "official_game_id": "20260819OBNC0",
+      "schedule_body_sha256": "d381ad6c5b8cb99e4a5983d2ac131e18bc11924adc9cbbc5158fe3a41fa2cbfb"
+    },
+    "score:2026-08-19:롯데:키움": {
+      "away_id": "WO",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-97.body.gz",
+          "body_sha256": "0d49d05f90ff01c776f95df8d203fb9efd1430914a0f3aac6501c4cc762d1c5b",
+          "round": "260097"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-98.body.gz",
+          "body_sha256": "a589b58ed4185f7598ff6d6d6664f216110ae021c755a488fc03b7bc65328e33",
+          "round": "260098"
+        }
+      ],
+      "event_date": "2026-08-19",
+      "home_id": "LT",
+      "kickoff": "2026-08-19T19:00:00+09:00",
+      "official_game_id": "20260819WOLT0",
+      "schedule_body_sha256": "d381ad6c5b8cb99e4a5983d2ac131e18bc11924adc9cbbc5158fe3a41fa2cbfb"
+    },
+    "score:2026-08-19:삼성:SSG": {
+      "away_id": "SK",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-97.body.gz",
+          "body_sha256": "0d49d05f90ff01c776f95df8d203fb9efd1430914a0f3aac6501c4cc762d1c5b",
+          "round": "260097"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-98.body.gz",
+          "body_sha256": "a589b58ed4185f7598ff6d6d6664f216110ae021c755a488fc03b7bc65328e33",
+          "round": "260098"
+        }
+      ],
+      "event_date": "2026-08-19",
+      "home_id": "SS",
+      "kickoff": "2026-08-19T19:00:00+09:00",
+      "official_game_id": "20260819SKSS0",
+      "schedule_body_sha256": "d381ad6c5b8cb99e4a5983d2ac131e18bc11924adc9cbbc5158fe3a41fa2cbfb"
+    },
+    "score:2026-08-19:한화:KIA": {
+      "away_id": "HT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-97.body.gz",
+          "body_sha256": "0d49d05f90ff01c776f95df8d203fb9efd1430914a0f3aac6501c4cc762d1c5b",
+          "round": "260097"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-98.body.gz",
+          "body_sha256": "a589b58ed4185f7598ff6d6d6664f216110ae021c755a488fc03b7bc65328e33",
+          "round": "260098"
+        }
+      ],
+      "event_date": "2026-08-19",
+      "home_id": "HH",
+      "kickoff": "2026-08-19T19:00:00+09:00",
+      "official_game_id": "20260819HTHH0",
+      "schedule_body_sha256": "d381ad6c5b8cb99e4a5983d2ac131e18bc11924adc9cbbc5158fe3a41fa2cbfb"
+    },
+    "score:2026-08-20:NC:두산": {
+      "away_id": "OB",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-98.body.gz",
+          "body_sha256": "a589b58ed4185f7598ff6d6d6664f216110ae021c755a488fc03b7bc65328e33",
+          "round": "260098"
+        }
+      ],
+      "event_date": "2026-08-20",
+      "home_id": "NC",
+      "kickoff": "2026-08-20T19:00:00+09:00",
+      "official_game_id": "20260820OBNC0",
+      "schedule_body_sha256": "e9e81b3b91375d03bc5fb620199f8df6ebfbd6626f9b78740189bd8c074d49ec"
+    },
+    "score:2026-08-20:롯데:키움": {
+      "away_id": "WO",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-98.body.gz",
+          "body_sha256": "a589b58ed4185f7598ff6d6d6664f216110ae021c755a488fc03b7bc65328e33",
+          "round": "260098"
+        }
+      ],
+      "event_date": "2026-08-20",
+      "home_id": "LT",
+      "kickoff": "2026-08-20T19:00:00+09:00",
+      "official_game_id": "20260820WOLT0",
+      "schedule_body_sha256": "e9e81b3b91375d03bc5fb620199f8df6ebfbd6626f9b78740189bd8c074d49ec"
+    },
+    "score:2026-08-20:삼성:SSG": {
+      "away_id": "SK",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-98.body.gz",
+          "body_sha256": "a589b58ed4185f7598ff6d6d6664f216110ae021c755a488fc03b7bc65328e33",
+          "round": "260098"
+        }
+      ],
+      "event_date": "2026-08-20",
+      "home_id": "SS",
+      "kickoff": "2026-08-20T19:00:00+09:00",
+      "official_game_id": "20260820SKSS0",
+      "schedule_body_sha256": "e9e81b3b91375d03bc5fb620199f8df6ebfbd6626f9b78740189bd8c074d49ec"
+    },
+    "score:2026-08-20:한화:KIA": {
+      "away_id": "HT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-98.body.gz",
+          "body_sha256": "a589b58ed4185f7598ff6d6d6664f216110ae021c755a488fc03b7bc65328e33",
+          "round": "260098"
+        }
+      ],
+      "event_date": "2026-08-20",
+      "home_id": "HH",
+      "kickoff": "2026-08-20T19:00:00+09:00",
+      "official_game_id": "20260820HTHH0",
+      "schedule_body_sha256": "e9e81b3b91375d03bc5fb620199f8df6ebfbd6626f9b78740189bd8c074d49ec"
+    },
+    "score:2026-08-21:NC:삼성": {
+      "away_id": "SS",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-98.body.gz",
+          "body_sha256": "a589b58ed4185f7598ff6d6d6664f216110ae021c755a488fc03b7bc65328e33",
+          "round": "260098"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-99.body.gz",
+          "body_sha256": "0c6c940d0a0bbc6fce3dea0c8e5b5f5cb8cfe55d826ef9a8ec101fad53e2bad7",
+          "round": "260099"
+        }
+      ],
+      "event_date": "2026-08-21",
+      "home_id": "NC",
+      "kickoff": "2026-08-21T19:00:00+09:00",
+      "official_game_id": "20260821SSNC0",
+      "schedule_body_sha256": "fb6dfb91769ba1f15a69d1ab206527cb1b7a7531d7fcb6f473a9edf272f9faef"
+    },
+    "score:2026-08-21:두산:롯데": {
+      "away_id": "LT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-98.body.gz",
+          "body_sha256": "a589b58ed4185f7598ff6d6d6664f216110ae021c755a488fc03b7bc65328e33",
+          "round": "260098"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-99.body.gz",
+          "body_sha256": "0c6c940d0a0bbc6fce3dea0c8e5b5f5cb8cfe55d826ef9a8ec101fad53e2bad7",
+          "round": "260099"
+        }
+      ],
+      "event_date": "2026-08-21",
+      "home_id": "OB",
+      "kickoff": "2026-08-21T19:00:00+09:00",
+      "official_game_id": "20260821LTOB0",
+      "schedule_body_sha256": "fb6dfb91769ba1f15a69d1ab206527cb1b7a7531d7fcb6f473a9edf272f9faef"
+    },
+    "score:2026-08-21:키움:KIA": {
+      "away_id": "HT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-98.body.gz",
+          "body_sha256": "a589b58ed4185f7598ff6d6d6664f216110ae021c755a488fc03b7bc65328e33",
+          "round": "260098"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-99.body.gz",
+          "body_sha256": "0c6c940d0a0bbc6fce3dea0c8e5b5f5cb8cfe55d826ef9a8ec101fad53e2bad7",
+          "round": "260099"
+        }
+      ],
+      "event_date": "2026-08-21",
+      "home_id": "WO",
+      "kickoff": "2026-08-21T19:00:00+09:00",
+      "official_game_id": "20260821HTWO0",
+      "schedule_body_sha256": "fb6dfb91769ba1f15a69d1ab206527cb1b7a7531d7fcb6f473a9edf272f9faef"
+    },
+    "score:2026-08-21:한화:LG": {
+      "away_id": "LG",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-98.body.gz",
+          "body_sha256": "a589b58ed4185f7598ff6d6d6664f216110ae021c755a488fc03b7bc65328e33",
+          "round": "260098"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-99.body.gz",
+          "body_sha256": "0c6c940d0a0bbc6fce3dea0c8e5b5f5cb8cfe55d826ef9a8ec101fad53e2bad7",
+          "round": "260099"
+        }
+      ],
+      "event_date": "2026-08-21",
+      "home_id": "HH",
+      "kickoff": "2026-08-21T19:00:00+09:00",
+      "official_game_id": "20260821LGHH0",
+      "schedule_body_sha256": "fb6dfb91769ba1f15a69d1ab206527cb1b7a7531d7fcb6f473a9edf272f9faef"
+    },
+    "score:2026-08-22:NC:삼성": {
+      "away_id": "SS",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-99.body.gz",
+          "body_sha256": "0c6c940d0a0bbc6fce3dea0c8e5b5f5cb8cfe55d826ef9a8ec101fad53e2bad7",
+          "round": "260099"
+        }
+      ],
+      "event_date": "2026-08-22",
+      "home_id": "NC",
+      "kickoff": "2026-08-22T19:00:00+09:00",
+      "official_game_id": "20260822SSNC0",
+      "schedule_body_sha256": "129d448692aa4209b2bb3b31fd3b3e2c4a1e4763f776297bd143ad2c17d8b748"
+    },
+    "score:2026-08-22:키움:KIA": {
+      "away_id": "HT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-99.body.gz",
+          "body_sha256": "0c6c940d0a0bbc6fce3dea0c8e5b5f5cb8cfe55d826ef9a8ec101fad53e2bad7",
+          "round": "260099"
+        }
+      ],
+      "event_date": "2026-08-22",
+      "home_id": "WO",
+      "kickoff": "2026-08-22T18:00:00+09:00",
+      "official_game_id": "20260822HTWO0",
+      "schedule_body_sha256": "129d448692aa4209b2bb3b31fd3b3e2c4a1e4763f776297bd143ad2c17d8b748"
+    },
+    "score:2026-08-23:SSG:KT": {
+      "away_id": "KT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-99.body.gz",
+          "body_sha256": "0c6c940d0a0bbc6fce3dea0c8e5b5f5cb8cfe55d826ef9a8ec101fad53e2bad7",
+          "round": "260099"
+        }
+      ],
+      "event_date": "2026-08-23",
+      "home_id": "SK",
+      "kickoff": "2026-08-23T19:00:00+09:00",
+      "official_game_id": "20260823KTSK0",
+      "schedule_body_sha256": "009397dd144fbb897aa20eda6f2572e3fe04fad415435d210615fe0722b14f2e"
+    },
+    "score:2026-08-23:두산:롯데": {
+      "away_id": "LT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-99.body.gz",
+          "body_sha256": "0c6c940d0a0bbc6fce3dea0c8e5b5f5cb8cfe55d826ef9a8ec101fad53e2bad7",
+          "round": "260099"
+        }
+      ],
+      "event_date": "2026-08-23",
+      "home_id": "OB",
+      "kickoff": "2026-08-23T19:00:00+09:00",
+      "official_game_id": "20260823LTOB0",
+      "schedule_body_sha256": "009397dd144fbb897aa20eda6f2572e3fe04fad415435d210615fe0722b14f2e"
+    },
+    "score:2026-08-23:키움:KIA": {
+      "away_id": "HT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-99.body.gz",
+          "body_sha256": "0c6c940d0a0bbc6fce3dea0c8e5b5f5cb8cfe55d826ef9a8ec101fad53e2bad7",
+          "round": "260099"
+        }
+      ],
+      "event_date": "2026-08-23",
+      "home_id": "WO",
+      "kickoff": "2026-08-23T14:00:00+09:00",
+      "official_game_id": "20260823HTWO0",
+      "schedule_body_sha256": "009397dd144fbb897aa20eda6f2572e3fe04fad415435d210615fe0722b14f2e"
+    },
+    "score:2026-08-23:한화:LG": {
+      "away_id": "LG",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-99.body.gz",
+          "body_sha256": "0c6c940d0a0bbc6fce3dea0c8e5b5f5cb8cfe55d826ef9a8ec101fad53e2bad7",
+          "round": "260099"
+        }
+      ],
+      "event_date": "2026-08-23",
+      "home_id": "HH",
+      "kickoff": "2026-08-23T19:00:00+09:00",
+      "official_game_id": "20260823LGHH0",
+      "schedule_body_sha256": "009397dd144fbb897aa20eda6f2572e3fe04fad415435d210615fe0722b14f2e"
+    },
+    "score:2026-08-25:KIA:롯데": {
+      "away_id": "LT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-100.body.gz",
+          "body_sha256": "3b704dd8069609efda3f201c2f780c4b0e8fc65e6b74d001875c7e8a57546e43",
+          "round": "260100"
+        }
+      ],
+      "event_date": "2026-08-25",
+      "home_id": "HT",
+      "kickoff": "2026-08-25T18:30:00+09:00",
+      "official_game_id": "20260825LTHT0",
+      "schedule_body_sha256": "ba1f6b8ed2a008a670c3e8f848a531f1b7250d7f4a9d598ecdb75d568efc0974"
+    },
+    "score:2026-08-25:KT:두산": {
+      "away_id": "OB",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-100.body.gz",
+          "body_sha256": "3b704dd8069609efda3f201c2f780c4b0e8fc65e6b74d001875c7e8a57546e43",
+          "round": "260100"
+        }
+      ],
+      "event_date": "2026-08-25",
+      "home_id": "KT",
+      "kickoff": "2026-08-25T18:30:00+09:00",
+      "official_game_id": "20260825OBKT0",
+      "schedule_body_sha256": "ba1f6b8ed2a008a670c3e8f848a531f1b7250d7f4a9d598ecdb75d568efc0974"
+    },
+    "score:2026-08-25:LG:NC": {
+      "away_id": "NC",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-100.body.gz",
+          "body_sha256": "3b704dd8069609efda3f201c2f780c4b0e8fc65e6b74d001875c7e8a57546e43",
+          "round": "260100"
+        }
+      ],
+      "event_date": "2026-08-25",
+      "home_id": "LG",
+      "kickoff": "2026-08-25T18:30:00+09:00",
+      "official_game_id": "20260825NCLG0",
+      "schedule_body_sha256": "ba1f6b8ed2a008a670c3e8f848a531f1b7250d7f4a9d598ecdb75d568efc0974"
+    },
+    "score:2026-08-25:SSG:한화": {
+      "away_id": "HH",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-100.body.gz",
+          "body_sha256": "3b704dd8069609efda3f201c2f780c4b0e8fc65e6b74d001875c7e8a57546e43",
+          "round": "260100"
+        }
+      ],
+      "event_date": "2026-08-25",
+      "home_id": "SK",
+      "kickoff": "2026-08-25T18:30:00+09:00",
+      "official_game_id": "20260825HHSK0",
+      "schedule_body_sha256": "ba1f6b8ed2a008a670c3e8f848a531f1b7250d7f4a9d598ecdb75d568efc0974"
+    },
+    "score:2026-08-25:키움:삼성": {
+      "away_id": "SS",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-100.body.gz",
+          "body_sha256": "3b704dd8069609efda3f201c2f780c4b0e8fc65e6b74d001875c7e8a57546e43",
+          "round": "260100"
+        }
+      ],
+      "event_date": "2026-08-25",
+      "home_id": "WO",
+      "kickoff": "2026-08-25T18:30:00+09:00",
+      "official_game_id": "20260825SSWO0",
+      "schedule_body_sha256": "ba1f6b8ed2a008a670c3e8f848a531f1b7250d7f4a9d598ecdb75d568efc0974"
+    },
+    "score:2026-08-26:KIA:롯데": {
+      "away_id": "LT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-100.body.gz",
+          "body_sha256": "3b704dd8069609efda3f201c2f780c4b0e8fc65e6b74d001875c7e8a57546e43",
+          "round": "260100"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-101.body.gz",
+          "body_sha256": "0c47e22f24f76c7463b26ad8175d2791a008d8bdce689dd8a61ff72f2b4685bd",
+          "round": "260101"
+        }
+      ],
+      "event_date": "2026-08-26",
+      "home_id": "HT",
+      "kickoff": "2026-08-26T18:30:00+09:00",
+      "official_game_id": "20260826LTHT0",
+      "schedule_body_sha256": "20e416f2c0d7634b2daa86a6054b9ac7b9b11d96e328c389d4be2e8f9783e5a2"
+    },
+    "score:2026-08-26:KT:두산": {
+      "away_id": "OB",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-100.body.gz",
+          "body_sha256": "3b704dd8069609efda3f201c2f780c4b0e8fc65e6b74d001875c7e8a57546e43",
+          "round": "260100"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-101.body.gz",
+          "body_sha256": "0c47e22f24f76c7463b26ad8175d2791a008d8bdce689dd8a61ff72f2b4685bd",
+          "round": "260101"
+        }
+      ],
+      "event_date": "2026-08-26",
+      "home_id": "KT",
+      "kickoff": "2026-08-26T18:30:00+09:00",
+      "official_game_id": "20260826OBKT0",
+      "schedule_body_sha256": "20e416f2c0d7634b2daa86a6054b9ac7b9b11d96e328c389d4be2e8f9783e5a2"
+    },
+    "score:2026-08-26:LG:NC": {
+      "away_id": "NC",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-100.body.gz",
+          "body_sha256": "3b704dd8069609efda3f201c2f780c4b0e8fc65e6b74d001875c7e8a57546e43",
+          "round": "260100"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-101.body.gz",
+          "body_sha256": "0c47e22f24f76c7463b26ad8175d2791a008d8bdce689dd8a61ff72f2b4685bd",
+          "round": "260101"
+        }
+      ],
+      "event_date": "2026-08-26",
+      "home_id": "LG",
+      "kickoff": "2026-08-26T18:30:00+09:00",
+      "official_game_id": "20260826NCLG0",
+      "schedule_body_sha256": "20e416f2c0d7634b2daa86a6054b9ac7b9b11d96e328c389d4be2e8f9783e5a2"
+    },
+    "score:2026-08-26:SSG:한화": {
+      "away_id": "HH",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-100.body.gz",
+          "body_sha256": "3b704dd8069609efda3f201c2f780c4b0e8fc65e6b74d001875c7e8a57546e43",
+          "round": "260100"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-101.body.gz",
+          "body_sha256": "0c47e22f24f76c7463b26ad8175d2791a008d8bdce689dd8a61ff72f2b4685bd",
+          "round": "260101"
+        }
+      ],
+      "event_date": "2026-08-26",
+      "home_id": "SK",
+      "kickoff": "2026-08-26T18:30:00+09:00",
+      "official_game_id": "20260826HHSK0",
+      "schedule_body_sha256": "20e416f2c0d7634b2daa86a6054b9ac7b9b11d96e328c389d4be2e8f9783e5a2"
+    },
+    "score:2026-08-26:키움:삼성": {
+      "away_id": "SS",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-100.body.gz",
+          "body_sha256": "3b704dd8069609efda3f201c2f780c4b0e8fc65e6b74d001875c7e8a57546e43",
+          "round": "260100"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-101.body.gz",
+          "body_sha256": "0c47e22f24f76c7463b26ad8175d2791a008d8bdce689dd8a61ff72f2b4685bd",
+          "round": "260101"
+        }
+      ],
+      "event_date": "2026-08-26",
+      "home_id": "WO",
+      "kickoff": "2026-08-26T18:30:00+09:00",
+      "official_game_id": "20260826SSWO0",
+      "schedule_body_sha256": "20e416f2c0d7634b2daa86a6054b9ac7b9b11d96e328c389d4be2e8f9783e5a2"
+    },
+    "score:2026-08-27:KT:두산": {
+      "away_id": "OB",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-101.body.gz",
+          "body_sha256": "0c47e22f24f76c7463b26ad8175d2791a008d8bdce689dd8a61ff72f2b4685bd",
+          "round": "260101"
+        }
+      ],
+      "event_date": "2026-08-27",
+      "home_id": "KT",
+      "kickoff": "2026-08-27T18:30:00+09:00",
+      "official_game_id": "20260827OBKT0",
+      "schedule_body_sha256": "66db3af760161e25983bb7c1eb30d4d58fabd7c3c833d901e543eeff7d736844"
+    },
+    "score:2026-08-27:LG:NC": {
+      "away_id": "NC",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-101.body.gz",
+          "body_sha256": "0c47e22f24f76c7463b26ad8175d2791a008d8bdce689dd8a61ff72f2b4685bd",
+          "round": "260101"
+        }
+      ],
+      "event_date": "2026-08-27",
+      "home_id": "LG",
+      "kickoff": "2026-08-27T18:30:00+09:00",
+      "official_game_id": "20260827NCLG0",
+      "schedule_body_sha256": "66db3af760161e25983bb7c1eb30d4d58fabd7c3c833d901e543eeff7d736844"
+    },
+    "score:2026-08-27:SSG:한화": {
+      "away_id": "HH",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-101.body.gz",
+          "body_sha256": "0c47e22f24f76c7463b26ad8175d2791a008d8bdce689dd8a61ff72f2b4685bd",
+          "round": "260101"
+        }
+      ],
+      "event_date": "2026-08-27",
+      "home_id": "SK",
+      "kickoff": "2026-08-27T18:30:00+09:00",
+      "official_game_id": "20260827HHSK0",
+      "schedule_body_sha256": "66db3af760161e25983bb7c1eb30d4d58fabd7c3c833d901e543eeff7d736844"
+    },
+    "score:2026-08-27:키움:삼성": {
+      "away_id": "SS",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-101.body.gz",
+          "body_sha256": "0c47e22f24f76c7463b26ad8175d2791a008d8bdce689dd8a61ff72f2b4685bd",
+          "round": "260101"
+        }
+      ],
+      "event_date": "2026-08-27",
+      "home_id": "WO",
+      "kickoff": "2026-08-27T18:30:00+09:00",
+      "official_game_id": "20260827SSWO0",
+      "schedule_body_sha256": "66db3af760161e25983bb7c1eb30d4d58fabd7c3c833d901e543eeff7d736844"
+    },
+    "score:2026-08-29:KIA:SSG": {
+      "away_id": "SK",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-102.body.gz",
+          "body_sha256": "130ff7f818b1457e65d9c726ad08a2b1077f87f6f2d0e41b01b420c23e2fd14b",
+          "round": "260102"
+        }
+      ],
+      "event_date": "2026-08-29",
+      "home_id": "HT",
+      "kickoff": "2026-08-29T18:00:00+09:00",
+      "official_game_id": "20260829SKHT0",
+      "schedule_body_sha256": "190ace91ee6f24e9ea8e51effd2f148c8bbe82ee8bed8cdf73a1745102a209d3"
+    },
+    "score:2026-08-29:두산:키움": {
+      "away_id": "WO",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-102.body.gz",
+          "body_sha256": "130ff7f818b1457e65d9c726ad08a2b1077f87f6f2d0e41b01b420c23e2fd14b",
+          "round": "260102"
+        }
+      ],
+      "event_date": "2026-08-29",
+      "home_id": "OB",
+      "kickoff": "2026-08-29T18:00:00+09:00",
+      "official_game_id": "20260829WOOB0",
+      "schedule_body_sha256": "190ace91ee6f24e9ea8e51effd2f148c8bbe82ee8bed8cdf73a1745102a209d3"
+    },
+    "score:2026-08-29:롯데:LG": {
+      "away_id": "LG",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-102.body.gz",
+          "body_sha256": "130ff7f818b1457e65d9c726ad08a2b1077f87f6f2d0e41b01b420c23e2fd14b",
+          "round": "260102"
+        }
+      ],
+      "event_date": "2026-08-29",
+      "home_id": "LT",
+      "kickoff": "2026-08-29T18:00:00+09:00",
+      "official_game_id": "20260829LGLT0",
+      "schedule_body_sha256": "190ace91ee6f24e9ea8e51effd2f148c8bbe82ee8bed8cdf73a1745102a209d3"
+    },
+    "score:2026-08-29:한화:NC": {
+      "away_id": "NC",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-102.body.gz",
+          "body_sha256": "130ff7f818b1457e65d9c726ad08a2b1077f87f6f2d0e41b01b420c23e2fd14b",
+          "round": "260102"
+        }
+      ],
+      "event_date": "2026-08-29",
+      "home_id": "HH",
+      "kickoff": "2026-08-29T18:00:00+09:00",
+      "official_game_id": "20260829NCHH0",
+      "schedule_body_sha256": "190ace91ee6f24e9ea8e51effd2f148c8bbe82ee8bed8cdf73a1745102a209d3"
+    },
+    "score:2026-08-30:두산:키움": {
+      "away_id": "WO",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-102.body.gz",
+          "body_sha256": "130ff7f818b1457e65d9c726ad08a2b1077f87f6f2d0e41b01b420c23e2fd14b",
+          "round": "260102"
+        }
+      ],
+      "event_date": "2026-08-30",
+      "home_id": "OB",
+      "kickoff": "2026-08-30T18:00:00+09:00",
+      "official_game_id": "20260830WOOB0",
+      "schedule_body_sha256": "a68b2233c254977c7033248758d8dc6310fc640aa361eddba7475e39f5380d01"
+    },
+    "score:2026-08-30:한화:NC": {
+      "away_id": "NC",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-102.body.gz",
+          "body_sha256": "130ff7f818b1457e65d9c726ad08a2b1077f87f6f2d0e41b01b420c23e2fd14b",
+          "round": "260102"
+        }
+      ],
+      "event_date": "2026-08-30",
+      "home_id": "HH",
+      "kickoff": "2026-08-30T18:00:00+09:00",
+      "official_game_id": "20260830NCHH0",
+      "schedule_body_sha256": "a68b2233c254977c7033248758d8dc6310fc640aa361eddba7475e39f5380d01"
+    },
+    "score:2026-09-01:KT:한화": {
+      "away_id": "HH",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-103.body.gz",
+          "body_sha256": "72aaefa3072c1ec899fae38ec46714f2e4c9efc3e04a874fa4d43b11ce3333d7",
+          "round": "260103"
+        }
+      ],
+      "event_date": "2026-09-01",
+      "home_id": "KT",
+      "kickoff": "2026-09-01T18:30:00+09:00",
+      "official_game_id": "20260901HHKT0",
+      "schedule_body_sha256": "64a40c62d0651d543b3a01afb391d114e1624c7b809de88ad7bab4446b4ec6cf"
+    },
+    "score:2026-09-01:NC:KIA": {
+      "away_id": "HT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-103.body.gz",
+          "body_sha256": "72aaefa3072c1ec899fae38ec46714f2e4c9efc3e04a874fa4d43b11ce3333d7",
+          "round": "260103"
+        }
+      ],
+      "event_date": "2026-09-01",
+      "home_id": "NC",
+      "kickoff": "2026-09-01T18:30:00+09:00",
+      "official_game_id": "20260901HTNC0",
+      "schedule_body_sha256": "64a40c62d0651d543b3a01afb391d114e1624c7b809de88ad7bab4446b4ec6cf"
+    },
+    "score:2026-09-01:두산:LG": {
+      "away_id": "LG",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-103.body.gz",
+          "body_sha256": "72aaefa3072c1ec899fae38ec46714f2e4c9efc3e04a874fa4d43b11ce3333d7",
+          "round": "260103"
+        }
+      ],
+      "event_date": "2026-09-01",
+      "home_id": "OB",
+      "kickoff": "2026-09-01T18:30:00+09:00",
+      "official_game_id": "20260901LGOB0",
+      "schedule_body_sha256": "64a40c62d0651d543b3a01afb391d114e1624c7b809de88ad7bab4446b4ec6cf"
+    },
+    "score:2026-09-01:삼성:롯데": {
+      "away_id": "LT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-103.body.gz",
+          "body_sha256": "72aaefa3072c1ec899fae38ec46714f2e4c9efc3e04a874fa4d43b11ce3333d7",
+          "round": "260103"
+        }
+      ],
+      "event_date": "2026-09-01",
+      "home_id": "SS",
+      "kickoff": "2026-09-01T18:30:00+09:00",
+      "official_game_id": "20260901LTSS0",
+      "schedule_body_sha256": "64a40c62d0651d543b3a01afb391d114e1624c7b809de88ad7bab4446b4ec6cf"
+    },
+    "score:2026-09-01:키움:SSG": {
+      "away_id": "SK",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-103.body.gz",
+          "body_sha256": "72aaefa3072c1ec899fae38ec46714f2e4c9efc3e04a874fa4d43b11ce3333d7",
+          "round": "260103"
+        }
+      ],
+      "event_date": "2026-09-01",
+      "home_id": "WO",
+      "kickoff": "2026-09-01T18:30:00+09:00",
+      "official_game_id": "20260901SKWO0",
+      "schedule_body_sha256": "64a40c62d0651d543b3a01afb391d114e1624c7b809de88ad7bab4446b4ec6cf"
+    },
+    "score:2026-09-02:KT:한화": {
+      "away_id": "HH",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-103.body.gz",
+          "body_sha256": "72aaefa3072c1ec899fae38ec46714f2e4c9efc3e04a874fa4d43b11ce3333d7",
+          "round": "260103"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-104.body.gz",
+          "body_sha256": "944be35398fc40bca8f53f50419391e63cfb9d5794923564458074a35381fe3d",
+          "round": "260104"
+        }
+      ],
+      "event_date": "2026-09-02",
+      "home_id": "KT",
+      "kickoff": "2026-09-02T18:30:00+09:00",
+      "official_game_id": "20260902HHKT0",
+      "schedule_body_sha256": "d2005e330589398d5353c3b5a4878254de1139204b38bc2e4d5a43a8197ce80a"
+    },
+    "score:2026-09-02:NC:KIA": {
+      "away_id": "HT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-103.body.gz",
+          "body_sha256": "72aaefa3072c1ec899fae38ec46714f2e4c9efc3e04a874fa4d43b11ce3333d7",
+          "round": "260103"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-104.body.gz",
+          "body_sha256": "944be35398fc40bca8f53f50419391e63cfb9d5794923564458074a35381fe3d",
+          "round": "260104"
+        }
+      ],
+      "event_date": "2026-09-02",
+      "home_id": "NC",
+      "kickoff": "2026-09-02T18:30:00+09:00",
+      "official_game_id": "20260902HTNC0",
+      "schedule_body_sha256": "d2005e330589398d5353c3b5a4878254de1139204b38bc2e4d5a43a8197ce80a"
+    },
+    "score:2026-09-02:두산:LG": {
+      "away_id": "LG",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-103.body.gz",
+          "body_sha256": "72aaefa3072c1ec899fae38ec46714f2e4c9efc3e04a874fa4d43b11ce3333d7",
+          "round": "260103"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-104.body.gz",
+          "body_sha256": "944be35398fc40bca8f53f50419391e63cfb9d5794923564458074a35381fe3d",
+          "round": "260104"
+        }
+      ],
+      "event_date": "2026-09-02",
+      "home_id": "OB",
+      "kickoff": "2026-09-02T18:30:00+09:00",
+      "official_game_id": "20260902LGOB0",
+      "schedule_body_sha256": "d2005e330589398d5353c3b5a4878254de1139204b38bc2e4d5a43a8197ce80a"
+    },
+    "score:2026-09-02:삼성:롯데": {
+      "away_id": "LT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-103.body.gz",
+          "body_sha256": "72aaefa3072c1ec899fae38ec46714f2e4c9efc3e04a874fa4d43b11ce3333d7",
+          "round": "260103"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-104.body.gz",
+          "body_sha256": "944be35398fc40bca8f53f50419391e63cfb9d5794923564458074a35381fe3d",
+          "round": "260104"
+        }
+      ],
+      "event_date": "2026-09-02",
+      "home_id": "SS",
+      "kickoff": "2026-09-02T18:30:00+09:00",
+      "official_game_id": "20260902LTSS0",
+      "schedule_body_sha256": "d2005e330589398d5353c3b5a4878254de1139204b38bc2e4d5a43a8197ce80a"
+    },
+    "score:2026-09-02:키움:SSG": {
+      "away_id": "SK",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-103.body.gz",
+          "body_sha256": "72aaefa3072c1ec899fae38ec46714f2e4c9efc3e04a874fa4d43b11ce3333d7",
+          "round": "260103"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-104.body.gz",
+          "body_sha256": "944be35398fc40bca8f53f50419391e63cfb9d5794923564458074a35381fe3d",
+          "round": "260104"
+        }
+      ],
+      "event_date": "2026-09-02",
+      "home_id": "WO",
+      "kickoff": "2026-09-02T18:30:00+09:00",
+      "official_game_id": "20260902SKWO0",
+      "schedule_body_sha256": "d2005e330589398d5353c3b5a4878254de1139204b38bc2e4d5a43a8197ce80a"
+    },
+    "score:2026-09-03:KT:한화": {
+      "away_id": "HH",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-104.body.gz",
+          "body_sha256": "944be35398fc40bca8f53f50419391e63cfb9d5794923564458074a35381fe3d",
+          "round": "260104"
+        }
+      ],
+      "event_date": "2026-09-03",
+      "home_id": "KT",
+      "kickoff": "2026-09-03T18:30:00+09:00",
+      "official_game_id": "20260903HHKT0",
+      "schedule_body_sha256": "6c5aff5d4f719a22221564702ca2a6c3053e0f8b2acdb255847eca4a7d74420a"
+    },
+    "score:2026-09-03:두산:LG": {
+      "away_id": "LG",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-104.body.gz",
+          "body_sha256": "944be35398fc40bca8f53f50419391e63cfb9d5794923564458074a35381fe3d",
+          "round": "260104"
+        }
+      ],
+      "event_date": "2026-09-03",
+      "home_id": "OB",
+      "kickoff": "2026-09-03T18:30:00+09:00",
+      "official_game_id": "20260903LGOB0",
+      "schedule_body_sha256": "6c5aff5d4f719a22221564702ca2a6c3053e0f8b2acdb255847eca4a7d74420a"
+    },
+    "score:2026-09-03:삼성:롯데": {
+      "away_id": "LT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-104.body.gz",
+          "body_sha256": "944be35398fc40bca8f53f50419391e63cfb9d5794923564458074a35381fe3d",
+          "round": "260104"
+        }
+      ],
+      "event_date": "2026-09-03",
+      "home_id": "SS",
+      "kickoff": "2026-09-03T18:30:00+09:00",
+      "official_game_id": "20260903LTSS0",
+      "schedule_body_sha256": "6c5aff5d4f719a22221564702ca2a6c3053e0f8b2acdb255847eca4a7d74420a"
+    },
+    "score:2026-09-03:키움:SSG": {
+      "away_id": "SK",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-104.body.gz",
+          "body_sha256": "944be35398fc40bca8f53f50419391e63cfb9d5794923564458074a35381fe3d",
+          "round": "260104"
+        }
+      ],
+      "event_date": "2026-09-03",
+      "home_id": "WO",
+      "kickoff": "2026-09-03T18:30:00+09:00",
+      "official_game_id": "20260903SKWO0",
+      "schedule_body_sha256": "6c5aff5d4f719a22221564702ca2a6c3053e0f8b2acdb255847eca4a7d74420a"
+    },
+    "score:2026-09-04:KIA:KT": {
+      "away_id": "KT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-104.body.gz",
+          "body_sha256": "944be35398fc40bca8f53f50419391e63cfb9d5794923564458074a35381fe3d",
+          "round": "260104"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-105.body.gz",
+          "body_sha256": "79a09dc9f23ce7c50127036b71c5db5b4502816f112bfc804eddc84e4a82e271",
+          "round": "260105"
+        }
+      ],
+      "event_date": "2026-09-04",
+      "home_id": "HT",
+      "kickoff": "2026-09-04T18:30:00+09:00",
+      "official_game_id": "20260904KTHT0",
+      "schedule_body_sha256": "ede18c17e2277262c85e65a68d7316bd309189a7012f553b1ab649ee5810d497"
+    },
+    "score:2026-09-04:LG:삼성": {
+      "away_id": "SS",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-104.body.gz",
+          "body_sha256": "944be35398fc40bca8f53f50419391e63cfb9d5794923564458074a35381fe3d",
+          "round": "260104"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-105.body.gz",
+          "body_sha256": "79a09dc9f23ce7c50127036b71c5db5b4502816f112bfc804eddc84e4a82e271",
+          "round": "260105"
+        }
+      ],
+      "event_date": "2026-09-04",
+      "home_id": "LG",
+      "kickoff": "2026-09-04T18:30:00+09:00",
+      "official_game_id": "20260904SSLG0",
+      "schedule_body_sha256": "ede18c17e2277262c85e65a68d7316bd309189a7012f553b1ab649ee5810d497"
+    },
+    "score:2026-09-04:롯데:한화": {
+      "away_id": "HH",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-104.body.gz",
+          "body_sha256": "944be35398fc40bca8f53f50419391e63cfb9d5794923564458074a35381fe3d",
+          "round": "260104"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-105.body.gz",
+          "body_sha256": "79a09dc9f23ce7c50127036b71c5db5b4502816f112bfc804eddc84e4a82e271",
+          "round": "260105"
+        }
+      ],
+      "event_date": "2026-09-04",
+      "home_id": "LT",
+      "kickoff": "2026-09-04T18:30:00+09:00",
+      "official_game_id": "20260904HHLT0",
+      "schedule_body_sha256": "ede18c17e2277262c85e65a68d7316bd309189a7012f553b1ab649ee5810d497"
+    },
+    "score:2026-09-04:키움:NC": {
+      "away_id": "NC",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-104.body.gz",
+          "body_sha256": "944be35398fc40bca8f53f50419391e63cfb9d5794923564458074a35381fe3d",
+          "round": "260104"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-105.body.gz",
+          "body_sha256": "79a09dc9f23ce7c50127036b71c5db5b4502816f112bfc804eddc84e4a82e271",
+          "round": "260105"
+        }
+      ],
+      "event_date": "2026-09-04",
+      "home_id": "WO",
+      "kickoff": "2026-09-04T18:30:00+09:00",
+      "official_game_id": "20260904NCWO0",
+      "schedule_body_sha256": "ede18c17e2277262c85e65a68d7316bd309189a7012f553b1ab649ee5810d497"
+    },
+    "score:2026-09-05:KIA:KT": {
+      "away_id": "KT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-105.body.gz",
+          "body_sha256": "79a09dc9f23ce7c50127036b71c5db5b4502816f112bfc804eddc84e4a82e271",
+          "round": "260105"
+        }
+      ],
+      "event_date": "2026-09-05",
+      "home_id": "HT",
+      "kickoff": "2026-09-05T17:00:00+09:00",
+      "official_game_id": "20260905KTHT0",
+      "schedule_body_sha256": "deb38cc6fe01e96b1106e6dd10a7e9f096b1a1ddf02514147d34f3e84448a14e"
+    },
+    "score:2026-09-05:LG:삼성": {
+      "away_id": "SS",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-105.body.gz",
+          "body_sha256": "79a09dc9f23ce7c50127036b71c5db5b4502816f112bfc804eddc84e4a82e271",
+          "round": "260105"
+        }
+      ],
+      "event_date": "2026-09-05",
+      "home_id": "LG",
+      "kickoff": "2026-09-05T17:00:00+09:00",
+      "official_game_id": "20260905SSLG0",
+      "schedule_body_sha256": "deb38cc6fe01e96b1106e6dd10a7e9f096b1a1ddf02514147d34f3e84448a14e"
+    },
+    "score:2026-09-05:롯데:한화": {
+      "away_id": "HH",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-105.body.gz",
+          "body_sha256": "79a09dc9f23ce7c50127036b71c5db5b4502816f112bfc804eddc84e4a82e271",
+          "round": "260105"
+        }
+      ],
+      "event_date": "2026-09-05",
+      "home_id": "LT",
+      "kickoff": "2026-09-05T17:00:00+09:00",
+      "official_game_id": "20260905HHLT0",
+      "schedule_body_sha256": "deb38cc6fe01e96b1106e6dd10a7e9f096b1a1ddf02514147d34f3e84448a14e"
+    },
+    "score:2026-09-05:키움:NC": {
+      "away_id": "NC",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-105.body.gz",
+          "body_sha256": "79a09dc9f23ce7c50127036b71c5db5b4502816f112bfc804eddc84e4a82e271",
+          "round": "260105"
+        }
+      ],
+      "event_date": "2026-09-05",
+      "home_id": "WO",
+      "kickoff": "2026-09-05T17:00:00+09:00",
+      "official_game_id": "20260905NCWO0",
+      "schedule_body_sha256": "deb38cc6fe01e96b1106e6dd10a7e9f096b1a1ddf02514147d34f3e84448a14e"
+    },
+    "score:2026-09-06:KIA:KT": {
+      "away_id": "KT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-105.body.gz",
+          "body_sha256": "79a09dc9f23ce7c50127036b71c5db5b4502816f112bfc804eddc84e4a82e271",
+          "round": "260105"
+        }
+      ],
+      "event_date": "2026-09-06",
+      "home_id": "HT",
+      "kickoff": "2026-09-06T17:00:00+09:00",
+      "official_game_id": "20260906KTHT0",
+      "schedule_body_sha256": "875876e80290562b3382cbd777418adb044833ebbe17a962b3d3c34f6d4b4e53"
+    },
+    "score:2026-09-06:LG:삼성": {
+      "away_id": "SS",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-105.body.gz",
+          "body_sha256": "79a09dc9f23ce7c50127036b71c5db5b4502816f112bfc804eddc84e4a82e271",
+          "round": "260105"
+        }
+      ],
+      "event_date": "2026-09-06",
+      "home_id": "LG",
+      "kickoff": "2026-09-06T17:00:00+09:00",
+      "official_game_id": "20260906SSLG0",
+      "schedule_body_sha256": "875876e80290562b3382cbd777418adb044833ebbe17a962b3d3c34f6d4b4e53"
+    },
+    "score:2026-09-06:롯데:한화": {
+      "away_id": "HH",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-105.body.gz",
+          "body_sha256": "79a09dc9f23ce7c50127036b71c5db5b4502816f112bfc804eddc84e4a82e271",
+          "round": "260105"
+        }
+      ],
+      "event_date": "2026-09-06",
+      "home_id": "LT",
+      "kickoff": "2026-09-06T17:00:00+09:00",
+      "official_game_id": "20260906HHLT0",
+      "schedule_body_sha256": "875876e80290562b3382cbd777418adb044833ebbe17a962b3d3c34f6d4b4e53"
+    },
+    "score:2026-09-06:키움:NC": {
+      "away_id": "NC",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-105.body.gz",
+          "body_sha256": "79a09dc9f23ce7c50127036b71c5db5b4502816f112bfc804eddc84e4a82e271",
+          "round": "260105"
+        }
+      ],
+      "event_date": "2026-09-06",
+      "home_id": "WO",
+      "kickoff": "2026-09-06T14:00:00+09:00",
+      "official_game_id": "20260906NCWO0",
+      "schedule_body_sha256": "875876e80290562b3382cbd777418adb044833ebbe17a962b3d3c34f6d4b4e53"
+    },
+    "score:2026-09-08:LG:키움": {
+      "away_id": "WO",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-106.body.gz",
+          "body_sha256": "d71dd2b6ca9490cd7e91ed2ea6d31cc2b73a28aff8760e1424680b5fb32f0adf",
+          "round": "260106"
+        }
+      ],
+      "event_date": "2026-09-08",
+      "home_id": "LG",
+      "kickoff": "2026-09-08T18:30:00+09:00",
+      "official_game_id": "20260908WOLG0",
+      "schedule_body_sha256": "96160b8bf2685cf13f3148dd68811276554f44c3a6fb60a0620abc4d47a71d25"
+    },
+    "score:2026-09-08:NC:롯데": {
+      "away_id": "LT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-106.body.gz",
+          "body_sha256": "d71dd2b6ca9490cd7e91ed2ea6d31cc2b73a28aff8760e1424680b5fb32f0adf",
+          "round": "260106"
+        }
+      ],
+      "event_date": "2026-09-08",
+      "home_id": "NC",
+      "kickoff": "2026-09-08T18:30:00+09:00",
+      "official_game_id": "20260908LTNC0",
+      "schedule_body_sha256": "96160b8bf2685cf13f3148dd68811276554f44c3a6fb60a0620abc4d47a71d25"
+    },
+    "score:2026-09-08:삼성:KIA": {
+      "away_id": "HT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-106.body.gz",
+          "body_sha256": "d71dd2b6ca9490cd7e91ed2ea6d31cc2b73a28aff8760e1424680b5fb32f0adf",
+          "round": "260106"
+        }
+      ],
+      "event_date": "2026-09-08",
+      "home_id": "SS",
+      "kickoff": "2026-09-08T18:30:00+09:00",
+      "official_game_id": "20260908HTSS0",
+      "schedule_body_sha256": "96160b8bf2685cf13f3148dd68811276554f44c3a6fb60a0620abc4d47a71d25"
+    },
+    "score:2026-09-08:한화:두산": {
+      "away_id": "OB",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-106.body.gz",
+          "body_sha256": "d71dd2b6ca9490cd7e91ed2ea6d31cc2b73a28aff8760e1424680b5fb32f0adf",
+          "round": "260106"
+        }
+      ],
+      "event_date": "2026-09-08",
+      "home_id": "HH",
+      "kickoff": "2026-09-08T18:30:00+09:00",
+      "official_game_id": "20260908OBHH0",
+      "schedule_body_sha256": "96160b8bf2685cf13f3148dd68811276554f44c3a6fb60a0620abc4d47a71d25"
+    },
+    "score:2026-09-09:KIA:NC": {
+      "away_id": "NC",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-106.body.gz",
+          "body_sha256": "d71dd2b6ca9490cd7e91ed2ea6d31cc2b73a28aff8760e1424680b5fb32f0adf",
+          "round": "260106"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-107.body.gz",
+          "body_sha256": "d3564b2eb01d2c865bd5c3254d752a2ec2214a21f7834cf178e2b23e96d76272",
+          "round": "260107"
+        }
+      ],
+      "event_date": "2026-09-09",
+      "home_id": "HT",
+      "kickoff": "2026-09-09T18:30:00+09:00",
+      "official_game_id": "20260909NCHT0",
+      "schedule_body_sha256": "6bc1ef636896d2fb8e9c32c6a65445eba280562f252685313cbd1ca31d010580"
+    },
+    "score:2026-09-09:삼성:KT": {
+      "away_id": "KT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-106.body.gz",
+          "body_sha256": "d71dd2b6ca9490cd7e91ed2ea6d31cc2b73a28aff8760e1424680b5fb32f0adf",
+          "round": "260106"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-107.body.gz",
+          "body_sha256": "d3564b2eb01d2c865bd5c3254d752a2ec2214a21f7834cf178e2b23e96d76272",
+          "round": "260107"
+        }
+      ],
+      "event_date": "2026-09-09",
+      "home_id": "SS",
+      "kickoff": "2026-09-09T18:30:00+09:00",
+      "official_game_id": "20260909KTSS0",
+      "schedule_body_sha256": "6bc1ef636896d2fb8e9c32c6a65445eba280562f252685313cbd1ca31d010580"
+    },
+    "score:2026-09-09:한화:LG": {
+      "away_id": "LG",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-106.body.gz",
+          "body_sha256": "d71dd2b6ca9490cd7e91ed2ea6d31cc2b73a28aff8760e1424680b5fb32f0adf",
+          "round": "260106"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-107.body.gz",
+          "body_sha256": "d3564b2eb01d2c865bd5c3254d752a2ec2214a21f7834cf178e2b23e96d76272",
+          "round": "260107"
+        }
+      ],
+      "event_date": "2026-09-09",
+      "home_id": "HH",
+      "kickoff": "2026-09-09T18:30:00+09:00",
+      "official_game_id": "20260909LGHH0",
+      "schedule_body_sha256": "6bc1ef636896d2fb8e9c32c6a65445eba280562f252685313cbd1ca31d010580"
+    },
+    "score:2026-09-10:KIA:NC": {
+      "away_id": "NC",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-107.body.gz",
+          "body_sha256": "d3564b2eb01d2c865bd5c3254d752a2ec2214a21f7834cf178e2b23e96d76272",
+          "round": "260107"
+        }
+      ],
+      "event_date": "2026-09-10",
+      "home_id": "HT",
+      "kickoff": "2026-09-10T18:30:00+09:00",
+      "official_game_id": "20260910NCHT0",
+      "schedule_body_sha256": "125aa743e560748c18d01731ab488222adf0aba600717bb3d0e92b0ee4fd2fa6"
+    },
+    "score:2026-09-10:두산:키움": {
+      "away_id": "WO",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-107.body.gz",
+          "body_sha256": "d3564b2eb01d2c865bd5c3254d752a2ec2214a21f7834cf178e2b23e96d76272",
+          "round": "260107"
+        }
+      ],
+      "event_date": "2026-09-10",
+      "home_id": "OB",
+      "kickoff": "2026-09-10T18:30:00+09:00",
+      "official_game_id": "20260910WOOB0",
+      "schedule_body_sha256": "125aa743e560748c18d01731ab488222adf0aba600717bb3d0e92b0ee4fd2fa6"
+    },
+    "score:2026-09-10:롯데:KT": {
+      "away_id": "KT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-107.body.gz",
+          "body_sha256": "d3564b2eb01d2c865bd5c3254d752a2ec2214a21f7834cf178e2b23e96d76272",
+          "round": "260107"
+        }
+      ],
+      "event_date": "2026-09-10",
+      "home_id": "LT",
+      "kickoff": "2026-09-10T18:30:00+09:00",
+      "official_game_id": "20260910KTLT0",
+      "schedule_body_sha256": "125aa743e560748c18d01731ab488222adf0aba600717bb3d0e92b0ee4fd2fa6"
+    },
+    "score:2026-09-11:KIA:SSG": {
+      "away_id": "SK",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-107.body.gz",
+          "body_sha256": "d3564b2eb01d2c865bd5c3254d752a2ec2214a21f7834cf178e2b23e96d76272",
+          "round": "260107"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-108.body.gz",
+          "body_sha256": "4f6aa5d1ab69959e59e84a3eb3d2536112f72b8bca976d6a167c86e35a71df7d",
+          "round": "260108"
+        }
+      ],
+      "event_date": "2026-09-11",
+      "home_id": "HT",
+      "kickoff": "2026-09-11T18:30:00+09:00",
+      "official_game_id": "20260911SKHT0",
+      "schedule_body_sha256": "63533105d1fc966c178c69bd086cc7fd3f53372c89b84ee26a2cb59285ee681c"
+    },
+    "score:2026-09-11:롯데:KT": {
+      "away_id": "KT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-107.body.gz",
+          "body_sha256": "d3564b2eb01d2c865bd5c3254d752a2ec2214a21f7834cf178e2b23e96d76272",
+          "round": "260107"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-108.body.gz",
+          "body_sha256": "4f6aa5d1ab69959e59e84a3eb3d2536112f72b8bca976d6a167c86e35a71df7d",
+          "round": "260108"
+        }
+      ],
+      "event_date": "2026-09-11",
+      "home_id": "LT",
+      "kickoff": "2026-09-11T18:30:00+09:00",
+      "official_game_id": "20260911KTLT0",
+      "schedule_body_sha256": "63533105d1fc966c178c69bd086cc7fd3f53372c89b84ee26a2cb59285ee681c"
+    },
+    "score:2026-09-11:삼성:키움": {
+      "away_id": "WO",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-107.body.gz",
+          "body_sha256": "d3564b2eb01d2c865bd5c3254d752a2ec2214a21f7834cf178e2b23e96d76272",
+          "round": "260107"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-108.body.gz",
+          "body_sha256": "4f6aa5d1ab69959e59e84a3eb3d2536112f72b8bca976d6a167c86e35a71df7d",
+          "round": "260108"
+        }
+      ],
+      "event_date": "2026-09-11",
+      "home_id": "SS",
+      "kickoff": "2026-09-11T18:30:00+09:00",
+      "official_game_id": "20260911WOSS0",
+      "schedule_body_sha256": "63533105d1fc966c178c69bd086cc7fd3f53372c89b84ee26a2cb59285ee681c"
+    },
+    "score:2026-09-11:한화:NC": {
+      "away_id": "NC",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-107.body.gz",
+          "body_sha256": "d3564b2eb01d2c865bd5c3254d752a2ec2214a21f7834cf178e2b23e96d76272",
+          "round": "260107"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-108.body.gz",
+          "body_sha256": "4f6aa5d1ab69959e59e84a3eb3d2536112f72b8bca976d6a167c86e35a71df7d",
+          "round": "260108"
+        }
+      ],
+      "event_date": "2026-09-11",
+      "home_id": "HH",
+      "kickoff": "2026-09-11T18:30:00+09:00",
+      "official_game_id": "20260911NCHH0",
+      "schedule_body_sha256": "63533105d1fc966c178c69bd086cc7fd3f53372c89b84ee26a2cb59285ee681c"
+    },
+    "score:2026-09-12:KT:KIA": {
+      "away_id": "HT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-108.body.gz",
+          "body_sha256": "4f6aa5d1ab69959e59e84a3eb3d2536112f72b8bca976d6a167c86e35a71df7d",
+          "round": "260108"
+        }
+      ],
+      "event_date": "2026-09-12",
+      "home_id": "KT",
+      "kickoff": "2026-09-12T17:00:00+09:00",
+      "official_game_id": "20260912HTKT0",
+      "schedule_body_sha256": "1d7c5d0a4d2b8e0444debd1f3255a1fa2226e1a246476018d05cf9ca05dfea3a"
+    },
+    "score:2026-09-12:두산:NC": {
+      "away_id": "NC",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-108.body.gz",
+          "body_sha256": "4f6aa5d1ab69959e59e84a3eb3d2536112f72b8bca976d6a167c86e35a71df7d",
+          "round": "260108"
+        }
+      ],
+      "event_date": "2026-09-12",
+      "home_id": "OB",
+      "kickoff": "2026-09-12T17:00:00+09:00",
+      "official_game_id": "20260912NCOB0",
+      "schedule_body_sha256": "1d7c5d0a4d2b8e0444debd1f3255a1fa2226e1a246476018d05cf9ca05dfea3a"
+    },
+    "score:2026-09-12:삼성:LG": {
+      "away_id": "LG",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-108.body.gz",
+          "body_sha256": "4f6aa5d1ab69959e59e84a3eb3d2536112f72b8bca976d6a167c86e35a71df7d",
+          "round": "260108"
+        }
+      ],
+      "event_date": "2026-09-12",
+      "home_id": "SS",
+      "kickoff": "2026-09-12T17:00:00+09:00",
+      "official_game_id": "20260912LGSS0",
+      "schedule_body_sha256": "1d7c5d0a4d2b8e0444debd1f3255a1fa2226e1a246476018d05cf9ca05dfea3a"
+    },
+    "score:2026-09-12:키움:롯데": {
+      "away_id": "LT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-108.body.gz",
+          "body_sha256": "4f6aa5d1ab69959e59e84a3eb3d2536112f72b8bca976d6a167c86e35a71df7d",
+          "round": "260108"
+        }
+      ],
+      "event_date": "2026-09-12",
+      "home_id": "WO",
+      "kickoff": "2026-09-12T17:00:00+09:00",
+      "official_game_id": "20260912LTWO0",
+      "schedule_body_sha256": "1d7c5d0a4d2b8e0444debd1f3255a1fa2226e1a246476018d05cf9ca05dfea3a"
+    },
+    "score:2026-09-13:KIA:한화": {
+      "away_id": "HH",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-108.body.gz",
+          "body_sha256": "4f6aa5d1ab69959e59e84a3eb3d2536112f72b8bca976d6a167c86e35a71df7d",
+          "round": "260108"
+        }
+      ],
+      "event_date": "2026-09-13",
+      "home_id": "HT",
+      "kickoff": "2026-09-13T17:00:00+09:00",
+      "official_game_id": "20260913HHHT0",
+      "schedule_body_sha256": "217647d1ceded1ea2b09095048dc300b6288d8a30a77d6d51bc465cffd8f8090"
+    },
+    "score:2026-09-13:KT:롯데": {
+      "away_id": "LT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-108.body.gz",
+          "body_sha256": "4f6aa5d1ab69959e59e84a3eb3d2536112f72b8bca976d6a167c86e35a71df7d",
+          "round": "260108"
+        }
+      ],
+      "event_date": "2026-09-13",
+      "home_id": "KT",
+      "kickoff": "2026-09-13T17:00:00+09:00",
+      "official_game_id": "20260913LTKT0",
+      "schedule_body_sha256": "217647d1ceded1ea2b09095048dc300b6288d8a30a77d6d51bc465cffd8f8090"
+    },
+    "score:2026-09-13:두산:NC": {
+      "away_id": "NC",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-108.body.gz",
+          "body_sha256": "4f6aa5d1ab69959e59e84a3eb3d2536112f72b8bca976d6a167c86e35a71df7d",
+          "round": "260108"
+        }
+      ],
+      "event_date": "2026-09-13",
+      "home_id": "OB",
+      "kickoff": "2026-09-13T17:00:00+09:00",
+      "official_game_id": "20260913NCOB0",
+      "schedule_body_sha256": "217647d1ceded1ea2b09095048dc300b6288d8a30a77d6d51bc465cffd8f8090"
+    },
+    "score:2026-09-13:삼성:LG": {
+      "away_id": "LG",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-108.body.gz",
+          "body_sha256": "4f6aa5d1ab69959e59e84a3eb3d2536112f72b8bca976d6a167c86e35a71df7d",
+          "round": "260108"
+        }
+      ],
+      "event_date": "2026-09-13",
+      "home_id": "SS",
+      "kickoff": "2026-09-13T17:00:00+09:00",
+      "official_game_id": "20260913LGSS0",
+      "schedule_body_sha256": "217647d1ceded1ea2b09095048dc300b6288d8a30a77d6d51bc465cffd8f8090"
+    },
+    "score:2026-09-15:NC:LG": {
+      "away_id": "LG",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-109.body.gz",
+          "body_sha256": "bb6f71273c4f1e99d9de025d8b3120a4cc4938c522be573bc01e6689f42504da",
+          "round": "260109"
+        }
+      ],
+      "event_date": "2026-09-15",
+      "home_id": "NC",
+      "kickoff": "2026-09-15T18:30:00+09:00",
+      "official_game_id": "20260915LGNC0",
+      "schedule_body_sha256": "764f87b29dd4f68587bd572b0bfc2021f02a3a7e0f94f0406664836262376b9b"
+    },
+    "score:2026-09-15:삼성:롯데": {
+      "away_id": "LT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-109.body.gz",
+          "body_sha256": "bb6f71273c4f1e99d9de025d8b3120a4cc4938c522be573bc01e6689f42504da",
+          "round": "260109"
+        }
+      ],
+      "event_date": "2026-09-15",
+      "home_id": "SS",
+      "kickoff": "2026-09-15T18:30:00+09:00",
+      "official_game_id": "20260915LTSS0",
+      "schedule_body_sha256": "764f87b29dd4f68587bd572b0bfc2021f02a3a7e0f94f0406664836262376b9b"
+    },
+    "score:2026-09-15:한화:KT": {
+      "away_id": "KT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-109.body.gz",
+          "body_sha256": "bb6f71273c4f1e99d9de025d8b3120a4cc4938c522be573bc01e6689f42504da",
+          "round": "260109"
+        }
+      ],
+      "event_date": "2026-09-15",
+      "home_id": "HH",
+      "kickoff": "2026-09-15T18:30:00+09:00",
+      "official_game_id": "20260915KTHH0",
+      "schedule_body_sha256": "764f87b29dd4f68587bd572b0bfc2021f02a3a7e0f94f0406664836262376b9b"
+    },
+    "score:2026-09-16:NC:LG": {
+      "away_id": "LG",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-109.body.gz",
+          "body_sha256": "bb6f71273c4f1e99d9de025d8b3120a4cc4938c522be573bc01e6689f42504da",
+          "round": "260109"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-110.body.gz",
+          "body_sha256": "a209d7861fdd0bf842a5d2ec9c1ccc4d40021da06d553a48a21ba1b209294cc7",
+          "round": "260110"
+        }
+      ],
+      "event_date": "2026-09-16",
+      "home_id": "NC",
+      "kickoff": "2026-09-16T18:30:00+09:00",
+      "official_game_id": "20260916LGNC0",
+      "schedule_body_sha256": "59eee51f78f51c132f9208f3f539e2b3092145d98fca2bc4b098031aa6246a8f"
+    },
+    "score:2026-09-16:두산:삼성": {
+      "away_id": "SS",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-109.body.gz",
+          "body_sha256": "bb6f71273c4f1e99d9de025d8b3120a4cc4938c522be573bc01e6689f42504da",
+          "round": "260109"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-110.body.gz",
+          "body_sha256": "a209d7861fdd0bf842a5d2ec9c1ccc4d40021da06d553a48a21ba1b209294cc7",
+          "round": "260110"
+        }
+      ],
+      "event_date": "2026-09-16",
+      "home_id": "OB",
+      "kickoff": "2026-09-16T18:30:00+09:00",
+      "official_game_id": "20260916SSOB0",
+      "schedule_body_sha256": "59eee51f78f51c132f9208f3f539e2b3092145d98fca2bc4b098031aa6246a8f"
+    },
+    "score:2026-09-16:한화:KT": {
+      "away_id": "KT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-109.body.gz",
+          "body_sha256": "bb6f71273c4f1e99d9de025d8b3120a4cc4938c522be573bc01e6689f42504da",
+          "round": "260109"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-110.body.gz",
+          "body_sha256": "a209d7861fdd0bf842a5d2ec9c1ccc4d40021da06d553a48a21ba1b209294cc7",
+          "round": "260110"
+        }
+      ],
+      "event_date": "2026-09-16",
+      "home_id": "HH",
+      "kickoff": "2026-09-16T18:30:00+09:00",
+      "official_game_id": "20260916KTHH0",
+      "schedule_body_sha256": "59eee51f78f51c132f9208f3f539e2b3092145d98fca2bc4b098031aa6246a8f"
+    },
+    "score:2026-09-17:KIA:키움": {
+      "away_id": "WO",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-110.body.gz",
+          "body_sha256": "a209d7861fdd0bf842a5d2ec9c1ccc4d40021da06d553a48a21ba1b209294cc7",
+          "round": "260110"
+        }
+      ],
+      "event_date": "2026-09-17",
+      "home_id": "HT",
+      "kickoff": "2026-09-17T18:30:00+09:00",
+      "official_game_id": "20260917WOHT0",
+      "schedule_body_sha256": "6847c2484b899026c4cc86d70dffa17d125947cdf3e3dbab46740dfd557c7f03"
+    },
+    "score:2026-09-18:KT:LG": {
+      "away_id": "LG",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-110.body.gz",
+          "body_sha256": "a209d7861fdd0bf842a5d2ec9c1ccc4d40021da06d553a48a21ba1b209294cc7",
+          "round": "260110"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-111.body.gz",
+          "body_sha256": "f9b86f866af43baae79ead130f206c8395af8b4a278ae9c4a0573ab1272f5d2a",
+          "round": "260111"
+        }
+      ],
+      "event_date": "2026-09-18",
+      "home_id": "KT",
+      "kickoff": "2026-09-18T18:30:00+09:00",
+      "official_game_id": "20260918LGKT0",
+      "schedule_body_sha256": "8a4a831f3c01318110098d3ee324c018264fd8a63b2cc9d50d65d94efd2a4bd3"
+    },
+    "score:2026-09-18:두산:키움": {
+      "away_id": "WO",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-110.body.gz",
+          "body_sha256": "a209d7861fdd0bf842a5d2ec9c1ccc4d40021da06d553a48a21ba1b209294cc7",
+          "round": "260110"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-111.body.gz",
+          "body_sha256": "f9b86f866af43baae79ead130f206c8395af8b4a278ae9c4a0573ab1272f5d2a",
+          "round": "260111"
+        }
+      ],
+      "event_date": "2026-09-18",
+      "home_id": "OB",
+      "kickoff": "2026-09-18T18:30:00+09:00",
+      "official_game_id": "20260918WOOB0",
+      "schedule_body_sha256": "8a4a831f3c01318110098d3ee324c018264fd8a63b2cc9d50d65d94efd2a4bd3"
+    },
+    "score:2026-09-18:한화:삼성": {
+      "away_id": "SS",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-110.body.gz",
+          "body_sha256": "a209d7861fdd0bf842a5d2ec9c1ccc4d40021da06d553a48a21ba1b209294cc7",
+          "round": "260110"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-111.body.gz",
+          "body_sha256": "f9b86f866af43baae79ead130f206c8395af8b4a278ae9c4a0573ab1272f5d2a",
+          "round": "260111"
+        }
+      ],
+      "event_date": "2026-09-18",
+      "home_id": "HH",
+      "kickoff": "2026-09-18T18:30:00+09:00",
+      "official_game_id": "20260918SSHH0",
+      "schedule_body_sha256": "8a4a831f3c01318110098d3ee324c018264fd8a63b2cc9d50d65d94efd2a4bd3"
+    },
+    "score:2026-09-19:KT:두산": {
+      "away_id": "OB",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-111.body.gz",
+          "body_sha256": "f9b86f866af43baae79ead130f206c8395af8b4a278ae9c4a0573ab1272f5d2a",
+          "round": "260111"
+        }
+      ],
+      "event_date": "2026-09-19",
+      "home_id": "KT",
+      "kickoff": "2026-09-19T17:00:00+09:00",
+      "official_game_id": "20260919OBKT0",
+      "schedule_body_sha256": "796c64bb935eb5018184d11621fd2fcadcb02b8fc40c80c259a4b45e19b6f921"
+    },
+    "score:2026-09-19:LG:한화": {
+      "away_id": "HH",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-111.body.gz",
+          "body_sha256": "f9b86f866af43baae79ead130f206c8395af8b4a278ae9c4a0573ab1272f5d2a",
+          "round": "260111"
+        }
+      ],
+      "event_date": "2026-09-19",
+      "home_id": "LG",
+      "kickoff": "2026-09-19T17:00:00+09:00",
+      "official_game_id": "20260919HHLG0",
+      "schedule_body_sha256": "796c64bb935eb5018184d11621fd2fcadcb02b8fc40c80c259a4b45e19b6f921"
+    },
+    "score:2026-09-19:NC:KIA": {
+      "away_id": "HT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-111.body.gz",
+          "body_sha256": "f9b86f866af43baae79ead130f206c8395af8b4a278ae9c4a0573ab1272f5d2a",
+          "round": "260111"
+        }
+      ],
+      "event_date": "2026-09-19",
+      "home_id": "NC",
+      "kickoff": "2026-09-19T17:00:00+09:00",
+      "official_game_id": "20260919HTNC0",
+      "schedule_body_sha256": "796c64bb935eb5018184d11621fd2fcadcb02b8fc40c80c259a4b45e19b6f921"
+    },
+    "score:2026-09-19:롯데:삼성": {
+      "away_id": "SS",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-111.body.gz",
+          "body_sha256": "f9b86f866af43baae79ead130f206c8395af8b4a278ae9c4a0573ab1272f5d2a",
+          "round": "260111"
+        }
+      ],
+      "event_date": "2026-09-19",
+      "home_id": "LT",
+      "kickoff": "2026-09-19T17:00:00+09:00",
+      "official_game_id": "20260919SSLT0",
+      "schedule_body_sha256": "796c64bb935eb5018184d11621fd2fcadcb02b8fc40c80c259a4b45e19b6f921"
+    },
+    "score:2026-09-20:KT:두산": {
+      "away_id": "OB",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-111.body.gz",
+          "body_sha256": "f9b86f866af43baae79ead130f206c8395af8b4a278ae9c4a0573ab1272f5d2a",
+          "round": "260111"
+        }
+      ],
+      "event_date": "2026-09-20",
+      "home_id": "KT",
+      "kickoff": "2026-09-20T14:00:00+09:00",
+      "official_game_id": "20260920OBKT0",
+      "schedule_body_sha256": "c6402a31836a1df26627e82a13ed5f8994bf10ff60d61de67957dcb4dd31e1a5"
+    },
+    "score:2026-09-20:LG:한화": {
+      "away_id": "HH",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-111.body.gz",
+          "body_sha256": "f9b86f866af43baae79ead130f206c8395af8b4a278ae9c4a0573ab1272f5d2a",
+          "round": "260111"
+        }
+      ],
+      "event_date": "2026-09-20",
+      "home_id": "LG",
+      "kickoff": "2026-09-20T14:00:00+09:00",
+      "official_game_id": "20260920HHLG0",
+      "schedule_body_sha256": "c6402a31836a1df26627e82a13ed5f8994bf10ff60d61de67957dcb4dd31e1a5"
+    },
+    "score:2026-09-20:NC:KIA": {
+      "away_id": "HT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-111.body.gz",
+          "body_sha256": "f9b86f866af43baae79ead130f206c8395af8b4a278ae9c4a0573ab1272f5d2a",
+          "round": "260111"
+        }
+      ],
+      "event_date": "2026-09-20",
+      "home_id": "NC",
+      "kickoff": "2026-09-20T14:00:00+09:00",
+      "official_game_id": "20260920HTNC0",
+      "schedule_body_sha256": "c6402a31836a1df26627e82a13ed5f8994bf10ff60d61de67957dcb4dd31e1a5"
+    },
+    "score:2026-09-20:SSG:키움": {
+      "away_id": "WO",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-111.body.gz",
+          "body_sha256": "f9b86f866af43baae79ead130f206c8395af8b4a278ae9c4a0573ab1272f5d2a",
+          "round": "260111"
+        }
+      ],
+      "event_date": "2026-09-20",
+      "home_id": "SK",
+      "kickoff": "2026-09-20T14:00:00+09:00",
+      "official_game_id": "20260920WOSK0",
+      "schedule_body_sha256": "c6402a31836a1df26627e82a13ed5f8994bf10ff60d61de67957dcb4dd31e1a5"
+    },
+    "score:2026-09-20:롯데:삼성": {
+      "away_id": "SS",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-111.body.gz",
+          "body_sha256": "f9b86f866af43baae79ead130f206c8395af8b4a278ae9c4a0573ab1272f5d2a",
+          "round": "260111"
+        }
+      ],
+      "event_date": "2026-09-20",
+      "home_id": "LT",
+      "kickoff": "2026-09-20T14:00:00+09:00",
+      "official_game_id": "20260920SSLT0",
+      "schedule_body_sha256": "c6402a31836a1df26627e82a13ed5f8994bf10ff60d61de67957dcb4dd31e1a5"
+    },
+    "score:2026-09-22:SSG:KT": {
+      "away_id": "KT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-112.body.gz",
+          "body_sha256": "e5614b9089b0ad5535cfaf2c269d16d32ffb6856133ec9c11076addcb18510c6",
+          "round": "260112"
+        }
+      ],
+      "event_date": "2026-09-22",
+      "home_id": "SK",
+      "kickoff": "2026-09-22T18:30:00+09:00",
+      "official_game_id": "20260922KTSK0",
+      "schedule_body_sha256": "0c5050937e32ef2160e7bc97be768af9d7f819c607a858c2441deb37367f0ebc"
+    },
+    "score:2026-09-22:삼성:NC": {
+      "away_id": "NC",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-112.body.gz",
+          "body_sha256": "e5614b9089b0ad5535cfaf2c269d16d32ffb6856133ec9c11076addcb18510c6",
+          "round": "260112"
+        }
+      ],
+      "event_date": "2026-09-22",
+      "home_id": "SS",
+      "kickoff": "2026-09-22T18:30:00+09:00",
+      "official_game_id": "20260922NCSS0",
+      "schedule_body_sha256": "0c5050937e32ef2160e7bc97be768af9d7f819c607a858c2441deb37367f0ebc"
+    },
+    "score:2026-09-22:키움:두산": {
+      "away_id": "OB",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-112.body.gz",
+          "body_sha256": "e5614b9089b0ad5535cfaf2c269d16d32ffb6856133ec9c11076addcb18510c6",
+          "round": "260112"
+        }
+      ],
+      "event_date": "2026-09-22",
+      "home_id": "WO",
+      "kickoff": "2026-09-22T18:30:00+09:00",
+      "official_game_id": "20260922OBWO0",
+      "schedule_body_sha256": "0c5050937e32ef2160e7bc97be768af9d7f819c607a858c2441deb37367f0ebc"
+    },
+    "score:2026-09-22:한화:롯데": {
+      "away_id": "LT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-112.body.gz",
+          "body_sha256": "e5614b9089b0ad5535cfaf2c269d16d32ffb6856133ec9c11076addcb18510c6",
+          "round": "260112"
+        }
+      ],
+      "event_date": "2026-09-22",
+      "home_id": "HH",
+      "kickoff": "2026-09-22T18:30:00+09:00",
+      "official_game_id": "20260922LTHH0",
+      "schedule_body_sha256": "0c5050937e32ef2160e7bc97be768af9d7f819c607a858c2441deb37367f0ebc"
+    },
+    "score:2026-09-23:KT:NC": {
+      "away_id": "NC",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-112.body.gz",
+          "body_sha256": "e5614b9089b0ad5535cfaf2c269d16d32ffb6856133ec9c11076addcb18510c6",
+          "round": "260112"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-113.body.gz",
+          "body_sha256": "dad661296e1815afacd476ba76610a024244a9f583a8cfda35644bdfefebbe4f",
+          "round": "260113"
+        }
+      ],
+      "event_date": "2026-09-23",
+      "home_id": "KT",
+      "kickoff": "2026-09-23T18:30:00+09:00",
+      "official_game_id": "20260923NCKT0",
+      "schedule_body_sha256": "a951199a02a69e89308beec978eefee87cacfc9027ccd789acbf71d7c0e4f9af"
+    },
+    "score:2026-09-23:두산:KIA": {
+      "away_id": "HT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-112.body.gz",
+          "body_sha256": "e5614b9089b0ad5535cfaf2c269d16d32ffb6856133ec9c11076addcb18510c6",
+          "round": "260112"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-113.body.gz",
+          "body_sha256": "dad661296e1815afacd476ba76610a024244a9f583a8cfda35644bdfefebbe4f",
+          "round": "260113"
+        }
+      ],
+      "event_date": "2026-09-23",
+      "home_id": "OB",
+      "kickoff": "2026-09-23T18:30:00+09:00",
+      "official_game_id": "20260923HTOB0",
+      "schedule_body_sha256": "a951199a02a69e89308beec978eefee87cacfc9027ccd789acbf71d7c0e4f9af"
+    },
+    "score:2026-09-23:한화:롯데": {
+      "away_id": "LT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-112.body.gz",
+          "body_sha256": "e5614b9089b0ad5535cfaf2c269d16d32ffb6856133ec9c11076addcb18510c6",
+          "round": "260112"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-113.body.gz",
+          "body_sha256": "dad661296e1815afacd476ba76610a024244a9f583a8cfda35644bdfefebbe4f",
+          "round": "260113"
+        }
+      ],
+      "event_date": "2026-09-23",
+      "home_id": "HH",
+      "kickoff": "2026-09-23T18:30:00+09:00",
+      "official_game_id": "20260923LTHH0",
+      "schedule_body_sha256": "a951199a02a69e89308beec978eefee87cacfc9027ccd789acbf71d7c0e4f9af"
+    },
+    "score:2026-09-24:LG:롯데": {
+      "away_id": "LT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-113.body.gz",
+          "body_sha256": "dad661296e1815afacd476ba76610a024244a9f583a8cfda35644bdfefebbe4f",
+          "round": "260113"
+        }
+      ],
+      "event_date": "2026-09-24",
+      "home_id": "LG",
+      "kickoff": "2026-09-24T17:00:00+09:00",
+      "official_game_id": "20260924LTLG0",
+      "schedule_body_sha256": "1e4399b165f78fc26f6c249ddb8109557f14000ee18555a4e5fdb22fcfbbc8ea"
+    },
+    "score:2026-09-25:NC:한화": {
+      "away_id": "HH",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-113.body.gz",
+          "body_sha256": "dad661296e1815afacd476ba76610a024244a9f583a8cfda35644bdfefebbe4f",
+          "round": "260113"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-114.body.gz",
+          "body_sha256": "3c59bdb19a62f3b31e7c7289a4f38933ca472a11fca4bdf2ea964a8ab2774e85",
+          "round": "260114"
+        }
+      ],
+      "event_date": "2026-09-25",
+      "home_id": "NC",
+      "kickoff": "2026-09-25T17:00:00+09:00",
+      "official_game_id": "20260925HHNC0",
+      "schedule_body_sha256": "6281d28168d1ef4db6b577a3670bdf53073a92eb7d44586ce3a2977887f71aa6"
+    },
+    "score:2026-09-26:KIA:LG": {
+      "away_id": "LG",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-114.body.gz",
+          "body_sha256": "3c59bdb19a62f3b31e7c7289a4f38933ca472a11fca4bdf2ea964a8ab2774e85",
+          "round": "260114"
+        }
+      ],
+      "event_date": "2026-09-26",
+      "home_id": "HT",
+      "kickoff": "2026-09-26T17:00:00+09:00",
+      "official_game_id": "20260926LGHT0",
+      "schedule_body_sha256": "54cc11ad380519ee2b9e2e53b0cc07bca751e737cb4c7481866f1745cb966818"
+    },
+    "score:2026-09-26:KT:키움": {
+      "away_id": "WO",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-114.body.gz",
+          "body_sha256": "3c59bdb19a62f3b31e7c7289a4f38933ca472a11fca4bdf2ea964a8ab2774e85",
+          "round": "260114"
+        }
+      ],
+      "event_date": "2026-09-26",
+      "home_id": "KT",
+      "kickoff": "2026-09-26T17:00:00+09:00",
+      "official_game_id": "20260926WOKT0",
+      "schedule_body_sha256": "54cc11ad380519ee2b9e2e53b0cc07bca751e737cb4c7481866f1745cb966818"
+    },
+    "score:2026-09-26:NC:한화": {
+      "away_id": "HH",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-114.body.gz",
+          "body_sha256": "3c59bdb19a62f3b31e7c7289a4f38933ca472a11fca4bdf2ea964a8ab2774e85",
+          "round": "260114"
+        }
+      ],
+      "event_date": "2026-09-26",
+      "home_id": "NC",
+      "kickoff": "2026-09-26T17:00:00+09:00",
+      "official_game_id": "20260926HHNC0",
+      "schedule_body_sha256": "54cc11ad380519ee2b9e2e53b0cc07bca751e737cb4c7481866f1745cb966818"
+    },
+    "score:2026-09-27:두산:KT": {
+      "away_id": "KT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-114.body.gz",
+          "body_sha256": "3c59bdb19a62f3b31e7c7289a4f38933ca472a11fca4bdf2ea964a8ab2774e85",
+          "round": "260114"
+        }
+      ],
+      "event_date": "2026-09-27",
+      "home_id": "OB",
+      "kickoff": "2026-09-27T17:00:00+09:00",
+      "official_game_id": "20260927KTOB0",
+      "schedule_body_sha256": "ab8f5c94cdfbdd218262589fcd2cb180609caf74978f4338a3bb100aef004e8b"
+    },
+    "score:2026-09-27:롯데:한화": {
+      "away_id": "HH",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-114.body.gz",
+          "body_sha256": "3c59bdb19a62f3b31e7c7289a4f38933ca472a11fca4bdf2ea964a8ab2774e85",
+          "round": "260114"
+        }
+      ],
+      "event_date": "2026-09-27",
+      "home_id": "LT",
+      "kickoff": "2026-09-27T17:00:00+09:00",
+      "official_game_id": "20260927HHLT0",
+      "schedule_body_sha256": "ab8f5c94cdfbdd218262589fcd2cb180609caf74978f4338a3bb100aef004e8b"
+    },
+    "score:2026-09-29:KIA:KT": {
+      "away_id": "KT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-115.body.gz",
+          "body_sha256": "8a4a297a3094bef2f7a93de3f5b51c3c2a52dcde09a18b11af40ecedc7b48d50",
+          "round": "260115"
+        }
+      ],
+      "event_date": "2026-09-29",
+      "home_id": "HT",
+      "kickoff": "2026-09-29T18:30:00+09:00",
+      "official_game_id": "20260929KTHT0",
+      "schedule_body_sha256": "31765c89840749a24fc2e6f7c47a531f59fe3c2ca0d2688bb26b8378a96d6f57"
+    },
+    "score:2026-09-29:SSG:LG": {
+      "away_id": "LG",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-115.body.gz",
+          "body_sha256": "8a4a297a3094bef2f7a93de3f5b51c3c2a52dcde09a18b11af40ecedc7b48d50",
+          "round": "260115"
+        }
+      ],
+      "event_date": "2026-09-29",
+      "home_id": "SK",
+      "kickoff": "2026-09-29T18:30:00+09:00",
+      "official_game_id": "20260929LGSK0",
+      "schedule_body_sha256": "31765c89840749a24fc2e6f7c47a531f59fe3c2ca0d2688bb26b8378a96d6f57"
+    },
+    "score:2026-09-29:두산:NC": {
+      "away_id": "NC",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-115.body.gz",
+          "body_sha256": "8a4a297a3094bef2f7a93de3f5b51c3c2a52dcde09a18b11af40ecedc7b48d50",
+          "round": "260115"
+        }
+      ],
+      "event_date": "2026-09-29",
+      "home_id": "OB",
+      "kickoff": "2026-09-29T18:30:00+09:00",
+      "official_game_id": "20260929NCOB0",
+      "schedule_body_sha256": "31765c89840749a24fc2e6f7c47a531f59fe3c2ca0d2688bb26b8378a96d6f57"
+    },
+    "score:2026-09-29:롯데:키움": {
+      "away_id": "WO",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-115.body.gz",
+          "body_sha256": "8a4a297a3094bef2f7a93de3f5b51c3c2a52dcde09a18b11af40ecedc7b48d50",
+          "round": "260115"
+        }
+      ],
+      "event_date": "2026-09-29",
+      "home_id": "LT",
+      "kickoff": "2026-09-29T18:30:00+09:00",
+      "official_game_id": "20260929WOLT0",
+      "schedule_body_sha256": "31765c89840749a24fc2e6f7c47a531f59fe3c2ca0d2688bb26b8378a96d6f57"
+    },
+    "score:2026-09-29:삼성:한화": {
+      "away_id": "HH",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-115.body.gz",
+          "body_sha256": "8a4a297a3094bef2f7a93de3f5b51c3c2a52dcde09a18b11af40ecedc7b48d50",
+          "round": "260115"
+        }
+      ],
+      "event_date": "2026-09-29",
+      "home_id": "SS",
+      "kickoff": "2026-09-29T18:30:00+09:00",
+      "official_game_id": "20260929HHSS0",
+      "schedule_body_sha256": "31765c89840749a24fc2e6f7c47a531f59fe3c2ca0d2688bb26b8378a96d6f57"
+    },
+    "score:2026-09-30:KIA:KT": {
+      "away_id": "KT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-115.body.gz",
+          "body_sha256": "8a4a297a3094bef2f7a93de3f5b51c3c2a52dcde09a18b11af40ecedc7b48d50",
+          "round": "260115"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-116.body.gz",
+          "body_sha256": "f577b69d989e465e66d71f235021d8880ef4bd6f0ab80c6677da94b52fe9e555",
+          "round": "260116"
+        }
+      ],
+      "event_date": "2026-09-30",
+      "home_id": "HT",
+      "kickoff": "2026-09-30T18:30:00+09:00",
+      "official_game_id": "20260930KTHT0",
+      "schedule_body_sha256": "72e89e5b50b065c0e8f3c1ae56101eedcf6a137087d5de7d7fda5f07d80d8e6f"
+    },
+    "score:2026-09-30:SSG:LG": {
+      "away_id": "LG",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-115.body.gz",
+          "body_sha256": "8a4a297a3094bef2f7a93de3f5b51c3c2a52dcde09a18b11af40ecedc7b48d50",
+          "round": "260115"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-116.body.gz",
+          "body_sha256": "f577b69d989e465e66d71f235021d8880ef4bd6f0ab80c6677da94b52fe9e555",
+          "round": "260116"
+        }
+      ],
+      "event_date": "2026-09-30",
+      "home_id": "SK",
+      "kickoff": "2026-09-30T18:30:00+09:00",
+      "official_game_id": "20260930LGSK0",
+      "schedule_body_sha256": "72e89e5b50b065c0e8f3c1ae56101eedcf6a137087d5de7d7fda5f07d80d8e6f"
+    },
+    "score:2026-09-30:두산:NC": {
+      "away_id": "NC",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-115.body.gz",
+          "body_sha256": "8a4a297a3094bef2f7a93de3f5b51c3c2a52dcde09a18b11af40ecedc7b48d50",
+          "round": "260115"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-116.body.gz",
+          "body_sha256": "f577b69d989e465e66d71f235021d8880ef4bd6f0ab80c6677da94b52fe9e555",
+          "round": "260116"
+        }
+      ],
+      "event_date": "2026-09-30",
+      "home_id": "OB",
+      "kickoff": "2026-09-30T18:30:00+09:00",
+      "official_game_id": "20260930NCOB0",
+      "schedule_body_sha256": "72e89e5b50b065c0e8f3c1ae56101eedcf6a137087d5de7d7fda5f07d80d8e6f"
+    },
+    "score:2026-09-30:롯데:키움": {
+      "away_id": "WO",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-115.body.gz",
+          "body_sha256": "8a4a297a3094bef2f7a93de3f5b51c3c2a52dcde09a18b11af40ecedc7b48d50",
+          "round": "260115"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-116.body.gz",
+          "body_sha256": "f577b69d989e465e66d71f235021d8880ef4bd6f0ab80c6677da94b52fe9e555",
+          "round": "260116"
+        }
+      ],
+      "event_date": "2026-09-30",
+      "home_id": "LT",
+      "kickoff": "2026-09-30T18:30:00+09:00",
+      "official_game_id": "20260930WOLT0",
+      "schedule_body_sha256": "72e89e5b50b065c0e8f3c1ae56101eedcf6a137087d5de7d7fda5f07d80d8e6f"
+    },
+    "score:2026-09-30:삼성:한화": {
+      "away_id": "HH",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-115.body.gz",
+          "body_sha256": "8a4a297a3094bef2f7a93de3f5b51c3c2a52dcde09a18b11af40ecedc7b48d50",
+          "round": "260115"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-116.body.gz",
+          "body_sha256": "f577b69d989e465e66d71f235021d8880ef4bd6f0ab80c6677da94b52fe9e555",
+          "round": "260116"
+        }
+      ],
+      "event_date": "2026-09-30",
+      "home_id": "SS",
+      "kickoff": "2026-09-30T18:30:00+09:00",
+      "official_game_id": "20260930HHSS0",
+      "schedule_body_sha256": "72e89e5b50b065c0e8f3c1ae56101eedcf6a137087d5de7d7fda5f07d80d8e6f"
+    },
+    "score:2026-10-01:KIA:KT": {
+      "away_id": "KT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-116.body.gz",
+          "body_sha256": "f577b69d989e465e66d71f235021d8880ef4bd6f0ab80c6677da94b52fe9e555",
+          "round": "260116"
+        }
+      ],
+      "event_date": "2026-10-01",
+      "home_id": "HT",
+      "kickoff": "2026-10-01T18:30:00+09:00",
+      "official_game_id": "20261001KTHT0",
+      "schedule_body_sha256": "ee64589c5fa7e6742a3070cca4c77b38c723dbbbb2dfd3c4287eff1c9140bb51"
+    },
+    "score:2026-10-01:SSG:LG": {
+      "away_id": "LG",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-116.body.gz",
+          "body_sha256": "f577b69d989e465e66d71f235021d8880ef4bd6f0ab80c6677da94b52fe9e555",
+          "round": "260116"
+        }
+      ],
+      "event_date": "2026-10-01",
+      "home_id": "SK",
+      "kickoff": "2026-10-01T18:30:00+09:00",
+      "official_game_id": "20261001LGSK0",
+      "schedule_body_sha256": "ee64589c5fa7e6742a3070cca4c77b38c723dbbbb2dfd3c4287eff1c9140bb51"
+    },
+    "score:2026-10-01:두산:NC": {
+      "away_id": "NC",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-116.body.gz",
+          "body_sha256": "f577b69d989e465e66d71f235021d8880ef4bd6f0ab80c6677da94b52fe9e555",
+          "round": "260116"
+        }
+      ],
+      "event_date": "2026-10-01",
+      "home_id": "OB",
+      "kickoff": "2026-10-01T18:30:00+09:00",
+      "official_game_id": "20261001NCOB0",
+      "schedule_body_sha256": "ee64589c5fa7e6742a3070cca4c77b38c723dbbbb2dfd3c4287eff1c9140bb51"
+    },
+    "score:2026-10-01:삼성:한화": {
+      "away_id": "HH",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-116.body.gz",
+          "body_sha256": "f577b69d989e465e66d71f235021d8880ef4bd6f0ab80c6677da94b52fe9e555",
+          "round": "260116"
+        }
+      ],
+      "event_date": "2026-10-01",
+      "home_id": "SS",
+      "kickoff": "2026-10-01T18:30:00+09:00",
+      "official_game_id": "20261001HHSS0",
+      "schedule_body_sha256": "ee64589c5fa7e6742a3070cca4c77b38c723dbbbb2dfd3c4287eff1c9140bb51"
+    },
+    "score:2026-10-03:KT:롯데": {
+      "away_id": "LT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-117.body.gz",
+          "body_sha256": "ed31441ffae0945ef568a9aaf5917be13d7820739749b45b066c651772bdf907",
+          "round": "260117"
+        }
+      ],
+      "event_date": "2026-10-03",
+      "home_id": "KT",
+      "kickoff": "2026-10-03T14:00:00+09:00",
+      "official_game_id": "20261003LTKT0",
+      "schedule_body_sha256": "13d70e3d8fdcfa567e27a62a021951e28000a3af60533b2fc76df59369f9d721"
+    },
+    "score:2026-10-03:LG:KIA": {
+      "away_id": "HT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-117.body.gz",
+          "body_sha256": "ed31441ffae0945ef568a9aaf5917be13d7820739749b45b066c651772bdf907",
+          "round": "260117"
+        }
+      ],
+      "event_date": "2026-10-03",
+      "home_id": "LG",
+      "kickoff": "2026-10-03T14:00:00+09:00",
+      "official_game_id": "20261003HTLG0",
+      "schedule_body_sha256": "13d70e3d8fdcfa567e27a62a021951e28000a3af60533b2fc76df59369f9d721"
+    },
+    "score:2026-10-03:NC:SSG": {
+      "away_id": "SK",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-117.body.gz",
+          "body_sha256": "ed31441ffae0945ef568a9aaf5917be13d7820739749b45b066c651772bdf907",
+          "round": "260117"
+        }
+      ],
+      "event_date": "2026-10-03",
+      "home_id": "NC",
+      "kickoff": "2026-10-03T14:00:00+09:00",
+      "official_game_id": "20261003SKNC0",
+      "schedule_body_sha256": "13d70e3d8fdcfa567e27a62a021951e28000a3af60533b2fc76df59369f9d721"
+    },
+    "score:2026-10-03:삼성:두산": {
+      "away_id": "OB",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-117.body.gz",
+          "body_sha256": "ed31441ffae0945ef568a9aaf5917be13d7820739749b45b066c651772bdf907",
+          "round": "260117"
+        }
+      ],
+      "event_date": "2026-10-03",
+      "home_id": "SS",
+      "kickoff": "2026-10-03T14:00:00+09:00",
+      "official_game_id": "20261003OBSS0",
+      "schedule_body_sha256": "13d70e3d8fdcfa567e27a62a021951e28000a3af60533b2fc76df59369f9d721"
+    },
+    "score:2026-10-03:한화:키움": {
+      "away_id": "WO",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-117.body.gz",
+          "body_sha256": "ed31441ffae0945ef568a9aaf5917be13d7820739749b45b066c651772bdf907",
+          "round": "260117"
+        }
+      ],
+      "event_date": "2026-10-03",
+      "home_id": "HH",
+      "kickoff": "2026-10-03T14:00:00+09:00",
+      "official_game_id": "20261003WOHH0",
+      "schedule_body_sha256": "13d70e3d8fdcfa567e27a62a021951e28000a3af60533b2fc76df59369f9d721"
+    },
+    "score:2026-10-04:KT:롯데": {
+      "away_id": "LT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-117.body.gz",
+          "body_sha256": "ed31441ffae0945ef568a9aaf5917be13d7820739749b45b066c651772bdf907",
+          "round": "260117"
+        }
+      ],
+      "event_date": "2026-10-04",
+      "home_id": "KT",
+      "kickoff": "2026-10-04T17:00:00+09:00",
+      "official_game_id": "20261004LTKT0",
+      "schedule_body_sha256": "decaa84611a846284a35a0543b1327ad9dab357646c77ac441deea1ee9054604"
+    },
+    "score:2026-10-04:LG:KIA": {
+      "away_id": "HT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-117.body.gz",
+          "body_sha256": "ed31441ffae0945ef568a9aaf5917be13d7820739749b45b066c651772bdf907",
+          "round": "260117"
+        }
+      ],
+      "event_date": "2026-10-04",
+      "home_id": "LG",
+      "kickoff": "2026-10-04T14:00:00+09:00",
+      "official_game_id": "20261004HTLG0",
+      "schedule_body_sha256": "decaa84611a846284a35a0543b1327ad9dab357646c77ac441deea1ee9054604"
+    },
+    "score:2026-10-04:NC:SSG": {
+      "away_id": "SK",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-117.body.gz",
+          "body_sha256": "ed31441ffae0945ef568a9aaf5917be13d7820739749b45b066c651772bdf907",
+          "round": "260117"
+        }
+      ],
+      "event_date": "2026-10-04",
+      "home_id": "NC",
+      "kickoff": "2026-10-04T14:00:00+09:00",
+      "official_game_id": "20261004SKNC0",
+      "schedule_body_sha256": "decaa84611a846284a35a0543b1327ad9dab357646c77ac441deea1ee9054604"
+    },
+    "score:2026-10-04:삼성:두산": {
+      "away_id": "OB",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-117.body.gz",
+          "body_sha256": "ed31441ffae0945ef568a9aaf5917be13d7820739749b45b066c651772bdf907",
+          "round": "260117"
+        }
+      ],
+      "event_date": "2026-10-04",
+      "home_id": "SS",
+      "kickoff": "2026-10-04T14:00:00+09:00",
+      "official_game_id": "20261004OBSS0",
+      "schedule_body_sha256": "decaa84611a846284a35a0543b1327ad9dab357646c77ac441deea1ee9054604"
+    },
+    "score:2026-10-04:한화:키움": {
+      "away_id": "WO",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-117.body.gz",
+          "body_sha256": "ed31441ffae0945ef568a9aaf5917be13d7820739749b45b066c651772bdf907",
+          "round": "260117"
+        }
+      ],
+      "event_date": "2026-10-04",
+      "home_id": "HH",
+      "kickoff": "2026-10-04T14:00:00+09:00",
+      "official_game_id": "20261004WOHH0",
+      "schedule_body_sha256": "decaa84611a846284a35a0543b1327ad9dab357646c77ac441deea1ee9054604"
+    },
+    "score:2026-10-05:KT:롯데": {
+      "away_id": "LT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-117.body.gz",
+          "body_sha256": "ed31441ffae0945ef568a9aaf5917be13d7820739749b45b066c651772bdf907",
+          "round": "260117"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-118.body.gz",
+          "body_sha256": "3172988ab75d0208e178da43dd301cff4d8461079d1094167735f42de80d99bc",
+          "round": "260118"
+        }
+      ],
+      "event_date": "2026-10-05",
+      "home_id": "KT",
+      "kickoff": "2026-10-05T14:00:00+09:00",
+      "official_game_id": "20261005LTKT0",
+      "schedule_body_sha256": "094fbd97f209ae92ee4d927b303fe986b668394f496d4dc9fd90f44ed7c4c01c"
+    },
+    "score:2026-10-05:LG:KIA": {
+      "away_id": "HT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-117.body.gz",
+          "body_sha256": "ed31441ffae0945ef568a9aaf5917be13d7820739749b45b066c651772bdf907",
+          "round": "260117"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-118.body.gz",
+          "body_sha256": "3172988ab75d0208e178da43dd301cff4d8461079d1094167735f42de80d99bc",
+          "round": "260118"
+        }
+      ],
+      "event_date": "2026-10-05",
+      "home_id": "LG",
+      "kickoff": "2026-10-05T14:00:00+09:00",
+      "official_game_id": "20261005HTLG0",
+      "schedule_body_sha256": "094fbd97f209ae92ee4d927b303fe986b668394f496d4dc9fd90f44ed7c4c01c"
+    },
+    "score:2026-10-05:NC:SSG": {
+      "away_id": "SK",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-117.body.gz",
+          "body_sha256": "ed31441ffae0945ef568a9aaf5917be13d7820739749b45b066c651772bdf907",
+          "round": "260117"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-118.body.gz",
+          "body_sha256": "3172988ab75d0208e178da43dd301cff4d8461079d1094167735f42de80d99bc",
+          "round": "260118"
+        }
+      ],
+      "event_date": "2026-10-05",
+      "home_id": "NC",
+      "kickoff": "2026-10-05T14:00:00+09:00",
+      "official_game_id": "20261005SKNC0",
+      "schedule_body_sha256": "094fbd97f209ae92ee4d927b303fe986b668394f496d4dc9fd90f44ed7c4c01c"
+    },
+    "score:2026-10-05:삼성:두산": {
+      "away_id": "OB",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-117.body.gz",
+          "body_sha256": "ed31441ffae0945ef568a9aaf5917be13d7820739749b45b066c651772bdf907",
+          "round": "260117"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-118.body.gz",
+          "body_sha256": "3172988ab75d0208e178da43dd301cff4d8461079d1094167735f42de80d99bc",
+          "round": "260118"
+        }
+      ],
+      "event_date": "2026-10-05",
+      "home_id": "SS",
+      "kickoff": "2026-10-05T14:00:00+09:00",
+      "official_game_id": "20261005OBSS0",
+      "schedule_body_sha256": "094fbd97f209ae92ee4d927b303fe986b668394f496d4dc9fd90f44ed7c4c01c"
+    },
+    "score:2026-10-05:한화:키움": {
+      "away_id": "WO",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-117.body.gz",
+          "body_sha256": "ed31441ffae0945ef568a9aaf5917be13d7820739749b45b066c651772bdf907",
+          "round": "260117"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-118.body.gz",
+          "body_sha256": "3172988ab75d0208e178da43dd301cff4d8461079d1094167735f42de80d99bc",
+          "round": "260118"
+        }
+      ],
+      "event_date": "2026-10-05",
+      "home_id": "HH",
+      "kickoff": "2026-10-05T14:00:00+09:00",
+      "official_game_id": "20261005WOHH0",
+      "schedule_body_sha256": "094fbd97f209ae92ee4d927b303fe986b668394f496d4dc9fd90f44ed7c4c01c"
+    },
+    "score:2026-10-06:KIA:삼성": {
+      "away_id": "SS",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-118.body.gz",
+          "body_sha256": "3172988ab75d0208e178da43dd301cff4d8461079d1094167735f42de80d99bc",
+          "round": "260118"
+        }
+      ],
+      "event_date": "2026-10-06",
+      "home_id": "HT",
+      "kickoff": "2026-10-06T18:30:00+09:00",
+      "official_game_id": "20261006SSHT0",
+      "schedule_body_sha256": "d67ed96a8c6c7018ba95e784be400406f1e7472b503d70c0af9b09e96ed4eebd"
+    },
+    "score:2026-10-06:LG:NC": {
+      "away_id": "NC",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-118.body.gz",
+          "body_sha256": "3172988ab75d0208e178da43dd301cff4d8461079d1094167735f42de80d99bc",
+          "round": "260118"
+        }
+      ],
+      "event_date": "2026-10-06",
+      "home_id": "LG",
+      "kickoff": "2026-10-06T18:30:00+09:00",
+      "official_game_id": "20261006NCLG0",
+      "schedule_body_sha256": "d67ed96a8c6c7018ba95e784be400406f1e7472b503d70c0af9b09e96ed4eebd"
+    },
+    "score:2026-10-06:롯데:두산": {
+      "away_id": "OB",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-118.body.gz",
+          "body_sha256": "3172988ab75d0208e178da43dd301cff4d8461079d1094167735f42de80d99bc",
+          "round": "260118"
+        }
+      ],
+      "event_date": "2026-10-06",
+      "home_id": "LT",
+      "kickoff": "2026-10-06T18:30:00+09:00",
+      "official_game_id": "20261006OBLT0",
+      "schedule_body_sha256": "d67ed96a8c6c7018ba95e784be400406f1e7472b503d70c0af9b09e96ed4eebd"
+    },
+    "score:2026-10-06:키움:KT": {
+      "away_id": "KT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-118.body.gz",
+          "body_sha256": "3172988ab75d0208e178da43dd301cff4d8461079d1094167735f42de80d99bc",
+          "round": "260118"
+        }
+      ],
+      "event_date": "2026-10-06",
+      "home_id": "WO",
+      "kickoff": "2026-10-06T18:30:00+09:00",
+      "official_game_id": "20261006KTWO0",
+      "schedule_body_sha256": "d67ed96a8c6c7018ba95e784be400406f1e7472b503d70c0af9b09e96ed4eebd"
+    },
+    "score:2026-10-06:한화:SSG": {
+      "away_id": "SK",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-118.body.gz",
+          "body_sha256": "3172988ab75d0208e178da43dd301cff4d8461079d1094167735f42de80d99bc",
+          "round": "260118"
+        }
+      ],
+      "event_date": "2026-10-06",
+      "home_id": "HH",
+      "kickoff": "2026-10-06T18:30:00+09:00",
+      "official_game_id": "20261006SKHH0",
+      "schedule_body_sha256": "d67ed96a8c6c7018ba95e784be400406f1e7472b503d70c0af9b09e96ed4eebd"
+    },
+    "score:2026-10-07:KT:삼성": {
+      "away_id": "SS",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-118.body.gz",
+          "body_sha256": "3172988ab75d0208e178da43dd301cff4d8461079d1094167735f42de80d99bc",
+          "round": "260118"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-119.body.gz",
+          "body_sha256": "e2c75235c3baec090fa44be950ddc1e5e385a28cd290b6b4955ebcd12642725e",
+          "round": "260119"
+        }
+      ],
+      "event_date": "2026-10-07",
+      "home_id": "KT",
+      "kickoff": "2026-10-07T18:30:00+09:00",
+      "official_game_id": "20261007SSKT0",
+      "schedule_body_sha256": "37e9c793636b24a358343ff8edfdc1b60774bc41b5ea6e5adf3721cea515272d"
+    },
+    "score:2026-10-07:LG:두산": {
+      "away_id": "OB",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-118.body.gz",
+          "body_sha256": "3172988ab75d0208e178da43dd301cff4d8461079d1094167735f42de80d99bc",
+          "round": "260118"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-119.body.gz",
+          "body_sha256": "e2c75235c3baec090fa44be950ddc1e5e385a28cd290b6b4955ebcd12642725e",
+          "round": "260119"
+        }
+      ],
+      "event_date": "2026-10-07",
+      "home_id": "LG",
+      "kickoff": "2026-10-07T18:30:00+09:00",
+      "official_game_id": "20261007OBLG0",
+      "schedule_body_sha256": "37e9c793636b24a358343ff8edfdc1b60774bc41b5ea6e5adf3721cea515272d"
+    },
+    "score:2026-10-07:롯데:KIA": {
+      "away_id": "HT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-118.body.gz",
+          "body_sha256": "3172988ab75d0208e178da43dd301cff4d8461079d1094167735f42de80d99bc",
+          "round": "260118"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-119.body.gz",
+          "body_sha256": "e2c75235c3baec090fa44be950ddc1e5e385a28cd290b6b4955ebcd12642725e",
+          "round": "260119"
+        }
+      ],
+      "event_date": "2026-10-07",
+      "home_id": "LT",
+      "kickoff": "2026-10-07T18:30:00+09:00",
+      "official_game_id": "20261007HTLT0",
+      "schedule_body_sha256": "37e9c793636b24a358343ff8edfdc1b60774bc41b5ea6e5adf3721cea515272d"
+    },
+    "score:2026-10-07:키움:한화": {
+      "away_id": "HH",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-118.body.gz",
+          "body_sha256": "3172988ab75d0208e178da43dd301cff4d8461079d1094167735f42de80d99bc",
+          "round": "260118"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-119.body.gz",
+          "body_sha256": "e2c75235c3baec090fa44be950ddc1e5e385a28cd290b6b4955ebcd12642725e",
+          "round": "260119"
+        }
+      ],
+      "event_date": "2026-10-07",
+      "home_id": "WO",
+      "kickoff": "2026-10-07T18:30:00+09:00",
+      "official_game_id": "20261007HHWO0",
+      "schedule_body_sha256": "37e9c793636b24a358343ff8edfdc1b60774bc41b5ea6e5adf3721cea515272d"
+    },
+    "score:2026-10-09:NC:KIA": {
+      "away_id": "HT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-119.body.gz",
+          "body_sha256": "e2c75235c3baec090fa44be950ddc1e5e385a28cd290b6b4955ebcd12642725e",
+          "round": "260119"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-120.body.gz",
+          "body_sha256": "286f6be82f2af1493bf22d2dd24532ed69019f49a0b8d71e82224df23d9ef63e",
+          "round": "260120"
+        }
+      ],
+      "event_date": "2026-10-09",
+      "home_id": "NC",
+      "kickoff": "2026-10-09T14:00:00+09:00",
+      "official_game_id": "20261009HTNC0",
+      "schedule_body_sha256": "265b6b1c791fbff0ce471ca132ed54d805287f5948c26cb480788f6ce3fa022c"
+    },
+    "score:2026-10-09:SSG:삼성": {
+      "away_id": "SS",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-119.body.gz",
+          "body_sha256": "e2c75235c3baec090fa44be950ddc1e5e385a28cd290b6b4955ebcd12642725e",
+          "round": "260119"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-120.body.gz",
+          "body_sha256": "286f6be82f2af1493bf22d2dd24532ed69019f49a0b8d71e82224df23d9ef63e",
+          "round": "260120"
+        }
+      ],
+      "event_date": "2026-10-09",
+      "home_id": "SK",
+      "kickoff": "2026-10-09T14:00:00+09:00",
+      "official_game_id": "20261009SSSK0",
+      "schedule_body_sha256": "265b6b1c791fbff0ce471ca132ed54d805287f5948c26cb480788f6ce3fa022c"
+    },
+    "score:2026-10-09:롯데:LG": {
+      "away_id": "LG",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-119.body.gz",
+          "body_sha256": "e2c75235c3baec090fa44be950ddc1e5e385a28cd290b6b4955ebcd12642725e",
+          "round": "260119"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-120.body.gz",
+          "body_sha256": "286f6be82f2af1493bf22d2dd24532ed69019f49a0b8d71e82224df23d9ef63e",
+          "round": "260120"
+        }
+      ],
+      "event_date": "2026-10-09",
+      "home_id": "LT",
+      "kickoff": "2026-10-09T14:00:00+09:00",
+      "official_game_id": "20261009LGLT0",
+      "schedule_body_sha256": "265b6b1c791fbff0ce471ca132ed54d805287f5948c26cb480788f6ce3fa022c"
+    },
+    "score:2026-10-10:KIA:SSG": {
+      "away_id": "SK",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-120.body.gz",
+          "body_sha256": "286f6be82f2af1493bf22d2dd24532ed69019f49a0b8d71e82224df23d9ef63e",
+          "round": "260120"
+        }
+      ],
+      "event_date": "2026-10-10",
+      "home_id": "HT",
+      "kickoff": "2026-10-10T17:00:00+09:00",
+      "official_game_id": "20261010SKHT0",
+      "schedule_body_sha256": "7b80cd0c2556483583f0b09344f2e1d8f58246c7c01ba5b1c9fb8e52efb2314e"
+    },
+    "score:2026-10-10:롯데:LG": {
+      "away_id": "LG",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-120.body.gz",
+          "body_sha256": "286f6be82f2af1493bf22d2dd24532ed69019f49a0b8d71e82224df23d9ef63e",
+          "round": "260120"
+        }
+      ],
+      "event_date": "2026-10-10",
+      "home_id": "LT",
+      "kickoff": "2026-10-10T14:00:00+09:00",
+      "official_game_id": "20261010LGLT0",
+      "schedule_body_sha256": "7b80cd0c2556483583f0b09344f2e1d8f58246c7c01ba5b1c9fb8e52efb2314e"
+    },
+    "score:2026-10-10:한화:NC": {
+      "away_id": "NC",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-120.body.gz",
+          "body_sha256": "286f6be82f2af1493bf22d2dd24532ed69019f49a0b8d71e82224df23d9ef63e",
+          "round": "260120"
+        }
+      ],
+      "event_date": "2026-10-10",
+      "home_id": "HH",
+      "kickoff": "2026-10-10T17:00:00+09:00",
+      "official_game_id": "20261010NCHH0",
+      "schedule_body_sha256": "7b80cd0c2556483583f0b09344f2e1d8f58246c7c01ba5b1c9fb8e52efb2314e"
+    },
+    "score:2026-10-11:KIA:롯데": {
+      "away_id": "LT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-120.body.gz",
+          "body_sha256": "286f6be82f2af1493bf22d2dd24532ed69019f49a0b8d71e82224df23d9ef63e",
+          "round": "260120"
+        }
+      ],
+      "event_date": "2026-10-11",
+      "home_id": "HT",
+      "kickoff": "2026-10-11T14:00:00+09:00",
+      "official_game_id": "20261011LTHT0",
+      "schedule_body_sha256": "4b46f6d8d31073fc33b685e6e8f182ecf98e36b769353201e70f226902f01100"
+    },
+    "score:2026-10-11:삼성:KT": {
+      "away_id": "KT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-120.body.gz",
+          "body_sha256": "286f6be82f2af1493bf22d2dd24532ed69019f49a0b8d71e82224df23d9ef63e",
+          "round": "260120"
+        }
+      ],
+      "event_date": "2026-10-11",
+      "home_id": "SS",
+      "kickoff": "2026-10-11T14:00:00+09:00",
+      "official_game_id": "20261011KTSS0",
+      "schedule_body_sha256": "4b46f6d8d31073fc33b685e6e8f182ecf98e36b769353201e70f226902f01100"
+    },
+    "score:2026-10-12:KIA:LG": {
+      "away_id": "LG",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-120.body.gz",
+          "body_sha256": "286f6be82f2af1493bf22d2dd24532ed69019f49a0b8d71e82224df23d9ef63e",
+          "round": "260120"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-121.body.gz",
+          "body_sha256": "9c79210d3043aa32ae3ea6886dd22449c10fd18f861c7e4713af4a976929fcde",
+          "round": "260121"
+        }
+      ],
+      "event_date": "2026-10-12",
+      "home_id": "HT",
+      "kickoff": "2026-10-12T18:30:00+09:00",
+      "official_game_id": "20261012LGHT0",
+      "schedule_body_sha256": "3fcd0380297e34cfc43f7b1251e6b377a977f3131b9bd877a684225a37128be9"
+    },
+    "score:2026-10-12:두산:롯데": {
+      "away_id": "LT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-120.body.gz",
+          "body_sha256": "286f6be82f2af1493bf22d2dd24532ed69019f49a0b8d71e82224df23d9ef63e",
+          "round": "260120"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-121.body.gz",
+          "body_sha256": "9c79210d3043aa32ae3ea6886dd22449c10fd18f861c7e4713af4a976929fcde",
+          "round": "260121"
+        }
+      ],
+      "event_date": "2026-10-12",
+      "home_id": "OB",
+      "kickoff": "2026-10-12T18:30:00+09:00",
+      "official_game_id": "20261012LTOB0",
+      "schedule_body_sha256": "3fcd0380297e34cfc43f7b1251e6b377a977f3131b9bd877a684225a37128be9"
+    },
+    "score:2026-10-12:삼성:KT": {
+      "away_id": "KT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-120.body.gz",
+          "body_sha256": "286f6be82f2af1493bf22d2dd24532ed69019f49a0b8d71e82224df23d9ef63e",
+          "round": "260120"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-121.body.gz",
+          "body_sha256": "9c79210d3043aa32ae3ea6886dd22449c10fd18f861c7e4713af4a976929fcde",
+          "round": "260121"
+        }
+      ],
+      "event_date": "2026-10-12",
+      "home_id": "SS",
+      "kickoff": "2026-10-12T18:30:00+09:00",
+      "official_game_id": "20261012KTSS0",
+      "schedule_body_sha256": "3fcd0380297e34cfc43f7b1251e6b377a977f3131b9bd877a684225a37128be9"
+    },
+    "score:2026-10-14:LG:두산": {
+      "away_id": "OB",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-121.body.gz",
+          "body_sha256": "9c79210d3043aa32ae3ea6886dd22449c10fd18f861c7e4713af4a976929fcde",
+          "round": "260121"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-122.body.gz",
+          "body_sha256": "bfa1a596f4949768a736eaa1c63537d679b5b83c2dd47667333ea71fe4848204",
+          "round": "260122"
+        }
+      ],
+      "event_date": "2026-10-14",
+      "home_id": "LG",
+      "kickoff": "2026-10-14T18:30:00+09:00",
+      "official_game_id": "20261014OBLG0",
+      "schedule_body_sha256": "1159cae99ac946593f39ad6712e3e57439787c97d0d4e7111bccc03a539fd9d9"
+    },
+    "score:2026-10-17:KIA:LG": {
+      "away_id": "LG",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-123.body.gz",
+          "body_sha256": "2a183197a6888b17b9370ab30df3e987c42a97fad85dca657fdc1db79e289209",
+          "round": "260123"
+        }
+      ],
+      "event_date": "2026-10-17",
+      "home_id": "HT",
+      "kickoff": "2026-10-17T14:00:00+09:00",
+      "official_game_id": "20261017LGHT0",
+      "schedule_body_sha256": "5ac07faecb6dcf5f7308c23a1cdfe04373334d9d23edafe661e3b72c159abeb4"
+    },
+    "score:2026-10-18:KIA:LG": {
+      "away_id": "LG",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-123.body.gz",
+          "body_sha256": "2a183197a6888b17b9370ab30df3e987c42a97fad85dca657fdc1db79e289209",
+          "round": "260123"
+        }
+      ],
+      "event_date": "2026-10-18",
+      "home_id": "HT",
+      "kickoff": "2026-10-18T14:00:00+09:00",
+      "official_game_id": "20261018LGHT0",
+      "schedule_body_sha256": "cebc20cd454946192b4d470065149d3b46dad76f2b2b7b6b6e4096f77b215c30"
+    },
+    "score:2026-10-20:LG:KIA": {
+      "away_id": "HT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-124.body.gz",
+          "body_sha256": "9a221c19f3e42b04ccc8e2d21b4c538ee453f87e31055257958f9ccef56b3c97",
+          "round": "260124"
+        }
+      ],
+      "event_date": "2026-10-20",
+      "home_id": "LG",
+      "kickoff": "2026-10-20T18:30:00+09:00",
+      "official_game_id": "20261020HTLG0",
+      "schedule_body_sha256": "873d5f9a201912959b648b663a33f02482bf784c24f5f838fd5457c127486d80"
+    },
+    "score:2026-10-26:삼성:KIA": {
+      "away_id": "HT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2026-126.body.gz",
+          "body_sha256": "c65829a6a5afe973e4f74f942377e35db99684296701919e98ff54456ad3af14",
+          "round": "260126"
+        },
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-127.body.gz",
+          "body_sha256": "503cdd85a69a8b7f4e137bee23b3db3e9e2544fc4ac0cd94458557a0c978c558",
+          "round": "260127"
+        }
+      ],
+      "event_date": "2026-10-26",
+      "home_id": "SS",
+      "kickoff": "2026-10-26T18:30:00+09:00",
+      "official_game_id": "20261026HTSS0",
+      "schedule_body_sha256": "76761b77e44cf0f1c7767f06ab696d420db9f453d65b69974ef6863061eb456a"
+    },
+    "score:2026-10-27:삼성:KIA": {
+      "away_id": "HT",
+      "betman_sources": [
+        {
+          "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-127.body.gz",
+          "body_sha256": "503cdd85a69a8b7f4e137bee23b3db3e9e2544fc4ac0cd94458557a0c978c558",
+          "round": "260127"
+        }
+      ],
+      "event_date": "2026-10-27",
+      "home_id": "SS",
+      "kickoff": "2026-10-27T18:30:00+09:00",
+      "official_game_id": "20261027HTSS0",
+      "schedule_body_sha256": "c3e3fa16dcae8924c46afeb4adbbb049ba375ba6cf727867021356042795fa86"
+    }
+  },
+  "schema": "kbo-synthetic-identity-resolution-v1"
+}
