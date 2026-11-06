@@ -64,7 +64,7 @@ def old_detail(ts):
     return None
 
 
-def normalize(data, meta, start, end):
+def normalize(data, meta, start, end, *, modern_soccer_leagues=False):
     ts = str(data['gmTs']).zfill(6)
     lottery = data.get('currentLottery') or {}
     if str(lottery.get('gmId')) != 'G101' or str(lottery.get('gmTs')).zfill(6) != ts:
@@ -79,11 +79,20 @@ def normalize(data, meta, start, end):
             raise ValueError('malformed schedule')
         row = dict(zip(c['keys'], values))
         sport = str(row.get('itemCode') or '').lower()
-        if sport not in ('sc', 'bs', 'bk') or not str(row.get('leagueCode') or '').startswith(sport.upper()):
+        if sport not in ('sc', 'bs', 'bk'):
             continue
         legacy = row.get('betId') is None and row.get('betTypId') is None
         modern = ((sport == 'sc' and row.get('betId') == '1' and row.get('betTypId') == '1' and row.get('betNm') == '축구 승무패') or
                   (sport == 'bs' and row.get('betId') == '2' and row.get('betTypId') == '2'))
+        # Modern G101 soccer includes numeric/alphanumeric league codes. Opt in
+        # only with explicit soccer product IDs and official league short name.
+        league = row.get('leagueCode')
+        if not str(league or '').startswith(sport.upper()) and not (
+            modern_soccer_leagues and sport == 'sc' and modern
+            and isinstance(league, str) and league.strip()
+            and isinstance(row.get('leagueShortName'), str) and row['leagueShortName'].strip()
+        ):
+            continue
         # Basketball modern market IDs are not established by the reused evidence.
         if not (legacy or modern) or (legacy and row.get('handi') != 0) or (sport == 'sc' and row.get('handi') != 0):
             continue
@@ -121,9 +130,9 @@ def normalize(data, meta, start, end):
 
 
 
-def normalize_v2(data, meta, start, end):
+def normalize_v2(data, meta, start, end, *, modern_soccer_leagues=False):
     """Enrich v1 without altering product, price, timing, or team name fields."""
-    records = normalize(data, meta, start, end)
+    records = normalize(data, meta, start, end, modern_soccer_leagues=modern_soccer_leagues)
     schedules = data['compSchedules']
     by_sequence = {}
     for values in schedules['datas']:
@@ -141,6 +150,8 @@ def normalize_v2(data, meta, start, end):
             raise ValueError('ambiguous source identity: ' + seq)
         row = matches[0]
         identity = {field: row.get(field) for field in fields}
+        if modern_soccer_leagues:
+            identity['leagueShortName'] = row.get('leagueShortName')
         league_name = row.get('leagueName')
         record['league'] = league_name if isinstance(league_name, str) and league_name.strip() else row['leagueCode']
         identity['league_basis'] = 'leagueName' if isinstance(league_name, str) and league_name.strip() else 'leagueCode_fallback'
