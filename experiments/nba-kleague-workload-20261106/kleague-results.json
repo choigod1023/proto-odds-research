@@ -1,0 +1,144 @@
+{
+  "K1": {
+    "official_matches": 432,
+    "matches_with_minutes": 432,
+    "frozen_test_matches": 114,
+    "arms": {
+      "lagged_rotation": {
+        "training_n": 76,
+        "weights": [
+          0.5749873521114426,
+          -0.11091358319850833,
+          0.14023195320045517
+        ],
+        "exclusions": {
+          "missing_or_ineligible_quote": 1
+        },
+        "n": 113,
+        "arms": {
+          "prior": {
+            "hits": 42,
+            "accuracy": 0.37168141592920356,
+            "roi": -0.23734513274336283,
+            "logloss": 1.1090940341299114
+          },
+          "workload": {
+            "hits": 37,
+            "accuracy": 0.3274336283185841,
+            "roi": -0.3230088495575221,
+            "logloss": 1.1398655376067242
+          }
+        },
+        "changed": 30,
+        "paired_roi_ci95": [
+          -0.25639399579992367,
+          0.07921239598890492
+        ],
+        "weeks": 17
+      },
+      "actual_xi_retrospective": {
+        "training_n": 76,
+        "weights": [
+          0.4164122107263482,
+          -0.16992031029521346,
+          -0.2187055522891844
+        ],
+        "exclusions": {
+          "missing_or_ineligible_quote": 1
+        },
+        "n": 113,
+        "arms": {
+          "prior": {
+            "hits": 42,
+            "accuracy": 0.37168141592920356,
+            "roi": -0.23734513274336283,
+            "logloss": 1.1090940341299114
+          },
+          "workload": {
+            "hits": 35,
+            "accuracy": 0.30973451327433627,
+            "roi": -0.3536283185840708,
+            "logloss": 1.1326338931519948
+          }
+        },
+        "changed": 38,
+        "paired_roi_ci95": [
+          -0.3095025510204081,
+          0.08077362637362621
+        ],
+        "weeks": 17
+      }
+    }
+  },
+  "K2": {
+    "official_matches": 521,
+    "matches_with_minutes": 521,
+    "frozen_test_matches": 128,
+    "arms": {
+      "lagged_rotation": {
+        "training_n": 102,
+        "weights": [
+          -0.12896513090099784,
+          0.28235463066846567,
+          -0.27787323407746767
+        ],
+        "exclusions": {
+          "missing_or_ineligible_quote": 1
+        },
+        "n": 127,
+        "arms": {
+          "prior": {
+            "hits": 57,
+            "accuracy": 0.44881889763779526,
+            "roi": -0.1799212598425197,
+            "logloss": 1.0784595725267294
+          },
+          "workload": {
+            "hits": 51,
+            "accuracy": 0.4015748031496063,
+            "roi": -0.22960629921259842,
+            "logloss": 1.0970556913578577
+          }
+        },
+        "changed": 36,
+        "paired_roi_ci95": [
+          -0.2675894592765748,
+          0.16063004624421948
+        ],
+        "weeks": 16
+      },
+      "actual_xi_retrospective": {
+        "training_n": 102,
+        "weights": [
+          -0.1053887212632835,
+          0.3029380656402704,
+          0.15462354341793913
+        ],
+        "exclusions": {
+          "missing_or_ineligible_quote": 1
+        },
+        "n": 127,
+        "arms": {
+          "prior": {
+            "hits": 57,
+            "accuracy": 0.44881889763779526,
+            "roi": -0.1799212598425197,
+            "logloss": 1.0784595725267294
+          },
+          "workload": {
+            "hits": 52,
+            "accuracy": 0.4094488188976378,
+            "roi": -0.21275590551181103,
+            "logloss": 1.0868785983594176
+          }
+        },
+        "changed": 34,
+        "paired_roi_ci95": [
+          -0.205861328125,
+          0.16071626984126988
+        ],
+        "weeks": 16
+      }
+    }
+  }
+}
