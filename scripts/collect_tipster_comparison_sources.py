@@ -60,6 +60,9 @@ def capture(session, url, root, capture_id, budget):
                 meta["canonical_url"] = location
             if response.status_code in (403, 429):
                 budget["blocked"] = True
+                stop_file = budget.get("stop_file")
+                if stop_file is not None:
+                    stop_file.write_text(json.dumps(meta) + "\n", encoding="utf-8")
             if response.status_code != 200:
                 raise ValueError("http_" + str(response.status_code))
             body = bytearray()
@@ -82,7 +85,7 @@ def capture(session, url, root, capture_id, budget):
 
 
 def link(article, meta, prices):
-    fixtures, lookup = [], {}
+    lookup = {}
     for price in prices:
         p = price.get("payload") or {}
         if price.get("kind") != "price" or p.get("settlement_rule") in (None, "unknown"):
@@ -91,14 +94,14 @@ def link(article, meta, prices):
         game = dict(sport=price["sport"], league=price["league"], home=price["home"], away=price["away"],
                     year=start.year, date=start.strftime("%m.%d") + "(" + "월화수목금토일"[start.weekday()] + ") " + start.strftime("%H:%M"))
         key = json.dumps(game, sort_keys=True)
-        if key in lookup and lookup[key]["payload"]["product_id"] != p["product_id"]:
-            raise ValueError("ambiguous_proto_product_for_article")
-        if key not in lookup:
-            fixtures.append(game); lookup[key] = price
-    event = match_vote(article, fixtures)
-    price = next(p for p in lookup.values() if
-                 [p["sport"], p["league"], p["home"], p["away"]] == event["fixture"][:4]
-                 and datetime.fromisoformat(p["kickoff"].replace("Z", "+00:00")) == datetime.fromisoformat(event["fixture"][4]))
+        lookup.setdefault(key, {}).setdefault(p["product_id"], price)
+    event = match_vote(article, [json.loads(key) for key in lookup])
+    matches = [p for products in lookup.values() for p in products.values() if
+               [p["sport"], p["league"], p["home"], p["away"]] == event["fixture"][:4]
+               and datetime.fromisoformat(p["kickoff"].replace("Z", "+00:00")) == datetime.fromisoformat(event["fixture"][4])]
+    if len(matches) != 1:
+        raise ValueError("ambiguous_proto_product_for_article")
+    price = matches[0]
     product = price["payload"]
     observation = hashlib.sha256(json.dumps([event["pick_id"], meta["body_sha256"], meta["received_at"]], separators=(",", ":")).encode()).hexdigest()[:24]
     return dict(record_id="tipster:" + observation, kind="tipster", sport=price["sport"], league=price["league"],
@@ -111,23 +114,23 @@ def link(article, meta, prices):
                              source_parser="public_fullgame_vote_v1", source_pick_id=event["pick_id"], source_html_utf8_sha256=article["content_hash"]))
 
 
-def run(args):
+def run(args, *, listings=LISTINGS, articles_per_listing=1, stop_file=None):
     if not 1 <= args.max_requests <= 12:
         raise ValueError("request_budget_must_be_1_to_12")
     args.output.mkdir(parents=True, exist_ok=False)
-    budget = dict(used=0, limit=args.max_requests)
+    budget = dict(used=0, limit=args.max_requests, stop_file=stop_file)
     attempts, articles, records, links = [], [], [], []
     prices = [r for p in args.prices for r in read_records(p)]
     with requests.Session() as session:
         session.headers["User-Agent"] = "proto-odds-research/1.0 public-article-preservation"
-        for url in LISTINGS:
+        for url in listings:
             try:
                 meta, text = capture(session, url, args.evidence, args.capture_id, budget)
                 attempts.append(meta)
                 if text:
                     soup = BeautifulSoup(text, "html.parser")
                     found = list(dict.fromkeys(urljoin(url, a["href"]) for a in soup.select("a[href]") if safe_url(urljoin(url,a["href"]))))
-                    links.extend(found[:1])
+                    links.extend(found[:articles_per_listing])
             except StopIteration:
                 break
         for url in dict.fromkeys(links):
@@ -148,14 +151,14 @@ def run(args):
                 articles.append(item)
             except StopIteration:
                 break
-            except (ValueError, KeyError, TypeError) as exc:
+            except (ValueError, KeyError, TypeError, AttributeError) as exc:
                 articles.append(dict(url=url, status="unsupported_source_article", reason=str(exc)))
     for name, value in (("requests", attempts), ("articles", articles), ("records", records)):
         (args.output / (name + ".json")).write_bytes((json.dumps(value, ensure_ascii=False, indent=2)+"\n").encode())
     summary = dict(http_requests=budget["used"], parsed_articles=sum("author" in a for a in articles),
                    linked_pregame_votes=len(records), access_blocked=budget.get("blocked", False),
                    whole_raw_html_preserved=True, timestamp_basis="http_response_body_completed", schedules_activated=False)
-    print(json.dumps(summary, ensure_ascii=False))
+    return summary
 
 
 if __name__ == "__main__":
@@ -165,4 +168,4 @@ if __name__ == "__main__":
     p.add_argument("--capture-id", default=datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ"))
     p.add_argument("--max-requests", type=int, default=8)
     p.add_argument("--prices", type=Path, action="append", default=[])
-    run(p.parse_args())
+    print(json.dumps(run(p.parse_args()), ensure_ascii=False))

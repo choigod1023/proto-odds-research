@@ -12,6 +12,7 @@ import hashlib
 import json
 from pathlib import Path
 import unicodedata
+import zlib
 from urllib.parse import urlsplit
 
 from bs4 import BeautifulSoup
@@ -73,7 +74,7 @@ def article_evidence(roots):
                 html = raw.decode(meta["encoding"])
                 article = parse_page(url, html, meta["received_at"])
                 fingerprint = body_fingerprint(url, html)
-            except (OSError, EOFError, LookupError, TypeError, ValueError, AttributeError) as exc:
+            except (OSError, EOFError, LookupError, TypeError, ValueError, AttributeError, zlib.error) as exc:
                 audit["unusable:" + (str(exc) if type(exc) is ValueError else type(exc).__name__)] += 1
                 continue
             key = (sha, url, received.isoformat(), RECEIPT_CLOCK)
@@ -92,6 +93,45 @@ def vote_summary(rows, sides):
     counts = {side: tallies[side] for side in sides}
     return dict(counts=counts, selection=unique_top(counts),
                 record_ids=sorted(r["record_id"] for r in rows))
+
+
+def compare_quote_votes(quote, baseline, articles, sides):
+    """Compare the accepted author-first votes at a single verified quote."""
+    fixture = physical(quote)
+    domains = set()
+    by_body = defaultdict(list)
+    try:
+        for vote in baseline:
+            url = vote["source_url"]
+            key = (vote["body_sha256"], url, moment(vote["received_at"]).isoformat(), RECEIPT_CLOCK)
+            meta, article, fingerprint = articles[key]
+            linked = link(article, meta, [quote])
+            if any(vote["payload"].get(k) != v for k, v in linked["payload"].items()):
+                raise ValueError("saved_vote_disagrees_with_archived_article")
+            if fingerprint:
+                domain = urlsplit(url).hostname.removeprefix("www.")
+                domains.add(domain)
+                by_body[fingerprint].append((domain, vote))
+    except (KeyError, TypeError, ValueError, StopIteration):
+        return None, "accepted_vote_cannot_be_relinked"
+    if len(domains) < 2:
+        return None, "insufficient_verified_body_domains"
+
+    reposts, removed = [], set()
+    for fingerprint, members in sorted(by_body.items()):
+        member_domains = sorted({domain for domain, _ in members})
+        if len(member_domains) < 2 or len({r["payload"]["selection"] for _, r in members}) != 1:
+            continue
+        ordered = sorted((r for _, r in members), key=lambda r: (moment(r["received_at"]), r["record_id"]))
+        removed_ids = [r["record_id"] for r in ordered[1:]]
+        removed.update(removed_ids)
+        reposts.append(dict(normalized_body_sha256=fingerprint, domains=member_domains,
+                            kept_record_id=ordered[0]["record_id"], removed_record_ids=removed_ids))
+    remaining = [r for r in baseline if r["record_id"] not in removed]
+    return dict(fixture=fixture, as_of=moment(quote["received_at"]).isoformat(), price_record_id=quote["record_id"],
+                product={k: quote["payload"].get(k) for k in PRODUCT_FIELDS},
+                existing_vote=vote_summary(baseline, sides),
+                deduplicated_vote=vote_summary(remaining, sides), reposts=reposts), None
 
 
 def compare_archived_votes(records, *, article_roots, price_roots):
@@ -119,7 +159,7 @@ def compare_archived_votes(records, *, article_roots, price_roots):
 
     comparisons = []
     price_rejections, vote_rejections = Counter(), Counter()
-    for (fixture, _), rows in sorted(groups.items()):
+    for _, rows in sorted(groups.items()):
         if all(r["kind"] == "price" for r in rows.values()):
             continue
         chosen, reasons = choose(list(rows.values()))
@@ -131,42 +171,11 @@ def compare_archived_votes(records, *, article_roots, price_roots):
 
         baseline = [rows[record_id] for record_id in chosen["vote_record_ids"]]
         quote = rows[chosen["price_record_id"]]
-        domains = set()
-        by_body = defaultdict(list)
-        try:
-            for vote in baseline:
-                url = vote["source_url"]
-                key = (vote["body_sha256"], url, moment(vote["received_at"]).isoformat(), RECEIPT_CLOCK)
-                meta, article, fingerprint = articles[key]
-                linked = link(article, meta, [quote])
-                if any(vote["payload"].get(k) != v for k, v in linked["payload"].items()):
-                    raise ValueError("saved_vote_disagrees_with_archived_article")
-                if fingerprint:
-                    domain = urlsplit(url).hostname.removeprefix("www.")
-                    domains.add(domain)
-                    by_body[fingerprint].append((domain, vote))
-        except (KeyError, TypeError, ValueError, StopIteration):
-            holds["accepted_vote_cannot_be_relinked"] += 1
-            continue
-        if len(domains) < 2:
-            holds["insufficient_verified_body_domains"] += 1
-            continue
-
-        reposts, removed = [], set()
-        for fingerprint, members in sorted(by_body.items()):
-            member_domains = sorted({domain for domain, _ in members})
-            if len(member_domains) < 2 or len({r["payload"]["selection"] for _, r in members}) != 1:
-                continue
-            ordered = sorted((r for _, r in members), key=lambda r: (moment(r["received_at"]), r["record_id"]))
-            removed_ids = [r["record_id"] for r in ordered[1:]]
-            removed.update(removed_ids)
-            reposts.append(dict(normalized_body_sha256=fingerprint, domains=member_domains,
-                                kept_record_id=ordered[0]["record_id"], removed_record_ids=removed_ids))
-        remaining = [r for r in baseline if r["record_id"] not in removed]
-        comparisons.append(dict(fixture=fixture, as_of=chosen["as_of"], price_record_id=quote["record_id"],
-                                product={k: chosen["product"].get(k) for k in PRODUCT_FIELDS},
-                                existing_vote=vote_summary(baseline, chosen["odds"]),
-                                deduplicated_vote=vote_summary(remaining, chosen["odds"]), reposts=reposts))
+        comparison, reason = compare_quote_votes(quote, baseline, articles, chosen["odds"])
+        if reason:
+            holds[reason] += 1
+        else:
+            comparisons.append(comparison)
 
     return dict(schema="archived-tipster-reposts-v1", compared_products=len(comparisons),
                 products_with_reposts=sum(bool(r["reposts"]) for r in comparisons),
