@@ -17,12 +17,16 @@
 사용:
     python src/snapshot.py            # 1회 실행
     python src/snapshot.py --loop 900 # 900초(15분)마다 반복
+    python src/snapshot.py --kleague-receipts # 연구 증거를 함께 저장하는 1회 실행
 """
 from __future__ import annotations
 
 import csv
+import gzip
+import hashlib
 import json
 import sys
+import tempfile
 import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -89,6 +93,12 @@ def load_timeseries():
 UNPLAYED = {"경기전", "", "-"}
 SCAN_RANGE = 12          # 최신 회차 기준 앞뒤로 훑을 범위
 REQUEST_GAP = 2.5
+KLEAGUE_RECEIPT_STREAM = "kleague_odds_receipts"
+KLEAGUES = {"K리그1", "K리그2"}
+RECEIPT_BODY_DIR = "kleague_receipt_bodies"
+RECEIPT_BODY_SLOTS = 8
+MAX_RECEIPT_BODY = 4 * 1024 * 1024
+MAX_COMPRESSED_RECEIPT_BODY = 256 * 1024
 
 FIELDS = ["ts", "year", "round", "game_no", "sport", "league", "market_family",
           "n_way", "market_label", "home", "away", "date_text", "odds", "result"]
@@ -177,6 +187,11 @@ def find_live_rounds(sess, year: int, start_hint: int) -> list[int]:
 
 
 def _fetch(sess, year: int, rnd: int, seq: str | None = None):
+    observation = _fetch_observation(sess, year, rnd, seq)
+    return observation[0] if observation is not None else None
+
+
+def _fetch_observation(sess, year: int, rnd: int, seq: str | None = None):
     seq = seq or get_master_seq(year, rnd, sess)
     if not seq:
         return None
@@ -186,12 +201,14 @@ def _fetch(sess, year: int, rnd: int, seq: str | None = None):
         "sports": "", "sort": "", "tab_type": "proto",
     }, timeout=40)
     r.raise_for_status()
+    body = r.content
+    received = datetime.now(timezone.utc)
     html = _decode(r)
     rows = parse_rows(html, year, rnd)
     if database_enabled():
         record_archive_matches(rows)
         store_archive(year, rnd, html)
-    return rows
+    return rows, received, body
 
 
 def _load_last(year: int | None = None, rnd: int | None = None) -> dict[tuple, str]:
@@ -227,12 +244,46 @@ def _load_last(year: int | None = None, rnd: int | None = None) -> dict[tuple, s
     return last
 
 
-def snap(year: int, rounds: list[int]) -> int:
+def _snapshot_record(row, ts):
+    return dict(ts=ts, year=row.year, round=row.round, game_no=row.game_no,
+                sport=row.sport, league=row.league, market_family=row.market_family,
+                n_way=row.n_way, market_label=row.market_label, home=row.home,
+                away=row.away, date_text=row.date_text,
+                odds=",".join(f"{price:.2f}" for price in row.odds), result=row.result)
+
+
+def kleague_snapshot_rows(rows, ts):
+    return [_snapshot_record(row, ts) for row in rows
+            if row.sport == "sc" and row.league in KLEAGUES]
+
+
+def receipt_body_slot(root: Path, digest: str) -> Path:
+    return root / f"{int(digest, 16) % RECEIPT_BODY_SLOTS:02d}.html.gz"
+
+
+def _save_receipt_body(body: bytes, digest: str) -> None:
+    if len(body) > MAX_RECEIPT_BODY:
+        return
+    compressed = gzip.compress(body, compresslevel=3)
+    if len(compressed) > MAX_COMPRESSED_RECEIPT_BODY:
+        return
+    root = OUT / RECEIPT_BODY_DIR
+    root.mkdir(exist_ok=True)
+    with tempfile.NamedTemporaryFile(dir=root, delete=False) as handle:
+        temporary = Path(handle.name)
+        try:
+            handle.write(compressed)
+            handle.close()
+            temporary.replace(receipt_body_slot(root, digest))
+        finally:
+            temporary.unlink(missing_ok=True)
+
+
+def snap(year: int, rounds: list[int], *, kleague_receipts: bool = False) -> int:
     production = database_enabled()
     if not production:
         OUT.mkdir(parents=True, exist_ok=True)
     sess = _session()
-    ts = _now()
     database = RuntimeDatabase() if production else None
 
     n_rows = n_changes = 0
@@ -240,12 +291,16 @@ def snap(year: int, rounds: list[int]) -> int:
     for rnd in rounds:
         last = _load_last(year, rnd)
         try:
-            rows = _fetch(sess, year, rnd)
+            observation = _fetch_observation(sess, year, rnd)
         except Exception as e:                       # noqa: BLE001
             print(f"  [{year}-{rnd}] 오류 {type(e).__name__}: {e}", flush=True)
             continue
-        if rows is None:
+        if observation is None:
             continue
+        rows, received, body = observation
+        # Keep the legacy timeseries format at second precision. The research
+        # receipt retains the full clock value for comparisons at the cutoff.
+        ts = received.isoformat(timespec="seconds")
         # ⚠️ 배당이 아직 공개되지 않은 행(odds=[])이 섞여 있다.
         #    2026-88·89회차처럼 경기 목록만 먼저 뜨고 배당은 나중에 붙는다.
         #    이걸 세면 '변동 0건'이 실제보다 안정적으로 보인다.
@@ -257,30 +312,39 @@ def snap(year: int, rounds: list[int]) -> int:
 
         new_rows, changes = [], []
         for r in priced:
-            odds_s = ",".join(f"{o:.2f}" for o in r.odds)
+            rec = _snapshot_record(r, ts)
             key = (str(year), str(rnd), r.game_no)
-            rec = {"ts": ts, "year": year, "round": rnd, "game_no": r.game_no,
-                   "sport": r.sport, "league": r.league,
-                   "market_family": r.market_family, "n_way": r.n_way,
-                   "market_label": r.market_label, "home": r.home, "away": r.away,
-                   "date_text": r.date_text, "odds": odds_s, "result": r.result}
             new_rows.append(rec)
             prev = last.get(key)
-            if prev is not None and prev != odds_s:
+            if prev is not None and prev != rec["odds"]:
                 changes.append({**rec, "prev_odds": prev})
         if database is not None:
             database.insert_odds(new_rows)
             if changes:
                 database.append_events("odds_changes", changes, observed_at_key="ts")
         else:
-            _append(ts_file(), FIELDS, new_rows)
+            _append(ts_file(received), FIELDS, new_rows)
             _append(CH_FILE, FIELDS + ["prev_odds"], changes)
+        league_rows = kleague_snapshot_rows(rows, ts) if kleague_receipts else []
+        if league_rows:
+            digest = hashlib.sha256(body).hexdigest()
+            receipt = dict(year=year, round=rnd, received_at=received.isoformat(),
+                           timestamp_basis="http_response_body_completed",
+                           body_sha256=digest, rows=league_rows)
+            if database is not None:
+                database.append_events(KLEAGUE_RECEIPT_STREAM, [receipt],
+                                       observed_at_key="received_at")
+            else:
+                path = OUT / f"{KLEAGUE_RECEIPT_STREAM}_{received:%Y%m%d}.jsonl"
+                with path.open("a", encoding="utf-8") as handle:
+                    handle.write(json.dumps(receipt, ensure_ascii=False) + "\n")
+                _save_receipt_body(body, digest)
         n_rows += len(new_rows)
         n_changes += len(changes)
         preview.extend(changes[:max(0, 15 - len(preview))])
         time.sleep(REQUEST_GAP)
 
-    print(f"[{ts}] 스냅샷 {n_rows}행 · 배당변동 {n_changes}건", flush=True)
+    print(f"[{_now()}] 스냅샷 {n_rows}행 · 배당변동 {n_changes}건", flush=True)
     for c in preview:
         print(f"    변동 {c['round']}-{c['game_no']} {c['league']} "
               f"{c['home']}/{c['away']} {c['market_family']}: "
@@ -303,6 +367,10 @@ def main(argv: list[str]) -> int:
     loop = 0
     if "--loop" in argv:
         loop = int(argv[argv.index("--loop") + 1])
+    kleague_receipts = "--kleague-receipts" in argv
+    if kleague_receipts and loop:
+        print("--kleague-receipts는 1회 실행에서만 지원합니다.", file=sys.stderr)
+        return 2
 
     year = datetime.now().year
     sess = _session()
@@ -346,7 +414,7 @@ def main(argv: list[str]) -> int:
     print(f"대상: {year}년 {rounds}회차", flush=True)
 
     while True:
-        snap(year, rounds)
+        snap(year, rounds, kleague_receipts=kleague_receipts)
         if not loop:
             return 0
         time.sleep(loop)
