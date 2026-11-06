@@ -14,7 +14,7 @@ test('the pregame pick area includes winner, handicap and total in the card and 
     ...['언더','오버'].map((name,i)=>({게임번호:'2',market:'언더오버',label:'U 2.5',line:2.5,n_way:2,선택:name,배당:i?1.9:1.8,selection_id:`s${i}`,offer_id:`o${i}`,period:'full_game',settlement_scope:'regulation'})),
     ...['핸디홈','핸디원정'].map((name,i)=>({게임번호:'3',market:'핸디캡',label:'H -1.5',line:-1.5,n_way:2,선택:name,배당:i?1.9:1.8,selection_id:`h${i}`,offer_id:`ho${i}`,period:'full_game',settlement_scope:'regulation'})),
   ];
-  const winnerOptions=['홈','원정'].map((name,i)=>({게임번호:'1',market:'승패',n_way:2,선택:name,배당:i?1.7:1.8,시장확률:i?.54:.46,selection_id:`w${i}`,offer_id:`wo${i}`}));
+  const winnerOptions=['홈','원정'].map((name,i)=>({게임번호:'1',market:'승패',n_way:2,선택:name,배당:i?1.7:2.1,시장확률:i?.55:.45,selection_id:`w${i}`,offer_id:`wo${i}`}));
   const item={selection_id:'s1',offer_id:'o1',market:'언더오버',label:'U 2.5',line:2.5,selection:'오버',odds:1.9,game_no:'2',settlement_rule:'regulation',model:'market-baseline-v1',automatic_recommendation:true};
   const handicap={...item,selection_id:'h0',offer_id:'ho0',market:'핸디캡',label:'H -1.5',line:-1.5,selection:'핸디홈',odds:1.8,game_no:'3'};
   const g={year:2099,date:'09.06(일) 18:00',round:1,status:'경기전',sport:'bs',league:'리그',home:'홈팀',away:'원정팀',options:[...options,...winnerOptions],market_recommendations:{version:'multi-market-recommendations-v1',items:[item,handicap]}};
@@ -36,8 +36,13 @@ test('the pregame pick area includes winner, handicap and total in the card and 
       assert.ok(html.indexOf('핸디캡 · 언더오버 사전 픽') < html.indexOf('모델별 픽 비교'));
     } else {
       assert.doesNotMatch(html,/모델별 픽 비교/);
+      assert.match(html,/title="경기 추천 1픽 · 핸디캡 H -1\.5 · 핸디홈 배당"[^>]*>.*?핸디홈 · H -1\.5<\/span><span[^>]*>1\.80<\/span>/);
+      assert.doesNotMatch(html,/title="승패 · 홈 배당"|배당 기준 확률 45\.0%/);
     }
   }
+  const fallback = renderToStaticMarkup(createElement(Game,{...props,g:{...g,options:[],market_recommendations:null}}));
+  assert.doesNotMatch(fallback,/경기 추천 1픽/);
+  assert.match(fallback,/title="승패 · 홈 배당"[^>]*>.*?홈<\/span><span[^>]*>2\.10<\/span>/);
   const marketOnly=renderToStaticMarkup(createElement(Game,{...props,g:{...g,options},opts:options,todayOption:null,detailOnly:true}));
   assert.match(marketOnly,/승패 계열 사전 픽 없음.*언더오버 U 2\.5 · 오버/);
   const fixture=Object.fromEntries(['sport','league','home','away','year','round','date'].map(k=>[k,g[k]]));
