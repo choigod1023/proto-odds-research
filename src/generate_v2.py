@@ -1777,6 +1777,8 @@ def main() -> int:
         "decision_schema": "decision-snapshot-v2",
         "decision_manifest": decision_manifest(),
     }
+    from featured_pick import attach as attach_featured
+    attach_featured(doc, prediction_runtime.featured_records())
     _sanitize_prediction_document(doc)
     deduplicate_game_sections(doc)
     persist_artifact("picks_v2", doc, OUT / "picks_v2.json")

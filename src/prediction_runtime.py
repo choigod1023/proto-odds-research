@@ -17,6 +17,7 @@ from pathlib import Path
 from typing import Any, Callable
 from zoneinfo import ZoneInfo
 
+from featured_pick import VERSION as FEATURED_VERSION, choose as choose_featured
 from prediction_ledger import AppendResult, PredictionLedger, PredictionLedgerError
 from operating_model_capture import capture as capture_model_comparison
 from score_scenarios import ScoreForecastError, forecast_from_lambdas
@@ -208,6 +209,23 @@ def prediction_payload(game: Mapping[str, Any]) -> dict[str, Any]:
     })
 
 
+def _recorded_payload(game, snapshot, existing):
+    payload = prediction_payload(game)
+    # An identical legacy snapshot ID cannot acquire new content retroactively.
+    if existing is not None and existing["snapshot_id"] == snapshot.get("decision_id"):
+        featured = (existing.get("predictions") or {}).get("featured_pick")
+    else:
+        featured = choose_featured(game, snapshot)
+    if featured:
+        payload["featured_pick"] = _safe_json(featured)
+    return payload
+
+
+def _requires_featured_cutoff(predictions, existing):
+    return bool(predictions.get("featured_pick")
+                or ((existing or {}).get("predictions") or {}).get("featured_pick"))
+
+
 def _latest_predictions(records: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
     def instant(value: object) -> datetime:
         try:
@@ -268,6 +286,7 @@ def _revision_signature(
         "offer_id": predictions.get("offer_id"),
         "final_probability": probability.get("final"),
         "artifact_hash": model.get("artifact_hash"),
+        **({"featured_pick": predictions["featured_pick"]} if predictions.get("featured_pick") else {}),
         "features_hash": hashlib.sha256(
             _canonical_json(signature_features).encode("utf-8")
         ).hexdigest(),
@@ -368,9 +387,9 @@ class PredictionRuntime:
         market_observed_at: str | datetime,
     ) -> AppendResult | None:
         snapshot = game.get("decision_snapshot") or {}
-        predictions = prediction_payload(game)
-        features = ledger_features(game)
         existing = self._cached_latest().get(snapshot.get("event_id"))
+        predictions = _recorded_payload(game, snapshot, existing)
+        features = ledger_features(game)
         new_signature = _revision_signature(
             event_id=str(snapshot.get("event_id") or ""),
             input_revision_hash=snapshot.get("input_revision_hash"),
@@ -396,6 +415,7 @@ class PredictionRuntime:
             features=features,
             predictions=predictions,
             deduplication_key=new_signature,
+            freeze_at_t30=_requires_featured_cutoff(predictions, existing),
         )
         self._remember(result)
         return result
@@ -416,7 +436,8 @@ class PredictionRuntime:
         for index, entry in enumerate(entries):
             game = entry["game"]
             snapshot = game.get("decision_snapshot") or {}
-            predictions = prediction_payload(game)
+            existing = latest.get(snapshot.get("event_id"))
+            predictions = _recorded_payload(game, snapshot, existing)
             features = ledger_features(game)
             new_signature = _revision_signature(
                 event_id=str(snapshot.get("event_id") or ""),
@@ -425,7 +446,6 @@ class PredictionRuntime:
                 model=snapshot.get("model") or {},
                 features=features,
             )
-            existing = latest.get(snapshot.get("event_id"))
             if existing is not None:
                 old_signature = _revision_signature(
                     event_id=existing["event_id"],
@@ -444,6 +464,7 @@ class PredictionRuntime:
                 "features": features,
                 "predictions": predictions,
                 "deduplication_key": new_signature,
+                "freeze_at_t30": _requires_featured_cutoff(predictions, existing),
             })
             indexes.append(index)
 
@@ -538,6 +559,25 @@ class PredictionRuntime:
         for result in results:
             self._remember(result)
         return results
+
+    def featured_records(self) -> dict[str, dict[str, Any]]:
+        settlements = self._cached_settlements()
+        result = {}
+        for event, prediction in self._cached_latest().items():
+            pick = (prediction.get("predictions") or {}).get("featured_pick") or {}
+            if pick.get("version") != FEATURED_VERSION:
+                continue
+            kickoff = datetime.fromisoformat(prediction["kickoff"])
+            cutoff = kickoff - timedelta(minutes=30)
+            if any(datetime.fromisoformat(prediction[field]) >= cutoff
+                   for field in ("as_of", "captured_at", "market_observed_at")):
+                continue
+            settlement = settlements.get(prediction["snapshot_id"]) or {}
+            grade = (settlement.get("outcome") or {}).get("featured_pick_result")
+            result[event] = dict(pick=pick, result=grade, prediction_snapshot_id=prediction["snapshot_id"],
+                                 captured_at=prediction["captured_at"], kickoff=prediction["kickoff"],
+                                 settled_at=settlement.get("settled_at"))
+        return result
 
     def market_records(self) -> dict[str, dict[str, Any]]:
         """Independent actual market recommendations, including winner abstains."""

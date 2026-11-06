@@ -733,6 +733,29 @@ def _settle_live_market_results_locked(live_odds: dict, runtime: PredictionRunti
                         'selection_id': operating.get('selection_id')}, settled_at=observed.isoformat(), source=source)
             indexed[event] = entry; pending.append(entry)
         indexed[event]['outcome']['market_recommendation_results'] = grades
+    for event, record in runtime.featured_records().items():
+        pick = record["pick"]
+        matches = candidates.get((event, pick["selection_id"], pick["offer_id"]), [])
+        if len(matches) != 1:
+            continue
+        status, row, round_no = matches[0]
+        prior = record["result"] or {}
+        prior_time = _aware_timestamp(record["settled_at"])
+        if prior.get("result") == status or (prior and prior_time is not None and observed <= prior_time):
+            continue
+        source = {"name": "proto_official", "round": round_no, "game_no": row.get("game_no"),
+                  "game_date": row.get("date"), "path": "live_odds"}
+        grade = result_for_offer(dict(pick, model=pick["version"]), status)
+        grade.update(source=source, official_result=row["result"])
+        if event not in indexed:
+            operating = runtime._cached_latest()[event]["predictions"]
+            entry = dict(event_id=event, expected_snapshot_id=record["prediction_snapshot_id"],
+                         outcome={"result": "not_selected" if operating.get("action") == "withhold" else "pending",
+                                  "selection_id": operating.get("selection_id")},
+                         settled_at=observed.isoformat(), source=source)
+            indexed[event] = entry
+            pending.append(entry)
+        indexed[event]["outcome"]["featured_pick_result"] = grade
     for event,record in runtime.candidate_records().items():
         outcomes={};official=None;source=None
         for name,arm in record['arms'].items():
@@ -808,7 +831,8 @@ def refresh_once(live_odds: dict | None = None) -> int:
             market_records = runtime.market_records()
             from multi_market_recommendations import performance as market_performance
             document['market_recommendation_performance'] = market_performance(market_records)
-        attached = 0
+        from featured_pick import attach as attach_featured
+        attached = int(attach_featured(document, runtime.featured_records()))
         for game in [*(document.get("live") or []), *(document.get("past") or [])]:
             market_record = market_records.get(game.get('event_id') or event_id(game))
             if market_record is not None and game.get('market_prediction_record') != market_record:
