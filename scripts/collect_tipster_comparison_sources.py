@@ -19,6 +19,8 @@ from src.public_tipster_votes import safe_url, parse_page, match_vote
 from scripts.run_pregame_multisport_study import read_records
 
 LISTINGS = tuple(f"https://pick79.com/posts/{s}/" for s in ("soccer", "baseball", "basketball")) + ("https://www.goli.tv/board/analysis",)
+MAX_LISTING_BYTES = 6_000_000
+MAX_ARTICLE_BYTES = 2_000_000
 
 
 def now():
@@ -66,9 +68,10 @@ def capture(session, url, root, capture_id, budget):
             if response.status_code != 200:
                 raise ValueError("http_" + str(response.status_code))
             body = bytearray()
+            limit = MAX_LISTING_BYTES if url in LISTINGS else MAX_ARTICLE_BYTES
             for chunk in response.iter_content(16384):
                 body.extend(chunk)
-                if len(body) > 2_000_000 or time.monotonic() - began > 25:
+                if len(body) > limit or time.monotonic() - began > 25:
                     raise ValueError("article_body_or_total_time_cap")
             raw = bytes(body)
             meta.update(received_at=now(), body_sha256=hashlib.sha256(raw).hexdigest(),

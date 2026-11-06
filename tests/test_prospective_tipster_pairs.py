@@ -229,7 +229,7 @@ def test_recurring_capture_preserves_articles_on_tls_failure(tmp_path, monkeypat
         urls.append(url)
         assert kwargs["allow_redirects"] is False
         if url == cli.tipsters.LISTINGS[0]:
-            return Response(f'<a href="{PICK79}1/">1</a>')
+            return Response(f'<a href="{PICK79}1/">1</a>' + " " * 20_000)
         if url == cli.tipsters.LISTINGS[-1]:
             return Response("")
         return Response(article_html(PICK79, "one", "Home", BODY))
@@ -245,6 +245,8 @@ def test_recurring_capture_preserves_articles_on_tls_failure(tmp_path, monkeypat
         return Response(response_body)
 
     monkeypatch.setattr(cli.tipsters.requests.Session, "get", get)
+    monkeypatch.setattr(cli.tipsters, "MAX_LISTING_BYTES", 30_000)
+    monkeypatch.setattr(cli.tipsters, "MAX_ARTICLE_BYTES", 10_000)
     monkeypatch.setattr(cli.proto.requests, "post", post)
     monkeypatch.setattr(cli.proto, "EVIDENCE", tmp_path / "global-price-stop")
     monkeypatch.setattr(cli.tipsters, "now", lambda: EARLY)
