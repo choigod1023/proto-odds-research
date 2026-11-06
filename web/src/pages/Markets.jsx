@@ -6,7 +6,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Card, GradeBadge, Nav, OddsChip, Stat } from "../components/ui.jsx";
 import FavoriteControls from "../components/FavoriteControls.jsx";
 import SelectionReview from "../components/SelectionReview.jsx";
-import { FAVORITES_KEY, SPORTS, readFavorites, isFavoriteGame, addSelection, selectionKey } from "../lib/explorer-preferences.js";
+import { FAVORITES_KEY, SPORTS, readFavorites, isFavoriteGame, isAsianLeague, addSelection, selectionKey } from "../lib/explorer-preferences.js";
 import { matchEvidence } from "../lib/match-evidence.js";
 import PredictionPanel from "../components/PredictionPanel.jsx";
 import TodayPicksBoard from "../components/TodayPicksBoard.jsx";
@@ -376,7 +376,7 @@ export function GameList({ data, grades, caps, stale, today, marketOdds, liveGen
   // 날짜는 실제 MM.DD 대신 상대값으로 보관한다. 페이지를 자정 너머 계속 열어
   // 두어도 "오늘"이 어제 날짜에 고정되지 않고 새 KST 날짜를 따라간다.
   const [f, setF] = useState({ st: "", lg: "", mk: "", rd: "", q: "",
-                               dt: "today", sp: "", fav: false, rec: false });
+                               dt: "today", sp: "", fav: false, rec: false, asia: false });
   const [dateClock, setDateClock] = useState(() => Date.now());
 
   useEffect(() => {
@@ -433,7 +433,9 @@ export function GameList({ data, grades, caps, stale, today, marketOdds, liveGen
     : { option: null, membership: null };
 
   const uniq = (a) => [...new Set(a)].filter((v) => v != null && v !== "");
-  const leagues = useMemo(() => uniq([...pool, ...unlinkedPool].map((g) => g.league)).sort(), [pool, unlinkedPool]);
+  const leagues = useMemo(() => uniq([...pool, ...unlinkedPool].map((g) => g.league))
+    .filter((league) => !f.asia || isAsianLeague(league))
+    .sort((a, b) => Number(isAsianLeague(b)) - Number(isAsianLeague(a)) || String(a).localeCompare(String(b))), [pool, unlinkedPool, f.asia]);
   const markets = useMemo(
     () => uniq(pool.flatMap((g) => [...(g.options || []).map((o) => o.market), g.prediction_record?.market])).sort(), [pool]);
   const rounds = useMemo(() => uniq([...pool, ...unlinkedPool].map((g) => g.round).filter((round) => round != null && round !== "").map(String)).sort((a, b) => b - a), [pool, unlinkedPool]);
@@ -445,6 +447,7 @@ export function GameList({ data, grades, caps, stale, today, marketOdds, liveGen
     return pool.filter((g) =>
       (!f.st || (f.st !== "unlinked" && gamePhase(g) === f.st)) &&
       (!f.sp || g.sport === f.sp) &&
+      (!f.asia || isAsianLeague(g.league)) &&
       (!f.fav || isFavoriteGame(g, favorites)) &&
       (!f.rec || isRecommended(g)) &&
       (!f.lg || g.league === f.lg) &&
@@ -469,7 +472,8 @@ export function GameList({ data, grades, caps, stale, today, marketOdds, liveGen
 
   const phaseCounts = pool.filter((g) => {
     const q = f.q.trim().toLowerCase();
-    return (!f.sp || g.sport === f.sp) && (!f.fav || isFavoriteGame(g, favorites)) && (!f.rec || isRecommended(g)) &&
+    return (!f.sp || g.sport === f.sp) && (!f.asia || isAsianLeague(g.league)) &&
+      (!f.fav || isFavoriteGame(g, favorites)) && (!f.rec || isRecommended(g)) &&
       (!f.lg || g.league === f.lg) &&
       (!f.rd || String(g.round) === f.rd) &&
       matchesGameDate(g, f.dt, clock) &&
@@ -488,7 +492,7 @@ export function GameList({ data, grades, caps, stale, today, marketOdds, liveGen
   // 배당에만 있는 경기는 원장이나 추천 생성 없이 별도 안내한다.
   const missingCandidates = (f.fav || f.rec || f.mk || cap) ? [] :
     unlinkedPool.filter((g) =>
-      (!f.sp || g.sport === f.sp) && (!f.lg || g.league === f.lg) &&
+      (!f.sp || g.sport === f.sp) && (!f.asia || isAsianLeague(g.league)) && (!f.lg || g.league === f.lg) &&
       (!f.rd || String(g.round) === f.rd) && matchesGameDate(g, f.dt, clock) &&
       (!f.q.trim() || [g.home, g.away, g.league].join(" ").toLowerCase().includes(f.q.trim().toLowerCase())));
   const linkedMissingCount = missingCandidates.filter(g => g.linkedGame).length;
@@ -504,6 +508,7 @@ export function GameList({ data, grades, caps, stale, today, marketOdds, liveGen
     if (!group) { group = { key, sport: game.sport, league: game.league || "기타 리그", games: [] }; leagueGroups.push(group); }
     group.games.push(game);
   }
+  leagueGroups.sort((a, b) => Number(isAsianLeague(b.league)) - Number(isAsianLeague(a.league)));
   useEffect(() => { setOpenLeague(null); }, [f, cap]);
   const renderLeagueGames = (leagueGames) => {
   const rows = [];
@@ -600,6 +605,10 @@ export function GameList({ data, grades, caps, stale, today, marketOdds, liveGen
         </div>
         <div className="favorite-filter-row"><button type="button" className="favorite-filter" aria-pressed={f.fav} onClick={() => setF({ ...f, fav: !f.fav })}>☆ 즐겨찾기만</button>
           <button type="button" className="favorite-filter" aria-pressed={f.rec} onClick={() => setF({ ...f, rec: !f.rec })}>관심 픽만 보기</button>
+          <button type="button" className="favorite-filter" aria-pressed={f.asia} onClick={() => setF((current) => ({
+            ...current, asia: !current.asia,
+            lg: !current.asia && !isAsianLeague(current.lg) ? "" : current.lg,
+          }))}>아시아 경기만</button>
           </div>
         <details className="favorite-manager"><summary>즐겨찾기 관리 · {favorites.length}개</summary>
 
@@ -631,7 +640,7 @@ export function GameList({ data, grades, caps, stale, today, marketOdds, liveGen
 
           </div>
           <div className="filter-actions">
-            <button type="button" onClick={() => { setF({ st: "", lg: "", mk: "", rd: "", q: "", dt: "today", sp: "", fav: false, rec: false }); setCap(0); }}>조건 초기화</button>
+            <button type="button" onClick={() => { setF({ st: "", lg: "", mk: "", rd: "", q: "", dt: "today", sp: "", fav: false, rec: false, asia: false }); setCap(0); }}>조건 초기화</button>
           </div>
         </details>
       </div>
