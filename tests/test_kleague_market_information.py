@@ -81,3 +81,29 @@ def test_pilot_uses_frozen_forecasts_only_after_official_identity_and_final(monk
     pending["homeTeam"] = "invalid"
     with pytest.raises(ValueError, match="team or kickoff"):
         settle(frozen, sources)
+
+
+def test_forward_deduplicates_matches_and_updates_only_result_block(monkeypatch, tmp_path):
+    monkeypatch.syspath_prepend(str(ROOT))
+    from forward_cycle import END, START, link_new, update_manuscript
+
+    fixtures = [
+        {"league": "K1", "kickoff_kst": "2026-11-09T19:30:00+09:00",
+         "home_team_id": "K01", "away_team_id": "K02"},
+        {"league": "K1", "kickoff_kst": "2026-11-09T19:30:00+09:00",
+         "home_team_id": "K03", "away_team_id": "K04"},
+    ]
+    schedule = [{"leagueId": 1, "gameId": game, "homeTeam": f"K{home:02d}", "awayTeam": f"K{away:02d}",
+                 "gameDate": "2026.11.09", "gameTime": "19:30", "endYn": "N"}
+                for game, home, away in ((301, 1, 2), (302, 3, 4))]
+    new = link_new({"fixtures": fixtures}, lambda *_: ({}, schedule), {"kleague:2026:1:301"})
+    assert [r["official_fixture_id"] for r in new] == ["kleague:2026:1:302"]
+
+    manuscript = tmp_path / "paper.md"
+    manuscript.write_text(f"Before\n{START}\nold\n{END}\nAfter\n", encoding="utf-8")
+    result = {"outcome": 1, "quotes": {"winner": {"odds": [2.0, 3.0, 4.0]}},
+              "probabilities": {"winner_implied": [0.45, 0.25, 0.30], "poisson_three": [0.30, 0.45, 0.25]}}
+    update_manuscript(manuscript, 2, 14, [result])
+    content = manuscript.read_text(encoding="utf-8")
+    assert content.startswith(f"Before\n{START}") and content.endswith(f"{END}\nAfter\n")
+    assert "공식 정산 1개" in content and "-0.58779" in content

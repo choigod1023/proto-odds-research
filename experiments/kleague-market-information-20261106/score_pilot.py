@@ -12,8 +12,8 @@ from study import encoded, scores
 URL = "https://www.kleague.com/getScheduleList.do"
 
 
-def collect(evidence, league):
-    request = {"leagueId": league, "year": "2026", "month": "11", "teamId": "", "ticketYn": ""}
+def collect(evidence, league, year=2026, month=11):
+    request = {"leagueId": league, "year": str(year), "month": f"{month:02d}", "teamId": "", "ticketYn": ""}
     with requests.post(URL, json=request, timeout=(5, 10), allow_redirects=False, stream=True) as response:
         if response.status_code != 200:
             raise ValueError(f"Official K League {league} schedule returned HTTP {response.status_code}")
@@ -30,23 +30,35 @@ def collect(evidence, league):
     return receipt, document["data"]["scheduleList"]
 
 
-def settle(frozen, schedules):
+def settle(frozen, schedules, *, expected=14, allow_rescheduled=False):
     fixtures = frozen["fixtures"]
-    if len(fixtures) != 14 or len({row["official_fixture_id"] for row in fixtures}) != 14:
+    if (not fixtures or (expected is not None and len(fixtures) != expected)
+            or len({row["official_fixture_id"] for row in fixtures}) != len(fixtures)):
         raise ValueError("Frozen fixture coverage differs from protocol")
     issued = datetime.fromisoformat(frozen["issued_at_utc"])
     joined, waiting = [], []
     for row in fixtures:
         _, year, division, game = row["official_fixture_id"].split(":")
-        receipt, schedule = schedules[int(division)]
+        kickoff = datetime.fromisoformat(row["kickoff_kst"])
+        if int(year) != kickoff.year:
+            raise ValueError(f"Official fixture year disagrees: {row['official_fixture_id']}")
+        key = (int(division), kickoff.year, kickoff.month) if expected is None else int(division)
+        receipt, schedule = schedules[key]
         matches = [match for match in schedule if (match["leagueId"], match["gameId"]) == (int(division), int(game))]
-        if len(matches) != 1 or year != "2026":
+        if len(matches) != 1:
+            if allow_rescheduled and not matches:
+                waiting.append({"id": row["official_fixture_id"], "status": "missing_from_original_month"})
+                continue
             raise ValueError(f"Official fixture identity is ambiguous: {row['official_fixture_id']}")
         match = matches[0]
-        kickoff = datetime.fromisoformat(row["kickoff_kst"])
         official_date = f"{match['gameDate'].replace('.', '-')}T{match['gameTime']}"
-        if (not issued < kickoff or official_date != kickoff.strftime("%Y-%m-%dT%H:%M")
+        if (not issued < kickoff
                 or (match["homeTeam"], match["awayTeam"]) != (row["home_team_id"], row["away_team_id"])):
+            raise ValueError(f"Official team or kickoff mismatch: {row['official_fixture_id']}")
+        if official_date != kickoff.strftime("%Y-%m-%dT%H:%M"):
+            if allow_rescheduled:
+                waiting.append({"id": row["official_fixture_id"], "status": "kickoff_changed"})
+                continue
             raise ValueError(f"Official team or kickoff mismatch: {row['official_fixture_id']}")
         if (match["gameStatus"], match["endYn"]) != ("FE", "Y"):
             waiting.append({"id": row["official_fixture_id"], "status": match["gameStatus"]})
