@@ -58,7 +58,7 @@ def packet(snapshot):
     if set(x["row"].get("history_coverage",{}))!={"home","away"} or any(c.get("status")!="complete" for c in x["row"]["history_coverage"].values()):raise ValueError("verified history coverage incomplete")
     return {k:copy.deepcopy(x[k]) for k in ("event","row","announcement","evidence")}
 
-def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.infer_frozen,m1_state=None):
+def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.infer_frozen,m1_state=None,watch_lineup_revisions=False):
     state=Path(state);state.mkdir(parents=True,exist_ok=True)
     with single_writer(state/"observer.lock") as owned:
         if not owned:return {"status":"another_run_active"}
@@ -86,6 +86,8 @@ def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.
                 report['m1_comparison']={'status':'failed','reason':str(exc)[:250]}
         try:
             today=started.astimezone(KST).date();dates={today.isoformat(),(today+timedelta(days=1)).isoformat()}
+            if watch_lineup_revisions:
+                dates.add((today-timedelta(days=1)).isoformat())
             # Fair bounded reconciliation: never run an unbounded historical crawl.
             done={r["event_key"] for r in rows if r["type"] in ("settlement","correction","unpriced_settlement","unpriced_correction")}
             waiting=sorted({c["input"]["row"]["event_date"] for c in captures if c["event_key"] not in done or c["input"]["row"]["event_date"]>=(today-timedelta(days=7)).isoformat()})
@@ -116,8 +118,23 @@ def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.
                 try:
                     official_id=g["source"]["G_ID"]
                     current_quotes=[q for q in price_result["quotes"] if q["official_game_id"]==official_id]
-                    if not current_quotes and any(r["type"]=="unpriced_forecast" and r["input"]["event"]["official_game_id"]==official_id for r in rows) and (m1_observer is None or m1_observer.has_capture(event(g))):continue
-                    if current_quotes and all(any(r["type"]=="capture" and r["input"]["event"]["official_game_id"]==official_id and r["input"]["market"]["kind"]==q["kind"] for r in rows) for q in current_quotes) and (m1_observer is None or all(m1_observer.has_capture(event(g),q['market_id']) for q in current_quotes)):continue
+                    already_unpriced = (
+                        not current_quotes
+                        and any(r["type"] == "unpriced_forecast" and r["input"]["event"]["official_game_id"] == official_id for r in rows)
+                        and (m1_observer is None or m1_observer.has_capture(event(g)))
+                    )
+                    already_priced = (
+                        current_quotes and all(
+                            any(r["type"] == "capture" and r["input"]["event"]["official_game_id"] == official_id
+                                and r["input"]["market"]["kind"] == q["kind"] for r in rows)
+                            and (m1_observer is None or m1_observer.has_capture(event(g), q["market_id"]))
+                            for q in current_quotes
+                        )
+                    )
+                    if already_unpriced or already_priced:
+                        if watch_lineup_revisions and clock()<=ledger.moment(event(g)["kickoff_at"])-timedelta(minutes=30):
+                            official.fetch_lineup(g["source"])
+                        continue
                     s=official.snapshot(g)
                     if not s.get("source_verified"):
                         report["excluded"].append({"official_game_id":g["source"]["G_ID"],"reasons":s.get("missing",["unverified_source"])});continue
@@ -178,10 +195,12 @@ def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.
         return report
 
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument("--state",type=Path,default=DEFAULT_STATE);ap.add_argument("--status",action="store_true");ap.add_argument('--m1-state',type=Path,help='opt-in separate frozen M1 rehearsal; never promotes operating picks');args=ap.parse_args()
+    ap=argparse.ArgumentParser();ap.add_argument("--state",type=Path,default=DEFAULT_STATE);ap.add_argument("--status",action="store_true");ap.add_argument('--m1-state',type=Path,help='opt-in separate frozen M1 rehearsal; never promotes operating picks')
+    ap.add_argument("--watch-lineup-revisions", action="store_true", help="keep collecting raw research receipts after the first forecast")
+    args=ap.parse_args()
     if args.status:
         print(json.dumps(ledger.summary(args.state/"paired-ledger.jsonl"),ensure_ascii=False));return
-    result=run_once(args.state,m1_state=args.m1_state)
+    result=run_once(args.state,m1_state=args.m1_state,watch_lineup_revisions=args.watch_lineup_revisions)
     print(json.dumps({k:result.get(k) for k in ("status","captured_this_run","unpriced_this_run","settled_this_run","requests")},ensure_ascii=False))
     if result["status"]=="failed":sys.exit(1)
 if __name__=="__main__":main()

@@ -27,6 +27,9 @@ MAX_REQUESTS = 80
 MAX_PAGES = 20
 KST = timezone(timedelta(hours=9))
 TEAMS = {"HH", "KT", "SS", "OB", "LG", "WO", "HT", "LT", "NC", "SK"}
+WINNER = ("2", "2", "야구 승패", "일반 승패")
+TOTAL = ("79", "7", "야구 언더오버", "일반 언더오버")
+HANDICAP = ("7", "5", "야구 핸디캡", "일반 소수핸디캡")
 
 
 def _utc():
@@ -58,8 +61,27 @@ def _price(value):
     return value
 
 
-def parse_detail(raw, round_info, games, receipt, evidence):
-    """Normalize verified official full-game 2-way rows from a detail response.
+def _product_terms(row, product):
+    if row.get("drawAllot") != 0 or row.get("gameSubject") not in (None, "") or row.get("drawHandi") != 0:
+        raise ValueError("product_terms_mismatch")
+    line = row.get("winHandi")
+    other = row.get("loseHandi")
+    labels = (row.get("winTxt"), row.get("drawTxt"), row.get("loseTxt"))
+    if product == WINNER:
+        if labels != ("승", "-", "패") or line != 0 or other != 0:
+            raise ValueError("product_terms_mismatch")
+        return "full_game_2way", "draw_void_refund", None, ("home", "away")
+    if type(line) not in (int, float) or not math.isfinite(line) or line % 1 != 0.5:
+        raise ValueError("unsupported_line")
+    if product == TOTAL and labels == ("언더", "-", "오버") and line > 0 and other == line:
+        return "full_game_total", "total_half", line, ("under", "over")
+    if product == HANDICAP and labels == ("승", "-", "패") and other == -line:
+        return "full_game_handicap", "handicap_half", line, ("home", "away")
+    raise ValueError("product_terms_mismatch")
+
+
+def parse_detail(raw, round_info, games, receipt, evidence, *, research_exact_lines=False):
+    """Normalize full-game 2-way rows, with half-lines opt-in for research.
 
     Historical responses can be used for parser tests, but their actual receipt
     time cannot be moved backwards; receipt after T-30 is always rejected.
@@ -79,20 +101,30 @@ def parse_detail(raw, round_info, games, receipt, evidence):
     end_round = _millis(round_info["saleEndDate"])
     fixtures = list(games)
     identities = Counter((g.get("home_id"), g.get("away_id"), g.get("kickoff_at")) for g in fixtures)
+    decoded = [dict(zip(keys, row)) for row in rows]
+    sequences = Counter(r["matchSeq"] for r in decoded if type(r.get("matchSeq")) is int) if research_exact_lines else {}
+    supported = (WINNER, TOTAL, HANDICAP) if research_exact_lines else (WINNER,)
     quotes, excluded = [], []
-    for row in map(lambda v: dict(zip(keys, v)), rows):
+    for row in decoded:
         if row.get("leagueCode") != "BS001":
             continue
         market_key = f"G101:{gmts}:{row.get('matchSeq')}"
-        reason = None
         # These exact codes and textual labels were confirmed in actual Betman
         # responses. 108/3 is win-by-one, 111/1 is first-half W/D/L.
-        if (row.get("betId"), row.get("betTypId"), row.get("betNm"), row.get("betTypNm")) != ("2", "2", "야구 승패", "일반 승패"):
-            reason = "unsupported_product"
-        elif (row.get("winTxt"), row.get("drawTxt"), row.get("loseTxt")) != ("승", "-", "패") or row.get("drawAllot") != 0 or row.get("gameSubject") not in (None, "") or any(row.get(k) != 0 for k in ("winHandi", "drawHandi", "loseHandi")):
-            reason = "product_terms_mismatch"
-        elif type(row.get("matchSeq")) is not int or row["matchSeq"] <= 0 or not all(isinstance(row.get(k), str) and row[k].strip() for k in ("homeName", "awayName")):
+        product = tuple(row.get(k) for k in ("betId", "betTypId", "betNm", "betTypNm"))
+        if product not in supported:
+            excluded.append({"market_id": market_key, "reason": "unsupported_product"})
+            continue
+        try:
+            kind, rule, line, sides = _product_terms(row, product)
+        except ValueError as exc:
+            excluded.append({"market_id": market_key, "reason": str(exc)})
+            continue
+        reason = None
+        if type(row.get("matchSeq")) is not int or row["matchSeq"] <= 0 or not all(isinstance(row.get(k), str) and row[k].strip() for k in ("homeName", "awayName")):
             reason = "invalid_market_identity"
+        elif research_exact_lines and sequences[row["matchSeq"]] != 1:
+            reason = "duplicate_market_identity"
         elif row.get("gameReject") != "0" or row.get("buyReject") != "0" or row.get("protoStatus") != "2" or row.get("live") != "N" or row.get("unsetSchedule") != "N" or row.get("unsetEndDate") != "N":
             reason = "not_confirmed_on_sale"
         elif row.get("homeId") not in TEAMS or row.get("awayId") not in TEAMS or row.get("homeId") == row.get("awayId"):
@@ -114,9 +146,11 @@ def parse_detail(raw, round_info, games, receipt, evidence):
         quotes.append({"official_game_id": matches[0]["official_game_id"], "home_id": row["homeId"], "away_id": row["awayId"],
                        "home_name": row["homeName"], "away_name": row["awayName"], "kickoff_at": start.astimezone(KST).isoformat(),
                        "close_at": close.isoformat(), "round_close_at": end_round.isoformat(), "market_id": market_key,
-                       "kind": "full_game_2way", "settlement_rule": "draw_void_refund", "odds": {"home": home, "away": away},
-                       "line": None, "received_at": receipt.isoformat(), "evidence": evidence,
+                       "kind": kind, "settlement_rule": rule, "odds": dict(zip(sides, (home, away))),
+                       "line": line, "received_at": receipt.isoformat(), "evidence": evidence,
                        "source_product": {"betId": row["betId"], "betTypId": row["betTypId"], "betNm": row["betNm"], "betTypNm": row["betTypNm"]}})
+    if research_exact_lines:
+        return quotes, excluded
     counts = Counter(q["official_game_id"] for q in quotes)
     for q in quotes[:]:
         if counts[q["official_game_id"]] > 1:

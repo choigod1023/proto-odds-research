@@ -259,14 +259,10 @@ class OfficialClient:
             return {'source_verified': False, 'missing': ['capture_after_t_minus_30']}
         if datetime.fromisoformat(schedule_rec['finished_at']) > kickoff.astimezone(timezone.utc) - timedelta(minutes=30):
             return {'source_verified': False, 'missing': ['schedule_after_t_minus_30']}
-        starters = {}
-        for side, prefix in [('home', 'B'), ('away', 'T')]:
-            pid, name = g.get(prefix + '_PIT_P_ID'), str(g.get(prefix + '_PIT_P_NM') or '').strip()
-            if g.get('START_PIT_CK') in (1, True) and str(pid or '').isdigit() and int(pid) > 0 and name:
-                starters[side] = {'player_id': str(pid), 'name': name}
+        starters = announced_starters(g)
         if len(starters) != 2:
             missing.append('announced_starters')
-        raw, rec = self.fetch(LINEUP, {'leId': g['LE_ID'], 'srId': g['SR_ID'], 'seasonId': g['SEASON_ID'], 'gameId': g['G_ID']})
+        raw, rec = self.fetch_lineup(g)
         if datetime.fromisoformat(rec['finished_at']) > kickoff.astimezone(timezone.utc) - timedelta(minutes=30):
             missing.append('lineup_after_t_minus_30')
         ordered = parse_lineup(raw, g)
@@ -325,6 +321,9 @@ class OfficialClient:
         payload = {'event': event, 'row': row, 'announcement': announcement, 'evidence': evidence}
         answer.update(source_verified=True, event=event, row=row, announcement=announcement, evidence=evidence, payload=payload, captured_at=stamp.isoformat())
         return answer
+
+    def fetch_lineup(self, game):
+        return self.fetch(LINEUP, lineup_params(game))
 
 
     def normalize_box(self, item, box_receipt, identity_receipts=None, with_receipts=False, required_team_ids=None):
@@ -590,22 +589,39 @@ class OfficialClient:
         found = [x for x in self.schedule([datetime.strptime(g['G_DT'], '%Y%m%d').date()])['games'] if x['source'].get('G_ID') == g['G_ID']]
         if len(found) != 1:
             return {'verified': False, 'missing': ['unique_official_result']}
-        source = found[0]['source']
-        if any(str(source.get(k)) != str(g.get(k)) for k in ('G_DT', 'HOME_ID', 'AWAY_ID', 'LE_ID', 'SR_ID', 'SEASON_ID')):
-            return {'verified': False, 'missing': ['result_identity_mismatch']}
-        cancel_name = str(source.get('CANCEL_SC_NM') or '').strip()
-        if str(source.get('CANCEL_SC_ID')) != '0' and '취소' in cancel_name:
-            return {'verified': True, 'status': 'cancelled', 'official_reason': cancel_name, 'game': found[0]}
-        if str(source.get('GAME_STATE_SC')) != '3' or str(source.get('GAME_RESULT_CK')) != '1' or str(source.get('CANCEL_SC_ID')) != '0':
-            return {'verified': False, 'missing': ['completed_official_result']}
-        # Schedule schema varies; scores are never inferred from team names or text.
-        try:
-            home, away = int(source['B_SCORE_CN']), int(source['T_SCORE_CN'])
-            if home < 0 or away < 0:
-                raise ValueError()
-        except (KeyError, ValueError, TypeError):
-            return {'verified': False, 'missing': ['official_score_fields'], 'game': found[0]}
-        return {'verified': True, 'status': 'final', 'home_score': home, 'away_score': away, 'game': found[0]}
+        return result_from_schedule(g, found[0])
+
+
+def result_from_schedule(g, item):
+    source = item['source']
+    if any(str(source.get(k)) != str(g.get(k)) for k in ('G_DT', 'HOME_ID', 'AWAY_ID', 'LE_ID', 'SR_ID', 'SEASON_ID')):
+        return {'verified': False, 'missing': ['result_identity_mismatch']}
+    cancel_name = str(source.get('CANCEL_SC_NM') or '').strip()
+    if str(source.get('CANCEL_SC_ID')) != '0' and '취소' in cancel_name:
+        return {'verified': True, 'status': 'cancelled', 'official_reason': cancel_name, 'game': item}
+    if str(source.get('GAME_STATE_SC')) != '3' or str(source.get('GAME_RESULT_CK')) != '1' or str(source.get('CANCEL_SC_ID')) != '0':
+        return {'verified': False, 'missing': ['completed_official_result']}
+    # Schedule schema varies; scores are never inferred from team names or text.
+    try:
+        home, away = int(source['B_SCORE_CN']), int(source['T_SCORE_CN'])
+        if home < 0 or away < 0:
+            raise ValueError()
+    except (KeyError, ValueError, TypeError):
+        return {'verified': False, 'missing': ['official_score_fields'], 'game': item}
+    return {'verified': True, 'status': 'final', 'home_score': home, 'away_score': away, 'game': item}
+
+
+def lineup_params(game):
+    return {'leId': game['LE_ID'], 'srId': game['SR_ID'], 'seasonId': game['SEASON_ID'], 'gameId': game['G_ID']}
+
+
+def announced_starters(game):
+    starters = {}
+    for side, prefix in [('home', 'B'), ('away', 'T')]:
+        pid, name = game.get(prefix + '_PIT_P_ID'), str(game.get(prefix + '_PIT_P_NM') or '').strip()
+        if game.get('START_PIT_CK') in (1, True) and str(pid or '').isdigit() and int(pid) > 0 and name:
+            starters[side] = {'player_id': str(pid), 'name': name}
+    return starters
 
 
 def parse_lineup(raw, game):
@@ -621,7 +637,12 @@ def parse_lineup(raw, game):
             if str(meta.get(key)) != str(wanted):
                 raise SourceError('lineup_identity_mismatch_' + key)
         rows = json.loads(obj[ti][0])['rows']
-        players = [{'slot': int(x['row'][0]['Text']), 'position': str(x['row'][1]['Text']).strip(), 'name': str(x['row'][2]['Text']).strip()} for x in rows]
+        players = []
+        for item in rows:
+            slot, position, name = (item['row'][i]['Text'] for i in range(3))
+            if type(slot) not in (str, int) or not isinstance(position, str) or not isinstance(name, str):
+                raise SourceError('invalid_lineup_player')
+            players.append({'slot': int(slot), 'position': position.strip(), 'name': name.strip()})
         if sorted(x['slot'] for x in players) != list(range(1, 10)) or any(not x['name'] or not x['position'] for x in players):
             raise SourceError('incomplete_ordered_nine')
         out[side] = sorted(players, key=lambda x: x['slot'])
