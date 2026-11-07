@@ -6,11 +6,19 @@ from official import OfficialClient,SourceError,KST,now_utc
 from features import build_row,seed_from_frozen
 
 class ConnectedOfficial(OfficialClient):
-    def prepare_history(self,game):
-        target=datetime.strptime(game['source']['G_DT'],'%Y%m%d').date().isoformat()
-        g=game['source'];identity={'target':target,'home_id':g['HOME_ID'],'away_id':g['AWAY_ID']}
-        key=hashlib.sha256(json.dumps(identity,sort_keys=True).encode()).hexdigest()
-        folder=self.root/'prepared-history';folder.mkdir(exist_ok=True);index=folder/(key+'.json')
+    def _history_index(self, source):
+        target = datetime.strptime(source['G_DT'], '%Y%m%d').date().isoformat()
+        identity = {'target': target, 'home_id': source['HOME_ID'], 'away_id': source['AWAY_ID']}
+        key = hashlib.sha256(json.dumps(identity, sort_keys=True).encode()).hexdigest()
+        return identity, self.root / 'prepared-history' / (key + '.json')
+
+    def prepare_history(self, game):
+        g = game['source']
+        identity, index = self._history_index(g)
+        target = identity['target']
+        folder = index.parent
+        folder.mkdir(exist_ok=True)
+        self.stage('prepared_history_check' if index.exists() else 'history_collection', g)
         event={'official_game_id':g['G_ID'],'season':int(g['SEASON_ID']),'home_id':g['HOME_ID'],'away_id':g['AWAY_ID'],'kickoff_at':datetime.strptime(g['G_DT']+' '+g['G_TM'],'%Y%m%d %H:%M').replace(tzinfo=KST).isoformat()}
         if index.exists():
             ref=json.loads(index.read_bytes());path=folder/(ref['sha256']+'.json.gz');raw=gzip.decompress(path.read_bytes())
@@ -23,22 +31,49 @@ class ConnectedOfficial(OfficialClient):
         if not self.verify_history_stats(event,{},history):raise SourceError('new_history_did_not_verify')
         raw=json.dumps(history,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode('utf8');sha=hashlib.sha256(raw).hexdigest();path=folder/(sha+'.json.gz')
         if not path.exists():
-            with path.open('xb') as out:out.write(gzip.compress(raw,mtime=0))
-        index.write_text(json.dumps({'identity':identity,'sha256':sha,'prepared_at':now_utc().isoformat()},sort_keys=True),encoding='utf8')
+            temp = path.with_suffix('.tmp')
+            temp.write_bytes(gzip.compress(raw, compresslevel=3, mtime=0))
+            temp.replace(path)
+        temp = index.with_suffix('.tmp')
+        temp.write_text(json.dumps({'identity': identity, 'sha256': sha, 'prepared_at': now_utc().isoformat()},
+                                   sort_keys=True), encoding='utf8')
+        temp.replace(index)
         return history
 
-    def snapshot(self,game):
-        first=super().snapshot(game)
-        if not first.get('announcement_verified'):
-            g=game['source'];start=datetime.strptime(g['G_DT']+' '+g['G_TM'],'%Y%m%d %H:%M').replace(tzinfo=KST)
-            if timedelta(minutes=30)<=start-now_utc()<=timedelta(hours=3):
-                try:self.prepare_history(game);first['history_prepared']=True
-                except SourceError as exc:first['history_preparation_missing']=str(exc)
-            return first
-        history=self.prepare_history(game)
-        result=super().snapshot(game,history=history,build_row=build_row)
+    def prewarm_history(self, games, now):
+        # Limit optional work to one uncached game per idle pregame cycle.
+        local_day = now.astimezone(KST).date()
+        upcoming = []
+        for game in games:
+            g = game['source']
+            if (g['G_DT'] != local_day.strftime('%Y%m%d') or str(g['GAME_STATE_SC']) != '1'
+                    or str(g['CANCEL_SC_ID']) != '0'):
+                continue
+            start = datetime.strptime(g['G_DT'] + ' ' + g['G_TM'], '%Y%m%d %H:%M').replace(tzinfo=KST)
+            if timedelta(hours=3) < start - now <= timedelta(hours=6) and not self._history_index(g)[1].exists():
+                upcoming.append(game)
+        if upcoming:
+            upcoming.sort(key=lambda game: (game['source']['G_TM'], game['source']['G_ID']))
+            game = upcoming[int(now.timestamp()) // 300 % len(upcoming)]
+            self.stage('history_prewarm', game['source'])
+            self.prepare_history(game)
+            self.stage('history_prewarm_complete', game['source'])
+
+    def snapshot(self, game):
+        result = super().snapshot(game, history=lambda: self.prepare_history(game), build_row=build_row)
+        if not result.get('announcement_verified'):
+            g = game['source']
+            start = datetime.strptime(g['G_DT'] + ' ' + g['G_TM'], '%Y%m%d %H:%M').replace(tzinfo=KST)
+            if (timedelta(hours=1) <= start - now_utc() <= timedelta(hours=3)
+                    and not self._history_index(g)[1].exists()):
+                try:
+                    self.prepare_history(game)
+                    result['history_prepared'] = True
+                except SourceError as exc:
+                    result['history_preparation_missing'] = str(exc)
         if not result.get('source_verified'):
             return result
+        self.stage('archive_sources', game['source'])
         if any(v.get('status')!='complete' for v in result['row'].get('history_coverage',{}).values()):
             result.update(source_verified=False,missing=['verified_history_coverage_incomplete'])
             return result

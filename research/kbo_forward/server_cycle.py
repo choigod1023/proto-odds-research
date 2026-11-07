@@ -4,6 +4,7 @@ No AI service, fitting, wallet operation or production recommendation write.
 Original captures stay in the append-only research ledger.
 """
 import argparse
+from datetime import datetime, timezone
 import json
 import os
 from pathlib import Path
@@ -12,6 +13,27 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from research.kbo_forward.runner import run_once, atomic_json
 from research.m1_service.observer import read, canonical, digest, moment
+
+
+def progress_writer(state):
+    """Keep the current stage and the last interrupted cycle on the volume."""
+    started = datetime.now(timezone.utc).isoformat()
+    path = state / 'progress.json'
+
+    def mark(stage, game_id=None):
+        row = {'run_started_at': started, 'at': datetime.now(timezone.utc).isoformat(),
+               'stage': stage, 'official_game_id': game_id}
+        print(json.dumps({'kbo_m0_progress': row}), flush=True)
+        try:
+            if stage == 'cycle_started' and path.is_file():
+                previous = json.loads(path.read_bytes())
+                if previous.get('stage') != 'cycle_finished':
+                    atomic_json(state / 'last-interrupted-progress.json', previous)
+            atomic_json(path, row)
+        except (OSError, ValueError) as exc:
+            print(json.dumps({'kbo_m0_progress_write_error': type(exc).__name__}), flush=True)
+
+    return mark
 
 
 def publish_index(state):
@@ -57,11 +79,16 @@ def main():
     parser.add_argument('--state', type=Path, required=True)
     parser.add_argument('--m1-state', type=Path, required=True)
     args = parser.parse_args()
-    result = run_once(args.state, m1_state=args.m1_state,
+    progress = progress_writer(args.state)
+    result = run_once(args.state, m1_state=args.m1_state, progress=progress,
                       operating_prices=args.state.parent / 'kbo-operating-price-v1')
+    if result['status'] == 'another_run_active':
+        return 0
+    progress('publish_index')
     count = publish_index(args.m1_state)  # Also repairs a missing index after a prior interrupted publication.
     print(json.dumps({'status':result['status'], 'm0_indexed_fixtures':count,
                       'captures':result.get('captured_this_run'), 'requests':result.get('requests')}))
+    progress('cycle_finished')
     return 0 if result['status']=='ok' else 1
 
 
