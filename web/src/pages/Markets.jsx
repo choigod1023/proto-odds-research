@@ -40,7 +40,7 @@ import { freshnessStatus, isLiveFeedDelayed, isDataStale, waitingLabel } from ".
 import { decisionFrozen, gamePhase, PHASE_LABEL, recommendationOutcome, scheduledAt } from "../lib/match-status.js";
 import { predictionForGame } from "../lib/game-prediction.js";
 import { savedLivePrediction } from "../lib/saved-live-prediction.js";
-import { commentaryMethod, directPickReason } from "../lib/recommendation.js";
+import { commentaryMethod } from "../lib/recommendation.js";
 import { compactTeamPlayerLine } from "../lib/team-preview.js";
 import { deduplicateGameCards } from "../lib/game-dedup.js";
 import { missingMarketFixtures } from "../lib/missing-market-fixtures.js";
@@ -762,7 +762,7 @@ function MarketHistory({ rows }) {
 }
 
 export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMembership,
-  todayOption, highlightedToday, onSaveBet, onOpen, selections = [], detailOnly = false, marketPerformance }) {
+  todayOption, highlightedToday, onSaveBet, onOpen, selections = [], detailOnly = false, marketPerformance, initialDetailTab }) {
   // 같은 마켓의 두 선택지가 같은 등급이면 '=' — 어느 쪽을 사도 같아 고를 근거가 없다
   const tie = useMemo(() => {
     const by = {}, t = {};
@@ -790,8 +790,8 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
   const votePolicy = usesTipsterVote(g);
   const voteInfo = tipsterPolicyInfo(g);
   const voteWithheld = votePolicy && (voteInfo?.status !== "applied" || g.decision_snapshot?.action === "withhold");
-  const displayedOption = voteWithheld ? null : (locked && saved?.option)
-    || (!started ? (votePolicy ? resolveDecisionOption(g) : todayOption || prediction?.option) : null) || null;
+  const displayedOption = locked ? saved?.option || null : voteWithheld ? null
+    : (votePolicy ? resolveDecisionOption(g) : todayOption || prediction?.option) || null;
   const pick = displayedOption ? {
     o: displayedOption,
     g: gradeOf(grades, displayedOption["배당"]),
@@ -816,9 +816,17 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
     || (outcome.source === "score" && g.sport === "sc" && lv?.regular_time_score)
     || (lv && lv.home_score != null && lv.away_score != null
         ? [lv.home_score, lv.away_score] : null);
-  const analysis = wait || stale || predictionUnavailable || started
+  const snapshot = g.decision_snapshot;
+  const frozenOption = locked && saved?.option?.selection_id
+    && snapshot?.decision_id && snapshot.decision_id === g.prediction_record?.prediction_snapshot_id
+    && snapshot.selection_id === saved.option.selection_id && snapshot.offer_id === saved.option.offer_id
+    ? (g.options || []).find(option => option.selection_id === saved.option.selection_id
+      && option.offer_id === saved.option.offer_id && option.market === saved.option.market
+      && (option.label || "") === (saved.option.label || "") && option["선택"] === saved.option["선택"]
+      && Number(option["배당"]) === Number(saved.option["배당"])) : null;
+  const analysis = wait || stale || predictionUnavailable || locked
     ? null : performanceAnalysis(g, pick?.o || null, displayCommentary(g));
-  const decision = analysis?.decision || buildDecisionViewModel(g, pick?.o || null);
+  const decision = analysis?.decision || buildDecisionViewModel(g, locked ? frozenOption || null : pick?.o || null);
   const forecast = analysis?.prediction;
   const fallbackForecast = disruption || (started && !saved ? "사전 예측 기록 없음" : g._liveOddsChanged
     ? "배당 변경 · 재계산 대기"
@@ -832,6 +840,7 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
         ? "배당 자료 확인 중"
         : "분석 자료 확인 중");
   const openingProbability = saved?.openingProbability ?? null;
+  const savedSnapshotMatches = Boolean(frozenOption && decision.action === "market_reference");
   const currentProbability = decision.probability.final ?? pick?.o?.["시장확률"];
   const hybridApplied = !votePolicy && Boolean(decision.tipster && decision.probability.final != null);
   const voteSummary = tipsterVoteSummary(voteInfo);
@@ -861,19 +870,15 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
   return (
     <Surface className={detailOnly ? "match-detail-view" : `match-card is-${phase} result-${outcome.state}`}>
       {detailOnly && <MatchDetailHeader game={g} score={score} phase={phase}
-        probabilityLabel={votePolicy ? "배당 기반 시장확률" : undefined}
-        predictionTitle={votePolicy ? (voteWithheld ? tipsterWithholdLabel(voteInfo) : isMarketFallback(voteInfo) ? "시장 확률 기준 · 픽스터 없음" : "픽스터 투표") : undefined}
+        probabilityLabel={votePolicy && (!locked || savedSnapshotMatches) ? "배당 기반 시장확률" : undefined}
+        predictionTitle={votePolicy && (!locked || savedSnapshotMatches)
+          ? (!locked && voteWithheld ? tipsterWithholdLabel(voteInfo) : isMarketFallback(voteInfo) ? "시장 확률 기준 · 픽스터 없음" : "픽스터 투표") : undefined}
         status={disruption || (playing ? `LIVE · ${lv?.status_text || "진행 중"}` : gameStatusLabel(g, lv))} option={pick?.o}
-        openingProbability={voteWithheld ? null : locked ? openingProbability : currentProbability}
+        openingProbability={locked ? openingProbability : voteWithheld ? null : currentProbability}
         estimate={liveProbability} message={probabilityMessage} capturedAt={saved?.capturedAt}
         recommended={highlightedToday} outcome={outcome} selected={selectedForGame.length > 0}
         recommendation={recommendation && <PregameRecommendation recommendation={recommendation} />}
-        marketPicks={marketRecommendations.length > 0 ? <MarketRecommendations recommendations={marketRecommendations}
-          selected={(option) => selections.some((item) => item.key === selectionKey(g, option))}
-          onSelect={onSaveBet ? (option) => onSaveBet(g, option) : undefined} /> : null}>
-        <MatchProgress game={g} live={lv} phase={phase} score={score} />
-        {playing && g.sport === "bs" && <BaseballSituation live={lv} />}
-      </MatchDetailHeader>}
+        marketPicks={marketRecommendations.length > 0 ? <span className="review-note">핸디캡·언더오버 사전 픽 {marketRecommendations.length}건 · 상품·배당 탭</span> : null} />}
       {!detailOnly && <>
       <Row type={detailOnly ? undefined : "button"} className={detailOnly ? "match-detail-summary" : "match-row game-info-trigger"}
         aria-haspopup={detailOnly ? undefined : "dialog"}
@@ -946,7 +951,7 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
               : <OddsChip label="판정" value={pendingLabel} />}
         </span>
         {!detailOnly && highlightedToday && evidence.summary && <span className="match-reason-preview"><b>경기력 근거</b> {evidence.summary}</span>}
-        {votePolicy && !stale && !g._liveOddsChanged && <span className="pregame-probability">{voteSummary.text}{voteWithheld ? ` · ${tipsterWithholdLabel(voteInfo)}` : voteSummary.share !== null ? ` · 투표 ${(voteSummary.share * 100).toFixed(1)}% (지지율 · 예상 적중률 아님)` : ""}</span>}
+        {votePolicy && !locked && !stale && !g._liveOddsChanged && <span className="pregame-probability">{voteSummary.text}{voteWithheld ? ` · ${tipsterWithholdLabel(voteInfo)}` : voteSummary.share !== null ? ` · 투표 ${(voteSummary.share * 100).toFixed(1)}% (지지율 · 예상 적중률 아님)` : ""}</span>}
         {!detailOnly && phase === "upcoming" && !recommendation && pick && !stale && !g._liveOddsChanged && <span className="pregame-probability">{votePolicy ? "배당 기반 시장확률" : locked ? "경기 전 확률" : hybridApplied ? "혼합 모델 확률" : "배당 기준 확률"} {locked ? (Number.isFinite(openingProbability) ? pct(openingProbability) : "기록 없음") : pct(currentProbability)} · {locked ? "경기 전 예상" : hybridApplied ? "시장 90% + 픽스터 10% · 수익성 미검증" : "현재 배당 기준"}</span>}
         {!detailOnly && !highlightedToday && evidence.summary && <span className="match-evidence-preview"><span>경기력</span> {evidence.summary}<span className="detail-link">상세 근거 ›</span></span>}
       </Row>
@@ -956,19 +961,6 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
           중계 업데이트가 늦어지고 있습니다. 표시된 점수는 마지막 확인 값이며, 경기 종료를 뜻하지 않습니다.
           {lv.observed_at && ` · 마지막 확인 ${new Date(lv.observed_at).toLocaleTimeString("ko-KR", { timeZone: "Asia/Seoul" })} (한국 시간)`}
         </p>}
-        {evidence.facts.length > 0 && <section className="performance-evidence" aria-label="경기력 근거">
-          <h3>{highlightedToday ? "추천 경기의 경기력 비교" : "경기력 비교"}</h3>
-          {evidence.facts.length ? <ul>{evidence.facts.map((fact) => <li key={fact}>{fact}</li>)}</ul> : <p>{evidence.summary}</p>}
-          <SourceStamp source={sourceFor(g)} />
-        </section>}
-        {pick && onSaveBet && <button type="button" className="pick-select-action" disabled={selected || stale || g._liveOddsChanged}
-          onClick={() => onSaveBet(g, pick.o)}>{selected ? "✓ 선택 목록에 담김" : "이 픽을 선택 목록에 담기"}</button>}
-        <MarketPickComparison game={g} options={g.options || opts} performance={marketPerformance}
-          recommendations={liveClosed && !locked ? [] : marketRecommendations} />
-        <MarketCandidateComparison game={insightGame} options={opts}
-          blocked={wait || stale || locked || g._liveOddsChanged === true}
-          onSelect={onSaveBet ? (option) => onSaveBet(g, option) : undefined} />
-        <MarketHistory rows={g._marketHistory} />
         {g._liveLineChanged && (
           <div className="mb-3 rounded border border-amber-400 bg-amber-50 px-3 py-2 text-[12px] leading-6 text-amber-950" role="status">
             <b>핸디캡·언더오버 기준점 변경 반영</b>
@@ -1013,13 +1005,35 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
             경기 전에 저장된 예측 원장이 없어 현재 공식으로 과거 추천을 재구성하지 않습니다.
           </div>
         )}
-        <MatchInsight g={insightGame} analysis={analysis}
-          decision={predictionUnavailable ? null : decision}
+        <MatchInsight g={insightGame} analysis={analysis} initialTab={initialDetailTab}
+          decision={predictionUnavailable ? null : decision} locked={locked}
+          saved={saved} savedSnapshotMatches={savedSnapshotMatches}
           opts={opts} grades={grades} tie={tie} pick={pick}
           highlightedToday={highlightedToday}
           recalculating={g._liveOddsChanged === true} showPrices={!wait}
-          onSaveBet={onSaveBet}
-          />
+          onSaveBet={locked ? undefined : onSaveBet}
+          progress={<>
+            <MatchProgress game={g} live={lv} phase={phase} score={score} />
+            {playing && g.sport === "bs" && <BaseballSituation live={lv} />}
+            {finished && <p className="review-note">경기 결과 · {outcome.label}</p>}
+          </>}
+          markets={<>
+            {marketRecommendations.length > 0 && <MarketRecommendations recommendations={marketRecommendations}
+              selected={(option) => selections.some((item) => item.key === selectionKey(g, option))}
+              onSelect={!locked && onSaveBet ? (option) => onSaveBet(g, option) : undefined} />}
+            <MarketPickComparison game={g} options={g.options || opts} performance={marketPerformance}
+              recommendations={marketRecommendations} />
+            <LazyDetail title="픽스터 원문·선택지 비교">
+              <MarketCandidateComparison game={insightGame} options={opts}
+                blocked={wait || stale || locked || g._liveOddsChanged === true}
+                onSelect={!locked && onSaveBet ? (option) => onSaveBet(g, option) : undefined} />
+            </LazyDetail>
+            <MarketHistory rows={g._marketHistory} />
+          </>}
+          selectPick={!locked && pick && onSaveBet && <button type="button" className="pick-select-action"
+            disabled={selected || stale || g._liveOddsChanged}
+            onClick={() => onSaveBet(g, pick.o)}>{selected ? "✓ 선택 목록에 담김" : "이 픽을 선택 목록에 담기"}</button>}
+        />
       </div>}
     </Surface>
   );
@@ -1140,10 +1154,10 @@ function PitcherCard({ team, pitcher }) {
               </div>
             ))}
           </div>
-        ) : <p className="mt-1 text-[11px] text-ink3">선발 이름은 확인됐지만 개인 지표 자료는 아직 없다.</p>}
+        ) : <p className="mt-1 text-[11px] text-ink3">선발 이름 확인 · 개인 지표 없음</p>}
         {pitcher.stats?.fip_approx && <div className="mt-1 text-[9.5px] text-ink3">* FIP는 사구 자료가 없어 사구를 제외한 근사치다.</div>}
         {pitcher.stats_source && <div className="mt-1.5 text-[10px] text-ink3">{pitcher.stats_source}</div>}
-      </> : <p className="mt-1 text-[11.5px] text-ink3">아직 선발이 발표되지 않았다.</p>}
+      </> : <p className="mt-1 text-[11.5px] text-ink3">확인된 선발 정보가 없습니다.</p>}
     </div>
   );
 }
@@ -1284,7 +1298,7 @@ function CourtPlayersPanel({ g }) {
   return <>
     <div className="mb-2 rounded-[7px] border border-rule2 bg-paper2 px-2.5 py-2 text-[10.5px] leading-[1.6] text-ink3">
       <b className="text-ink">{info.roster_status?.label || info.coverage?.label || "공식 선수 자료원 미연결"}</b>
-      {info.roster_status?.label && info.coverage?.label && <span> · {info.coverage.label}</span>}
+      {info.roster_status?.label && info.coverage?.label && info.coverage.label !== info.roster_status.label && <span> · {info.coverage.label}</span>}
     </div>
     {hasRoster && <>
       <div className="mb-1 text-[10.5px] font-semibold text-ink3">선수 명단</div>
@@ -1300,19 +1314,15 @@ function CourtPlayersPanel({ g }) {
         <CourtKeyPlayers team={g.away} players={key.away} sport={g.sport} />
       </div>
     </>}
-    {!hasRoster && !hasKey && <p className="text-[11.5px] text-ink3">
-      {info.coverage?.label || "이 대회의 공식 선수·명단 자료 경로가 아직 연결되지 않았다."}
+    {(hasRoster || hasKey) && <p className="mt-2 text-[9.5px] leading-[1.6] text-ink3">
+      등록·시즌 자료입니다. 당일 선발과 출전 여부는 별도로 확인합니다.
     </p>}
-    <p className="mt-2 text-[9.5px] leading-[1.6] text-ink3">
-      등록 명단과 최근 대표 명단은 실제 당일 선발·출전 확정이나 부상 보고서가 아니다.
-    </p>
   </>;
 }
 
 function PlayersPanel({ g }) {
   if (g.sport === "bs") {
     const info = g.baseball_current || g["선발"] || {};
-    const displayGame = { ...g, "선발": info };
     const lineups = info.lineups || {};
     const status = info.lineup_status || {};
     const sideStates = status.side_states || {};
@@ -1320,8 +1330,8 @@ function PlayersPanel({ g }) {
     const references = status.reference_dates || {};
     return <>
       <div className="grid gap-2 sm:grid-cols-2">
-        <PitcherCard team={g.home} pitcher={starterFor(displayGame, "home")} />
-        <PitcherCard team={g.away} pitcher={starterFor(displayGame, "away")} />
+        <PitcherCard team={g.home} pitcher={starterFor(g, "home")} />
+        <PitcherCard team={g.away} pitcher={starterFor(g, "away")} />
       </div>
       {g.baseball_current && <p className="mt-2 text-[10.5px] text-ink3">현재 수집 정보 · 동결된 사전 픽과 별도이며 확률 가산은 검증 전입니다.</p>}
       {(lineups.home?.length || lineups.away?.length) ? <>
@@ -1363,7 +1373,9 @@ function PlayersPanel({ g }) {
         <ActualLineup team={`${g.away}${formations.away ? ` · ${formations.away}` : ""}`} players={actual.away} />
       </div>
     </> : <p className="text-[11.5px] text-ink3">
-      {info.source ? `실제 선발 명단 발표 전${expected ? ` · 통상 ${expected} 전후 확인` : ""}` : "이 리그의 선수·라인업 자료 경로가 아직 연결되지 않았다."}
+      {status.state === "before" ? `공식 선발 명단 발표 전${expected ? ` · 통상 ${expected} 전후 확인` : ""}`
+        : info.source ? "원천에서 이 경기의 선발 명단을 확인하지 못했습니다."
+          : "이 경기와 연결된 선수·라인업 자료가 없습니다."}
     </p>}
     {hasKey && <>
       <div className="mb-1 mt-2 text-[10.5px] font-semibold text-ink3">시즌 핵심 선수 기록</div>
@@ -1487,14 +1499,19 @@ function AvailabilityPanel({ g }) {
     : g.sport === "sc" ? "시즌 핵심 선수들이 모두 선발 명단에 포함됐다." : null;
   const impact = info.availability_summary;
   const burdenLabel = (value) => value >= .6 ? "큼" : value >= .25 ? "중간" : value > 0 ? "작음" : "없음";
+  const home = unavailableFor(g, "home"), away = unavailableFor(g, "away");
+  if (!home.length && !away.length && !hasActual) {
+    return <p className="review-note">{courtConnected
+      ? "당일 부상·출전 확정 자료가 없습니다." : "확인된 결장 정보가 없습니다."}</p>;
+  }
   return <>
     {impact && (impact.home_burden > 0 || impact.away_burden > 0) && <div className="mb-2 rounded-[7px] border border-rule2 px-2.5 py-2 text-[11.5px] leading-[1.7] text-ink2">
       명단 변수 예상 영향 · <b>{g.home} {burdenLabel(impact.home_burden)}</b> · <b>{g.away} {burdenLabel(impact.away_burden)}</b>
       <p className="mt-1 text-[10px] text-ink3">선수 비중·결장 가능성·대체 수준·출처 신뢰도를 함께 본 진단값이다. 과거 검증 전이라 승률에는 직접 더하지 않는다.</p>
     </div>}
     <div className="grid gap-2 sm:grid-cols-2">
-      <AvailabilityTeam team={g.home} rows={unavailableFor(g, "home")} connected={connected} emptyText={emptyText} />
-      <AvailabilityTeam team={g.away} rows={unavailableFor(g, "away")} connected={connected} emptyText={emptyText} />
+      <AvailabilityTeam team={g.home} rows={home} connected={connected} emptyText={emptyText} />
+      <AvailabilityTeam team={g.away} rows={away} connected={connected} emptyText={emptyText} />
     </div>
     {!hasActual && <p className="mt-2 text-[10.5px] leading-[1.6] text-ink3">
       {court
@@ -1505,21 +1522,16 @@ function AvailabilityPanel({ g }) {
   </>;
 }
 
-function ContextEvidence({ g, pick }) {
+function ContextEvidence({ g }) {
   const evidence = g["경기근거"] || null;
-  const direct = directPickReason(pick);
   const sections = [
     ["경기 내부", evidence?.internal || []],
     ["경기 외부", evidence?.external || []],
     ["공개 픽 흐름", evidence?.crowd || []],
   ].filter(([, rows]) => rows.length);
   const commentary = String(g["근거해설"] || "").trim();
-  if (!direct && !sections.length && !commentary && !evidence?.limitations?.length) return null;
+  if (!sections.length && !commentary && !evidence?.limitations?.length) return null;
   return <div className="mt-3 border-t border-rule2 pt-3 text-[11.5px] leading-[1.7] text-ink2">
-    {direct && <div className="rounded-[7px] border border-rule bg-panel px-3 py-2.5">
-      <div className="mb-0.5 text-[10.5px] font-semibold tracking-[.04em] text-ink3">왜 이 픽인가</div>
-      <div className="text-ink">{direct}</div>
-    </div>}
     {!!sections.length && <div className="mt-2 grid gap-2 [grid-template-columns:repeat(auto-fit,minmax(210px,1fr))]">
       {sections.map(([title, rows]) => <div key={title} className="rounded-[7px] border border-rule2 px-2.5 py-2">
         <div className="mb-1 text-[10.5px] font-semibold tracking-[.04em] text-ink3">{title}</div>
@@ -1544,6 +1556,15 @@ const marketTime = (value) => value ? new Date(value).toLocaleString("ko-KR", {
   timeZone: "Asia/Seoul", year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit",
 }) + " KST" : null;
 
+function marketScopeLabel(offer) {
+  const [scope, rule] = String(offer.settlementScope || "").split(":");
+  const period = { full_game: "전체 경기", full_including_extra: "연장 포함", regulation: "정규시간" }[scope]
+    || { full_game: "전체 경기", first_half: "전반" }[offer.period];
+  const settlement = { handicap_half: "홈 기준 핸디캡 적용", handicap_3way: "핸디캡 적용 승·무·패",
+    total_half: "기준점 미만·초과", total_push: "기준점 일치 시 환불" }[rule];
+  return [period, settlement].filter(Boolean).join(" · ") || "정산 범위 미확인";
+}
+
 export function RecordedMarketOffers({ offers, hasOptions = false, waiting = false }) {
   return <section aria-label="상품과 배당">
     <p className="mb-3 text-[11.5px] leading-6 text-ink3">
@@ -1556,7 +1577,7 @@ export function RecordedMarketOffers({ offers, hasOptions = false, waiting = fal
     <div className="grid gap-2">
       {offers.map((offer) => <section key={offer.gameNo} className="rounded border border-rule2 px-3 py-2">
         <h4 className="m-0 text-[12px] font-semibold text-ink">{offer.gameNo} · {offer.market}{offer.label ? ` ${offer.label}` : ""}</h4>
-        <p className="my-1 text-[10.5px] text-ink3">{offer.period ? `기간 ${offer.period} · ` : ""}{offer.settlementScope ? `정산 ${offer.settlementScope}` : "정산 범위 미확인"}</p>
+        <p className="my-1 text-[10.5px] text-ink3">{marketScopeLabel(offer)}</p>
         <ul className="m-0 list-none p-0 text-[12px]">
           {offer.selections.map((selection) => <li key={selection.name} className="py-1">
             {selection.name} <b className="tnum">{selection.odds.toFixed(2)}</b>{" · "}
@@ -1572,16 +1593,25 @@ export function RecordedMarketOffers({ offers, hasOptions = false, waiting = fal
   </section>;
 }
 
-function MatchInsight({ g, analysis, decision, opts, grades, tie, pick,
+function LazyDetail({ title, children }) {
+  const [open, setOpen] = useState(false);
+  return <details className="match-detail-disclosure" onToggle={event => setOpen(event.currentTarget.open)}>
+    <summary>{title}</summary>
+    {open && children}
+  </details>;
+}
+
+function MatchInsight({ g, analysis, decision, opts, grades, tie, pick, locked, saved, savedSnapshotMatches,
+  initialTab, progress, markets, selectPick,
   highlightedToday = false, recalculating = false, showPrices = false, onSaveBet }) {
   const txt = displayCommentary(g);
   const tabs = infoTabs(g, txt);
-  const offers = recordedMarketOffers(opts, g);
-  tabs.splice(Math.min(1, tabs.length), 0, { id: "markets", label: "상품·배당" });
+  tabs.splice(Math.min(1, tabs.length), 0,
+    { id: "markets", label: "상품·배당" }, { id: "progress", label: "중계·결과" });
   if (showPrices && !tabs.some((tab) => tab.id === "evidence")) {
     tabs.push({ id: "evidence", label: "픽 근거·수식" });
   }
-  const [active, setActive] = useState(tabs[0]?.id || "summary");
+  const [active, setActive] = useState(initialTab || tabs[0]?.id || "summary");
   if (!tabs.length) return null;
   const current = tabs.some((x) => x.id === active) ? active : tabs[0]?.id;
   const source = sourceFor(g);
@@ -1615,26 +1645,38 @@ function MatchInsight({ g, analysis, decision, opts, grades, tie, pick,
       <div className="intel-content" role="tabpanel" id={panelId}
         aria-labelledby={tabId(current)} tabIndex={0}>
         {current === "summary" && <>
-          {analysis
-            ? <PredictionPanel analysis={analysis} scoreForecast={scoreForecastForView(g)} />
-            : <p className="m-0 text-[11.5px] text-ink3">{txt || "경기 자료를 확인 중입니다."}</p>}
-          <div className="mt-3 border-t border-rule2 pt-3"><TeamsPanel g={g} /></div>
+          <h3 className="match-section-title">최근 팀 기록과 맞대결</h3>
+          <TeamsPanel g={g} />
+          <SourceStamp source={source} />
+          {analysis && <LazyDetail title="상세 분석 · 반대 근거">
+            <PredictionPanel analysis={analysis} scoreForecast={scoreForecastForView(g)} />
+          </LazyDetail>}
         </>}
-        {current === "markets" && <RecordedMarketOffers offers={offers} hasOptions={Boolean(opts?.length)} waiting={!showPrices} />}
+        {current === "markets" && <>
+          {selectPick}
+          <RecordedMarketOffers offers={recordedMarketOffers(opts, g)} hasOptions={Boolean(opts?.length)} waiting={!showPrices} />
+          {markets}
+        </>}
+        {current === "progress" && progress}
         {current === "players" && <>
           <PlayersPanel g={g} />
           <div className="mt-3 border-t border-rule2 pt-3"><AvailabilityPanel g={g} /></div>
         </>}
         {current === "evidence" && <>
-          {decision
-            ? <AiDecisionPath decision={decision} />
-            : <p className="m-0 text-[11.5px] text-ink3">경기 전 판정 스냅샷이 아직 없습니다.</p>}
-          <ContextEvidence g={g} pick={pick} />
-          {showPrices && <div className="show-model mt-3 overflow-x-auto border-t border-rule2 pt-3">
-            <OptTable g={g} opts={opts} grades={grades} tie={tie} pick={pick}
-              highlightedToday={highlightedToday}
-              recalculating={recalculating} onSaveBet={onSaveBet} />
-          </div>}
+          {locked && saved && <p className="review-note">사전 기록 · {saved.option.market} {saved.option.label} · {saved.option.선택}
+            {saved.option.배당 != null && ` · ${odds(saved.option.배당)}배`} · {marketTime(saved.capturedAt)}</p>}
+          {decision && (!locked || savedSnapshotMatches) ? <AiDecisionPath decision={decision} />
+            : <p className="review-note">{locked && saved
+              ? "이 사전 픽과 일치하는 당시 판단 근거를 확인하지 못했습니다."
+              : "확인된 경기 전 판정 스냅샷이 없습니다."}</p>}
+          {!locked && <ContextEvidence g={g} />}
+          {showPrices && !locked && <LazyDetail title="선택지별 확률·판정 표">
+            <div className="show-model overflow-x-auto">
+              <OptTable g={g} opts={opts} grades={grades} tie={tie} pick={pick}
+                highlightedToday={highlightedToday}
+                recalculating={recalculating} onSaveBet={onSaveBet} />
+            </div>
+          </LazyDetail>}
         </>}
       </div>
       {current === "players" && <SourceStamp source={source} />}
