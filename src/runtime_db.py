@@ -114,12 +114,12 @@ def _picks_json_fragments(payload, encoder):
             yield ","
         yield encoder.encode(key)
         yield ":"
-        if key not in ("live", "past") or type(value) is not list:
-            yield from encoder.iterencode(value)
+        if type(value) is not list:
+            yield encoder.encode(value)
             continue
 
-        # Encode one fixture with the native JSON encoder. Iterating every
-        # field through Python is expensive for thousands of archived games.
+        # Encode one array item with the native JSON encoder, including archived
+        # fixtures and result rows. Python field-by-field encoding is expensive.
         yield "["
         for row_index, game in enumerate(value):
             if row_index:

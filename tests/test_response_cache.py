@@ -18,12 +18,12 @@ def test_wire_cache_coalesces_requests_and_preserves_plain_response(tmp_path, mo
     db = RuntimeDatabase(tmp_path/'test.sqlite3')
     db.store_artifact('picks_v2', {'live': [], 'past': [], 'generated_at': 'original'})
     views = match_api.MatchViews(db)
-    original = gzip.compress
+    original = match_api._compressed_list
     calls = []
     def compress(*args, **kwargs):
         calls.append(1)
         return original(*args, **kwargs)
-    monkeypatch.setattr(match_api.gzip, 'compress', compress)
+    monkeypatch.setattr(match_api, '_compressed_list', compress)
     with ThreadPoolExecutor(max_workers=8) as pool:
         bodies = list(pool.map(lambda _: views.get_bytes(), range(16)))
     assert len(calls) == 1

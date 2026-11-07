@@ -9,6 +9,15 @@ import gzip
 KST = timezone(timedelta(hours=9))
 
 
+def _compressed_list(payload):
+    """Bound temporary JSON allocations while keeping the existing gzip level."""
+    from runtime_db import _json_chunks
+    compressor = zlib.compressobj(level=3, wbits=31)
+    parts = [compressor.compress(chunk) for chunk in _json_chunks(payload)]
+    parts.append(compressor.flush())
+    return b"".join(parts)
+
+
 class PreparedMatchResponses:
     """Publish immutable responses; HTTP readers never join a DB/cache rebuild.
 
@@ -254,7 +263,6 @@ class MatchViews:
             cache_key = (scope, payload['view']['day'])
             self.wire_cache = {k: v for k, v in self.wire_cache.items() if k[1] == cache_key[1]}
             if cache_key not in self.wire_cache:
-                raw = json.dumps(payload, ensure_ascii=False, separators=(',', ':')).encode()
-                self.wire_cache[cache_key] = gzip.compress(raw, compresslevel=3)
+                self.wire_cache[cache_key] = _compressed_list(payload)
             body = self.wire_cache[cache_key]
             return body if compressed else gzip.decompress(body)

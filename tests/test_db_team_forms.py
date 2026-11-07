@@ -229,6 +229,20 @@ def test_changed_prices_before_freeze_capture_new_revision_forms(history_db):
     assert game["decision_snapshot"]["input_revision_hash"] != saved["input_revision_hash"]
 
 
+def test_observation_clock_alone_does_not_republish_identical_forms(history_db):
+    rows, _ = history_db
+    rows.append(result())
+    document_before, _ = refresh.refresh_document(document(), live_odds(), now=NOW)
+    preserved = deepcopy(document_before)
+    later = datetime(2026, 8, 30, 1, 1, tzinfo=UTC)
+    feed = live_odds(observed=later.isoformat())
+    document_after, changed = refresh.refresh_document(document_before, feed, now=later)
+    assert changed == 0
+    assert document_after["generated_at"] == preserved["generated_at"]
+    assert document_after["live"][0]["team_form_display"] == preserved["live"][0]["team_form_display"]
+    assert document_after["live"][0]["decision_snapshot"] == preserved["live"][0]["decision_snapshot"]
+
+
 @pytest.mark.parametrize("clock,observed", [
     ("2026-08-30T09:00:00+00:00", NOW.isoformat()),
     ("2026-08-30T10:00:00+00:00", "2026-08-30T10:00:00+00:00"),
