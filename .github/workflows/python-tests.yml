@@ -6,6 +6,8 @@ on:
       - "src/**"
       - "deploy/**"
       - "tests/**"
+      - "research/kbo_forward/**"
+      - "research/m1_service/**"
       - "requirements.txt"
       - ".github/workflows/python-tests.yml"
   push:
@@ -14,6 +16,8 @@ on:
       - "src/**"
       - "deploy/**"
       - "tests/**"
+      - "research/kbo_forward/**"
+      - "research/m1_service/**"
       - "requirements.txt"
       - ".github/workflows/python-tests.yml"
   workflow_dispatch:
