@@ -220,6 +220,72 @@ def test_refresh_reads_complete_ledger_only_once(tmp_path, monkeypatch):
     assert reads == 1
 
 
+def test_scoped_projections_match_full_views_and_follow_appends(tmp_path, monkeypatch):
+    current = [datetime(2026, 8, 28, 9, 5, tzinfo=UTC)]
+    runtime = PredictionRuntime(tmp_path / 'scoped.jsonl', clock=lambda: current[0])
+    events = []
+    for home in ('서울', '인천'):
+        value = game()
+        value['home'] = home
+        snapshot(value, '2026-08-28T09:00:00+00:00')
+        result = runtime.record_pregame(value, kickoff='2026-08-28T10:00:00+00:00',
+                                        market_observed_at='2026-08-28T09:00:00+00:00')
+        events.append(result.record['event_id'])
+    import prediction_runtime as module
+    original = module._latest_predictions
+    calls = []
+    monkeypatch.setattr(module, '_latest_predictions',
+                        lambda records: (calls.append(True), original(records))[1])
+    runtime._latest_cache = None
+    for projection in (runtime.ui_records, runtime.market_records,
+                       runtime.featured_records, runtime.candidate_records):
+        full = projection()
+        assert projection(events={events[0]}) == {
+            key: value for key, value in full.items() if key == events[0]}
+        assert projection(events=set()) == {}
+    assert len(calls) == 1
+    current[0] = datetime(2026, 8, 28, 12, tzinfo=UTC)
+    runtime.settle_latest(events[0], outcome={'result': 'hit'},
+                          settled_at=current[0].isoformat(), source={'name': 'proto_official'})
+    assert runtime.ui_records(events={events[0]})[events[0]]['result'] == 'hit'
+    assert runtime.ui_records()[events[1]]['result'] == 'pending'
+
+
+@pytest.mark.parametrize('name', ['ui_records', 'market_records', 'featured_records', 'candidate_records'])
+def test_each_scoped_projection_filters_nonempty_verified_records(tmp_path, name):
+    from featured_pick import VERSION
+    from prediction_ledger import LedgerCorruptionError
+    path = tmp_path / 'all-projections.jsonl'
+    runtime = PredictionRuntime(path, clock=lambda: datetime(2026, 8, 28, 9, 5, tzinfo=UTC))
+    for home in ('서울', '인천'):
+        value = game()
+        value['home'] = home
+        snapshot(value, '2026-08-28T09:00:00+00:00')
+        runtime.ledger.append_prediction(value, value['decision_snapshot'],
+            kickoff='2026-08-28T10:00:00+00:00', market_observed_at='2026-08-28T09:00:00+00:00',
+            predictions={'action': 'market_reference', 'featured_pick': {'version': VERSION},
+                'market_recommendations': {'version': 'multi-market-recommendations-v1', 'items': [
+                    dict(selection_id='under', offer_id='total', market='언더오버', line=8.5,
+                         selection='언더', odds=1.8, game_no='11')]}},
+            features={'model_comparison': {'capture_kind': 'prospective_same_snapshot',
+                'learned_candidates': {'synthetic': {'status': 'available'}}}})
+    runtime = PredictionRuntime(path)
+    project = getattr(runtime, name)
+    full = project()
+    assert len(full) == 2
+    event = next(iter(full))
+    assert project(events={event}) == {event: full[event]}
+    assert project(events=set()) == {}
+
+    # Filtering display rows must never become permission to skip verification.
+    lines = path.read_text(encoding='utf-8').splitlines()
+    corrupted = json.loads(lines[0])
+    corrupted['features']['tampered'] = True
+    path.write_text(json.dumps(corrupted, ensure_ascii=False)+'\n'+lines[1]+'\n', encoding='utf-8')
+    with pytest.raises(LedgerCorruptionError):
+        getattr(PredictionRuntime(path), name)(events=set())
+
+
 def test_latest_pregame_revision_is_settled_idempotently_and_tallied(tmp_path):
     current = [datetime(2026, 8, 28, 9, 5, tzinfo=UTC)]
     runtime = PredictionRuntime(

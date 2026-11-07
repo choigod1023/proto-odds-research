@@ -579,6 +579,42 @@ def test_refresh_releases_runtime_before_persist(tmp_path, monkeypatch):
     assert len(persisted) == 1
 
 
+def test_settlement_without_new_prices_refreshes_public_performance(tmp_path, monkeypatch):
+    import copy
+    import src.live_market_refresh as module
+    current = [datetime(2026, 8, 30, 1, 5, tzinfo=UTC)]
+    path = tmp_path / 'settlement-only.jsonl'
+    runtime = PredictionRuntime(path, clock=lambda: current[0])
+    document, _ = refresh_document({'live': [], 'past': []}, _live_odds())
+    record_live_market_revisions(document, _live_odds()['generated_at'], runtime)
+    before = copy.deepcopy(runtime.records()[0])
+    saved = []
+    monkeypatch.setattr(module, 'load_artifact', lambda *args: document)
+    monkeypatch.setattr(module, 'refresh_document', lambda *args: (document, 0))
+    monkeypatch.setattr(module, 'PredictionRuntime',
+                        lambda *args: PredictionRuntime(path, clock=lambda: current[0]))
+    monkeypatch.setattr(module, 'persist_artifact', lambda *args: saved.append(copy.deepcopy(args[1])))
+    current[0] = datetime(2026, 8, 30, 12, tzinfo=UTC)
+    feed = _live_odds()
+    feed['generated_at'] = current[0].isoformat()
+    for row in feed['markets']['102'].values():
+        row['result'] = '홈승'
+    assert module.refresh_once(feed) == 0
+    event = before['event_id']
+    assert saved[-1]['prediction_performance']['records'][event]['result'] == 'hit'
+    assert saved[-1]['live'][0]['prediction_record']['result'] == 'hit'
+    assert runtime.records()[0] == before
+
+    # Repair previously stale aggregate fields even if an earlier cycle already
+    # attached the correct per-game result. An unchanged poll then stays a no-op.
+    document['prediction_performance']['records'][event]['result'] = 'pending'
+    assert module.refresh_once(feed) == 0
+    assert len(saved) == 2
+    assert saved[-1]['prediction_performance']['records'][event]['result'] == 'hit'
+    assert module.refresh_once(feed) == 0
+    assert len(saved) == 2
+
+
 def test_repricing_appends_revision_without_rewriting_prior_prediction(tmp_path):
     from copy import deepcopy
     runtime = PredictionRuntime(tmp_path / "pregame.jsonl",
