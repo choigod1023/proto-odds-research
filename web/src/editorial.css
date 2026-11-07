@@ -810,3 +810,27 @@ button:focus-visible, a:focus-visible, select:focus-visible, input:focus-visible
 .match-detail-disclosure { margin: 12px 0; padding: 8px 10px; border: 1px solid var(--color-rule2); border-radius: 6px; }
 .match-detail-disclosure summary { cursor: pointer; font-weight: 650; }
 .match-detail-disclosure[open] summary { margin-bottom: 8px; }
+
+.match-change-strip { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 10px 0 16px; font-size: 12px; }
+.match-change-strip > span { margin-right: 4px; color: var(--color-ink3); }
+.match-change-strip button { min-height: 36px; border: 1px solid var(--color-rule); border-radius: 5px; padding: 4px 9px; background: var(--color-panel); }
+.match-change-strip button[aria-pressed="true"] { border-color: var(--color-signal); box-shadow: inset 0 -2px var(--color-signal); }
+.match-change-strip b { font-family: var(--font-mono); }
+.match-change-card-note { grid-column: 1 / -1; color: var(--color-ink2); font-size: 11px; }
+.match-odds-timeline { margin-bottom: 14px; padding: 12px; border: 1px solid var(--color-rule); border-radius: 7px; font-size: 12px; }
+.match-odds-timeline h3 { margin: 0 0 8px; font-size: 14px; }
+.match-odds-controls, .match-odds-key { display: flex; flex-wrap: wrap; gap: 6px 12px; }
+.match-odds-controls label { display: flex; align-items: center; gap: 5px; }
+.match-odds-controls select { min-height: 34px; padding: 2px 5px; border: 1px solid var(--color-rule); border-radius: 4px; background: var(--color-panel); }
+.match-odds-plot { display: block; width: 100%; max-width: 610px; }
+.match-odds-plot text { font: 12px var(--font-mono); fill: var(--color-ink2); }
+.match-odds-axis { fill: none; stroke: var(--color-ink3); }
+.match-odds-milestone { stroke: var(--color-ink3); stroke-dasharray: 3 4; }
+.match-odds-series.is-0 { fill: var(--color-signal); }
+.match-odds-series.is-1 { fill: var(--color-panel); stroke: var(--color-sev2); stroke-width: 2; }
+.match-odds-note, .match-odds-key { color: var(--color-ink2); margin: 5px 0 8px; }
+.match-odds-timeline summary { cursor: pointer; font-weight: 650; }
+.match-odds-events, .match-odds-observations, .match-odds-observations ul { margin: 6px 0 0; padding: 0; list-style: none; }
+.match-odds-events { border-top: 1px solid var(--color-rule2); padding-top: 5px; }
+.match-odds-events li, .match-odds-observations ul li { display: flex; flex-wrap: wrap; gap: 2px 8px; padding: 2px 0; }
+.match-odds-timeline time { font-family: var(--font-mono); color: var(--color-ink2); }

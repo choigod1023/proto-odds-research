@@ -12,6 +12,7 @@ const OUTCOMES = {
   "전반핸디캡|3": ["전반핸디홈", "전반핸디무", "전반핸디원정"],
 };
 const LINE_MARKETS = new Set(["핸디캡", "언더오버", "전반핸디캡", "전반언더오버"]);
+export const marketOutcomeNames = (market, choices) => OUTCOMES[`${market}|${choices}`];
 const text = (value) => typeof value === "string" ? value.trim() : "";
 
 // A generated-at timestamp describes the source artifact, not an independently verified receipt.
@@ -85,7 +86,7 @@ export function recordedMarketOffers(options, game = null) {
     const first = rows[0];
     const market = text(first.market), label = text(first.label);
     const n = Number(first.n_way);
-    const expected = OUTCOMES[`${market}|${n}`];
+    const expected = marketOutcomeNames(market, n);
     if (!expected || rows.length !== expected.length) continue;
     const line = first.line;
     if (LINE_MARKETS.has(market)) {

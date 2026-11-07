@@ -2,6 +2,8 @@ import OverallAccuracy from "../components/OverallAccuracy.jsx";
 import RecommendationResults from "../components/RecommendationResults.jsx";
 import BaseballSituation from "../components/BaseballSituation.jsx";
 import MatchProgress from "../components/MatchProgress.jsx";
+import MatchOddsTimeline from "../components/MatchOddsTimeline.jsx";
+import { CHANGE_FILTERS, indexMarketHistory, matchMarketHistory, matchChangeTime, recentMatchChanges } from "../lib/match-changes.js";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Card, GradeBadge, Nav, OddsChip, Stat } from "../components/ui.jsx";
 import FavoriteControls from "../components/FavoriteControls.jsx";
@@ -131,15 +133,6 @@ function scoreForecastForView(game) {
  * ⚠️ 키에 **날짜(MM.DD)를 반드시 포함**한다. 팀 조합만으로 잡으면 MLB 3~4연전에서
  *    어제 경기와 오늘 경기가 뭉개진다 — 정산 경기 55건 중 37건이 어긋났었다. */
 
-function marketHistoryForGame(game, liveOdds) {
-  const rows = Object.values(liveOdds?.markets?.[String(game?.round)] || {}).filter((row) =>
-    row?.home === game?.home && row?.away === game?.away && row?.date === game?.date);
-  const history = liveOdds?.history?.[String(game?.round)] || {};
-  return rows.flatMap((row) => (history[String(row.game_no)] || []).map((entry) => ({
-    ...entry, gameNo: String(row.game_no),
-  })));
-}
-
 export default function Markets() {
   // ⚠️ 예전엔 처음 한 번만 fetch 했다. 수집기는 30분마다 새 JSON 을 올리는데
   //    화면이 첫 로드에 멈춰 있어 새로고침을 눌러야만 바뀌었다. 이제 스스로 갱신한다.
@@ -156,6 +149,7 @@ export default function Markets() {
   const { data: directLiveFeed, checked: liveChecked } = useLive();
   const liveFeed = directLiveFeed;
   const liveIndex = useMemo(() => buildLiveIndex(liveFeed), [liveFeed]);
+  const historyIndex = useMemo(() => indexMarketHistory(liveOdds), [liveOdds]);
   // 실시간 가격 revision을 페이지 최상단에서 한 번만 합친다. 오늘 조합·경기 카드·
   // 배당 비교가 서로 다른 가격 시점을 읽지 않게 같은 객체를 아래로 전달한다.
   const synchronized = useMemo(() => {
@@ -171,7 +165,7 @@ export default function Markets() {
           liveOdds?.generated_at || null,
           liveOdds?.markets?.[String(game.round)],
         );
-      const marketHistory = marketHistoryForGame(game, liveOdds);
+      const marketHistory = matchMarketHistory(historyIndex, game);
       const withHistory = { ...repriced, _marketHistory: marketHistory,
         _officialMarkets: liveOdds?.markets?.[String(game.round)] };
       // 저장 파일에 과거의 재계산 표식이 남아 있어도 T-30 이후에는 사전 결정을
@@ -183,7 +177,7 @@ export default function Markets() {
         _liveFeedAt: liveFeed?.generated_at || null } : frozenGame;
     });
     return { ...d, live: merge(d.live), past: merge(d.past) };
-  }, [d, liveOdds, liveIndex]);
+  }, [d, liveOdds, liveIndex, liveFeed?.generated_at, historyIndex]);
 
   if (picksChecked && !synchronized) return <Shell><Empty>
     <p role="alert">경기 데이터를 불러오지 못했습니다. 서버가 응답하지 않거나 목록을 준비 중입니다.</p>
@@ -376,7 +370,7 @@ export function GameList({ data, grades, caps, stale, today, marketOdds, liveGen
   // 날짜는 실제 MM.DD 대신 상대값으로 보관한다. 페이지를 자정 너머 계속 열어
   // 두어도 "오늘"이 어제 날짜에 고정되지 않고 새 KST 날짜를 따라간다.
   const [f, setF] = useState({ st: "", lg: "", mk: "", rd: "", q: "",
-                               dt: "today", sp: "", fav: false, rec: false });
+                             dt: "today", sp: "", fav: false, rec: false, change: "" });
   const [dateClock, setDateClock] = useState(() => Date.now());
 
   useEffect(() => {
@@ -440,10 +434,19 @@ export function GameList({ data, grades, caps, stale, today, marketOdds, liveGen
 
   const isRecommended = (game) => !stale && !(game._liveOddsChanged && !decisionFrozen(game))
     && todaySelectionForGame(todayMemberships, game.options || [], game.round).membership?.recommended === true;
+  const changes = useMemo(() => {
+    const now = Math.max(clock, Date.now());
+    return new Map(pool.map(game => [game, recentMatchChanges(game, now)]));
+  }, [pool, clock]);
+  const changeFor = (game) => changes.get(game)?.find(event => f.change === "all" || event.kind === f.change);
+  const modalChange = f.change ? changeFor(modalSummary) : null;
+  const changeTab = modalChange?.kind === "lineup" ? "players"
+    : modalChange?.kind === "settled" ? "progress" : modalChange ? "markets" : undefined;
   const games = useMemo(() => {
     const q = f.q.trim().toLowerCase();
     return pool.filter((g) =>
       (!f.st || (f.st !== "unlinked" && gamePhase(g) === f.st)) &&
+      (!f.change || changeFor(g)) &&
       (!f.sp || g.sport === f.sp) &&
       (!f.fav || isFavoriteGame(g, favorites)) &&
       (!f.rec || isRecommended(g)) &&
@@ -454,20 +457,21 @@ export function GameList({ data, grades, caps, stale, today, marketOdds, liveGen
       matchesGameDate(g, f.dt, clock) &&
       (!q || [g.home, g.away, g.league].join(" ").toLowerCase().includes(q)))
       .sort((a, b) => {
+        if (f.change) return changeFor(b).time - changeFor(a).time;
         const order = { live: 0, pending: 1, upcoming: 2, finished: 3 };
         return order[gamePhase(a)] - order[gamePhase(b)]
           || day(a.date).localeCompare(day(b.date))
           || String(a.league).localeCompare(String(b.league))
           || String(a.date).localeCompare(String(b.date));
       });
-  }, [pool, f, clock, favorites, todayMemberships, stale]);
+  }, [pool, f, clock, favorites, todayMemberships, stale, changes]);
 
   const liveObserved = Date.parse(liveGeneratedAt);
   const liveDelayed = liveChecked && isLiveFeedDelayed(liveGeneratedAt)
     && pool.some((game) => String(game.date || "").slice(0, 5) === kstMMDD(0, clock)
       && scheduledAt(game) != null && scheduledAt(game) <= clock && gamePhase(game) !== "finished");
 
-  const phaseCounts = pool.filter((g) => {
+  const countableGames = pool.filter((g) => {
     const q = f.q.trim().toLowerCase();
     return (!f.sp || g.sport === f.sp) && (!f.fav || isFavoriteGame(g, favorites)) && (!f.rec || isRecommended(g)) &&
       (!f.lg || g.league === f.lg) &&
@@ -475,18 +479,21 @@ export function GameList({ data, grades, caps, stale, today, marketOdds, liveGen
       matchesGameDate(g, f.dt, clock) &&
       (!q || [g.home, g.away, g.league].join(" ").toLowerCase().includes(q)) &&
       matchesGameMarketFilters(g, f.mk, cap);
-  }).reduce((counts, game) => {
+  });
+  const phaseCounts = countableGames.filter(game => !f.change || changeFor(game)).reduce((counts, game) => {
     const phase = gamePhase(game);
     counts[phase] = (counts[phase] || 0) + 1;
     return counts;
   }, {});
+  const changeCounts = new Map(CHANGE_FILTERS.map(([kind]) => [kind,
+    countableGames.filter(game => changes.get(game)?.some(event => kind === "all" || event.kind === kind)).length]));
 
   const selectPhase = (phase) => {
     setF((current) => ({ ...current, st: current.st === phase ? "" : phase }));
   };
 
   // 배당에만 있는 경기는 원장이나 추천 생성 없이 별도 안내한다.
-  const missingCandidates = (f.fav || f.rec || f.mk || cap) ? [] :
+  const missingCandidates = (f.fav || f.rec || f.mk || cap || f.change) ? [] :
     unlinkedPool.filter((g) =>
       (!f.sp || g.sport === f.sp) && (!f.lg || g.league === f.lg) &&
       (!f.rd || String(g.round) === f.rd) && matchesGameDate(g, f.dt, clock) &&
@@ -519,7 +526,7 @@ export function GameList({ data, grades, caps, stale, today, marketOdds, liveGen
     n++;
     const phase = gamePhase(g);
     const key = `${phase} · ${g.league} · ${day(g.date)}`;
-    if (key !== cur) {
+    if (!f.change && key !== cur) {
       cur = key;
       // '오늘/내일' 을 헤더에 박아 둔다. 전체 보기에서도 눈으로 갈리게 —
       // 필터를 걸어야만 구분되면 목록을 훑는 사람에게는 없는 기능이다.
@@ -540,6 +547,7 @@ export function GameList({ data, grades, caps, stale, today, marketOdds, liveGen
       grades={grades} lv={g._liveState || null} stale={stale} generatedAt={data.generated_at}
       year={data.year} todayMembership={todaySelection.membership}
       todayOption={todaySelection.option} highlightedToday={highlightedToday}
+      change={f.change ? changeFor(g) : null}
       onOpen={setOpenedGame} selections={selections} onSaveBet={selectOption} />);
   }
 
@@ -559,6 +567,7 @@ export function GameList({ data, grades, caps, stale, today, marketOdds, liveGen
         <Game g={modalGame} opts={modalGame.options || []} wait={modalGame.status === "배당대기"}
           grades={grades} lv={modalGame._liveState || null} stale={stale}
           generatedAt={data.generated_at} year={data.year} detailOnly marketPerformance={data.market_recommendation_performance}
+          change={modalChange} initialDetailTab={changeTab}
           todayMembership={modalSelection.membership} todayOption={modalSelection.option}
           highlightedToday={modalSelection.membership?.recommended === true}
           selections={selections} onSaveBet={selectOption} />
@@ -631,7 +640,7 @@ export function GameList({ data, grades, caps, stale, today, marketOdds, liveGen
 
           </div>
           <div className="filter-actions">
-            <button type="button" onClick={() => { setF({ st: "", lg: "", mk: "", rd: "", q: "", dt: "today", sp: "", fav: false, rec: false }); setCap(0); }}>조건 초기화</button>
+            <button type="button" onClick={() => { setF({ st: "", lg: "", mk: "", rd: "", q: "", dt: "today", sp: "", fav: false, rec: false, change: "" }); setCap(0); }}>조건 초기화</button>
           </div>
         </details>
       </div>
@@ -642,9 +651,16 @@ export function GameList({ data, grades, caps, stale, today, marketOdds, liveGen
           <button type="button" aria-pressed={f.st === "pending"} onClick={() => selectPhase("pending")}>상태 확인 중 {phaseCounts.pending || 0}</button>
           <button type="button" aria-pressed={f.st === "upcoming"} onClick={() => selectPhase("upcoming")}>예정 {phaseCounts.upcoming || 0}</button>
           <button type="button" aria-pressed={f.st === "finished"} onClick={() => selectPhase("finished")}>종료 {phaseCounts.finished || 0}</button>
-          <button type="button" aria-pressed={f.st === "unlinked"} onClick={() => selectPhase("unlinked")}>원천 회차 미연결 {missingCandidates.length}건 · 다른 회차 연결 {linkedMissingCount}건 · 상태 확인 필요 {statusUnknownCount}건</button>
+          {!f.change && <button type="button" aria-pressed={f.st === "unlinked"} onClick={() => selectPhase("unlinked")}>원천 회차 미연결 {missingCandidates.length}건 · 다른 회차 연결 {linkedMissingCount}건 · 상태 확인 필요 {statusUnknownCount}건</button>}
           <button type="button" aria-pressed={!f.st} onClick={() => selectPhase("")}>전체 항목 {Object.values(phaseCounts).reduce((sum, count) => sum + count, 0) + missingCandidates.length}건</button>
         </div>
+      </div>
+      <div className="match-change-strip" role="group" aria-label="최근 24시간 경기 변경">
+        <span>최근 24시간</span>
+        {CHANGE_FILTERS.map(([kind, label]) => <button key={kind} type="button" aria-pressed={f.change === kind}
+          onClick={() => setF(current => ({ ...current, st: "", change: current.change === kind ? "" : kind }))}>
+          {label} <b>{changeCounts.get(kind)}</b>
+        </button>)}
       </div>
 
 
@@ -684,8 +700,9 @@ export function GameList({ data, grades, caps, stale, today, marketOdds, liveGen
           </li>)}</ul>
         </section>}
         {!leagueGroups.length && !missingFixtures.length && <Empty>
-          {f.fav ? "즐겨찾기와 현재 조건에 맞는 경기가 없습니다." : "조건에 맞는 경기가 없습니다."}
-          <button className="empty-reset" onClick={() => { setF({ st: "", lg: "", mk: "", rd: "", q: "", dt: "today", sp: "", fav: false, rec: false }); setCap(0); }}>전체 경기로 돌아가기</button>
+          {f.change ? "현재 조건에서 최근 24시간 안에 확인된 변경 기록이 없습니다."
+            : f.fav ? "즐겨찾기와 현재 조건에 맞는 경기가 없습니다." : "조건에 맞는 경기가 없습니다."}
+          <button className="empty-reset" onClick={() => { setF({ st: "", lg: "", mk: "", rd: "", q: "", dt: "today", sp: "", fav: false, rec: false, change: "" }); setCap(0); }}>전체 경기로 돌아가기</button>
         </Empty>}
       </div>
       {notice && <p className="selection-notice" role="status">{notice} <a href="dashboard.html">내 기록 →</a></p>}
@@ -709,60 +726,8 @@ const Sel = ({ label, v, opts, on, cls, suffix = "" }) => (
   </label>
 );
 
-const historyTime = (value) => {
-  const stamp = new Date(value);
-  return Number.isNaN(stamp.getTime()) ? "시각 미상" : stamp.toLocaleString("ko-KR", {
-    timeZone: "Asia/Seoul", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit",
-  });
-};
-
-function MarketHistory({ rows }) {
-  if (!rows?.length) return null;
-  const grouped = rows.reduce((result, row) => {
-    const key = `${row.gameNo}|${row.market}`;
-    if (!result.has(key)) result.set(key, []);
-    result.get(key).push(row);
-    return result;
-  }, new Map());
-  const groups = [...grouped.entries()]
-    .map(([key, entries]) => ({ key, entries }))
-    .filter(({ entries }) => entries.length > 1);
-  if (!groups.length) return null;
-  return <details className="mb-3 rounded border border-rule2 bg-panel px-3 py-2 text-[12px]">
-    <summary className="cursor-pointer font-semibold text-ink">배당·기준점 변경 이력</summary>
-    <div className="mt-2 space-y-3">
-      {groups.map(({ key, entries }) => <div key={key}>
-        <b>{entries[0].market} · 게임번호 {entries[0].gameNo}</b>
-        <ol className="mt-1 space-y-1 text-ink2">
-          {entries.map((entry, index) => {
-            const previous = entries[index - 1];
-            const probabilityDelta = entry.probabilities?.map((value, selectionIndex) =>
-              previous?.probabilities?.[selectionIndex] == null ? null
-                : (Number(value) - Number(previous.probabilities[selectionIndex])) * 100);
-            const lineDelta = previous?.line == null || entry.line == null
-              ? null : Number(entry.line) - Number(previous.line);
-            return <li key={`${entry.observed_at}-${index}`} className="border-t border-rule2 pt-1 first:border-0">
-              <span className="tnum">{historyTime(entry.observed_at)}</span>
-              {" · "}<strong>{entry.label || "기준점 없음"}</strong>
-              {lineDelta ? <em className="ml-1 not-italic text-amber-700">(기준점 {lineDelta > 0 ? "+" : ""}{lineDelta})</em> : null}
-              {" · 배당 "}{(entry.odds || []).map((value) => Number(value).toFixed(2)).join(" / ")}
-              {entry.probabilities?.length ? <span>
-                {" · 예상 적중 "}{entry.probabilities.map((value, selectionIndex) => {
-                  const delta = probabilityDelta?.[selectionIndex];
-                  return `${Math.round(Number(value) * 1000) / 10}%${delta == null || Math.abs(delta) < .01 ? "" : ` (${delta > 0 ? "+" : ""}${delta.toFixed(1)}%p)`}`;
-                }).join(" / ")}
-              </span> : null}
-            </li>;
-          })}
-        </ol>
-      </div>)}
-
-    </div>
-  </details>;
-}
-
 export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, todayMembership,
-  todayOption, highlightedToday, onSaveBet, onOpen, selections = [], detailOnly = false, marketPerformance, initialDetailTab }) {
+  todayOption, highlightedToday, onSaveBet, onOpen, selections = [], detailOnly = false, marketPerformance, initialDetailTab, change }) {
   // 같은 마켓의 두 선택지가 같은 등급이면 '=' — 어느 쪽을 사도 같아 고를 근거가 없다
   const tie = useMemo(() => {
     const by = {}, t = {};
@@ -950,6 +915,7 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
                   title={`${!locked && recommendation ? "경기 추천 1픽 · " : ""}${oddsOption.market}${oddsOption.label ? ` ${oddsOption.label}` : ""} · ${oddsOption.선택} 배당`} />
               : <OddsChip label="판정" value={pendingLabel} />}
         </span>
+        {change && <span className="match-change-card-note"><b>{change.label}</b> · {matchChangeTime(change.time)}</span>}
         {!detailOnly && highlightedToday && evidence.summary && <span className="match-reason-preview"><b>경기력 근거</b> {evidence.summary}</span>}
         {votePolicy && !locked && !stale && !g._liveOddsChanged && <span className="pregame-probability">{voteSummary.text}{voteWithheld ? ` · ${tipsterWithholdLabel(voteInfo)}` : voteSummary.share !== null ? ` · 투표 ${(voteSummary.share * 100).toFixed(1)}% (지지율 · 예상 적중률 아님)` : ""}</span>}
         {!detailOnly && phase === "upcoming" && !recommendation && pick && !stale && !g._liveOddsChanged && <span className="pregame-probability">{votePolicy ? "배당 기반 시장확률" : locked ? "경기 전 확률" : hybridApplied ? "혼합 모델 확률" : "배당 기준 확률"} {locked ? (Number.isFinite(openingProbability) ? pct(openingProbability) : "기록 없음") : pct(currentProbability)} · {locked ? "경기 전 예상" : hybridApplied ? "시장 90% + 픽스터 10% · 수익성 미검증" : "현재 배당 기준"}</span>}
@@ -1028,8 +994,8 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
                 blocked={wait || stale || locked || g._liveOddsChanged === true}
                 onSelect={!locked && onSaveBet ? (option) => onSaveBet(g, option) : undefined} />
             </LazyDetail>
-            <MarketHistory rows={g._marketHistory} />
           </>}
+          marketTimeline={<MatchOddsTimeline game={g} change={change} />}
           selectPick={!locked && pick && onSaveBet && <button type="button" className="pick-select-action"
             disabled={selected || stale || g._liveOddsChanged}
             onClick={() => onSaveBet(g, pick.o)}>{selected ? "✓ 선택 목록에 담김" : "이 픽을 선택 목록에 담기"}</button>}
@@ -1602,7 +1568,7 @@ function LazyDetail({ title, children }) {
 }
 
 function MatchInsight({ g, analysis, decision, opts, grades, tie, pick, locked, saved, savedSnapshotMatches,
-  initialTab, progress, markets, selectPick,
+  initialTab, progress, markets, marketTimeline, selectPick,
   highlightedToday = false, recalculating = false, showPrices = false, onSaveBet }) {
   const txt = displayCommentary(g);
   const tabs = infoTabs(g, txt);
@@ -1653,6 +1619,7 @@ function MatchInsight({ g, analysis, decision, opts, grades, tie, pick, locked, 
           </LazyDetail>}
         </>}
         {current === "markets" && <>
+          {marketTimeline}
           {selectPick}
           <RecordedMarketOffers offers={recordedMarketOffers(opts, g)} hasOptions={Boolean(opts?.length)} waiting={!showPrices} />
           {markets}
