@@ -611,8 +611,15 @@ def test_settlement_without_new_prices_refreshes_public_performance(tmp_path, mo
     assert module.refresh_once(feed) == 0
     assert len(saved) == 2
     assert saved[-1]['prediction_performance']['records'][event]['result'] == 'hit'
+
+    # Market-only aggregate drift also needs a publication even when no new
+    # result or per-game attachment changed in this cycle.
+    document['market_recommendation_performance']['pending'] = 999
     assert module.refresh_once(feed) == 0
-    assert len(saved) == 2
+    assert len(saved) == 3
+    assert saved[-1]['market_recommendation_performance']['pending'] != 999
+    assert module.refresh_once(feed) == 0
+    assert len(saved) == 3
 
 
 def test_repricing_appends_revision_without_rewriting_prior_prediction(tmp_path):

@@ -11,6 +11,8 @@ import { matchEvidence } from "../lib/match-evidence.js";
 import PredictionPanel from "../components/PredictionPanel.jsx";
 import TodayPicksBoard from "../components/TodayPicksBoard.jsx";
 import MatchDetailHeader from "../components/MatchDetailHeader.jsx";
+import MatchUpdateNotice from "../components/MatchUpdateNotice.jsx";
+import { outcomeDisplayLabel } from "../lib/match-refresh-notice.js";
 import PregameRecommendation, { FeaturedPickPerformance } from "../components/PregameRecommendation.jsx";
 import { pregameRecommendation } from "../lib/pregame-recommendation.js";
 import GameInfoModal from "../components/GameInfoModal.jsx";
@@ -803,7 +805,8 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
   const playing = phase === "live";
   const finished = phase === "finished";
   const disruption = lv?.cancelled ? "경기 취소" : lv?.postponed ? "경기 연기" : null;
-  const outcome = recommendationOutcome(g, lv);
+  const rawOutcome = recommendationOutcome(g, lv);
+  const outcome = { ...rawOutcome, label: outcomeDisplayLabel(rawOutcome) };
   // 첫 게시값으로 고정된 사전 픽이, 지금 시장 기준으로는 반대쪽이 유리해진 경우.
   // 픽은 바꾸지 않고 "조건이 바뀌었다"만 알린다(이미 배팅한 사용자를 위해).
   const drift = (!playing && !finished && !done && g.pick_drift
@@ -951,6 +954,7 @@ export function Game({ g, opts, wait, grades, lv, stale, generatedAt, year, toda
         {!detailOnly && !highlightedToday && evidence.summary && <span className="match-evidence-preview"><span>경기력</span> {evidence.summary}<span className="detail-link">상세 근거 ›</span></span>}
       </Row>
       </>}
+      <MatchUpdateNotice game={g} phase={phase} />
       {detailOnly && <div className="match-detail">
         {phase === "pending" && lv && !lv.finished && !disruption && <p role="status" className="text-[12px] text-ink2">
           중계 업데이트가 늦어지고 있습니다. 표시된 점수는 마지막 확인 값이며, 경기 종료를 뜻하지 않습니다.
