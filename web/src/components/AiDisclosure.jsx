@@ -94,7 +94,7 @@ export function AiDecisionPath({ decision }) {
       <ProbabilityProvenance decision={decision} />
       {decision.action === "recalculating" && (
         <p className="ai-revision-warning" role="status" aria-live="polite">
-          실시간 배당이 바뀌어 이전 확률과 해설을 숨겼습니다. 다음 계산이 끝나면 같은 시점 값으로 다시 표시합니다.
+          실시간 배당이 바뀌어 이전 확률과 해설을 숨겼습니다. 새 판정의 사전 원장 저장과 경기 목록 게시가 끝나면 다시 표시합니다. 아래 갱신 안내에서 반영 조건을 확인할 수 있습니다.
         </p>
       )}
       {decision.action === "closed" && (
