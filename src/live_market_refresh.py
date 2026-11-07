@@ -792,6 +792,7 @@ def _settle_live_market_results_locked(live_odds: dict, runtime: PredictionRunti
 
 def refresh_once(live_odds: dict | None = None) -> int:
     started = time.monotonic()
+    cpu_started = time.process_time()
 
     def stage(name: str) -> None:
         memory = ""
@@ -800,7 +801,8 @@ def refresh_once(live_odds: dict | None = None) -> int:
         if sys.platform.startswith("linux"):
             import resource
             memory = f" peak_rss_kib={resource.getrusage(resource.RUSAGE_SELF).ru_maxrss}"
-        print(f"경량 시장 판정 단계={name} 경과={time.monotonic() - started:.1f}s{memory}", flush=True)
+        print(f"경량 시장 판정 단계={name} 경과={time.monotonic() - started:.1f}s "
+              f"cpu={time.process_time() - cpu_started:.1f}s{memory}", flush=True)
 
     stage("load")
     try:

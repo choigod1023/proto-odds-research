@@ -126,3 +126,26 @@ def test_compressed_cache_preserves_views_and_invalidates_revision(tmp_path):
     assert views.get('all') == summary({'live': [updated]}, 'next', 'all')
     with pytest.raises(ValueError): views.get('detail', game_key(original), revision)
     assert views.get('detail', game_key(updated), 'next')['game'] == updated
+
+
+def test_list_compression_avoids_a_second_full_response_string(tmp_path, monkeypatch):
+    import gzip
+    import match_api
+    db = RuntimeDatabase(tmp_path / 'wire.sqlite3')
+    payload = {'generated_at': '2026-11-07T00:00:00Z',
+               'live': [dict(game(), note='한글⚾😀', zero=-0.0)],
+               'past': [game('01.01(목) 10:00')]}
+    db.store_artifact('picks_v2', payload)
+    views = MatchViews(db)
+    expected = views.get('all')
+    original = match_api.json.dumps
+
+    def reject_full_response(value, *args, **kwargs):
+        if isinstance(value, dict) and 'view' in value and 'result_games' in value:
+            pytest.fail('do not allocate an extra full uncompressed response')
+        return original(value, *args, **kwargs)
+
+    monkeypatch.setattr(match_api.json, 'dumps', reject_full_response)
+    compressed = views.get_bytes('all')
+    assert json.loads(gzip.decompress(compressed)) == expected
+    assert views.get_bytes('all') is compressed
