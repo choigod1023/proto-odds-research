@@ -492,8 +492,13 @@ def refresh_document(document: dict, live_odds: dict, *,
             form_payload = form_provider.for_game(game, kickoff)
             # Display context is excluded from ledger_features and decision input
             # hashes. Never edit a saved revision's canonical form fields here.
-            display_changed = game.get("team_form_display") != form_payload
-            game["team_form_display"] = form_payload
+            # A later check of identical results is not a changed match. Keep
+            # the original cutoff unless an actual display value changed.
+            prior_form = game.get("team_form_display") or {}
+            display_changed = ({k: v for k, v in prior_form.items() if k != "form_before"}
+                               != {k: v for k, v in form_payload.items() if k != "form_before"})
+            if display_changed:
+                game["team_form_display"] = form_payload
         snapshot = game.get("decision_snapshot") or {}
         selected = [row for row in old_options
                     if row.get("selection_id") == snapshot.get("selection_id")

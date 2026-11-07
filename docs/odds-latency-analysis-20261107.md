@@ -15,11 +15,15 @@
 
 10.155초 동안 /proc/stat 차이는 user 69, system 14, iowait 64, steal 908 ticks였다. 합계에 대한 steal 비율은 86.07%, iowait는 6.07%였다. 같은 PID의 판정 프로세스는 그동안 CPU 0.78초를 받았고 RSS는 380,592KiB였다.
 
+13:08:12 KST에 끝난 두 번째 10초 관측에서는 steal 92.84%, iowait 0%였으며 MemAvailable은 487,620KiB(약 476MiB)였다. 두 짧은 관측 구간의 결과이며 하루 전체의 CPU 배정이나 최대 메모리를 입증하는 값은 아니다.
+
 Fly 공식 문서는 shared vCPU의 기본 할당을 80ms당 5ms(6.25%)로 설명한다. 남은 burst balance를 사용하면 더 실행할 수 있다. steal에는 quota 초과에 따른 throttling과 같은 호스트의 자원 경쟁이 모두 포함되므로, 이번 /proc 관측만으로 둘의 비중이나 burst balance를 확정하지 않는다.
 
 출처는 [Fly CPU Performance](https://docs.fly.io/machines/cpu-performance)이며 2026-11-07에 확인했다.
 
 ## 로컬 비교 방법과 결과
+
+추가로 12:17 생성 목록과 12:28 배당에 대한 게시 스냅샷을 경기 식별자로 대조했다. team_form_display가 달라진 109경기는 전부 form_before 기준시각만 달랐으며 실제 성적 값은 같았다. 이전 코드는 이 시각 변화도 changed로 세어 전체 산출물 저장과 응답 재준비를 유발할 수 있었다. 수정 후에는 실제 표시 값이 달라질 때 기존 기준시각을 갱신한다. 실제 새 성적이나 배당·픽스터 변화의 게시 경로는 회귀 테스트로 함께 확인했다.
 
 /data/proodd.responses.zip에 이미 게시된 압축 상세 3,296경기를 다운로드했다. all scope의 live/past 소속을 유지하고 상세를 복원한 뒤 로컬 DB 한 개에 넣었다. 운영 원장 전체나 학습 모델을 실행한 비교는 아니다.
 
