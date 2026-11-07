@@ -1,0 +1,853 @@
+{
+  "mode": "retrospective_relinked_publisher_simulation_NOT_model_incremental_ROI",
+  "events": 58995,
+  "cutoff": "2026-09-05T07:04:06+00:00",
+  "pregame_ml_candidates": 458,
+  "excluded": {
+    "not_pregame_single": 17335,
+    "not_supported_full_game_MLB_moneyline": 9672,
+    "missing_schedule_or_after_t30": 18
+  },
+  "linkage": {
+    "relinked_publisher_result": 380,
+    "unmatched": 72,
+    "ambiguous_earlier_result": 6
+  },
+  "single_flat_stake": {
+    "n": 364,
+    "unique_events": 71,
+    "decisive": 364,
+    "wins": 170,
+    "hit_rate_pct": 46.7032967032967,
+    "roi_pct": -9.434732330369346
+  },
+  "primary_noon_ET": {
+    "lower_odds": {
+      "2": {
+        "tickets": 3,
+        "settled": 3,
+        "pending": 0,
+        "net_krw": -7000,
+        "pending_stake_krw": 0,
+        "worst_case_net_krw": -7000,
+        "roi_pct": -23.333333333333332,
+        "monthly_net_by_placement": {
+          "2026-08": 3000,
+          "2026-09": -10000
+        },
+        "max_drawdown_krw": 10000,
+        "ticket_log": [
+          {
+            "at": "2026-08-29T12:00:00-04:00",
+            "month": "2026-08",
+            "ids": [
+              "c388a5f5b2b885bc0ad53c5f",
+              "92b16ce9962806e38e9e7f4d"
+            ],
+            "events": [
+              "2026-08-29|LAA|PHI",
+              "2026-08-29|DET|LAD"
+            ],
+            "sides": [
+              "PHI",
+              "LAD"
+            ],
+            "odds": [
+              1.392156862745098,
+              1.4878048780487805
+            ],
+            "stake": 10000,
+            "available_budget_before": 50000,
+            "net": -10000,
+            "settled_observed_at": "2026-08-29T20:13:25+00:00"
+          },
+          {
+            "at": "2026-08-30T12:00:00-04:00",
+            "month": "2026-08",
+            "ids": [
+              "a3c5eadda6380cc6fccc34da",
+              "3ea7ce92a459c00f1a7fa8a8"
+            ],
+            "events": [
+              "2026-08-30|LAA|PHI",
+              "2026-08-30|CLE|KC"
+            ],
+            "sides": [
+              "PHI",
+              "CLE"
+            ],
+            "odds": [
+              1.4761904761904763,
+              1.510204081632653
+            ],
+            "stake": 10000,
+            "available_budget_before": 40000,
+            "net": 13000,
+            "settled_observed_at": "2026-08-30T23:33:30+00:00"
+          },
+          {
+            "at": "2026-08-31T12:00:00-04:00",
+            "month": "2026-09",
+            "ids": [
+              "90585a33930c9c6283f8a3cb",
+              "9cc12458d16a15acd5579810"
+            ],
+            "events": [
+              "2026-08-31|ATH|TEX",
+              "2026-08-31|NYM|TB"
+            ],
+            "sides": [
+              "TEX",
+              "TB"
+            ],
+            "odds": [
+              1.425531914893617,
+              1.5405405405405406
+            ],
+            "stake": 10000,
+            "available_budget_before": 50000,
+            "net": -10000,
+            "settled_observed_at": "2026-09-01T01:34:43+00:00"
+          }
+        ]
+      },
+      "3": {
+        "tickets": 4,
+        "settled": 4,
+        "pending": 0,
+        "net_krw": -17000,
+        "pending_stake_krw": 0,
+        "worst_case_net_krw": -17000,
+        "roi_pct": -42.5,
+        "monthly_net_by_placement": {
+          "2026-08": 3000,
+          "2026-09": -20000
+        },
+        "max_drawdown_krw": 20000,
+        "ticket_log": [
+          {
+            "at": "2026-08-29T12:00:00-04:00",
+            "month": "2026-08",
+            "ids": [
+              "c388a5f5b2b885bc0ad53c5f",
+              "92b16ce9962806e38e9e7f4d"
+            ],
+            "events": [
+              "2026-08-29|LAA|PHI",
+              "2026-08-29|DET|LAD"
+            ],
+            "sides": [
+              "PHI",
+              "LAD"
+            ],
+            "odds": [
+              1.392156862745098,
+              1.4878048780487805
+            ],
+            "stake": 10000,
+            "available_budget_before": 50000,
+            "net": -10000,
+            "settled_observed_at": "2026-08-29T20:13:25+00:00"
+          },
+          {
+            "at": "2026-08-30T12:00:00-04:00",
+            "month": "2026-08",
+            "ids": [
+              "a3c5eadda6380cc6fccc34da",
+              "3ea7ce92a459c00f1a7fa8a8"
+            ],
+            "events": [
+              "2026-08-30|LAA|PHI",
+              "2026-08-30|CLE|KC"
+            ],
+            "sides": [
+              "PHI",
+              "CLE"
+            ],
+            "odds": [
+              1.4761904761904763,
+              1.510204081632653
+            ],
+            "stake": 10000,
+            "available_budget_before": 40000,
+            "net": 13000,
+            "settled_observed_at": "2026-08-30T23:33:30+00:00"
+          },
+          {
+            "at": "2026-08-31T12:00:00-04:00",
+            "month": "2026-09",
+            "ids": [
+              "90585a33930c9c6283f8a3cb",
+              "9cc12458d16a15acd5579810"
+            ],
+            "events": [
+              "2026-08-31|ATH|TEX",
+              "2026-08-31|NYM|TB"
+            ],
+            "sides": [
+              "TEX",
+              "TB"
+            ],
+            "odds": [
+              1.425531914893617,
+              1.5405405405405406
+            ],
+            "stake": 10000,
+            "available_budget_before": 50000,
+            "net": -10000,
+            "settled_observed_at": "2026-09-01T01:34:43+00:00"
+          },
+          {
+            "at": "2026-09-01T12:00:00-04:00",
+            "month": "2026-09",
+            "ids": [
+              "13f4bd6278fdb19c3aebe30b",
+              "19423eda661225dc9b59e3a3"
+            ],
+            "events": [
+              "2026-09-01|LAA|NYY",
+              "2026-09-01|BAL|COL"
+            ],
+            "sides": [
+              "NYY",
+              "BAL"
+            ],
+            "odds": [
+              1.5747126436781609,
+              1.7407407407407407
+            ],
+            "stake": 10000,
+            "available_budget_before": 40000,
+            "net": -10000,
+            "settled_observed_at": "2026-09-02T03:36:56+00:00"
+          }
+        ]
+      }
+    },
+    "consensus": {
+      "2": {
+        "tickets": 3,
+        "settled": 3,
+        "pending": 0,
+        "net_krw": -30000,
+        "pending_stake_krw": 0,
+        "worst_case_net_krw": -30000,
+        "roi_pct": -100.0,
+        "monthly_net_by_placement": {
+          "2026-08": -20000,
+          "2026-09": -10000
+        },
+        "max_drawdown_krw": 30000,
+        "ticket_log": [
+          {
+            "at": "2026-08-29T12:00:00-04:00",
+            "month": "2026-08",
+            "ids": [
+              "b046f89db3acc9745f381d76",
+              "1ee2979e779be681ae83d59a"
+            ],
+            "events": [
+              "2026-08-29|PIT|STL",
+              "2026-08-29|SD|TB"
+            ],
+            "sides": [
+              "STL",
+              "TB"
+            ],
+            "odds": [
+              1.819672131147541,
+              1.78125
+            ],
+            "stake": 10000,
+            "available_budget_before": 50000,
+            "net": -10000,
+            "settled_observed_at": "2026-08-29T21:33:17+00:00"
+          },
+          {
+            "at": "2026-08-30T12:00:00-04:00",
+            "month": "2026-08",
+            "ids": [
+              "f395818ffdf5d87ba6c49292",
+              "bfdb5da078b0611090da359e"
+            ],
+            "events": [
+              "2026-08-30|SEA|TOR",
+              "2026-08-30|DET|LAD"
+            ],
+            "sides": [
+              "SEA",
+              "LAD"
+            ],
+            "odds": [
+              1.6896551724137931,
+              1.526315789473684
+            ],
+            "stake": 10000,
+            "available_budget_before": 40000,
+            "net": -10000,
+            "settled_observed_at": "2026-08-30T20:39:31+00:00"
+          },
+          {
+            "at": "2026-08-31T12:00:00-04:00",
+            "month": "2026-09",
+            "ids": [
+              "fb5db530e27a1edd6531eb71",
+              "eea0b809744fdf1b1832b7b1"
+            ],
+            "events": [
+              "2026-08-31|ATL|SF",
+              "2026-08-31|CIN|SD"
+            ],
+            "sides": [
+              "ATL",
+              "SD"
+            ],
+            "odds": [
+              1.625,
+              1.7142857142857144
+            ],
+            "stake": 10000,
+            "available_budget_before": 50000,
+            "net": -10000,
+            "settled_observed_at": "2026-09-01T01:16:36+00:00"
+          }
+        ]
+      },
+      "3": {
+        "tickets": 4,
+        "settled": 4,
+        "pending": 0,
+        "net_krw": -40000,
+        "pending_stake_krw": 0,
+        "worst_case_net_krw": -40000,
+        "roi_pct": -100.0,
+        "monthly_net_by_placement": {
+          "2026-08": -20000,
+          "2026-09": -20000
+        },
+        "max_drawdown_krw": 40000,
+        "ticket_log": [
+          {
+            "at": "2026-08-29T12:00:00-04:00",
+            "month": "2026-08",
+            "ids": [
+              "b046f89db3acc9745f381d76",
+              "1ee2979e779be681ae83d59a"
+            ],
+            "events": [
+              "2026-08-29|PIT|STL",
+              "2026-08-29|SD|TB"
+            ],
+            "sides": [
+              "STL",
+              "TB"
+            ],
+            "odds": [
+              1.819672131147541,
+              1.78125
+            ],
+            "stake": 10000,
+            "available_budget_before": 50000,
+            "net": -10000,
+            "settled_observed_at": "2026-08-29T21:33:17+00:00"
+          },
+          {
+            "at": "2026-08-30T12:00:00-04:00",
+            "month": "2026-08",
+            "ids": [
+              "f395818ffdf5d87ba6c49292",
+              "bfdb5da078b0611090da359e"
+            ],
+            "events": [
+              "2026-08-30|SEA|TOR",
+              "2026-08-30|DET|LAD"
+            ],
+            "sides": [
+              "SEA",
+              "LAD"
+            ],
+            "odds": [
+              1.6896551724137931,
+              1.526315789473684
+            ],
+            "stake": 10000,
+            "available_budget_before": 40000,
+            "net": -10000,
+            "settled_observed_at": "2026-08-30T20:39:31+00:00"
+          },
+          {
+            "at": "2026-08-31T12:00:00-04:00",
+            "month": "2026-09",
+            "ids": [
+              "fb5db530e27a1edd6531eb71",
+              "eea0b809744fdf1b1832b7b1"
+            ],
+            "events": [
+              "2026-08-31|ATL|SF",
+              "2026-08-31|CIN|SD"
+            ],
+            "sides": [
+              "ATL",
+              "SD"
+            ],
+            "odds": [
+              1.625,
+              1.7142857142857144
+            ],
+            "stake": 10000,
+            "available_budget_before": 50000,
+            "net": -10000,
+            "settled_observed_at": "2026-09-01T01:16:36+00:00"
+          },
+          {
+            "at": "2026-09-01T12:00:00-04:00",
+            "month": "2026-09",
+            "ids": [
+              "19423eda661225dc9b59e3a3",
+              "c5626e29b7f54423bd1af931"
+            ],
+            "events": [
+              "2026-09-01|BAL|COL",
+              "2026-09-01|BOS|SEA"
+            ],
+            "sides": [
+              "BAL",
+              "SEA"
+            ],
+            "odds": [
+              1.7407407407407407,
+              2.06
+            ],
+            "stake": 10000,
+            "available_budget_before": 40000,
+            "net": -10000,
+            "settled_observed_at": "2026-09-02T03:36:56+00:00"
+          }
+        ]
+      }
+    }
+  },
+  "timing_sensitivity": {
+    "10": {
+      "lower_odds": {
+        "tickets": 5,
+        "settled": 5,
+        "pending": 0,
+        "net_krw": 2000,
+        "pending_stake_krw": 0,
+        "worst_case_net_krw": 2000,
+        "roi_pct": 4.0,
+        "monthly_net_by_placement": {
+          "2026-08": 22000,
+          "2026-09": -20000
+        },
+        "max_drawdown_krw": 20000,
+        "ticket_log": [
+          {
+            "at": "2026-08-29T10:00:00-04:00",
+            "month": "2026-08",
+            "ids": [
+              "d51231d1cd3ba066e3e605ea",
+              "1ee2979e779be681ae83d59a"
+            ],
+            "events": [
+              "2026-08-29|CLE|KC",
+              "2026-08-29|SD|TB"
+            ],
+            "sides": [
+              "CLE",
+              "TB"
+            ],
+            "odds": [
+              1.7142857142857144,
+              1.78125
+            ],
+            "stake": 10000,
+            "available_budget_before": 50000,
+            "net": -10000,
+            "settled_observed_at": "2026-08-29T23:13:32+00:00"
+          },
+          {
+            "at": "2026-08-30T10:00:00-04:00",
+            "month": "2026-08",
+            "ids": [
+              "a3c5eadda6380cc6fccc34da",
+              "3ea7ce92a459c00f1a7fa8a8"
+            ],
+            "events": [
+              "2026-08-30|LAA|PHI",
+              "2026-08-30|CLE|KC"
+            ],
+            "sides": [
+              "PHI",
+              "CLE"
+            ],
+            "odds": [
+              1.4761904761904763,
+              1.510204081632653
+            ],
+            "stake": 10000,
+            "available_budget_before": 40000,
+            "net": 13000,
+            "settled_observed_at": "2026-08-30T23:33:30+00:00"
+          },
+          {
+            "at": "2026-08-31T10:00:00-04:00",
+            "month": "2026-08",
+            "ids": [
+              "15eedfe5faddac2ed718980e",
+              "eea0b809744fdf1b1832b7b1"
+            ],
+            "events": [
+              "2026-08-31|BOS|SEA",
+              "2026-08-31|CIN|SD"
+            ],
+            "sides": [
+              "BOS",
+              "SD"
+            ],
+            "odds": [
+              1.641025641025641,
+              1.7142857142857144
+            ],
+            "stake": 10000,
+            "available_budget_before": 53000,
+            "net": 19000,
+            "settled_observed_at": "2026-09-01T02:08:57+00:00"
+          },
+          {
+            "at": "2026-09-01T10:00:00-04:00",
+            "month": "2026-09",
+            "ids": [
+              "19423eda661225dc9b59e3a3",
+              "0a1259c838c785e1308503b3"
+            ],
+            "events": [
+              "2026-09-01|BAL|COL",
+              "2026-09-01|CWS|HOU"
+            ],
+            "sides": [
+              "BAL",
+              "CWS"
+            ],
+            "odds": [
+              1.7407407407407407,
+              1.8928571428571428
+            ],
+            "stake": 10000,
+            "available_budget_before": 50000,
+            "net": -10000,
+            "settled_observed_at": "2026-09-02T03:36:56+00:00"
+          },
+          {
+            "at": "2026-09-02T10:00:00-04:00",
+            "month": "2026-09",
+            "ids": [
+              "375f59a45897cf3d970a7b96",
+              "b1d50b80ba646832fba42ce2"
+            ],
+            "events": [
+              "2026-09-02|ATL|WSH",
+              "2026-09-02|CIN|SD"
+            ],
+            "sides": [
+              "ATL",
+              "SD"
+            ],
+            "odds": [
+              1.6666666666666665,
+              1.6896551724137931
+            ],
+            "stake": 10000,
+            "available_budget_before": 40000,
+            "net": -10000,
+            "settled_observed_at": "2026-09-02T20:29:29+00:00"
+          }
+        ]
+      },
+      "consensus": {
+        "tickets": 1,
+        "settled": 1,
+        "pending": 0,
+        "net_krw": -10000,
+        "pending_stake_krw": 0,
+        "worst_case_net_krw": -10000,
+        "roi_pct": -100.0,
+        "monthly_net_by_placement": {
+          "2026-08": -10000,
+          "2026-09": 0
+        },
+        "max_drawdown_krw": 10000,
+        "ticket_log": [
+          {
+            "at": "2026-08-30T10:00:00-04:00",
+            "month": "2026-08",
+            "ids": [
+              "bfdb5da078b0611090da359e",
+              "f395818ffdf5d87ba6c49292"
+            ],
+            "events": [
+              "2026-08-30|DET|LAD",
+              "2026-08-30|SEA|TOR"
+            ],
+            "sides": [
+              "LAD",
+              "SEA"
+            ],
+            "odds": [
+              1.526315789473684,
+              1.6896551724137931
+            ],
+            "stake": 10000,
+            "available_budget_before": 50000,
+            "net": -10000,
+            "settled_observed_at": "2026-08-30T20:39:31+00:00"
+          }
+        ]
+      }
+    },
+    "14": {
+      "lower_odds": {
+        "tickets": 4,
+        "settled": 3,
+        "pending": 1,
+        "net_krw": -6000,
+        "pending_stake_krw": 10000,
+        "worst_case_net_krw": -16000,
+        "roi_pct": -20.0,
+        "monthly_net_by_placement": {
+          "2026-08": 14000,
+          "2026-09": -20000
+        },
+        "max_drawdown_krw": 20000,
+        "ticket_log": [
+          {
+            "at": "2026-08-29T14:00:00-04:00",
+            "month": "2026-08",
+            "ids": [
+              "c388a5f5b2b885bc0ad53c5f",
+              "e6ca444d3f33b8906ff538ac"
+            ],
+            "events": [
+              "2026-08-29|LAA|PHI",
+              "2026-08-29|MIL|TEX"
+            ],
+            "sides": [
+              "PHI",
+              "MIL"
+            ],
+            "odds": [
+              1.392156862745098,
+              1.5714285714285714
+            ],
+            "stake": 10000,
+            "available_budget_before": 50000,
+            "settled_observed_at": null
+          },
+          {
+            "at": "2026-08-30T14:00:00-04:00",
+            "month": "2026-08",
+            "ids": [
+              "a3c5eadda6380cc6fccc34da",
+              "8c2ac8e110b3dca1a5c870aa"
+            ],
+            "events": [
+              "2026-08-30|LAA|PHI",
+              "2026-08-30|ATH|BAL"
+            ],
+            "sides": [
+              "PHI",
+              "BAL"
+            ],
+            "odds": [
+              1.4761904761904763,
+              1.625
+            ],
+            "stake": 10000,
+            "available_budget_before": 40000,
+            "net": 14000,
+            "settled_observed_at": "2026-08-30T23:33:30+00:00"
+          },
+          {
+            "at": "2026-08-31T14:00:00-04:00",
+            "month": "2026-09",
+            "ids": [
+              "90585a33930c9c6283f8a3cb",
+              "9cc12458d16a15acd5579810"
+            ],
+            "events": [
+              "2026-08-31|ATH|TEX",
+              "2026-08-31|NYM|TB"
+            ],
+            "sides": [
+              "TEX",
+              "TB"
+            ],
+            "odds": [
+              1.425531914893617,
+              1.5405405405405406
+            ],
+            "stake": 10000,
+            "available_budget_before": 40000,
+            "net": -10000,
+            "settled_observed_at": "2026-09-01T01:34:43+00:00"
+          },
+          {
+            "at": "2026-09-01T14:00:00-04:00",
+            "month": "2026-09",
+            "ids": [
+              "13f4bd6278fdb19c3aebe30b",
+              "19423eda661225dc9b59e3a3"
+            ],
+            "events": [
+              "2026-09-01|LAA|NYY",
+              "2026-09-01|BAL|COL"
+            ],
+            "sides": [
+              "NYY",
+              "BAL"
+            ],
+            "odds": [
+              1.5747126436781609,
+              1.7407407407407407
+            ],
+            "stake": 10000,
+            "available_budget_before": 30000,
+            "net": -10000,
+            "settled_observed_at": "2026-09-02T03:36:56+00:00"
+          }
+        ]
+      },
+      "consensus": {
+        "tickets": 4,
+        "settled": 4,
+        "pending": 0,
+        "net_krw": 31000,
+        "pending_stake_krw": 0,
+        "worst_case_net_krw": 31000,
+        "roi_pct": 77.5,
+        "monthly_net_by_placement": {
+          "2026-08": 51000,
+          "2026-09": -20000
+        },
+        "max_drawdown_krw": 20000,
+        "ticket_log": [
+          {
+            "at": "2026-08-29T14:00:00-04:00",
+            "month": "2026-08",
+            "ids": [
+              "1d6521cdd971d7d9fc8ec830",
+              "1ee2979e779be681ae83d59a"
+            ],
+            "events": [
+              "2026-08-29|HOU|NYM",
+              "2026-08-29|SD|TB"
+            ],
+            "sides": [
+              "NYM",
+              "TB"
+            ],
+            "odds": [
+              1.7692307692307692,
+              1.78125
+            ],
+            "stake": 10000,
+            "available_budget_before": 50000,
+            "net": 22000,
+            "settled_observed_at": "2026-08-29T23:13:32+00:00"
+          },
+          {
+            "at": "2026-08-30T14:00:00-04:00",
+            "month": "2026-08",
+            "ids": [
+              "15a2ea8f275118c7265905eb",
+              "8c2ac8e110b3dca1a5c870aa"
+            ],
+            "events": [
+              "2026-08-30|CHC|CIN",
+              "2026-08-30|ATH|BAL"
+            ],
+            "sides": [
+              "CIN",
+              "BAL"
+            ],
+            "odds": [
+              2.38,
+              1.625
+            ],
+            "stake": 10000,
+            "available_budget_before": 72000,
+            "net": 29000,
+            "settled_observed_at": "2026-08-31T03:16:35+00:00"
+          },
+          {
+            "at": "2026-08-31T14:00:00-04:00",
+            "month": "2026-09",
+            "ids": [
+              "fb5db530e27a1edd6531eb71",
+              "eea0b809744fdf1b1832b7b1"
+            ],
+            "events": [
+              "2026-08-31|ATL|SF",
+              "2026-08-31|CIN|SD"
+            ],
+            "sides": [
+              "ATL",
+              "SD"
+            ],
+            "odds": [
+              1.625,
+              1.7142857142857144
+            ],
+            "stake": 10000,
+            "available_budget_before": 50000,
+            "net": -10000,
+            "settled_observed_at": "2026-09-01T01:16:36+00:00"
+          },
+          {
+            "at": "2026-09-01T14:00:00-04:00",
+            "month": "2026-09",
+            "ids": [
+              "19423eda661225dc9b59e3a3",
+              "fe574157a4edb0d40a3206b2"
+            ],
+            "events": [
+              "2026-09-01|BAL|COL",
+              "2026-09-01|DET|MIN"
+            ],
+            "sides": [
+              "BAL",
+              "DET"
+            ],
+            "odds": [
+              1.7407407407407407,
+              1.8928571428571428
+            ],
+            "stake": 10000,
+            "available_budget_before": 40000,
+            "net": -10000,
+            "settled_observed_at": "2026-09-02T02:36:29+00:00"
+          }
+        ]
+      }
+    }
+  },
+  "monthly_loss_limit_krw": 50000,
+  "stake_krw": 10000,
+  "model_incremental_roi": null,
+  "protocol": [
+    "First observed full-game ML only; exact original odds retained.",
+    "Stake suffix removed for tentative result join; same date/teams/author/market/odds.",
+    "Source schedule and publisher results, NOT independently official verified.",
+    "No sport field: whitelist MLB abbreviations in MLB source; inferred classification.",
+    "Candidates include unresolved picks; each author earliest vote per event.",
+    "Two distinct games at noon ET; KST placement month/week, once per day.",
+    "Consensus: >=3 authors, no tie; rank share, votes, lower odds, event id.",
+    "Lower odds control is NOT our production model.",
+    "10/14 ET sensitivity declared without selecting best result for deployment.",
+    "Foreign quoted odds under hypothetical Proto rounding; actual purchasability unverified.",
+    "Monthly loss budget reserves ALL pending stakes; no +50000 profit stop.",
+    "Short partial months, correlated picks and retrospective mapping; no future profit claim."
+  ],
+  "input_sha256": "68a45cce93eb7f3213c6803f2a56b1c293c181276af7f74965c8f4d66d6d717d"
+}
