@@ -55,6 +55,7 @@ class OfficialClient:
         self.index = self.root / 'receipts.jsonl'
         self.max_requests, self.max_lineups = max_requests, max_lineup_requests
         self.count = self.lineups = 0
+        self.progress = None
         self.last = 0.0
         self.session = session or requests.Session()
         self.session.headers.update({'User-Agent': 'Mozilla/5.0', 'Referer': BASE + '/Schedule/GameCenter/Main.aspx'})
@@ -62,6 +63,10 @@ class OfficialClient:
         if self.records:
             last = datetime.fromisoformat(self.records[-1]['finished_at'])
             self.last = time.monotonic() - max(0, (now_utc() - last).total_seconds())
+
+    def stage(self, name, game):
+        if self.progress is not None:
+            self.progress(name, game['G_ID'])
 
     def fetch(self, url, params, *, refresh_seconds=300):
         if url not in (SCHEDULE, LINEUP, BOX, PROFILE, SEARCH, RETIRE_PITCHER, RETIRE_HITTER):
@@ -262,7 +267,9 @@ class OfficialClient:
         starters = announced_starters(g)
         if len(starters) != 2:
             missing.append('announced_starters')
+        self.stage('lineup_fetch', g)
         raw, rec = self.fetch_lineup(g)
+        self.stage('lineup_received', g)
         if datetime.fromisoformat(rec['finished_at']) > kickoff.astimezone(timezone.utc) - timedelta(minutes=30):
             missing.append('lineup_after_t_minus_30')
         ordered = parse_lineup(raw, g)
@@ -271,7 +278,9 @@ class OfficialClient:
         ids, identity_receipts = {}, []
         if ordered is not None:
             try:
+                self.stage('lineup_identity', g)
                 ids, identity_receipts = self.resolve_lineups(ordered, g)
+                self.stage('lineup_identity_verified', g)
             except SourceError as exc:
                 missing.append('batter_identity:' + str(exc))
         if now_utc() > kickoff.astimezone(timezone.utc) - timedelta(minutes=30):
@@ -283,6 +292,17 @@ class OfficialClient:
         if history is None or build_row is None:
             answer['missing'].append('verified_history_features_not_attached')
             return answer
+        # The connected collector supplies a lazy loader. Use the already verified
+        # announcement and its receipts throughout this one attempt.
+        if callable(history):
+            history = history()
+            if now_utc() - datetime.fromisoformat(rec['finished_at']) >= timedelta(minutes=5):
+                answer['missing'].append('lineup_receipt_stale_after_history')
+                return answer
+        if now_utc() > kickoff - timedelta(minutes=30):
+            answer['missing'].append('history_after_t_minus_30')
+            return answer
+        self.stage('history_verification', g)
         event = {'official_game_id': g['G_ID'], 'season': int(g['SEASON_ID']), 'kickoff_at': kickoff.isoformat(), 'home_id': str(g['HOME_ID']).strip(), 'away_id': str(g['AWAY_ID']).strip()}
         roster = {side: {'starter': starters[side]['player_id'], 'hitters': ids[side]} for side in ('home', 'away')}
         required_names={event[side+'_id']:{'hitter':{p['name'] for p in ordered[side]}, 'pitcher':{starters[side]['name']}} for side in ('home','away')}
@@ -303,6 +323,7 @@ class OfficialClient:
             answer['missing'].append('history_source_receipts_missing')
             return answer
         stamp = now_utc()
+        self.stage('feature_build', g)
         row = build_row(event, roster, history, stamp.isoformat())
         if row.get('roster') != roster or row.get('fixture_id') != g['G_ID'] + str(g['SEASON_ID']) or row.get('home_id') != event['home_id'] or row.get('away_id') != event['away_id']:
             raise SourceError('feature_row_identity_mismatch')
@@ -313,6 +334,7 @@ class OfficialClient:
         if now_utc() > kickoff.astimezone(timezone.utc) - timedelta(minutes=30):
             answer['missing'].append('feature_build_after_t_minus_30')
             return answer
+        self.stage('source_bundle', g)
         announcement = {'lineup_confirmed':True, 'pitcher_announcement_confirmed':True, 'basis':'official_confirmed_pregame_announcement', 'roster':roster}
         evidence = {'announcement': self.bundle([schedule_rec, rec] + identity_receipts), 'history': self.bundle(history_receipts, history)}
         if now_utc() > kickoff.astimezone(timezone.utc) - timedelta(minutes=30):

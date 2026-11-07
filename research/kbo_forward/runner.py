@@ -110,15 +110,19 @@ def capture_lineup_revisions(state, official, games, quotes, clock, infer, repor
 
 
 def run_once(state, official=None, price_fn=None, clock=ledger.utcnow, infer=ledger.infer_frozen,
-             m1_state=None, watch_lineup_revisions=False, operating_prices=None):
+             m1_state=None, watch_lineup_revisions=False, operating_prices=None, progress=None):
     state=Path(state);state.mkdir(parents=True,exist_ok=True)
     with single_writer(state/"observer.lock") as owned:
         if not owned:return {"status":"another_run_active"}
+        mark = progress if progress is not None else lambda *args: None
+        mark('cycle_started')
         started=clock();path=state/"paired-ledger.jsonl";rows=ledger.read(path);captures=[r for r in rows if r["type"] in ("capture","unpriced_forecast")]
         previous=json.loads((state/"last-run.json").read_bytes()) if (state/"last-run.json").exists() else {}
         if official is None:
             from connected import ConnectedOfficial
             official=ConnectedOfficial(state/"official",max_requests=80)
+        if progress is not None and hasattr(official, 'stage'):
+            official.progress = progress
         if operating_prices is not None:
             sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
             from kbo_operating_prices import capture as capture_operating_prices
@@ -152,7 +156,9 @@ def run_once(state, official=None, price_fn=None, clock=ledger.utcnow, infer=led
             waiting=sorted({c["input"]["row"]["event_date"] for c in captures if c["event_key"] not in done or c["input"]["row"]["event_date"]>=(today-timedelta(days=7)).isoformat()})
             cursor=int(previous.get("settlement_cursor",0));take=(waiting[cursor:]+waiting[:cursor])[:5] if waiting else []
             dates.update(take);report["settlement_cursor"]=(cursor+len(take))%len(waiting) if waiting else 0
+            mark('schedule_fetch')
             schedule=official.schedule(sorted(dates));games=schedule["games"];byid={}
+            mark('schedule_received')
             for g in games:
                 e=event(g);key=(e["season"],e["official_game_id"])
                 if key in byid:raise ValueError("duplicate official event identity")
@@ -195,9 +201,11 @@ def run_once(state, official=None, price_fn=None, clock=ledger.utcnow, infer=led
                     )
                     if already_unpriced or already_priced:
                         continue
+                    mark('fixture_verification', official_id)
                     s=official.snapshot(g)
                     if not s.get("source_verified"):
                         report["excluded"].append({"official_game_id":g["source"]["G_ID"],"reasons":s.get("missing",["unverified_source"])});continue
+                    mark('verify_archive', official_id)
                     x=packet(s)
                     if hasattr(official,"root"):
                         from connected import verify_archived_bundles
@@ -206,6 +214,7 @@ def run_once(state, official=None, price_fn=None, clock=ledger.utcnow, infer=led
                     qs=[q for q in price_result["quotes"] if q["official_game_id"]==x["event"]["official_game_id"] and q.get("season",x["event"]["season"])==x["event"]["season"]]
                     if not qs:
                         x["evidence"].pop("odds",None)
+                        mark('paired_forecast', official_id)
                         rec=ledger.capture_unpriced(x,path,clock=clock,infer=infer);report["unpriced_this_run"]+=int(rec is not None)
                         if m1_observer is not None:
                             try:
@@ -213,23 +222,31 @@ def run_once(state, official=None, price_fn=None, clock=ledger.utcnow, infer=led
                                     e = x['event']
                                     if operating_fixture_counts[e["home_id"], e["away_id"], e["kickoff_at"]] != 1:
                                         raise ValueError('ambiguous KBO fixture at operating price receipt')
+                                    mark('operating_price_verify', official_id)
                                     evidence = capture_operating_prices(
                                         operating_prices, state / 'operating-price-evidence', x['event'], clock())
                                     if evidence is None:
                                         raise ValueError('no fresh unambiguous operating KBO price receipt')
                                     x['operating_price_evidence'] = evidence
-                                m1_observer.capture(x, unpriced=True)
+                                mark('actual_forecast', official_id)
+                                if m1_observer.capture(x, unpriced=True) is not None:
+                                    mark('actual_forecast_saved', official_id)
                             except Exception as exc:
                                 report.setdefault('m1_candidate_excluded', []).append(
                                     {'official_game_id': official_id, 'reason': str(exc)[:300]})
                     for q in qs:
                         if q["home_id"]!=x["event"]["home_id"] or q["away_id"]!=x["event"]["away_id"] or ledger.moment(q["kickoff_at"])!=ledger.moment(x["event"]["kickoff_at"]):raise ValueError("price event metadata mismatch")
                         priced=copy.deepcopy(x);priced["market"],priced["evidence"]["odds"]=price_packet(q,state,x["event"])
+                        mark('paired_forecast', official_id)
                         rec=ledger.capture(priced,path,clock=clock,infer=infer);report["captured_this_run"]+=int(rec is not None)
                         if m1_observer is not None:
-                            try:m1_observer.capture(priced)
+                            try:
+                                mark('actual_forecast', official_id)
+                                if m1_observer.capture(priced) is not None:
+                                    mark('actual_forecast_saved', official_id)
                             except Exception as exc:report.setdefault('m1_candidate_excluded',[]).append({'official_game_id':official_id,'reason':str(exc)[:300]})
                 except Exception as exc:report["excluded"].append({"official_game_id":g["source"]["G_ID"],"error_type":type(exc).__name__,"reason":str(exc)[:300]})
+            mark('settlement')
             # Re-read captures so successful inference is never lost on later failures.
             for c in [r for r in ledger.read(path) if r["type"] in ("capture","unpriced_forecast")]:
                 e=c["input"]["event"];g=byid.get((e["season"],e["official_game_id"]))
@@ -245,10 +262,17 @@ def run_once(state, official=None, price_fn=None, clock=ledger.utcnow, infer=led
                 except Exception as exc:report["excluded"].append({"official_game_id":e["official_game_id"],"result_error_type":type(exc).__name__,"reason":str(exc)[:300]})
             if watch_lineup_revisions:
                 capture_lineup_revisions(state, official, selected, price_result["quotes"], clock, infer, report)
+            if progress is not None and not candidates and hasattr(official, 'prewarm_history'):
+                from official import SourceError
+                try:
+                    official.prewarm_history(games, clock())
+                except (OSError, ValueError, SourceError) as exc:
+                    report["history_prewarm_error"] = type(exc).__name__
             report["requests"]=getattr(official,"count",0)
         except Exception as exc:
             report.update(status="failed",error_type=type(exc).__name__,reason=str(exc)[:300]);report["requests"]=getattr(official,"count",0)
         finally:
+            mark('run_report')
             report["finished_at"]=clock().isoformat()
             failures=previous.get("excluded",[])+report["excluded"]
             if report["status"]=="failed":failures.append({"reason":"source_collection_failed","detail":report.get("reason"),"error_type":report.get("error_type")})

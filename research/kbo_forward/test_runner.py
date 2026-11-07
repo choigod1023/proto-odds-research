@@ -150,3 +150,18 @@ def test_schedule_outage_still_closes_missed_cutoff(tmp_path):
     assert d['status']=='failed' and d['comparison']['closed_without_any_prediction']==1
     missed=[r for r in ledger.read(p) if r['type']=='missed_cutoff'][0]
     assert missed['last_exclusion']['reason']=='source_collection_failed'
+
+
+def test_next_cycle_retains_last_stage_of_interrupted_cycle(tmp_path, capsys):
+    from research.kbo_forward.server_cycle import progress_writer
+
+    first = progress_writer(tmp_path)
+    first('cycle_started')
+    first('lineup_identity', 'fixture')
+    last = json.loads((tmp_path / 'progress.json').read_bytes())
+    second = progress_writer(tmp_path)
+    second('cycle_started')
+    second('cycle_finished')
+    assert json.loads((tmp_path / 'last-interrupted-progress.json').read_bytes()) == last
+    assert json.loads((tmp_path / 'progress.json').read_bytes())['stage'] == 'cycle_finished'
+    assert any(json.loads(line)['kbo_m0_progress'] == last for line in capsys.readouterr().out.splitlines())

@@ -123,7 +123,26 @@ class OfficialTests(unittest.TestCase):
             event={'home_id':self.g['HOME_ID'],'away_id':self.g['AWAY_ID'],'kickoff_at':datetime.strptime(self.g['G_DT']+' '+self.g['G_TM'],'%Y%m%d %H:%M').replace(tzinfo=timezone(timedelta(hours=9))).isoformat()}
             hist=c.derive_history(event,seed,[game['receipt']])
             with patch.object(off,'frozen_seed',return_value=seed):
-                x=c.snapshot(game, history=hist, build_row=build)
+                with (patch.object(c, 'fetch_lineup', wraps=c.fetch_lineup) as fetched,
+                      patch.object(c, 'resolve_lineups', wraps=c.resolve_lineups) as resolved):
+                    x = c.snapshot(game, history=lambda: hist, build_row=build)
+                    self.assertEqual(fetched.call_count, 1)
+                    self.assertEqual(resolved.call_count, 1)
+                def aged_history():
+                    advanced = off.now_utc() + timedelta(minutes=6)
+                    mocked_clock.return_value = advanced
+                    return hist
+                with patch.object(off, 'now_utc', return_value=datetime.now(timezone.utc)) as mocked_clock:
+                    stale = c.snapshot(game, history=aged_history, build_row=build)
+                self.assertEqual(stale['missing'], ['lineup_receipt_stale_after_history'])
+
+                def late_history():
+                    mocked_clock.return_value += timedelta(minutes=2)
+                    return hist
+                kickoff = datetime.fromisoformat(event['kickoff_at'])
+                with patch.object(off, 'now_utc', return_value=kickoff - timedelta(minutes=31)) as mocked_clock:
+                    late = c.snapshot(game, history=late_history, build_row=build)
+                self.assertEqual(late['missing'], ['history_after_t_minus_30'])
                 bad=dict(hist, schedules={})
                 y=c.snapshot(game, history=bad, build_row=build)
                 blocked=dict(hist,games=[{'unresolved_identities':[{'team':'HH','role':'pitcher','name':'HomeStarter'}]}])
