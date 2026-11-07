@@ -491,6 +491,29 @@ class RuntimeDatabase(DatasetStore):
             for row in connection.execute(sql, params):
                 yield json.loads(row["payload_json"])
 
+    def starter_display_events(self) -> list[dict[str, Any]]:
+        """Return the original fixture metadata and latest announcement per side."""
+        with self.connect() as connection:
+            rows = connection.execute("""
+                WITH source AS (
+                    SELECT id, observed_at, payload_json,
+                           json_extract(payload_json, '$.gameId') AS game_id,
+                           json_extract(payload_json, '$.field') AS field
+                    FROM event_records WHERE stream='starter_announcements'
+                ), ranked AS (
+                    SELECT id, observed_at, payload_json,
+                           row_number() OVER (PARTITION BY game_id ORDER BY observed_at, id) AS first_game,
+                           row_number() OVER (PARTITION BY game_id, field ORDER BY observed_at DESC, id DESC) AS last_side
+                    FROM source
+                    WHERE field IN ('homeStarterName', 'awayStarterName')
+                      AND game_id IS NOT NULL AND game_id NOT IN ('', 0)
+                )
+                SELECT payload_json FROM ranked
+                WHERE first_game=1 OR last_side=1
+                ORDER BY observed_at, id
+            """)
+            return [json.loads(row["payload_json"]) for row in rows]
+
     def latest_event(self, stream: str) -> dict[str, Any] | None:
         """Exactly the last row of events(), including observed_at/id tie breaking."""
         with self.connect() as connection:

@@ -48,54 +48,25 @@ import { matchesGameMarketFilters } from "../lib/game-list-filter.js";
 import { recordedMarketOffers } from "../lib/recorded-market-offers.js";
 import { isOvernightGame, matchesGameDate } from "../lib/game-date-filter.js";
 import { buildLiveIndex, mergeLiveFeed } from "../lib/live-feed.js";
+import { SCORES_URL, ODDS_URL, LEGACY_SCORES_URL, LEGACY_ODDS_URL, scoreDetailUrl,
+  attachScoreDetail, marketHistoryNumbers, oddsHistoryUrl, marketHistoryForGame } from "../lib/live-feed-views.js";
 import { gameStatusLabel } from "../lib/match-status.js";
 
 // 모든 동적 상태는 수집 머신의 SQLite-backed API에서 직접 받는다.
 import { apiUrl } from '../lib/api-origin.js';
-const LIVE_URL = apiUrl('/api/live-scores');
 
 // 판정과 배당을 각각 DB API에서 받아 동일 화면 revision으로 합친다.
-const ODDS_URL = apiUrl('/api/live-odds');
 const RECOMMENDATION_URL = apiUrl('/api/today-recommendations');
 const PICKS_URL = apiUrl('/api/picks');
 const GRADES_URL = apiUrl('/api/loss-grades');
 
-/** DB-backed API를 주기적으로 조회하고 마지막 정상 응답을 메모리에 유지한다. */
-function usePoll(url, ms) {
-  const [state, setState] = useState({ data: null, checked: false });
-  useEffect(() => {
-    let stop = false;
-    const load = () =>
-      fetch(`${url}?${Date.now()}`, {
-        cache: "no-store",
-        headers: { "Cache-Control": "no-cache" },
-      })
-        .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`HTTP ${r.status}`))))
-        .then((d) => { if (!stop) setState((old) => ({
-          data: url === LIVE_URL ? mergeLiveFeed(old.data, d) : d, checked: true,
-        })); })
-        // 일시 실패 때 마지막 정상값은 버리지 않는다. 첫 확인 실패만 checked로 남겨
-        // 오래된 정적 fallback인지 실제 장애인지 구분한다.
-        .catch(() => { if (!stop) setState((old) => ({ ...old, checked: true })); });
-    load();
-    const t = setInterval(load, ms);
-    const onVisible = () => { if (document.visibilityState === "visible") load(); };
-    document.addEventListener("visibilitychange", onVisible);
-    window.addEventListener("focus", load);
-    window.addEventListener("online", load);
-    return () => {
-      stop = true;
-      clearInterval(t);
-      document.removeEventListener("visibilitychange", onVisible);
-      window.removeEventListener("focus", load);
-      window.removeEventListener("online", load);
-    };
-  }, [url, ms]);
-  return state;
-}
-
-const useLive = () => usePoll(LIVE_URL, 15000);
-const useLiveOdds = () => usePoll(ODDS_URL, 120000);
+const SCORE_MERGE = { live: mergeLiveFeed };
+const useLive = () => usePolledData({ live: SCORES_URL }, 15000, {
+  fallbacks: { live: LEGACY_SCORES_URL }, merge: SCORE_MERGE,
+});
+const useLiveOdds = () => usePolledData({ odds: ODDS_URL }, 120000, {
+  fallbacks: { odds: LEGACY_ODDS_URL },
+});
 
 const SCORE_UNIT_LABEL = {
   bs: "득점",
@@ -131,15 +102,6 @@ function scoreForecastForView(game) {
  * ⚠️ 키에 **날짜(MM.DD)를 반드시 포함**한다. 팀 조합만으로 잡으면 MLB 3~4연전에서
  *    어제 경기와 오늘 경기가 뭉개진다 — 정산 경기 55건 중 37건이 어긋났었다. */
 
-function marketHistoryForGame(game, liveOdds) {
-  const rows = Object.values(liveOdds?.markets?.[String(game?.round)] || {}).filter((row) =>
-    row?.home === game?.home && row?.away === game?.away && row?.date === game?.date);
-  const history = liveOdds?.history?.[String(game?.round)] || {};
-  return rows.flatMap((row) => (history[String(row.game_no)] || []).map((entry) => ({
-    ...entry, gameNo: String(row.game_no),
-  })));
-}
-
 export default function Markets() {
   // ⚠️ 예전엔 처음 한 번만 fetch 했다. 수집기는 30분마다 새 JSON 을 올리는데
   //    화면이 첫 로드에 멈춰 있어 새로고침을 눌러야만 바뀌었다. 이제 스스로 갱신한다.
@@ -151,10 +113,11 @@ export default function Markets() {
   const { data: livePicks, checked: picksChecked, error: picksError, retry: retryPicks } = useMatchData(`/api/matches?scope=${allMatches ? 'all' : 'recent'}`);
   const { data: accuracyData, error: accuracyError, retry: retryAccuracy } = useMatchData(accuracyOpen ? '/api/matches?scope=performance' : null);
   const d = livePicks;
-  const { data: liveOdds, checked: liveOddsChecked } = useLiveOdds();
-  const { data: liveToday } = usePoll(RECOMMENDATION_URL, 120000);
-  const { data: directLiveFeed, checked: liveChecked } = useLive();
-  const liveFeed = directLiveFeed;
+  const { data: { odds: liveOdds }, at: oddsCheckedAt } = useLiveOdds();
+  const { data: { today: liveToday } } = usePolledData({ today: RECOMMENDATION_URL }, 120000);
+  const { data: { live: liveFeed }, at: liveCheckedAt } = useLive();
+  const liveOddsChecked = oddsCheckedAt !== null;
+  const liveChecked = liveCheckedAt !== null;
   const liveIndex = useMemo(() => buildLiveIndex(liveFeed), [liveFeed]);
   // 실시간 가격 revision을 페이지 최상단에서 한 번만 합친다. 오늘 조합·경기 카드·
   // 배당 비교가 서로 다른 가격 시점을 읽지 않게 같은 객체를 아래로 전달한다.
@@ -171,14 +134,12 @@ export default function Markets() {
           liveOdds?.generated_at || null,
           liveOdds?.markets?.[String(game.round)],
         );
-      const marketHistory = marketHistoryForGame(game, liveOdds);
-      const withHistory = { ...repriced, _marketHistory: marketHistory,
-        _officialMarkets: liveOdds?.markets?.[String(game.round)] };
+      const withMarkets = { ...repriced, _officialMarkets: liveOdds?.markets?.[String(game.round)] };
       // 저장 파일에 과거의 재계산 표식이 남아 있어도 T-30 이후에는 사전 결정을
       // 그대로 고정한다. 라이브 중 "재계산 대기"로 되돌아가면 안 된다.
       const frozenGame = frozen
-        ? { ...withHistory, _decisionFrozen: true, _liveOddsChanged: false }
-        : withHistory;
+        ? { ...withMarkets, _decisionFrozen: true, _liveOddsChanged: false }
+        : withMarkets;
       return liveState ? { ...frozenGame, _liveState: liveState, _liveStarted: true,
         _liveFeedAt: liveFeed?.generated_at || null } : frozenGame;
     });
@@ -213,7 +174,7 @@ export default function Markets() {
         {accuracyOpen && (accuracyData ? <OverallAccuracy data={accuracyData} /> : <p role="status">{accuracyError ? '성적을 불러오지 못했습니다.' : '전체 성적을 불러오는 중입니다.'}{accuracyError && <button onClick={retryAccuracy}>다시 시도</button>}</p>)}
       </details>
       <section id="match-list"><GameList data={synchronized} grades={grades} caps={grades?.odds_caps}
-        stale={stale} today={liveToday} marketOdds={liveOdds} liveGeneratedAt={liveFeed?.generated_at} liveChecked={liveChecked} onRefreshList={retryPicks} onRequestAll={() => setAllMatches(true)} /></section>
+        stale={stale} today={liveToday} marketOdds={liveOdds} scoresAreSummary={liveFeed?.summary} liveGeneratedAt={liveFeed?.generated_at} liveChecked={liveChecked} onRefreshList={retryPicks} onRequestAll={() => setAllMatches(true)} /></section>
     </Shell>
   );
 }
@@ -332,7 +293,7 @@ const STATUS = [
   ["finished", "종료"], ["pending", "상태 확인 중"], ["unlinked", "원천 회차 미연결"],
 ];
 
-export function GameList({ data, grades, caps, stale, today, marketOdds, liveGeneratedAt, liveChecked = false, onRequestAll, onRefreshList }) {
+export function GameList({ data, grades, caps, stale, today, marketOdds, scoresAreSummary = false, liveGeneratedAt, liveChecked = false, onRequestAll, onRefreshList }) {
   const [openedGame, setOpenedGame] = useState(null);
   const detailPath = openedGame?._detail_key && data.view?.revision
     ? `/api/match-detail?key=${encodeURIComponent(openedGame._detail_key)}&revision=${encodeURIComponent(data.view.revision)}` : null;
@@ -426,7 +387,16 @@ export function GameList({ data, grades, caps, stale, today, marketOdds, liveGen
     game.sport === openedGame.sport && String(game.round) === String(openedGame.round) && game.date === openedGame.date &&
     game.home === openedGame.home && game.away === openedGame.away &&
     game.league === openedGame.league) || openedGame);
-  const modalGame = modalSummary && mergeMatchDetail(modalSummary, detail.data, data.view?.revision);
+  const modalMatch = modalSummary && mergeMatchDetail(modalSummary, detail.data, data.view?.revision);
+  const scoreUrl = scoreDetailUrl(modalSummary?._liveState, scoresAreSummary);
+  const marketNumbers = marketHistoryNumbers(modalSummary, marketOdds);
+  const historyUrl = oddsHistoryUrl(modalSummary, marketNumbers, marketOdds);
+  const { data: scoreDetail } = usePolledData(scoreUrl ? { score: scoreUrl } : {}, 15000);
+  const { data: oddsDetail } = usePolledData(historyUrl ? { odds: historyUrl } : {}, 120000);
+  const modalGame = modalMatch && {...modalMatch,
+    _liveState: attachScoreDetail(modalMatch._liveState, scoreDetail.score),
+    _marketHistory: marketHistoryForGame(modalMatch, marketNumbers, marketOdds, oddsDetail.odds),
+  };
   const modalSelection = modalGame && !stale &&
     !(modalGame._liveOddsChanged && !decisionFrozen(modalGame))
     ? todaySelectionForGame(todayMemberships, modalGame.options || [], modalGame.round)

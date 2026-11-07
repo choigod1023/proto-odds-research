@@ -1206,6 +1206,7 @@ def serve_live() -> None:
         log('재시작 응답 복원 — 원래 생성 시각과 revision 유지')
     _release_match_working_set = match_views.views.release_working_set
     from artifact_responses import ArtifactResponses
+    from live_feed_views import LIVE_VIEWS, query_key
     artifact_responses = ArtifactResponses(database, memory_lock=_memory_heavy_lock)
 
     def publish_match_responses():
@@ -1303,6 +1304,13 @@ def serve_live() -> None:
                 "/picks_v2.json": "picks_v2",
             }
             artifact_name = served.get(self.path.split("?")[0].rstrip("/"))
+            view = key = None
+            if route.path in LIVE_VIEWS:
+                artifact_name, view = LIVE_VIEWS[route.path]
+                try:
+                    key = query_key(artifact_name, view, parse_qs(route.query))
+                except ValueError:
+                    self.send_response(400); self._cors(); self.end_headers(); return
             if artifact_name is None:
                 self.send_response(404)
                 self._cors()
@@ -1310,10 +1318,10 @@ def serve_live() -> None:
                 return
             try:
                 accepts_gzip = "gzip" in self.headers.get("Accept-Encoding", "").lower()
-                if artifact_name == "picks_v2":
+                if artifact_name == "picks_v2" or view is not None:
                     body, etag = artifact_responses.get_response(
                         artifact_name, compressed=accepts_gzip,
-                        if_none_match=self.headers.get("If-None-Match"))
+                        if_none_match=self.headers.get("If-None-Match"), view=view, key=key)
                 else:
                     body = artifact_responses.get_bytes(artifact_name, compressed=accepts_gzip)
                     etag = None

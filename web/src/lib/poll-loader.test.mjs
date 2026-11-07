@@ -56,3 +56,21 @@ test('timeout releases batch; partial failures retain healthy sources without re
   assert.equal(updates[0].data.scores, updates[1].data.scores);
   loader.stop();
 });
+
+test('a missing summary route falls back once and keeps conditional polls on the correct URL', async () => {
+  const calls = [], updates = [];
+  const loader = createPollLoader({scores: '/summary'}, value => updates.push(value), {
+    fallbacks: {scores: '/legacy'},
+    fetcher: async (url, options) => {
+      calls.push([url.split('?')[0], options.headers['If-None-Match']]);
+      if (url.startsWith('/summary')) return {status: 404};
+      if (options.headers['If-None-Match']) return {status: 304};
+      return {ok: true, status: 200, headers: {get: () => 'tag'}, text: async () => '{"games":[]}'};
+    },
+  });
+  await loader.load();
+  await loader.load();
+  assert.deepEqual(calls, [['/summary', undefined], ['/legacy', undefined], ['/legacy', 'tag']]);
+  assert.equal(updates.length, 1);
+  loader.stop();
+});

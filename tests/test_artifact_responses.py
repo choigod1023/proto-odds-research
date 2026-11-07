@@ -145,3 +145,74 @@ def test_conditional_response_uses_selected_body_and_avoids_inflation(tmp_path, 
     new_wire, new_tag = cache.get_response('picks_v2', if_none_match=tag)
     assert new_wire and new_tag != tag
     assert cache.get_response('picks_v2', if_none_match='"unmatched"')[0] == new_wire
+
+def test_live_views_keep_overnight_scores_and_isolate_detail_by_identity(tmp_path):
+    import pytest
+    from live_feed_views import query_key
+
+    db = RuntimeDatabase(tmp_path / 'runtime.db')
+    overnight = {'game_id': 'named:1', 'source': 'named', 'start': '2026-11-06T23:00:00+09:00',
+                 'status': 'STARTED', 'home_alias': ['삼성'], 'home_score': 3, 'observed_at': '2026-11-07T00:05:00+09:00',
+                 'timeline': [{'type': 'GOAL', 'text': '홈 득점'}], 'timeline_scope': 'latest',
+                 'period_scores': [{'home': 3, 'away': 0}]}
+    next_day = dict(overnight, start='2026-11-07T23:00:00+09:00', home_score=1, timeline=[])
+    doc = {'generated_at': overnight['observed_at'], 'partial': True, 'games': [overnight, next_day]}
+    db.store_artifact('live_scores', doc)
+    cache = ArtifactResponses(db)
+    body, tag = cache.get_response('live_scores', compressed=False, view='summary')
+    result = json.loads(body)
+    assert result['summary'] and result['partial']
+    assert [(row['start'], row['home_score']) for row in result['games']] == [
+        (overnight['start'], 3), (next_day['start'], 1)]
+    assert result['games'][0]['observed_at'] == overnight['observed_at']
+    assert all('timeline' not in row and 'period_scores' not in row for row in result['games'])
+    assert cache.get_response('live_scores', if_none_match=tag, view='summary') == (None, tag)
+    key = query_key('live_scores', 'detail', {f: [overnight[f]] for f in ('game_id', 'source', 'start')})
+    body, _ = cache.get_response('live_scores', view='detail', key=key, compressed=False)
+    assert json.loads(body) == {'identity': list(key), 'detail': {
+        field: overnight[field] for field in ('timeline', 'timeline_scope', 'period_scores')
+    }}
+    assert json.loads(cache.get_bytes('live_scores', compressed=False)) == doc
+    db.store_artifact('live_scores', dict(doc, games=[overnight, overnight]))
+    body, _ = cache.get_response('live_scores', view='detail', key=key, compressed=False)
+    assert json.loads(body)['detail'] is None
+    with pytest.raises(ValueError):
+        query_key('live_scores', 'detail', {'game_id': ['other', 'named:1'], 'source': ['named'], 'start': ['today']})
+
+
+def test_odds_summary_and_history_use_separate_cache_entries(tmp_path):
+    import pytest
+    from live_feed_views import query_key
+
+    db = RuntimeDatabase(tmp_path / 'runtime.db')
+    doc = {'odds': {'132': {'3': [1.2, 3.2]}}, 'markets': {'132': {'3': {'game_no': '3'}}},
+           'history': {'132': {'3': [{'odds': [1.3, 3.1]}], '4': [{'odds': [1.5, 2.5]}]},
+                       '133': {'3': [{'odds': [1.9, 1.9]}]}}}
+    db.store_artifact('live_odds', doc)
+    cache = ArtifactResponses(db)
+    body, _ = cache.get_response('live_odds', compressed=False, view='summary')
+    assert json.loads(body) == {key: doc[key] for key in ('odds', 'markets')}
+    key = query_key('live_odds', 'detail', {'round': ['132'], 'game_nos': ['3,5,3']})
+    body, _ = cache.get_response('live_odds', compressed=False, view='detail', key=key)
+    assert json.loads(body) == {'round': '132', 'history': {'3': doc['history']['132']['3']}}
+    with pytest.raises(ValueError):
+        query_key('live_odds', 'detail', {'round': ['132'], 'game_nos': ['3,4".x']})
+    for number in range(30):
+        cache.get_response('live_odds', view='detail', key=(str(number), '3'))
+    assert len(cache.details) == 24
+    assert ('live_odds', 'summary', None) in cache.ready
+
+
+def test_player_display_reads_first_fixture_and_latest_names(tmp_path):
+    db = RuntimeDatabase(tmp_path / 'runtime.db')
+    rows = [
+        {'gameId': 'game', 'field': 'homeStarterName', 'value': '최초', 'observed_at': '01'},
+        {'gameId': 'game', 'field': 'homeStarterName', 'value': '중간', 'observed_at': '02'},
+        {'gameId': 'game', 'field': 'awayStarterName', 'value': '원정', 'observed_at': '03'},
+        {'gameId': 'game', 'field': 'homeStarterName', 'value': '최신', 'observed_at': '04'},
+        {'gameId': 'game', 'field': 'homeStarterName', 'value': '정정', 'observed_at': '04'},
+        {'gameId': 'game', 'field': 'other', 'value': '별도', 'observed_at': '05'},
+    ]
+    db.append_events('starter_announcements', rows)
+    assert [row['value'] for row in db.starter_display_events()] == ['최초', '원정', '정정']
+    assert db.events('starter_announcements') == rows
