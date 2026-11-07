@@ -5,7 +5,7 @@ import { usePolledData } from "../lib/poll.js";
 import { recommendedTodayPicks, slipRows } from "../lib/slip.js";
 
 import { apiUrl } from '../lib/api-origin.js';
-const LIVE_ODDS_URL = apiUrl('/api/live-odds');
+import { ODDS_URL, LEGACY_ODDS_URL } from '../lib/live-feed-views.js';
 const PICKS_URL = apiUrl('/api/picks');
 const TODAY_URL = apiUrl('/api/today-recommendations');
 
@@ -19,9 +19,9 @@ const stamp = (value) => {
 export default function Slip() {
   const { data, at } = usePolledData({
     picks: PICKS_URL,
-    liveOdds: LIVE_ODDS_URL,
+    liveOdds: ODDS_URL,
     today: TODAY_URL,
-  }, 60000);
+  }, 60000, { fallbacks: { liveOdds: LEGACY_ODDS_URL } });
   const [round, setRound] = useState("all");
   const [query, setQuery] = useState("");
   const picks = data.picks;

@@ -172,6 +172,16 @@ class EdgeIntegration(unittest.TestCase):
                 self.assertEqual(get(detail)[1]['X-Response-Cache'], 'HIT')
                 self.assertEqual(get('/api/match-detail?key=game1&revision=wrong')[0], 409)
                 self.assertEqual(get('/api/match-detail?key=game2&revision=first')[1]['X-Response-Cache'], 'MISS')
+                for route, identity, other in (
+                    ('live-scores-detail', 'game_id=game1&source=naver&start=2026-11-07T03:00:00Z',
+                     'game_id=game1&source=naver&start=2026-11-08T03:00:00Z'),
+                    ('live-odds-history', 'round=132&game_nos=3,4', 'round=132&game_nos=3,5'),
+                ):
+                    path = '/api/' + route + '?'
+                    self.assertEqual(get(path + identity + '&_=1')[1]['X-Response-Cache'], 'MISS')
+                    self.assertEqual(get(path + identity + '&_=2')[1]['X-Response-Cache'], 'HIT')
+                    self.assertEqual(get(path + other + '&_=3')[1]['X-Response-Cache'], 'MISS')
+                    self.assertEqual(json.loads(get(path + other)[2])['path'], path + other)
                 self.assertEqual(get('/anonymous-bets', data=b'{}')[0], 201)
                 self.assertEqual(get('/anonymous-bets', data=b'{}')[0], 201)
                 self.assertEqual(state['posts'], 2)
