@@ -89,18 +89,7 @@ def record_live_market_revisions(
         raise PredictionLedgerError("live market observed_at must include a timezone")
     counts = {"predictions": 0, "skipped": 0, "withheld": 0}
     candidates: list[tuple[dict, dict, str]] = []
-    latest_by_event: dict[str, dict] = {}
-    for record in runtime.records():
-        if record.get("record_type") != "prediction":
-            continue
-        key = str(record.get("event_id") or "")
-        current = latest_by_event.get(key)
-        order = (_aware_timestamp(record.get("as_of")), int(record.get("ledger_sequence") or 0))
-        current_order = (
-            _aware_timestamp(current.get("as_of")), int(current.get("ledger_sequence") or 0)
-        ) if current else (None, 0)
-        if current is None or order > current_order:
-            latest_by_event[key] = record
+    latest_by_event = dict(runtime._cached_latest())
 
     # Validate the complete publish set before the first append. Expected stale
     # or malformed post-kickoff rows are withheld per game; a timestamp rollback
@@ -676,8 +665,12 @@ def _settle_live_market_results_locked(live_odds: dict, runtime: PredictionRunti
                 key = (event_id(game), selection_id(game, option), offer_id(game, option))
                 candidates.setdefault(key, []).append((
                     "void" if void else "hit" if index == winner else "miss", row, round_no))
+    # All outcomes below require an exact official product in this feed. Keep
+    # full-chain verification, but do not expand historical display records for
+    # fixtures that cannot possibly settle during this cycle.
+    events = {event for event, _selection, _offer in candidates}
     pending = []
-    for event, record in runtime.ui_records().items():
+    for event, record in runtime.ui_records(events=events).items():
         key = (event, record.get("selection_id"), record.get("offer_id"))
         matches = candidates.get(key, [])
         if len(matches) != 1:
@@ -699,7 +692,7 @@ def _settle_live_market_results_locked(live_odds: dict, runtime: PredictionRunti
     import math
     indexed={entry['event_id']:entry for entry in pending}
     from multi_market_recommendations import result_for_offer
-    for event, record in runtime.market_records().items():
+    for event, record in runtime.market_records(events=events).items():
         grades = dict(record.get('market_recommendation_results') or {})
         source = None
         for item in record['market_recommendations']['items']:
@@ -733,7 +726,7 @@ def _settle_live_market_results_locked(live_odds: dict, runtime: PredictionRunti
                         'selection_id': operating.get('selection_id')}, settled_at=observed.isoformat(), source=source)
             indexed[event] = entry; pending.append(entry)
         indexed[event]['outcome']['market_recommendation_results'] = grades
-    for event, record in runtime.featured_records().items():
+    for event, record in runtime.featured_records(events=events).items():
         pick = record["pick"]
         matches = candidates.get((event, pick["selection_id"], pick["offer_id"]), [])
         if len(matches) != 1:
@@ -756,7 +749,7 @@ def _settle_live_market_results_locked(live_odds: dict, runtime: PredictionRunti
             indexed[event] = entry
             pending.append(entry)
         indexed[event]["outcome"]["featured_pick_result"] = grade
-    for event,record in runtime.candidate_records().items():
+    for event,record in runtime.candidate_records(events=events).items():
         outcomes={};official=None;source=None
         for name,arm in record['arms'].items():
             matches=candidates.get((event,arm.get('selection_id'),arm.get('offer_id')),[])
@@ -830,7 +823,13 @@ def refresh_once(live_odds: dict | None = None) -> int:
             records = runtime.ui_records()
             market_records = runtime.market_records()
             from multi_market_recommendations import performance as market_performance
-            document['market_recommendation_performance'] = market_performance(market_records)
+            prediction_performance = performance_index(records)
+            market_summary = market_performance(market_records)
+            summaries_changed = (
+                document.get('prediction_performance') != prediction_performance
+                or document.get('market_recommendation_performance') != market_summary)
+            document['prediction_performance'] = prediction_performance
+            document['market_recommendation_performance'] = market_summary
         from featured_pick import attach as attach_featured
         attached = int(attach_featured(document, runtime.featured_records()))
         for game in [*(document.get("live") or []), *(document.get("past") or [])]:
@@ -843,7 +842,7 @@ def refresh_once(live_odds: dict | None = None) -> int:
                     and game.get("prediction_record") != record):
                 game["prediction_record"] = record
                 attached += 1
-        if not changed and not settled and not attached:
+        if not changed and not settled and not attached and not summaries_changed:
             print("경량 시장 판정 변경 없음")
             return 0
     except (LedgerCorruptionError, LedgerConflictError,
