@@ -188,7 +188,7 @@ export default function Dashboard() {
   }, { stake: 0, settled: 0, profit: 0 });
 
   return (
-    <main className="mx-auto max-w-[1180px] px-5 pb-20">
+    <main className="proodd-workbench mx-auto max-w-[1180px] px-5 pb-20">
       <Nav current="dashboard.html" />
       <header className="market-header">
         <div><h1>내 베팅 대시보드</h1></div>

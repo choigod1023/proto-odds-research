@@ -30,13 +30,15 @@ export default function RecommendationResults({today,data,odds,now=Date.now()}) 
         {sports.map(s => <li key={s.name}>{s.name} · {s.total}건 중 {s.hit}건 적중</li>)}
       </ul>
       <p className="recommendation-result-rules">아래 최근 {result.settled.length}건만 집계한 성적입니다. 전체 적중률이나 인기 경기 순위가 아닙니다.</p>
+      <div className="recommendation-result-columns" aria-hidden="true"><span>종목 · 리그</span><span>경기</span><span>경기 시각 · KST</span><span>결과</span></div>
       <div className="recommendation-result-tiles">
         {result.settled.map(r=><button type="button" key={r.id} className={`recommendation-result-tile is-${r.outcome.state}`}
           aria-haspopup="dialog" onClick={()=>setOpened(r.id)}
           aria-label={`${sportName(r)} ${date(r)} KST ${r.home} 대 ${r.away} ${r.outcome.state==='hit'?'적중':'실패'} 경기정보`}>
-          <span className="recommendation-result-card-heading"><small>{sportName(r)} · {r.league || '리그 정보 없음'}</small><b>{r.outcome.state==='hit'?'적중':'실패'}</b></span>
+          <span className="recommendation-result-competition">{sportName(r)} · {r.league || '리그 정보 없음'}</span>
           <span className="recommendation-result-match">{r.home || '홈팀 정보 없음'} vs {r.away || '원정팀 정보 없음'}</span>
           <time dateTime={new Date(r.kickoff).toISOString()}>{date(r)} KST</time>
+          <span className="recommendation-result-state"><b>{r.outcome.state==='hit'?'적중':'실패'}</b></span>
         </button>)}
       </div>
       <p className="recommendation-result-rules">최근 경기부터 표시 · 칸을 누르면 경기와 당시 추천을 확인할 수 있어요.</p>
