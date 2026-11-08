@@ -1,6 +1,6 @@
 import unittest
 import tempfile, pathlib, json, hashlib
-from scripts.audit_nba_shots import classify, geom, box_counts, read_checked
+from scripts.audit_nba_shots import classify, geom, box_counts, read_checked, period_score_check
 
 class ShotAuditTests(unittest.TestCase):
     def test_missed_three_uses_attempt_not_score(self):
@@ -29,6 +29,11 @@ class ShotAuditTests(unittest.TestCase):
             self.assertTrue(ok)
             (root/'401.unavailable.body').write_bytes(b'corrupt')
             self.assertFalse(read_checked(receipt)[2])
+    def test_period_score_with_three_and_overtime(self):
+        periods={1:{'fgm':10,'threem':4,'ftm':6},2:{'fgm':2,'threem':1,'ftm':1}}
+        self.assertTrue(period_score_check(periods,[{'displayValue':'30'},{'displayValue':'6'}])[0])
+        self.assertFalse(period_score_check(periods,[{'displayValue':'29'},{'displayValue':'6'}])[0])
+        self.assertFalse(period_score_check(periods,[])[0])
     def test_box_requires_all_metrics(self):
         self.assertIsNone(box_counts({'statistics':[]}))
 
