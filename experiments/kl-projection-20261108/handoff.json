@@ -1,0 +1,15 @@
+{
+  "branch": "codex/kl-information-projection-20261108",
+  "research_commit": "7a2dc501",
+  "main_merge_commit": "1d9bb605",
+  "pull_request": "https://github.com/choigod1023/proto-odds-research/pull/639",
+  "status": "draft; not merged or deployed",
+  "report": "experiments/kl-projection-20261108/README.md",
+  "execution": "experiments/kl-projection-20261108/run.py",
+  "predictions": "experiments/kl-projection-20261108/predictions.json",
+  "summary": "experiments/kl-projection-20261108/summary.json",
+  "uncertainty": "experiments/kl-projection-20261108/uncertainty.json",
+  "tests": "python -m pytest -q experiments/kl-projection-20261108/test_run.py: 2 passed after main merge",
+  "conclusion": "1491 retrospective K League matches; 2025-2026 subset n=563. Uncertainty intervals include zero. No proven pregame receipt, execution or future profit. No operating model adoption.",
+  "limitations": "Historical period reused; original 893-study overlap not quantified; NBA/KBO not evaluated; original price archive required for reproduction."
+}
