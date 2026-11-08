@@ -181,7 +181,7 @@ def announcement_games() -> list[dict]:
     mapping, games = _team_map(), {}
     try:
         if database_enabled():
-            rows = RuntimeDatabase().events("starter_announcements")
+            rows = RuntimeDatabase().starter_display_events()
         else:
             with ANNOUNCEMENTS.open(newline="", encoding="utf-8") as f:
                 rows = list(csv.DictReader(f))

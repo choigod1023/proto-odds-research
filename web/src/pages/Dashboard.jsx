@@ -9,25 +9,13 @@ import { appendProbabilityHistory, estimateLiveProbability, groupBetTickets, rec
 import { usePolledData } from "../lib/poll.js";
 
 import { apiUrl } from '../lib/api-origin.js';
-const LIVE_URL = apiUrl('/api/live-scores');
+import { SCORES_URL, LEGACY_SCORES_URL } from '../lib/live-feed-views.js';
 const PICKS_URL = apiUrl('/api/picks');
 const pct = (value) => Number.isFinite(value) ? `${(value * 100).toFixed(1)}%` : "–";
 const money = (value) => `${Math.round(value).toLocaleString("ko-KR")}원`;
 
 function useLiveScores() {
-  const [data, setData] = useState(null);
-  useEffect(() => {
-    let stopped = false;
-    const load = () => fetch(`${LIVE_URL}?${Date.now()}`, {
-      cache: "no-store",
-      headers: { "Cache-Control": "no-cache" },
-    }).then((response) => response.ok ? response.json() : null)
-      .then((value) => { if (!stopped && value) setData(value); }).catch(() => {});
-    load();
-    const timer = setInterval(load, 15000);
-    return () => { stopped = true; clearInterval(timer); };
-  }, []);
-  return data;
+  return usePolledData({ live: SCORES_URL }, 15000, { fallbacks: { live: LEGACY_SCORES_URL } }).data.live;
 }
 
 function liveIndex(data) {
