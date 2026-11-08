@@ -1,0 +1,47 @@
+{
+  "strict_confirmed_lineup_status": "blocked_no_verified_pre_tipoff_lineup",
+  "strict_coverage": {
+    "target_games": 1260,
+    "strict_verified_pregame_lineup_games": 0,
+    "target_summary_received_after_kst_date_start": 1260,
+    "target_summary_receipt_missing": 0,
+    "target_summary_404_receipts": 4,
+    "reason": "No separately preserved timestamped pregame confirmed lineup evidence was identified; postgame box cannot establish pregame availability. Date start is conservative bound, not scheduled-tipoff cutoff.",
+    "proxy_roster_minutes": "not constructed; historical rows only",
+    "official_sources": [
+      "https://official.nba.com/nba-board-of-governors-approves-clarification-of-rule-governing-traveling-violations/",
+      "https://www.nba.com/players/todays-lineups?hidenav=true",
+      "https://official.nba.com/nba-injury-report-2026-27-season"
+    ]
+  },
+  "input_manifest_sha256": "2e49b122f8b915a8315d53a0cc99ccf9603ef4338b52c343c07d15070fdc1811",
+  "input_sha256": {
+    "player_games.jsonl.gz": "89767e94af2328bfdb3d1894b8485c417c6bca445f6f4271518977b748ac0403",
+    "team_audit.jsonl.gz": "e881863369e6930a4705535898e160bf1b0e57f260a3f3f2b14d177ba68262f1",
+    "games.jsonl.gz": "1899869c9b8a0cff51e9f2ed7cce57cf08d9a18b51213f46042d9361ebfcd691",
+    "predictions.jsonl.gz": "fd71c7ecfebb88f432cf2c4ea3ff621f993645e5ab7cec8a8df65fceb6a84a75"
+  },
+  "original_pool_games": 1185,
+  "reconciled_source_games": 1069,
+  "source_team_reconciliation_failures": {
+    "team_minutes_or_unattributed": 104,
+    "player_box_mismatch": 22,
+    "player_shots_not_team_totals": 2
+  },
+  "input_coverage": {
+    "scoreboard_valid_games": 2351,
+    "valid_rotation_boxes": 2223
+  },
+  "target_exclusions": {
+    "missing_or_invalid_recent_box": 633
+  },
+  "prior_training_cutoff_note": "no fitted coefficient; all player and league features are as-of target D-4",
+  "scoreboard_duplicate_identical": 0,
+  "scoreboard_conflicts": 0,
+  "cold_minute_fraction_mean": 0.03642329374827759,
+  "prior_price_sha256": "4bf3abf8bb82838ee72975e1ef486a471b357a03ee4d8627808780f046dae51a",
+  "protocol_commits": [
+    "8277a9f9",
+    "95caa270"
+  ]
+}
