@@ -382,6 +382,11 @@ def _clean_odds(text: str) -> float | None:
     return float(m.group(0)) if m else None
 
 
+def clean_market_team(value: str) -> str:
+    text = re.sub(r"^\s*-?\d+(?:\.\d+)?\s+", "", str(value or "").strip())
+    return re.sub(r"\s+-?\d+(?:\.\d+)?\s*$", "", text).strip()
+
+
 def parse_rows(html: str, year: int, rnd: int) -> list[GameRow]:
     soup = BeautifulSoup(html, "html.parser")
     rows: list[GameRow] = []
