@@ -507,14 +507,19 @@ class PredictionRuntime:
         self._remember(result)
         return result
 
-    def candidate_records(self) -> dict[str, dict[str, Any]]:
+    def _latest_for_events(self, events=None):
+        """Project only the requested fixtures from the fully verified index."""
+        return ((event, prediction) for event, prediction in self._cached_latest().items()
+                if events is None or event in events)
+
+    def candidate_records(self, *, events=None) -> dict[str, dict[str, Any]]:
         """Tiny projection from the already verified cache, including abstains.
 
         Only timely prospective learned forecasts qualify. No second ledger
         load, result lookup, historical feature rebuild or wallet write occurs.
         """
         result={}
-        for event,prediction in self._cached_latest().items():
+        for event,prediction in self._latest_for_events(events):
             comp=(prediction.get('features') or {}).get('model_comparison') or {}
             arms={n:a for n,a in (comp.get('learned_candidates') or {}).items()
                   if isinstance(a,Mapping) and a.get('status')=='available'}
@@ -560,10 +565,10 @@ class PredictionRuntime:
             self._remember(result)
         return results
 
-    def featured_records(self) -> dict[str, dict[str, Any]]:
+    def featured_records(self, *, events=None) -> dict[str, dict[str, Any]]:
         settlements = self._cached_settlements()
         result = {}
-        for event, prediction in self._cached_latest().items():
+        for event, prediction in self._latest_for_events(events):
             pick = (prediction.get("predictions") or {}).get("featured_pick") or {}
             if pick.get("version") != FEATURED_VERSION:
                 continue
@@ -579,12 +584,11 @@ class PredictionRuntime:
                                  settled_at=settlement.get("settled_at"))
         return result
 
-    def market_records(self) -> dict[str, dict[str, Any]]:
+    def market_records(self, *, events=None) -> dict[str, dict[str, Any]]:
         """Independent actual market recommendations, including winner abstains."""
-        records = self._cached_records()
-        settlements = {r['snapshot_id']: r for r in records if r.get('record_type') == 'settlement'}
+        settlements = self._cached_settlements()
         result = {}
-        for event, prediction in self._cached_latest().items():
+        for event, prediction in self._latest_for_events(events):
             payload = prediction.get('predictions') or {}
             markets = payload.get('market_recommendations') or {}
             if markets.get('version') != 'multi-market-recommendations-v1' or not markets.get('items'):
@@ -607,15 +611,10 @@ class PredictionRuntime:
                 'settled_at': (settlements.get(prediction['snapshot_id']) or {}).get('settled_at')}
         return result
 
-    def ui_records(self) -> dict[str, dict[str, Any]]:
-        records = self.records()
-        latest = _latest_predictions(records)
-        settlements: dict[str, dict[str, Any]] = {}
-        for row in records:
-            if row.get("record_type") == "settlement":
-                settlements[row["snapshot_id"]] = row
+    def ui_records(self, *, events=None) -> dict[str, dict[str, Any]]:
+        settlements = self._cached_settlements()
         result: dict[str, dict[str, Any]] = {}
-        for event_id, prediction in latest.items():
+        for event_id, prediction in self._latest_for_events(events):
             payload = prediction.get("predictions") or {}
             if payload.get("action") != "market_reference":
                 continue
