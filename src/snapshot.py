@@ -7,7 +7,7 @@
 ----
 1. 아직 정산되지 않은('경기전'이 남아 있는) 회차를 자동 탐지
 2. 각 회차의 전 게임행 배당을 타임스탬프와 함께 DB에 누적
-3. 직전 스냅샷과 배당이 달라진 행만 골라 변동 로그에 기록
+3. 직전 스냅샷과 배당·기준점이 달라진 행을 변동 로그에 기록
 
 개발 환경 산출물 (운영에서는 DB만 사용)
 ------
@@ -25,6 +25,8 @@ import csv
 import gzip
 import hashlib
 import json
+import re
+from decimal import Decimal
 import sys
 import tempfile
 import time
@@ -211,22 +213,23 @@ def _fetch_observation(sess, year: int, rnd: int, seq: str | None = None):
     return rows, received, body
 
 
-def _load_last(year: int | None = None, rnd: int | None = None) -> dict[tuple, str]:
-    """직전 스냅샷의 (회차,경기번호) → 배당문자열"""
-    last: dict[tuple, str] = {}
+def _load_last(year: int | None = None, rnd: int | None = None, *, include_terms=False) -> dict:
+    """Load latest terms too; retain the legacy price-only return by default."""
+    last = {}
     if database_enabled():
         connection = RuntimeDatabase().connect()
         try:
             where = "WHERE season=? AND round=?" if year is not None and rnd is not None else ""
             params = (year, rnd) if where else ()
             rows = connection.execute(
-                f"""SELECT o.season,o.round,o.game_no,o.odds_json FROM odds_snapshots o
+                f"""SELECT o.* FROM odds_snapshots o
                     JOIN (SELECT season,round,game_no,MAX(observed_at) observed_at
                           FROM odds_snapshots {where} GROUP BY season,round,game_no) latest
                     USING (season,round,game_no,observed_at)""", params)
             for row in rows:
                 odds = ",".join(f"{float(value):.2f}" for value in json.loads(row["odds_json"]))
-                last[(str(row["season"]), str(row["round"]), str(row["game_no"]))] = odds
+                record = dict(row, year=row['season'], odds=odds)
+                last[(str(row["season"]), str(row["round"]), str(row["game_no"]))] = record if include_terms else odds
         finally:
             connection.close()
         return last
@@ -240,8 +243,32 @@ def _load_last(year: int | None = None, rnd: int | None = None) -> dict[tuple, s
             continue
         with p.open(newline="", encoding="utf-8") as f:
             for row in csv.DictReader(f):
-                last[(row["year"], row["round"], row["game_no"])] = row["odds"]
+                last[(row["year"], row["round"], row["game_no"])] = row if include_terms else row["odds"]
     return last
+
+
+def _snapshot_change(previous: dict | None, current: dict) -> dict | None:
+    """Do not mistake a reused number for a move in the same physical product."""
+    identity = ('year', 'round', 'game_no', 'sport', 'league', 'home', 'away',
+                'date_text', 'market_family', 'n_way')
+    if previous is None or any(str(previous.get(k) or '') != str(current.get(k) or '') for k in identity):
+        return None
+    price_changed = previous['odds'] != current['odds']
+    line_changed = False
+    if current['market_family'] in {'핸디캡', '언더오버', '전반핸디캡', '전반언더오버'}:
+        def line(record):
+            label = str(record.get('market_label') or '')
+            number = re.search(r'[-+]?\d+(?:\.\d+)?', label)
+            return Decimal(number[0]) if number else None
+        old_line, new_line = line(previous), line(current)
+        line_changed = old_line is not None and new_line is not None and old_line != new_line
+    if not price_changed and not line_changed:
+        return None
+    return dict(current, prev_odds=previous['odds'],
+                prev_market_label=previous.get('market_label') or '',
+                price_changed=price_changed, line_changed=line_changed,
+                change_type='price_and_line' if price_changed and line_changed else
+                            'price' if price_changed else 'line')
 
 
 def _snapshot_record(row, ts):
@@ -289,7 +316,7 @@ def snap(year: int, rounds: list[int], *, kleague_receipts: bool = False) -> int
     n_rows = n_changes = 0
     preview = []
     for rnd in rounds:
-        last = _load_last(year, rnd)
+        last = _load_last(year, rnd, include_terms=True)
         try:
             observation = _fetch_observation(sess, year, rnd)
         except Exception as e:                       # noqa: BLE001
@@ -315,16 +342,19 @@ def snap(year: int, rounds: list[int], *, kleague_receipts: bool = False) -> int
             rec = _snapshot_record(r, ts)
             key = (str(year), str(rnd), r.game_no)
             new_rows.append(rec)
-            prev = last.get(key)
-            if prev is not None and prev != rec["odds"]:
-                changes.append({**rec, "prev_odds": prev})
+            change = _snapshot_change(last.get(key), rec)
+            if change is not None:
+                changes.append(change)
         if database is not None:
             database.insert_odds(new_rows)
             if changes:
                 database.append_events("odds_changes", changes, observed_at_key="ts")
         else:
             _append(ts_file(received), FIELDS, new_rows)
-            _append(CH_FILE, FIELDS + ["prev_odds"], changes)
+            # Existing CSV headers stay compatible; DB events retain richer
+            # previous-label/type metadata. Both full snapshots are preserved.
+            change_fields = FIELDS + ["prev_odds"]
+            _append(CH_FILE, change_fields, [{k: c[k] for k in change_fields} for c in changes])
         league_rows = kleague_snapshot_rows(rows, ts) if kleague_receipts else []
         if league_rows:
             digest = hashlib.sha256(body).hexdigest()
@@ -344,11 +374,12 @@ def snap(year: int, rounds: list[int], *, kleague_receipts: bool = False) -> int
         preview.extend(changes[:max(0, 15 - len(preview))])
         time.sleep(REQUEST_GAP)
 
-    print(f"[{_now()}] 스냅샷 {n_rows}행 · 배당변동 {n_changes}건", flush=True)
+    print(f"[{_now()}] 스냅샷 {n_rows}행 · 가격/기준점변동 {n_changes}건", flush=True)
     for c in preview:
         print(f"    변동 {c['round']}-{c['game_no']} {c['league']} "
               f"{c['home']}/{c['away']} {c['market_family']}: "
-              f"{c['prev_odds']} → {c['odds']}", flush=True)
+              f"{c['prev_market_label']} → {c['market_label']} · "
+              f"{c['prev_odds']} → {c['odds']} ({c['change_type']})", flush=True)
     return n_changes
 
 
