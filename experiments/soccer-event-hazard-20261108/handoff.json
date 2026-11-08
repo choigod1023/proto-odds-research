@@ -1,0 +1,11 @@
+{
+  "branch": "codex/soccer-event-hazard-20261108",
+  "research_commit": "0c5ede77",
+  "pull_request": "https://github.com/choigod1023/proto-odds-research/pull/650",
+  "path": "experiments/soccer-event-hazard-20261108",
+  "tests": "python -m unittest discover -s experiments/soccer-event-hazard-20261108 -p test_*.py -v (4 passed)",
+  "actual_scope": "2015-16 EPL retrospective 380 matches; 112 frozen holdout; StatsBomb shot sequence and score/red-card simulated path against Poisson; no prices and no operating M0",
+  "conclusion": "All three models 57/112 correct; 0 price matches; player contribution, K League, price/ROI evaluation and paper reproduction remain incomplete",
+  "merge": "not merged",
+  "deployment": "not deployed"
+}
