@@ -18,7 +18,7 @@
   "tests": [
     "python -X utf8 -m unittest discover -s tests -p test_kbo_pitching_evidence_20261108c.py -v: 4 passed",
     "git diff --check",
-    "python -X utf8 -m unittest discover -s tests -p test_kbo_pitch*20261108c.py -v: 8 passed including preserved raw archive"
+    "python -X utf8 -m unittest discover -s tests -p test_kbo_pitch*20261108c.py -v: 9 passed including preserved raw archive and exact T-30 boundary"
   ],
   "limits": [
     "26 retrospective matched 2026 games, previously inspected",

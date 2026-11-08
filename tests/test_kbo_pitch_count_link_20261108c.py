@@ -17,7 +17,10 @@ class PitchCountLinkTest(unittest.TestCase):
   box={'tables':[{}, {}, {},table,table]};g={'AWAY_ID':'A','HOME_ID':'H','AWAY_NM':'a','HOME_NM':'h','SEASON_ID':2026};n={'covered_player_teams':['A'],'pitchers':{}}
   def unresolved(*args,**kwargs):raise m.official.SourceError('retired_last_season_unavailable')
   rows,reasons=m.rows_from_box(box,g,n,{},unresolved,[]);self.assertEqual(rows,[]);self.assertEqual(reasons,{'unresolved_identity':1})
+ def test_exact_t30_rejected_without_reading(self):
+  capture={'frozen_at':'2026-11-07T04:30:00+00:00','input':{'event':{'kickoff_at':'2026-11-07T05:00:00+00:00'}}}
+  with self.assertRaisesRegex(ValueError,'capture_at_or_after_t30'):m.extract_capture(capture)
  def test_late_capture_rejected_without_reading(self):
   capture={'frozen_at':'2026-11-07T04:31:00+00:00','input':{'event':{'kickoff_at':'2026-11-07T05:00:00+00:00'}}}
-  with self.assertRaisesRegex(ValueError,'capture_after_t30'):m.extract_capture(capture)
+  with self.assertRaisesRegex(ValueError,'capture_at_or_after_t30'):m.extract_capture(capture)
 if __name__=='__main__':unittest.main()

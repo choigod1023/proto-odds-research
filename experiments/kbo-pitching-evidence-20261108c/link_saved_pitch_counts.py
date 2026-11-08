@@ -44,7 +44,7 @@ def rows_from_box(box, source_game, normalized, box_receipt, resolver, receipts)
 
 def extract_capture(c,state=STATE):
     payload=c['input'];frozen=datetime.fromisoformat(c['frozen_at']);kickoff=datetime.fromisoformat(payload['event']['kickoff_at']);
-    if frozen>kickoff-timedelta(minutes=30):raise ValueError('capture_after_t30')
+    if frozen>=kickoff-timedelta(minutes=30):raise ValueError('capture_at_or_after_t30')
     root=state/'official';_verify_archives(payload,root,frozen)
     ref=payload['evidence']['history']['body'];bundle=json.loads(gzip.decompress((root/ref['relative_file']).read_bytes())); responses=bundle['responses'];history=bundle['normalized_history'];receipts=[r['receipt'] for r in responses]
     client=official.OfficialClient.__new__(official.OfficialClient);client.root=root
