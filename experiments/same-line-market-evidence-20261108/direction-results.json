@@ -1,0 +1,6972 @@
+{
+  "scope": "retrospective, stored history capped at 50; first retained is not necessarily opening; HTTP receipt and execution unproven",
+  "counts": {
+    "fixture_rows": 3314,
+    "unique_exact_fixture_result": 2940,
+    "unique_record_selection": 1991,
+    "two_way_complete_options": 1102,
+    "record_hit_or_miss": 1063,
+    "two_pre_t30_observations": 236,
+    "same_line_complete_history": 226,
+    "direction_order_witness": 220,
+    "non_tied": 214
+  },
+  "fixed_pick_probability_metrics": {
+    "record_odds_n": 210,
+    "fixed_pick_wins": 111,
+    "record_price_realized_roi": -0.18723809523809523,
+    "n": 210,
+    "logloss": [
+      0.6816089470799407,
+      0.6756409851258613
+    ],
+    "brier": [
+      0.24452142637544974,
+      0.24178109859542904
+    ]
+  },
+  "time_split_first_half": {
+    "n": 107,
+    "first_wins": 53,
+    "last_wins": 57,
+    "win_to_loss": 6,
+    "loss_to_win": 10,
+    "additional_wins": 4,
+    "hit_rate_difference_pp": 3.7383177570093458,
+    "profit_units": [
+      -21.15,
+      -15.82
+    ],
+    "roi": [
+      -0.19766355140186914,
+      -0.14785046728971962
+    ],
+    "max_drawdown_units": [
+      21.909999999999993,
+      18.269999999999996
+    ]
+  },
+  "time_split_second_half": {
+    "n": 107,
+    "first_wins": 65,
+    "last_wins": 64,
+    "win_to_loss": 7,
+    "loss_to_win": 6,
+    "additional_wins": -1,
+    "hit_rate_difference_pp": -0.9345794392523364,
+    "profit_units": [
+      -11.219999999999999,
+      -14.299999999999999
+    ],
+    "roi": [
+      -0.10485981308411214,
+      -0.1336448598130841
+    ],
+    "max_drawdown_units": [
+      14.92,
+      15.159999999999998
+    ]
+  },
+  "changed_day_blocks": 16,
+  "changed_day_bootstrap_95_hit_difference_pp": [
+    -20.0,
+    46.15384615384615
+  ],
+  "total": {
+    "n": 214,
+    "first_wins": 118,
+    "last_wins": 121,
+    "win_to_loss": 13,
+    "loss_to_win": 16,
+    "additional_wins": 3,
+    "hit_rate_difference_pp": 1.4018691588785046,
+    "profit_units": [
+      -32.37,
+      -30.119999999999997
+    ],
+    "roi": [
+      -0.15126168224299064,
+      -0.14074766355140186
+    ],
+    "max_drawdown_units": [
+      33.80999999999998,
+      32.94999999999999
+    ]
+  },
+  "changed": {
+    "n": 29,
+    "first_wins": 13,
+    "last_wins": 16,
+    "win_to_loss": 13,
+    "loss_to_win": 16,
+    "additional_wins": 3,
+    "hit_rate_difference_pp": 10.344827586206897,
+    "profit_units": [
+      -4.52,
+      -2.2700000000000005
+    ],
+    "roi": [
+      -0.15586206896551721,
+      -0.07827586206896553
+    ],
+    "max_drawdown_units": [
+      5.589999999999999,
+      5.71
+    ]
+  },
+  "day_blocks": 43,
+  "paired_day_bootstrap_95_hit_difference_pp": [
+    -2.7777777777777777,
+    6.043956043956044
+  ],
+  "candidates": [
+    {
+      "round": 104,
+      "kickoff": "2026-09-03T09:00:00.000000Z",
+      "first_time": "2026-09-03T07:10:45+00:00",
+      "last_time": "2026-09-03T07:41:48+00:00",
+      "first_odds": [
+        1.71,
+        1.81
+      ],
+      "last_odds": [
+        1.66,
+        1.87
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-09-03",
+      "game_no": "8633",
+      "market": "언더오버",
+      "label": "U 8.5",
+      "fixed_pick": 0,
+      "record_odds": 1.66,
+      "record_captured_at": "2026-09-03T07:51:11.684234Z",
+      "fixture_key": [
+        104,
+        "bs",
+        "NPB",
+        "야쿠르트",
+        "한신",
+        "09.03(목) 18:00"
+      ]
+    },
+    {
+      "round": 104,
+      "kickoff": "2026-09-03T09:30:00.000000Z",
+      "first_time": "2026-09-03T07:10:45+00:00",
+      "last_time": "2026-09-03T08:08:19+00:00",
+      "first_odds": [
+        2.26,
+        1.44
+      ],
+      "last_odds": [
+        2.11,
+        1.51
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-09-03",
+      "game_no": "8646",
+      "market": "전반핸디캡",
+      "label": "h H -1.5",
+      "fixed_pick": 1,
+      "record_odds": 1.51,
+      "record_captured_at": "2026-09-03T08:09:43.363732Z",
+      "fixture_key": [
+        104,
+        "bs",
+        "KBO",
+        "두산",
+        "LG",
+        "09.03(목) 18:30"
+      ]
+    },
+    {
+      "round": 104,
+      "kickoff": "2026-09-03T18:45:00.000000Z",
+      "first_time": "2026-09-01T23:01:31+00:00",
+      "last_time": "2026-09-03T10:53:46+00:00",
+      "first_odds": [
+        1.66,
+        1.87
+      ],
+      "last_odds": [
+        1.74,
+        1.78
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-09-03",
+      "game_no": "8698",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 0,
+      "record_odds": 1.74,
+      "record_captured_at": "2026-09-03T10:55:05.451495Z",
+      "fixture_key": [
+        104,
+        "sc",
+        "프리그1",
+        "툴루즈",
+        "릴OSC",
+        "09.04(금) 03:45"
+      ]
+    },
+    {
+      "round": 105,
+      "kickoff": "2026-09-04T10:30:00.000000Z",
+      "first_time": "2026-09-04T08:10:14+00:00",
+      "last_time": "2026-09-04T09:41:24+00:00",
+      "first_odds": [
+        1.89,
+        1.65
+      ],
+      "last_odds": [
+        1.99,
+        1.58
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-09-04",
+      "game_no": "8817",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.58,
+      "record_captured_at": "2026-09-04T09:42:48.221616Z",
+      "fixture_key": [
+        105,
+        "sc",
+        "K리그2",
+        "충북청주",
+        "서울이랜",
+        "09.04(금) 19:30"
+      ]
+    },
+    {
+      "round": 105,
+      "kickoff": "2026-09-04T15:45:00.000000Z",
+      "first_time": "2026-09-04T08:10:14+00:00",
+      "last_time": "2026-09-04T10:22:58+00:00",
+      "first_odds": [
+        1.77,
+        1.75
+      ],
+      "last_odds": [
+        1.72,
+        1.8
+      ],
+      "first_pick": 1,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-09-04",
+      "game_no": "8836",
+      "market": "핸디캡",
+      "label": "H -7.5",
+      "fixed_pick": 0,
+      "record_odds": 1.72,
+      "record_captured_at": "2026-09-04T14:11:54.537595Z",
+      "fixture_key": [
+        105,
+        "bk",
+        "여농월드",
+        "스페인W",
+        "독일W",
+        "09.05(토) 00:45"
+      ]
+    },
+    {
+      "round": 110,
+      "kickoff": "2026-09-16T09:30:00.000000Z",
+      "first_time": "2026-09-15T23:10:56+00:00",
+      "last_time": "2026-09-16T08:45:36+00:00",
+      "first_odds": [
+        1.82,
+        1.7
+      ],
+      "last_odds": [
+        1.77,
+        1.75
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-09-16",
+      "game_no": "2131",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 1,
+      "record_odds": 1.7,
+      "record_captured_at": "2026-09-15T23:15:01.446375Z",
+      "fixture_key": [
+        110,
+        "bs",
+        "KBO",
+        "NC",
+        "LG",
+        "09.16(수) 18:30"
+      ]
+    },
+    {
+      "round": 110,
+      "kickoff": "2026-09-16T10:00:00.000000Z",
+      "first_time": "2026-09-15T23:10:56+00:00",
+      "last_time": "2026-09-16T08:26:17+00:00",
+      "first_odds": [
+        1.7,
+        1.82
+      ],
+      "last_odds": [
+        1.87,
+        1.66
+      ],
+      "first_pick": 0,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-09-16",
+      "game_no": "2149",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 0,
+      "record_odds": 1.7,
+      "record_captured_at": "2026-09-15T23:15:01.917256Z",
+      "fixture_key": [
+        110,
+        "sc",
+        "ACL2",
+        "FC서울",
+        "페르반둥",
+        "09.16(수) 19:00"
+      ]
+    },
+    {
+      "round": 111,
+      "kickoff": "2026-09-18T09:00:00.000000Z",
+      "first_time": "2026-09-17T23:13:57+00:00",
+      "last_time": "2026-09-18T08:19:27+00:00",
+      "first_odds": [
+        1.63,
+        1.91
+      ],
+      "last_odds": [
+        1.58,
+        1.99
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-09-18",
+      "game_no": "2671",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.63,
+      "record_captured_at": "2026-09-17T23:17:36.388129Z",
+      "fixture_key": [
+        111,
+        "bs",
+        "NPB",
+        "요코베이",
+        "야쿠르트",
+        "09.18(금) 18:00"
+      ]
+    },
+    {
+      "round": 111,
+      "kickoff": "2026-09-19T05:00:00.000000Z",
+      "first_time": "2026-09-18T22:44:55+00:00",
+      "last_time": "2026-09-19T03:52:22+00:00",
+      "first_odds": [
+        1.63,
+        1.91
+      ],
+      "last_odds": [
+        1.58,
+        1.99
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-09-19",
+      "game_no": "2856",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.63,
+      "record_captured_at": "2026-09-18T23:31:13.293701Z",
+      "fixture_key": [
+        111,
+        "bs",
+        "NPB",
+        "요미우리",
+        "주니치",
+        "09.19(토) 14:00"
+      ]
+    },
+    {
+      "round": 111,
+      "kickoff": "2026-09-19T05:00:00.000000Z",
+      "first_time": "2026-09-18T22:44:55+00:00",
+      "last_time": "2026-09-19T03:52:22+00:00",
+      "first_odds": [
+        2.05,
+        1.54
+      ],
+      "last_odds": [
+        2.13,
+        1.5
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-09-19",
+      "game_no": "2866",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 1,
+      "record_odds": 1.54,
+      "record_captured_at": "2026-09-18T23:31:13.931723Z",
+      "fixture_key": [
+        111,
+        "bs",
+        "NPB",
+        "라쿠텐",
+        "소프트뱅",
+        "09.19(토) 14:00"
+      ]
+    },
+    {
+      "round": 111,
+      "kickoff": "2026-09-19T09:00:00.000000Z",
+      "first_time": "2026-09-17T23:13:57+00:00",
+      "last_time": "2026-09-19T07:58:47+00:00",
+      "first_odds": [
+        2.05,
+        1.54
+      ],
+      "last_odds": [
+        2.13,
+        1.5
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-09-19",
+      "game_no": "2921",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.54,
+      "record_captured_at": "2026-09-17T23:17:40.061568Z",
+      "fixture_key": [
+        111,
+        "sc",
+        "J1리그",
+        "가와사키",
+        "가시마A",
+        "09.19(토) 18:00"
+      ]
+    },
+    {
+      "round": 111,
+      "kickoff": "2026-09-20T04:50:00.000000Z",
+      "first_time": "2026-09-19T22:58:44+00:00",
+      "last_time": "2026-09-20T04:11:08+00:00",
+      "first_odds": [
+        1.79,
+        1.73
+      ],
+      "last_odds": [
+        1.85,
+        1.68
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-09-20",
+      "game_no": "3317",
+      "market": "핸디캡",
+      "label": "H +57.5",
+      "fixed_pick": 1,
+      "record_odds": 1.73,
+      "record_captured_at": "2026-09-20T00:02:23.423397Z",
+      "fixture_key": [
+        111,
+        "bk",
+        "AG여농",
+        "카자흐W",
+        "일본W",
+        "09.20(일) 13:50"
+      ]
+    },
+    {
+      "round": 111,
+      "kickoff": "2026-09-20T05:00:00.000000Z",
+      "first_time": "2026-09-19T22:58:44+00:00",
+      "last_time": "2026-09-20T04:11:08+00:00",
+      "first_odds": [
+        2.04,
+        1.55
+      ],
+      "last_odds": [
+        1.96,
+        1.6
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-09-20",
+      "game_no": "3350",
+      "market": "핸디캡",
+      "label": "H -2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.55,
+      "record_captured_at": "2026-09-20T00:02:24.064163Z",
+      "fixture_key": [
+        111,
+        "bs",
+        "KBO",
+        "KT",
+        "두산",
+        "09.20(일) 14:00"
+      ]
+    },
+    {
+      "round": 111,
+      "kickoff": "2026-09-20T07:00:00.000000Z",
+      "first_time": "2026-09-19T22:58:44+00:00",
+      "last_time": "2026-09-20T04:11:08+00:00",
+      "first_odds": [
+        1.99,
+        1.58
+      ],
+      "last_odds": [
+        2.07,
+        1.53
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-09-20",
+      "game_no": "3388",
+      "market": "핸디캡",
+      "label": "H +2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.58,
+      "record_captured_at": "2026-09-20T00:02:24.383072Z",
+      "fixture_key": [
+        111,
+        "vl",
+        "AG여배",
+        "카자흐W",
+        "한국W",
+        "09.20(일) 16:00"
+      ]
+    },
+    {
+      "round": 111,
+      "kickoff": "2026-09-20T10:30:00.000000Z",
+      "first_time": "2026-09-18T22:12:09+00:00",
+      "last_time": "2026-09-20T08:06:27+00:00",
+      "first_odds": [
+        1.75,
+        1.77
+      ],
+      "last_odds": [
+        1.8,
+        1.72
+      ],
+      "first_pick": 0,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-09-20",
+      "game_no": "3492",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 0,
+      "record_odds": 1.75,
+      "record_captured_at": "2026-09-18T22:14:17.931365Z",
+      "fixture_key": [
+        111,
+        "sc",
+        "AG남축",
+        "키르기M",
+        "일본M",
+        "09.20(일) 19:30"
+      ]
+    },
+    {
+      "round": 111,
+      "kickoff": "2026-09-20T18:35:00.000000Z",
+      "first_time": "2026-09-20T06:39:09+00:00",
+      "last_time": "2026-09-20T07:28:09+00:00",
+      "first_odds": [
+        1.61,
+        1.94
+      ],
+      "last_odds": [
+        1.56,
+        2.02
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-09-20",
+      "game_no": "3636",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.56,
+      "record_captured_at": "2026-09-20T07:32:10.680881Z",
+      "fixture_key": [
+        111,
+        "bs",
+        "MLB",
+        "텍사레인",
+        "토론블루",
+        "09.21(월) 03:35"
+      ]
+    },
+    {
+      "round": 112,
+      "kickoff": "2026-09-21T04:00:00.000000Z",
+      "first_time": "2026-09-20T23:15:55+00:00",
+      "last_time": "2026-09-21T03:00:42+00:00",
+      "first_odds": [
+        1.75,
+        1.77
+      ],
+      "last_odds": [
+        1.7,
+        1.82
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-09-21",
+      "game_no": "3705",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.75,
+      "record_captured_at": "2026-09-21T00:38:25.896192Z",
+      "fixture_key": [
+        112,
+        "vl",
+        "AG여배",
+        "대만W",
+        "카자흐W",
+        "09.21(월) 13:00"
+      ]
+    },
+    {
+      "round": 112,
+      "kickoff": "2026-09-21T05:00:00.000000Z",
+      "first_time": "2026-09-20T23:15:55+00:00",
+      "last_time": "2026-09-21T03:51:23+00:00",
+      "first_odds": [
+        1.65,
+        1.89
+      ],
+      "last_odds": [
+        1.7,
+        1.82
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-09-21",
+      "game_no": "3717",
+      "market": "언더오버",
+      "label": "U 6.5",
+      "fixed_pick": 0,
+      "record_odds": 1.65,
+      "record_captured_at": "2026-09-21T00:38:26.691536Z",
+      "fixture_key": [
+        112,
+        "bs",
+        "NPB",
+        "한신",
+        "요코베이",
+        "09.21(월) 14:00"
+      ]
+    },
+    {
+      "round": 112,
+      "kickoff": "2026-09-21T07:00:00.000000Z",
+      "first_time": "2026-09-20T23:15:55+00:00",
+      "last_time": "2026-09-20T23:38:40+00:00",
+      "first_odds": [
+        2.15,
+        1.49
+      ],
+      "last_odds": [
+        2.02,
+        1.56
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-09-21",
+      "game_no": "3726",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.56,
+      "record_captured_at": "2026-09-21T00:38:24.853282Z",
+      "fixture_key": [
+        112,
+        "sc",
+        "AG여축",
+        "방글라W",
+        "미얀마W",
+        "09.21(월) 16:00"
+      ]
+    },
+    {
+      "round": 112,
+      "kickoff": "2026-09-21T07:00:00.000000Z",
+      "first_time": "2026-09-20T23:15:55+00:00",
+      "last_time": "2026-09-21T04:49:58+00:00",
+      "first_odds": [
+        1.56,
+        2.02
+      ],
+      "last_odds": [
+        1.65,
+        1.89
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-09-21",
+      "game_no": "3736",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 0,
+      "record_odds": 1.56,
+      "record_captured_at": "2026-09-21T00:38:25.097459Z",
+      "fixture_key": [
+        112,
+        "sc",
+        "AG여축",
+        "중국W",
+        "필리핀W",
+        "09.21(월) 16:00"
+      ]
+    },
+    {
+      "round": 112,
+      "kickoff": "2026-09-21T10:00:00.000000Z",
+      "first_time": "2026-09-21T03:51:23+00:00",
+      "last_time": "2026-09-21T09:00:07+00:00",
+      "first_odds": [
+        1.89,
+        1.65
+      ],
+      "last_odds": [
+        1.82,
+        1.7
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-09-21",
+      "game_no": "3772",
+      "market": "핸디캡",
+      "label": "H -2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.65,
+      "record_captured_at": "2026-09-21T08:36:21.275964Z",
+      "fixture_key": [
+        112,
+        "vl",
+        "AG여배",
+        "필리핀W",
+        "몽골W",
+        "09.21(월) 19:00"
+      ]
+    },
+    {
+      "round": 114,
+      "kickoff": "2026-09-25T09:00:00.000000Z",
+      "first_time": "2026-09-24T23:09:28+00:00",
+      "last_time": "2026-09-25T08:20:33+00:00",
+      "first_odds": [
+        1.65,
+        1.89
+      ],
+      "last_odds": [
+        1.6,
+        1.96
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-09-25",
+      "game_no": "4446",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 0,
+      "record_odds": 1.65,
+      "record_captured_at": "2026-09-24T23:11:02.140517Z",
+      "fixture_key": [
+        114,
+        "sc",
+        "아세안컵",
+        "방글라데",
+        "말레이시",
+        "09.25(금) 18:00"
+      ]
+    },
+    {
+      "round": 115,
+      "kickoff": "2026-09-29T10:00:00.000000Z",
+      "first_time": "2026-09-28T22:06:56+00:00",
+      "last_time": "2026-09-29T08:24:19+00:00",
+      "first_odds": [
+        1.93,
+        1.62
+      ],
+      "last_odds": [
+        1.99,
+        1.58
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-09-29",
+      "game_no": "5484",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.58,
+      "record_captured_at": "2026-09-29T08:59:07.898394Z",
+      "fixture_key": [
+        115,
+        "sc",
+        "일리그컵",
+        "후지에다",
+        "C오사카",
+        "09.29(화) 19:00"
+      ]
+    },
+    {
+      "round": 115,
+      "kickoff": "2026-09-29T10:00:00.000000Z",
+      "first_time": "2026-09-28T22:06:56+00:00",
+      "last_time": "2026-09-29T08:24:19+00:00",
+      "first_odds": [
+        1.6,
+        1.96
+      ],
+      "last_odds": [
+        1.67,
+        1.86
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-09-29",
+      "game_no": "5488",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 0,
+      "record_odds": 1.67,
+      "record_captured_at": "2026-09-29T08:59:07.976604Z",
+      "fixture_key": [
+        115,
+        "sc",
+        "일리그컵",
+        "사간도스",
+        "도쿄베르",
+        "09.29(화) 19:00"
+      ]
+    },
+    {
+      "round": 116,
+      "kickoff": "2026-09-30T01:00:00.000000Z",
+      "first_time": "2026-09-29T23:08:50+00:00",
+      "last_time": "2026-09-29T23:24:25+00:00",
+      "first_odds": [
+        1.71,
+        1.81
+      ],
+      "last_odds": [
+        1.62,
+        1.93
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-09-30",
+      "game_no": "5591",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 0,
+      "record_odds": 1.66,
+      "record_captured_at": "2026-09-28T05:35:37.816218Z",
+      "fixture_key": [
+        116,
+        "sc",
+        "남축INTL",
+        "멕시코",
+        "페루",
+        "09.30(수) 10:00"
+      ]
+    },
+    {
+      "round": 116,
+      "kickoff": "2026-10-01T01:00:00.000000Z",
+      "first_time": "2026-09-30T21:57:05+00:00",
+      "last_time": "2026-10-01T00:07:22+00:00",
+      "first_odds": [
+        2.13,
+        1.5
+      ],
+      "last_odds": [
+        2.22,
+        1.46
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-01",
+      "game_no": "5705",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 1,
+      "record_odds": 1.5,
+      "record_captured_at": "2026-09-30T22:47:21.264085Z",
+      "fixture_key": [
+        116,
+        "vl",
+        "AG남배",
+        "인도M",
+        "파키스M",
+        "10.01(목) 10:00"
+      ]
+    },
+    {
+      "round": 116,
+      "kickoff": "2026-10-01T04:00:00.000000Z",
+      "first_time": "2026-09-30T21:57:05+00:00",
+      "last_time": "2026-10-01T03:03:51+00:00",
+      "first_odds": [
+        1.96,
+        1.6
+      ],
+      "last_odds": [
+        2.56,
+        1.34
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-01",
+      "game_no": "5718",
+      "market": "핸디캡",
+      "label": "H +2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.6,
+      "record_captured_at": "2026-09-30T22:47:24.637423Z",
+      "fixture_key": [
+        116,
+        "vl",
+        "AG남배",
+        "키르기M",
+        "대만M",
+        "10.01(목) 13:00"
+      ]
+    },
+    {
+      "round": 117,
+      "kickoff": "2026-10-02T01:00:00.000000Z",
+      "first_time": "2026-10-01T23:24:11+00:00",
+      "last_time": "2026-10-02T00:12:57+00:00",
+      "first_odds": [
+        1.9,
+        1.64
+      ],
+      "last_odds": [
+        2.13,
+        1.5
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-02",
+      "game_no": "5875",
+      "market": "핸디캡",
+      "label": "H +1.5",
+      "fixed_pick": 1,
+      "record_odds": 1.64,
+      "record_captured_at": "2026-10-01T23:26:34.321853Z",
+      "fixture_key": [
+        117,
+        "vl",
+        "AG남배",
+        "인도M",
+        "한국M",
+        "10.02(금) 10:00"
+      ]
+    },
+    {
+      "round": 117,
+      "kickoff": "2026-10-02T01:00:00.000000Z",
+      "first_time": "2026-10-01T23:24:11+00:00",
+      "last_time": "2026-10-02T00:29:27+00:00",
+      "first_odds": [
+        1.71,
+        1.81
+      ],
+      "last_odds": [
+        1.66,
+        1.87
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-10-02",
+      "game_no": "5879",
+      "market": "핸디캡",
+      "label": "H -1.5",
+      "fixed_pick": 0,
+      "record_odds": 1.71,
+      "record_captured_at": "2026-10-01T23:26:34.560373Z",
+      "fixture_key": [
+        117,
+        "vl",
+        "AG남배",
+        "홍콩M",
+        "키르기M",
+        "10.02(금) 10:00"
+      ]
+    },
+    {
+      "round": 117,
+      "kickoff": "2026-10-02T04:00:00.000000Z",
+      "first_time": "2026-10-01T23:24:11+00:00",
+      "last_time": "2026-10-02T03:29:05+00:00",
+      "first_odds": [
+        1.68,
+        1.85
+      ],
+      "last_odds": [
+        1.73,
+        1.79
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-10-02",
+      "game_no": "5891",
+      "market": "핸디캡",
+      "label": "H +1.5",
+      "fixed_pick": 0,
+      "record_odds": 1.68,
+      "record_captured_at": "2026-10-01T23:26:34.720966Z",
+      "fixture_key": [
+        117,
+        "vl",
+        "AG남배",
+        "카타르M",
+        "태국M",
+        "10.02(금) 13:00"
+      ]
+    },
+    {
+      "round": 117,
+      "kickoff": "2026-10-02T04:00:00.000000Z",
+      "first_time": "2026-10-01T23:24:11+00:00",
+      "last_time": "2026-10-02T01:38:29+00:00",
+      "first_odds": [
+        2.07,
+        1.53
+      ],
+      "last_odds": [
+        2.15,
+        1.49
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-02",
+      "game_no": "5895",
+      "market": "핸디캡",
+      "label": "H +1.5",
+      "fixed_pick": 1,
+      "record_odds": 1.53,
+      "record_captured_at": "2026-10-01T23:26:34.882286Z",
+      "fixture_key": [
+        117,
+        "vl",
+        "AG남배",
+        "우즈벡M",
+        "필리핀M",
+        "10.02(금) 13:00"
+      ]
+    },
+    {
+      "round": 117,
+      "kickoff": "2026-10-02T07:00:00.000000Z",
+      "first_time": "2026-10-01T23:24:11+00:00",
+      "last_time": "2026-10-02T05:36:58+00:00",
+      "first_odds": [
+        2.02,
+        1.56
+      ],
+      "last_odds": [
+        2.11,
+        1.51
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-02",
+      "game_no": "5907",
+      "market": "핸디캡",
+      "label": "H +1.5",
+      "fixed_pick": 1,
+      "record_odds": 1.56,
+      "record_captured_at": "2026-10-01T23:26:35.046572Z",
+      "fixture_key": [
+        117,
+        "vl",
+        "AG남배",
+        "카자흐M",
+        "대만M",
+        "10.02(금) 16:00"
+      ]
+    },
+    {
+      "round": 117,
+      "kickoff": "2026-10-02T09:00:00.000000Z",
+      "first_time": "2026-10-01T23:05:44+00:00",
+      "last_time": "2026-10-02T08:20:53+00:00",
+      "first_odds": [
+        1.71,
+        1.81
+      ],
+      "last_odds": [
+        1.79,
+        1.73
+      ],
+      "first_pick": 0,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-02",
+      "game_no": "5918",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 0,
+      "record_odds": 1.71,
+      "record_captured_at": "2026-10-01T23:08:39.280815Z",
+      "fixture_key": [
+        117,
+        "sc",
+        "FIFA아세",
+        "베트남",
+        "파키스탄",
+        "10.02(금) 18:00"
+      ]
+    },
+    {
+      "round": 117,
+      "kickoff": "2026-10-02T16:00:00.000000Z",
+      "first_time": "2026-10-01T23:05:44+00:00",
+      "last_time": "2026-10-02T08:20:53+00:00",
+      "first_odds": [
+        1.54,
+        2.05
+      ],
+      "last_odds": [
+        1.59,
+        1.97
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-10-02",
+      "game_no": "5966",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 0,
+      "record_odds": 1.59,
+      "record_captured_at": "2026-10-02T15:05:47.246630Z",
+      "fixture_key": [
+        117,
+        "sc",
+        "U네이션",
+        "라트비아",
+        "몬테네그",
+        "10.03(토) 01:00"
+      ]
+    },
+    {
+      "round": 117,
+      "kickoff": "2026-10-02T18:45:00.000000Z",
+      "first_time": "2026-10-01T23:05:44+00:00",
+      "last_time": "2026-10-02T04:49:02+00:00",
+      "first_odds": [
+        1.6,
+        1.96
+      ],
+      "last_odds": [
+        1.5,
+        2.13
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-02",
+      "game_no": "5978",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 0,
+      "record_odds": 1.5,
+      "record_captured_at": "2026-10-02T15:05:47.405308Z",
+      "fixture_key": [
+        117,
+        "sc",
+        "U네이션",
+        "프랑스",
+        "이탈리아",
+        "10.03(토) 03:45"
+      ]
+    },
+    {
+      "round": 117,
+      "kickoff": "2026-10-02T18:45:00.000000Z",
+      "first_time": "2026-10-01T23:05:44+00:00",
+      "last_time": "2026-10-02T05:22:29+00:00",
+      "first_odds": [
+        1.87,
+        1.66
+      ],
+      "last_odds": [
+        2.11,
+        1.51
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-02",
+      "game_no": "5990",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.51,
+      "record_captured_at": "2026-10-02T15:05:47.564525Z",
+      "fixture_key": [
+        117,
+        "sc",
+        "U네이션",
+        "폴란드",
+        "루마니아",
+        "10.03(토) 03:45"
+      ]
+    },
+    {
+      "round": 117,
+      "kickoff": "2026-10-03T00:00:00.000000Z",
+      "first_time": "2026-10-01T23:05:44+00:00",
+      "last_time": "2026-10-02T23:18:37+00:00",
+      "first_odds": [
+        1.61,
+        1.94
+      ],
+      "last_odds": [
+        1.55,
+        2.04
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-03",
+      "game_no": "6010",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 0,
+      "record_odds": 1.55,
+      "record_captured_at": "2026-10-02T23:21:12.945847Z",
+      "fixture_key": [
+        117,
+        "sc",
+        "남축INTL",
+        "콜롬비아",
+        "파라과이",
+        "10.03(토) 09:00"
+      ]
+    },
+    {
+      "round": 117,
+      "kickoff": "2026-10-03T04:00:00.000000Z",
+      "first_time": "2026-10-02T22:29:22+00:00",
+      "last_time": "2026-10-03T03:27:02+00:00",
+      "first_odds": [
+        1.7,
+        1.82
+      ],
+      "last_odds": [
+        1.75,
+        1.77
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-03",
+      "game_no": "6024",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.7,
+      "record_captured_at": "2026-10-03T00:33:17.450493Z",
+      "fixture_key": [
+        117,
+        "vl",
+        "AG남배",
+        "태국M",
+        "인도M",
+        "10.03(토) 13:00"
+      ]
+    },
+    {
+      "round": 117,
+      "kickoff": "2026-10-03T07:30:00.000000Z",
+      "first_time": "2026-10-02T22:46:24+00:00",
+      "last_time": "2026-10-02T23:18:37+00:00",
+      "first_odds": [
+        1.78,
+        1.74
+      ],
+      "last_odds": [
+        1.75,
+        1.77
+      ],
+      "first_pick": 1,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-10-03",
+      "game_no": "6122",
+      "market": "언더오버",
+      "label": "U 159.5",
+      "fixed_pick": 0,
+      "record_odds": 1.75,
+      "record_captured_at": "2026-10-03T00:33:19.209657Z",
+      "fixture_key": [
+        117,
+        "bk",
+        "KBL",
+        "안양정관",
+        "울산모비",
+        "10.03(토) 16:30"
+      ]
+    },
+    {
+      "round": 117,
+      "kickoff": "2026-10-03T08:00:00.000000Z",
+      "first_time": "2026-10-02T22:10:37+00:00",
+      "last_time": "2026-10-03T07:23:15+00:00",
+      "first_odds": [
+        1.59,
+        1.97
+      ],
+      "last_odds": [
+        1.46,
+        2.22
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-10-03",
+      "game_no": "6130",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 0,
+      "record_odds": 1.59,
+      "record_captured_at": "2026-10-02T22:13:16.701826Z",
+      "fixture_key": [
+        117,
+        "sc",
+        "J2리그",
+        "오이타T",
+        "야마가타",
+        "10.03(토) 17:00"
+      ]
+    },
+    {
+      "round": 117,
+      "kickoff": "2026-10-03T09:00:00.000000Z",
+      "first_time": "2026-10-02T22:46:24+00:00",
+      "last_time": "2026-10-03T06:12:24+00:00",
+      "first_odds": [
+        1.58,
+        1.99
+      ],
+      "last_odds": [
+        1.53,
+        2.07
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-10-03",
+      "game_no": "6136",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.53,
+      "record_captured_at": "2026-10-03T06:15:20.466568Z",
+      "fixture_key": [
+        117,
+        "bs",
+        "NPB",
+        "요미우리",
+        "요코베이",
+        "10.03(토) 18:00"
+      ]
+    },
+    {
+      "round": 117,
+      "kickoff": "2026-10-03T10:00:00.000000Z",
+      "first_time": "2026-10-02T22:29:22+00:00",
+      "last_time": "2026-10-03T08:00:00+00:00",
+      "first_odds": [
+        2.11,
+        1.51
+      ],
+      "last_odds": [
+        2.02,
+        1.56
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-03",
+      "game_no": "6165",
+      "market": "핸디캡",
+      "label": "H -1.5",
+      "fixed_pick": 1,
+      "record_odds": 1.56,
+      "record_captured_at": "2026-10-03T09:03:36.536228Z",
+      "fixture_key": [
+        117,
+        "vl",
+        "AG남배",
+        "대만M",
+        "베트남M",
+        "10.03(토) 19:00"
+      ]
+    },
+    {
+      "round": 117,
+      "kickoff": "2026-10-03T14:00:00.000000Z",
+      "first_time": "2026-10-01T23:05:44+00:00",
+      "last_time": "2026-10-01T23:57:45+00:00",
+      "first_odds": [
+        1.82,
+        1.7
+      ],
+      "last_odds": [
+        1.97,
+        1.59
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-03",
+      "game_no": "6194",
+      "market": "언더오버",
+      "label": "U 4.5",
+      "fixed_pick": 1,
+      "record_odds": 1.59,
+      "record_captured_at": "2026-10-02T15:05:48.041698Z",
+      "fixture_key": [
+        117,
+        "sc",
+        "남축INTL",
+        "인도",
+        "브라질",
+        "10.03(토) 23:00"
+      ]
+    },
+    {
+      "round": 117,
+      "kickoff": "2026-10-03T16:00:00.000000Z",
+      "first_time": "2026-10-01T23:05:44+00:00",
+      "last_time": "2026-10-03T07:04:15+00:00",
+      "first_odds": [
+        1.97,
+        1.59
+      ],
+      "last_odds": [
+        2.07,
+        1.53
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-03",
+      "game_no": "6225",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.53,
+      "record_captured_at": "2026-10-03T09:03:34.935069Z",
+      "fixture_key": [
+        117,
+        "sc",
+        "U네이션",
+        "크로아티",
+        "잉글랜드",
+        "10.04(일) 01:00"
+      ]
+    },
+    {
+      "round": 117,
+      "kickoff": "2026-10-03T18:45:00.000000Z",
+      "first_time": "2026-10-01T23:05:44+00:00",
+      "last_time": "2026-10-03T11:11:27+00:00",
+      "first_odds": [
+        1.75,
+        1.77
+      ],
+      "last_odds": [
+        1.8,
+        1.72
+      ],
+      "first_pick": 0,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-03",
+      "game_no": "6257",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 0,
+      "record_odds": 1.75,
+      "record_captured_at": "2026-10-02T15:05:48.441875Z",
+      "fixture_key": [
+        117,
+        "sc",
+        "U네이션",
+        "스위스",
+        "슬로베니",
+        "10.04(일) 03:45"
+      ]
+    },
+    {
+      "round": 117,
+      "kickoff": "2026-10-04T00:00:00.000000Z",
+      "first_time": "2026-10-01T23:05:44+00:00",
+      "last_time": "2026-10-03T22:52:46+00:00",
+      "first_odds": [
+        4.96,
+        1.07
+      ],
+      "last_odds": [
+        1.6,
+        1.96
+      ],
+      "first_pick": 1,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-04",
+      "game_no": "5961",
+      "market": "핸디캡",
+      "label": "H -3.5",
+      "fixed_pick": 0,
+      "record_odds": 1.6,
+      "record_captured_at": "2026-10-03T22:57:40.307615Z",
+      "fixture_key": [
+        117,
+        "sc",
+        "남축INTL",
+        "아르헨티",
+        "부르키나",
+        "10.04(일) 09:00"
+      ]
+    },
+    {
+      "round": 117,
+      "kickoff": "2026-10-04T02:00:00.000000Z",
+      "first_time": "2026-10-01T23:05:44+00:00",
+      "last_time": "2026-10-04T01:17:52+00:00",
+      "first_odds": [
+        1.8,
+        1.72
+      ],
+      "last_odds": [
+        1.84,
+        1.69
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-04",
+      "game_no": "6269",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.72,
+      "record_captured_at": "2026-10-03T06:15:19.269601Z",
+      "fixture_key": [
+        117,
+        "sc",
+        "남축INTL",
+        "미국",
+        "멕시코",
+        "10.04(일) 11:00"
+      ]
+    },
+    {
+      "round": 117,
+      "kickoff": "2026-10-04T05:00:00.000000Z",
+      "first_time": "2026-10-03T22:52:46+00:00",
+      "last_time": "2026-10-04T03:36:03+00:00",
+      "first_odds": [
+        1.62,
+        1.93
+      ],
+      "last_odds": [
+        1.82,
+        1.7
+      ],
+      "first_pick": 0,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-04",
+      "game_no": "6291",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 1,
+      "record_odds": 1.7,
+      "record_captured_at": "2026-10-04T03:52:03.257129Z",
+      "fixture_key": [
+        117,
+        "bs",
+        "KBO",
+        "삼성",
+        "두산",
+        "10.04(일) 14:00"
+      ]
+    },
+    {
+      "round": 117,
+      "kickoff": "2026-10-04T05:00:00.000000Z",
+      "first_time": "2026-10-03T22:52:46+00:00",
+      "last_time": "2026-10-04T04:26:36+00:00",
+      "first_odds": [
+        1.6,
+        1.96
+      ],
+      "last_odds": [
+        1.55,
+        2.04
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-04",
+      "game_no": "6315",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.6,
+      "record_captured_at": "2026-10-04T03:52:03.290906Z",
+      "fixture_key": [
+        117,
+        "bk",
+        "KBL",
+        "원주DB",
+        "고양소노",
+        "10.04(일) 14:00"
+      ]
+    },
+    {
+      "round": 117,
+      "kickoff": "2026-10-04T06:00:00.000000Z",
+      "first_time": "2026-10-03T21:58:44+00:00",
+      "last_time": "2026-10-04T05:22:29+00:00",
+      "first_odds": [
+        1.75,
+        1.77
+      ],
+      "last_odds": [
+        1.96,
+        1.6
+      ],
+      "first_pick": 0,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-04",
+      "game_no": "6322",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.72,
+      "record_captured_at": "2026-10-04T05:06:49.498826Z",
+      "fixture_key": [
+        117,
+        "sc",
+        "J2리그",
+        "V센다이",
+        "J이와타",
+        "10.04(일) 15:00"
+      ]
+    },
+    {
+      "round": 117,
+      "kickoff": "2026-10-04T18:45:00.000000Z",
+      "first_time": "2026-10-01T23:05:44+00:00",
+      "last_time": "2026-10-04T08:57:06+00:00",
+      "first_odds": [
+        1.68,
+        1.85
+      ],
+      "last_odds": [
+        1.72,
+        1.8
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-04",
+      "game_no": "6401",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 0,
+      "record_odds": 1.72,
+      "record_captured_at": "2026-10-04T11:06:39.528891Z",
+      "fixture_key": [
+        117,
+        "sc",
+        "U네이션",
+        "네덜란드",
+        "세르비아",
+        "10.05(월) 03:45"
+      ]
+    },
+    {
+      "round": 117,
+      "kickoff": "2026-10-04T18:45:00.000000Z",
+      "first_time": "2026-10-01T23:05:44+00:00",
+      "last_time": "2026-10-04T07:17:34+00:00",
+      "first_odds": [
+        1.97,
+        1.59
+      ],
+      "last_odds": [
+        1.87,
+        1.66
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-04",
+      "game_no": "6413",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.66,
+      "record_captured_at": "2026-10-04T07:20:39.286338Z",
+      "fixture_key": [
+        117,
+        "sc",
+        "U네이션",
+        "웨일스",
+        "덴마크",
+        "10.05(월) 03:45"
+      ]
+    },
+    {
+      "round": 117,
+      "kickoff": "2026-10-05T00:00:00.000000Z",
+      "first_time": "2026-10-03T21:58:44+00:00",
+      "last_time": "2026-10-04T05:22:29+00:00",
+      "first_odds": [
+        1.77,
+        1.75
+      ],
+      "last_odds": [
+        1.93,
+        1.62
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-05",
+      "game_no": "6427",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.62,
+      "record_captured_at": "2026-10-04T07:20:40.884399Z",
+      "fixture_key": [
+        117,
+        "sc",
+        "C네이션",
+        "코스타리",
+        "아이티",
+        "10.05(월) 09:00"
+      ]
+    },
+    {
+      "round": 118,
+      "kickoff": "2026-10-06T00:00:00.000000Z",
+      "first_time": "2026-10-05T04:39:56+00:00",
+      "last_time": "2026-10-05T13:19:38+00:00",
+      "first_odds": [
+        1.97,
+        1.59
+      ],
+      "last_odds": [
+        2.05,
+        1.54
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-06",
+      "game_no": "6548",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 1,
+      "record_odds": 1.54,
+      "record_captured_at": "2026-10-05T18:36:35.070038Z",
+      "fixture_key": [
+        118,
+        "bs",
+        "MLB",
+        "탬파레이",
+        "뉴욕양키",
+        "10.06(화) 09:00"
+      ]
+    },
+    {
+      "round": 118,
+      "kickoff": "2026-10-06T09:00:00.000000Z",
+      "first_time": "2026-10-05T22:50:05+00:00",
+      "last_time": "2026-10-06T08:12:01+00:00",
+      "first_odds": [
+        1.79,
+        1.73
+      ],
+      "last_odds": [
+        1.85,
+        1.68
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-06",
+      "game_no": "6616",
+      "market": "언더오버",
+      "label": "U 5.5",
+      "fixed_pick": 1,
+      "record_odds": 1.68,
+      "record_captured_at": "2026-10-06T08:14:30.704174Z",
+      "fixture_key": [
+        118,
+        "bs",
+        "NPB",
+        "한신",
+        "히로카프",
+        "10.06(화) 18:00"
+      ]
+    },
+    {
+      "round": 118,
+      "kickoff": "2026-10-06T09:30:00.000000Z",
+      "first_time": "2026-10-05T22:50:05+00:00",
+      "last_time": "2026-10-06T08:53:41+00:00",
+      "first_odds": [
+        1.54,
+        2.05
+      ],
+      "last_odds": [
+        1.5,
+        2.13
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-10-06",
+      "game_no": "6639",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.5,
+      "record_captured_at": "2026-10-06T08:58:49.503769Z",
+      "fixture_key": [
+        118,
+        "bs",
+        "KBO",
+        "KIA",
+        "삼성",
+        "10.06(화) 18:30"
+      ]
+    },
+    {
+      "round": 118,
+      "kickoff": "2026-10-06T11:00:00.000000Z",
+      "first_time": "2026-10-04T23:09:29+00:00",
+      "last_time": "2026-10-06T10:01:21+00:00",
+      "first_odds": [
+        1.74,
+        1.78
+      ],
+      "last_odds": [
+        1.99,
+        1.58
+      ],
+      "first_pick": 0,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-06",
+      "game_no": "6675",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.58,
+      "record_captured_at": "2026-10-06T10:21:30.726336Z",
+      "fixture_key": [
+        118,
+        "sc",
+        "남축INTL",
+        "한국",
+        "우즈베키",
+        "10.06(화) 20:00"
+      ]
+    },
+    {
+      "round": 118,
+      "kickoff": "2026-10-06T11:35:00.000000Z",
+      "first_time": "2026-10-05T22:02:46+00:00",
+      "last_time": "2026-10-06T08:32:05+00:00",
+      "first_odds": [
+        1.69,
+        1.84
+      ],
+      "last_odds": [
+        1.64,
+        1.9
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-06",
+      "game_no": "6679",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 0,
+      "record_odds": 1.64,
+      "record_captured_at": "2026-10-06T08:36:52.143913Z",
+      "fixture_key": [
+        118,
+        "sc",
+        "남축INTL",
+        "중국",
+        "타지키스",
+        "10.06(화) 20:35"
+      ]
+    },
+    {
+      "round": 118,
+      "kickoff": "2026-10-06T14:00:00.000000Z",
+      "first_time": "2026-10-04T23:09:29+00:00",
+      "last_time": "2026-10-05T23:10:50+00:00",
+      "first_odds": [
+        1.75,
+        1.77
+      ],
+      "last_odds": [
+        1.59,
+        1.97
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-10-06",
+      "game_no": "6689",
+      "market": "언더오버",
+      "label": "U 4.5",
+      "fixed_pick": 0,
+      "record_odds": 1.59,
+      "record_captured_at": "2026-10-06T04:31:39.347041Z",
+      "fixture_key": [
+        118,
+        "sc",
+        "남축INTL",
+        "인도",
+        "우루과이",
+        "10.06(화) 23:00"
+      ]
+    },
+    {
+      "round": 118,
+      "kickoff": "2026-10-06T18:45:00.000000Z",
+      "first_time": "2026-10-04T23:58:59+00:00",
+      "last_time": "2026-10-06T07:19:04+00:00",
+      "first_odds": [
+        1.64,
+        1.9
+      ],
+      "last_odds": [
+        1.54,
+        2.05
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-06",
+      "game_no": "6732",
+      "market": "언더오버",
+      "label": "U 4.5",
+      "fixed_pick": 0,
+      "record_odds": 1.54,
+      "record_captured_at": "2026-10-06T08:14:30.144424Z",
+      "fixture_key": [
+        118,
+        "sc",
+        "U네이션",
+        "알바니아",
+        "산마리노",
+        "10.07(수) 03:45"
+      ]
+    },
+    {
+      "round": 118,
+      "kickoff": "2026-10-06T18:45:00.000000Z",
+      "first_time": "2026-10-04T23:09:29+00:00",
+      "last_time": "2026-10-05T23:28:57+00:00",
+      "first_odds": [
+        1.68,
+        1.85
+      ],
+      "last_odds": [
+        1.78,
+        1.74
+      ],
+      "first_pick": 0,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-06",
+      "game_no": "6758",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 1,
+      "record_odds": 1.74,
+      "record_captured_at": "2026-10-06T04:31:40.705405Z",
+      "fixture_key": [
+        118,
+        "sc",
+        "U네이션",
+        "잉글랜드",
+        "체코",
+        "10.07(수) 03:45"
+      ]
+    },
+    {
+      "round": 118,
+      "kickoff": "2026-10-06T23:00:00.000000Z",
+      "first_time": "2026-10-04T23:09:29+00:00",
+      "last_time": "2026-10-06T13:03:29+00:00",
+      "first_odds": [
+        1.96,
+        1.6
+      ],
+      "last_odds": [
+        2.04,
+        1.55
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-06",
+      "game_no": "6768",
+      "market": "언더오버",
+      "label": "U 4.5",
+      "fixed_pick": 1,
+      "record_odds": 1.55,
+      "record_captured_at": "2026-10-06T13:25:02.136526Z",
+      "fixture_key": [
+        118,
+        "sc",
+        "남축INTL",
+        "아르헨티",
+        "베냉",
+        "10.07(수) 08:00"
+      ]
+    },
+    {
+      "round": 118,
+      "kickoff": "2026-10-07T00:00:00.000000Z",
+      "first_time": "2026-10-04T23:09:29+00:00",
+      "last_time": "2026-10-05T23:28:57+00:00",
+      "first_odds": [
+        1.85,
+        1.68
+      ],
+      "last_odds": [
+        2.02,
+        1.56
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-07",
+      "game_no": "6772",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.56,
+      "record_captured_at": "2026-10-06T04:31:40.790926Z",
+      "fixture_key": [
+        118,
+        "sc",
+        "남축INTL",
+        "미국",
+        "캐나다",
+        "10.07(수) 09:00"
+      ]
+    },
+    {
+      "round": 119,
+      "kickoff": "2026-10-07T09:00:00.000000Z",
+      "first_time": "2026-10-06T23:16:22+00:00",
+      "last_time": "2026-10-07T07:18:43+00:00",
+      "first_odds": [
+        1.87,
+        1.66
+      ],
+      "last_odds": [
+        2.0,
+        1.57
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-07",
+      "game_no": "6788",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.57,
+      "record_captured_at": "2026-10-07T07:21:21.675864Z",
+      "fixture_key": [
+        119,
+        "sc",
+        "일본FA컵",
+        "우라와R",
+        "RB오미야",
+        "10.07(수) 18:00"
+      ]
+    },
+    {
+      "round": 119,
+      "kickoff": "2026-10-07T09:30:00.000000Z",
+      "first_time": "2026-10-06T23:16:22+00:00",
+      "last_time": "2026-10-07T08:28:36+00:00",
+      "first_odds": [
+        1.5,
+        2.13
+      ],
+      "last_odds": [
+        1.66,
+        1.87
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-10-07",
+      "game_no": "6807",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 0,
+      "record_odds": 1.55,
+      "record_captured_at": "2026-10-07T07:21:22.480863Z",
+      "fixture_key": [
+        119,
+        "sc",
+        "일본FA컵",
+        "산프히로",
+        "이와키",
+        "10.07(수) 18:30"
+      ]
+    },
+    {
+      "round": 119,
+      "kickoff": "2026-10-07T09:30:00.000000Z",
+      "first_time": "2026-10-06T23:16:22+00:00",
+      "last_time": "2026-10-07T08:06:31+00:00",
+      "first_odds": [
+        1.51,
+        2.11
+      ],
+      "last_odds": [
+        1.56,
+        2.02
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-10-07",
+      "game_no": "6827",
+      "market": "전반핸디캡",
+      "label": "h H +1.5",
+      "fixed_pick": 0,
+      "record_odds": 1.51,
+      "record_captured_at": "2026-10-07T07:21:22.794693Z",
+      "fixture_key": [
+        119,
+        "bs",
+        "KBO",
+        "롯데",
+        "KIA",
+        "10.07(수) 18:30"
+      ]
+    },
+    {
+      "round": 119,
+      "kickoff": "2026-10-07T09:30:00.000000Z",
+      "first_time": "2026-10-06T23:16:22+00:00",
+      "last_time": "2026-10-07T06:58:36+00:00",
+      "first_odds": [
+        1.63,
+        1.91
+      ],
+      "last_odds": [
+        1.58,
+        1.99
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-07",
+      "game_no": "6829",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.58,
+      "record_captured_at": "2026-10-07T07:21:23.791057Z",
+      "fixture_key": [
+        119,
+        "bs",
+        "KBO",
+        "SSG",
+        "NC",
+        "10.07(수) 18:30"
+      ]
+    },
+    {
+      "round": 119,
+      "kickoff": "2026-10-07T09:30:00.000000Z",
+      "first_time": "2026-10-06T23:16:22+00:00",
+      "last_time": "2026-10-07T08:06:31+00:00",
+      "first_odds": [
+        1.71,
+        1.81
+      ],
+      "last_odds": [
+        1.66,
+        1.87
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-07",
+      "game_no": "6837",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.71,
+      "record_captured_at": "2026-10-07T07:21:24.870879Z",
+      "fixture_key": [
+        119,
+        "bs",
+        "KBO",
+        "KT",
+        "삼성",
+        "10.07(수) 18:30"
+      ]
+    },
+    {
+      "round": 119,
+      "kickoff": "2026-10-07T09:30:00.000000Z",
+      "first_time": "2026-10-06T23:16:22+00:00",
+      "last_time": "2026-10-07T08:54:49+00:00",
+      "first_odds": [
+        1.81,
+        1.71
+      ],
+      "last_odds": [
+        2.02,
+        1.56
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-07",
+      "game_no": "6848",
+      "market": "언더오버",
+      "label": "U 8.5",
+      "fixed_pick": 1,
+      "record_odds": 1.61,
+      "record_captured_at": "2026-10-07T07:47:47.109680Z",
+      "fixture_key": [
+        119,
+        "bs",
+        "KBO",
+        "키움",
+        "한화",
+        "10.07(수) 18:30"
+      ]
+    },
+    {
+      "round": 119,
+      "kickoff": "2026-10-07T10:00:00.000000Z",
+      "first_time": "2026-10-06T23:16:22+00:00",
+      "last_time": "2026-10-07T08:54:49+00:00",
+      "first_odds": [
+        1.99,
+        1.58
+      ],
+      "last_odds": [
+        2.22,
+        1.46
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-07",
+      "game_no": "6855",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.5,
+      "record_captured_at": "2026-10-07T07:21:30.830897Z",
+      "fixture_key": [
+        119,
+        "sc",
+        "일본FA컵",
+        "가와사키",
+        "미야자키",
+        "10.07(수) 19:00"
+      ]
+    },
+    {
+      "round": 119,
+      "kickoff": "2026-10-07T10:00:00.000000Z",
+      "first_time": "2026-10-06T23:16:22+00:00",
+      "last_time": "2026-10-07T06:58:36+00:00",
+      "first_odds": [
+        1.81,
+        1.71
+      ],
+      "last_odds": [
+        1.9,
+        1.64
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-07",
+      "game_no": "6867",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.64,
+      "record_captured_at": "2026-10-07T07:21:35.271585Z",
+      "fixture_key": [
+        119,
+        "sc",
+        "일본FA컵",
+        "FC도쿄",
+        "쇼난벨마",
+        "10.07(수) 19:00"
+      ]
+    },
+    {
+      "round": 119,
+      "kickoff": "2026-10-08T02:00:00.000000Z",
+      "first_time": "2026-10-07T05:53:20+00:00",
+      "last_time": "2026-10-07T22:41:00+00:00",
+      "first_odds": [
+        1.96,
+        1.6
+      ],
+      "last_odds": [
+        2.04,
+        1.55
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-08",
+      "game_no": "6900",
+      "market": "전반언더오버",
+      "label": "h U 3.5",
+      "fixed_pick": 1,
+      "record_odds": 1.6,
+      "record_captured_at": "2026-10-07T20:27:18.285006Z",
+      "fixture_key": [
+        119,
+        "bs",
+        "MLB",
+        "샌디파드",
+        "밀워브루",
+        "10.08(목) 11:00"
+      ]
+    },
+    {
+      "round": 120,
+      "kickoff": "2026-10-10T05:00:00.000000Z",
+      "first_time": "2026-10-09T23:27:42+00:00",
+      "last_time": "2026-10-10T04:19:17+00:00",
+      "first_odds": [
+        1.96,
+        1.6
+      ],
+      "last_odds": [
+        2.04,
+        1.55
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-10",
+      "game_no": "7160",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 1,
+      "record_odds": 1.6,
+      "record_captured_at": "2026-10-10T03:36:23.084497Z",
+      "fixture_key": [
+        120,
+        "bk",
+        "KBL",
+        "부산KCC",
+        "원주DB",
+        "10.10(토) 14:00"
+      ]
+    },
+    {
+      "round": 120,
+      "kickoff": "2026-10-10T06:00:00.000000Z",
+      "first_time": "2026-10-08T23:15:55+00:00",
+      "last_time": "2026-10-10T05:17:18+00:00",
+      "first_odds": [
+        2.05,
+        1.54
+      ],
+      "last_odds": [
+        2.13,
+        1.5
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-10",
+      "game_no": "7171",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.54,
+      "record_captured_at": "2026-10-10T03:36:23.127400Z",
+      "fixture_key": [
+        120,
+        "sc",
+        "J1리그",
+        "FC도쿄",
+        "우라와R",
+        "10.10(토) 15:00"
+      ]
+    },
+    {
+      "round": 120,
+      "kickoff": "2026-10-10T07:30:00.000000Z",
+      "first_time": "2026-10-08T23:15:55+00:00",
+      "last_time": "2026-10-10T06:33:21+00:00",
+      "first_odds": [
+        1.96,
+        1.6
+      ],
+      "last_odds": [
+        1.86,
+        1.67
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-10",
+      "game_no": "7184",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.6,
+      "record_captured_at": "2026-10-10T03:36:23.169381Z",
+      "fixture_key": [
+        120,
+        "sc",
+        "K리그1",
+        "김천상무",
+        "FC안양",
+        "10.10(토) 16:30"
+      ]
+    },
+    {
+      "round": 120,
+      "kickoff": "2026-10-10T11:30:00.000000Z",
+      "first_time": "2026-10-08T23:15:55+00:00",
+      "last_time": "2026-10-10T09:57:06+00:00",
+      "first_odds": [
+        1.91,
+        1.63
+      ],
+      "last_odds": [
+        1.99,
+        1.58
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-10",
+      "game_no": "7266",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.63,
+      "record_captured_at": "2026-10-10T03:36:23.349648Z",
+      "fixture_key": [
+        120,
+        "sc",
+        "EPL",
+        "아스널",
+        "리즈U",
+        "10.10(토) 20:30"
+      ]
+    },
+    {
+      "round": 120,
+      "kickoff": "2026-10-10T14:00:00.000000Z",
+      "first_time": "2026-10-08T23:15:55+00:00",
+      "last_time": "2026-10-10T13:04:58+00:00",
+      "first_odds": [
+        2.02,
+        1.56
+      ],
+      "last_odds": [
+        2.13,
+        1.5
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-10",
+      "game_no": "7341",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.56,
+      "record_captured_at": "2026-10-10T03:36:23.574720Z",
+      "fixture_key": [
+        120,
+        "sc",
+        "EPL",
+        "A빌라",
+        "브렌트퍼",
+        "10.10(토) 23:00"
+      ]
+    },
+    {
+      "round": 120,
+      "kickoff": "2026-10-10T14:00:00.000000Z",
+      "first_time": "2026-10-08T23:15:55+00:00",
+      "last_time": "2026-10-10T08:44:26+00:00",
+      "first_odds": [
+        1.55,
+        2.04
+      ],
+      "last_odds": [
+        1.51,
+        2.11
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-10-10",
+      "game_no": "7346",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 0,
+      "record_odds": 1.55,
+      "record_captured_at": "2026-10-10T03:36:23.588895Z",
+      "fixture_key": [
+        120,
+        "sc",
+        "EPL",
+        "첼시",
+        "본머스",
+        "10.10(토) 23:00"
+      ]
+    },
+    {
+      "round": 120,
+      "kickoff": "2026-10-10T19:00:00.000000Z",
+      "first_time": "2026-10-08T23:15:55+00:00",
+      "last_time": "2026-10-10T10:54:57+00:00",
+      "first_odds": [
+        1.89,
+        1.65
+      ],
+      "last_odds": [
+        1.97,
+        1.59
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-10",
+      "game_no": "7467",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 1,
+      "record_odds": 1.65,
+      "record_captured_at": "2026-10-10T03:36:23.862802Z",
+      "fixture_key": [
+        120,
+        "sc",
+        "에레디비",
+        "아약스",
+        "네이메헌",
+        "10.11(일) 04:00"
+      ]
+    },
+    {
+      "round": 120,
+      "kickoff": "2026-10-11T00:30:00.000000Z",
+      "first_time": "2026-10-08T23:15:55+00:00",
+      "last_time": "2026-10-10T22:33:31+00:00",
+      "first_odds": [
+        2.07,
+        1.53
+      ],
+      "last_odds": [
+        1.96,
+        1.6
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-11",
+      "game_no": "7507",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.53,
+      "record_captured_at": "2026-10-10T03:36:24.005742Z",
+      "fixture_key": [
+        120,
+        "sc",
+        "MLS",
+        "미네유나",
+        "휴스다이",
+        "10.11(일) 09:30"
+      ]
+    },
+    {
+      "round": 120,
+      "kickoff": "2026-10-11T07:00:00.000000Z",
+      "first_time": "2026-10-08T23:15:55+00:00",
+      "last_time": "2026-10-11T06:21:45+00:00",
+      "first_odds": [
+        1.55,
+        2.04
+      ],
+      "last_odds": [
+        1.48,
+        2.17
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-11",
+      "game_no": "7606",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 0,
+      "record_odds": 1.55,
+      "record_captured_at": "2026-10-10T03:36:24.118387Z",
+      "fixture_key": [
+        120,
+        "sc",
+        "J1리그",
+        "가와사키",
+        "나고야G",
+        "10.11(일) 16:00"
+      ]
+    },
+    {
+      "round": 120,
+      "kickoff": "2026-10-11T10:00:00.000000Z",
+      "first_time": "2026-10-08T23:15:55+00:00",
+      "last_time": "2026-10-11T09:19:11+00:00",
+      "first_odds": [
+        1.84,
+        1.69
+      ],
+      "last_odds": [
+        1.97,
+        1.59
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-11",
+      "game_no": "7627",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.69,
+      "record_captured_at": "2026-10-10T03:36:24.132489Z",
+      "fixture_key": [
+        120,
+        "sc",
+        "CSL",
+        "칭다시하",
+        "다롄잉보",
+        "10.11(일) 19:00"
+      ]
+    },
+    {
+      "round": 120,
+      "kickoff": "2026-10-11T11:35:00.000000Z",
+      "first_time": "2026-10-08T23:15:55+00:00",
+      "last_time": "2026-10-11T11:04:30+00:00",
+      "first_odds": [
+        1.5,
+        2.13
+      ],
+      "last_odds": [
+        1.55,
+        2.04
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-11",
+      "game_no": "7643",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 0,
+      "record_odds": 1.5,
+      "record_captured_at": "2026-10-10T03:36:24.187912Z",
+      "fixture_key": [
+        120,
+        "sc",
+        "CSL",
+        "랴오톄런",
+        "우한싼전",
+        "10.11(일) 20:35"
+      ]
+    },
+    {
+      "round": 120,
+      "kickoff": "2026-10-11T12:30:00.000000Z",
+      "first_time": "2026-10-08T23:15:55+00:00",
+      "last_time": "2026-10-11T07:02:28+00:00",
+      "first_odds": [
+        1.54,
+        2.05
+      ],
+      "last_odds": [
+        1.46,
+        2.22
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-10-11",
+      "game_no": "7659",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 0,
+      "record_odds": 1.54,
+      "record_captured_at": "2026-10-10T03:36:24.241745Z",
+      "fixture_key": [
+        120,
+        "sc",
+        "에레디비",
+        "텔스타",
+        "덴하흐",
+        "10.11(일) 21:30"
+      ]
+    },
+    {
+      "round": 120,
+      "kickoff": "2026-10-11T13:00:00.000000Z",
+      "first_time": "2026-10-08T23:15:55+00:00",
+      "last_time": "2026-10-11T08:58:40+00:00",
+      "first_odds": [
+        1.81,
+        1.71
+      ],
+      "last_odds": [
+        1.87,
+        1.66
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-11",
+      "game_no": "7673",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.71,
+      "record_captured_at": "2026-10-10T03:36:24.276586Z",
+      "fixture_key": [
+        120,
+        "sc",
+        "세리에A",
+        "라치오",
+        "AC몬차",
+        "10.11(일) 22:00"
+      ]
+    },
+    {
+      "round": 120,
+      "kickoff": "2026-10-11T16:00:00.000000Z",
+      "first_time": "2026-10-08T23:15:55+00:00",
+      "last_time": "2026-10-11T12:03:31+00:00",
+      "first_odds": [
+        1.93,
+        1.62
+      ],
+      "last_odds": [
+        2.0,
+        1.57
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-11",
+      "game_no": "7747",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.62,
+      "record_captured_at": "2026-10-10T03:36:24.383223Z",
+      "fixture_key": [
+        120,
+        "sc",
+        "세리에A",
+        "사수올로",
+        "AC밀란",
+        "10.12(월) 01:00"
+      ]
+    },
+    {
+      "round": 120,
+      "kickoff": "2026-10-11T16:30:00.000000Z",
+      "first_time": "2026-10-08T23:15:55+00:00",
+      "last_time": "2026-10-11T08:58:40+00:00",
+      "first_odds": [
+        1.96,
+        1.6
+      ],
+      "last_odds": [
+        2.04,
+        1.55
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-11",
+      "game_no": "7751",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.6,
+      "record_captured_at": "2026-10-10T03:36:24.397739Z",
+      "fixture_key": [
+        120,
+        "sc",
+        "라리가",
+        "베티스",
+        "오사수나",
+        "10.12(월) 01:30"
+      ]
+    },
+    {
+      "round": 121,
+      "kickoff": "2026-10-12T09:30:00.000000Z",
+      "first_time": "2026-10-11T23:13:31+00:00",
+      "last_time": "2026-10-12T07:24:55+00:00",
+      "first_odds": [
+        1.48,
+        2.17
+      ],
+      "last_odds": [
+        1.52,
+        2.09
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-10-12",
+      "game_no": "7791",
+      "market": "전반핸디캡",
+      "label": "h H +1.5",
+      "fixed_pick": 0,
+      "record_odds": 1.52,
+      "record_captured_at": "2026-10-12T08:14:45.911015Z",
+      "fixture_key": [
+        121,
+        "bs",
+        "KBO",
+        "삼성",
+        "KT",
+        "10.12(월) 18:30"
+      ]
+    },
+    {
+      "round": 121,
+      "kickoff": "2026-10-12T10:00:00.000000Z",
+      "first_time": "2026-10-11T23:13:31+00:00",
+      "last_time": "2026-10-12T08:54:35+00:00",
+      "first_odds": [
+        2.37,
+        1.4
+      ],
+      "last_odds": [
+        1.99,
+        1.58
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-12",
+      "game_no": "7807",
+      "market": "핸디캡",
+      "label": "H -1.5",
+      "fixed_pick": 1,
+      "record_odds": 1.58,
+      "record_captured_at": "2026-10-12T09:01:59.096196Z",
+      "fixture_key": [
+        121,
+        "vl",
+        "KOVO컵여",
+        "GS칼텍스",
+        "도로공사",
+        "10.12(월) 19:00"
+      ]
+    },
+    {
+      "round": 121,
+      "kickoff": "2026-10-12T13:45:00.000000Z",
+      "first_time": "2026-10-11T23:13:31+00:00",
+      "last_time": "2026-10-12T11:46:43+00:00",
+      "first_odds": [
+        1.93,
+        1.62
+      ],
+      "last_odds": [
+        2.09,
+        1.52
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-12",
+      "game_no": "7812",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.52,
+      "record_captured_at": "2026-10-12T12:33:02.854531Z",
+      "fixture_key": [
+        121,
+        "sc",
+        "ACLE",
+        "파흐타코",
+        "알카디시",
+        "10.12(월) 22:45"
+      ]
+    },
+    {
+      "round": 121,
+      "kickoff": "2026-10-12T21:00:00.000000Z",
+      "first_time": "2026-10-12T04:13:41+00:00",
+      "last_time": "2026-10-12T13:37:37+00:00",
+      "first_odds": [
+        1.96,
+        1.6
+      ],
+      "last_odds": [
+        2.04,
+        1.55
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-12",
+      "game_no": "7830",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 1,
+      "record_odds": 1.55,
+      "record_captured_at": "2026-10-12T17:27:22.211261Z",
+      "fixture_key": [
+        121,
+        "bs",
+        "MLB",
+        "밀워브루",
+        "LA다저스",
+        "10.13(화) 06:00"
+      ]
+    },
+    {
+      "round": 121,
+      "kickoff": "2026-10-13T10:00:00.000000Z",
+      "first_time": "2026-10-11T23:13:31+00:00",
+      "last_time": "2026-10-13T05:41:51+00:00",
+      "first_odds": [
+        1.99,
+        1.58
+      ],
+      "last_odds": [
+        2.07,
+        1.53
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-13",
+      "game_no": "7929",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.53,
+      "record_captured_at": "2026-10-13T06:23:06.000101Z",
+      "fixture_key": [
+        121,
+        "sc",
+        "ACLE",
+        "교토상가",
+        "랏차부리",
+        "10.13(화) 19:00"
+      ]
+    },
+    {
+      "round": 121,
+      "kickoff": "2026-10-13T10:00:00.000000Z",
+      "first_time": "2026-10-12T22:08:27+00:00",
+      "last_time": "2026-10-13T05:41:51+00:00",
+      "first_odds": [
+        1.97,
+        1.59
+      ],
+      "last_odds": [
+        2.13,
+        1.5
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-13",
+      "game_no": "7921",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.5,
+      "record_captured_at": "2026-10-13T06:23:06.333833Z",
+      "fixture_key": [
+        121,
+        "sc",
+        "ACLE",
+        "상하하이",
+        "대전하나",
+        "10.13(화) 19:00"
+      ]
+    },
+    {
+      "round": 121,
+      "kickoff": "2026-10-13T10:00:00.000000Z",
+      "first_time": "2026-10-12T22:08:27+00:00",
+      "last_time": "2026-10-13T06:20:19+00:00",
+      "first_odds": [
+        1.87,
+        1.66
+      ],
+      "last_odds": [
+        1.94,
+        1.61
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-13",
+      "game_no": "7925",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.61,
+      "record_captured_at": "2026-10-13T06:23:06.561658Z",
+      "fixture_key": [
+        121,
+        "sc",
+        "ACLE",
+        "포항스틸",
+        "조호르다",
+        "10.13(화) 19:00"
+      ]
+    },
+    {
+      "round": 121,
+      "kickoff": "2026-10-13T10:00:00.000000Z",
+      "first_time": "2026-10-12T22:08:27+00:00",
+      "last_time": "2026-10-13T06:01:12+00:00",
+      "first_odds": [
+        1.82,
+        1.7
+      ],
+      "last_odds": [
+        2.04,
+        1.55
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-13",
+      "game_no": "7936",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 1,
+      "record_odds": 1.55,
+      "record_captured_at": "2026-10-13T06:23:06.881588Z",
+      "fixture_key": [
+        121,
+        "vl",
+        "KOVO컵여",
+        "흥국생명",
+        "IBK기업",
+        "10.13(화) 19:00"
+      ]
+    },
+    {
+      "round": 121,
+      "kickoff": "2026-10-13T16:00:00.000000Z",
+      "first_time": "2026-10-12T22:08:27+00:00",
+      "last_time": "2026-10-13T10:19:37+00:00",
+      "first_odds": [
+        1.6,
+        1.96
+      ],
+      "last_odds": [
+        1.87,
+        1.66
+      ],
+      "first_pick": 0,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-13",
+      "game_no": "7977",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.66,
+      "record_captured_at": "2026-10-13T12:56:27.821051Z",
+      "fixture_key": [
+        121,
+        "sc",
+        "ACL2",
+        "알시브",
+        "J알후세",
+        "10.14(수) 01:00"
+      ]
+    },
+    {
+      "round": 121,
+      "kickoff": "2026-10-13T19:00:00.000000Z",
+      "first_time": "2026-10-11T23:13:31+00:00",
+      "last_time": "2026-10-13T07:20:40+00:00",
+      "first_odds": [
+        1.61,
+        1.94
+      ],
+      "last_odds": [
+        1.51,
+        2.11
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-13",
+      "game_no": "8060",
+      "market": "전반언더오버",
+      "label": "h U 1.5",
+      "fixed_pick": 0,
+      "record_odds": 1.51,
+      "record_captured_at": "2026-10-13T07:44:20.491806Z",
+      "fixture_key": [
+        121,
+        "sc",
+        "UCL",
+        "AT마드",
+        "맨체스U",
+        "10.14(수) 04:00"
+      ]
+    },
+    {
+      "round": 121,
+      "kickoff": "2026-10-13T19:00:00.000000Z",
+      "first_time": "2026-10-11T23:13:31+00:00",
+      "last_time": "2026-10-12T05:48:34+00:00",
+      "first_odds": [
+        2.15,
+        1.49
+      ],
+      "last_odds": [
+        2.13,
+        1.5
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-13",
+      "game_no": "8085",
+      "market": "전반언더오버",
+      "label": "h U 1.5",
+      "fixed_pick": 1,
+      "record_odds": 1.5,
+      "record_captured_at": "2026-10-13T06:23:06.249944Z",
+      "fixture_key": [
+        121,
+        "sc",
+        "UCL",
+        "갈라타사",
+        "바르셀로",
+        "10.14(수) 04:00"
+      ]
+    },
+    {
+      "round": 121,
+      "kickoff": "2026-10-14T10:00:00.000000Z",
+      "first_time": "2026-10-12T22:08:27+00:00",
+      "last_time": "2026-10-13T11:36:11+00:00",
+      "first_odds": [
+        1.67,
+        1.86
+      ],
+      "last_odds": [
+        1.78,
+        1.74
+      ],
+      "first_pick": 0,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-14",
+      "game_no": "8123",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 1,
+      "record_odds": 1.5,
+      "record_captured_at": "2026-10-14T09:33:43.973565Z",
+      "fixture_key": [
+        121,
+        "sc",
+        "ACLE",
+        "가시와R",
+        "포트FC",
+        "10.14(수) 19:00"
+      ]
+    },
+    {
+      "round": 122,
+      "kickoff": "2026-10-14T16:00:00.000000Z",
+      "first_time": "2026-10-13T23:16:54+00:00",
+      "last_time": "2026-10-14T10:08:30+00:00",
+      "first_odds": [
+        1.49,
+        2.15
+      ],
+      "last_odds": [
+        1.55,
+        2.04
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-14",
+      "game_no": "8184",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 0,
+      "record_odds": 1.55,
+      "record_captured_at": "2026-10-14T14:54:42.136024Z",
+      "fixture_key": [
+        122,
+        "sc",
+        "ACL2",
+        "무하라크",
+        "골고하르",
+        "10.15(목) 01:00"
+      ]
+    },
+    {
+      "round": 122,
+      "kickoff": "2026-10-14T16:45:00.000000Z",
+      "first_time": "2026-10-13T23:16:54+00:00",
+      "last_time": "2026-10-14T08:35:32+00:00",
+      "first_odds": [
+        1.66,
+        1.87
+      ],
+      "last_odds": [
+        1.55,
+        2.04
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-10-14",
+      "game_no": "8197",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 0,
+      "record_odds": 1.55,
+      "record_captured_at": "2026-10-14T15:51:33.137296Z",
+      "fixture_key": [
+        122,
+        "sc",
+        "UCL",
+        "페예노르",
+        "코모1907",
+        "10.15(목) 01:45"
+      ]
+    },
+    {
+      "round": 122,
+      "kickoff": "2026-10-14T16:45:00.000000Z",
+      "first_time": "2026-10-13T23:16:54+00:00",
+      "last_time": "2026-10-14T12:25:35+00:00",
+      "first_odds": [
+        1.77,
+        1.75
+      ],
+      "last_odds": [
+        1.5,
+        2.13
+      ],
+      "first_pick": 1,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-10-14",
+      "game_no": "8206",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 0,
+      "record_odds": 1.5,
+      "record_captured_at": "2026-10-14T15:51:33.178898Z",
+      "fixture_key": [
+        122,
+        "sc",
+        "UCL",
+        "LASK",
+        "리버풀",
+        "10.15(목) 01:45"
+      ]
+    },
+    {
+      "round": 122,
+      "kickoff": "2026-10-14T18:15:00.000000Z",
+      "first_time": "2026-10-13T23:16:54+00:00",
+      "last_time": "2026-10-14T07:13:59+00:00",
+      "first_odds": [
+        1.68,
+        1.85
+      ],
+      "last_odds": [
+        2.0,
+        1.57
+      ],
+      "first_pick": 0,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-14",
+      "game_no": "8217",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.57,
+      "record_captured_at": "2026-10-14T15:51:33.212570Z",
+      "fixture_key": [
+        122,
+        "sc",
+        "ACL2",
+        "J알파이",
+        "O알나흐",
+        "10.15(목) 03:15"
+      ]
+    },
+    {
+      "round": 122,
+      "kickoff": "2026-10-14T23:30:00.000000Z",
+      "first_time": "2026-10-13T23:16:54+00:00",
+      "last_time": "2026-10-14T22:58:56+00:00",
+      "first_odds": [
+        1.54,
+        2.05
+      ],
+      "last_odds": [
+        1.74,
+        1.78
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-10-14",
+      "game_no": "8297",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 0,
+      "record_odds": 1.54,
+      "record_captured_at": "2026-10-14T15:51:33.690100Z",
+      "fixture_key": [
+        122,
+        "sc",
+        "MLS",
+        "콜럼크루",
+        "샬럿FC",
+        "10.15(목) 08:30"
+      ]
+    },
+    {
+      "round": 122,
+      "kickoff": "2026-10-15T06:30:00.000000Z",
+      "first_time": "2026-10-14T22:58:56+00:00",
+      "last_time": "2026-10-15T05:34:49+00:00",
+      "first_odds": [
+        1.5,
+        2.13
+      ],
+      "last_odds": [
+        1.85,
+        1.68
+      ],
+      "first_pick": 0,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-15",
+      "game_no": "8357",
+      "market": "핸디캡",
+      "label": "H +2.5",
+      "fixed_pick": 0,
+      "record_odds": 1.66,
+      "record_captured_at": "2026-10-15T03:05:24.133941Z",
+      "fixture_key": [
+        122,
+        "vl",
+        "KOVO컵여",
+        "SOOP",
+        "흥국생명",
+        "10.15(목) 15:30"
+      ]
+    },
+    {
+      "round": 122,
+      "kickoff": "2026-10-15T10:00:00.000000Z",
+      "first_time": "2026-10-14T22:40:44+00:00",
+      "last_time": "2026-10-15T08:12:40+00:00",
+      "first_odds": [
+        1.57,
+        2.0
+      ],
+      "last_odds": [
+        1.62,
+        1.93
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-15",
+      "game_no": "8380",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 0,
+      "record_odds": 1.62,
+      "record_captured_at": "2026-10-15T08:14:46.058052Z",
+      "fixture_key": [
+        122,
+        "sc",
+        "ACL2",
+        "타이포FC",
+        "라이언시",
+        "10.15(목) 19:00"
+      ]
+    },
+    {
+      "round": 122,
+      "kickoff": "2026-10-15T10:00:00.000000Z",
+      "first_time": "2026-10-14T22:40:44+00:00",
+      "last_time": "2026-10-15T05:13:24+00:00",
+      "first_odds": [
+        2.13,
+        1.5
+      ],
+      "last_odds": [
+        2.05,
+        1.54
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-15",
+      "game_no": "8382",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 1,
+      "record_odds": 1.54,
+      "record_captured_at": "2026-10-15T08:05:10.851230Z",
+      "fixture_key": [
+        122,
+        "bk",
+        "KBL",
+        "서울삼성",
+        "창원LG",
+        "10.15(목) 19:00"
+      ]
+    },
+    {
+      "round": 122,
+      "kickoff": "2026-10-15T12:15:00.000000Z",
+      "first_time": "2026-10-14T22:40:44+00:00",
+      "last_time": "2026-10-15T08:12:40+00:00",
+      "first_odds": [
+        1.7,
+        1.82
+      ],
+      "last_odds": [
+        1.89,
+        1.65
+      ],
+      "first_pick": 0,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-15",
+      "game_no": "8401",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.65,
+      "record_captured_at": "2026-10-15T08:14:46.690117Z",
+      "fixture_key": [
+        122,
+        "sc",
+        "ACL2",
+        "쿠칭시티",
+        "킷치SC",
+        "10.15(목) 21:15"
+      ]
+    },
+    {
+      "round": 122,
+      "kickoff": "2026-10-15T16:45:00.000000Z",
+      "first_time": "2026-10-13T23:16:54+00:00",
+      "last_time": "2026-10-15T13:18:10+00:00",
+      "first_odds": [
+        2.05,
+        1.54
+      ],
+      "last_odds": [
+        2.13,
+        1.5
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-15",
+      "game_no": "8473",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.5,
+      "record_captured_at": "2026-10-15T13:23:55.012788Z",
+      "fixture_key": [
+        122,
+        "sc",
+        "UEL",
+        "리옹",
+        "크리스털",
+        "10.16(금) 01:45"
+      ]
+    },
+    {
+      "round": 122,
+      "kickoff": "2026-10-15T16:45:00.000000Z",
+      "first_time": "2026-10-13T23:16:54+00:00",
+      "last_time": "2026-10-15T06:35:03+00:00",
+      "first_odds": [
+        1.46,
+        2.22
+      ],
+      "last_odds": [
+        1.59,
+        1.97
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-15",
+      "game_no": "8495",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 0,
+      "record_odds": 1.59,
+      "record_captured_at": "2026-10-15T07:01:07.015615Z",
+      "fixture_key": [
+        122,
+        "sc",
+        "UEL",
+        "스파프라",
+        "릴레스트",
+        "10.16(금) 01:45"
+      ]
+    },
+    {
+      "round": 122,
+      "kickoff": "2026-10-15T19:00:00.000000Z",
+      "first_time": "2026-10-13T23:16:54+00:00",
+      "last_time": "2026-10-15T11:30:24+00:00",
+      "first_odds": [
+        1.75,
+        1.77
+      ],
+      "last_odds": [
+        1.8,
+        1.72
+      ],
+      "first_pick": 0,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-15",
+      "game_no": "8585",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 1,
+      "record_odds": 1.72,
+      "record_captured_at": "2026-10-15T14:45:22.293292Z",
+      "fixture_key": [
+        122,
+        "sc",
+        "UEL",
+        "본머스",
+        "S그라츠",
+        "10.16(금) 04:00"
+      ]
+    },
+    {
+      "round": 123,
+      "kickoff": "2026-10-17T04:00:00.000000Z",
+      "first_time": "2026-10-15T23:04:40+00:00",
+      "last_time": "2026-10-17T02:03:09+00:00",
+      "first_odds": [
+        1.63,
+        1.91
+      ],
+      "last_odds": [
+        1.73,
+        1.79
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-10-17",
+      "game_no": "8686",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 0,
+      "record_odds": 1.63,
+      "record_captured_at": "2026-10-16T22:24:17.276141Z",
+      "fixture_key": [
+        123,
+        "sc",
+        "A리그",
+        "오클FC",
+        "멜버시티",
+        "10.17(토) 13:00"
+      ]
+    },
+    {
+      "round": 123,
+      "kickoff": "2026-10-17T04:30:00.000000Z",
+      "first_time": "2026-10-16T21:57:35+00:00",
+      "last_time": "2026-10-17T03:18:58+00:00",
+      "first_odds": [
+        1.71,
+        1.81
+      ],
+      "last_odds": [
+        1.51,
+        2.11
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-10-17",
+      "game_no": "8692",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.66,
+      "record_captured_at": "2026-10-17T00:11:26.155090Z",
+      "fixture_key": [
+        123,
+        "vl",
+        "KOVO컵여",
+        "흥국생명",
+        "GS칼텍스",
+        "10.17(토) 13:30"
+      ]
+    },
+    {
+      "round": 123,
+      "kickoff": "2026-10-17T05:00:00.000000Z",
+      "first_time": "2026-10-15T23:04:40+00:00",
+      "last_time": "2026-10-17T04:24:43+00:00",
+      "first_odds": [
+        1.64,
+        1.9
+      ],
+      "last_odds": [
+        1.54,
+        2.05
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-17",
+      "game_no": "8706",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 0,
+      "record_odds": 1.64,
+      "record_captured_at": "2026-10-16T22:24:18.237469Z",
+      "fixture_key": [
+        123,
+        "sc",
+        "J1리그",
+        "산프히로",
+        "교토상가",
+        "10.17(토) 14:00"
+      ]
+    },
+    {
+      "round": 123,
+      "kickoff": "2026-10-17T05:00:00.000000Z",
+      "first_time": "2026-10-16T02:29:21+00:00",
+      "last_time": "2026-10-17T01:49:20+00:00",
+      "first_odds": [
+        1.62,
+        1.93
+      ],
+      "last_odds": [
+        1.51,
+        2.11
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-17",
+      "game_no": "8804",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.57,
+      "record_captured_at": "2026-10-17T01:15:34.396312Z",
+      "fixture_key": [
+        123,
+        "bs",
+        "KBO",
+        "KIA",
+        "LG",
+        "10.17(토) 14:00"
+      ]
+    },
+    {
+      "round": 123,
+      "kickoff": "2026-10-17T07:30:00.000000Z",
+      "first_time": "2026-10-16T21:57:35+00:00",
+      "last_time": "2026-10-17T04:20:07+00:00",
+      "first_odds": [
+        1.6,
+        1.96
+      ],
+      "last_odds": [
+        1.3,
+        2.72
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-17",
+      "game_no": "8800",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.5,
+      "record_captured_at": "2026-10-17T00:56:53.038233Z",
+      "fixture_key": [
+        123,
+        "vl",
+        "KOVO컵여",
+        "도로공사",
+        "IBK기업",
+        "10.17(토) 16:30"
+      ]
+    },
+    {
+      "round": 123,
+      "kickoff": "2026-10-17T10:00:00.000000Z",
+      "first_time": "2026-10-16T21:57:35+00:00",
+      "last_time": "2026-10-17T06:33:20+00:00",
+      "first_odds": [
+        1.74,
+        1.78
+      ],
+      "last_odds": [
+        1.46,
+        2.22
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-17",
+      "game_no": "8831",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 0,
+      "record_odds": 1.74,
+      "record_captured_at": "2026-10-16T22:24:23.279376Z",
+      "fixture_key": [
+        123,
+        "sc",
+        "J2리그",
+        "미야자키",
+        "J이와타",
+        "10.17(토) 19:00"
+      ]
+    },
+    {
+      "round": 123,
+      "kickoff": "2026-10-17T11:35:00.000000Z",
+      "first_time": "2026-10-15T23:04:40+00:00",
+      "last_time": "2026-10-17T09:17:34+00:00",
+      "first_odds": [
+        1.52,
+        2.09
+      ],
+      "last_odds": [
+        1.7,
+        1.82
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-10-17",
+      "game_no": "8858",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 0,
+      "record_odds": 1.52,
+      "record_captured_at": "2026-10-16T22:37:38.398646Z",
+      "fixture_key": [
+        123,
+        "sc",
+        "CSL",
+        "칭다하이",
+        "랴오톄런",
+        "10.17(토) 20:35"
+      ]
+    },
+    {
+      "round": 123,
+      "kickoff": "2026-10-17T12:00:00.000000Z",
+      "first_time": "2026-10-15T23:04:40+00:00",
+      "last_time": "2026-10-17T11:15:56+00:00",
+      "first_odds": [
+        1.91,
+        1.63
+      ],
+      "last_odds": [
+        2.64,
+        1.32
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-17",
+      "game_no": "8866",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 1,
+      "record_odds": 1.63,
+      "record_captured_at": "2026-10-16T22:24:24.957819Z",
+      "fixture_key": [
+        123,
+        "sc",
+        "CSL",
+        "산둥타이",
+        "저장FC",
+        "10.17(토) 21:00"
+      ]
+    },
+    {
+      "round": 123,
+      "kickoff": "2026-10-17T18:30:00.000000Z",
+      "first_time": "2026-10-15T23:04:40+00:00",
+      "last_time": "2026-10-17T10:18:30+00:00",
+      "first_odds": [
+        1.68,
+        1.85
+      ],
+      "last_odds": [
+        1.85,
+        1.68
+      ],
+      "first_pick": 0,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-17",
+      "game_no": "9002",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 0,
+      "record_odds": 1.72,
+      "record_captured_at": "2026-10-16T22:24:30.719322Z",
+      "fixture_key": [
+        123,
+        "sc",
+        "MLS",
+        "필라유니",
+        "샬럿FC",
+        "10.18(일) 03:30"
+      ]
+    },
+    {
+      "round": 123,
+      "kickoff": "2026-10-17T18:45:00.000000Z",
+      "first_time": "2026-10-15T23:04:40+00:00",
+      "last_time": "2026-10-16T22:46:31+00:00",
+      "first_odds": [
+        1.99,
+        1.58
+      ],
+      "last_odds": [
+        1.85,
+        1.68
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-17",
+      "game_no": "9008",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.68,
+      "record_captured_at": "2026-10-16T22:57:05.117303Z",
+      "fixture_key": [
+        123,
+        "sc",
+        "세리에A",
+        "AS로마",
+        "제노아",
+        "10.18(일) 03:45"
+      ]
+    },
+    {
+      "round": 123,
+      "kickoff": "2026-10-17T23:30:00.000000Z",
+      "first_time": "2026-10-15T23:04:40+00:00",
+      "last_time": "2026-10-17T06:33:20+00:00",
+      "first_odds": [
+        1.66,
+        1.87
+      ],
+      "last_odds": [
+        1.75,
+        1.77
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-17",
+      "game_no": "9045",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 0,
+      "record_odds": 1.66,
+      "record_captured_at": "2026-10-16T22:24:32.883383Z",
+      "fixture_key": [
+        123,
+        "sc",
+        "MLS",
+        "뉴욕레드",
+        "토론토FC",
+        "10.18(일) 08:30"
+      ]
+    },
+    {
+      "round": 123,
+      "kickoff": "2026-10-18T02:30:00.000000Z",
+      "first_time": "2026-10-15T23:04:40+00:00",
+      "last_time": "2026-10-16T06:59:18+00:00",
+      "first_odds": [
+        1.56,
+        2.02
+      ],
+      "last_odds": [
+        1.5,
+        2.13
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-18",
+      "game_no": "9073",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 0,
+      "record_odds": 1.5,
+      "record_captured_at": "2026-10-16T22:24:34.401821Z",
+      "fixture_key": [
+        123,
+        "sc",
+        "MLS",
+        "포틀팀버",
+        "콜로래피",
+        "10.18(일) 11:30"
+      ]
+    },
+    {
+      "round": 123,
+      "kickoff": "2026-10-18T07:30:00.000000Z",
+      "first_time": "2026-10-15T23:04:40+00:00",
+      "last_time": "2026-10-18T05:30:06+00:00",
+      "first_odds": [
+        2.04,
+        1.55
+      ],
+      "last_odds": [
+        2.22,
+        1.46
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-18",
+      "game_no": "9149",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.55,
+      "record_captured_at": "2026-10-16T22:24:36.716041Z",
+      "fixture_key": [
+        123,
+        "sc",
+        "K리그1",
+        "FC서울",
+        "김천상무",
+        "10.18(일) 16:30"
+      ]
+    },
+    {
+      "round": 123,
+      "kickoff": "2026-10-18T13:00:00.000000Z",
+      "first_time": "2026-10-15T23:04:40+00:00",
+      "last_time": "2026-10-18T12:13:37+00:00",
+      "first_odds": [
+        1.86,
+        1.67
+      ],
+      "last_odds": [
+        1.57,
+        2.0
+      ],
+      "first_pick": 1,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-18",
+      "game_no": "9217",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 0,
+      "record_odds": 1.57,
+      "record_captured_at": "2026-10-18T12:14:44.273143Z",
+      "fixture_key": [
+        123,
+        "sc",
+        "EPL",
+        "본머스",
+        "선덜랜드",
+        "10.18(일) 22:00"
+      ]
+    },
+    {
+      "round": 123,
+      "kickoff": "2026-10-18T13:00:00.000000Z",
+      "first_time": "2026-10-15T23:04:40+00:00",
+      "last_time": "2026-10-18T04:28:31+00:00",
+      "first_odds": [
+        1.46,
+        2.22
+      ],
+      "last_odds": [
+        1.5,
+        2.13
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-10-18",
+      "game_no": "9222",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 0,
+      "record_odds": 1.5,
+      "record_captured_at": "2026-10-18T11:24:44.559045Z",
+      "fixture_key": [
+        123,
+        "sc",
+        "EPL",
+        "브라이턴",
+        "크리스털",
+        "10.18(일) 22:00"
+      ]
+    },
+    {
+      "round": 123,
+      "kickoff": "2026-10-18T13:00:00.000000Z",
+      "first_time": "2026-10-15T23:04:40+00:00",
+      "last_time": "2026-10-18T08:18:46+00:00",
+      "first_odds": [
+        2.09,
+        1.52
+      ],
+      "last_odds": [
+        1.85,
+        1.68
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-18",
+      "game_no": "9227",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.68,
+      "record_captured_at": "2026-10-18T11:24:44.575471Z",
+      "fixture_key": [
+        123,
+        "sc",
+        "EPL",
+        "리즈U",
+        "맨체스U",
+        "10.18(일) 22:00"
+      ]
+    },
+    {
+      "round": 123,
+      "kickoff": "2026-10-18T15:30:00.000000Z",
+      "first_time": "2026-10-15T23:04:40+00:00",
+      "last_time": "2026-10-18T10:16:17+00:00",
+      "first_odds": [
+        1.75,
+        1.77
+      ],
+      "last_odds": [
+        1.82,
+        1.7
+      ],
+      "first_pick": 0,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-18",
+      "game_no": "9288",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.7,
+      "record_captured_at": "2026-10-18T11:24:44.717528Z",
+      "fixture_key": [
+        123,
+        "sc",
+        "EPL",
+        "노팅엄F",
+        "아스널",
+        "10.19(월) 00:30"
+      ]
+    },
+    {
+      "round": 123,
+      "kickoff": "2026-10-18T16:00:00.000000Z",
+      "first_time": "2026-10-15T23:04:40+00:00",
+      "last_time": "2026-10-18T07:16:57+00:00",
+      "first_odds": [
+        1.9,
+        1.64
+      ],
+      "last_odds": [
+        2.04,
+        1.55
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-18",
+      "game_no": "9297",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.55,
+      "record_captured_at": "2026-10-18T11:24:44.735491Z",
+      "fixture_key": [
+        123,
+        "sc",
+        "세리에A",
+        "AC밀란",
+        "아탈란타",
+        "10.19(월) 01:00"
+      ]
+    },
+    {
+      "round": 123,
+      "kickoff": "2026-10-18T16:30:00.000000Z",
+      "first_time": "2026-10-15T23:04:40+00:00",
+      "last_time": "2026-10-18T09:40:34+00:00",
+      "first_odds": [
+        1.87,
+        1.66
+      ],
+      "last_odds": [
+        2.09,
+        1.52
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-18",
+      "game_no": "9301",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.52,
+      "record_captured_at": "2026-10-18T11:33:29.508741Z",
+      "fixture_key": [
+        123,
+        "sc",
+        "라리가",
+        "말라가",
+        "소시에다",
+        "10.19(월) 01:30"
+      ]
+    },
+    {
+      "round": 123,
+      "kickoff": "2026-10-18T18:00:00.000000Z",
+      "first_time": "2026-10-15T23:04:40+00:00",
+      "last_time": "2026-10-18T11:27:31+00:00",
+      "first_odds": [
+        1.75,
+        1.77
+      ],
+      "last_odds": [
+        1.58,
+        1.99
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-10-18",
+      "game_no": "9305",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 0,
+      "record_odds": 1.58,
+      "record_captured_at": "2026-10-18T11:33:29.668605Z",
+      "fixture_key": [
+        123,
+        "sc",
+        "에레디비",
+        "네이메헌",
+        "F시타르",
+        "10.19(월) 03:00"
+      ]
+    },
+    {
+      "round": 123,
+      "kickoff": "2026-10-18T18:00:00.000000Z",
+      "first_time": "2026-10-15T23:04:40+00:00",
+      "last_time": "2026-10-16T22:34:48+00:00",
+      "first_odds": [
+        1.74,
+        1.78
+      ],
+      "last_odds": [
+        1.79,
+        1.73
+      ],
+      "first_pick": 0,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-18",
+      "game_no": "9311",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 1,
+      "record_odds": 1.73,
+      "record_captured_at": "2026-10-16T22:37:40.318429Z",
+      "fixture_key": [
+        123,
+        "sc",
+        "에레디비",
+        "트벤테",
+        "위트레흐",
+        "10.19(월) 03:00"
+      ]
+    },
+    {
+      "round": 123,
+      "kickoff": "2026-10-18T21:08:00.000000Z",
+      "first_time": "2026-10-18T03:58:07+00:00",
+      "last_time": "2026-10-18T09:54:49+00:00",
+      "first_odds": [
+        1.87,
+        1.66
+      ],
+      "last_odds": [
+        1.94,
+        1.61
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-18",
+      "game_no": "9265",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 1,
+      "record_odds": 1.61,
+      "record_captured_at": "2026-10-18T14:01:26.263302Z",
+      "fixture_key": [
+        123,
+        "bs",
+        "MLB",
+        "클리가디",
+        "탬파레이",
+        "10.19(월) 06:08"
+      ]
+    },
+    {
+      "round": 124,
+      "kickoff": "2026-10-19T04:00:00.000000Z",
+      "first_time": "2026-10-18T23:01:41+00:00",
+      "last_time": "2026-10-19T03:10:59+00:00",
+      "first_odds": [
+        1.69,
+        1.84
+      ],
+      "last_odds": [
+        2.02,
+        1.56
+      ],
+      "first_pick": 0,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-19",
+      "game_no": "9332",
+      "market": "핸디캡",
+      "label": "H +1.5",
+      "fixed_pick": 1,
+      "record_odds": 1.56,
+      "record_captured_at": "2026-10-19T03:13:19.736008Z",
+      "fixture_key": [
+        124,
+        "vl",
+        "KOVO컵남",
+        "OK저축",
+        "현대캐피",
+        "10.19(월) 13:00"
+      ]
+    },
+    {
+      "round": 124,
+      "kickoff": "2026-10-19T06:30:00.000000Z",
+      "first_time": "2026-10-18T23:01:41+00:00",
+      "last_time": "2026-10-19T03:58:49+00:00",
+      "first_odds": [
+        1.9,
+        1.64
+      ],
+      "last_odds": [
+        1.67,
+        1.86
+      ],
+      "first_pick": 1,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-19",
+      "game_no": "9335",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.67,
+      "record_captured_at": "2026-10-19T04:00:53.338962Z",
+      "fixture_key": [
+        124,
+        "vl",
+        "KOVO컵남",
+        "한국전력",
+        "KB손보",
+        "10.19(월) 15:30"
+      ]
+    },
+    {
+      "round": 124,
+      "kickoff": "2026-10-19T10:00:00.000000Z",
+      "first_time": "2026-10-18T23:01:41+00:00",
+      "last_time": "2026-10-19T04:31:04+00:00",
+      "first_odds": [
+        1.56,
+        2.02
+      ],
+      "last_odds": [
+        1.51,
+        2.11
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-19",
+      "game_no": "9357",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.51,
+      "record_captured_at": "2026-10-19T09:28:13.176155Z",
+      "fixture_key": [
+        124,
+        "bk",
+        "KBL",
+        "원주DB",
+        "한국가스",
+        "10.19(월) 19:00"
+      ]
+    },
+    {
+      "round": 124,
+      "kickoff": "2026-10-19T18:45:00.000000Z",
+      "first_time": "2026-10-18T23:01:41+00:00",
+      "last_time": "2026-10-19T08:57:22+00:00",
+      "first_odds": [
+        1.48,
+        2.17
+      ],
+      "last_odds": [
+        1.52,
+        2.09
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-10-19",
+      "game_no": "9387",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 0,
+      "record_odds": 1.52,
+      "record_captured_at": "2026-10-19T11:32:17.969679Z",
+      "fixture_key": [
+        124,
+        "sc",
+        "세리에A",
+        "파르마",
+        "토리노",
+        "10.20(화) 03:45"
+      ]
+    },
+    {
+      "round": 124,
+      "kickoff": "2026-10-20T00:08:00.000000Z",
+      "first_time": "2026-10-19T00:54:34+00:00",
+      "last_time": "2026-10-19T10:52:07+00:00",
+      "first_odds": [
+        1.55,
+        2.04
+      ],
+      "last_odds": [
+        1.5,
+        2.13
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-20",
+      "game_no": "9371",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.5,
+      "record_captured_at": "2026-10-19T22:36:56.131522Z",
+      "fixture_key": [
+        124,
+        "bs",
+        "MLB",
+        "탬파레이",
+        "클리가디",
+        "10.20(화) 09:08"
+      ]
+    },
+    {
+      "round": 124,
+      "kickoff": "2026-10-20T04:00:00.000000Z",
+      "first_time": "2026-10-19T22:28:37+00:00",
+      "last_time": "2026-10-20T00:23:55+00:00",
+      "first_odds": [
+        1.62,
+        1.93
+      ],
+      "last_odds": [
+        1.57,
+        2.0
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-20",
+      "game_no": "9400",
+      "market": "핸디캡",
+      "label": "H -1.5",
+      "fixed_pick": 0,
+      "record_odds": 1.57,
+      "record_captured_at": "2026-10-20T03:28:49.418134Z",
+      "fixture_key": [
+        124,
+        "vl",
+        "KOVO컵남",
+        "대한항공",
+        "OK저축",
+        "10.20(화) 13:00"
+      ]
+    },
+    {
+      "round": 124,
+      "kickoff": "2026-10-20T06:30:00.000000Z",
+      "first_time": "2026-10-19T22:28:37+00:00",
+      "last_time": "2026-10-20T05:40:22+00:00",
+      "first_odds": [
+        1.8,
+        1.72
+      ],
+      "last_odds": [
+        2.0,
+        1.57
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-20",
+      "game_no": "9403",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 1,
+      "record_odds": 1.57,
+      "record_captured_at": "2026-10-20T05:42:43.651457Z",
+      "fixture_key": [
+        124,
+        "vl",
+        "KOVO컵남",
+        "KB손보",
+        "우리카드",
+        "10.20(화) 15:30"
+      ]
+    },
+    {
+      "round": 124,
+      "kickoff": "2026-10-20T09:30:00.000000Z",
+      "first_time": "2026-10-19T00:54:34+00:00",
+      "last_time": "2026-10-20T08:27:41+00:00",
+      "first_odds": [
+        1.67,
+        1.86
+      ],
+      "last_odds": [
+        1.89,
+        1.65
+      ],
+      "first_pick": 0,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-20",
+      "game_no": "9420",
+      "market": "언더오버",
+      "label": "U 8.5",
+      "fixed_pick": 1,
+      "record_odds": 1.65,
+      "record_captured_at": "2026-10-20T08:41:02.130940Z",
+      "fixture_key": [
+        124,
+        "bs",
+        "KBO",
+        "LG",
+        "KIA",
+        "10.20(화) 18:30"
+      ]
+    },
+    {
+      "round": 124,
+      "kickoff": "2026-10-20T10:00:00.000000Z",
+      "first_time": "2026-10-19T22:28:37+00:00",
+      "last_time": "2026-10-20T06:45:14+00:00",
+      "first_odds": [
+        1.75,
+        1.77
+      ],
+      "last_odds": [
+        1.8,
+        1.72
+      ],
+      "first_pick": 0,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-20",
+      "game_no": "9428",
+      "market": "언더오버",
+      "label": "U 161.5",
+      "fixed_pick": 1,
+      "record_odds": 1.72,
+      "record_captured_at": "2026-10-20T09:25:25.017817Z",
+      "fixture_key": [
+        124,
+        "bk",
+        "KBL",
+        "서울SK",
+        "안양정관",
+        "10.20(화) 19:00"
+      ]
+    },
+    {
+      "round": 124,
+      "kickoff": "2026-10-20T19:00:00.000000Z",
+      "first_time": "2026-10-18T23:01:41+00:00",
+      "last_time": "2026-10-20T09:32:25+00:00",
+      "first_odds": [
+        1.91,
+        1.63
+      ],
+      "last_odds": [
+        1.99,
+        1.58
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-20",
+      "game_no": "9487",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 1,
+      "record_odds": 1.58,
+      "record_captured_at": "2026-10-20T13:52:43.736080Z",
+      "fixture_key": [
+        124,
+        "sc",
+        "UCL",
+        "맨체스C",
+        "AEK아테",
+        "10.21(수) 04:00"
+      ]
+    },
+    {
+      "round": 124,
+      "kickoff": "2026-10-20T19:00:00.000000Z",
+      "first_time": "2026-10-18T23:01:41+00:00",
+      "last_time": "2026-10-20T05:01:36+00:00",
+      "first_odds": [
+        1.86,
+        1.67
+      ],
+      "last_odds": [
+        2.02,
+        1.56
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-20",
+      "game_no": "9495",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 1,
+      "record_odds": 1.56,
+      "record_captured_at": "2026-10-20T05:14:02.368839Z",
+      "fixture_key": [
+        124,
+        "sc",
+        "UCL",
+        "AS로마",
+        "슬로반브",
+        "10.21(수) 04:00"
+      ]
+    },
+    {
+      "round": 125,
+      "kickoff": "2026-10-21T10:00:00.000000Z",
+      "first_time": "2026-10-20T23:02:43+00:00",
+      "last_time": "2026-10-21T08:04:11+00:00",
+      "first_odds": [
+        1.84,
+        1.65
+      ],
+      "last_odds": [
+        1.98,
+        1.55
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-21",
+      "game_no": "9560",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.55,
+      "record_captured_at": "2026-10-21T08:35:31.011708Z",
+      "fixture_key": [
+        125,
+        "sc",
+        "J1리그",
+        "FC도쿄",
+        "가시와R",
+        "10.21(수) 19:00"
+      ]
+    },
+    {
+      "round": 125,
+      "kickoff": "2026-10-21T10:00:00.000000Z",
+      "first_time": "2026-10-20T23:02:43+00:00",
+      "last_time": "2026-10-21T07:08:50+00:00",
+      "first_odds": [
+        2.0,
+        1.54
+      ],
+      "last_odds": [
+        2.07,
+        1.5
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-21",
+      "game_no": "9576",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.5,
+      "record_captured_at": "2026-10-21T07:11:53.329686Z",
+      "fixture_key": [
+        125,
+        "sc",
+        "J1리그",
+        "나고야G",
+        "C오사카",
+        "10.21(수) 19:00"
+      ]
+    },
+    {
+      "round": 125,
+      "kickoff": "2026-10-21T10:00:00.000000Z",
+      "first_time": "2026-10-20T23:02:43+00:00",
+      "last_time": "2026-10-21T06:17:36+00:00",
+      "first_odds": [
+        1.47,
+        2.13
+      ],
+      "last_odds": [
+        1.61,
+        1.89
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-21",
+      "game_no": "9624",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 0,
+      "record_odds": 1.61,
+      "record_captured_at": "2026-10-21T06:19:58.208842Z",
+      "fixture_key": [
+        125,
+        "sc",
+        "J2리그",
+        "도쿠시마",
+        "하치노헤",
+        "10.21(수) 19:00"
+      ]
+    },
+    {
+      "round": 125,
+      "kickoff": "2026-10-21T10:00:00.000000Z",
+      "first_time": "2026-10-20T23:02:43+00:00",
+      "last_time": "2026-10-21T08:25:24+00:00",
+      "first_odds": [
+        1.56,
+        1.97
+      ],
+      "last_odds": [
+        1.63,
+        1.87
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-21",
+      "game_no": "9630",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.63,
+      "record_captured_at": "2026-10-21T08:27:37.411292Z",
+      "fixture_key": [
+        125,
+        "bk",
+        "KBL",
+        "서울삼성",
+        "부산KCC",
+        "10.21(수) 19:00"
+      ]
+    },
+    {
+      "round": 125,
+      "kickoff": "2026-10-21T11:10:00.000000Z",
+      "first_time": "2026-10-20T23:02:43+00:00",
+      "last_time": "2026-10-21T09:59:30+00:00",
+      "first_odds": [
+        1.75,
+        1.73
+      ],
+      "last_odds": [
+        1.8,
+        1.68
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-21",
+      "game_no": "9640",
+      "market": "핸디캡",
+      "label": "H +2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.68,
+      "record_captured_at": "2026-10-21T10:01:51.575978Z",
+      "fixture_key": [
+        125,
+        "bk",
+        "남농EASL",
+        "TSG고스",
+        "고양소노",
+        "10.21(수) 20:10"
+      ]
+    },
+    {
+      "round": 125,
+      "kickoff": "2026-10-21T23:00:00.000000Z",
+      "first_time": "2026-10-21T05:02:22+00:00",
+      "last_time": "2026-10-21T13:23:01+00:00",
+      "first_odds": [
+        1.46,
+        2.15
+      ],
+      "last_odds": [
+        1.53,
+        2.02
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-10-21",
+      "game_no": "9738",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.53,
+      "record_captured_at": "2026-10-21T13:25:03.010127Z",
+      "fixture_key": [
+        125,
+        "bk",
+        "NBA",
+        "올랜매직",
+        "애틀호크",
+        "10.22(목) 08:00"
+      ]
+    },
+    {
+      "round": 125,
+      "kickoff": "2026-10-21T23:30:00.000000Z",
+      "first_time": "2026-10-21T05:02:22+00:00",
+      "last_time": "2026-10-21T22:51:07+00:00",
+      "first_odds": [
+        1.48,
+        2.11
+      ],
+      "last_odds": [
+        1.85,
+        1.64
+      ],
+      "first_pick": 0,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-21",
+      "game_no": "9750",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 1,
+      "record_odds": 1.64,
+      "record_captured_at": "2026-10-21T22:53:30.933633Z",
+      "fixture_key": [
+        125,
+        "bk",
+        "NBA",
+        "브루네츠",
+        "샬럿호네",
+        "10.22(목) 08:30"
+      ]
+    },
+    {
+      "round": 125,
+      "kickoff": "2026-10-22T00:30:00.000000Z",
+      "first_time": "2026-10-20T23:02:43+00:00",
+      "last_time": "2026-10-21T22:20:27+00:00",
+      "first_odds": [
+        1.55,
+        1.98
+      ],
+      "last_odds": [
+        1.51,
+        2.05
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-22",
+      "game_no": "9772",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 0,
+      "record_odds": 1.51,
+      "record_captured_at": "2026-10-21T22:22:01.730216Z",
+      "fixture_key": [
+        125,
+        "sc",
+        "코파리베",
+        "SE파우메",
+        "플루미넨",
+        "10.22(목) 09:30"
+      ]
+    },
+    {
+      "round": 125,
+      "kickoff": "2026-10-22T04:00:00.000000Z",
+      "first_time": "2026-10-21T22:20:27+00:00",
+      "last_time": "2026-10-22T01:19:02+00:00",
+      "first_odds": [
+        1.6,
+        1.91
+      ],
+      "last_odds": [
+        1.55,
+        1.98
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-10-22",
+      "game_no": "9791",
+      "market": "핸디캡",
+      "label": "H -1.5",
+      "fixed_pick": 0,
+      "record_odds": 1.55,
+      "record_captured_at": "2026-10-22T02:36:35.250407Z",
+      "fixture_key": [
+        125,
+        "vl",
+        "KOVO컵남",
+        "OK저축",
+        "삼성화재",
+        "10.22(목) 13:00"
+      ]
+    },
+    {
+      "round": 125,
+      "kickoff": "2026-10-22T06:30:00.000000Z",
+      "first_time": "2026-10-21T22:20:27+00:00",
+      "last_time": "2026-10-22T04:00:15+00:00",
+      "first_odds": [
+        1.6,
+        1.91
+      ],
+      "last_odds": [
+        1.55,
+        1.98
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-10-22",
+      "game_no": "9794",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.55,
+      "record_captured_at": "2026-10-22T04:58:13.808882Z",
+      "fixture_key": [
+        125,
+        "vl",
+        "KOVO컵남",
+        "우리카드",
+        "한국전력",
+        "10.22(목) 15:30"
+      ]
+    },
+    {
+      "round": 125,
+      "kickoff": "2026-10-22T10:00:00.000000Z",
+      "first_time": "2026-10-21T22:20:27+00:00",
+      "last_time": "2026-10-22T09:01:01+00:00",
+      "first_odds": [
+        2.0,
+        1.54
+      ],
+      "last_odds": [
+        1.83,
+        1.66
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-22",
+      "game_no": "9806",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 1,
+      "record_odds": 1.66,
+      "record_captured_at": "2026-10-22T09:02:42.372329Z",
+      "fixture_key": [
+        125,
+        "bk",
+        "KBL",
+        "울산모비",
+        "창원LG",
+        "10.22(목) 19:00"
+      ]
+    },
+    {
+      "round": 125,
+      "kickoff": "2026-10-22T16:45:00.000000Z",
+      "first_time": "2026-10-20T23:02:43+00:00",
+      "last_time": "2026-10-22T13:43:07+00:00",
+      "first_odds": [
+        1.53,
+        2.02
+      ],
+      "last_odds": [
+        1.67,
+        1.82
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-22",
+      "game_no": "9839",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 0,
+      "record_odds": 1.67,
+      "record_captured_at": "2026-10-22T13:45:54.689421Z",
+      "fixture_key": [
+        125,
+        "sc",
+        "UECL",
+        "야블로네",
+        "브라이턴",
+        "10.23(금) 01:45"
+      ]
+    },
+    {
+      "round": 125,
+      "kickoff": "2026-10-22T16:45:00.000000Z",
+      "first_time": "2026-10-20T23:02:43+00:00",
+      "last_time": "2026-10-22T12:54:33+00:00",
+      "first_odds": [
+        1.92,
+        1.59
+      ],
+      "last_odds": [
+        2.07,
+        1.5
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-22",
+      "game_no": "9880",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.5,
+      "record_captured_at": "2026-10-22T12:56:38.778200Z",
+      "fixture_key": [
+        125,
+        "sc",
+        "UEL",
+        "S그라츠",
+        "마르세유",
+        "10.23(금) 01:45"
+      ]
+    },
+    {
+      "round": 125,
+      "kickoff": "2026-10-22T16:45:00.000000Z",
+      "first_time": "2026-10-20T23:02:43+00:00",
+      "last_time": "2026-10-22T10:43:21+00:00",
+      "first_odds": [
+        1.45,
+        2.18
+      ],
+      "last_odds": [
+        1.53,
+        2.02
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-10-22",
+      "game_no": "9895",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 0,
+      "record_odds": 1.53,
+      "record_captured_at": "2026-10-22T10:45:31.568720Z",
+      "fixture_key": [
+        125,
+        "sc",
+        "UEL",
+        "아라라트",
+        "알크마르",
+        "10.23(금) 01:45"
+      ]
+    },
+    {
+      "round": 125,
+      "kickoff": "2026-10-22T19:00:00.000000Z",
+      "first_time": "2026-10-20T23:02:43+00:00",
+      "last_time": "2026-10-22T08:07:04+00:00",
+      "first_odds": [
+        1.56,
+        1.97
+      ],
+      "last_odds": [
+        1.61,
+        1.89
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-10-22",
+      "game_no": "9917",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 0,
+      "record_odds": 1.61,
+      "record_captured_at": "2026-10-22T13:36:24.137375Z",
+      "fixture_key": [
+        125,
+        "sc",
+        "UECL",
+        "링컨레드",
+        "트벤테",
+        "10.23(금) 04:00"
+      ]
+    },
+    {
+      "round": 125,
+      "kickoff": "2026-10-22T19:00:00.000000Z",
+      "first_time": "2026-10-20T23:02:43+00:00",
+      "last_time": "2026-10-22T08:07:04+00:00",
+      "first_odds": [
+        1.91,
+        1.6
+      ],
+      "last_odds": [
+        1.98,
+        1.55
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-22",
+      "game_no": "9925",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 1,
+      "record_odds": 1.55,
+      "record_captured_at": "2026-10-22T08:09:07.732716Z",
+      "fixture_key": [
+        125,
+        "sc",
+        "UECL",
+        "오르후스",
+        "에그나티",
+        "10.23(금) 04:00"
+      ]
+    },
+    {
+      "round": 125,
+      "kickoff": "2026-10-22T19:00:00.000000Z",
+      "first_time": "2026-10-20T23:02:43+00:00",
+      "last_time": "2026-10-22T12:42:51+00:00",
+      "first_odds": [
+        1.5,
+        2.07
+      ],
+      "last_odds": [
+        1.54,
+        2.0
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-22",
+      "game_no": "9970",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 0,
+      "record_odds": 1.54,
+      "record_captured_at": "2026-10-22T12:45:08.211840Z",
+      "fixture_key": [
+        125,
+        "sc",
+        "UEL",
+        "호펜하임",
+        "리옹",
+        "10.23(금) 04:00"
+      ]
+    },
+    {
+      "round": 125,
+      "kickoff": "2026-10-22T23:00:00.000000Z",
+      "first_time": "2026-10-22T05:14:41+00:00",
+      "last_time": "2026-10-22T13:15:32+00:00",
+      "first_odds": [
+        1.72,
+        1.76
+      ],
+      "last_odds": [
+        1.67,
+        1.82
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-22",
+      "game_no": "9983",
+      "market": "핸디캡",
+      "label": "H -2.5",
+      "fixed_pick": 0,
+      "record_odds": 1.67,
+      "record_captured_at": "2026-10-22T13:17:52.863245Z",
+      "fixture_key": [
+        125,
+        "bk",
+        "NBA",
+        "필라76s",
+        "클리캐벌",
+        "10.23(금) 08:00"
+      ]
+    },
+    {
+      "round": 126,
+      "kickoff": "2026-10-23T18:00:00.000000Z",
+      "first_time": "2026-10-22T23:06:52+00:00",
+      "last_time": "2026-10-23T09:45:27+00:00",
+      "first_odds": [
+        1.61,
+        1.89
+      ],
+      "last_odds": [
+        1.71,
+        1.77
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-10-23",
+      "game_no": "0027",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 0,
+      "record_odds": 1.71,
+      "record_captured_at": "2026-10-23T09:55:32.529895Z",
+      "fixture_key": [
+        126,
+        "sc",
+        "에레디비",
+        "고어헤드",
+        "텔스타",
+        "10.24(토) 03:00"
+      ]
+    },
+    {
+      "round": 126,
+      "kickoff": "2026-10-24T06:00:00.000000Z",
+      "first_time": "2026-10-22T23:06:52+00:00",
+      "last_time": "2026-10-24T04:43:37+00:00",
+      "first_odds": [
+        1.56,
+        1.97
+      ],
+      "last_odds": [
+        1.61,
+        1.89
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-24",
+      "game_no": "0203",
+      "market": "언더오버",
+      "label": "U 2.5",
+      "fixed_pick": 0,
+      "record_odds": 1.61,
+      "record_captured_at": "2026-10-24T04:47:14.700254Z",
+      "fixture_key": [
+        126,
+        "sc",
+        "J1리그",
+        "비셀고베",
+        "마치다Z",
+        "10.24(토) 15:00"
+      ]
+    },
+    {
+      "round": 126,
+      "kickoff": "2026-10-24T07:30:00.000000Z",
+      "first_time": "2026-10-24T04:08:19+00:00",
+      "last_time": "2026-10-24T06:34:17+00:00",
+      "first_odds": [
+        1.79,
+        1.69
+      ],
+      "last_odds": [
+        1.92,
+        1.59
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-24",
+      "game_no": "0257",
+      "market": "언더오버",
+      "label": "U 182.5",
+      "fixed_pick": 1,
+      "record_odds": 1.59,
+      "record_captured_at": "2026-10-24T06:36:23.822870Z",
+      "fixture_key": [
+        126,
+        "vl",
+        "KOVO컵남",
+        "한국전력",
+        "현대캐피",
+        "10.24(토) 16:30"
+      ]
+    },
+    {
+      "round": 126,
+      "kickoff": "2026-10-25T00:00:00.000000Z",
+      "first_time": "2026-10-24T05:46:28+00:00",
+      "last_time": "2026-10-24T22:37:25+00:00",
+      "first_odds": [
+        1.85,
+        1.64
+      ],
+      "last_odds": [
+        1.67,
+        1.82
+      ],
+      "first_pick": 1,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-10-25",
+      "game_no": "0471",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.67,
+      "record_captured_at": "2026-10-24T22:39:43.028984Z",
+      "fixture_key": [
+        126,
+        "bk",
+        "NBA",
+        "시카불스",
+        "워싱위저",
+        "10.25(일) 09:00"
+      ]
+    },
+    {
+      "round": 126,
+      "kickoff": "2026-10-25T00:30:00.000000Z",
+      "first_time": "2026-10-24T05:46:28+00:00",
+      "last_time": "2026-10-24T22:49:03+00:00",
+      "first_odds": [
+        1.7,
+        1.78
+      ],
+      "last_odds": [
+        1.84,
+        1.65
+      ],
+      "first_pick": 0,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-25",
+      "game_no": "0468",
+      "market": "핸디캡",
+      "label": "H -1.5",
+      "fixed_pick": 1,
+      "record_odds": 1.65,
+      "record_captured_at": "2026-10-24T22:51:07.901837Z",
+      "fixture_key": [
+        126,
+        "bk",
+        "NBA",
+        "애틀호크",
+        "휴스로케",
+        "10.25(일) 09:30"
+      ]
+    },
+    {
+      "round": 126,
+      "kickoff": "2026-10-25T04:30:00.000000Z",
+      "first_time": "2026-10-24T22:16:09+00:00",
+      "last_time": "2026-10-25T02:55:45+00:00",
+      "first_odds": [
+        2.25,
+        1.42
+      ],
+      "last_odds": [
+        1.92,
+        1.59
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-25",
+      "game_no": "0524",
+      "market": "핸디캡",
+      "label": "H -1.5",
+      "fixed_pick": 1,
+      "record_odds": 1.59,
+      "record_captured_at": "2026-10-25T02:58:15.263097Z",
+      "fixture_key": [
+        126,
+        "vl",
+        "KOVO컵남",
+        "대한항공",
+        "현대캐피",
+        "10.25(일) 13:30"
+      ]
+    },
+    {
+      "round": 126,
+      "kickoff": "2026-10-25T16:30:00.000000Z",
+      "first_time": "2026-10-22T23:06:52+00:00",
+      "last_time": "2026-10-25T11:15:51+00:00",
+      "first_odds": [
+        2.03,
+        1.52
+      ],
+      "last_odds": [
+        1.94,
+        1.58
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-25",
+      "game_no": "0733",
+      "market": "언더오버",
+      "label": "U 3.5",
+      "fixed_pick": 1,
+      "record_odds": 1.58,
+      "record_captured_at": "2026-10-25T11:18:30.944878Z",
+      "fixture_key": [
+        126,
+        "sc",
+        "분데스리",
+        "프라이부",
+        "바이뮌헨",
+        "10.26(월) 01:30"
+      ]
+    },
+    {
+      "round": 127,
+      "kickoff": "2026-10-26T09:30:00.000000Z",
+      "first_time": "2026-10-25T23:05:04+00:00",
+      "last_time": "2026-10-26T07:38:34+00:00",
+      "first_odds": [
+        1.87,
+        1.63
+      ],
+      "last_odds": [
+        2.02,
+        1.53
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-26",
+      "game_no": "0796",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 1,
+      "record_odds": 1.53,
+      "record_captured_at": "2026-10-26T07:41:32.289082Z",
+      "fixture_key": [
+        127,
+        "bs",
+        "KBO",
+        "삼성",
+        "KIA",
+        "10.26(월) 18:30"
+      ]
+    },
+    {
+      "round": 127,
+      "kickoff": "2026-10-26T23:30:00.000000Z",
+      "first_time": "2026-10-26T03:49:20+00:00",
+      "last_time": "2026-10-26T22:10:58+00:00",
+      "first_odds": [
+        1.01,
+        6.28
+      ],
+      "last_odds": [
+        1.04,
+        5.32
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-26",
+      "game_no": "0854",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.04,
+      "record_captured_at": "2026-10-26T22:13:02.875595Z",
+      "fixture_key": [
+        127,
+        "bk",
+        "NBA",
+        "보스셀틱",
+        "시카불스",
+        "10.27(화) 08:30"
+      ]
+    },
+    {
+      "round": 127,
+      "kickoff": "2026-10-26T23:30:00.000000Z",
+      "first_time": "2026-10-26T03:49:20+00:00",
+      "last_time": "2026-10-26T22:10:58+00:00",
+      "first_odds": [
+        1.14,
+        3.67
+      ],
+      "last_odds": [
+        1.21,
+        3.1
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-10-26",
+      "game_no": "0858",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.21,
+      "record_captured_at": "2026-10-26T22:13:03.038739Z",
+      "fixture_key": [
+        127,
+        "bk",
+        "NBA",
+        "마이히트",
+        "댈러매버",
+        "10.27(화) 08:30"
+      ]
+    },
+    {
+      "round": 127,
+      "kickoff": "2026-10-27T00:00:00.000000Z",
+      "first_time": "2026-10-26T03:49:20+00:00",
+      "last_time": "2026-10-26T22:10:58+00:00",
+      "first_odds": [
+        1.11,
+        4.02
+      ],
+      "last_odds": [
+        1.16,
+        3.48
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-27",
+      "game_no": "0866",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.16,
+      "record_captured_at": "2026-10-26T22:13:03.591098Z",
+      "fixture_key": [
+        127,
+        "bk",
+        "NBA",
+        "오클썬더",
+        "피닉선즈",
+        "10.27(화) 09:00"
+      ]
+    },
+    {
+      "round": 127,
+      "kickoff": "2026-10-27T02:00:00.000000Z",
+      "first_time": "2026-10-26T03:49:20+00:00",
+      "last_time": "2026-10-26T22:10:58+00:00",
+      "first_odds": [
+        1.18,
+        3.31
+      ],
+      "last_odds": [
+        1.22,
+        3.03
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-10-27",
+      "game_no": "0878",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.22,
+      "record_captured_at": "2026-10-26T23:43:16.711344Z",
+      "fixture_key": [
+        127,
+        "bk",
+        "NBA",
+        "덴버너게",
+        "골든워리",
+        "10.27(화) 11:00"
+      ]
+    },
+    {
+      "round": 127,
+      "kickoff": "2026-10-27T09:00:00.000000Z",
+      "first_time": "2026-10-26T22:10:58+00:00",
+      "last_time": "2026-10-27T06:49:09+00:00",
+      "first_odds": [
+        1.3,
+        2.63
+      ],
+      "last_odds": [
+        1.34,
+        2.48
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-27",
+      "game_no": "0882",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.34,
+      "record_captured_at": "2026-10-27T07:22:56.985701Z",
+      "fixture_key": [
+        127,
+        "bs",
+        "NPB",
+        "소프트뱅",
+        "요코베이",
+        "10.27(화) 18:00"
+      ]
+    },
+    {
+      "round": 127,
+      "kickoff": "2026-10-27T09:30:00.000000Z",
+      "first_time": "2026-10-26T22:10:58+00:00",
+      "last_time": "2026-10-27T08:42:05+00:00",
+      "first_odds": [
+        2.18,
+        1.45
+      ],
+      "last_odds": [
+        2.02,
+        1.53
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-27",
+      "game_no": "0887",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 1,
+      "record_odds": 1.53,
+      "record_captured_at": "2026-10-27T09:00:14.666638Z",
+      "fixture_key": [
+        127,
+        "bs",
+        "KBO",
+        "삼성",
+        "KIA",
+        "10.27(화) 18:30"
+      ]
+    },
+    {
+      "round": 128,
+      "kickoff": "2026-10-28T03:00:00.000000Z",
+      "first_time": "2026-10-27T23:09:48+00:00",
+      "last_time": "2026-10-28T02:24:42+00:00",
+      "first_odds": [
+        1.6,
+        1.91
+      ],
+      "last_odds": [
+        1.63,
+        1.87
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-10-28",
+      "game_no": "0988",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.6,
+      "record_captured_at": "2026-10-28T00:56:11.467712Z",
+      "fixture_key": [
+        128,
+        "bk",
+        "NBA",
+        "LA레이커",
+        "포틀트레",
+        "10.28(수) 12:00"
+      ]
+    },
+    {
+      "round": 128,
+      "kickoff": "2026-10-28T10:00:00.000000Z",
+      "first_time": "2026-10-27T23:09:48+00:00",
+      "last_time": "2026-10-28T08:59:28+00:00",
+      "first_odds": [
+        1.44,
+        2.2
+      ],
+      "last_odds": [
+        1.54,
+        2.0
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-10-28",
+      "game_no": "1029",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.54,
+      "record_captured_at": "2026-10-28T09:01:36.158105Z",
+      "fixture_key": [
+        128,
+        "bk",
+        "KBL",
+        "한국가스",
+        "원주DB",
+        "10.28(수) 19:00"
+      ]
+    },
+    {
+      "round": 128,
+      "kickoff": "2026-10-28T11:10:00.000000Z",
+      "first_time": "2026-10-27T23:09:48+00:00",
+      "last_time": "2026-10-28T10:35:49+00:00",
+      "first_odds": [
+        2.38,
+        1.37
+      ],
+      "last_odds": [
+        2.2,
+        1.44
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-28",
+      "game_no": "1034",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 1,
+      "record_odds": 1.44,
+      "record_captured_at": "2026-10-28T10:38:11.685661Z",
+      "fixture_key": [
+        128,
+        "bk",
+        "남농EASL",
+        "타오위파",
+        "류큐골든",
+        "10.28(수) 20:10"
+      ]
+    },
+    {
+      "round": 128,
+      "kickoff": "2026-10-28T12:10:00.000000Z",
+      "first_time": "2026-10-27T23:09:48+00:00",
+      "last_time": "2026-10-28T10:35:49+00:00",
+      "first_odds": [
+        3.9,
+        1.12
+      ],
+      "last_odds": [
+        1.98,
+        1.55
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-10-28",
+      "game_no": "1038",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 1,
+      "record_odds": 1.55,
+      "record_captured_at": "2026-10-28T10:38:11.686743Z",
+      "fixture_key": [
+        128,
+        "bk",
+        "남농EASL",
+        "호우촌",
+        "나가벨카",
+        "10.28(수) 21:10"
+      ]
+    },
+    {
+      "round": 128,
+      "kickoff": "2026-10-29T10:00:00.000000Z",
+      "first_time": "2026-10-28T22:23:33+00:00",
+      "last_time": "2026-10-29T01:12:12+00:00",
+      "first_odds": [
+        2.22,
+        1.43
+      ],
+      "last_odds": [
+        2.41,
+        1.36
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-29",
+      "game_no": "1261",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 1,
+      "record_odds": 1.36,
+      "record_captured_at": "2026-10-29T09:22:37.300795Z",
+      "fixture_key": [
+        128,
+        "bk",
+        "KBL",
+        "울산모비",
+        "부산KCC",
+        "10.29(목) 19:00"
+      ]
+    },
+    {
+      "round": 129,
+      "kickoff": "2026-10-30T23:30:00.000000Z",
+      "first_time": "2026-10-30T05:13:45+00:00",
+      "last_time": "2026-10-30T22:41:50+00:00",
+      "first_odds": [
+        1.85,
+        1.64
+      ],
+      "last_odds": [
+        2.15,
+        1.46
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-10-30",
+      "game_no": "1397",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 1,
+      "record_odds": 1.64,
+      "record_captured_at": "2026-10-30T09:36:31.441360Z",
+      "fixture_key": [
+        129,
+        "bk",
+        "NBA",
+        "필라76s",
+        "뉴욕닉스",
+        "10.31(토) 08:30"
+      ]
+    },
+    {
+      "round": 130,
+      "kickoff": "2026-11-03T00:30:00.000000Z",
+      "first_time": "2026-11-02T06:01:17+00:00",
+      "last_time": "2026-11-02T22:45:32+00:00",
+      "first_odds": [
+        2.25,
+        1.42
+      ],
+      "last_odds": [
+        2.72,
+        1.28
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-11-03",
+      "game_no": "2125",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 1,
+      "record_odds": 1.28,
+      "record_captured_at": "2026-11-02T22:48:24.834161Z",
+      "fixture_key": [
+        130,
+        "bk",
+        "NBA",
+        "샬럿호네",
+        "디트피스",
+        "11.03(화) 09:30"
+      ]
+    },
+    {
+      "round": 130,
+      "kickoff": "2026-11-03T00:30:00.000000Z",
+      "first_time": "2026-11-02T06:01:17+00:00",
+      "last_time": "2026-11-02T22:45:32+00:00",
+      "first_odds": [
+        2.63,
+        1.3
+      ],
+      "last_odds": [
+        4.16,
+        1.1
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-11-03",
+      "game_no": "2129",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 1,
+      "record_odds": 1.1,
+      "record_captured_at": "2026-11-02T23:18:10.435097Z",
+      "fixture_key": [
+        130,
+        "bk",
+        "NBA",
+        "인디페이",
+        "애틀호크",
+        "11.03(화) 09:30"
+      ]
+    },
+    {
+      "round": 130,
+      "kickoff": "2026-11-03T00:30:00.000000Z",
+      "first_time": "2026-11-02T06:01:17+00:00",
+      "last_time": "2026-11-02T22:45:32+00:00",
+      "first_odds": [
+        1.02,
+        5.92
+      ],
+      "last_odds": [
+        1.1,
+        4.16
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-11-03",
+      "game_no": "2141",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.1,
+      "record_captured_at": "2026-11-02T22:48:24.912725Z",
+      "fixture_key": [
+        130,
+        "bk",
+        "NBA",
+        "필라76s",
+        "시카불스",
+        "11.03(화) 09:30"
+      ]
+    },
+    {
+      "round": 130,
+      "kickoff": "2026-11-03T01:00:00.000000Z",
+      "first_time": "2026-11-02T06:01:17+00:00",
+      "last_time": "2026-11-03T00:03:37+00:00",
+      "first_odds": [
+        1.09,
+        4.31
+      ],
+      "last_odds": [
+        1.15,
+        3.57
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-11-03",
+      "game_no": "2145",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.12,
+      "record_captured_at": "2026-11-02T22:48:24.991528Z",
+      "fixture_key": [
+        130,
+        "bk",
+        "NBA",
+        "댈러매버",
+        "새크킹스",
+        "11.03(화) 10:00"
+      ]
+    },
+    {
+      "round": 130,
+      "kickoff": "2026-11-03T01:00:00.000000Z",
+      "first_time": "2026-11-02T06:01:17+00:00",
+      "last_time": "2026-11-02T13:36:44+00:00",
+      "first_odds": [
+        1.06,
+        4.85
+      ],
+      "last_odds": [
+        1.09,
+        4.31
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-11-03",
+      "game_no": "2153",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.09,
+      "record_captured_at": "2026-11-02T22:48:24.994333Z",
+      "fixture_key": [
+        130,
+        "bk",
+        "NBA",
+        "미네울브",
+        "밀워벅스",
+        "11.03(화) 10:00"
+      ]
+    },
+    {
+      "round": 130,
+      "kickoff": "2026-11-03T03:00:00.000000Z",
+      "first_time": "2026-11-02T06:01:17+00:00",
+      "last_time": "2026-11-02T22:45:32+00:00",
+      "first_odds": [
+        1.38,
+        2.35
+      ],
+      "last_odds": [
+        1.46,
+        2.15
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-11-03",
+      "game_no": "2169",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.46,
+      "record_captured_at": "2026-11-03T02:16:58.116485Z",
+      "fixture_key": [
+        130,
+        "bk",
+        "NBA",
+        "골든워리",
+        "피닉선즈",
+        "11.03(화) 12:00"
+      ]
+    },
+    {
+      "round": 130,
+      "kickoff": "2026-11-03T03:00:00.000000Z",
+      "first_time": "2026-11-02T06:01:17+00:00",
+      "last_time": "2026-11-02T22:55:29+00:00",
+      "first_odds": [
+        2.55,
+        1.32
+      ],
+      "last_odds": [
+        2.41,
+        1.36
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-11-03",
+      "game_no": "2173",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 1,
+      "record_odds": 1.36,
+      "record_captured_at": "2026-11-02T22:57:35.872330Z",
+      "fixture_key": [
+        130,
+        "bk",
+        "NBA",
+        "LA클리퍼",
+        "토론랩터",
+        "11.03(화) 12:00"
+      ]
+    },
+    {
+      "round": 130,
+      "kickoff": "2026-11-03T09:30:00.000000Z",
+      "first_time": "2026-11-02T06:01:17+00:00",
+      "last_time": "2026-11-03T08:14:39+00:00",
+      "first_odds": [
+        1.48,
+        2.11
+      ],
+      "last_odds": [
+        1.39,
+        2.33
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-11-03",
+      "game_no": "2225",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.39,
+      "record_captured_at": "2026-11-03T08:52:44.032484Z",
+      "fixture_key": [
+        130,
+        "bs",
+        "KBO",
+        "KT",
+        "삼성",
+        "11.03(화) 18:30"
+      ]
+    },
+    {
+      "round": 130,
+      "kickoff": "2026-11-03T10:00:00.000000Z",
+      "first_time": "2026-11-02T22:11:31+00:00",
+      "last_time": "2026-11-03T09:11:04+00:00",
+      "first_odds": [
+        1.47,
+        2.13
+      ],
+      "last_odds": [
+        1.43,
+        2.22
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-11-03",
+      "game_no": "2245",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.43,
+      "record_captured_at": "2026-11-03T09:14:20.830594Z",
+      "fixture_key": [
+        130,
+        "bk",
+        "KBL",
+        "부산KCC",
+        "고양소노",
+        "11.03(화) 19:00"
+      ]
+    },
+    {
+      "round": 130,
+      "kickoff": "2026-11-03T10:00:00.000000Z",
+      "first_time": "2026-11-02T22:11:31+00:00",
+      "last_time": "2026-11-03T07:10:43+00:00",
+      "first_odds": [
+        1.48,
+        2.11
+      ],
+      "last_odds": [
+        1.35,
+        2.45
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-11-03",
+      "game_no": "2254",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.35,
+      "record_captured_at": "2026-11-03T09:03:13.952706Z",
+      "fixture_key": [
+        130,
+        "vl",
+        "KOVO여",
+        "IBK기업",
+        "현대건설",
+        "11.03(화) 19:00"
+      ]
+    },
+    {
+      "round": 131,
+      "kickoff": "2026-11-04T09:30:00.000000Z",
+      "first_time": "2026-11-03T23:15:22+00:00",
+      "last_time": "2026-11-04T06:10:46+00:00",
+      "first_odds": [
+        1.69,
+        1.79
+      ],
+      "last_odds": [
+        1.59,
+        1.92
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-11-04",
+      "game_no": "2395",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.59,
+      "record_captured_at": "2026-11-04T08:49:36.749437Z",
+      "fixture_key": [
+        131,
+        "bs",
+        "KBO",
+        "KT",
+        "삼성",
+        "11.04(수) 18:30"
+      ]
+    },
+    {
+      "round": 131,
+      "kickoff": "2026-11-04T10:00:00.000000Z",
+      "first_time": "2026-11-03T23:15:22+00:00",
+      "last_time": "2026-11-04T09:14:51+00:00",
+      "first_odds": [
+        1.23,
+        2.97
+      ],
+      "last_odds": [
+        1.19,
+        3.24
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-11-04",
+      "game_no": "2411",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.19,
+      "record_captured_at": "2026-11-04T09:17:37.789858Z",
+      "fixture_key": [
+        131,
+        "bk",
+        "KBL",
+        "서울SK",
+        "한국가스",
+        "11.04(수) 19:00"
+      ]
+    },
+    {
+      "round": 131,
+      "kickoff": "2026-11-04T10:00:00.000000Z",
+      "first_time": "2026-11-03T23:15:22+00:00",
+      "last_time": "2026-11-04T08:32:47+00:00",
+      "first_odds": [
+        3.16,
+        1.2
+      ],
+      "last_odds": [
+        3.57,
+        1.15
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-11-04",
+      "game_no": "2416",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 1,
+      "record_odds": 1.15,
+      "record_captured_at": "2026-11-04T08:36:10.431825Z",
+      "fixture_key": [
+        131,
+        "bk",
+        "WKBL",
+        "신한은행",
+        "우리은행",
+        "11.04(수) 19:00"
+      ]
+    },
+    {
+      "round": 131,
+      "kickoff": "2026-11-04T10:00:00.000000Z",
+      "first_time": "2026-11-03T23:15:22+00:00",
+      "last_time": "2026-11-04T09:14:51+00:00",
+      "first_odds": [
+        1.84,
+        1.65
+      ],
+      "last_odds": [
+        2.07,
+        1.5
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-11-04",
+      "game_no": "2421",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 1,
+      "record_odds": 1.5,
+      "record_captured_at": "2026-11-04T09:31:19.869989Z",
+      "fixture_key": [
+        131,
+        "vl",
+        "KOVO남",
+        "KB손보",
+        "OK저축",
+        "11.04(수) 19:00"
+      ]
+    },
+    {
+      "round": 131,
+      "kickoff": "2026-11-04T10:00:00.000000Z",
+      "first_time": "2026-11-03T23:15:22+00:00",
+      "last_time": "2026-11-04T09:02:34+00:00",
+      "first_odds": [
+        1.35,
+        2.45
+      ],
+      "last_odds": [
+        1.27,
+        2.76
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-11-04",
+      "game_no": "2425",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.27,
+      "record_captured_at": "2026-11-04T09:06:14.512289Z",
+      "fixture_key": [
+        131,
+        "vl",
+        "KOVO여",
+        "흥국생명",
+        "대전정관",
+        "11.04(수) 19:00"
+      ]
+    },
+    {
+      "round": 131,
+      "kickoff": "2026-11-04T11:10:00.000000Z",
+      "first_time": "2026-11-03T23:15:22+00:00",
+      "last_time": "2026-11-04T05:37:38+00:00",
+      "first_odds": [
+        2.41,
+        1.36
+      ],
+      "last_odds": [
+        3.57,
+        1.15
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-11-04",
+      "game_no": "2433",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 1,
+      "record_odds": 1.15,
+      "record_captured_at": "2026-11-04T05:57:43.070296Z",
+      "fixture_key": [
+        131,
+        "bk",
+        "남농EASL",
+        "TSG고스",
+        "알바도쿄",
+        "11.04(수) 20:10"
+      ]
+    },
+    {
+      "round": 131,
+      "kickoff": "2026-11-05T00:30:00.000000Z",
+      "first_time": "2026-11-04T00:38:27+00:00",
+      "last_time": "2026-11-04T12:05:28+00:00",
+      "first_odds": [
+        1.01,
+        6.28
+      ],
+      "last_odds": [
+        1.06,
+        4.85
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-11-05",
+      "game_no": "2567",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 1,
+      "record_odds": 4.85,
+      "record_captured_at": "2026-11-04T12:36:54.111531Z",
+      "fixture_key": [
+        131,
+        "bk",
+        "NBA",
+        "뉴욕닉스",
+        "시카불스",
+        "11.05(목) 09:30"
+      ]
+    },
+    {
+      "round": 131,
+      "kickoff": "2026-11-05T01:00:00.000000Z",
+      "first_time": "2026-11-04T00:38:27+00:00",
+      "last_time": "2026-11-04T22:36:09+00:00",
+      "first_odds": [
+        1.61,
+        1.89
+      ],
+      "last_odds": [
+        1.56,
+        1.97
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-11-05",
+      "game_no": "2579",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 1,
+      "record_odds": 1.89,
+      "record_captured_at": "2026-11-04T11:11:59.311874Z",
+      "fixture_key": [
+        131,
+        "bk",
+        "NBA",
+        "오클썬더",
+        "클리캐벌",
+        "11.05(목) 10:00"
+      ]
+    },
+    {
+      "round": 131,
+      "kickoff": "2026-11-05T01:30:00.000000Z",
+      "first_time": "2026-11-04T00:38:27+00:00",
+      "last_time": "2026-11-04T10:04:14+00:00",
+      "first_odds": [
+        1.14,
+        3.67
+      ],
+      "last_odds": [
+        1.17,
+        3.39
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-11-05",
+      "game_no": "2583",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 1,
+      "record_odds": 3.39,
+      "record_captured_at": "2026-11-05T01:01:57.555799Z",
+      "fixture_key": [
+        131,
+        "bk",
+        "NBA",
+        "휴스로케",
+        "미네울브",
+        "11.05(목) 10:30"
+      ]
+    },
+    {
+      "round": 131,
+      "kickoff": "2026-11-05T02:30:00.000000Z",
+      "first_time": "2026-11-04T00:38:27+00:00",
+      "last_time": "2026-11-05T01:38:08+00:00",
+      "first_odds": [
+        1.05,
+        5.08
+      ],
+      "last_odds": [
+        1.08,
+        4.47
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-11-05",
+      "game_no": "2595",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.08,
+      "record_captured_at": "2026-11-05T01:41:09.789095Z",
+      "fixture_key": [
+        131,
+        "bk",
+        "NBA",
+        "샌안스퍼",
+        "댈러매버",
+        "11.05(목) 11:30"
+      ]
+    },
+    {
+      "round": 131,
+      "kickoff": "2026-11-05T03:00:00.000000Z",
+      "first_time": "2026-11-04T00:38:27+00:00",
+      "last_time": "2026-11-04T11:36:40+00:00",
+      "first_odds": [
+        5.32,
+        1.04
+      ],
+      "last_odds": [
+        4.65,
+        1.07
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-11-05",
+      "game_no": "2599",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 1,
+      "record_odds": 1.07,
+      "record_captured_at": "2026-11-05T01:01:57.630113Z",
+      "fixture_key": [
+        131,
+        "bk",
+        "NBA",
+        "새크킹스",
+        "LA레이커",
+        "11.05(목) 12:00"
+      ]
+    },
+    {
+      "round": 132,
+      "kickoff": "2026-11-06T03:00:00.000000Z",
+      "first_time": "2026-11-05T23:10:05+00:00",
+      "last_time": "2026-11-06T00:04:02+00:00",
+      "first_odds": [
+        1.35,
+        2.45
+      ],
+      "last_odds": [
+        1.4,
+        2.3
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-11-06",
+      "game_no": "2831",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 1,
+      "record_odds": 2.3,
+      "record_captured_at": "2026-11-06T00:07:56.319400Z",
+      "fixture_key": [
+        132,
+        "bk",
+        "NBA",
+        "골든워리",
+        "마이히트",
+        "11.06(금) 12:00"
+      ]
+    },
+    {
+      "round": 132,
+      "kickoff": "2026-11-06T10:00:00.000000Z",
+      "first_time": "2026-11-05T23:10:05+00:00",
+      "last_time": "2026-11-06T09:09:41+00:00",
+      "first_odds": [
+        1.83,
+        1.66
+      ],
+      "last_odds": [
+        1.95,
+        1.57
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-11-06",
+      "game_no": "2847",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 1,
+      "record_odds": 1.57,
+      "record_captured_at": "2026-11-06T09:14:10.687219Z",
+      "fixture_key": [
+        132,
+        "bk",
+        "KBL",
+        "안양정관",
+        "서울SK",
+        "11.06(금) 19:00"
+      ]
+    },
+    {
+      "round": 132,
+      "kickoff": "2026-11-06T10:00:00.000000Z",
+      "first_time": "2026-11-05T23:10:05+00:00",
+      "last_time": "2026-11-06T09:29:27+00:00",
+      "first_odds": [
+        1.55,
+        1.98
+      ],
+      "last_odds": [
+        1.41,
+        2.27
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 1,
+      "block": "2026-11-06",
+      "game_no": "2852",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.49,
+      "record_captured_at": "2026-11-06T09:14:10.689278Z",
+      "fixture_key": [
+        132,
+        "bk",
+        "WKBL",
+        "하나은행",
+        "KB스타즈",
+        "11.06(금) 19:00"
+      ]
+    },
+    {
+      "round": 132,
+      "kickoff": "2026-11-06T10:00:00.000000Z",
+      "first_time": "2026-11-05T23:10:05+00:00",
+      "last_time": "2026-11-06T08:30:37+00:00",
+      "first_odds": [
+        1.78,
+        1.7
+      ],
+      "last_odds": [
+        2.2,
+        1.44
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-11-06",
+      "game_no": "2861",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 1,
+      "record_odds": 1.44,
+      "record_captured_at": "2026-11-06T08:40:04.929783Z",
+      "fixture_key": [
+        132,
+        "vl",
+        "KOVO여",
+        "IBK기업",
+        "GS칼텍스",
+        "11.06(금) 19:00"
+      ]
+    },
+    {
+      "round": 132,
+      "kickoff": "2026-11-07T00:00:00.000000Z",
+      "first_time": "2026-11-06T06:16:44+00:00",
+      "last_time": "2026-11-06T22:44:24+00:00",
+      "first_odds": [
+        1.22,
+        3.03
+      ],
+      "last_odds": [
+        1.18,
+        3.31
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-11-07",
+      "game_no": "2895",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 1,
+      "record_odds": 3.31,
+      "record_captured_at": "2026-11-06T22:48:35.727372Z",
+      "fixture_key": [
+        132,
+        "bk",
+        "NBA",
+        "애틀호크",
+        "워싱위저",
+        "11.07(토) 09:00"
+      ]
+    },
+    {
+      "round": 132,
+      "kickoff": "2026-11-07T00:00:00.000000Z",
+      "first_time": "2026-11-06T06:16:44+00:00",
+      "last_time": "2026-11-06T22:44:24+00:00",
+      "first_odds": [
+        3.67,
+        1.14
+      ],
+      "last_odds": [
+        4.47,
+        1.08
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-11-07",
+      "game_no": "2899",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 1,
+      "record_odds": 1.08,
+      "record_captured_at": "2026-11-06T22:48:35.729815Z",
+      "fixture_key": [
+        132,
+        "bk",
+        "NBA",
+        "샬럿호네",
+        "보스셀틱",
+        "11.07(토) 09:00"
+      ]
+    },
+    {
+      "round": 132,
+      "kickoff": "2026-11-07T01:00:00.000000Z",
+      "first_time": "2026-11-06T06:16:44+00:00",
+      "last_time": "2026-11-06T23:08:40+00:00",
+      "first_odds": [
+        1.18,
+        3.31
+      ],
+      "last_odds": [
+        1.22,
+        3.03
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-11-07",
+      "game_no": "2907",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.22,
+      "record_captured_at": "2026-11-06T23:12:42.289242Z",
+      "fixture_key": [
+        132,
+        "bk",
+        "NBA",
+        "댈러매버",
+        "유타재즈",
+        "11.07(토) 10:00"
+      ]
+    },
+    {
+      "round": 132,
+      "kickoff": "2026-11-07T01:00:00.000000Z",
+      "first_time": "2026-11-06T06:16:44+00:00",
+      "last_time": "2026-11-06T22:32:10+00:00",
+      "first_odds": [
+        3.24,
+        1.19
+      ],
+      "last_odds": [
+        2.38,
+        1.37
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 1,
+      "block": "2026-11-07",
+      "game_no": "2915",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 1,
+      "record_odds": 1.37,
+      "record_captured_at": "2026-11-06T22:36:03.167436Z",
+      "fixture_key": [
+        132,
+        "bk",
+        "NBA",
+        "밀워벅스",
+        "토론랩터",
+        "11.07(토) 10:00"
+      ]
+    },
+    {
+      "round": 132,
+      "kickoff": "2026-11-07T05:00:00.000000Z",
+      "first_time": "2026-11-06T22:10:15+00:00",
+      "last_time": "2026-11-07T04:18:16+00:00",
+      "first_odds": [
+        1.47,
+        2.13
+      ],
+      "last_odds": [
+        1.37,
+        2.38
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-11-07",
+      "game_no": "2995",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.37,
+      "record_captured_at": "2026-11-07T04:22:22.529547Z",
+      "fixture_key": [
+        132,
+        "bk",
+        "KBL",
+        "창원LG",
+        "고양소노",
+        "11.07(토) 14:00"
+      ]
+    },
+    {
+      "round": 132,
+      "kickoff": "2026-11-07T07:00:00.000000Z",
+      "first_time": "2026-11-06T22:10:15+00:00",
+      "last_time": "2026-11-07T06:11:49+00:00",
+      "first_odds": [
+        1.42,
+        2.25
+      ],
+      "last_odds": [
+        1.46,
+        2.15
+      ],
+      "first_pick": 0,
+      "last_pick": 0,
+      "winner": 0,
+      "block": "2026-11-07",
+      "game_no": "3026",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 0,
+      "record_odds": 1.46,
+      "record_captured_at": "2026-11-07T06:15:35.657710Z",
+      "fixture_key": [
+        132,
+        "bk",
+        "WKBL",
+        "우리은행",
+        "삼성생명",
+        "11.07(토) 16:00"
+      ]
+    },
+    {
+      "round": 132,
+      "kickoff": "2026-11-07T07:00:00.000000Z",
+      "first_time": "2026-11-06T22:10:15+00:00",
+      "last_time": "2026-11-06T22:32:10+00:00",
+      "first_odds": [
+        2.35,
+        1.38
+      ],
+      "last_odds": [
+        2.25,
+        1.42
+      ],
+      "first_pick": 1,
+      "last_pick": 1,
+      "winner": 0,
+      "block": "2026-11-07",
+      "game_no": "3031",
+      "market": "승패",
+      "label": "",
+      "fixed_pick": 1,
+      "record_odds": 1.42,
+      "record_captured_at": "2026-11-07T06:02:54.530868Z",
+      "fixture_key": [
+        132,
+        "vl",
+        "KOVO여",
+        "대전정관",
+        "현대건설",
+        "11.07(토) 16:00"
+      ]
+    }
+  ]
+}

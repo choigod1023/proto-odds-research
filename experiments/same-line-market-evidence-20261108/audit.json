@@ -1,0 +1,33 @@
+{
+  "inputs": [
+    {
+      "name": "market-changes-audit-live-20261108.json",
+      "bytes": 4483460,
+      "sha256": "1300031983ee4c6bb400a6eb9867ccd89398659eca92c57af0680567a17b8395",
+      "generated_at": "2026-11-08T01:06:29+00:00"
+    },
+    {
+      "name": "settlement-deploy-all-after-20261108.json",
+      "bytes": 52200179,
+      "sha256": "394fecc75c81773d7e66a10778eccad04064f528958e33ef03532b376e0c75a0",
+      "generated_at": "2026-11-08T00:54:29+00:00"
+    }
+  ],
+  "history_rounds": 31,
+  "history_product_keys": 17415,
+  "history_rows": 25455,
+  "product_keys_with_multiple_rows": 5690,
+  "product_keys_with_changed_odds": 5528,
+  "observed_at_min": "2026-08-31T08:53:36+00:00",
+  "observed_at_max": "2026-11-08T00:54:29+00:00",
+  "result_games": 2940,
+  "result_games_with_prediction_record": 2940,
+  "result_games_with_options": 0,
+  "past_rounds": [
+    100,
+    101,
+    102
+  ],
+  "matched_eligible_events": null,
+  "reason": "No validated join: result rows have no options and history rows lack exact fixture identity and settlement rule; raw HTTP receipt evidence unavailable."
+}
