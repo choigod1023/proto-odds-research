@@ -1,0 +1,48 @@
+{
+  "sources": {
+    "rows": {
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbeffects\\experiments\\kbo-player-effects-20261103\\inputs\\rows.jsonl.gz",
+      "sha256": "793f48649b5936d55424e4d48d65166548ffe762fa244381618a27b62e4b1bf2"
+    },
+    "official_lineups": {
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbeffects\\experiments\\kbo-player-effects-20261103\\inputs\\fresh-history-2026-official_batting_and_starter.jsonl.gz",
+      "sha256": "82a1e8630fafe2e790957900e981512fdfc8e70ba536f5ced45ac785f79dc706"
+    },
+    "scores": {
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbodata\\data\\model_candidates\\kbo\\archived-games.jsonl.gz",
+      "sha256": "c1561a252f226edcfaceffefedc0295394b2905a7368078b96cf71ba76389fce"
+    },
+    "prices": {
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbeffects\\experiments\\kbo-player-effects-20261103\\inputs\\price-ledgers.json",
+      "sha256": "24938f0f5489d22bbc76a830e2f48e2491da6687d3f4a5a2f9e8e8c376790d23"
+    },
+    "existing": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\kbo-adjacent-pairs-20261108\\experiments\\pregame-baseball-20261104\\model-predictions.jsonl.gz",
+      "sha256": "1bff119cf12e332abb8df429336666bb6954dda04b4d774bd75a3523ce7064db"
+    }
+  },
+  "output_sha256": "28f58ce61073743ef24b704796066f10fc85075d54b4c08e35b2557991a5061a",
+  "source_row_counts": {
+    "2023": 723,
+    "2024": 728,
+    "2025": 736,
+    "2026": 726
+  },
+  "exclusions": {
+    "invalid_lineup": 21
+  },
+  "extracted_by_year": {
+    "2025": 732,
+    "2026": 709
+  },
+  "price_by_year": {
+    "2026": 667
+  },
+  "draws_by_year": {
+    "2025": 21,
+    "2026": 16
+  },
+  "available_at": null,
+  "timing": "retrospective; first observation unknown",
+  "warning": "Lineup is postgame inferred; archived data not independently verified official; price times and execution unverified"
+}
