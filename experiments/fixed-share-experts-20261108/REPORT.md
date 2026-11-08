@@ -23,7 +23,7 @@
 
 동일 날짜 묶음 bootstrap 500회, 고정 seed의 95% 분위구간에서 fixed-share−시장 로그손실 차이는 +0.00405~+0.00593, ROI 차이는 -0.31~+0.98%p였다. 이는 반복 측정된 자료의 기술적 불확실성이며 독립 미래 검증이 아니다. 4개 종목 모두 시장보다 로그손실이 나빴다. fixed-share ROI는 2025년 -11.45%(시장 -12.24%), 2026년 -12.75%(시장 -12.41%)로 방향이 바뀌었다. 리그·연도·분기·종목별 전체 수치와 작은 표본은 `summary.json`에 있다. 분기별 ROI 우위도 뒤집히며 미래 우위는 확인되지 않았다.
 
-`predictions.jsonl.gz`는 경기 ID·날짜·리그·원래 세 확률·가중치·방법별 확률·선택·배당 배열·결과·손익을 보존한다. `python -X utf8 experiments/fixed-share-experts-20261108/run.py`와 `python -m pytest -q experiments/fixed-share-experts-20261108/test_run.py`로 재현한다. 합성 테스트는 지연·동일 날짜·정규화·정산을 확인하며 실제 성과가 아니다.
+`predictions.jsonl.gz`는 경기 ID·날짜·리그·원래 세 확률·가중치·방법별 확률·선택·배당 배열·결과·손익을 보존한다. `python -X utf8 experiments/fixed-share-experts-20261108/run.py`와 `python -m pytest -q experiments/fixed-share-experts-20261108/test_fixed_share_experts.py`로 재현한다. 합성 테스트는 지연·동일 날짜·정규화·정산을 확인하며 실제 성과가 아니다.
 
 ## 한계와 판단
 
