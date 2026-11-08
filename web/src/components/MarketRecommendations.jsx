@@ -140,7 +140,7 @@ export default function MarketRecommendations({ recommendations, onSelect, selec
     {recommendations.map(({item, option, result, saved, capturedAt, generatedAt, comparisonVersion}) => <article className="mt-2 rounded border border-rule2 p-2 text-[12px] leading-6" key={`${item.selection_id}|${item.offer_id}`}>
       <b>{item.market} {item.label} · {item.selection} · 배당 {Number(item.odds).toFixed(2)}배</b>
       <p className="my-1">{saved ? `보존된 경기 전 추천 · 기록 ${capturedAt} · ${resultLabel(result)} · ` : ""}{validationLabel(item)} · 기준점 {item.line} · 정산 {ruleLabel(item)}</p>
-      <p className="my-1 text-ink3">선정 기준: {marketModelLabel(item.model)} · 출처 {Array.isArray(item.source_ids) && item.source_ids.length ? item.source_ids.map((source) => source === "proto_official_current_market" ? "현재 프로토 배당" : marketModelLabel(source)).join(", ") : "미제공"}
+      <p className="my-1 text-ink3">선정 기준: {marketModelLabel(item.model)} · 출처 {Array.isArray(item.source_ids) && item.source_ids.length ? item.source_ids.map((source) => source === "proto_official_current_market" ? (saved ? "기록 당시 프로토 배당" : "현재 프로토 배당") : marketModelLabel(source)).join(", ") : "미제공"}
         {generatedAt ? ` · 생성 ${generatedAt}` : ""}</p>
       <p className="my-1 text-ink3">{probabilityLabel(item) && fraction(item.probability) ? `예상 적중확률 ${percent(item.probability)} (${probabilityLabel(item)})` : "예상 적중확률 미제공"}
         {fraction(item.p_push) ? ` · 무효 확률 ${percent(item.p_push)}` : " · 무효 확률 미제공"}
