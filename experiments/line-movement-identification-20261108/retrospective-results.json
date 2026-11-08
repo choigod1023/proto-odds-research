@@ -1,0 +1,659 @@
+{
+  "protocol": "earliest available quote vs latest available quote by T-30; lowest odds, no ties; select changed endpoints",
+  "exclusions": {
+    "ambiguous_game": 2220,
+    "missing_explicit_full_game_terms": 5472,
+    "no_score_match": 183,
+    "ambiguous_kickoff": 104,
+    "score_before_kickoff": 5,
+    "fewer_than_two_pregame_quotes": 22,
+    "no_change_at_endpoints": 2,
+    "tied_endpoint": 2
+  },
+  "all_changed": {
+    "n": 18,
+    "old_hits": 8,
+    "new_hits": 7,
+    "old_hit_rate": 0.4444444444444444,
+    "new_hit_rate": 0.3888888888888889,
+    "delta_pp": -5.555555555555555,
+    "gain_hits": 2,
+    "lost_hits": 3,
+    "net_extra_hits": -1,
+    "old_roi": -0.22999999999999998,
+    "new_roi": -0.335,
+    "original_ticket_hits": 9,
+    "original_ticket_roi": -0.14500000000000002
+  },
+  "direction_flips": {
+    "n": 5,
+    "old_hits": 3,
+    "new_hits": 2,
+    "old_hit_rate": 0.6,
+    "new_hit_rate": 0.4,
+    "delta_pp": -20.0,
+    "gain_hits": 2,
+    "lost_hits": 3,
+    "net_extra_hits": -1,
+    "old_roi": 0.06800000000000002,
+    "new_roi": -0.31,
+    "original_ticket_hits": 3,
+    "original_ticket_roi": 0.025999999999999978
+  },
+  "flips_by_sport": {
+    "bs": {
+      "n": 1,
+      "old_hits": 0,
+      "new_hits": 1,
+      "old_hit_rate": 0.0,
+      "new_hit_rate": 1.0,
+      "delta_pp": 100.0,
+      "gain_hits": 1,
+      "lost_hits": 0,
+      "net_extra_hits": 1,
+      "old_roi": -1.0,
+      "new_roi": 0.72,
+      "original_ticket_hits": 0,
+      "original_ticket_roi": -1.0
+    },
+    "bk": {
+      "n": 4,
+      "old_hits": 3,
+      "new_hits": 1,
+      "old_hit_rate": 0.75,
+      "new_hit_rate": 0.25,
+      "delta_pp": -50.0,
+      "gain_hits": 1,
+      "lost_hits": 3,
+      "net_extra_hits": -2,
+      "old_roi": 0.335,
+      "new_roi": -0.5675,
+      "original_ticket_hits": 3,
+      "original_ticket_roi": 0.2825
+    }
+  },
+  "rows": [
+    {
+      "round": "131",
+      "game_no": "2604",
+      "sport": "bk",
+      "league": "NBA",
+      "home": "LA클리퍼",
+      "away": "마이히트",
+      "kickoff": "2026-11-05T12:30:00+09:00",
+      "score": [
+        116,
+        117
+      ],
+      "score_observed_at": "2026-11-05T06:23:33.206167+00:00",
+      "market": "핸디캡",
+      "old_observed_at": "2026-11-04T00:38:27+00:00",
+      "new_observed_at": "2026-11-04T23:17:11+00:00",
+      "old_line": 4.5,
+      "new_line": 4.5,
+      "old_odds": [
+        1.7,
+        1.78
+      ],
+      "new_odds": [
+        1.77,
+        1.71
+      ],
+      "old_side": 0,
+      "new_side": 1,
+      "new_product_old_hit": 1,
+      "new_product_new_hit": 0,
+      "original_ticket_hit": 1
+    },
+    {
+      "round": "132",
+      "game_no": "2841",
+      "sport": "bs",
+      "league": "KBO",
+      "home": "삼성",
+      "away": "KT",
+      "kickoff": "2026-11-06T18:30:00+09:00",
+      "score": [
+        5,
+        1
+      ],
+      "score_observed_at": "2026-11-06T12:27:46.609698+00:00",
+      "market": "핸디캡",
+      "old_observed_at": "2026-11-05T23:10:05+00:00",
+      "new_observed_at": "2026-11-06T08:34:51+00:00",
+      "old_line": -2.5,
+      "new_line": -2.5,
+      "old_odds": [
+        3.16,
+        1.2
+      ],
+      "new_odds": [
+        2.92,
+        1.24
+      ],
+      "old_side": 1,
+      "new_side": 1,
+      "new_product_old_hit": 0,
+      "new_product_new_hit": 0,
+      "original_ticket_hit": 0
+    },
+    {
+      "round": "132",
+      "game_no": "2842",
+      "sport": "bs",
+      "league": "KBO",
+      "home": "삼성",
+      "away": "KT",
+      "kickoff": "2026-11-06T18:30:00+09:00",
+      "score": [
+        5,
+        1
+      ],
+      "score_observed_at": "2026-11-06T12:27:46.609698+00:00",
+      "market": "언더오버",
+      "old_observed_at": "2026-11-05T23:10:05+00:00",
+      "new_observed_at": "2026-11-06T08:34:51+00:00",
+      "old_line": 9.5,
+      "new_line": 9.5,
+      "old_odds": [
+        1.66,
+        1.83
+      ],
+      "new_odds": [
+        1.61,
+        1.89
+      ],
+      "old_side": 0,
+      "new_side": 0,
+      "new_product_old_hit": 1,
+      "new_product_new_hit": 1,
+      "original_ticket_hit": 1
+    },
+    {
+      "round": "132",
+      "game_no": "2849",
+      "sport": "bk",
+      "league": "KBL",
+      "home": "안양정관",
+      "away": "서울SK",
+      "kickoff": "2026-11-06T19:00:00+09:00",
+      "score": [
+        83,
+        79
+      ],
+      "score_observed_at": "2026-11-06T12:16:49.167203+00:00",
+      "market": "핸디캡",
+      "old_observed_at": "2026-11-05T23:10:05+00:00",
+      "new_observed_at": "2026-11-06T09:23:33+00:00",
+      "old_line": 1.5,
+      "new_line": 1.5,
+      "old_odds": [
+        1.71,
+        1.77
+      ],
+      "new_odds": [
+        1.82,
+        1.67
+      ],
+      "old_side": 0,
+      "new_side": 1,
+      "new_product_old_hit": 1,
+      "new_product_new_hit": 0,
+      "original_ticket_hit": 1
+    },
+    {
+      "round": "132",
+      "game_no": "2850",
+      "sport": "bk",
+      "league": "KBL",
+      "home": "안양정관",
+      "away": "서울SK",
+      "kickoff": "2026-11-06T19:00:00+09:00",
+      "score": [
+        83,
+        79
+      ],
+      "score_observed_at": "2026-11-06T12:16:49.167203+00:00",
+      "market": "언더오버",
+      "old_observed_at": "2026-11-05T23:10:05+00:00",
+      "new_observed_at": "2026-11-06T09:23:33+00:00",
+      "old_line": 163.5,
+      "new_line": 163.5,
+      "old_odds": [
+        1.77,
+        1.71
+      ],
+      "new_odds": [
+        1.73,
+        1.75
+      ],
+      "old_side": 1,
+      "new_side": 0,
+      "new_product_old_hit": 0,
+      "new_product_new_hit": 1,
+      "original_ticket_hit": 0
+    },
+    {
+      "round": "132",
+      "game_no": "2855",
+      "sport": "bk",
+      "league": "WKBL",
+      "home": "하나은행",
+      "away": "KB스타즈",
+      "kickoff": "2026-11-06T19:00:00+09:00",
+      "score": [
+        69,
+        74
+      ],
+      "score_observed_at": "2026-11-06T12:02:05.973034+00:00",
+      "market": "언더오버",
+      "old_observed_at": "2026-11-05T23:10:05+00:00",
+      "new_observed_at": "2026-11-06T09:23:33+00:00",
+      "old_line": 135.5,
+      "new_line": 137.5,
+      "old_odds": [
+        1.76,
+        1.72
+      ],
+      "new_odds": [
+        1.76,
+        1.72
+      ],
+      "old_side": 1,
+      "new_side": 1,
+      "new_product_old_hit": 1,
+      "new_product_new_hit": 1,
+      "original_ticket_hit": 1
+    },
+    {
+      "round": "132",
+      "game_no": "2896",
+      "sport": "bk",
+      "league": "NBA",
+      "home": "애틀호크",
+      "away": "워싱위저",
+      "kickoff": "2026-11-07T09:00:00+09:00",
+      "score": [
+        139,
+        132
+      ],
+      "score_observed_at": "2026-11-07T02:27:13.409167+00:00",
+      "market": "핸디캡",
+      "old_observed_at": "2026-11-06T05:59:47+00:00",
+      "new_observed_at": "2026-11-06T23:17:25+00:00",
+      "old_line": -6.5,
+      "new_line": -7.5,
+      "old_odds": [
+        1.69,
+        1.79
+      ],
+      "new_odds": [
+        1.69,
+        1.79
+      ],
+      "old_side": 0,
+      "new_side": 0,
+      "new_product_old_hit": 0,
+      "new_product_new_hit": 0,
+      "original_ticket_hit": 1
+    },
+    {
+      "round": "132",
+      "game_no": "2897",
+      "sport": "bk",
+      "league": "NBA",
+      "home": "애틀호크",
+      "away": "워싱위저",
+      "kickoff": "2026-11-07T09:00:00+09:00",
+      "score": [
+        139,
+        132
+      ],
+      "score_observed_at": "2026-11-07T02:27:13.409167+00:00",
+      "market": "언더오버",
+      "old_observed_at": "2026-11-06T05:59:47+00:00",
+      "new_observed_at": "2026-11-06T23:17:25+00:00",
+      "old_line": 231.5,
+      "new_line": 229.5,
+      "old_odds": [
+        1.76,
+        1.72
+      ],
+      "new_odds": [
+        1.73,
+        1.75
+      ],
+      "old_side": 1,
+      "new_side": 0,
+      "new_product_old_hit": 1,
+      "new_product_new_hit": 0,
+      "original_ticket_hit": 1
+    },
+    {
+      "round": "132",
+      "game_no": "2900",
+      "sport": "bk",
+      "league": "NBA",
+      "home": "샬럿호네",
+      "away": "보스셀틱",
+      "kickoff": "2026-11-07T09:00:00+09:00",
+      "score": [
+        80,
+        119
+      ],
+      "score_observed_at": "2026-11-07T02:27:13.409167+00:00",
+      "market": "핸디캡",
+      "old_observed_at": "2026-11-06T05:59:47+00:00",
+      "new_observed_at": "2026-11-06T23:17:25+00:00",
+      "old_line": 8.5,
+      "new_line": 9.5,
+      "old_odds": [
+        1.75,
+        1.73
+      ],
+      "new_odds": [
+        1.75,
+        1.73
+      ],
+      "old_side": 1,
+      "new_side": 1,
+      "new_product_old_hit": 1,
+      "new_product_new_hit": 1,
+      "original_ticket_hit": 1
+    },
+    {
+      "round": "132",
+      "game_no": "2901",
+      "sport": "bk",
+      "league": "NBA",
+      "home": "샬럿호네",
+      "away": "보스셀틱",
+      "kickoff": "2026-11-07T09:00:00+09:00",
+      "score": [
+        80,
+        119
+      ],
+      "score_observed_at": "2026-11-07T02:27:13.409167+00:00",
+      "market": "언더오버",
+      "old_observed_at": "2026-11-06T05:59:47+00:00",
+      "new_observed_at": "2026-11-06T23:17:25+00:00",
+      "old_line": 211.5,
+      "new_line": 210.5,
+      "old_odds": [
+        1.76,
+        1.72
+      ],
+      "new_odds": [
+        1.76,
+        1.72
+      ],
+      "old_side": 1,
+      "new_side": 1,
+      "new_product_old_hit": 0,
+      "new_product_new_hit": 0,
+      "original_ticket_hit": 0
+    },
+    {
+      "round": "132",
+      "game_no": "2905",
+      "sport": "bk",
+      "league": "NBA",
+      "home": "클리캐벌",
+      "away": "필라76s",
+      "kickoff": "2026-11-07T09:30:00+09:00",
+      "score": [
+        119,
+        95
+      ],
+      "score_observed_at": "2026-11-07T03:14:23.730401+00:00",
+      "market": "언더오버",
+      "old_observed_at": "2026-11-06T05:59:47+00:00",
+      "new_observed_at": "2026-11-06T23:39:40+00:00",
+      "old_line": 229.5,
+      "new_line": 231.5,
+      "old_odds": [
+        1.75,
+        1.73
+      ],
+      "new_odds": [
+        1.75,
+        1.73
+      ],
+      "old_side": 1,
+      "new_side": 1,
+      "new_product_old_hit": 0,
+      "new_product_new_hit": 0,
+      "original_ticket_hit": 0
+    },
+    {
+      "round": "132",
+      "game_no": "2913",
+      "sport": "bk",
+      "league": "NBA",
+      "home": "멤피그리",
+      "away": "오클썬더",
+      "kickoff": "2026-11-07T10:00:00+09:00",
+      "score": [
+        97,
+        128
+      ],
+      "score_observed_at": "2026-11-07T03:28:07.095425+00:00",
+      "market": "언더오버",
+      "old_observed_at": "2026-11-06T05:59:47+00:00",
+      "new_observed_at": "2026-11-07T00:24:16+00:00",
+      "old_line": 226.5,
+      "new_line": 225.5,
+      "old_odds": [
+        1.76,
+        1.72
+      ],
+      "new_odds": [
+        1.76,
+        1.72
+      ],
+      "old_side": 1,
+      "new_side": 1,
+      "new_product_old_hit": 0,
+      "new_product_new_hit": 0,
+      "original_ticket_hit": 0
+    },
+    {
+      "round": "132",
+      "game_no": "2916",
+      "sport": "bk",
+      "league": "NBA",
+      "home": "밀워벅스",
+      "away": "토론랩터",
+      "kickoff": "2026-11-07T10:00:00+09:00",
+      "score": [
+        107,
+        121
+      ],
+      "score_observed_at": "2026-11-07T03:47:21.088977+00:00",
+      "market": "핸디캡",
+      "old_observed_at": "2026-11-06T05:59:47+00:00",
+      "new_observed_at": "2026-11-07T00:24:16+00:00",
+      "old_line": 7.5,
+      "new_line": 4.5,
+      "old_odds": [
+        1.75,
+        1.73
+      ],
+      "new_odds": [
+        1.75,
+        1.73
+      ],
+      "old_side": 1,
+      "new_side": 1,
+      "new_product_old_hit": 1,
+      "new_product_new_hit": 1,
+      "original_ticket_hit": 1
+    },
+    {
+      "round": "132",
+      "game_no": "2917",
+      "sport": "bk",
+      "league": "NBA",
+      "home": "밀워벅스",
+      "away": "토론랩터",
+      "kickoff": "2026-11-07T10:00:00+09:00",
+      "score": [
+        107,
+        121
+      ],
+      "score_observed_at": "2026-11-07T03:47:21.088977+00:00",
+      "market": "언더오버",
+      "old_observed_at": "2026-11-06T05:59:47+00:00",
+      "new_observed_at": "2026-11-07T00:24:16+00:00",
+      "old_line": 231.5,
+      "new_line": 230.5,
+      "old_odds": [
+        1.76,
+        1.72
+      ],
+      "new_odds": [
+        1.76,
+        1.72
+      ],
+      "old_side": 1,
+      "new_side": 1,
+      "new_product_old_hit": 0,
+      "new_product_new_hit": 0,
+      "original_ticket_hit": 0
+    },
+    {
+      "round": "132",
+      "game_no": "2928",
+      "sport": "bk",
+      "league": "NBA",
+      "home": "새크킹스",
+      "away": "샌안스퍼",
+      "kickoff": "2026-11-07T12:00:00+09:00",
+      "score": [
+        109,
+        124
+      ],
+      "score_observed_at": "2026-11-07T05:47:01.887977+00:00",
+      "market": "핸디캡",
+      "old_observed_at": "2026-11-06T05:59:47+00:00",
+      "new_observed_at": "2026-11-07T02:27:51+00:00",
+      "old_line": 15.5,
+      "new_line": 16.5,
+      "old_odds": [
+        1.75,
+        1.73
+      ],
+      "new_odds": [
+        1.75,
+        1.73
+      ],
+      "old_side": 1,
+      "new_side": 1,
+      "new_product_old_hit": 0,
+      "new_product_new_hit": 0,
+      "original_ticket_hit": 0
+    },
+    {
+      "round": "132",
+      "game_no": "2929",
+      "sport": "bk",
+      "league": "NBA",
+      "home": "새크킹스",
+      "away": "샌안스퍼",
+      "kickoff": "2026-11-07T12:00:00+09:00",
+      "score": [
+        109,
+        124
+      ],
+      "score_observed_at": "2026-11-07T05:47:01.887977+00:00",
+      "market": "언더오버",
+      "old_observed_at": "2026-11-06T05:59:47+00:00",
+      "new_observed_at": "2026-11-07T02:27:51+00:00",
+      "old_line": 229.5,
+      "new_line": 231.5,
+      "old_odds": [
+        1.75,
+        1.73
+      ],
+      "new_odds": [
+        1.75,
+        1.73
+      ],
+      "old_side": 1,
+      "new_side": 1,
+      "new_product_old_hit": 1,
+      "new_product_new_hit": 1,
+      "original_ticket_hit": 1
+    },
+    {
+      "round": "132",
+      "game_no": "2990",
+      "sport": "bs",
+      "league": "KBO",
+      "home": "삼성",
+      "away": "KT",
+      "kickoff": "2026-11-07T14:00:00+09:00",
+      "score": [
+        10,
+        5
+      ],
+      "score_observed_at": "2026-11-07T08:19:26.847078+00:00",
+      "market": "언더오버",
+      "old_observed_at": "2026-11-06T22:07:51+00:00",
+      "new_observed_at": "2026-11-07T04:29:17+00:00",
+      "old_line": 9.5,
+      "new_line": 9.5,
+      "old_odds": [
+        1.71,
+        1.77
+      ],
+      "new_odds": [
+        1.76,
+        1.72
+      ],
+      "old_side": 0,
+      "new_side": 1,
+      "new_product_old_hit": 0,
+      "new_product_new_hit": 1,
+      "original_ticket_hit": 0
+    },
+    {
+      "round": "132",
+      "game_no": "3028",
+      "sport": "bk",
+      "league": "WKBL",
+      "home": "우리은행",
+      "away": "삼성생명",
+      "kickoff": "2026-11-07T16:00:00+09:00",
+      "score": [
+        65,
+        54
+      ],
+      "score_observed_at": "2026-11-07T08:53:42.771194+00:00",
+      "market": "핸디캡",
+      "old_observed_at": "2026-11-06T22:07:51+00:00",
+      "new_observed_at": "2026-11-07T06:11:49+00:00",
+      "old_line": -3.5,
+      "new_line": -3.5,
+      "old_odds": [
+        1.76,
+        1.72
+      ],
+      "new_odds": [
+        1.82,
+        1.67
+      ],
+      "old_side": 1,
+      "new_side": 1,
+      "new_product_old_hit": 0,
+      "new_product_new_hit": 0,
+      "original_ticket_hit": 0
+    }
+  ],
+  "input_sha256": {
+    "history": "1300031983ee4c6bb400a6eb9867ccd89398659eca92c57af0680567a17b8395",
+    "response": "394fecc75c81773d7e66a10778eccad04064f528958e33ef03532b376e0c75a0",
+    "db": "de85c69eb6339a81473754374d71116864dd2a6e02e6fefd0f354fc1b412ed45",
+    "scores": "e11a4cad5208c0ace081734eed804a23a3b2b7d04240925925582dde32115b2c"
+  }
+}

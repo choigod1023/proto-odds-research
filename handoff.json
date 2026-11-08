@@ -1,10 +1,10 @@
 {
   "scope": "fixed-pick line movement identification and local evidence inventory",
-  "status": "partial_evidence_model_comparison_unavailable",
+  "status": "retrospective_market_comparison_small_selected_sample",
   "report": "experiments/line-movement-identification-20261108/REPORT.md",
   "results": "experiments/line-movement-identification-20261108/results.json",
   "eligible_model_comparison": null,
-  "reason": "Pregame frozen and updated distributions, original product and official settlement not matched; planned read-only DB extract was not present when checked.",
+  "reason": "Five selected retrospective market direction changes; actual pregame model distributions and model comparison unavailable.",
   "line_change_product_keys": 332,
   "same_odds_different_line_product_keys": 235,
   "current_response_association_candidate_keys": 19,
@@ -18,7 +18,21 @@
     "by_t30": 0,
     "matching_final_label_and_result": 0
   },
-  "direction_change_metrics": "not computed; no matched settled candidates",
+  "direction_change_metrics": {
+    "n": 5,
+    "old_hits": 3,
+    "new_hits": 2,
+    "old_hit_rate": 0.6,
+    "new_hit_rate": 0.4,
+    "delta_pp": -20.0,
+    "gain_hits": 2,
+    "lost_hits": 3,
+    "net_extra_hits": -1,
+    "old_roi": 0.06800000000000002,
+    "new_roi": -0.31,
+    "original_ticket_hits": 3,
+    "original_ticket_roi": 0.025999999999999978
+  },
   "broad_identifier_inventory": {
     "counts": {
       "unique_candidate_product_keys": 310,
@@ -41,5 +55,7 @@
       "market-baseline-v1": 18,
       "kbl-team-margin-handicap-v1": 1
     }
-  }
+  },
+  "retrospective_report": "experiments/line-movement-identification-20261108/RETROSPECTIVE.md",
+  "retrospective_results": "experiments/line-movement-identification-20261108/retrospective-results.json"
 }
