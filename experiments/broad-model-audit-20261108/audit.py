@@ -37,6 +37,13 @@ def audit(inputs):
             unique.add(rowkey)
             group = (r['day'][:4], r['sport'], product, r['model'])
             groups[group].append(r)
+        coverage = defaultdict(dict)
+        for (year, sport, product, model), rows in groups.items():
+            coverage[(year, sport, product)][model] = {
+                (r['event_id'], r.get('line')) for r in rows}
+        for models in coverage.values():
+            reference = next(iter(models.values()))
+            assert all(ids == reference for ids in models.values()), 'Different matched-event coverage'
         metrics = []
         for (year, sport, product, model), rows in sorted(groups.items()):
             n = len(rows)

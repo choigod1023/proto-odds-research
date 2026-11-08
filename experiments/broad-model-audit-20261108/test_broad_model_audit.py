@@ -42,3 +42,10 @@ def test_rejects_wrong_stored_payout(tmp_path):
     bad['net'] = '3.1'
     with pytest.raises(AssertionError):
         audit_module.audit(write_rows(tmp_path, [bad]))
+
+
+def test_rejects_missing_comparator_event(tmp_path):
+    extra = row()
+    extra['event_id'] = 'second-event'
+    with pytest.raises(AssertionError):
+        audit_module.audit(write_rows(tmp_path, [row(), extra, row('candidate')]))
