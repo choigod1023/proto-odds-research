@@ -1,0 +1,111 @@
+{
+  "source_sha256": "de85c69eb6339a81473754374d71116864dd2a6e02e6fefd0f354fc1b412ed45",
+  "source_file": "C:\\Users\\user\\AppData\\Local\\Temp\\market-movement-20261108\\db-changed-products-132.json.gz",
+  "source_meta": {
+    "kind": "read_only_db_slice",
+    "season": 2026,
+    "rounds": [
+      132
+    ],
+    "requested_products": 211,
+    "raw_rows": 16647,
+    "states": 1129,
+    "truncated": true,
+    "elapsed": 8.157,
+    "http_body_proven": false
+  },
+  "observed_products": 143,
+  "transition_counts": {
+    "price": 170,
+    "price_and_line": 4,
+    "line": 12
+  },
+  "old_detector_missed_line_only": 12,
+  "examples": [
+    {
+      "product": [
+        2026,
+        132,
+        "2855"
+      ],
+      "market": "언더오버",
+      "home": "하나은행",
+      "away": "KB스타즈",
+      "old_label": "U 135.5",
+      "new_label": "U 137.5",
+      "odds": "1.76,1.72",
+      "previous_last_observed_at": "2026-11-06T00:01:02+00:00",
+      "first_new_observed_at": "2026-11-06T00:24:17+00:00",
+      "old_detector_changed": false,
+      "new_detector_changed": true
+    },
+    {
+      "product": [
+        2026,
+        132,
+        "2896"
+      ],
+      "market": "핸디캡",
+      "home": "애틀호크",
+      "away": "워싱위저",
+      "old_label": "H -6.5",
+      "new_label": "H -7.5",
+      "odds": "1.69,1.79",
+      "previous_last_observed_at": "2026-11-06T22:29:59+00:00",
+      "first_new_observed_at": "2026-11-06T22:54:32+00:00",
+      "old_detector_changed": false,
+      "new_detector_changed": true
+    },
+    {
+      "product": [
+        2026,
+        132,
+        "2897"
+      ],
+      "market": "언더오버",
+      "home": "애틀호크",
+      "away": "워싱위저",
+      "old_label": "U 231.5",
+      "new_label": "U 229.5",
+      "odds": "1.73,1.75",
+      "previous_last_observed_at": "2026-11-06T22:07:51+00:00",
+      "first_new_observed_at": "2026-11-06T22:29:59+00:00",
+      "old_detector_changed": false,
+      "new_detector_changed": true
+    },
+    {
+      "product": [
+        2026,
+        132,
+        "2900"
+      ],
+      "market": "핸디캡",
+      "home": "샬럿호네",
+      "away": "보스셀틱",
+      "old_label": "H +8.5",
+      "new_label": "H +9.5",
+      "odds": "1.75,1.73",
+      "previous_last_observed_at": "2026-11-06T22:29:59+00:00",
+      "first_new_observed_at": "2026-11-06T22:54:32+00:00",
+      "old_detector_changed": false,
+      "new_detector_changed": true
+    },
+    {
+      "product": [
+        2026,
+        132,
+        "2901"
+      ],
+      "market": "언더오버",
+      "home": "샬럿호네",
+      "away": "보스셀틱",
+      "old_label": "U 211.5",
+      "new_label": "U 210.5",
+      "odds": "1.76,1.72",
+      "previous_last_observed_at": "2026-11-06T22:07:51+00:00",
+      "first_new_observed_at": "2026-11-06T22:29:59+00:00",
+      "old_detector_changed": false,
+      "new_detector_changed": true
+    }
+  ]
+}
