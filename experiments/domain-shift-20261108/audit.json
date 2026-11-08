@@ -1,0 +1,184 @@
+{
+  "audit": "passed",
+  "unique_events": 6418,
+  "counts": {
+    "bs": 2959,
+    "bk": 1016,
+    "vl": 139,
+    "sc": 2304
+  },
+  "prediction_rows": 25672,
+  "predictions_sha256": "05a0ea792afccfd24fb5ecaaf863ff8ec07f903475dc099a0aed636335b48c9b",
+  "holm_scope": "2 candidate models x 4 sports x 3 metrics; not across all concurrent studies",
+  "holm_rejections_005": 0,
+  "hypotheses": [
+    {
+      "sport": "bs",
+      "model": "density_ratio_offset",
+      "metric": "accuracy",
+      "p": 0.04895104895104895,
+      "holm_p_within_domain_family_24": 1.0
+    },
+    {
+      "sport": "bs",
+      "model": "density_ratio_offset",
+      "metric": "roi",
+      "p": 0.024975024975024976,
+      "holm_p_within_domain_family_24": 0.5994005994005994
+    },
+    {
+      "sport": "bs",
+      "model": "density_ratio_offset",
+      "metric": "logloss",
+      "p": 0.2807192807192807,
+      "holm_p_within_domain_family_24": 1.0
+    },
+    {
+      "sport": "bs",
+      "model": "margin_histogram_offset",
+      "metric": "accuracy",
+      "p": 0.19480519480519481,
+      "holm_p_within_domain_family_24": 1.0
+    },
+    {
+      "sport": "bs",
+      "model": "margin_histogram_offset",
+      "metric": "roi",
+      "p": 0.12787212787212787,
+      "holm_p_within_domain_family_24": 1.0
+    },
+    {
+      "sport": "bs",
+      "model": "margin_histogram_offset",
+      "metric": "logloss",
+      "p": 0.964035964035964,
+      "holm_p_within_domain_family_24": 1.0
+    },
+    {
+      "sport": "bk",
+      "model": "density_ratio_offset",
+      "metric": "accuracy",
+      "p": 0.5824175824175825,
+      "holm_p_within_domain_family_24": 1.0
+    },
+    {
+      "sport": "bk",
+      "model": "density_ratio_offset",
+      "metric": "roi",
+      "p": 0.36863136863136864,
+      "holm_p_within_domain_family_24": 1.0
+    },
+    {
+      "sport": "bk",
+      "model": "density_ratio_offset",
+      "metric": "logloss",
+      "p": 0.11388611388611389,
+      "holm_p_within_domain_family_24": 1.0
+    },
+    {
+      "sport": "bk",
+      "model": "margin_histogram_offset",
+      "metric": "accuracy",
+      "p": 0.46353646353646355,
+      "holm_p_within_domain_family_24": 1.0
+    },
+    {
+      "sport": "bk",
+      "model": "margin_histogram_offset",
+      "metric": "roi",
+      "p": 0.21178821178821178,
+      "holm_p_within_domain_family_24": 1.0
+    },
+    {
+      "sport": "bk",
+      "model": "margin_histogram_offset",
+      "metric": "logloss",
+      "p": 0.6053946053946054,
+      "holm_p_within_domain_family_24": 1.0
+    },
+    {
+      "sport": "vl",
+      "model": "density_ratio_offset",
+      "metric": "accuracy",
+      "p": 0.4945054945054945,
+      "holm_p_within_domain_family_24": 1.0
+    },
+    {
+      "sport": "vl",
+      "model": "density_ratio_offset",
+      "metric": "roi",
+      "p": 0.17882117882117882,
+      "holm_p_within_domain_family_24": 1.0
+    },
+    {
+      "sport": "vl",
+      "model": "density_ratio_offset",
+      "metric": "logloss",
+      "p": 0.18081918081918083,
+      "holm_p_within_domain_family_24": 1.0
+    },
+    {
+      "sport": "vl",
+      "model": "margin_histogram_offset",
+      "metric": "accuracy",
+      "p": 0.6833166833166833,
+      "holm_p_within_domain_family_24": 1.0
+    },
+    {
+      "sport": "vl",
+      "model": "margin_histogram_offset",
+      "metric": "roi",
+      "p": 0.22377622377622378,
+      "holm_p_within_domain_family_24": 1.0
+    },
+    {
+      "sport": "vl",
+      "model": "margin_histogram_offset",
+      "metric": "logloss",
+      "p": 0.1978021978021978,
+      "holm_p_within_domain_family_24": 1.0
+    },
+    {
+      "sport": "sc",
+      "model": "density_ratio_offset",
+      "metric": "accuracy",
+      "p": 0.7622377622377622,
+      "holm_p_within_domain_family_24": 1.0
+    },
+    {
+      "sport": "sc",
+      "model": "density_ratio_offset",
+      "metric": "roi",
+      "p": 0.5574425574425574,
+      "holm_p_within_domain_family_24": 1.0
+    },
+    {
+      "sport": "sc",
+      "model": "density_ratio_offset",
+      "metric": "logloss",
+      "p": 0.4835164835164835,
+      "holm_p_within_domain_family_24": 1.0
+    },
+    {
+      "sport": "sc",
+      "model": "margin_histogram_offset",
+      "metric": "accuracy",
+      "p": 1.0,
+      "holm_p_within_domain_family_24": 1.0
+    },
+    {
+      "sport": "sc",
+      "model": "margin_histogram_offset",
+      "metric": "roi",
+      "p": 0.7492507492507493,
+      "holm_p_within_domain_family_24": 1.0
+    },
+    {
+      "sport": "sc",
+      "model": "margin_histogram_offset",
+      "metric": "logloss",
+      "p": 0.42157842157842157,
+      "holm_p_within_domain_family_24": 1.0
+    }
+  ]
+}
