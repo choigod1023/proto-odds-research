@@ -1,0 +1,19 @@
+{
+  "branch": "codex/kbo-adjacent-pairs-20261108",
+  "research_commit": "61e8b2d1",
+  "protocol_commit": "79656549",
+  "pr": "https://github.com/choigod1023/proto-odds-research/pull/649",
+  "pr_status": "draft; unmerged; no deployment",
+  "path": "experiments/kbo-adjacent-pairs-20261108/",
+  "tests": "python -X utf8 -m unittest discover -s experiments/kbo-adjacent-pairs-20261108 -p test_kbo_adjacent_pairs.py: 7 passed; audit_sources.py: 709 scores and 667 prices matched",
+  "actual_scope": "2025 732 KBO postgame-derived lineup training/validation; 2026 709 official-lineup-retrospective predictions; 439 same-price existing-model comparisons including 10 draw refunds; 667 price-only comparisons including 15 draws; strict pregame n=0",
+  "conclusion": "No reliable ROI or hit-rate superiority; 439 matched games and 228 missing prior predictions are separated in time, with pair-market ROI sign reversing on 667. Strict pregame sample remains zero.",
+  "limitations": [
+    "Archived score and source chain not independently fully reverified",
+    "2026 outcomes previously inspected in other research",
+    "Starting pitcher and total/handicap prices not connected",
+    "No cancelled-game universe or independently proven historical purchase availability",
+    "Estimated pair effect is predictive association, not causation"
+  ],
+  "followup": "Added paired weekly CIs for pair versus market and prior research on 439, versus market on all 667; inspected 228 missing prior predictions and verified source joins."
+}
