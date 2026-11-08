@@ -1,0 +1,475 @@
+{
+  "train": [
+    "2023-01-01",
+    "2025-12-27"
+  ],
+  "evaluation_requested": [
+    "2026-01-01",
+    "2026-08-26"
+  ],
+  "evaluation_actual": [
+    "2026-02-28",
+    "2026-07-26"
+  ],
+  "n_raw": 816,
+  "n_connected": 789,
+  "n_train": 683,
+  "n_test": 105,
+  "excluded": {
+    "missing_or_ambiguous_2026": 26
+  },
+  "n_test_connected_before_projection_gate": 106,
+  "design_iteration": "Market-offset ablation added after observing weak initial score-only predictions; exploratory, not preregistered.",
+  "source_hashes": {
+    "lineups": "23380355d10e7a9b078a2c170611e89796b95549be19d1d783b2c7d480ac2daa",
+    "prices": "4eb3d4ab6b61bafd7319bb456d69a7dd3135d4deae9e813c24b64a1ca68c72cb"
+  },
+  "raw_source": "Derived Naver Sports lineup endpoint cache; HTTP receipt bodies/times unverified",
+  "strict_pregame_capture_count": 0,
+  "limitations": [
+    "Actual-XI oracle predictions are retrospective; no historical pregame receipt proof.",
+    "Projected XI uses only archived match lineups assumed available day+4.",
+    "No possession/substitution timestamps: this is match-level shrinkage, NOT RAPM.",
+    "Prices have no proven HTTP receipt/executability; result direction only crosschecked.",
+    "No trained operational M0/tipster replay; repeated retrospective cohort.",
+    "Lineup and price matching uses unique date/home/away aliases, not identical source IDs."
+  ],
+  "models": {
+    "market": {
+      "n": 105,
+      "hits": 48,
+      "accuracy": 0.45714285714285713,
+      "roi": -0.12485714285714286,
+      "logloss": 1.050997540211447,
+      "brier": 0.6362639993215095,
+      "mdd_units": 17.92
+    },
+    "team_projected": {
+      "n": 105,
+      "hits": 33,
+      "accuracy": 0.3142857142857143,
+      "roi": -0.35895238095238097,
+      "logloss": 1.1165434227204172,
+      "brier": 0.6793126858249883,
+      "mdd_units": 40.54
+    },
+    "additive_projected": {
+      "n": 105,
+      "hits": 35,
+      "accuracy": 0.3333333333333333,
+      "roi": -0.33076190476190476,
+      "logloss": 1.104799502673397,
+      "brier": 0.6711012986335805,
+      "mdd_units": 38.790000000000006
+    },
+    "additive_oracle": {
+      "n": 105,
+      "hits": 36,
+      "accuracy": 0.34285714285714286,
+      "roi": -0.29619047619047617,
+      "logloss": 1.109112878868403,
+      "brier": 0.6739573179865543,
+      "mdd_units": 35.160000000000004
+    },
+    "pair_projected": {
+      "n": 105,
+      "hits": 35,
+      "accuracy": 0.3333333333333333,
+      "roi": -0.33161904761904765,
+      "logloss": 1.1036674422531147,
+      "brier": 0.6703717368466883,
+      "mdd_units": 37.480000000000004
+    },
+    "pair_oracle": {
+      "n": 105,
+      "hits": 35,
+      "accuracy": 0.3333333333333333,
+      "roi": -0.31723809523809526,
+      "logloss": 1.1085518886680412,
+      "brier": 0.6736113729573286,
+      "mdd_units": 36.160000000000004
+    },
+    "anchored_team_projected": {
+      "n": 105,
+      "hits": 45,
+      "accuracy": 0.42857142857142855,
+      "roi": -0.18152380952380953,
+      "logloss": 1.0850732594760322,
+      "brier": 0.6616453385187712,
+      "mdd_units": 20.46
+    },
+    "anchored_additive_projected": {
+      "n": 105,
+      "hits": 45,
+      "accuracy": 0.42857142857142855,
+      "roi": -0.18,
+      "logloss": 1.0808013455461245,
+      "brier": 0.6585824845498901,
+      "mdd_units": 18.900000000000006
+    },
+    "anchored_additive_oracle": {
+      "n": 105,
+      "hits": 40,
+      "accuracy": 0.38095238095238093,
+      "roi": -0.2898095238095238,
+      "logloss": 1.0849038491345893,
+      "brier": 0.6617604040793951,
+      "mdd_units": 31.830000000000002
+    },
+    "anchored_pair_projected": {
+      "n": 105,
+      "hits": 45,
+      "accuracy": 0.42857142857142855,
+      "roi": -0.18,
+      "logloss": 1.081183362645376,
+      "brier": 0.6589573433366043,
+      "mdd_units": 18.900000000000006
+    },
+    "anchored_pair_oracle": {
+      "n": 105,
+      "hits": 39,
+      "accuracy": 0.37142857142857144,
+      "roi": -0.3110476190476191,
+      "logloss": 1.0854715307832288,
+      "brier": 0.6622608071755014,
+      "mdd_units": 32.660000000000004
+    }
+  },
+  "paired": {
+    "team_projected_vs_market": {
+      "changed_picks": 37,
+      "delta_accuracy_roi_ll": [
+        -0.14285714285714285,
+        -0.23409523809523808,
+        0.06554588250897002
+      ],
+      "nominal_week_95_ci": [
+        [
+          -0.20754716981132076,
+          -0.07690677966101704
+        ],
+        [
+          -0.3855100838379133,
+          -0.0655201602311532
+        ],
+        [
+          0.026861635277248996,
+          0.09408785625559746
+        ]
+      ],
+      "weeks": 15
+    },
+    "additive_projected_vs_market": {
+      "changed_picks": 30,
+      "delta_accuracy_roi_ll": [
+        -0.12380952380952381,
+        -0.20590476190476187,
+        0.053801962461949904
+      ],
+      "nominal_week_95_ci": [
+        [
+          -0.2016845270218179,
+          -0.043478260869565216
+        ],
+        [
+          -0.40018749396426845,
+          0.013719335205992453
+        ],
+        [
+          0.019074019503196288,
+          0.07758163415183293
+        ]
+      ],
+      "weeks": 15
+    },
+    "additive_oracle_vs_market": {
+      "changed_picks": 35,
+      "delta_accuracy_roi_ll": [
+        -0.11428571428571428,
+        -0.1713333333333333,
+        0.058115338656955964
+      ],
+      "nominal_week_95_ci": [
+        [
+          -0.19388498117693678,
+          -0.03882561613144142
+        ],
+        [
+          -0.379459822948587,
+          0.029113178838951256
+        ],
+        [
+          0.02218617822817791,
+          0.08377533803760698
+        ]
+      ],
+      "weeks": 15
+    },
+    "pair_projected_vs_market": {
+      "changed_picks": 30,
+      "delta_accuracy_roi_ll": [
+        -0.12380952380952381,
+        -0.20676190476190473,
+        0.05266990204166769
+      ],
+      "nominal_week_95_ci": [
+        [
+          -0.2043406072106262,
+          -0.04122244572961201
+        ],
+        [
+          -0.40834986760812,
+          0.013757409918635924
+        ],
+        [
+          0.018640442581020895,
+          0.0759990499382008
+        ]
+      ],
+      "weeks": 15
+    },
+    "pair_oracle_vs_market": {
+      "changed_picks": 36,
+      "delta_accuracy_roi_ll": [
+        -0.12380952380952381,
+        -0.19238095238095237,
+        0.05755434845659415
+      ],
+      "nominal_week_95_ci": [
+        [
+          -0.2,
+          -0.057118780096308316
+        ],
+        [
+          -0.3894067330488383,
+          -0.015987640449438265
+        ],
+        [
+          0.021968790454523893,
+          0.08270166124028408
+        ]
+      ],
+      "weeks": 15
+    },
+    "anchored_team_projected_vs_market": {
+      "changed_picks": 10,
+      "delta_accuracy_roi_ll": [
+        -0.02857142857142857,
+        -0.05666666666666667,
+        0.03407571926458511
+      ],
+      "nominal_week_95_ci": [
+        [
+          -0.05660377358490566,
+          0.0
+        ],
+        [
+          -0.11346688034188034,
+          0.0
+        ],
+        [
+          0.013307125089866515,
+          0.05316015398874884
+        ]
+      ],
+      "weeks": 15
+    },
+    "anchored_additive_projected_vs_market": {
+      "changed_picks": 11,
+      "delta_accuracy_roi_ll": [
+        -0.02857142857142857,
+        -0.055142857142857125,
+        0.02980380533467737
+      ],
+      "nominal_week_95_ci": [
+        [
+          -0.07291666666666667,
+          0.010317503838561042
+        ],
+        [
+          -0.15216987281399047,
+          0.035695200302343084
+        ],
+        [
+          0.00723690240381697,
+          0.0537851748459083
+        ]
+      ],
+      "weeks": 15
+    },
+    "anchored_additive_oracle_vs_market": {
+      "changed_picks": 13,
+      "delta_accuracy_roi_ll": [
+        -0.0761904761904762,
+        -0.164952380952381,
+        0.033906308923142184
+      ],
+      "nominal_week_95_ci": [
+        [
+          -0.14130947497949137,
+          -0.01736302580417124
+        ],
+        [
+          -0.31242000000000003,
+          -0.030954578488372565
+        ],
+        [
+          0.012780912505460512,
+          0.054130103346939865
+        ]
+      ],
+      "weeks": 15
+    },
+    "anchored_pair_projected_vs_market": {
+      "changed_picks": 11,
+      "delta_accuracy_roi_ll": [
+        -0.02857142857142857,
+        -0.055142857142857125,
+        0.030185822433928852
+      ],
+      "nominal_week_95_ci": [
+        [
+          -0.07291666666666667,
+          0.010317503838561042
+        ],
+        [
+          -0.15216987281399047,
+          0.035695200302343084
+        ],
+        [
+          0.006980078470545064,
+          0.05506318834113979
+        ]
+      ],
+      "weeks": 15
+    },
+    "anchored_pair_oracle_vs_market": {
+      "changed_picks": 14,
+      "delta_accuracy_roi_ll": [
+        -0.08571428571428572,
+        -0.18619047619047624,
+        0.03447399057178179
+      ],
+      "nominal_week_95_ci": [
+        [
+          -0.15384615384615385,
+          -0.024994834710743832
+        ],
+        [
+          -0.3403563963210702,
+          -0.05238358562454962
+        ],
+        [
+          0.013149703686106667,
+          0.05508866193257803
+        ]
+      ],
+      "weeks": 15
+    },
+    "pair_vs_additive_projected": {
+      "changed_picks": 2,
+      "delta_accuracy_roi_ll": [
+        0.0,
+        -0.0008571428571428558,
+        -0.00113206042028223
+      ],
+      "nominal_week_95_ci": [
+        [
+          -0.030303030303030304,
+          0.02727272727272727
+        ],
+        [
+          -0.06757575757575757,
+          0.05836363636363636
+        ],
+        [
+          -0.002318478084685791,
+          9.951509331270135e-05
+        ]
+      ],
+      "weeks": 15
+    },
+    "anchored_pair_vs_additive_projected": {
+      "changed_picks": 0,
+      "delta_accuracy_roi_ll": [
+        0.0,
+        0.0,
+        0.0003820170992514992
+      ],
+      "nominal_week_95_ci": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -0.0011528225735769012,
+          0.0024104820996674646
+        ]
+      ],
+      "weeks": 15
+    },
+    "pair_vs_additive_oracle": {
+      "changed_picks": 1,
+      "delta_accuracy_roi_ll": [
+        -0.009523809523809525,
+        -0.021047619047619048,
+        -0.0005609902003617889
+      ],
+      "nominal_week_95_ci": [
+        [
+          -0.030927835051546393,
+          0.0
+        ],
+        [
+          -0.06835051546391753,
+          0.0
+        ],
+        [
+          -0.0017346583525934063,
+          0.00046020943543092
+        ]
+      ],
+      "weeks": 15
+    },
+    "anchored_pair_vs_additive_oracle": {
+      "changed_picks": 1,
+      "delta_accuracy_roi_ll": [
+        -0.009523809523809525,
+        -0.021238095238095236,
+        0.0005676816486396322
+      ],
+      "nominal_week_95_ci": [
+        [
+          -0.03296703296703297,
+          0.0
+        ],
+        [
+          -0.07351648351648352,
+          0.0
+        ],
+        [
+          -0.00038492360396642235,
+          0.001616578710136513
+        ]
+      ],
+      "weeks": 15
+    }
+  },
+  "feature_dimensions": {
+    "team": 30,
+    "additive": 1282,
+    "pair": 22592
+  },
+  "support": {
+    "unique_training_players": 626,
+    "unique_training_pairs": 10655,
+    "unseen_actual_player_share": 0.19437229437229436,
+    "unseen_actual_pair_share": 0.5403463203463204,
+    "actual_pair_training_count_median": 0.0,
+    "mean_actual_vs_projected_changed_players": 3.3142857142857145
+  }
+}
