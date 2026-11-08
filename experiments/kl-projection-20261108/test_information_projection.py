@@ -13,3 +13,12 @@ def test_push_and_three_way():
  assert m.choose_outcome('핸디캡',-1,2,1)==1
  assert m.masks('언더오버',2)[:,(m.H==1)&(m.A==1)].sum()==0
  assert m.choose_outcome('승무패',None,1,1)==1
+def test_market_devig_rows_are_direct_and_settled():
+ import json
+ rows=json.loads(Path(__file__).with_name('predictions.json').read_text(encoding='utf8'))
+ market=[r for r in rows if r['model']=='market_devig']
+ assert len(market)==1491*3
+ for r in market:
+  assert r['probabilities']==r['market_devig']
+  assert r['pick']==int(np.argmax(r['market_devig']))
+  assert np.isclose(r['profit'],r['odds'][r['pick']]-1 if r['pick']==r['outcome'] else -1)

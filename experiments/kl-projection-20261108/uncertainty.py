@@ -8,7 +8,7 @@ p = Path(__file__).parent
 rows = json.loads((p / 'predictions.json').read_text(encoding='utf8'))
 rng = np.random.default_rng(20261108)
 out = {}
-baselines = ('poisson_1x2', 'poisson_all', 'dc_all')
+baselines = ('poisson_1x2', 'poisson_all', 'dc_all', 'market_devig')
 for fam in ('승무패', '핸디캡', '언더오버'):
     def select(model):
         return [x for x in rows if x['model'] == model and x['family'] == fam and x['date'][:4] >= '2025']

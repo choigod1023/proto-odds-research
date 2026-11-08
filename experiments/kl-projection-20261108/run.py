@@ -75,6 +75,9 @@ def main():
             for o,(m,target) in zip(offers,mt):
                 probs=m@q; pick=int(np.argmax(probs)); y=o['outcome']; profit=o['odds'][pick]-1 if pick==y else -1
                 rows.append({'date':str(key[0]),'league':key[1],'home':key[2],'away':key[3],'score':scores[key], 'model':name,'family':o['family'],'line':o['line'],'booking':o['booking'],'odds':o['odds'],'market_devig':target.tolist(),'probabilities':probs.tolist(),'outcome':y,'pick':pick,'profit':profit})
+        for o, (_, target) in zip(offers, mt):
+            pick=int(np.argmax(target)); y=o['outcome']; profit=o['odds'][pick]-1 if pick==y else -1
+            rows.append({'date':str(key[0]),'league':key[1],'home':key[2],'away':key[3],'score':scores[key], 'model':'market_devig','family':o['family'],'line':o['line'],'booking':o['booking'],'odds':o['odds'],'market_devig':target.tolist(),'probabilities':target.tolist(),'outcome':y,'pick':pick,'profit':profit})
         counts['matches']+=1
     out=Path(args.out);out.mkdir(parents=True,exist_ok=True)
     (out/'predictions.json').write_text(json.dumps(rows,ensure_ascii=False,separators=(',',':')),encoding='utf8')
@@ -85,7 +88,7 @@ def main():
         cum=np.cumsum([days[x] for x in sorted(days)]); dd=float(np.max(np.maximum.accumulate(np.r_[0,cum])-np.r_[0,cum]))
         return {'n':len(rr),'wins':int(sum(x['pick']==x['outcome'] for x in rr)),'hit':float(np.mean([x['pick']==x['outcome'] for x in rr])),'roi':float(profit.mean()),'logloss':float(-np.log(p[np.arange(len(y)),y]).mean()),'brier':float(((p-one)**2).sum(axis=1).mean()),'max_daily_drawdown_units':dd}
     summary={}
-    for name in ('poisson_1x2','poisson_all','dc_all','kl_soft'):
+    for name in ('poisson_1x2','poisson_all','dc_all','kl_soft','market_devig'):
         summary[name]={}
         for fam in ('승무패','핸디캡','언더오버'):
             rr=[r for r in rows if r['model']==name and r['family']==fam]; summary[name][fam]={k:metrics(v) for k,v in [('all',rr),('2023-2024',[x for x in rr if x['date'][:4]<='2024']),('2025-2026',[x for x in rr if x['date'][:4]>='2025']),('K리그1',[x for x in rr if x['league']=='K리그1']),('K리그2',[x for x in rr if x['league']=='K리그2'])]}
