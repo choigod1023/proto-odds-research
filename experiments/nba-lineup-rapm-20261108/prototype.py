@@ -98,7 +98,7 @@ def train(games,kind):
  return index,co
 
 def recent(games,target,team):
- start=datetime.fromisoformat(target['start'].replace('Z','+00:00')); cutoff=start-timedelta(days=4)
+ start=datetime.fromisoformat(target['start'].replace('Z','+00:00')); cutoff=start-timedelta(days=4,minutes=30)
  eligible=[g for g in games if team in (g['home'],g['away']) and datetime.fromisoformat(g['end'].replace('Z','+00:00'))<=cutoff]
  chosen=eligible[-5:]
  if len(chosen)<5:return None
@@ -120,8 +120,12 @@ def forecast(games,g,kind,model):
  if kind=='pair':add_pairs(d,hh,aa)
  X,_=matrix([d],model[0]);return float((X@model[1])[0])
 
+def label_available(game, boundary):
+ return datetime.fromisoformat(game['end'].replace('Z','+00:00')) + timedelta(days=4) <= datetime.fromisoformat(boundary.replace('Z','+00:00'))
+
 def evaluate(games):
- train_games=[g for g in games if g['start']<'2026-01-15T00:00:00Z']
+ raw_train=[g for g in games if g['start']<'2026-01-15T00:00:00Z']
+ train_games=[g for g in raw_train if label_available(g,'2026-01-15T00:00:00Z')]
  val=[g for g in games if '2026-01-15T00:00:00Z'<=g['start']<'2026-02-15T00:00:00Z']
  test=[g for g in games if g['start']>='2026-02-15T00:00:00Z']
  kinds=['team','player','pair']; models={k:train(train_games,k) for k in kinds}; print('models trained',len(train_games),flush=True)
@@ -130,14 +134,15 @@ def evaluate(games):
   scores={k:forecast(games,g,k,models[k]) for k in kinds}
   if any(v is None for v in scores.values()):continue
   forecasts.append({'id':g['id'],'start':g['start'],'home':g['home'],'away':g['away'],'score':g['score'],'margin':g['score'][0]-g['score'][1],'split':'validation' if g in val else 'test','predicted_margin':scores})
- validation=[r for r in forecasts if r['split']=='validation']; testing=[r for r in forecasts if r['split']=='test']; results={}
+ valid_ids={g['id'] for g in val if label_available(g,'2026-02-15T00:00:00Z')}
+ validation=[r for r in forecasts if r['split']=='validation' and r['id'] in valid_ids]; testing=[r for r in forecasts if r['split']=='test']; results={}
  for k in kinds:
   x=np.array([[r['predicted_margin'][k]] for r in validation]); y=np.array([r['margin']>0 for r in validation],dtype=int)
   cal=LogisticRegression(C=1,solver='lbfgs',random_state=20261108,n_jobs=1).fit(x,y)
   for r in forecasts:r.setdefault('home_win_probability',{})[k]=float(cal.predict_proba([[r['predicted_margin'][k]]])[0,1])
   p=np.array([r['home_win_probability'][k] for r in testing]); actual=np.array([r['margin']>0 for r in testing],dtype=int); pred=np.array([r['predicted_margin'][k] for r in testing]); truth=np.array([r['margin'] for r in testing]);
   results[k]={'rmse':float(np.sqrt(np.mean((pred-truth)**2))),'accuracy':float(np.mean((p>=.5)==actual)),'log_loss':float(-np.mean(actual*np.log(p)+(1-actual)*np.log(1-p))),'brier':float(np.mean((p-actual)**2)),'calibration_intercept':float(cal.intercept_[0]),'calibration_slope':float(cal.coef_[0,0])}
- summary={'train_games':len(train_games),'validation_total':len(val),'validation_scored':len(validation),'test_total':len(test),'test_scored':len(testing),'unscored_reason':'fewer than five validated prior team games ending at least 4 days before start','models':results,'price_matched_n':0,'roi':None,'mdd':None,'seed':20261108,'training_cutoff_utc':'2026-01-15T00:00:00Z','test_start_utc':'2026-02-15T00:00:00Z','ridge_alpha':20,'pair_penalty_multiplier':10,'prior_games':5,'minimum_prior_age_days':4}
+ summary={'train_games':len(train_games),'train_purged_for_4day_label_lag':len(raw_train)-len(train_games),'validation_total':len(val),'validation_scored':len(validation),'validation_purged_for_4day_label_lag':len(val)-len(valid_ids),'test_total':len(test),'test_scored':len(testing),'unscored_reason':'fewer than five validated prior team games ending at least 4 days before start','models':results,'price_matched_n':0,'roi':None,'mdd':None,'seed':20261108,'training_cutoff_utc':'2026-01-15T00:00:00Z','test_start_utc':'2026-02-15T00:00:00Z','ridge_alpha':20,'pair_penalty_multiplier':10,'prior_games':5,'minimum_prior_age_days':4,'first_event_to_pregame_buffer_minutes':30}
  with gzip.GzipFile(filename='',mode='wb',fileobj=open(HERE/'predictions.jsonl.gz','wb'),mtime=0) as f:
   for r in forecasts:f.write((json.dumps(r,sort_keys=True)+'\n').encode())
  (HERE/'prototype-summary.json').write_text(json.dumps(summary,indent=2),encoding='utf8');print(json.dumps(summary,indent=2),flush=True)
