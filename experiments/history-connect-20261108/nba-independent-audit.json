@@ -1,0 +1,54 @@
+{
+  "models": {
+    "candidate": {
+      "n": 773,
+      "decided": 773,
+      "refunds": 0,
+      "hits": 546,
+      "accuracy": 0.7063389391979301,
+      "net_units": "-91.30",
+      "conditional_roi": -0.11811125485122898,
+      "mean_odds": 1.2931694695989626,
+      "logloss": 0.5565762028897104,
+      "brier": 0.18763143609861122,
+      "daily_mdd_units": "91.48"
+    },
+    "existing_outcome_form": {
+      "n": 773,
+      "decided": 773,
+      "refunds": 0,
+      "hits": 537,
+      "accuracy": 0.6946959896507116,
+      "net_units": "-53.04",
+      "conditional_roi": -0.06861578266494178,
+      "mean_odds": 1.450349288486414,
+      "logloss": 0.5967870090906264,
+      "brier": 0.20456772492214875,
+      "daily_mdd_units": "59.33"
+    },
+    "market_home": {
+      "n": 773,
+      "decided": 773,
+      "refunds": 0,
+      "hits": 547,
+      "accuracy": 0.7076326002587322,
+      "net_units": "-89.64",
+      "conditional_roi": -0.11596377749029754,
+      "mean_odds": 1.2929624838292344,
+      "logloss": 0.5576601600060774,
+      "brier": 0.18787924672721062,
+      "daily_mdd_units": "89.82"
+    }
+  },
+  "period": [
+    "2026-01-01",
+    "2026-05-04"
+  ],
+  "limits": [
+    "Independent arithmetic and cohort audit only; no source identity or pregame availability certification",
+    "Conditional one-unit historical returns, not wallet returns or future profit"
+  ],
+  "predictions_sha256": "0c5049b1570d06ced2a3cb1c3a2f6a175dca06b26c4af44558dfdfdad180a286",
+  "schema": "nba",
+  "league_filter": null
+}
