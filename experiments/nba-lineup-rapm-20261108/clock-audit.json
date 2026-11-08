@@ -1,0 +1,45 @@
+{
+  "official_schedule_sample_differences": [
+    {
+      "id": "0022500471",
+      "minutes_after_official_schedule": 10.96
+    },
+    {
+      "id": "0022500472",
+      "minutes_after_official_schedule": 11.563333333333333
+    },
+    {
+      "id": "0022500473",
+      "minutes_after_official_schedule": 10.811666666666667
+    },
+    {
+      "id": "0022500474",
+      "minutes_after_official_schedule": 10.373333333333333
+    },
+    {
+      "id": "0022500475",
+      "minutes_after_official_schedule": 10.316666666666666
+    }
+  ],
+  "price_ledger_schedule_assumed_kst": {
+    "n": 411,
+    "min_first_event_delay_minutes": 6.09,
+    "max_first_event_delay_minutes": 18.501666666666665,
+    "original_profile_may_cross_four_day_cutoff": [
+      {
+        "id": "0022500841",
+        "team": "MIN"
+      },
+      {
+        "id": "0022501054",
+        "team": "OKC"
+      },
+      {
+        "id": "0022501170",
+        "team": "LAL"
+      }
+    ],
+    "buffered_profile_crossings": []
+  },
+  "note": "Five fixture times from official NBA sample; 411 archive kickoff timezone remains uncertified, so assumed KST is only a sensitivity check."
+}
