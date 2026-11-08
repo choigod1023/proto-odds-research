@@ -20,6 +20,17 @@ test("경기 설명과 판정 자료를 세 구획으로 합친다", () => {
     ["summary", "players", "evidence"]);
 });
 
+test("현재 경기의 선발이 일치할 때만 이전 투수 지표를 보완한다", () => {
+  const prior = { name: "장찬희", player_id: "10", stats: { era: 2.91 }, stats_source: "KBO" };
+  const game = { 선발: { home_detail: prior }, baseball_current: { home_detail: { name: "장 찬희", player_id: 10 } } };
+  assert.deepEqual(starterFor(game, "home"), { ...game.baseball_current.home_detail, stats: prior.stats, stats_source: "KBO" });
+  assert.equal(game.baseball_current.home_detail.stats, undefined);
+  for (const home_detail of [{ name: "장찬희", player_id: "20" }, { name: "다른 투수", player_id: "10" }]) {
+    assert.equal(starterFor({ ...game, baseball_current: { home_detail } }, "home").stats, undefined);
+  }
+  assert.equal(starterFor({ ...game, baseball_current: {} }, "home"), null);
+});
+
 test("축구도 발표 전부터 통합 선수·출전 탭을 숨기지 않는다", () => {
   const game = { sport: "sc", form_home: { last10: "5승 3무 2패" } };
   assert.deepEqual(infoTabs(game, "해설").map((x) => x.id),

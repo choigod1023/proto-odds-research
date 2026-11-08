@@ -5,7 +5,7 @@ import { scheduledAt } from "../lib/match-status.js";
 export function currentMarketRecommendations(game, options = []) {
   const data = game?.market_recommendations;
   if (data?.version !== "multi-market-recommendations-v1" || !Array.isArray(data.items) || game?._liveOddsChanged) return [];
-  const offers = recordedMarketOffers(options, game);
+  const offers = recordedMarketOffers(options);
   const seen = new Set();
   return data.items.flatMap((item) => {
     if (!item || !["핸디캡", "언더오버"].includes(item.market) || !item.selection_id || !item.offer_id) return [];
