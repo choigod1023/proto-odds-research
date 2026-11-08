@@ -1,6 +1,8 @@
 """Bounded, resumable KBL box capture; no background jobs or production access."""
 import argparse
-from datetime import datetime, timezone
+from contextlib import contextmanager
+from datetime import datetime, timedelta, timezone
+from email.utils import parsedate_to_datetime
 import gzip
 import hashlib
 import json
@@ -19,6 +21,25 @@ HEADERS = {'User-Agent': 'CodexResearch/1.0 (bounded retrospective research)', '
 
 def digest(body):
     return hashlib.sha256(body).hexdigest()
+
+
+class RateLimitError(Exception):
+    def __init__(self, retry_after):
+        self.retry_after = retry_after
+        super().__init__('HTTP 429: batch stopped')
+
+
+def next_eligible(value, now):
+    try:
+        seconds = int(value)
+        return now + timedelta(seconds=max(seconds,60))
+    except (ValueError,TypeError):
+        try:
+            parsed = parsedate_to_datetime(value)
+            if parsed.utcoffset() is None: raise ValueError('timezone')
+            return max(parsed.astimezone(timezone.utc),now+timedelta(seconds=60))
+        except (ValueError,TypeError,OverflowError):
+            return now+timedelta(seconds=60)
 
 
 def game_ids():
@@ -62,6 +83,10 @@ def capture(game, folder, opener=urllib.request.urlopen, sleep=time.sleep):
         except urllib.error.HTTPError as e:
             if e.code in (401,403):
                 raise PermissionError(f'HTTP {e.code}; stopping') from e
+            if e.code == 429:
+                retry_after = str(e.headers.get('Retry-After',''))[:100] if e.headers else ''
+                if attempt == 2 or retry_after:
+                    raise RateLimitError(retry_after) from e
             if e.code not in (429,500,502,503,504) or attempt == 2:
                 raise
         except (TimeoutError, OSError) as e:
@@ -71,6 +96,26 @@ def capture(game, folder, opener=urllib.request.urlopen, sleep=time.sleep):
     raise RuntimeError('unreachable')
 
 
+@contextmanager
+def singleflight(folder):
+    folder.mkdir(parents=True,exist_ok=True)
+    with (folder/'.capture.lock').open('a+b') as f:
+        f.seek(0)
+        if not f.read(1): f.write(b'0'); f.flush()
+        f.seek(0)
+        if __import__('os').name == 'nt':
+            import msvcrt
+            msvcrt.locking(f.fileno(),msvcrt.LK_NBLCK,1)
+        else:
+            import fcntl
+            fcntl.flock(f.fileno(),fcntl.LOCK_EX|fcntl.LOCK_NB)
+        try: yield
+        finally:
+            f.seek(0)
+            if __import__('os').name == 'nt': msvcrt.locking(f.fileno(),msvcrt.LK_UNLCK,1)
+            else: fcntl.flock(f.fileno(),fcntl.LOCK_UN)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--cache', type=Path, default=DEFAULT)
@@ -78,20 +123,38 @@ def main():
     args = parser.parse_args()
     if not 1 <= args.max_new <= 526:
         raise ValueError('max-new must be 1..526')
+    with singleflight(args.cache):
+        run_batch(args.cache,args.max_new)
+
+
+def run_batch(cache, max_new):
+    rate_path=cache/'rate-limit.json'
+    if rate_path.exists():
+        prior=json.loads(rate_path.read_text(encoding='utf-8'))
+        if datetime.now(timezone.utc) < datetime.fromisoformat(prior['next_eligible']):
+            raise RateLimitError(prior.get('retry_after',''))
     counts = {'cached':0,'downloaded':0,'failed':0}
     for game in game_ids():
-        if not (args.cache/(game+'.json')).exists() and counts['downloaded']+counts['failed'] >= args.max_new:
+        if not (cache/(game+'.json')).exists() and counts['downloaded']+counts['failed'] >= max_new:
             break
         try:
-            status = capture(game,args.cache)
+            status = capture(game,cache)
             counts[status] += 1
             if status == 'downloaded':
                 time.sleep(1.05)
-        except PermissionError:
+        except RateLimitError as e:
+            now=datetime.now(timezone.utc)
+            record={'game_id':game,'status':429,'at':now.isoformat(),'retry_after':e.retry_after,
+                    'next_eligible':next_eligible(e.retry_after,now).isoformat()}
+            rate_path.write_text(json.dumps(record,indent=2)+'\n',encoding='utf-8')
+            raise
+        except PermissionError as e:
+            with (cache/'failures.jsonl').open('a',encoding='utf-8') as f:
+                f.write(json.dumps({'game_id':game,'error':str(e),'at':datetime.now(timezone.utc).isoformat()})+'\n')
             raise
         except (OSError, ValueError, urllib.error.HTTPError) as e:
             counts['failed'] += 1
-            with (args.cache/'failures.jsonl').open('a',encoding='utf-8') as f:
+            with (cache/'failures.jsonl').open('a',encoding='utf-8') as f:
                 f.write(json.dumps({'game_id':game,'error':type(e).__name__,'at':datetime.now(timezone.utc).isoformat()})+'\n')
             time.sleep(3)
         if sum(counts.values()) % 25 == 0:

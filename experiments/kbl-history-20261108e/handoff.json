@@ -1,0 +1,22 @@
+{
+  "status": "retrospective_kbl_winner_evaluation_complete",
+  "branch": "codex/kbl-history-20261108e",
+  "protocol_commit": "dde8f26c",
+  "research_commit": "see branch history",
+  "pull_request": null,
+  "report": "experiments/kbl-history-20261108e/REPORT.md",
+  "protocol": "experiments/kbl-history-20261108e/PROTOCOL.md",
+  "collector": "experiments/kbl-history-20261108e/collect.py",
+  "predictions": "experiments/kbl-history-20261108e/predictions.jsonl.gz",
+  "summary": "experiments/kbl-history-20261108e/summary.json",
+  "receipts": "experiments/kbl-history-20261108e/box-receipts.json",
+  "raw_cache": "C:/Users/user/AppData/Local/Temp/kbl-history-20261108e/",
+  "tests": "python -m pytest tests/test_kbl_history_20261108e.py tests/test_basketball_comparison_sources.py -q: 17 passed; reproducible predictions",
+  "limits": [
+    "Source is retrospectively collected; historical receipt and purchase time are not established.",
+    "Win-market product ID, price observation time, overtime settlement and actual execution are unverified; ROI is hypothetical conditional on the stated assumptions.",
+    "Candidate changed one 2026 pick; accuracy and conditional ROI increased only on that observation and paired probability-score intervals include zero.",
+    "2025/2026 same-product handicap and total prices, NBA and WKBL efficiency cohorts were not evaluated.",
+    "KBL API robots endpoint returned 404 and site's dynamic terms were not established as permission for automated collection or redistribution."
+  ]
+}
