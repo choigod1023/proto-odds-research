@@ -35,9 +35,10 @@ def outcome(market, line, side, home, away):
 
 def aggregate(rows):
     if not rows:
-        return {'n': 0, 'old_hit_rate': None, 'new_hit_rate': None, 'delta_pp': None, 'old_roi': None, 'new_roi': None}
+        return {'n': 0, 'physical_games': 0, 'old_hit_rate': None, 'new_hit_rate': None, 'delta_pp': None, 'old_roi': None, 'new_roi': None}
     n=len(rows); old=sum(r['new_product_old_hit'] for r in rows); new=sum(r['new_product_new_hit'] for r in rows)
-    return {'n':n, 'old_hits':old, 'new_hits':new, 'old_hit_rate':old/n, 'new_hit_rate':new/n,
+    physical_games=len({(r['sport'],r['league'],r['home'],r['away'],r['kickoff']) for r in rows})
+    return {'n':n, 'physical_games':physical_games, 'old_hits':old, 'new_hits':new, 'old_hit_rate':old/n, 'new_hit_rate':new/n,
             'delta_pp':100*(new-old)/n, 'gain_hits':sum(not r['new_product_old_hit'] and r['new_product_new_hit'] for r in rows),
             'lost_hits':sum(r['new_product_old_hit'] and not r['new_product_new_hit'] for r in rows),
             'net_extra_hits':new-old,
@@ -45,6 +46,12 @@ def aggregate(rows):
             'new_roi':sum(r['new_product_new_hit']*r['new_odds'][r['new_side']]-1 for r in rows)/n,
             'original_ticket_hits':sum(r['original_ticket_hit'] for r in rows),
             'original_ticket_roi':sum(r['original_ticket_hit']*r['old_odds'][r['old_side']]-1 for r in rows)/n}
+
+
+def changed_groups(rows):
+    flips=[r for r in rows if r['old_side']!=r['new_side']]
+    lines=[r for r in rows if r['old_line']!=r['new_line']]
+    return flips, lines, [r for r in lines if r['old_side']!=r['new_side']]
 
 
 def analyze(history, response, db, score_history):
@@ -135,8 +142,8 @@ def analyze(history, response, db, score_history):
         if not isinstance(h,int) or not isinstance(a,int) or h<0 or a<0: excluded['invalid_score']+=1;continue
         oldline=line_of(first[1],first[0]); newline=line_of(last[1],last[0])
         out.append({'round':key[0],'game_no':key[1],'sport':game['sport'],'league':game['league'], 'home':game['home'],'away':game['away'], 'kickoff':kickoff.isoformat(),'score':[h,a], 'score_observed_at':latest['observed_at'], 'market':first[0], 'old_observed_at':times[0].isoformat(),'new_observed_at':times[-1].isoformat(), 'old_line':oldline,'new_line':newline,'old_odds':list(first[2]),'new_odds':list(last[2]),'old_side':oldside,'new_side':newside, 'new_product_old_hit':outcome(first[0],newline,oldside,h,a),'new_product_new_hit':outcome(first[0],newline,newside,h,a),'original_ticket_hit':outcome(first[0],oldline,oldside,h,a)})
-    flips=[r for r in out if r['old_side']!=r['new_side']]
-    return {'protocol':'earliest available quote vs latest available quote by T-30; lowest odds, no ties; select changed endpoints', 'exclusions':dict(excluded), 'all_changed':aggregate(out),'direction_flips':aggregate(flips),'flips_by_sport':{s:aggregate([r for r in flips if r['sport']==s]) for s in ('bs','bk')},'rows':out}
+    flips,lines,both=changed_groups(out)
+    return {'line_changed_only':aggregate(lines), 'line_changed_and_direction_flipped':aggregate(both), 'protocol':'earliest available quote vs latest available quote by T-30; lowest odds, no ties; select changed endpoints', 'exclusions':dict(excluded), 'all_changed':aggregate(out),'direction_flips':aggregate(flips),'flips_by_sport':{s:aggregate([r for r in flips if r['sport']==s]) for s in ('bs','bk')},'rows':out}
 
 
 def read(p):

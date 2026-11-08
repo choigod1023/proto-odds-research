@@ -20,6 +20,7 @@
   },
   "direction_change_metrics": {
     "n": 5,
+    "physical_games": 4,
     "old_hits": 3,
     "new_hits": 2,
     "old_hit_rate": 0.6,
@@ -57,5 +58,37 @@
     }
   },
   "retrospective_report": "experiments/line-movement-identification-20261108/RETROSPECTIVE.md",
-  "retrospective_results": "experiments/line-movement-identification-20261108/retrospective-results.json"
+  "retrospective_results": "experiments/line-movement-identification-20261108/retrospective-results.json",
+  "line_changed_only": {
+    "n": 11,
+    "physical_games": 7,
+    "old_hits": 5,
+    "new_hits": 4,
+    "old_hit_rate": 0.45454545454545453,
+    "new_hit_rate": 0.36363636363636365,
+    "delta_pp": -9.090909090909092,
+    "gain_hits": 0,
+    "lost_hits": 1,
+    "net_extra_hits": -1,
+    "old_roi": -0.2127272727272727,
+    "new_roi": -0.3718181818181818,
+    "original_ticket_hits": 6,
+    "original_ticket_roi": -0.061818181818181835
+  },
+  "line_changed_and_direction_flipped": {
+    "n": 1,
+    "physical_games": 1,
+    "old_hits": 1,
+    "new_hits": 0,
+    "old_hit_rate": 1.0,
+    "new_hit_rate": 0.0,
+    "delta_pp": -100.0,
+    "gain_hits": 0,
+    "lost_hits": 1,
+    "net_extra_hits": -1,
+    "old_roi": 0.75,
+    "new_roi": -1.0,
+    "original_ticket_hits": 1,
+    "original_ticket_roi": 0.72
+  }
 }

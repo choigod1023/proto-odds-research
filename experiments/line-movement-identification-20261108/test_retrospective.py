@@ -16,12 +16,26 @@ class RetrospectiveTests(unittest.TestCase):
         self.assertIsNone(r.line_of('U 8.25','언더오버'))
         self.assertEqual(r.line_of('H -1.5','핸디캡'),-1.5)
     def test_paired_comparison_uses_each_new_price(self):
-        rows=[{'new_product_old_hit':1,'new_product_new_hit':0,'original_ticket_hit':1,'old_odds':[1.8,2.0],'new_odds':[2.2,1.7],'old_side':0,'new_side':1}]
+        rows=[{'sport':'bk','league':'KBL','home':'A','away':'B','kickoff':'2026-11-06T19:00:00+09:00','new_product_old_hit':1,'new_product_new_hit':0,'original_ticket_hit':1,'old_odds':[1.8,2.0],'new_odds':[2.2,1.7],'old_side':0,'new_side':1}]
         result=r.aggregate(rows)
         self.assertEqual((result['gain_hits'],result['lost_hits'],result['net_extra_hits']),(0,1,-1))
         self.assertAlmostEqual(result['old_roi'],1.2)
         self.assertAlmostEqual(result['new_roi'],-1)
         self.assertAlmostEqual(result['original_ticket_roi'],.8)
+    def test_line_and_direction_groups_are_distinct(self):
+        rows=[{'old_line':1.5,'new_line':1.5,'old_side':0,'new_side':1},
+              {'old_line':1.5,'new_line':2.5,'old_side':0,'new_side':0},
+              {'old_line':1.5,'new_line':2.5,'old_side':0,'new_side':1}]
+        flips,lines,both=r.changed_groups(rows)
+        self.assertEqual((len(flips),len(lines),len(both)),(2,2,1))
+        self.assertEqual(both,[rows[2]])
+
+    def test_count_distinct_physical_games_for_multiple_markets(self):
+        base={'sport':'bk','league':'KBL','home':'A','away':'B','kickoff':'2026-11-06T19:00:00+09:00','new_product_old_hit':1,'new_product_new_hit':0,'original_ticket_hit':1,'old_odds':[1.8,2.0],'new_odds':[2.2,1.7],'old_side':0,'new_side':1}
+        self.assertEqual(r.aggregate([base,dict(base)])['physical_games'],1)
+        self.assertEqual(r.aggregate([base,dict(base,kickoff='2026-11-07T19:00:00+09:00')])['physical_games'],2)
+        self.assertEqual(r.aggregate([])['physical_games'],0)
+
     def test_later_withdrawal_cannot_resurrect_confirmed_score(self):
         terms={'game_no':'3','period':'full_including_extra','unit':'points','market':'total','settlement_rule':'total_half','n_way':2}
         g={'round':132,'date':'11.06(금) 19:00','home':'A','away':'B','sport':'bk','league':'KBL','options':[{'게임번호':'3'}], 'prediction_record':{'market_recommendations':{'items':[{'game_no':'3','terms':terms}]}}}
