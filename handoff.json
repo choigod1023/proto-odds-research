@@ -1,0 +1,45 @@
+{
+  "scope": "fixed-pick line movement identification and local evidence inventory",
+  "status": "partial_evidence_model_comparison_unavailable",
+  "report": "experiments/line-movement-identification-20261108/REPORT.md",
+  "results": "experiments/line-movement-identification-20261108/results.json",
+  "eligible_model_comparison": null,
+  "reason": "Pregame frozen and updated distributions, original product and official settlement not matched; planned read-only DB extract was not present when checked.",
+  "line_change_product_keys": 332,
+  "same_odds_different_line_product_keys": 235,
+  "current_response_association_candidate_keys": 19,
+  "candidate_keys_are_not_eligible_samples": true,
+  "production_changed": false,
+  "merge_authorized": false,
+  "deployment_authorized": false,
+  "direction_change_candidate_inventory": {
+    "market_baseline_items_with_history": 434,
+    "prestart_flips": 1,
+    "by_t30": 0,
+    "matching_final_label_and_result": 0
+  },
+  "direction_change_metrics": "not computed; no matched settled candidates",
+  "broad_identifier_inventory": {
+    "counts": {
+      "unique_candidate_product_keys": 310,
+      "unmatched_or_ambiguous": 22,
+      "any_two_way_favorite_flip": 55
+    },
+    "by_sport": {
+      "bk": 232,
+      "sc": 44,
+      "bs": 28,
+      "vl": 6
+    },
+    "flips_by_sport": {
+      "sc": 4,
+      "bs": 17,
+      "bk": 32,
+      "vl": 2
+    },
+    "recorded_recommendation_models": {
+      "market-baseline-v1": 18,
+      "kbl-team-margin-handicap-v1": 1
+    }
+  }
+}
