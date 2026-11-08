@@ -1,0 +1,65 @@
+{
+  "input_sha256": {
+    "history": "1300031983ee4c6bb400a6eb9867ccd89398659eca92c57af0680567a17b8395",
+    "response": "394fecc75c81773d7e66a10778eccad04064f528958e33ef03532b376e0c75a0"
+  },
+  "history_generated_at": "2026-11-08T01:06:29+00:00",
+  "response_generated_at": "2026-11-08T00:54:29+00:00",
+  "history_rounds": 31,
+  "products": 17415,
+  "observations": 25455,
+  "distinct_line_product_keys": 332,
+  "distinct_line_by_first_market": {
+    "핸디캡": 160,
+    "언더오버": 159,
+    "전반핸디캡": 8,
+    "전반언더오버": 5
+  },
+  "distinct_line_with_any_equal_odds_pair": 235,
+  "current_response_candidate_keys": 19,
+  "current_response_candidate_items_by_sport": {
+    "bk": 17,
+    "sc": 2
+  },
+  "broad_identifier_inventory": {
+    "counts": {
+      "unique_candidate_product_keys": 310,
+      "unmatched_or_ambiguous": 22,
+      "any_two_way_favorite_flip": 55
+    },
+    "by_sport": {
+      "bk": 232,
+      "sc": 44,
+      "bs": 28,
+      "vl": 6
+    },
+    "flips_by_sport": {
+      "sc": 4,
+      "bs": 17,
+      "bk": 32,
+      "vl": 2
+    },
+    "recorded_recommendation_models": {
+      "market-baseline-v1": 18,
+      "kbl-team-margin-handicap-v1": 1
+    }
+  },
+  "direction_change_candidate_inventory": {
+    "market_baseline_frozen_items_with_history": 434,
+    "first_prestart_direction_flip": 1,
+    "first_flip_by_t30": 0,
+    "first_flip_with_matching_final_label_and_result": 0
+  },
+  "eligible_paired_models": null,
+  "eligibility_note": "Candidates are identifiers only; frozen revision, kickoff, identity, pricing, time, distribution and official settlement have not been established.",
+  "illustrative_bounds_assuming_new_probability": {
+    "old_under_8.5_new_under_9.5_p_new_0.5": [
+      0.0,
+      0.5
+    ],
+    "old_over_8.5_new_over_9.5_p_new_0.5": [
+      0.5,
+      1.0
+    ]
+  }
+}
