@@ -1,0 +1,9 @@
+{
+  "branch": "codex/fixed-share-experts-20261108",
+  "research_commit": "170ed001",
+  "pull_request": "https://github.com/choigod1023/proto-odds-research/pull/637",
+  "draft": true,
+  "paths": {"report": "experiments/fixed-share-experts-20261108/REPORT.md", "code": "experiments/fixed-share-experts-20261108/run.py", "summary": "experiments/fixed-share-experts-20261108/summary.json", "per_event": "experiments/fixed-share-experts-20261108/predictions.jsonl.gz", "tests": "experiments/fixed-share-experts-20261108/test_run.py"},
+  "checks": {"historical_replay": "passed; 21870 events", "pytest": "2 passed", "latest_main_merged": "6e39593eb3563c4243b152d416c71fa83e373cee"},
+  "conclusion": "Fixed-share log loss 0.82241 vs market 0.81746; ROI -11.94% vs -12.30%; paired day bootstrap ROI difference interval includes zero. Previously studied retrospective sample; no executable price or actual receipt proof. No deployment or adoption."
+}
