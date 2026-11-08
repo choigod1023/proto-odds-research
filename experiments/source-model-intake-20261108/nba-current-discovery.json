@@ -1,0 +1,126 @@
+{
+  "schema": "nba-injury-source-discovery-v1",
+  "season": "2026-27",
+  "target_date": "2026-11-08",
+  "index_receipt": {
+    "url": "https://official.nba.com/nba-injury-report-2026-27-season/",
+    "final_url": "https://official.nba.com/nba-injury-report-2026-27-season/",
+    "status": 200,
+    "received_at": "2026-11-08T07:39:30.004487+00:00",
+    "body_sha256": "02a8037649690933950732bc68d2aa8838487b48adeeae56ca6c408c9ed3b009",
+    "bytes": 37476
+  },
+  "status": "links_discovered",
+  "discovered": 11,
+  "returned": 11,
+  "reports": [
+    {
+      "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-08_02_30AM.pdf",
+      "report_date_eastern_claim": "2026-11-08",
+      "published_at_claim": "2026-11-08T07:30:00+00:00",
+      "source_clock_basis": "official_pdf_filename_claim",
+      "pdf_body_captured": false,
+      "player_ids_verified": false,
+      "training_eligible": false
+    },
+    {
+      "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-08_02_15AM.pdf",
+      "report_date_eastern_claim": "2026-11-08",
+      "published_at_claim": "2026-11-08T07:15:00+00:00",
+      "source_clock_basis": "official_pdf_filename_claim",
+      "pdf_body_captured": false,
+      "player_ids_verified": false,
+      "training_eligible": false
+    },
+    {
+      "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-08_02_00AM.pdf",
+      "report_date_eastern_claim": "2026-11-08",
+      "published_at_claim": "2026-11-08T07:00:00+00:00",
+      "source_clock_basis": "official_pdf_filename_claim",
+      "pdf_body_captured": false,
+      "player_ids_verified": false,
+      "training_eligible": false
+    },
+    {
+      "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-08_01_45AM.pdf",
+      "report_date_eastern_claim": "2026-11-08",
+      "published_at_claim": "2026-11-08T06:45:00+00:00",
+      "source_clock_basis": "official_pdf_filename_claim",
+      "pdf_body_captured": false,
+      "player_ids_verified": false,
+      "training_eligible": false
+    },
+    {
+      "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-08_01_30AM.pdf",
+      "report_date_eastern_claim": "2026-11-08",
+      "published_at_claim": "2026-11-08T06:30:00+00:00",
+      "source_clock_basis": "official_pdf_filename_claim",
+      "pdf_body_captured": false,
+      "player_ids_verified": false,
+      "training_eligible": false
+    },
+    {
+      "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-08_01_15AM.pdf",
+      "report_date_eastern_claim": "2026-11-08",
+      "published_at_claim": "2026-11-08T06:15:00+00:00",
+      "source_clock_basis": "official_pdf_filename_claim",
+      "pdf_body_captured": false,
+      "player_ids_verified": false,
+      "training_eligible": false
+    },
+    {
+      "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-08_01_00AM.pdf",
+      "report_date_eastern_claim": "2026-11-08",
+      "published_at_claim": "2026-11-08T06:00:00+00:00",
+      "source_clock_basis": "official_pdf_filename_claim",
+      "pdf_body_captured": false,
+      "player_ids_verified": false,
+      "training_eligible": false
+    },
+    {
+      "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-08_12_45AM.pdf",
+      "report_date_eastern_claim": "2026-11-08",
+      "published_at_claim": "2026-11-08T05:45:00+00:00",
+      "source_clock_basis": "official_pdf_filename_claim",
+      "pdf_body_captured": false,
+      "player_ids_verified": false,
+      "training_eligible": false
+    },
+    {
+      "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-08_12_30AM.pdf",
+      "report_date_eastern_claim": "2026-11-08",
+      "published_at_claim": "2026-11-08T05:30:00+00:00",
+      "source_clock_basis": "official_pdf_filename_claim",
+      "pdf_body_captured": false,
+      "player_ids_verified": false,
+      "training_eligible": false
+    },
+    {
+      "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-08_12_15AM.pdf",
+      "report_date_eastern_claim": "2026-11-08",
+      "published_at_claim": "2026-11-08T05:15:00+00:00",
+      "source_clock_basis": "official_pdf_filename_claim",
+      "pdf_body_captured": false,
+      "player_ids_verified": false,
+      "training_eligible": false
+    },
+    {
+      "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-08_12_00AM.pdf",
+      "report_date_eastern_claim": "2026-11-08",
+      "published_at_claim": "2026-11-08T05:00:00+00:00",
+      "source_clock_basis": "official_pdf_filename_claim",
+      "pdf_body_captured": false,
+      "player_ids_verified": false,
+      "training_eligible": false
+    }
+  ],
+  "rejected": [],
+  "historical_coverage_proven": false,
+  "affects_probability": false,
+  "training_eligible": false,
+  "limits": [
+    "Index receipt is not the PDF receipt or independent proof of its publication time",
+    "Missing historical links do not prove historical reports do not exist",
+    "Use explicit PDF body capture, player/game identity and actual T-30 receipts before pregame eligibility"
+  ]
+}
