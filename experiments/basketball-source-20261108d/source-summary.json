@@ -1,0 +1,145 @@
+{
+  "receipts": [
+    {
+      "label": "nba-cdn-0022500274",
+      "url": "https://cdn.nba.com/static/json/liveData/boxscore/boxscore_0022500274.json",
+      "final_url": "https://cdn.nba.com/static/json/liveData/boxscore/boxscore_0022500274.json",
+      "status": 403,
+      "bytes": 443,
+      "body_sha256": "6d1d66b594d468aacf63eafee58c0f8e3ac90ca206c1c2f2972618c73fd6cd69",
+      "received_at": "2026-11-08T07:38:39.527670+00:00",
+      "timestamp_basis": "http_response_body_completed",
+      "error": null
+    },
+    {
+      "label": "nba-stats-0022500274",
+      "url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0022500274&StartPeriod=0&EndPeriod=0&StartRange=0&EndRange=0&RangeType=0",
+      "final_url": null,
+      "status": null,
+      "bytes": 0,
+      "body_sha256": null,
+      "received_at": "2026-11-08T07:38:54.641438+00:00",
+      "timestamp_basis": null,
+      "error": "The read operation timed out"
+    },
+    {
+      "label": "kbl-box-S45G01N116",
+      "url": "https://api.kbl.or.kr/match/S45G01N116/player-stat",
+      "final_url": "https://api.kbl.or.kr/match/S45G01N116/player-stat",
+      "status": 200,
+      "bytes": 19422,
+      "body_sha256": "1c6674b9cff9e5ef6b6c3f6eb7cdd1aedd1906643faa13d61e65cb8409a610eb",
+      "received_at": "2026-11-08T07:38:54.749123+00:00",
+      "timestamp_basis": "http_response_body_completed",
+      "error": null
+    },
+    {
+      "label": "wkbl-04601072",
+      "url": "https://www.wkbl.or.kr/m/game/result.asp?game_no=72&game_type=01&season_gu=046&ym=202602",
+      "final_url": "https://www.wkbl.or.kr/m/game/result.asp?game_no=72&game_type=01&season_gu=046&ym=202602",
+      "status": 403,
+      "bytes": 4908,
+      "body_sha256": "1a06b8be9f6dc55ddc874fa747939d50c6110916f8c03cbb7824418fc5259aac",
+      "received_at": "2026-11-08T07:38:54.810649+00:00",
+      "timestamp_basis": "http_response_body_completed",
+      "error": null
+    },
+    {
+      "label": "nba-injury-20261104",
+      "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-04_12_15AM.pdf",
+      "final_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-04_12_15AM.pdf",
+      "status": 200,
+      "bytes": 102332,
+      "body_sha256": "ee714b30af60e27ee91127cd407fdf4e17f6d47bdfeabdcc132763566061e7a4",
+      "received_at": "2026-11-08T07:38:55.068294+00:00",
+      "timestamp_basis": "http_response_body_completed",
+      "error": null
+    }
+  ],
+  "kbl": {
+    "game_id": "S45G01N116",
+    "kickoff": "2025-01-01T14:00:00+09:00",
+    "team_totals": {
+      "06": {
+        "players": 12,
+        "score": 86,
+        "seconds": 12000
+      },
+      "60": {
+        "players": 12,
+        "score": 68,
+        "seconds": 12000
+      }
+    },
+    "player_rows": 24,
+    "price_join": {
+      "count": 1,
+      "day": "2025-01-01",
+      "odds": [
+        1.31,
+        2.68
+      ],
+      "winner_index": 0,
+      "kickoff_precision": "minute_timezone_uncertified",
+      "limitations": [
+        "no product id",
+        "no settlement period or overtime rule",
+        "no actual price receipt time"
+      ]
+    }
+  },
+  "nba_archived_official": {
+    "source_url": "https://www.nba.com/game/0022500274/box-score",
+    "body_sha256": "25a9a3e1978496d1faf8b0a420617e9f9f43238aac531eaa20d8365e0097377e",
+    "received_at": "2026-11-03T03:05:11.211975+00:00",
+    "game_id": "0022500274",
+    "kickoff_utc": "2025-11-23T03:00:00Z",
+    "teams": {
+      "DEN": {
+        "team_id": 1610612743,
+        "score": 123,
+        "player_rows": 12,
+        "starter_count": 5
+      },
+      "SAC": {
+        "team_id": 1610612758,
+        "score": 128,
+        "player_rows": 14,
+        "starter_count": 5
+      }
+    },
+    "price_join": {
+      "count": 1,
+      "day": "2025-11-23",
+      "odds": [
+        1.09,
+        4.31
+      ],
+      "winner_index": 1,
+      "kickoff_precision": "minute_timezone_uncertified",
+      "limitations": [
+        "no product id",
+        "no settlement period or overtime rule",
+        "no actual price receipt time"
+      ]
+    }
+  },
+  "wkbl_price_candidate": {
+    "count": 1,
+    "day": "2026-02-15",
+    "odds": [
+      1.95,
+      1.57
+    ],
+    "winner_index": 1,
+    "kickoff_precision": "minute_timezone_uncertified",
+    "limitations": [
+      "no product id",
+      "no settlement period or overtime rule",
+      "no actual price receipt time"
+    ]
+  },
+  "wkbl_note": "Official page 403 in local capture; search index result is not a retained source body. Price link is provisional.",
+  "model_eligible_games": 0,
+  "model_eligible_note": "No predecision 10-game received official input history and exact timed product and settlement."
+}
