@@ -1,0 +1,10 @@
+{
+ "branch":"codex/kl-transfer-validation-20261108b",
+ "research_commit":"2eebd61d",
+ "pr":"https://github.com/choigod1023/proto-odds-research/pull/643",
+ "status":"draft, not merged, not deployed; current head available from PR",
+ "paths":{"report":"experiments/kl-transfer-validation-20261108b/README.md","code":"experiments/kl-transfer-validation-20261108b/run_transfer.py","analysis":"experiments/kl-transfer-validation-20261108b/analyze_transfer.py","predictions":"experiments/kl-transfer-validation-20261108b/predictions.jsonl.gz","summary":"experiments/kl-transfer-validation-20261108b/summary.json","inventory":"experiments/kl-transfer-validation-20261108b/inventory.json"},
+ "tests":"3 passed; Python compileall passed; 8445 prior K League rows matched exactly; Decimal settlement and probability checks passed",
+ "conclusion":"Fixed KL applied to 563 K League, 147 EPL and 451 La Liga matches. Nominal K UO CI positive vs market but Holm-adjusted randomization p exceeds 0.05; direct market logloss difference nearly zero. 21 changed UO picks are not 1e-8 market ties. EPL and La Liga intervals include zero. Historical prices do not prove receipt or execution; model ROI negative.",
+ "limitations":"Data end June or earlier for K 2026, not complete through August; football market period not independently authenticated from product receipt; NBA/KBO not tested; no historical outcome training or operating model reproduction."
+}
