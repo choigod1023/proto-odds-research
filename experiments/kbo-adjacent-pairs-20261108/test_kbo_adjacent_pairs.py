@@ -20,4 +20,19 @@ class TestKboAdjacentPairs(unittest.TestCase):
  def test_draw_and_prices(self):
   common=[x for x in self.pred if x['price'] and x['existing_p'] is not None];self.assertTrue(any(x['price']['winner']=='draw' for x in common))
   self.assertTrue(all(x['price']['winner']==('home' if x['home_runs']>x['away_runs'] else 'away' if x['home_runs']<x['away_runs'] else 'draw') for x in common))
+ def test_all_evaluation_price_winners_and_score_join(self):
+  evaluation=[r for r in self.rows if r['date']>='2026-01-01'];self.assertEqual(len(evaluation),709)
+  by_id={r['id']:r for r in evaluation};self.assertEqual(len(self.pred),len(by_id))
+  for x in self.pred:
+   r=by_id[x['id']];self.assertEqual((x['home_runs'],x['away_runs'],x['price']),(r['home_runs'],r['away_runs'],r['price']))
+   if x['price']:
+    winner='home' if r['home_runs']>r['away_runs'] else 'away' if r['home_runs']<r['away_runs'] else 'draw'
+    self.assertEqual(x['price']['winner'],winner)
+ def test_source_conflict_gates(self):
+  r={'fixture_id':'game','home_id':'A','away_id':'B'};s={'source_fixture_id':'game','hg':3,'ag':2};z={'fixture_id':'game','home_id':'A','away_id':'B','winner':'home','price_source':{'market_id':'m','prices':{'home':1.5,'away':2.2}}}
+  self.assertTrue(m.compatible_price(r,s,z))
+  for section,key,value in [('score','source_fixture_id','other'),('score','hg',0),('ledger','fixture_id','other'),('ledger','home_id','B'),('ledger','away_id','A'),('ledger','winner','draw'),('source','market_id',None),('prices','home',1),('prices','away',float('nan'))]:
+   rr,ss,zz=copy.deepcopy(r),copy.deepcopy(s),copy.deepcopy(z); {'score':ss,'ledger':zz,'source':zz['price_source'],'prices':zz['price_source']['prices']}[section][key]=value
+   self.assertFalse(m.compatible_price(rr,ss,zz),msg=(section,key))
+  ss=copy.deepcopy(s);ss['ag']=ss['hg'];zz=copy.deepcopy(z);zz['winner']='draw';self.assertTrue(m.compatible_price(r,ss,zz))
 if __name__=='__main__':unittest.main()

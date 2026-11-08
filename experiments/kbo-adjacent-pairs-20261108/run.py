@@ -15,6 +15,13 @@ def writegz(p,rows):
  with open(p,'wb') as f:
   with gzip.GzipFile(fileobj=f,mode='wb',mtime=0,filename='') as z:
    for r in rows:z.write((json.dumps(r,ensure_ascii=False,sort_keys=True,separators=(',',':'))+'\n').encode())
+def compatible_price(row, score, ledger):
+ ps=ledger.get('price_source') or {}; prices=ps.get('prices') or {}
+ winner='home' if score['hg']>score['ag'] else 'away' if score['hg']<score['ag'] else 'draw'
+ return (row['fixture_id']==score.get('source_fixture_id')==ledger.get('fixture_id')
+         and winner==ledger.get('winner') and ledger.get('home_id')==row['home_id']
+         and ledger.get('away_id')==row['away_id'] and bool(ps.get('market_id'))
+         and all(isinstance(prices.get(k),(int,float)) and math.isfinite(prices[k]) and prices[k]>1 for k in ('home','away')))
 def extract():
  paths={'rows':Path('C:/Users/user/Documents/Codex/kbeffects/experiments/kbo-player-effects-20261103/inputs/rows.jsonl.gz'),'official_lineups':Path('C:/Users/user/Documents/Codex/kbeffects/experiments/kbo-player-effects-20261103/inputs/fresh-history-2026-official_batting_and_starter.jsonl.gz'),'scores':Path('C:/Users/user/Documents/Codex/kbodata/data/model_candidates/kbo/archived-games.jsonl.gz'),'prices':Path('C:/Users/user/Documents/Codex/kbeffects/experiments/kbo-player-effects-20261103/inputs/price-ledgers.json'),'existing':ROOT/'experiments/pregame-baseball-20261104/model-predictions.jsonl.gz'}
  rows=readgz(paths['rows']); scores=readgz(paths['scores']); groups=collections.defaultdict(list)
@@ -40,7 +47,7 @@ def extract():
   v=s[0]; rec={'id':fid,'date':v['date'],'home':r['home_id'],'away':r['away_id'],'home_lineup':h,'away_lineup':a,'home_runs':v['hg'],'away_runs':v['ag'],'price':None,'existing_p':None}
   if fid in ledger:
    z=ledger[fid]; ps=z['price_source']; winner='home' if v['hg']>v['ag'] else 'away' if v['hg']<v['ag'] else 'draw'
-   if winner==z['winner'] and z['home_id']==r['home_id'] and z['away_id']==r['away_id'] and ps.get('market_id') and all(isinstance(ps.get('prices',{}).get(k),(int,float)) and ps['prices'][k]>1 for k in ('home','away')):
+   if compatible_price(r,v,z):
     rec['price']={'id':ps['market_id'],'home':ps['prices']['home'],'away':ps['prices']['away'],'winner':winner}; rec['existing_p']=existing.get(fid)
    else:reasons['price_identity_mismatch']+=1
   out.append(rec)
@@ -88,13 +95,24 @@ def run():
   data=[vals_for(x,name) for x in xs]; nd=[(x,z) for x,z in zip(xs,data) if z[2] is not None]; equity=peak=mdd=0
   for z in data:equity+=z[3];peak=max(peak,equity);mdd=max(mdd,peak-equity)
   return {'n':len(xs),'nonvoid':len(nd),'hit_rate':float(np.mean([z[2] for x,z in nd])) if nd else None,'roi':float(np.mean([z[3] for z in data])) if data else None,'log_loss':float(np.mean([-math.log(max(1e-12,z[0] if x['price']['winner']=='home' else 1-z[0])) for x,z in nd])) if nd else None,'brier':float(np.mean([(z[0]-(x['price']['winner']=='home'))**2 for x,z in nd])) if nd else None,'mdd_units':mdd}
- names=['market','existing','additive','pair']; weeks=collections.defaultdict(list)
- for x in common:weeks[datetime.date.fromisoformat(x['date']).isocalendar()[:2]].append(x)
- rng=np.random.default_rng(20261108);keys=list(weeks);deltas=[]
- for _ in range(2000):
-  sample=[x for k in rng.integers(0,len(keys),len(keys)) for x in weeks[keys[k]]];a=metrics(sample,'additive');b=metrics(sample,'pair');deltas.append([b[k]-a[k] for k in ['hit_rate','roi','log_loss','brier']])
- ci={k:np.quantile(np.array(deltas)[:,i],[.025,.975]).tolist() for i,k in enumerate(['hit_rate','roi','log_loss','brier'])} if common else {}
- priced=[x for x in pred if x['price']]; result={'oracle_priced_only_n':len(priced),'oracle_priced_only_draws':sum(x['price']['winner']=='draw' for x in priced),'oracle_priced_only_metrics':{n:metrics(priced,n) for n in ['market','additive','pair']},'all_eval_run_mse':{name:float(np.mean([(p-y)**2 for x in pred for p,y in zip(x[name+'_runs'],[x['home_runs'],x['away_runs']])])) for name in ['additive','pair']},'train':len(train),'validation':len(valid),'eval':len(test),'validation_mse':vals,'selected_pair_penalty':pen,'strict_pregame_n':0,'strict_reason':'no historical lineup or price receipt time','oracle_price_existing_matched_n':len(common),'matched_draws':sum(x['price']['winner']=='draw' for x in common),'metrics':{n:metrics(common,n) for n in names},'monthly':{month:{n:metrics([x for x in common if x['date'][:7]==month],n) for n in names} for month in sorted({x['date'][:7] for x in common})},'changed_picks':sum(vals_for(x,'pair')[1]!=vals_for(x,'additive')[1] for x in common),'pair_minus_additive_weekly_bootstrap_95':ci,'unpriced_eval':sum(x['price'] is None for x in pred),'eval_draws':sum(x['home_runs']==x['away_runs'] for x in pred),'seed':20261108}
+ names=['market','existing','additive','pair']
+ def paired_ci(xs,ref):
+  weeks=collections.defaultdict(list)
+  for x in xs:weeks[datetime.date.fromisoformat(x['date']).isocalendar()[:2]].append(x)
+  rng=np.random.default_rng(20261108); keys=list(weeks); deltas=[]
+  for _ in range(2000):
+   sample=[x for k in rng.integers(0,len(keys),len(keys)) for x in weeks[keys[k]]]
+   aa=metrics(sample,ref);bb=metrics(sample,'pair')
+   deltas.append([bb[k]-aa[k] for k in ['hit_rate','roi','log_loss','brier']])
+  return {k:np.quantile(np.array(deltas)[:,i],[.025,.975]).tolist() for i,k in enumerate(['hit_rate','roi','log_loss','brier'])}
+ priced=[x for x in pred if x['price']]; missing=[x for x in priced if x['existing_p'] is None]
+ def describe(xs):
+  return {'n':len(xs),'first_date':min(x['date'] for x in xs),'last_date':max(x['date'] for x in xs),
+          'months':dict(sorted(collections.Counter(x['date'][:7] for x in xs).items())),
+          'winner':dict(collections.Counter(x['price']['winner'] for x in xs)),
+          'changed_pair_vs_market':sum(vals_for(x,'pair')[1]!=vals_for(x,'market')[1] for x in xs),
+          'metrics':{n:metrics(xs,n) for n in ['market','additive','pair']}}
+ result={'oracle_priced_only_n':len(priced),'oracle_priced_only_draws':sum(x['price']['winner']=='draw' for x in priced),'oracle_priced_only_metrics':{n:metrics(priced,n) for n in ['market','additive','pair']},'all_eval_run_mse':{name:float(np.mean([(p-y)**2 for x in pred for p,y in zip(x[name+'_runs'],[x['home_runs'],x['away_runs']])])) for name in ['additive','pair']},'train':len(train),'validation':len(valid),'eval':len(test),'validation_mse':vals,'selected_pair_penalty':pen,'strict_pregame_n':0,'strict_reason':'no historical lineup or price receipt time','oracle_price_existing_matched_n':len(common),'matched_draws':sum(x['price']['winner']=='draw' for x in common),'metrics':{n:metrics(common,n) for n in names},'monthly':{month:{n:metrics([x for x in common if x['date'][:7]==month],n) for n in names} for month in sorted({x['date'][:7] for x in common})},'changed_picks':sum(vals_for(x,'pair')[1]!=vals_for(x,'additive')[1] for x in common),'pair_minus_additive_weekly_bootstrap_95':paired_ci(common,'additive'),'pair_minus_market_weekly_bootstrap_95_common':paired_ci(common,'market'),'pair_minus_existing_weekly_bootstrap_95_common':paired_ci(common,'existing'),'pair_minus_market_weekly_bootstrap_95_priced':paired_ci(priced,'market'),'priced_with_existing':describe(common),'priced_missing_existing':describe(missing),'unpriced_eval':sum(x['price'] is None for x in pred),'eval_draws':sum(x['home_runs']==x['away_runs'] for x in pred),'seed':20261108}
  (P/'summary.json').write_text(json.dumps(result,indent=2,ensure_ascii=False),encoding='utf8');print(json.dumps(result,ensure_ascii=False))
 if __name__=='__main__':
  import sys
