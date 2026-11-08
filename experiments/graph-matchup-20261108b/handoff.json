@@ -1,1 +1,17 @@
-{"branch":"codex/graph-matchup-research-20261108b","commit":"resolve with git rev-parse HEAD; self-hash cannot be embedded in the same commit","pr":"pending","paths":["experiments/graph-matchup-20261108b/README.md","experiments/graph-matchup-20261108b/run.py","experiments/graph-matchup-20261108b/summary.json","experiments/graph-matchup-20261108b/predictions.jsonl.gz","experiments/graph-matchup-20261108b/test_graph_matchup.py"],"tests":["python experiments/graph-matchup-20261108b/run.py","python -m unittest discover -s experiments/graph-matchup-20261108b -p test_graph_matchup.py -v"],"status":"research only; not merged, not deployed; soccer conditional ROI is not actionable"}
+{
+  "branch": "codex/graph-matchup-research-20261108b",
+  "commit": "132d5140 (research implementation); handoff metadata commit is repository HEAD",
+  "pr": "https://github.com/choigod1023/proto-odds-research/pull/644",
+  "paths": [
+    "experiments/graph-matchup-20261108b/README.md",
+    "experiments/graph-matchup-20261108b/run.py",
+    "experiments/graph-matchup-20261108b/summary.json",
+    "experiments/graph-matchup-20261108b/predictions.jsonl.gz",
+    "experiments/graph-matchup-20261108b/test_graph_matchup.py"
+  ],
+  "tests": [
+    "python experiments/graph-matchup-20261108b/run.py",
+    "python -m unittest discover -s experiments/graph-matchup-20261108b -p test_graph_matchup.py -v"
+  ],
+  "status": "draft PR; research only; not merged, not deployed; soccer unsupported for primary evaluation"
+}
