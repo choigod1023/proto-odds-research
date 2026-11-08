@@ -481,8 +481,13 @@ def refresh_document(document: dict, live_odds: dict, *,
             form_payload = form_provider.for_game(game, kickoff)
             # Display context is excluded from ledger_features and decision input
             # hashes. Never edit a saved revision's canonical form fields here.
-            display_changed = game.get("team_form_display") != form_payload
-            game["team_form_display"] = form_payload
+            # A later check of identical results is not a changed match. Keep
+            # the original cutoff unless an actual display value changed.
+            prior_form = game.get("team_form_display") or {}
+            display_changed = ({k: v for k, v in prior_form.items() if k != "form_before"}
+                               != {k: v for k, v in form_payload.items() if k != "form_before"})
+            if display_changed:
+                game["team_form_display"] = form_payload
         snapshot = game.get("decision_snapshot") or {}
         selected = [row for row in old_options
                     if row.get("selection_id") == snapshot.get("selection_id")
@@ -792,6 +797,7 @@ def _settle_live_market_results_locked(live_odds: dict, runtime: PredictionRunti
 
 def refresh_once(live_odds: dict | None = None) -> int:
     started = time.monotonic()
+    cpu_started = time.process_time()
 
     def stage(name: str) -> None:
         memory = ""
@@ -800,7 +806,8 @@ def refresh_once(live_odds: dict | None = None) -> int:
         if sys.platform.startswith("linux"):
             import resource
             memory = f" peak_rss_kib={resource.getrusage(resource.RUSAGE_SELF).ru_maxrss}"
-        print(f"경량 시장 판정 단계={name} 경과={time.monotonic() - started:.1f}s{memory}", flush=True)
+        print(f"경량 시장 판정 단계={name} 경과={time.monotonic() - started:.1f}s "
+              f"cpu={time.process_time() - cpu_started:.1f}s{memory}", flush=True)
 
     stage("load")
     try:
