@@ -5,6 +5,7 @@ from datetime import datetime, timedelta, timezone
 import gzip
 import hashlib
 import json
+import math
 from pathlib import Path
 import re
 
@@ -23,6 +24,29 @@ def line_of(label, market):
         return None
     value = float(match[2])
     return value if value % 1 == .5 else None
+
+
+def valid_terms(terms, game, game_no, market):
+    expected_market = {'언더오버': ('total', 'total_half'), '핸디캡': ('handicap', 'handicap_half')}.get(market)
+    expected_unit = {'bs': 'runs', 'bk': 'points'}.get(game.get('sport'))
+    if not expected_market or not expected_unit:
+        return False
+    if (str(terms.get('game_no')) != str(game_no) or terms.get('sport') != game.get('sport')
+            or not game.get('league') or terms.get('league') != game.get('league')
+            or terms.get('market') != expected_market[0] or terms.get('settlement_rule') != expected_market[1]
+            or type(terms.get('n_way')) is not int or terms['n_way'] != 2
+            or terms.get('unit') != expected_unit or terms.get('period') != 'full_including_extra'):
+        return False
+    try:
+        value = float(terms['line'])
+    except (TypeError, ValueError, KeyError):
+        return False
+    return math.isfinite(value) and value % 1 == .5
+
+
+def valid_odds(odds):
+    return isinstance(odds, list) and len(odds) == 2 and all(
+        type(x) in (int, float) and math.isfinite(x) and x > 1 for x in odds)
 
 
 def outcome(market, line, side, home, away):
@@ -127,14 +151,14 @@ def analyze(history, response, db, score_history):
         snapshots=defaultdict(set)
         for at,market,label,odds in records:
             if market not in ('언더오버','핸디캡') or line_of(label,market) is None: continue
-            if not isinstance(odds,list) or len(odds)!=2 or any(not isinstance(x,(int,float)) or x<=1 for x in odds) : continue
+            if not valid_odds(odds): continue
             t=stamp(at)
-            if t<=kickoff-timedelta(minutes=30): snapshots[t].add((market,label,tuple(odds)))
+            if t<kickoff-timedelta(minutes=30): snapshots[t].add((market,label,tuple(odds)))
         if len(snapshots)<2: excluded['fewer_than_two_pregame_quotes']+=1; continue
         if any(len(v)!=1 for v in snapshots.values()): excluded['conflicting_same_time']+=1; continue
         times=sorted(snapshots); first=next(iter(snapshots[times[0]])); last=next(iter(snapshots[times[-1]]))
         if first[0]!=last[0]: excluded['market_changed']+=1;continue
-        if terms[0].get('market') != ('total' if first[0]=='언더오버' else 'handicap') or terms[0].get('settlement_rule') != ('total_half' if first[0]=='언더오버' else 'handicap_half') or terms[0].get('n_way') != 2:
+        if not valid_terms(terms[0],game,key[1],first[0]):
             excluded['terms_mismatch']+=1; continue
         if first[2][0]==first[2][1] or last[2][0]==last[2][1]: excluded['tied_endpoint']+=1;continue
         if first[1:]==last[1:]: excluded['no_change_at_endpoints']+=1;continue
@@ -143,7 +167,7 @@ def analyze(history, response, db, score_history):
         oldline=line_of(first[1],first[0]); newline=line_of(last[1],last[0])
         out.append({'round':key[0],'game_no':key[1],'sport':game['sport'],'league':game['league'], 'home':game['home'],'away':game['away'], 'kickoff':kickoff.isoformat(),'score':[h,a], 'score_observed_at':latest['observed_at'], 'market':first[0], 'old_observed_at':times[0].isoformat(),'new_observed_at':times[-1].isoformat(), 'old_line':oldline,'new_line':newline,'old_odds':list(first[2]),'new_odds':list(last[2]),'old_side':oldside,'new_side':newside, 'new_product_old_hit':outcome(first[0],newline,oldside,h,a),'new_product_new_hit':outcome(first[0],newline,newside,h,a),'original_ticket_hit':outcome(first[0],oldline,oldside,h,a)})
     flips,lines,both=changed_groups(out)
-    return {'line_changed_only':aggregate(lines), 'line_changed_and_direction_flipped':aggregate(both), 'protocol':'earliest available quote vs latest available quote by T-30; lowest odds, no ties; select changed endpoints', 'exclusions':dict(excluded), 'all_changed':aggregate(out),'direction_flips':aggregate(flips),'flips_by_sport':{s:aggregate([r for r in flips if r['sport']==s]) for s in ('bs','bk')},'rows':out}
+    return {'line_changed_only':aggregate(lines), 'line_changed_and_direction_flipped':aggregate(both), 'protocol':'earliest available quote vs latest available quote strictly before T-30; lowest odds, no ties; select changed endpoints', 'exclusions':dict(excluded), 'all_changed':aggregate(out),'direction_flips':aggregate(flips),'flips_by_sport':{s:aggregate([r for r in flips if r['sport']==s]) for s in ('bs','bk')},'rows':out}
 
 
 def read(p):

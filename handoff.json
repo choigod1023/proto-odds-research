@@ -90,5 +90,13 @@
     "new_roi": -1.0,
     "original_ticket_hits": 1,
     "original_ticket_roi": 0.72
+  },
+  "guard_revalidation": {
+    "strict_before_t30": true,
+    "exact_product_terms": true,
+    "finite_prices": true,
+    "half_lines_only": true,
+    "rows_and_metrics_changed": false,
+    "tests_passed": 13
   }
 }
