@@ -1,0 +1,4750 @@
+{
+  "inputs_sha256": {
+    "experiments/all-sports-underdog-20261031/results/bs/domestic_archive/ledger.jsonl.gz": "311e298b4b7edf9cc8507c7c493966075c694cc9eed15896eb4a390e3c49649f",
+    "experiments/all-sports-underdog-20261031/results/sc/domestic_archive/ledger.jsonl.gz": "4eb3d4ab6b61bafd7319bb456d69a7dd3135d4deae9e813c24b64a1ca68c72cb",
+    "experiments/all-sports-underdog-20261031/results/bk/domestic_archive/ledger.jsonl.gz": "b8eb5c8ffa2906d2f1b2daa003d1656c9dd7009c58fd9c0eca655d40631cd37b",
+    "experiments/all-sports-underdog-20261031/results/vl/domestic_archive/ledger.jsonl.gz": "07fd92b2d937806db16d9f185ecece71efeed53cc9f63bb122d315dc6fbb6976"
+  },
+  "input_counts": {
+    "bs": {
+      "all": 14978,
+      "fallback_excluded": 708
+    },
+    "sc": {
+      "all": 23998,
+      "fallback_excluded": 346
+    },
+    "bk": {
+      "all": 6748,
+      "fallback_excluded": 286
+    },
+    "vl": {
+      "all": 2005,
+      "fallback_excluded": 275
+    }
+  },
+  "date_range": [
+    "2025-01-01",
+    "2026-08-26"
+  ],
+  "evaluation_rows": 21870,
+  "warmup": "eligible non-fallback before 2025; delayed outcomes update sequentially",
+  "eta": 0.05,
+  "alpha": 0.01,
+  "summary": {
+    "all": {
+      "market": {
+        "n": 21870,
+        "hits": 12281,
+        "hit_rate": 0.5615454961133973,
+        "log_loss": 0.8174575405213009,
+        "brier_multiclass": 0.5226004833925942,
+        "roi": -0.12303429355281187,
+        "net": -2690.7599999999957,
+        "max_drawdown_day_order_units": 2702.7299999999955
+      },
+      "equal": {
+        "n": 21870,
+        "hits": 12298,
+        "hit_rate": 0.5623228166438043,
+        "log_loss": 0.8235219560480367,
+        "brier_multiclass": 0.5266720573116105,
+        "roi": -0.1177178783721996,
+        "net": -2574.4900000000052,
+        "max_drawdown_day_order_units": 2580.100000000005
+      },
+      "fixed_50_50": {
+        "n": 21870,
+        "hits": 12253,
+        "hit_rate": 0.56026520347508,
+        "log_loss": 0.8284694337278473,
+        "brier_multiclass": 0.5303174434487542,
+        "roi": -0.11620118884316429,
+        "net": -2541.320000000003,
+        "max_drawdown_day_order_units": 2542.270000000003
+      },
+      "fixed_share": {
+        "n": 21870,
+        "hits": 12293,
+        "hit_rate": 0.5620941929583905,
+        "log_loss": 0.8224122988895312,
+        "brier_multiclass": 0.5259076675501778,
+        "roi": -0.11935116598079563,
+        "net": -2610.2100000000005,
+        "max_drawdown_day_order_units": 2615.82
+      }
+    },
+    "sport:bk": {
+      "market": {
+        "n": 3069,
+        "hits": 2093,
+        "hit_rate": 0.68198110133594,
+        "log_loss": 0.591616632831778,
+        "brier_multiclass": 0.4061892293592733,
+        "roi": -0.11985337243401781,
+        "net": -367.83000000000067,
+        "max_drawdown_day_order_units": 376.14000000000067
+      },
+      "equal": {
+        "n": 3069,
+        "hits": 2094,
+        "hit_rate": 0.6823069403714564,
+        "log_loss": 0.5987552709471793,
+        "brier_multiclass": 0.4119964979332972,
+        "roi": -0.11526555881394619,
+        "net": -353.75000000000085,
+        "max_drawdown_day_order_units": 356.39000000000084
+      },
+      "fixed_50_50": {
+        "n": 3069,
+        "hits": 2082,
+        "hit_rate": 0.678396871945259,
+        "log_loss": 0.6052014448323393,
+        "brier_multiclass": 0.41753426581977143,
+        "roi": -0.11623330074942999,
+        "net": -356.72000000000065,
+        "max_drawdown_day_order_units": 357.47000000000065
+      },
+      "fixed_share": {
+        "n": 3069,
+        "hits": 2094,
+        "hit_rate": 0.6823069403714564,
+        "log_loss": 0.5973542568581767,
+        "brier_multiclass": 0.41083893616998846,
+        "roi": -0.1165591397849465,
+        "net": -357.7200000000008,
+        "max_drawdown_day_order_units": 360.3600000000008
+      }
+    },
+    "league:bk:NBA": {
+      "market": {
+        "n": 2133,
+        "hits": 1469,
+        "hit_rate": 0.6887013595874355,
+        "log_loss": 0.5815367988205311,
+        "brier_multiclass": 0.39763649885338903,
+        "roi": -0.1249413970932962,
+        "net": -266.5000000000008,
+        "max_drawdown_day_order_units": 271.2200000000008
+      },
+      "equal": {
+        "n": 2133,
+        "hits": 1464,
+        "hit_rate": 0.6863572433192686,
+        "log_loss": 0.5878704721751011,
+        "brier_multiclass": 0.4027552389121282,
+        "roi": -0.12520393811533093,
+        "net": -267.06000000000085,
+        "max_drawdown_day_order_units": 268.39000000000084
+      },
+      "fixed_50_50": {
+        "n": 2133,
+        "hits": 1463,
+        "hit_rate": 0.6858884200656352,
+        "log_loss": 0.5930382712086507,
+        "brier_multiclass": 0.40702111109804406,
+        "roi": -0.12135021097046447,
+        "net": -258.8400000000007,
+        "max_drawdown_day_order_units": 258.8400000000007
+      },
+      "fixed_share": {
+        "n": 2133,
+        "hits": 1467,
+        "hit_rate": 0.6877637130801688,
+        "log_loss": 0.5866551152715763,
+        "brier_multiclass": 0.4017817132156782,
+        "roi": -0.12406938584153814,
+        "net": -264.64000000000084,
+        "max_drawdown_day_order_units": 265.9700000000008
+      }
+    },
+    "year:2025": {
+      "market": {
+        "n": 13737,
+        "hits": 7681,
+        "hit_rate": 0.5591468297299265,
+        "log_loss": 0.8257790395784218,
+        "brier_multiclass": 0.5250881349335373,
+        "roi": -0.12237897648686,
+        "net": -1681.1199999999958,
+        "max_drawdown_day_order_units": 1688.869999999996
+      },
+      "equal": {
+        "n": 13737,
+        "hits": 7720,
+        "hit_rate": 0.5619858775569629,
+        "log_loss": 0.8318356345824767,
+        "brier_multiclass": 0.5290764326212785,
+        "roi": -0.1115374535924875,
+        "net": -1532.1900000000007,
+        "max_drawdown_day_order_units": 1537.3700000000008
+      },
+      "fixed_50_50": {
+        "n": 13737,
+        "hits": 7715,
+        "hit_rate": 0.5616218970663173,
+        "log_loss": 0.8369235336212159,
+        "brier_multiclass": 0.5327744343322579,
+        "roi": -0.1062655601659751,
+        "net": -1459.77,
+        "max_drawdown_day_order_units": 1461.73
+      },
+      "fixed_share": {
+        "n": 13737,
+        "hits": 7709,
+        "hit_rate": 0.5611851204775424,
+        "log_loss": 0.8307453774756735,
+        "brier_multiclass": 0.5283315621298076,
+        "roi": -0.11453155710853903,
+        "net": -1573.3200000000006,
+        "max_drawdown_day_order_units": 1578.5000000000007
+      }
+    },
+    "quarter:2025Q1": {
+      "market": {
+        "n": 2917,
+        "hits": 1682,
+        "hit_rate": 0.5766198148782996,
+        "log_loss": 0.8457385213067447,
+        "brier_multiclass": 0.5263201541384872,
+        "roi": -0.10066163866986622,
+        "net": -293.62999999999977,
+        "max_drawdown_day_order_units": 319.2099999999997
+      },
+      "equal": {
+        "n": 2917,
+        "hits": 1699,
+        "hit_rate": 0.5824477202605417,
+        "log_loss": 0.8513415666272557,
+        "brier_multiclass": 0.530423033775015,
+        "roi": -0.08312992800822747,
+        "net": -242.48999999999953,
+        "max_drawdown_day_order_units": 265.17999999999967
+      },
+      "fixed_50_50": {
+        "n": 2917,
+        "hits": 1692,
+        "hit_rate": 0.5800479945149126,
+        "log_loss": 0.8559979834782752,
+        "brier_multiclass": 0.5338704267269765,
+        "roi": -0.08274254370929021,
+        "net": -241.35999999999953,
+        "max_drawdown_day_order_units": 260.8299999999997
+      },
+      "fixed_share": {
+        "n": 2917,
+        "hits": 1696,
+        "hit_rate": 0.5814192663695578,
+        "log_loss": 0.8504755109719577,
+        "brier_multiclass": 0.5297751477030967,
+        "roi": -0.08571134727459713,
+        "net": -250.0199999999998,
+        "max_drawdown_day_order_units": 273.02999999999975
+      }
+    },
+    "league:bk:KBL": {
+      "market": {
+        "n": 461,
+        "hits": 295,
+        "hit_rate": 0.6399132321041214,
+        "log_loss": 0.6410912802921626,
+        "brier_multiclass": 0.44999751236594915,
+        "roi": -0.09114967462039045,
+        "net": -42.019999999999996,
+        "max_drawdown_day_order_units": 48.65
+      },
+      "equal": {
+        "n": 461,
+        "hits": 299,
+        "hit_rate": 0.648590021691974,
+        "log_loss": 0.6427112644300687,
+        "brier_multiclass": 0.45129173467796146,
+        "roi": -0.07010845986984818,
+        "net": -32.32000000000001,
+        "max_drawdown_day_order_units": 38.16
+      },
+      "fixed_50_50": {
+        "n": 461,
+        "hits": 293,
+        "hit_rate": 0.6355748373101953,
+        "log_loss": 0.6449268869413699,
+        "brier_multiclass": 0.4533501867523452,
+        "roi": -0.08700650759219089,
+        "net": -40.11,
+        "max_drawdown_day_order_units": 42.82
+      },
+      "fixed_share": {
+        "n": 461,
+        "hits": 297,
+        "hit_rate": 0.6442516268980477,
+        "log_loss": 0.6421292778598967,
+        "brier_multiclass": 0.45074969917399127,
+        "roi": -0.07947939262472885,
+        "net": -36.64,
+        "max_drawdown_day_order_units": 41.540000000000006
+      }
+    },
+    "league:bk:WKBL": {
+      "market": {
+        "n": 158,
+        "hits": 104,
+        "hit_rate": 0.6582278481012658,
+        "log_loss": 0.6240793794082927,
+        "brier_multiclass": 0.4321820180698432,
+        "roi": -0.10132911392405057,
+        "net": -16.00999999999999,
+        "max_drawdown_day_order_units": 18.099999999999994
+      },
+      "equal": {
+        "n": 158,
+        "hits": 107,
+        "hit_rate": 0.6772151898734177,
+        "log_loss": 0.6426269913682943,
+        "brier_multiclass": 0.4491386032586006,
+        "roi": -0.0638607594936709,
+        "net": -10.090000000000002,
+        "max_drawdown_day_order_units": 12.769999999999996
+      },
+      "fixed_50_50": {
+        "n": 158,
+        "hits": 102,
+        "hit_rate": 0.6455696202531646,
+        "log_loss": 0.6550512414266402,
+        "brier_multiclass": 0.4609281232210936,
+        "roi": -0.10537974683544299,
+        "net": -16.64999999999999,
+        "max_drawdown_day_order_units": 19.519999999999992
+      },
+      "fixed_share": {
+        "n": 158,
+        "hits": 107,
+        "hit_rate": 0.6772151898734177,
+        "log_loss": 0.6402029694368534,
+        "brier_multiclass": 0.4468836654868053,
+        "roi": -0.0638607594936709,
+        "net": -10.090000000000002,
+        "max_drawdown_day_order_units": 12.769999999999996
+      }
+    },
+    "sport:sc": {
+      "market": {
+        "n": 11014,
+        "hits": 5686,
+        "hit_rate": 0.5162520428545487,
+        "log_loss": 0.9870642827199637,
+        "brier_multiclass": 0.5889032468454455,
+        "roi": -0.11490829852914476,
+        "net": -1265.6000000000004,
+        "max_drawdown_day_order_units": 1272.2400000000002
+      },
+      "equal": {
+        "n": 11014,
+        "hits": 5672,
+        "hit_rate": 0.5149809333575449,
+        "log_loss": 0.9959155637943641,
+        "brier_multiclass": 0.594438689548275,
+        "roi": -0.11248229526057746,
+        "net": -1238.88,
+        "max_drawdown_day_order_units": 1242.6000000000001
+      },
+      "fixed_50_50": {
+        "n": 11014,
+        "hits": 5647,
+        "hit_rate": 0.5127110949700381,
+        "log_loss": 1.002671015010995,
+        "brier_multiclass": 0.5990040270012421,
+        "roi": -0.11080987833666237,
+        "net": -1220.4599999999994,
+        "max_drawdown_day_order_units": 1222.7399999999993
+      },
+      "fixed_share": {
+        "n": 11014,
+        "hits": 5667,
+        "hit_rate": 0.5145269656800436,
+        "log_loss": 0.994269532489773,
+        "brier_multiclass": 0.5933750339130343,
+        "roi": -0.11488287633920466,
+        "net": -1265.3200000000002,
+        "max_drawdown_day_order_units": 1269.0400000000002
+      }
+    },
+    "league:sc:EFL챔": {
+      "market": {
+        "n": 950,
+        "hits": 426,
+        "hit_rate": 0.44842105263157894,
+        "log_loss": 1.05341847069247,
+        "brier_multiclass": 0.6361412548092971,
+        "roi": -0.16690526315789467,
+        "net": -158.55999999999995,
+        "max_drawdown_day_order_units": 159.56999999999994
+      },
+      "equal": {
+        "n": 950,
+        "hits": 430,
+        "hit_rate": 0.45263157894736844,
+        "log_loss": 1.0538015840500876,
+        "brier_multiclass": 0.63622684795624,
+        "roi": -0.15259999999999993,
+        "net": -144.96999999999994,
+        "max_drawdown_day_order_units": 147.51999999999995
+      },
+      "fixed_50_50": {
+        "n": 950,
+        "hits": 428,
+        "hit_rate": 0.45052631578947366,
+        "log_loss": 1.0545231335911711,
+        "brier_multiclass": 0.6366424810396925,
+        "roi": -0.14971578947368414,
+        "net": -142.22999999999993,
+        "max_drawdown_day_order_units": 145.88999999999993
+      },
+      "fixed_share": {
+        "n": 950,
+        "hits": 429,
+        "hit_rate": 0.4515789473684211,
+        "log_loss": 1.0537235170406036,
+        "brier_multiclass": 0.6362128985211708,
+        "roi": -0.1556947368421052,
+        "net": -147.90999999999994,
+        "max_drawdown_day_order_units": 150.45999999999995
+      }
+    },
+    "league:sc:A리그": {
+      "market": {
+        "n": 271,
+        "hits": 123,
+        "hit_rate": 0.45387453874538747,
+        "log_loss": 1.06522786206439,
+        "brier_multiclass": 0.6436240849494241,
+        "roi": -0.17701107011070105,
+        "net": -47.969999999999985,
+        "max_drawdown_day_order_units": 49.039999999999985
+      },
+      "equal": {
+        "n": 271,
+        "hits": 123,
+        "hit_rate": 0.45387453874538747,
+        "log_loss": 1.0735867288648677,
+        "brier_multiclass": 0.6492237492229992,
+        "roi": -0.17121771217712176,
+        "net": -46.4,
+        "max_drawdown_day_order_units": 49.73
+      },
+      "fixed_50_50": {
+        "n": 271,
+        "hits": 123,
+        "hit_rate": 0.45387453874538747,
+        "log_loss": 1.0763556603854842,
+        "brier_multiclass": 0.6512051515451076,
+        "roi": -0.1645387453874539,
+        "net": -44.59,
+        "max_drawdown_day_order_units": 46.470000000000006
+      },
+      "fixed_share": {
+        "n": 271,
+        "hits": 123,
+        "hit_rate": 0.45387453874538747,
+        "log_loss": 1.0729541116373378,
+        "brier_multiclass": 0.6487975373583599,
+        "roi": -0.17121771217712176,
+        "net": -46.4,
+        "max_drawdown_day_order_units": 49.73
+      }
+    },
+    "league:sc:아랍컵": {
+      "market": {
+        "n": 27,
+        "hits": 14,
+        "hit_rate": 0.5185185185185185,
+        "log_loss": 1.0497487510730434,
+        "brier_multiclass": 0.6393264017724879,
+        "roi": -0.06222222222222222,
+        "net": -1.68,
+        "max_drawdown_day_order_units": 5.53
+      },
+      "equal": {
+        "n": 27,
+        "hits": 13,
+        "hit_rate": 0.48148148148148145,
+        "log_loss": 1.0399057289990847,
+        "brier_multiclass": 0.6271941450997125,
+        "roi": -0.15296296296296297,
+        "net": -4.13,
+        "max_drawdown_day_order_units": 6.53
+      },
+      "fixed_50_50": {
+        "n": 27,
+        "hits": 14,
+        "hit_rate": 0.5185185185185185,
+        "log_loss": 1.0490250749317533,
+        "brier_multiclass": 0.6322157906131494,
+        "roi": -0.007407407407407414,
+        "net": -0.20000000000000018,
+        "max_drawdown_day_order_units": 4.0
+      },
+      "fixed_share": {
+        "n": 27,
+        "hits": 13,
+        "hit_rate": 0.48148148148148145,
+        "log_loss": 1.0413512767025463,
+        "brier_multiclass": 0.6286545939374661,
+        "roi": -0.15296296296296297,
+        "net": -4.13,
+        "max_drawdown_day_order_units": 6.53
+      }
+    },
+    "league:sc:EPL": {
+      "market": {
+        "n": 625,
+        "hits": 331,
+        "hit_rate": 0.5296,
+        "log_loss": 0.9942869184904654,
+        "brier_multiclass": 0.595302396326749,
+        "roi": -0.10919999999999998,
+        "net": -68.24999999999999,
+        "max_drawdown_day_order_units": 71.68999999999998
+      },
+      "equal": {
+        "n": 625,
+        "hits": 328,
+        "hit_rate": 0.5248,
+        "log_loss": 0.9935278608561823,
+        "brier_multiclass": 0.5950909311656807,
+        "roi": -0.11707200000000005,
+        "net": -73.17000000000003,
+        "max_drawdown_day_order_units": 83.25000000000003
+      },
+      "fixed_50_50": {
+        "n": 625,
+        "hits": 329,
+        "hit_rate": 0.5264,
+        "log_loss": 0.9948406562261365,
+        "brier_multiclass": 0.5958157083440313,
+        "roi": -0.10720000000000002,
+        "net": -67.00000000000001,
+        "max_drawdown_day_order_units": 77.08000000000001
+      },
+      "fixed_share": {
+        "n": 625,
+        "hits": 327,
+        "hit_rate": 0.5232,
+        "log_loss": 0.993482374114087,
+        "brier_multiclass": 0.5950938727119276,
+        "roi": -0.12152000000000004,
+        "net": -75.95000000000003,
+        "max_drawdown_day_order_units": 83.63000000000002
+      }
+    },
+    "league:sc:축ASEA챔": {
+      "market": {
+        "n": 9,
+        "hits": 7,
+        "hit_rate": 0.7777777777777778,
+        "log_loss": 0.8370110612396359,
+        "brier_multiclass": 0.4684848753421875,
+        "roi": 0.25888888888888884,
+        "net": 2.3299999999999996,
+        "max_drawdown_day_order_units": 1.0
+      },
+      "equal": {
+        "n": 9,
+        "hits": 7,
+        "hit_rate": 0.7777777777777778,
+        "log_loss": 0.8947833738124458,
+        "brier_multiclass": 0.5092876182768491,
+        "roi": 0.25888888888888884,
+        "net": 2.3299999999999996,
+        "max_drawdown_day_order_units": 1.0
+      },
+      "fixed_50_50": {
+        "n": 9,
+        "hits": 7,
+        "hit_rate": 0.7777777777777778,
+        "log_loss": 0.9221917211588592,
+        "brier_multiclass": 0.5326948062072667,
+        "roi": 0.25888888888888884,
+        "net": 2.3299999999999996,
+        "max_drawdown_day_order_units": 1.0
+      },
+      "fixed_share": {
+        "n": 9,
+        "hits": 7,
+        "hit_rate": 0.7777777777777778,
+        "log_loss": 0.883783151032606,
+        "brier_multiclass": 0.5008949356371379,
+        "roi": 0.25888888888888884,
+        "net": 2.3299999999999996,
+        "max_drawdown_day_order_units": 1.0
+      }
+    },
+    "league:sc:이슈퍼컵": {
+      "market": {
+        "n": 6,
+        "hits": 2,
+        "hit_rate": 0.3333333333333333,
+        "log_loss": 1.1564425105264973,
+        "brier_multiclass": 0.7098487388534384,
+        "roi": -0.36166666666666664,
+        "net": -2.17,
+        "max_drawdown_day_order_units": 4.0
+      },
+      "equal": {
+        "n": 6,
+        "hits": 2,
+        "hit_rate": 0.3333333333333333,
+        "log_loss": 1.1748354035104918,
+        "brier_multiclass": 0.7095131237005732,
+        "roi": -0.36166666666666664,
+        "net": -2.17,
+        "max_drawdown_day_order_units": 4.0
+      },
+      "fixed_50_50": {
+        "n": 6,
+        "hits": 2,
+        "hit_rate": 0.3333333333333333,
+        "log_loss": 1.1716730046833355,
+        "brier_multiclass": 0.7079595973370968,
+        "roi": -0.36166666666666664,
+        "net": -2.17,
+        "max_drawdown_day_order_units": 4.0
+      },
+      "fixed_share": {
+        "n": 6,
+        "hits": 2,
+        "hit_rate": 0.3333333333333333,
+        "log_loss": 1.1755455985009335,
+        "brier_multiclass": 0.7106381160638917,
+        "roi": -0.36166666666666664,
+        "net": -2.17,
+        "max_drawdown_day_order_units": 4.0
+      }
+    },
+    "league:sc:세리에A": {
+      "market": {
+        "n": 576,
+        "hits": 310,
+        "hit_rate": 0.5381944444444444,
+        "log_loss": 0.9614692103780214,
+        "brier_multiclass": 0.572313032642048,
+        "roi": -0.11164930555555556,
+        "net": -64.31,
+        "max_drawdown_day_order_units": 65.19
+      },
+      "equal": {
+        "n": 576,
+        "hits": 309,
+        "hit_rate": 0.5364583333333334,
+        "log_loss": 0.9694619142692653,
+        "brier_multiclass": 0.5776365054223922,
+        "roi": -0.11519097222222224,
+        "net": -66.35000000000001,
+        "max_drawdown_day_order_units": 67.23000000000002
+      },
+      "fixed_50_50": {
+        "n": 576,
+        "hits": 308,
+        "hit_rate": 0.5347222222222222,
+        "log_loss": 0.9745198785055948,
+        "brier_multiclass": 0.5808262431548042,
+        "roi": -0.11791666666666667,
+        "net": -67.92,
+        "max_drawdown_day_order_units": 68.96000000000001
+      },
+      "fixed_share": {
+        "n": 576,
+        "hits": 308,
+        "hit_rate": 0.5347222222222222,
+        "log_loss": 0.9680915327898671,
+        "brier_multiclass": 0.5767824882073188,
+        "roi": -0.11944444444444444,
+        "net": -68.8,
+        "max_drawdown_day_order_units": 69.68
+      }
+    },
+    "league:sc:라리가": {
+      "market": {
+        "n": 758,
+        "hits": 408,
+        "hit_rate": 0.5382585751978892,
+        "log_loss": 0.9747204649651239,
+        "brier_multiclass": 0.5788358859172361,
+        "roi": -0.06767810026385224,
+        "net": -51.3,
+        "max_drawdown_day_order_units": 59.83
+      },
+      "equal": {
+        "n": 758,
+        "hits": 394,
+        "hit_rate": 0.5197889182058048,
+        "log_loss": 0.9793462560497858,
+        "brier_multiclass": 0.5820921761330107,
+        "roi": -0.10953825857519789,
+        "net": -83.03,
+        "max_drawdown_day_order_units": 89.11
+      },
+      "fixed_50_50": {
+        "n": 758,
+        "hits": 390,
+        "hit_rate": 0.5145118733509235,
+        "log_loss": 0.98326603210078,
+        "brier_multiclass": 0.5847167078041636,
+        "roi": -0.11866754617414252,
+        "net": -89.95000000000003,
+        "max_drawdown_day_order_units": 96.03000000000003
+      },
+      "fixed_share": {
+        "n": 758,
+        "hits": 397,
+        "hit_rate": 0.5237467018469657,
+        "log_loss": 0.9785370261894687,
+        "brier_multiclass": 0.581571711796963,
+        "roi": -0.10091029023746702,
+        "net": -76.49,
+        "max_drawdown_day_order_units": 82.57
+      }
+    },
+    "league:sc:프리그1": {
+      "market": {
+        "n": 574,
+        "hits": 312,
+        "hit_rate": 0.5435540069686411,
+        "log_loss": 0.9676171348125765,
+        "brier_multiclass": 0.5740516295912876,
+        "roi": -0.10282229965156796,
+        "net": -59.02000000000001,
+        "max_drawdown_day_order_units": 61.470000000000006
+      },
+      "equal": {
+        "n": 574,
+        "hits": 309,
+        "hit_rate": 0.5383275261324042,
+        "log_loss": 0.9718732842744778,
+        "brier_multiclass": 0.5767145059369791,
+        "roi": -0.11141114982578398,
+        "net": -63.95,
+        "max_drawdown_day_order_units": 64.97
+      },
+      "fixed_50_50": {
+        "n": 574,
+        "hits": 305,
+        "hit_rate": 0.5313588850174216,
+        "log_loss": 0.9743586692165882,
+        "brier_multiclass": 0.5784328352601552,
+        "roi": -0.12364111498257847,
+        "net": -70.97000000000004,
+        "max_drawdown_day_order_units": 71.99000000000004
+      },
+      "fixed_share": {
+        "n": 574,
+        "hits": 308,
+        "hit_rate": 0.5365853658536586,
+        "log_loss": 0.9713183865408979,
+        "brier_multiclass": 0.5763629530581155,
+        "roi": -0.11735191637630663,
+        "net": -67.36,
+        "max_drawdown_day_order_units": 68.38
+      }
+    },
+    "league:sc:프슈퍼컵": {
+      "market": {
+        "n": 3,
+        "hits": 1,
+        "hit_rate": 0.3333333333333333,
+        "log_loss": 1.1936780056467917,
+        "brier_multiclass": 0.7458975606336439,
+        "roi": -0.48666666666666664,
+        "net": -1.46,
+        "max_drawdown_day_order_units": 2.0
+      },
+      "equal": {
+        "n": 3,
+        "hits": 1,
+        "hit_rate": 0.3333333333333333,
+        "log_loss": 1.105135249703572,
+        "brier_multiclass": 0.6906912870198146,
+        "roi": -0.48666666666666664,
+        "net": -1.46,
+        "max_drawdown_day_order_units": 2.0
+      },
+      "fixed_50_50": {
+        "n": 3,
+        "hits": 1,
+        "hit_rate": 0.3333333333333333,
+        "log_loss": 1.0783037490358336,
+        "brier_multiclass": 0.669531870104285,
+        "roi": -0.48666666666666664,
+        "net": -1.46,
+        "max_drawdown_day_order_units": 2.0
+      },
+      "fixed_share": {
+        "n": 3,
+        "hits": 1,
+        "hit_rate": 0.3333333333333333,
+        "log_loss": 1.1138941547991357,
+        "brier_multiclass": 0.6968596220502222,
+        "roi": -0.48666666666666664,
+        "net": -1.46,
+        "max_drawdown_day_order_units": 2.0
+      }
+    },
+    "league:bk:남농EASL": {
+      "market": {
+        "n": 56,
+        "hits": 39,
+        "hit_rate": 0.6964285714285714,
+        "log_loss": 0.5393767898317574,
+        "brier_multiclass": 0.36067571505382595,
+        "roi": -0.12089285714285714,
+        "net": -6.77,
+        "max_drawdown_day_order_units": 10.55
+      },
+      "equal": {
+        "n": 56,
+        "hits": 38,
+        "hit_rate": 0.6785714285714286,
+        "log_loss": 0.5723683137179678,
+        "brier_multiclass": 0.38670922319850803,
+        "roi": -0.15160714285714286,
+        "net": -8.49,
+        "max_drawdown_day_order_units": 10.55
+      },
+      "fixed_50_50": {
+        "n": 56,
+        "hits": 36,
+        "hit_rate": 0.6428571428571429,
+        "log_loss": 0.590167720070976,
+        "brier_multiclass": 0.40231053939779765,
+        "roi": -0.20267857142857143,
+        "net": -11.35,
+        "max_drawdown_day_order_units": 11.84
+      },
+      "fixed_share": {
+        "n": 56,
+        "hits": 38,
+        "hit_rate": 0.6785714285714286,
+        "log_loss": 0.5682634537820205,
+        "brier_multiclass": 0.38319908776694467,
+        "roi": -0.15160714285714286,
+        "net": -8.49,
+        "max_drawdown_day_order_units": 10.55
+      }
+    },
+    "sport:vl": {
+      "market": {
+        "n": 902,
+        "hits": 610,
+        "hit_rate": 0.6762749445676275,
+        "log_loss": 0.5929134510136727,
+        "brier_multiclass": 0.4070675912911214,
+        "roi": -0.12402439024390241,
+        "net": -111.86999999999998,
+        "max_drawdown_day_order_units": 112.06999999999998
+      },
+      "equal": {
+        "n": 902,
+        "hits": 622,
+        "hit_rate": 0.6895787139689579,
+        "log_loss": 0.6010667982758832,
+        "brier_multiclass": 0.41310319884927094,
+        "roi": -0.09329268292682917,
+        "net": -84.1499999999999,
+        "max_drawdown_day_order_units": 84.34999999999991
+      },
+      "fixed_50_50": {
+        "n": 902,
+        "hits": 616,
+        "hit_rate": 0.6829268292682927,
+        "log_loss": 0.6088889593523907,
+        "brier_multiclass": 0.4197212139024794,
+        "roi": -0.09519955654101982,
+        "net": -85.86999999999988,
+        "max_drawdown_day_order_units": 86.64999999999988
+      },
+      "fixed_share": {
+        "n": 902,
+        "hits": 620,
+        "hit_rate": 0.6873614190687362,
+        "log_loss": 0.5991491278603661,
+        "brier_multiclass": 0.4115832478456991,
+        "roi": -0.1014855875831485,
+        "net": -91.53999999999995,
+        "max_drawdown_day_order_units": 91.73999999999995
+      }
+    },
+    "league:vl:KOVO여": {
+      "market": {
+        "n": 203,
+        "hits": 121,
+        "hit_rate": 0.5960591133004927,
+        "log_loss": 0.6592041185224964,
+        "brier_multiclass": 0.46754599093353566,
+        "roi": -0.19822660098522157,
+        "net": -40.23999999999998,
+        "max_drawdown_day_order_units": 40.79999999999998
+      },
+      "equal": {
+        "n": 203,
+        "hits": 124,
+        "hit_rate": 0.6108374384236454,
+        "log_loss": 0.6673192608840262,
+        "brier_multiclass": 0.4736080379833456,
+        "roi": -0.16024630541871915,
+        "net": -32.52999999999999,
+        "max_drawdown_day_order_units": 33.08999999999999
+      },
+      "fixed_50_50": {
+        "n": 203,
+        "hits": 124,
+        "hit_rate": 0.6108374384236454,
+        "log_loss": 0.6710136067261132,
+        "brier_multiclass": 0.47710437873882794,
+        "roi": -0.1420197044334975,
+        "net": -28.829999999999995,
+        "max_drawdown_day_order_units": 29.389999999999993
+      },
+      "fixed_share": {
+        "n": 203,
+        "hits": 122,
+        "hit_rate": 0.6009852216748769,
+        "log_loss": 0.6660625052815772,
+        "brier_multiclass": 0.472616274014849,
+        "roi": -0.18694581280788175,
+        "net": -37.949999999999996,
+        "max_drawdown_day_order_units": 38.51
+      }
+    },
+    "league:vl:KOVO남": {
+      "market": {
+        "n": 203,
+        "hits": 138,
+        "hit_rate": 0.6798029556650246,
+        "log_loss": 0.6089516284371868,
+        "brier_multiclass": 0.41995659070624125,
+        "roi": -0.08453201970443351,
+        "net": -17.160000000000004,
+        "max_drawdown_day_order_units": 23.800000000000004
+      },
+      "equal": {
+        "n": 203,
+        "hits": 140,
+        "hit_rate": 0.6896551724137931,
+        "log_loss": 0.6194818070938903,
+        "brier_multiclass": 0.4292933888133357,
+        "roi": -0.061674876847290665,
+        "net": -12.520000000000005,
+        "max_drawdown_day_order_units": 20.1
+      },
+      "fixed_50_50": {
+        "n": 203,
+        "hits": 137,
+        "hit_rate": 0.6748768472906403,
+        "log_loss": 0.6244685416599552,
+        "brier_multiclass": 0.4337381353689368,
+        "roi": -0.08640394088669957,
+        "net": -17.540000000000013,
+        "max_drawdown_day_order_units": 25.12000000000001
+      },
+      "fixed_share": {
+        "n": 203,
+        "hits": 139,
+        "hit_rate": 0.6847290640394089,
+        "log_loss": 0.6178217232193475,
+        "brier_multiclass": 0.42782737733558646,
+        "roi": -0.07044334975369462,
+        "net": -14.30000000000001,
+        "max_drawdown_day_order_units": 21.880000000000006
+      }
+    },
+    "league:sc:잉리그컵": {
+      "market": {
+        "n": 49,
+        "hits": 26,
+        "hit_rate": 0.5306122448979592,
+        "log_loss": 0.9773025188771269,
+        "brier_multiclass": 0.5827038735935666,
+        "roi": -0.12755102040816318,
+        "net": -6.2499999999999964,
+        "max_drawdown_day_order_units": 11.979999999999999
+      },
+      "equal": {
+        "n": 49,
+        "hits": 24,
+        "hit_rate": 0.4897959183673469,
+        "log_loss": 0.9870938235130154,
+        "brier_multiclass": 0.5880838257402913,
+        "roi": -0.20224489795918357,
+        "net": -9.909999999999995,
+        "max_drawdown_day_order_units": 10.049999999999995
+      },
+      "fixed_50_50": {
+        "n": 49,
+        "hits": 23,
+        "hit_rate": 0.46938775510204084,
+        "log_loss": 0.9977914244034135,
+        "brier_multiclass": 0.5958491464417482,
+        "roi": -0.19265306122448975,
+        "net": -9.439999999999998,
+        "max_drawdown_day_order_units": 10.339999999999998
+      },
+      "fixed_share": {
+        "n": 49,
+        "hits": 24,
+        "hit_rate": 0.4897959183673469,
+        "log_loss": 0.9850434976055364,
+        "brier_multiclass": 0.586851047938959,
+        "roi": -0.20224489795918357,
+        "net": -9.909999999999995,
+        "max_drawdown_day_order_units": 10.049999999999995
+      }
+    },
+    "league:sc:스페슈퍼": {
+      "market": {
+        "n": 8,
+        "hits": 7,
+        "hit_rate": 0.875,
+        "log_loss": 0.6559862844511823,
+        "brier_multiclass": 0.351018829365883,
+        "roi": 0.41625,
+        "net": 3.33,
+        "max_drawdown_day_order_units": 1.0
+      },
+      "equal": {
+        "n": 8,
+        "hits": 6,
+        "hit_rate": 0.75,
+        "log_loss": 0.7094883126288437,
+        "brier_multiclass": 0.39051059517028136,
+        "roi": 0.14,
+        "net": 1.12,
+        "max_drawdown_day_order_units": 1.42
+      },
+      "fixed_50_50": {
+        "n": 8,
+        "hits": 6,
+        "hit_rate": 0.75,
+        "log_loss": 0.7430220310068885,
+        "brier_multiclass": 0.4146711585183504,
+        "roi": 0.14,
+        "net": 1.12,
+        "max_drawdown_day_order_units": 1.42
+      },
+      "fixed_share": {
+        "n": 8,
+        "hits": 6,
+        "hit_rate": 0.75,
+        "log_loss": 0.7047564987944916,
+        "brier_multiclass": 0.38709531307096595,
+        "roi": 0.14,
+        "net": 1.12,
+        "max_drawdown_day_order_units": 1.42
+      }
+    },
+    "league:sc:잉글FA컵": {
+      "market": {
+        "n": 86,
+        "hits": 43,
+        "hit_rate": 0.5,
+        "log_loss": 0.9794574895878356,
+        "brier_multiclass": 0.5772472775376073,
+        "roi": -0.24906976744186052,
+        "net": -21.420000000000005,
+        "max_drawdown_day_order_units": 23.610000000000007
+      },
+      "equal": {
+        "n": 86,
+        "hits": 43,
+        "hit_rate": 0.5,
+        "log_loss": 0.9906304984345684,
+        "brier_multiclass": 0.587894874485926,
+        "roi": -0.2413953488372093,
+        "net": -20.76,
+        "max_drawdown_day_order_units": 22.5
+      },
+      "fixed_50_50": {
+        "n": 86,
+        "hits": 43,
+        "hit_rate": 0.5,
+        "log_loss": 1.0056013316922323,
+        "brier_multiclass": 0.5987548904544089,
+        "roi": -0.2413953488372093,
+        "net": -20.76,
+        "max_drawdown_day_order_units": 22.5
+      },
+      "fixed_share": {
+        "n": 86,
+        "hits": 44,
+        "hit_rate": 0.5116279069767442,
+        "log_loss": 0.9873988357610737,
+        "brier_multiclass": 0.5854675647131811,
+        "roi": -0.2169767441860465,
+        "net": -18.66,
+        "max_drawdown_day_order_units": 20.85
+      }
+    },
+    "league:sc:분데스리": {
+      "market": {
+        "n": 468,
+        "hits": 242,
+        "hit_rate": 0.5170940170940171,
+        "log_loss": 0.9823363276695698,
+        "brier_multiclass": 0.5842011230877296,
+        "roi": -0.14401709401709406,
+        "net": -67.40000000000002,
+        "max_drawdown_day_order_units": 73.57000000000002
+      },
+      "equal": {
+        "n": 468,
+        "hits": 242,
+        "hit_rate": 0.5170940170940171,
+        "log_loss": 0.9863297783589209,
+        "brier_multiclass": 0.5869858052859055,
+        "roi": -0.14158119658119667,
+        "net": -66.26000000000003,
+        "max_drawdown_day_order_units": 69.85000000000004
+      },
+      "fixed_50_50": {
+        "n": 468,
+        "hits": 242,
+        "hit_rate": 0.5170940170940171,
+        "log_loss": 0.989864742381865,
+        "brier_multiclass": 0.5894787372345421,
+        "roi": -0.1394871794871796,
+        "net": -65.28000000000004,
+        "max_drawdown_day_order_units": 68.87000000000005
+      },
+      "fixed_share": {
+        "n": 468,
+        "hits": 241,
+        "hit_rate": 0.5149572649572649,
+        "log_loss": 0.9855710139289177,
+        "brier_multiclass": 0.5864666687705795,
+        "roi": -0.1471367521367522,
+        "net": -68.86000000000003,
+        "max_drawdown_day_order_units": 72.45000000000003
+      }
+    },
+    "league:sc:에레디비": {
+      "market": {
+        "n": 486,
+        "hits": 254,
+        "hit_rate": 0.522633744855967,
+        "log_loss": 0.979092437676025,
+        "brier_multiclass": 0.5829761904947477,
+        "roi": -0.16691358024691347,
+        "net": -81.11999999999995,
+        "max_drawdown_day_order_units": 85.34999999999994
+      },
+      "equal": {
+        "n": 486,
+        "hits": 244,
+        "hit_rate": 0.5020576131687243,
+        "log_loss": 0.9836784158333582,
+        "brier_multiclass": 0.5860434174751781,
+        "roi": -0.21098765432098762,
+        "net": -102.53999999999998,
+        "max_drawdown_day_order_units": 104.75999999999996
+      },
+      "fixed_50_50": {
+        "n": 486,
+        "hits": 242,
+        "hit_rate": 0.49794238683127573,
+        "log_loss": 0.9871368232059579,
+        "brier_multiclass": 0.5882342079400714,
+        "roi": -0.2186419753086419,
+        "net": -106.25999999999996,
+        "max_drawdown_day_order_units": 107.14999999999995
+      },
+      "fixed_share": {
+        "n": 486,
+        "hits": 245,
+        "hit_rate": 0.5041152263374485,
+        "log_loss": 0.9828873325982973,
+        "brier_multiclass": 0.5855267683512771,
+        "roi": -0.2070164609053497,
+        "net": -100.60999999999996,
+        "max_drawdown_day_order_units": 101.93999999999996
+      }
+    },
+    "league:sc:프랑FA컵": {
+      "market": {
+        "n": 30,
+        "hits": 15,
+        "hit_rate": 0.5,
+        "log_loss": 0.983025007384798,
+        "brier_multiclass": 0.5749043061867382,
+        "roi": -0.24766666666666665,
+        "net": -7.43,
+        "max_drawdown_day_order_units": 8.27
+      },
+      "equal": {
+        "n": 30,
+        "hits": 15,
+        "hit_rate": 0.5,
+        "log_loss": 1.0237288620319858,
+        "brier_multiclass": 0.6062377507127981,
+        "roi": -0.24766666666666665,
+        "net": -7.43,
+        "max_drawdown_day_order_units": 8.27
+      },
+      "fixed_50_50": {
+        "n": 30,
+        "hits": 14,
+        "hit_rate": 0.4666666666666667,
+        "log_loss": 1.048769078522741,
+        "brier_multiclass": 0.62656129047798,
+        "roi": -0.26766666666666666,
+        "net": -8.03,
+        "max_drawdown_day_order_units": 8.87
+      },
+      "fixed_share": {
+        "n": 30,
+        "hits": 15,
+        "hit_rate": 0.5,
+        "log_loss": 1.019488555423765,
+        "brier_multiclass": 0.602557597729222,
+        "roi": -0.24766666666666665,
+        "net": -7.43,
+        "max_drawdown_day_order_units": 8.27
+      }
+    },
+    "league:sc:네덜FA컵": {
+      "market": {
+        "n": 24,
+        "hits": 12,
+        "hit_rate": 0.5,
+        "log_loss": 1.0453267571837703,
+        "brier_multiclass": 0.6223409315567978,
+        "roi": -0.18625000000000003,
+        "net": -4.470000000000001,
+        "max_drawdown_day_order_units": 7.52
+      },
+      "equal": {
+        "n": 24,
+        "hits": 13,
+        "hit_rate": 0.5416666666666666,
+        "log_loss": 1.0330786234568359,
+        "brier_multiclass": 0.6139235033722208,
+        "roi": -0.07583333333333331,
+        "net": -1.8199999999999994,
+        "max_drawdown_day_order_units": 6.52
+      },
+      "fixed_50_50": {
+        "n": 24,
+        "hits": 13,
+        "hit_rate": 0.5416666666666666,
+        "log_loss": 1.0319913258417743,
+        "brier_multiclass": 0.614953403019304,
+        "roi": -0.07583333333333331,
+        "net": -1.8199999999999994,
+        "max_drawdown_day_order_units": 6.52
+      },
+      "fixed_share": {
+        "n": 24,
+        "hits": 13,
+        "hit_rate": 0.5416666666666666,
+        "log_loss": 1.0336906851338232,
+        "brier_multiclass": 0.6140960661927034,
+        "roi": -0.07583333333333331,
+        "net": -1.8199999999999994,
+        "max_drawdown_day_order_units": 6.52
+      }
+    },
+    "league:sc:스페FA컵": {
+      "market": {
+        "n": 32,
+        "hits": 19,
+        "hit_rate": 0.59375,
+        "log_loss": 1.0056719718268015,
+        "brier_multiclass": 0.5992897332432551,
+        "roi": 0.04562499999999998,
+        "net": 1.4599999999999993,
+        "max_drawdown_day_order_units": 4.09
+      },
+      "equal": {
+        "n": 32,
+        "hits": 21,
+        "hit_rate": 0.65625,
+        "log_loss": 0.9876256164574373,
+        "brier_multiclass": 0.5875516758411811,
+        "roi": 0.20499999999999996,
+        "net": 6.559999999999999,
+        "max_drawdown_day_order_units": 3.0
+      },
+      "fixed_50_50": {
+        "n": 32,
+        "hits": 18,
+        "hit_rate": 0.5625,
+        "log_loss": 0.9850357024039634,
+        "brier_multiclass": 0.5862318873689032,
+        "roi": 0.009374999999999953,
+        "net": 0.2999999999999985,
+        "max_drawdown_day_order_units": 4.07
+      },
+      "fixed_share": {
+        "n": 32,
+        "hits": 21,
+        "hit_rate": 0.65625,
+        "log_loss": 0.9876733856410879,
+        "brier_multiclass": 0.5874195197046835,
+        "roi": 0.20499999999999996,
+        "net": 6.559999999999999,
+        "max_drawdown_day_order_units": 3.0
+      }
+    },
+    "league:sc:남축INTL": {
+      "market": {
+        "n": 251,
+        "hits": 150,
+        "hit_rate": 0.5976095617529881,
+        "log_loss": 0.8630752071791594,
+        "brier_multiclass": 0.5042614809427307,
+        "roi": -0.11175298804780874,
+        "net": -28.049999999999994,
+        "max_drawdown_day_order_units": 31.339999999999996
+      },
+      "equal": {
+        "n": 251,
+        "hits": 145,
+        "hit_rate": 0.5776892430278885,
+        "log_loss": 0.8931327445026903,
+        "brier_multiclass": 0.5227224114285144,
+        "roi": -0.15645418326693236,
+        "net": -39.270000000000024,
+        "max_drawdown_day_order_units": 42.56000000000002
+      },
+      "fixed_50_50": {
+        "n": 251,
+        "hits": 144,
+        "hit_rate": 0.5737051792828686,
+        "log_loss": 0.9147432790337539,
+        "brier_multiclass": 0.5370170698308417,
+        "roi": -0.15844621513944226,
+        "net": -39.77000000000001,
+        "max_drawdown_day_order_units": 43.06
+      },
+      "fixed_share": {
+        "n": 251,
+        "hits": 146,
+        "hit_rate": 0.5816733067729084,
+        "log_loss": 0.8880105301960779,
+        "brier_multiclass": 0.5194284032882346,
+        "roi": -0.14828685258964155,
+        "net": -37.22000000000003,
+        "max_drawdown_day_order_units": 40.51000000000002
+      }
+    },
+    "league:sc:UEL": {
+      "market": {
+        "n": 338,
+        "hits": 201,
+        "hit_rate": 0.5946745562130178,
+        "log_loss": 0.9367387156163287,
+        "brier_multiclass": 0.5510758707357358,
+        "roi": -0.004260355029585788,
+        "net": -1.4399999999999964,
+        "max_drawdown_day_order_units": 20.369999999999997
+      },
+      "equal": {
+        "n": 338,
+        "hits": 198,
+        "hit_rate": 0.5857988165680473,
+        "log_loss": 0.9521678407583287,
+        "brier_multiclass": 0.5620372082405448,
+        "roi": -0.017958579881656812,
+        "net": -6.070000000000003,
+        "max_drawdown_day_order_units": 19.88
+      },
+      "fixed_50_50": {
+        "n": 338,
+        "hits": 198,
+        "hit_rate": 0.5857988165680473,
+        "log_loss": 0.9621024899280287,
+        "brier_multiclass": 0.5694243525610582,
+        "roi": -0.006686390532544373,
+        "net": -2.259999999999998,
+        "max_drawdown_day_order_units": 19.88
+      },
+      "fixed_share": {
+        "n": 338,
+        "hits": 197,
+        "hit_rate": 0.5828402366863905,
+        "log_loss": 0.9502019391645233,
+        "brier_multiclass": 0.5606203357470398,
+        "roi": -0.02520710059171598,
+        "net": -8.520000000000001,
+        "max_drawdown_day_order_units": 19.880000000000003
+      }
+    },
+    "league:sc:UCL": {
+      "market": {
+        "n": 324,
+        "hits": 186,
+        "hit_rate": 0.5740740740740741,
+        "log_loss": 0.9240130321024114,
+        "brier_multiclass": 0.5448141574961559,
+        "roi": -0.10311728395061727,
+        "net": -33.41,
+        "max_drawdown_day_order_units": 40.86000000000001
+      },
+      "equal": {
+        "n": 324,
+        "hits": 180,
+        "hit_rate": 0.5555555555555556,
+        "log_loss": 0.9383669272689984,
+        "brier_multiclass": 0.5531736150339657,
+        "roi": -0.1431481481481481,
+        "net": -46.37999999999999,
+        "max_drawdown_day_order_units": 52.269999999999996
+      },
+      "fixed_50_50": {
+        "n": 324,
+        "hits": 182,
+        "hit_rate": 0.5617283950617284,
+        "log_loss": 0.9491846655121011,
+        "brier_multiclass": 0.5604391962357268,
+        "roi": -0.11203703703703705,
+        "net": -36.300000000000004,
+        "max_drawdown_day_order_units": 40.34000000000001
+      },
+      "fixed_share": {
+        "n": 324,
+        "hits": 180,
+        "hit_rate": 0.5555555555555556,
+        "log_loss": 0.9361068509566911,
+        "brier_multiclass": 0.5516743762317139,
+        "roi": -0.1431481481481481,
+        "net": -46.37999999999999,
+        "max_drawdown_day_order_units": 52.269999999999996
+      }
+    },
+    "league:sc:ACLE": {
+      "market": {
+        "n": 170,
+        "hits": 100,
+        "hit_rate": 0.5882352941176471,
+        "log_loss": 0.9160363748551487,
+        "brier_multiclass": 0.5338883831178419,
+        "roi": -0.0788235294117647,
+        "net": -13.399999999999999,
+        "max_drawdown_day_order_units": 21.839999999999996
+      },
+      "equal": {
+        "n": 170,
+        "hits": 101,
+        "hit_rate": 0.5941176470588235,
+        "log_loss": 0.930618534978891,
+        "brier_multiclass": 0.5453219001551638,
+        "roi": -0.06411764705882352,
+        "net": -10.899999999999999,
+        "max_drawdown_day_order_units": 19.339999999999996
+      },
+      "fixed_50_50": {
+        "n": 170,
+        "hits": 99,
+        "hit_rate": 0.5823529411764706,
+        "log_loss": 0.9413139871278028,
+        "brier_multiclass": 0.5532249014741544,
+        "roi": -0.08229411764705884,
+        "net": -13.990000000000002,
+        "max_drawdown_day_order_units": 20.180000000000003
+      },
+      "fixed_share": {
+        "n": 170,
+        "hits": 101,
+        "hit_rate": 0.5941176470588235,
+        "log_loss": 0.9275066281875952,
+        "brier_multiclass": 0.5430916815870525,
+        "roi": -0.06411764705882352,
+        "net": -10.899999999999999,
+        "max_drawdown_day_order_units": 19.339999999999996
+      }
+    },
+    "league:sc:이탈FA컵": {
+      "market": {
+        "n": 28,
+        "hits": 14,
+        "hit_rate": 0.5,
+        "log_loss": 0.9411028300189177,
+        "brier_multiclass": 0.5602094024147605,
+        "roi": -0.25357142857142856,
+        "net": -7.1,
+        "max_drawdown_day_order_units": 8.17
+      },
+      "equal": {
+        "n": 28,
+        "hits": 14,
+        "hit_rate": 0.5,
+        "log_loss": 0.9549505483065269,
+        "brier_multiclass": 0.5669766580408979,
+        "roi": -0.25357142857142856,
+        "net": -7.1,
+        "max_drawdown_day_order_units": 8.17
+      },
+      "fixed_50_50": {
+        "n": 28,
+        "hits": 15,
+        "hit_rate": 0.5357142857142857,
+        "log_loss": 0.966342462374603,
+        "brier_multiclass": 0.5732849183618491,
+        "roi": -0.1392857142857143,
+        "net": -3.9000000000000004,
+        "max_drawdown_day_order_units": 5.380000000000001
+      },
+      "fixed_share": {
+        "n": 28,
+        "hits": 14,
+        "hit_rate": 0.5,
+        "log_loss": 0.9540001423652693,
+        "brier_multiclass": 0.5665097299049567,
+        "roi": -0.25357142857142856,
+        "net": -7.1,
+        "max_drawdown_day_order_units": 8.17
+      }
+    },
+    "league:sc:독일FA컵": {
+      "market": {
+        "n": 22,
+        "hits": 13,
+        "hit_rate": 0.5909090909090909,
+        "log_loss": 0.9525220194701192,
+        "brier_multiclass": 0.5577357216439428,
+        "roi": -0.09818181818181819,
+        "net": -2.16,
+        "max_drawdown_day_order_units": 2.8
+      },
+      "equal": {
+        "n": 22,
+        "hits": 13,
+        "hit_rate": 0.5909090909090909,
+        "log_loss": 0.9500778982858722,
+        "brier_multiclass": 0.5629636463007016,
+        "roi": -0.09818181818181819,
+        "net": -2.16,
+        "max_drawdown_day_order_units": 2.8
+      },
+      "fixed_50_50": {
+        "n": 22,
+        "hits": 13,
+        "hit_rate": 0.5909090909090909,
+        "log_loss": 0.9643628645678013,
+        "brier_multiclass": 0.5742434013531623,
+        "roi": -0.09818181818181819,
+        "net": -2.16,
+        "max_drawdown_day_order_units": 2.8
+      },
+      "fixed_share": {
+        "n": 22,
+        "hits": 13,
+        "hit_rate": 0.5909090909090909,
+        "log_loss": 0.9503033740790076,
+        "brier_multiclass": 0.562561491489366,
+        "roi": -0.09818181818181819,
+        "net": -2.16,
+        "max_drawdown_day_order_units": 2.8
+      }
+    },
+    "league:sc:일슈퍼컵": {
+      "market": {
+        "n": 1,
+        "hits": 1,
+        "hit_rate": 1.0,
+        "log_loss": 0.7154529380742435,
+        "brier_multiclass": 0.3928687283737024,
+        "roi": 0.8,
+        "net": 0.8,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "equal": {
+        "n": 1,
+        "hits": 1,
+        "hit_rate": 1.0,
+        "log_loss": 0.7857556215824631,
+        "brier_multiclass": 0.44428087553037654,
+        "roi": 0.8,
+        "net": 0.8,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "fixed_50_50": {
+        "n": 1,
+        "hits": 1,
+        "hit_rate": 1.0,
+        "log_loss": 0.8220026929620294,
+        "brier_multiclass": 0.4714486966912972,
+        "roi": 0.8,
+        "net": 0.8,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "fixed_share": {
+        "n": 1,
+        "hits": 1,
+        "hit_rate": 1.0,
+        "log_loss": 0.7752436350669627,
+        "brier_multiclass": 0.4365118692719795,
+        "roi": 0.8,
+        "net": 0.8,
+        "max_drawdown_day_order_units": 0.0
+      }
+    },
+    "league:sc:ACL2": {
+      "market": {
+        "n": 138,
+        "hits": 79,
+        "hit_rate": 0.572463768115942,
+        "log_loss": 0.9218633446105109,
+        "brier_multiclass": 0.5442326972662842,
+        "roi": -0.13239130434782612,
+        "net": -18.270000000000003,
+        "max_drawdown_day_order_units": 20.310000000000002
+      },
+      "equal": {
+        "n": 138,
+        "hits": 83,
+        "hit_rate": 0.6014492753623188,
+        "log_loss": 0.9282239408290353,
+        "brier_multiclass": 0.5472372507685485,
+        "roi": -0.053043478260869574,
+        "net": -7.320000000000001,
+        "max_drawdown_day_order_units": 9.760000000000002
+      },
+      "fixed_50_50": {
+        "n": 138,
+        "hits": 83,
+        "hit_rate": 0.6014492753623188,
+        "log_loss": 0.9408442259959027,
+        "brier_multiclass": 0.5551734232114867,
+        "roi": -0.04101449275362319,
+        "net": -5.66,
+        "max_drawdown_day_order_units": 10.780000000000001
+      },
+      "fixed_share": {
+        "n": 138,
+        "hits": 82,
+        "hit_rate": 0.5942028985507246,
+        "log_loss": 0.9260731502866115,
+        "brier_multiclass": 0.5458951193919414,
+        "roi": -0.07514492753623189,
+        "net": -10.370000000000001,
+        "max_drawdown_day_order_units": 12.41
+      }
+    },
+    "league:sc:U20아컵": {
+      "market": {
+        "n": 28,
+        "hits": 16,
+        "hit_rate": 0.5714285714285714,
+        "log_loss": 0.8696525043361102,
+        "brier_multiclass": 0.514151031954325,
+        "roi": -0.1303571428571429,
+        "net": -3.650000000000001,
+        "max_drawdown_day_order_units": 9.35
+      },
+      "equal": {
+        "n": 28,
+        "hits": 16,
+        "hit_rate": 0.5714285714285714,
+        "log_loss": 0.9253837290853981,
+        "brier_multiclass": 0.545170115968704,
+        "roi": -0.1010714285714286,
+        "net": -2.830000000000001,
+        "max_drawdown_day_order_units": 7.35
+      },
+      "fixed_50_50": {
+        "n": 28,
+        "hits": 14,
+        "hit_rate": 0.5,
+        "log_loss": 0.9718585621895974,
+        "brier_multiclass": 0.5762224990536969,
+        "roi": -0.25464285714285717,
+        "net": -7.130000000000001,
+        "max_drawdown_day_order_units": 9.26
+      },
+      "fixed_share": {
+        "n": 28,
+        "hits": 16,
+        "hit_rate": 0.5714285714285714,
+        "log_loss": 0.913155749735432,
+        "brier_multiclass": 0.5374729823757047,
+        "roi": -0.1010714285714286,
+        "net": -2.830000000000001,
+        "max_drawdown_day_order_units": 7.35
+      }
+    },
+    "league:sc:UECL": {
+      "market": {
+        "n": 205,
+        "hits": 121,
+        "hit_rate": 0.5902439024390244,
+        "log_loss": 0.9689105402942846,
+        "brier_multiclass": 0.5737081932767027,
+        "roi": -0.04063414634146342,
+        "net": -8.330000000000002,
+        "max_drawdown_day_order_units": 17.64
+      },
+      "equal": {
+        "n": 205,
+        "hits": 118,
+        "hit_rate": 0.5756097560975609,
+        "log_loss": 0.9815845565540569,
+        "brier_multiclass": 0.5822814479914896,
+        "roi": -0.06975609756097564,
+        "net": -14.300000000000008,
+        "max_drawdown_day_order_units": 21.950000000000003
+      },
+      "fixed_50_50": {
+        "n": 205,
+        "hits": 116,
+        "hit_rate": 0.5658536585365853,
+        "log_loss": 0.9906911276597296,
+        "brier_multiclass": 0.589058248855152,
+        "roi": -0.07985365853658538,
+        "net": -16.370000000000005,
+        "max_drawdown_day_order_units": 22.060000000000002
+      },
+      "fixed_share": {
+        "n": 205,
+        "hits": 118,
+        "hit_rate": 0.5756097560975609,
+        "log_loss": 0.9802663426629948,
+        "brier_multiclass": 0.581313715679284,
+        "roi": -0.07356097560975614,
+        "net": -15.080000000000009,
+        "max_drawdown_day_order_units": 22.730000000000008
+      }
+    },
+    "league:sc:J1리그": {
+      "market": {
+        "n": 649,
+        "hits": 312,
+        "hit_rate": 0.48073959938366717,
+        "log_loss": 1.0266907218565284,
+        "brier_multiclass": 0.6155639891999042,
+        "roi": -0.06473035439137134,
+        "net": -42.01,
+        "max_drawdown_day_order_units": 44.100000000000016
+      },
+      "equal": {
+        "n": 649,
+        "hits": 322,
+        "hit_rate": 0.49614791987673346,
+        "log_loss": 1.027364830995867,
+        "brier_multiclass": 0.6156586733965393,
+        "roi": -0.016178736517719578,
+        "net": -10.500000000000007,
+        "max_drawdown_day_order_units": 25.979999999999997
+      },
+      "fixed_50_50": {
+        "n": 649,
+        "hits": 329,
+        "hit_rate": 0.5069337442218799,
+        "log_loss": 1.0304995080009185,
+        "brier_multiclass": 0.6178037532214573,
+        "roi": 0.016964560862865956,
+        "net": 11.010000000000005,
+        "max_drawdown_day_order_units": 18.429999999999996
+      },
+      "fixed_share": {
+        "n": 649,
+        "hits": 321,
+        "hit_rate": 0.4946070878274268,
+        "log_loss": 1.0263597581335844,
+        "brier_multiclass": 0.6149978271066266,
+        "roi": -0.021016949152542364,
+        "net": -13.639999999999993,
+        "max_drawdown_day_order_units": 28.65
+      }
+    },
+    "league:sc:K리그1": {
+      "market": {
+        "n": 359,
+        "hits": 159,
+        "hit_rate": 0.4428969359331476,
+        "log_loss": 1.0641966464999293,
+        "brier_multiclass": 0.6434092414071712,
+        "roi": -0.14114206128133702,
+        "net": -50.669999999999995,
+        "max_drawdown_day_order_units": 58.379999999999995
+      },
+      "equal": {
+        "n": 359,
+        "hits": 161,
+        "hit_rate": 0.44846796657381616,
+        "log_loss": 1.0720890320762735,
+        "brier_multiclass": 0.6484955864410291,
+        "roi": -0.12155988857938722,
+        "net": -43.640000000000015,
+        "max_drawdown_day_order_units": 51.350000000000016
+      },
+      "fixed_50_50": {
+        "n": 359,
+        "hits": 156,
+        "hit_rate": 0.43454038997214484,
+        "log_loss": 1.0759679803372628,
+        "brier_multiclass": 0.6511681435687068,
+        "roi": -0.14259052924791082,
+        "net": -51.18999999999999,
+        "max_drawdown_day_order_units": 61.69999999999999
+      },
+      "fixed_share": {
+        "n": 359,
+        "hits": 161,
+        "hit_rate": 0.44846796657381616,
+        "log_loss": 1.0706607911534465,
+        "brier_multiclass": 0.6475759767359089,
+        "roi": -0.12423398328690814,
+        "net": -44.60000000000002,
+        "max_drawdown_day_order_units": 52.310000000000024
+      }
+    },
+    "league:sc:J2리그": {
+      "market": {
+        "n": 660,
+        "hits": 299,
+        "hit_rate": 0.453030303030303,
+        "log_loss": 1.0394982218826943,
+        "brier_multiclass": 0.6260827372258311,
+        "roi": -0.1102878787878789,
+        "net": -72.79000000000008,
+        "max_drawdown_day_order_units": 94.93000000000005
+      },
+      "equal": {
+        "n": 660,
+        "hits": 308,
+        "hit_rate": 0.4666666666666667,
+        "log_loss": 1.0450369591771533,
+        "brier_multiclass": 0.6299930788432769,
+        "roi": -0.07142424242424243,
+        "net": -47.14,
+        "max_drawdown_day_order_units": 71.26
+      },
+      "fixed_50_50": {
+        "n": 660,
+        "hits": 304,
+        "hit_rate": 0.46060606060606063,
+        "log_loss": 1.0491341289650526,
+        "brier_multiclass": 0.6327140722156928,
+        "roi": -0.08448484848484851,
+        "net": -55.76000000000001,
+        "max_drawdown_day_order_units": 77.64000000000001
+      },
+      "fixed_share": {
+        "n": 660,
+        "hits": 307,
+        "hit_rate": 0.46515151515151515,
+        "log_loss": 1.043992324534541,
+        "brier_multiclass": 0.6292786054740444,
+        "roi": -0.07583333333333339,
+        "net": -50.05000000000004,
+        "max_drawdown_day_order_units": 76.56000000000004
+      }
+    },
+    "league:bk:남농아예": {
+      "market": {
+        "n": 1,
+        "hits": 1,
+        "hit_rate": 1.0,
+        "log_loss": 0.2320449921463852,
+        "brier_multiclass": 0.08577216529293831,
+        "roi": 0.1100000000000001,
+        "net": 0.1100000000000001,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "equal": {
+        "n": 1,
+        "hits": 1,
+        "hit_rate": 1.0,
+        "log_loss": 0.3856808453028843,
+        "brier_multiclass": 0.20481598461799397,
+        "roi": 0.1100000000000001,
+        "net": 0.1100000000000001,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "fixed_50_50": {
+        "n": 1,
+        "hits": 1,
+        "hit_rate": 1.0,
+        "log_loss": 0.47521757395731046,
+        "brier_multiclass": 0.2861464802664973,
+        "roi": 0.1100000000000001,
+        "net": 0.1100000000000001,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "fixed_share": {
+        "n": 1,
+        "hits": 1,
+        "hit_rate": 1.0,
+        "log_loss": 0.3852102206875024,
+        "brier_multiclass": 0.2044064530022031,
+        "roi": 0.1100000000000001,
+        "net": 0.1100000000000001,
+        "max_drawdown_day_order_units": 0.0
+      }
+    },
+    "league:sc:여축INTL": {
+      "market": {
+        "n": 8,
+        "hits": 5,
+        "hit_rate": 0.625,
+        "log_loss": 0.6555924272886816,
+        "brier_multiclass": 0.35874446471081173,
+        "roi": -0.23249999999999998,
+        "net": -1.8599999999999999,
+        "max_drawdown_day_order_units": 3.0
+      },
+      "equal": {
+        "n": 8,
+        "hits": 5,
+        "hit_rate": 0.625,
+        "log_loss": 0.7510832503527908,
+        "brier_multiclass": 0.4153501980665099,
+        "roi": -0.23249999999999998,
+        "net": -1.8599999999999999,
+        "max_drawdown_day_order_units": 3.0
+      },
+      "fixed_50_50": {
+        "n": 8,
+        "hits": 5,
+        "hit_rate": 0.625,
+        "log_loss": 0.7953771659187483,
+        "brier_multiclass": 0.44364511328239353,
+        "roi": -0.23249999999999998,
+        "net": -1.8599999999999999,
+        "max_drawdown_day_order_units": 3.0
+      },
+      "fixed_share": {
+        "n": 8,
+        "hits": 6,
+        "hit_rate": 0.75,
+        "log_loss": 0.7382966917194216,
+        "brier_multiclass": 0.40734647406174146,
+        "roi": 0.07375000000000004,
+        "net": 0.5900000000000003,
+        "max_drawdown_day_order_units": 2.0
+      }
+    },
+    "league:sc:K리그2": {
+      "market": {
+        "n": 435,
+        "hits": 211,
+        "hit_rate": 0.4850574712643678,
+        "log_loss": 1.022659325876527,
+        "brier_multiclass": 0.6127456041814056,
+        "roi": -0.1285517241379311,
+        "net": -55.92000000000002,
+        "max_drawdown_day_order_units": 62.49000000000002
+      },
+      "equal": {
+        "n": 435,
+        "hits": 214,
+        "hit_rate": 0.49195402298850577,
+        "log_loss": 1.0347942509103958,
+        "brier_multiclass": 0.6212533248690688,
+        "roi": -0.10767816091954026,
+        "net": -46.84000000000001,
+        "max_drawdown_day_order_units": 53.75000000000001
+      },
+      "fixed_50_50": {
+        "n": 435,
+        "hits": 210,
+        "hit_rate": 0.4827586206896552,
+        "log_loss": 1.040395422316572,
+        "brier_multiclass": 0.6251677240882875,
+        "roi": -0.12749425287356328,
+        "net": -55.46000000000003,
+        "max_drawdown_day_order_units": 62.370000000000026
+      },
+      "fixed_share": {
+        "n": 435,
+        "hits": 214,
+        "hit_rate": 0.49195402298850577,
+        "log_loss": 1.0332509674197312,
+        "brier_multiclass": 0.6201518508011544,
+        "roi": -0.10919540229885065,
+        "net": -47.500000000000036,
+        "max_drawdown_day_order_units": 51.76000000000003
+      }
+    },
+    "league:sc:MLS": {
+      "market": {
+        "n": 819,
+        "hits": 403,
+        "hit_rate": 0.49206349206349204,
+        "log_loss": 1.0229233327285403,
+        "brier_multiclass": 0.6128912268069927,
+        "roi": -0.1314407814407814,
+        "net": -107.64999999999996,
+        "max_drawdown_day_order_units": 109.46999999999997
+      },
+      "equal": {
+        "n": 819,
+        "hits": 411,
+        "hit_rate": 0.5018315018315018,
+        "log_loss": 1.0292678353699638,
+        "brier_multiclass": 0.6171160751674755,
+        "roi": -0.10157509157509152,
+        "net": -83.18999999999996,
+        "max_drawdown_day_order_units": 84.25999999999996
+      },
+      "fixed_50_50": {
+        "n": 819,
+        "hits": 416,
+        "hit_rate": 0.5079365079365079,
+        "log_loss": 1.0331445327369917,
+        "brier_multiclass": 0.6198292032050324,
+        "roi": -0.08330891330891328,
+        "net": -68.22999999999998,
+        "max_drawdown_day_order_units": 69.29999999999998
+      },
+      "fixed_share": {
+        "n": 819,
+        "hits": 413,
+        "hit_rate": 0.5042735042735043,
+        "log_loss": 1.0283337498973737,
+        "brier_multiclass": 0.6164471932320365,
+        "roi": -0.09786324786324782,
+        "net": -80.14999999999996,
+        "max_drawdown_day_order_units": 81.21999999999997
+      }
+    },
+    "sport:bs": {
+      "market": {
+        "n": 6885,
+        "hits": 3892,
+        "hit_rate": 0.5652868554829339,
+        "log_loss": 0.6762223707114073,
+        "brier_multiclass": 0.483561728219645,
+        "roi": -0.1373217138707332,
+        "net": -945.459999999998,
+        "max_drawdown_day_order_units": 953.9899999999982
+      },
+      "equal": {
+        "n": 6885,
+        "hits": 3910,
+        "hit_rate": 0.5679012345679012,
+        "log_loss": 0.6770761046561596,
+        "brier_multiclass": 0.4842605416413767,
+        "roi": -0.130386347131445,
+        "net": -897.7099999999988,
+        "max_drawdown_day_order_units": 905.1399999999992
+      },
+      "fixed_50_50": {
+        "n": 6885,
+        "hits": 3908,
+        "hit_rate": 0.5676107480029049,
+        "log_loss": 0.678086692922404,
+        "brier_multiclass": 0.48520129819778246,
+        "roi": -0.12756281771968025,
+        "net": -878.2699999999986,
+        "max_drawdown_day_order_units": 886.1899999999988
+      },
+      "fixed_share": {
+        "n": 6885,
+        "hits": 3912,
+        "hit_rate": 0.5681917211328976,
+        "log_loss": 0.6770602205147198,
+        "brier_multiclass": 0.4842491330634219,
+        "roi": -0.13008424110384875,
+        "net": -895.6299999999987,
+        "max_drawdown_day_order_units": 903.0599999999991
+      }
+    },
+    "league:bs:MLB": {
+      "market": {
+        "n": 4176,
+        "hits": 2336,
+        "hit_rate": 0.5593869731800766,
+        "log_loss": 0.6786417264633989,
+        "brier_multiclass": 0.48587502194312887,
+        "roi": -0.1455507662835244,
+        "net": -607.8199999999979,
+        "max_drawdown_day_order_units": 623.1399999999984
+      },
+      "equal": {
+        "n": 4176,
+        "hits": 2353,
+        "hit_rate": 0.5634578544061303,
+        "log_loss": 0.6787874523544813,
+        "brier_multiclass": 0.4859576495546051,
+        "roi": -0.13622126436781584,
+        "net": -568.859999999999,
+        "max_drawdown_day_order_units": 588.3699999999994
+      },
+      "fixed_50_50": {
+        "n": 4176,
+        "hits": 2343,
+        "hit_rate": 0.5610632183908046,
+        "log_loss": 0.6793505683385376,
+        "brier_multiclass": 0.48648044053800626,
+        "roi": -0.13712643678160907,
+        "net": -572.6399999999995,
+        "max_drawdown_day_order_units": 591.2399999999999
+      },
+      "fixed_share": {
+        "n": 4176,
+        "hits": 2352,
+        "hit_rate": 0.5632183908045977,
+        "log_loss": 0.6787986851984968,
+        "brier_multiclass": 0.48596905634432336,
+        "roi": -0.13682710727969327,
+        "net": -571.3899999999991,
+        "max_drawdown_day_order_units": 588.7499999999995
+      }
+    },
+    "league:sc:한국FA컵": {
+      "market": {
+        "n": 17,
+        "hits": 7,
+        "hit_rate": 0.4117647058823529,
+        "log_loss": 1.1041487155048912,
+        "brier_multiclass": 0.6826941487275677,
+        "roi": -0.2176470588235294,
+        "net": -3.6999999999999997,
+        "max_drawdown_day_order_units": 5.15
+      },
+      "equal": {
+        "n": 17,
+        "hits": 6,
+        "hit_rate": 0.35294117647058826,
+        "log_loss": 1.0932017310164872,
+        "brier_multiclass": 0.6700790454621848,
+        "roi": -0.3623529411764706,
+        "net": -6.16,
+        "max_drawdown_day_order_units": 7.61
+      },
+      "fixed_50_50": {
+        "n": 17,
+        "hits": 6,
+        "hit_rate": 0.35294117647058826,
+        "log_loss": 1.0905256592913437,
+        "brier_multiclass": 0.6659070603744661,
+        "roi": -0.3623529411764706,
+        "net": -6.16,
+        "max_drawdown_day_order_units": 7.61
+      },
+      "fixed_share": {
+        "n": 17,
+        "hits": 6,
+        "hit_rate": 0.35294117647058826,
+        "log_loss": 1.0960807126030716,
+        "brier_multiclass": 0.6725713329295858,
+        "roi": -0.3623529411764706,
+        "net": -6.16,
+        "max_drawdown_day_order_units": 7.61
+      }
+    },
+    "league:sc:축월드예": {
+      "market": {
+        "n": 299,
+        "hits": 190,
+        "hit_rate": 0.6354515050167224,
+        "log_loss": 0.79051626554107,
+        "brier_multiclass": 0.45872415007770456,
+        "roi": -0.12250836120401339,
+        "net": -36.63,
+        "max_drawdown_day_order_units": 41.28000000000001
+      },
+      "equal": {
+        "n": 299,
+        "hits": 189,
+        "hit_rate": 0.6321070234113713,
+        "log_loss": 0.835544210481404,
+        "brier_multiclass": 0.481938172156819,
+        "roi": -0.1283277591973244,
+        "net": -38.37,
+        "max_drawdown_day_order_units": 42.79
+      },
+      "fixed_50_50": {
+        "n": 299,
+        "hits": 188,
+        "hit_rate": 0.6287625418060201,
+        "log_loss": 0.8668548603254241,
+        "brier_multiclass": 0.5019902164726682,
+        "roi": -0.13357859531772576,
+        "net": -39.940000000000005,
+        "max_drawdown_day_order_units": 44.36000000000001
+      },
+      "fixed_share": {
+        "n": 299,
+        "hits": 189,
+        "hit_rate": 0.6321070234113713,
+        "log_loss": 0.8297465054557416,
+        "brier_multiclass": 0.4786262510070338,
+        "roi": -0.1283277591973244,
+        "net": -38.37,
+        "max_drawdown_day_order_units": 42.79
+      }
+    },
+    "league:sc:U네이션": {
+      "market": {
+        "n": 32,
+        "hits": 15,
+        "hit_rate": 0.46875,
+        "log_loss": 0.9702172571085298,
+        "brier_multiclass": 0.5778425894910947,
+        "roi": -0.2003125,
+        "net": -6.41,
+        "max_drawdown_day_order_units": 9.42
+      },
+      "equal": {
+        "n": 32,
+        "hits": 14,
+        "hit_rate": 0.4375,
+        "log_loss": 0.99748320521334,
+        "brier_multiclass": 0.5969217352206092,
+        "roi": -0.254375,
+        "net": -8.14,
+        "max_drawdown_day_order_units": 9.719999999999999
+      },
+      "fixed_50_50": {
+        "n": 32,
+        "hits": 16,
+        "hit_rate": 0.5,
+        "log_loss": 1.0135161508835344,
+        "brier_multiclass": 0.6083321358258248,
+        "roi": -0.052812499999999984,
+        "net": -1.6899999999999995,
+        "max_drawdown_day_order_units": 4.33
+      },
+      "fixed_share": {
+        "n": 32,
+        "hits": 14,
+        "hit_rate": 0.4375,
+        "log_loss": 0.9937449947331806,
+        "brier_multiclass": 0.5943581653523354,
+        "roi": -0.254375,
+        "net": -8.14,
+        "max_drawdown_day_order_units": 9.719999999999999
+      }
+    },
+    "league:sc:C네이션": {
+      "market": {
+        "n": 4,
+        "hits": 2,
+        "hit_rate": 0.5,
+        "log_loss": 1.1358193776368752,
+        "brier_multiclass": 0.6833631940615577,
+        "roi": -0.08249999999999996,
+        "net": -0.32999999999999985,
+        "max_drawdown_day_order_units": 1.57
+      },
+      "equal": {
+        "n": 4,
+        "hits": 1,
+        "hit_rate": 0.25,
+        "log_loss": 1.1453108993966739,
+        "brier_multiclass": 0.6934753617577192,
+        "roi": -0.6425000000000001,
+        "net": -2.5700000000000003,
+        "max_drawdown_day_order_units": 2.5700000000000003
+      },
+      "fixed_50_50": {
+        "n": 4,
+        "hits": 1,
+        "hit_rate": 0.25,
+        "log_loss": 1.1393599138897417,
+        "brier_multiclass": 0.693297381663851,
+        "roi": -0.6425000000000001,
+        "net": -2.5700000000000003,
+        "max_drawdown_day_order_units": 2.5700000000000003
+      },
+      "fixed_share": {
+        "n": 4,
+        "hits": 1,
+        "hit_rate": 0.25,
+        "log_loss": 1.1453425670948592,
+        "brier_multiclass": 0.6931750715395528,
+        "roi": -0.6425000000000001,
+        "net": -2.5700000000000003,
+        "max_drawdown_day_order_units": 2.5700000000000003
+      }
+    },
+    "league:bs:KBO": {
+      "market": {
+        "n": 1203,
+        "hits": 709,
+        "hit_rate": 0.5893599334995844,
+        "log_loss": 0.6704679160797599,
+        "brier_multiclass": 0.47784273196632526,
+        "roi": -0.10551122194513711,
+        "net": -126.92999999999995,
+        "max_drawdown_day_order_units": 130.90999999999994
+      },
+      "equal": {
+        "n": 1203,
+        "hits": 706,
+        "hit_rate": 0.5868661679135495,
+        "log_loss": 0.6736093653870863,
+        "brier_multiclass": 0.4808155610650221,
+        "roi": -0.10674979218620113,
+        "net": -128.41999999999996,
+        "max_drawdown_day_order_units": 130.25999999999996
+      },
+      "fixed_50_50": {
+        "n": 1203,
+        "hits": 704,
+        "hit_rate": 0.5852036575228595,
+        "log_loss": 0.6759145398617289,
+        "brier_multiclass": 0.48302466160275637,
+        "roi": -0.10532003325020776,
+        "net": -126.69999999999995,
+        "max_drawdown_day_order_units": 128.53999999999996
+      },
+      "fixed_share": {
+        "n": 1203,
+        "hits": 707,
+        "hit_rate": 0.5876974231088944,
+        "log_loss": 0.6735623379886524,
+        "brier_multiclass": 0.480772175657227,
+        "roi": -0.10555278470490437,
+        "net": -126.97999999999996,
+        "max_drawdown_day_order_units": 128.81999999999996
+      }
+    },
+    "league:sc:남축아예": {
+      "market": {
+        "n": 44,
+        "hits": 32,
+        "hit_rate": 0.7272727272727273,
+        "log_loss": 0.5983528759925517,
+        "brier_multiclass": 0.32987792862601933,
+        "roi": -0.09659090909090912,
+        "net": -4.250000000000001,
+        "max_drawdown_day_order_units": 7.0
+      },
+      "equal": {
+        "n": 44,
+        "hits": 32,
+        "hit_rate": 0.7272727272727273,
+        "log_loss": 0.6838807773926334,
+        "brier_multiclass": 0.37297953544101736,
+        "roi": -0.09454545454545457,
+        "net": -4.160000000000001,
+        "max_drawdown_day_order_units": 6.22
+      },
+      "fixed_50_50": {
+        "n": 44,
+        "hits": 31,
+        "hit_rate": 0.7045454545454546,
+        "log_loss": 0.7401319227195622,
+        "brier_multiclass": 0.4097293261082519,
+        "roi": -0.14681818181818185,
+        "net": -6.460000000000001,
+        "max_drawdown_day_order_units": 6.660000000000001
+      },
+      "fixed_share": {
+        "n": 44,
+        "hits": 32,
+        "hit_rate": 0.7272727272727273,
+        "log_loss": 0.6666270055861293,
+        "brier_multiclass": 0.36275582737756445,
+        "roi": -0.09454545454545457,
+        "net": -4.160000000000001,
+        "max_drawdown_day_order_units": 6.22
+      }
+    },
+    "league:sc:일리그컵": {
+      "market": {
+        "n": 76,
+        "hits": 36,
+        "hit_rate": 0.47368421052631576,
+        "log_loss": 1.0108412083698122,
+        "brier_multiclass": 0.6073267235318687,
+        "roi": -0.09763157894736833,
+        "net": -7.419999999999994,
+        "max_drawdown_day_order_units": 15.129999999999999
+      },
+      "equal": {
+        "n": 76,
+        "hits": 36,
+        "hit_rate": 0.47368421052631576,
+        "log_loss": 1.022597781351362,
+        "brier_multiclass": 0.6125235470970041,
+        "roi": -0.07999999999999999,
+        "net": -6.079999999999999,
+        "max_drawdown_day_order_units": 19.84
+      },
+      "fixed_50_50": {
+        "n": 76,
+        "hits": 35,
+        "hit_rate": 0.4605263157894737,
+        "log_loss": 1.0365205608467223,
+        "brier_multiclass": 0.62181572457692,
+        "roi": -0.07644736842105258,
+        "net": -5.809999999999996,
+        "max_drawdown_day_order_units": 20.240000000000002
+      },
+      "fixed_share": {
+        "n": 76,
+        "hits": 36,
+        "hit_rate": 0.47368421052631576,
+        "log_loss": 1.0222619555314094,
+        "brier_multiclass": 0.6123595501266044,
+        "roi": -0.07999999999999999,
+        "net": -6.079999999999999,
+        "max_drawdown_day_order_units": 19.84
+      }
+    },
+    "league:bs:NPB": {
+      "market": {
+        "n": 1467,
+        "hits": 818,
+        "hit_rate": 0.5576005453306067,
+        "log_loss": 0.6786434985530583,
+        "brier_multiclass": 0.4856946748737855,
+        "roi": -0.14070211315610107,
+        "net": -206.41000000000025,
+        "max_drawdown_day_order_units": 209.05000000000024
+      },
+      "equal": {
+        "n": 1467,
+        "hits": 822,
+        "hit_rate": 0.5603271983640081,
+        "log_loss": 0.6783387343151305,
+        "brier_multiclass": 0.4853534790234874,
+        "roi": -0.1337286980231766,
+        "net": -196.1800000000001,
+        "max_drawdown_day_order_units": 199.69000000000005
+      },
+      "fixed_50_50": {
+        "n": 1467,
+        "hits": 832,
+        "hit_rate": 0.567143830947512,
+        "log_loss": 0.6788115717424826,
+        "brier_multiclass": 0.4857985052146149,
+        "roi": -0.11907293796864342,
+        "net": -174.6799999999999,
+        "max_drawdown_day_order_units": 177.8999999999999
+      },
+      "fixed_share": {
+        "n": 1467,
+        "hits": 823,
+        "hit_rate": 0.5610088616223585,
+        "log_loss": 0.6783586299183747,
+        "brier_multiclass": 0.4853727582087441,
+        "roi": -0.13272665303340153,
+        "net": -194.71000000000004,
+        "max_drawdown_day_order_units": 198.22
+      }
+    },
+    "quarter:2025Q2": {
+      "market": {
+        "n": 4049,
+        "hits": 2212,
+        "hit_rate": 0.5463077303037787,
+        "log_loss": 0.8123646900321173,
+        "brier_multiclass": 0.5263016734207273,
+        "roi": -0.12660903926895523,
+        "net": -512.6399999999998,
+        "max_drawdown_day_order_units": 513.9399999999997
+      },
+      "equal": {
+        "n": 4049,
+        "hits": 2220,
+        "hit_rate": 0.54828352679674,
+        "log_loss": 0.8175384116227777,
+        "brier_multiclass": 0.5297262502719154,
+        "roi": -0.11849839466534945,
+        "net": -479.7999999999999,
+        "max_drawdown_day_order_units": 482.72999999999985
+      },
+      "fixed_50_50": {
+        "n": 4049,
+        "hits": 2217,
+        "hit_rate": 0.5475426031118795,
+        "log_loss": 0.8216364844677476,
+        "brier_multiclass": 0.5327175777586765,
+        "roi": -0.11535934798715729,
+        "net": -467.08999999999986,
+        "max_drawdown_day_order_units": 472.3499999999998
+      },
+      "fixed_share": {
+        "n": 4049,
+        "hits": 2223,
+        "hit_rate": 0.5490244504816004,
+        "log_loss": 0.8166632337080637,
+        "brier_multiclass": 0.5291462244714598,
+        "roi": -0.11753025438379842,
+        "net": -475.8799999999998,
+        "max_drawdown_day_order_units": 478.8099999999998
+      }
+    },
+    "league:sc:호주FA컵": {
+      "market": {
+        "n": 14,
+        "hits": 5,
+        "hit_rate": 0.35714285714285715,
+        "log_loss": 1.0236016130430534,
+        "brier_multiclass": 0.6129588036634316,
+        "roi": -0.4207142857142858,
+        "net": -5.8900000000000015,
+        "max_drawdown_day_order_units": 7.48
+      },
+      "equal": {
+        "n": 14,
+        "hits": 5,
+        "hit_rate": 0.35714285714285715,
+        "log_loss": 1.014590301812335,
+        "brier_multiclass": 0.6037052950642795,
+        "roi": -0.42285714285714293,
+        "net": -5.920000000000001,
+        "max_drawdown_day_order_units": 7.51
+      },
+      "fixed_50_50": {
+        "n": 14,
+        "hits": 6,
+        "hit_rate": 0.42857142857142855,
+        "log_loss": 1.0256528564189267,
+        "brier_multiclass": 0.6108127184919895,
+        "roi": -0.22642857142857142,
+        "net": -3.17,
+        "max_drawdown_day_order_units": 4.81
+      },
+      "fixed_share": {
+        "n": 14,
+        "hits": 5,
+        "hit_rate": 0.35714285714285715,
+        "log_loss": 1.0116093774577601,
+        "brier_multiclass": 0.601953014536343,
+        "roi": -0.42285714285714293,
+        "net": -5.920000000000001,
+        "max_drawdown_day_order_units": 7.51
+      }
+    },
+    "league:sc:미국FA컵": {
+      "market": {
+        "n": 20,
+        "hits": 10,
+        "hit_rate": 0.5,
+        "log_loss": 1.0438512852060142,
+        "brier_multiclass": 0.6252209259854821,
+        "roi": -0.08450000000000003,
+        "net": -1.6900000000000006,
+        "max_drawdown_day_order_units": 3.94
+      },
+      "equal": {
+        "n": 20,
+        "hits": 10,
+        "hit_rate": 0.5,
+        "log_loss": 1.0799089079784818,
+        "brier_multiclass": 0.6529730273331911,
+        "roi": -0.08450000000000003,
+        "net": -1.6900000000000006,
+        "max_drawdown_day_order_units": 3.94
+      },
+      "fixed_50_50": {
+        "n": 20,
+        "hits": 9,
+        "hit_rate": 0.45,
+        "log_loss": 1.0990698660821332,
+        "brier_multiclass": 0.6670586386965442,
+        "roi": -0.1835,
+        "net": -3.67,
+        "max_drawdown_day_order_units": 5.92
+      },
+      "fixed_share": {
+        "n": 20,
+        "hits": 10,
+        "hit_rate": 0.5,
+        "log_loss": 1.0749492182112483,
+        "brier_multiclass": 0.6494807671178213,
+        "roi": -0.08450000000000003,
+        "net": -1.6900000000000006,
+        "max_drawdown_day_order_units": 3.94
+      }
+    },
+    "league:sc:엘리테세": {
+      "market": {
+        "n": 132,
+        "hits": 80,
+        "hit_rate": 0.6060606060606061,
+        "log_loss": 0.9042985745327249,
+        "brier_multiclass": 0.5286790686941817,
+        "roi": -0.0018181818181818214,
+        "net": -0.24000000000000044,
+        "max_drawdown_day_order_units": 8.190000000000001
+      },
+      "equal": {
+        "n": 132,
+        "hits": 79,
+        "hit_rate": 0.5984848484848485,
+        "log_loss": 0.9207737166535714,
+        "brier_multiclass": 0.5392833964539615,
+        "roi": -0.013939393939393934,
+        "net": -1.8399999999999992,
+        "max_drawdown_day_order_units": 10.43
+      },
+      "fixed_50_50": {
+        "n": 132,
+        "hits": 78,
+        "hit_rate": 0.5909090909090909,
+        "log_loss": 0.9328057938091291,
+        "brier_multiclass": 0.5476499193977069,
+        "roi": -0.029621212121212104,
+        "net": -3.909999999999998,
+        "max_drawdown_day_order_units": 12.5
+      },
+      "fixed_share": {
+        "n": 132,
+        "hits": 80,
+        "hit_rate": 0.6060606060606061,
+        "log_loss": 0.9159596687126269,
+        "brier_multiclass": 0.5360772216728236,
+        "roi": -0.0002272727272727241,
+        "net": -0.029999999999999583,
+        "max_drawdown_day_order_units": 8.190000000000001
+      }
+    },
+    "league:sc:클럽월드": {
+      "market": {
+        "n": 56,
+        "hits": 35,
+        "hit_rate": 0.625,
+        "log_loss": 0.8401839070966101,
+        "brier_multiclass": 0.48620753191135735,
+        "roi": -0.07428571428571432,
+        "net": -4.160000000000002,
+        "max_drawdown_day_order_units": 8.090000000000002
+      },
+      "equal": {
+        "n": 56,
+        "hits": 34,
+        "hit_rate": 0.6071428571428571,
+        "log_loss": 0.8767971172064067,
+        "brier_multiclass": 0.5077351022285744,
+        "roi": -0.11732142857142858,
+        "net": -6.57,
+        "max_drawdown_day_order_units": 10.500000000000002
+      },
+      "fixed_50_50": {
+        "n": 56,
+        "hits": 35,
+        "hit_rate": 0.625,
+        "log_loss": 0.9045945895337806,
+        "brier_multiclass": 0.5268708449399627,
+        "roi": -0.06732142857142856,
+        "net": -3.769999999999999,
+        "max_drawdown_day_order_units": 10.500000000000002
+      },
+      "fixed_share": {
+        "n": 56,
+        "hits": 34,
+        "hit_rate": 0.6071428571428571,
+        "log_loss": 0.8644367012637032,
+        "brier_multiclass": 0.4997623909677313,
+        "roi": -0.11732142857142858,
+        "net": -6.57,
+        "max_drawdown_day_order_units": 10.500000000000002
+      }
+    },
+    "league:vl:여배네이": {
+      "market": {
+        "n": 198,
+        "hits": 150,
+        "hit_rate": 0.7575757575757576,
+        "log_loss": 0.5324391811712905,
+        "brier_multiclass": 0.3522226592199088,
+        "roi": -0.04151515151515147,
+        "net": -8.219999999999992,
+        "max_drawdown_day_order_units": 13.109999999999992
+      },
+      "equal": {
+        "n": 198,
+        "hits": 151,
+        "hit_rate": 0.7626262626262627,
+        "log_loss": 0.5420709631110034,
+        "brier_multiclass": 0.35904762233258036,
+        "roi": -0.02959595959595961,
+        "net": -5.860000000000003,
+        "max_drawdown_day_order_units": 9.190000000000003
+      },
+      "fixed_50_50": {
+        "n": 198,
+        "hits": 150,
+        "hit_rate": 0.7575757575757576,
+        "log_loss": 0.5550628749602908,
+        "brier_multiclass": 0.36973819940730246,
+        "roi": -0.03333333333333335,
+        "net": -6.600000000000003,
+        "max_drawdown_day_order_units": 7.590000000000003
+      },
+      "fixed_share": {
+        "n": 198,
+        "hits": 153,
+        "hit_rate": 0.7727272727272727,
+        "log_loss": 0.5389192932815362,
+        "brier_multiclass": 0.3565651542536052,
+        "roi": -0.013080808080808094,
+        "net": -2.5900000000000025,
+        "max_drawdown_day_order_units": 9.190000000000003
+      }
+    },
+    "league:sc:일본FA컵": {
+      "market": {
+        "n": 49,
+        "hits": 25,
+        "hit_rate": 0.5102040816326531,
+        "log_loss": 0.9826412793885513,
+        "brier_multiclass": 0.5891466884079362,
+        "roi": -0.07020408163265308,
+        "net": -3.4400000000000013,
+        "max_drawdown_day_order_units": 5.960000000000001
+      },
+      "equal": {
+        "n": 49,
+        "hits": 28,
+        "hit_rate": 0.5714285714285714,
+        "log_loss": 0.992986220480939,
+        "brier_multiclass": 0.5974135474401865,
+        "roi": 0.09612244897959182,
+        "net": 4.709999999999999,
+        "max_drawdown_day_order_units": 5.960000000000001
+      },
+      "fixed_50_50": {
+        "n": 49,
+        "hits": 28,
+        "hit_rate": 0.5714285714285714,
+        "log_loss": 1.0059595948691131,
+        "brier_multiclass": 0.606235301955349,
+        "roi": 0.11693877551020401,
+        "net": 5.729999999999997,
+        "max_drawdown_day_order_units": 6.280000000000001
+      },
+      "fixed_share": {
+        "n": 49,
+        "hits": 26,
+        "hit_rate": 0.5306122448979592,
+        "log_loss": 0.9898321419187377,
+        "brier_multiclass": 0.5951294854357737,
+        "roi": -0.020204081632653085,
+        "net": -0.9900000000000011,
+        "max_drawdown_day_order_units": 5.960000000000001
+      }
+    },
+    "league:vl:남배네이": {
+      "market": {
+        "n": 201,
+        "hits": 138,
+        "hit_rate": 0.6865671641791045,
+        "log_loss": 0.5585911680691263,
+        "brier_multiclass": 0.37825872387566095,
+        "roi": -0.13950248756218903,
+        "net": -28.039999999999996,
+        "max_drawdown_day_order_units": 28.689999999999994
+      },
+      "equal": {
+        "n": 201,
+        "hits": 140,
+        "hit_rate": 0.6965174129353234,
+        "log_loss": 0.5657898845740443,
+        "brier_multiclass": 0.382469362037744,
+        "roi": -0.11701492537313431,
+        "net": -23.519999999999996,
+        "max_drawdown_day_order_units": 25.079999999999995
+      },
+      "fixed_50_50": {
+        "n": 201,
+        "hits": 140,
+        "hit_rate": 0.6965174129353234,
+        "log_loss": 0.5736287382537715,
+        "brier_multiclass": 0.38841416896971537,
+        "roi": -0.10189054726368156,
+        "net": -20.479999999999993,
+        "max_drawdown_day_order_units": 23.109999999999996
+      },
+      "fixed_share": {
+        "n": 201,
+        "hits": 139,
+        "hit_rate": 0.6915422885572139,
+        "log_loss": 0.5640864337818506,
+        "brier_multiclass": 0.38130787594620474,
+        "roi": -0.128955223880597,
+        "net": -25.919999999999995,
+        "max_drawdown_day_order_units": 26.569999999999993
+      }
+    },
+    "league:sc:골드컵": {
+      "market": {
+        "n": 25,
+        "hits": 18,
+        "hit_rate": 0.72,
+        "log_loss": 0.8194423978585123,
+        "brier_multiclass": 0.4746269688831331,
+        "roi": 0.10800000000000001,
+        "net": 2.7,
+        "max_drawdown_day_order_units": 3.79
+      },
+      "equal": {
+        "n": 25,
+        "hits": 18,
+        "hit_rate": 0.72,
+        "log_loss": 0.858178127575473,
+        "brier_multiclass": 0.4973295717944651,
+        "roi": 0.10800000000000001,
+        "net": 2.7,
+        "max_drawdown_day_order_units": 3.79
+      },
+      "fixed_50_50": {
+        "n": 25,
+        "hits": 17,
+        "hit_rate": 0.68,
+        "log_loss": 0.8865015066674308,
+        "brier_multiclass": 0.5159210058939088,
+        "roi": 0.017199999999999997,
+        "net": 0.42999999999999994,
+        "max_drawdown_day_order_units": 3.79
+      },
+      "fixed_share": {
+        "n": 25,
+        "hits": 18,
+        "hit_rate": 0.72,
+        "log_loss": 0.8464463996957958,
+        "brier_multiclass": 0.49001766884198816,
+        "roi": 0.10800000000000001,
+        "net": 2.7,
+        "max_drawdown_day_order_units": 3.79
+      }
+    },
+    "league:sc:노르FA컵": {
+      "market": {
+        "n": 6,
+        "hits": 3,
+        "hit_rate": 0.5,
+        "log_loss": 0.9999135185860046,
+        "brier_multiclass": 0.5941014626976203,
+        "roi": -0.11333333333333336,
+        "net": -0.6800000000000002,
+        "max_drawdown_day_order_units": 2.0
+      },
+      "equal": {
+        "n": 6,
+        "hits": 3,
+        "hit_rate": 0.5,
+        "log_loss": 1.009313559982421,
+        "brier_multiclass": 0.6004009034165357,
+        "roi": -0.11333333333333336,
+        "net": -0.6800000000000002,
+        "max_drawdown_day_order_units": 2.0
+      },
+      "fixed_50_50": {
+        "n": 6,
+        "hits": 3,
+        "hit_rate": 0.5,
+        "log_loss": 1.0226885347513903,
+        "brier_multiclass": 0.6101844193629279,
+        "roi": -0.11333333333333336,
+        "net": -0.6800000000000002,
+        "max_drawdown_day_order_units": 2.0
+      },
+      "fixed_share": {
+        "n": 6,
+        "hits": 3,
+        "hit_rate": 0.5,
+        "log_loss": 1.0037182969389793,
+        "brier_multiclass": 0.5962701050921382,
+        "roi": -0.11333333333333336,
+        "net": -0.6800000000000002,
+        "max_drawdown_day_order_units": 2.0
+      }
+    },
+    "quarter:2025Q3": {
+      "market": {
+        "n": 3668,
+        "hits": 2008,
+        "hit_rate": 0.5474372955288986,
+        "log_loss": 0.7996925598651338,
+        "brier_multiclass": 0.5200742073756275,
+        "roi": -0.14209105779716455,
+        "net": -521.1899999999996,
+        "max_drawdown_day_order_units": 527.9399999999996
+      },
+      "equal": {
+        "n": 3668,
+        "hits": 2024,
+        "hit_rate": 0.5517993456924755,
+        "log_loss": 0.8054527237274909,
+        "brier_multiclass": 0.5236194867524546,
+        "roi": -0.12801526717557246,
+        "net": -469.5599999999998,
+        "max_drawdown_day_order_units": 474.7799999999998
+      },
+      "fixed_50_50": {
+        "n": 3668,
+        "hits": 2022,
+        "hit_rate": 0.5512540894220284,
+        "log_loss": 0.8105507731415056,
+        "brier_multiclass": 0.5273518524783822,
+        "roi": -0.12379498364231187,
+        "net": -454.0799999999999,
+        "max_drawdown_day_order_units": 464.9
+      },
+      "fixed_share": {
+        "n": 3668,
+        "hits": 2019,
+        "hit_rate": 0.5504362050163577,
+        "log_loss": 0.8043240574561353,
+        "brier_multiclass": 0.5228689203580853,
+        "roi": -0.1325517993456924,
+        "net": -486.1999999999997,
+        "max_drawdown_day_order_units": 491.41999999999973
+      }
+    },
+    "league:sc:남축E1챔": {
+      "market": {
+        "n": 6,
+        "hits": 6,
+        "hit_rate": 1.0,
+        "log_loss": 0.360869112039856,
+        "brier_multiclass": 0.15808799899390633,
+        "roi": 0.2833333333333333,
+        "net": 1.7,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "equal": {
+        "n": 6,
+        "hits": 6,
+        "hit_rate": 1.0,
+        "log_loss": 0.5006279138235935,
+        "brier_multiclass": 0.24069989113503384,
+        "roi": 0.2833333333333333,
+        "net": 1.7,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "fixed_50_50": {
+        "n": 6,
+        "hits": 6,
+        "hit_rate": 1.0,
+        "log_loss": 0.575865011055187,
+        "brier_multiclass": 0.29203180918688515,
+        "roi": 0.2833333333333333,
+        "net": 1.7,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "fixed_share": {
+        "n": 6,
+        "hits": 6,
+        "hit_rate": 1.0,
+        "log_loss": 0.4715163700800596,
+        "brier_multiclass": 0.22183554312998052,
+        "roi": 0.2833333333333333,
+        "net": 1.7,
+        "max_drawdown_day_order_units": 0.0
+      }
+    },
+    "league:sc:여축E1챔": {
+      "market": {
+        "n": 6,
+        "hits": 3,
+        "hit_rate": 0.5,
+        "log_loss": 0.77901253105607,
+        "brier_multiclass": 0.47794652749883165,
+        "roi": -0.49499999999999994,
+        "net": -2.9699999999999998,
+        "max_drawdown_day_order_units": 2.9799999999999995
+      },
+      "equal": {
+        "n": 6,
+        "hits": 3,
+        "hit_rate": 0.5,
+        "log_loss": 0.8534607945176941,
+        "brier_multiclass": 0.5053446791235546,
+        "roi": -0.49499999999999994,
+        "net": -2.9699999999999998,
+        "max_drawdown_day_order_units": 2.9799999999999995
+      },
+      "fixed_50_50": {
+        "n": 6,
+        "hits": 3,
+        "hit_rate": 0.5,
+        "log_loss": 0.9014352743386839,
+        "brier_multiclass": 0.5330102149709581,
+        "roi": -0.49499999999999994,
+        "net": -2.9699999999999998,
+        "max_drawdown_day_order_units": 2.9799999999999995
+      },
+      "fixed_share": {
+        "n": 6,
+        "hits": 3,
+        "hit_rate": 0.5,
+        "log_loss": 0.8377331931786047,
+        "brier_multiclass": 0.4975998609049032,
+        "roi": -0.49499999999999994,
+        "net": -2.9699999999999998,
+        "max_drawdown_day_order_units": 2.9799999999999995
+      }
+    },
+    "league:bk:여농아컵": {
+      "market": {
+        "n": 8,
+        "hits": 6,
+        "hit_rate": 0.75,
+        "log_loss": 0.5353708986488366,
+        "brier_multiclass": 0.34635815345774046,
+        "roi": -0.1975,
+        "net": -1.58,
+        "max_drawdown_day_order_units": 1.8699999999999999
+      },
+      "equal": {
+        "n": 8,
+        "hits": 6,
+        "hit_rate": 0.75,
+        "log_loss": 0.5492936701216907,
+        "brier_multiclass": 0.3643051160616554,
+        "roi": -0.1975,
+        "net": -1.58,
+        "max_drawdown_day_order_units": 1.8699999999999999
+      },
+      "fixed_50_50": {
+        "n": 8,
+        "hits": 6,
+        "hit_rate": 0.75,
+        "log_loss": 0.5758255245541406,
+        "brier_multiclass": 0.38855791973031173,
+        "roi": -0.1975,
+        "net": -1.58,
+        "max_drawdown_day_order_units": 1.8699999999999999
+      },
+      "fixed_share": {
+        "n": 8,
+        "hits": 6,
+        "hit_rate": 0.75,
+        "log_loss": 0.5470834741642498,
+        "brier_multiclass": 0.3623110321275683,
+        "roi": -0.1975,
+        "net": -1.58,
+        "max_drawdown_day_order_units": 1.8699999999999999
+      }
+    },
+    "league:sc:축클럽친": {
+      "market": {
+        "n": 37,
+        "hits": 20,
+        "hit_rate": 0.5405405405405406,
+        "log_loss": 1.0035583142385205,
+        "brier_multiclass": 0.5963365959337834,
+        "roi": -0.10945945945945945,
+        "net": -4.05,
+        "max_drawdown_day_order_units": 6.74
+      },
+      "equal": {
+        "n": 37,
+        "hits": 20,
+        "hit_rate": 0.5405405405405406,
+        "log_loss": 1.009461321342446,
+        "brier_multiclass": 0.6008032277721373,
+        "roi": -0.10243243243243243,
+        "net": -3.79,
+        "max_drawdown_day_order_units": 8.18
+      },
+      "fixed_50_50": {
+        "n": 37,
+        "hits": 20,
+        "hit_rate": 0.5405405405405406,
+        "log_loss": 1.012535184043189,
+        "brier_multiclass": 0.6048739363417331,
+        "roi": -0.10243243243243243,
+        "net": -3.79,
+        "max_drawdown_day_order_units": 8.18
+      },
+      "fixed_share": {
+        "n": 37,
+        "hits": 20,
+        "hit_rate": 0.5405405405405406,
+        "log_loss": 1.0073154312007218,
+        "brier_multiclass": 0.598854618777762,
+        "roi": -0.10243243243243243,
+        "net": -3.79,
+        "max_drawdown_day_order_units": 8.18
+      }
+    },
+    "league:sc:네슈퍼컵": {
+      "market": {
+        "n": 2,
+        "hits": 1,
+        "hit_rate": 0.5,
+        "log_loss": 0.990926838507618,
+        "brier_multiclass": 0.5868855804650044,
+        "roi": -0.41000000000000003,
+        "net": -0.8200000000000001,
+        "max_drawdown_day_order_units": 1.0
+      },
+      "equal": {
+        "n": 2,
+        "hits": 1,
+        "hit_rate": 0.5,
+        "log_loss": 1.011977614864139,
+        "brier_multiclass": 0.5948230156536958,
+        "roi": -0.41000000000000003,
+        "net": -0.8200000000000001,
+        "max_drawdown_day_order_units": 1.0
+      },
+      "fixed_50_50": {
+        "n": 2,
+        "hits": 1,
+        "hit_rate": 0.5,
+        "log_loss": 1.0228772569909053,
+        "brier_multiclass": 0.603876973412065,
+        "roi": -0.41000000000000003,
+        "net": -0.8200000000000001,
+        "max_drawdown_day_order_units": 1.0
+      },
+      "fixed_share": {
+        "n": 2,
+        "hits": 1,
+        "hit_rate": 0.5,
+        "log_loss": 1.011575960877602,
+        "brier_multiclass": 0.5947934980055861,
+        "roi": -0.41000000000000003,
+        "net": -0.8200000000000001,
+        "max_drawdown_day_order_units": 1.0
+      }
+    },
+    "league:bk:남농아컵": {
+      "market": {
+        "n": 21,
+        "hits": 14,
+        "hit_rate": 0.6666666666666666,
+        "log_loss": 0.5903128761402066,
+        "brier_multiclass": 0.4136073566182497,
+        "roi": -0.19000000000000006,
+        "net": -3.990000000000001,
+        "max_drawdown_day_order_units": 4.000000000000001
+      },
+      "equal": {
+        "n": 21,
+        "hits": 13,
+        "hit_rate": 0.6190476190476191,
+        "log_loss": 0.5990653084152532,
+        "brier_multiclass": 0.41346870637823735,
+        "roi": -0.26428571428571435,
+        "net": -5.550000000000001,
+        "max_drawdown_day_order_units": 5.5600000000000005
+      },
+      "fixed_50_50": {
+        "n": 21,
+        "hits": 13,
+        "hit_rate": 0.6190476190476191,
+        "log_loss": 0.6113543672336953,
+        "brier_multiclass": 0.42266385979958365,
+        "roi": -0.26428571428571435,
+        "net": -5.550000000000001,
+        "max_drawdown_day_order_units": 5.5600000000000005
+      },
+      "fixed_share": {
+        "n": 21,
+        "hits": 13,
+        "hit_rate": 0.6190476190476191,
+        "log_loss": 0.5988212880246441,
+        "brier_multiclass": 0.4137927871949382,
+        "roi": -0.26428571428571435,
+        "net": -5.550000000000001,
+        "max_drawdown_day_order_units": 5.5600000000000005
+      }
+    },
+    "league:sc:잉슈퍼컵": {
+      "market": {
+        "n": 2,
+        "hits": 0,
+        "hit_rate": 0.0,
+        "log_loss": 1.290660788833448,
+        "brier_multiclass": 0.8229550978284266,
+        "roi": -1.0,
+        "net": -2.0,
+        "max_drawdown_day_order_units": 2.0
+      },
+      "equal": {
+        "n": 2,
+        "hits": 1,
+        "hit_rate": 0.5,
+        "log_loss": 1.2473060569053946,
+        "brier_multiclass": 0.7644845559182943,
+        "roi": 0.30000000000000004,
+        "net": 0.6000000000000001,
+        "max_drawdown_day_order_units": 1.0
+      },
+      "fixed_50_50": {
+        "n": 2,
+        "hits": 1,
+        "hit_rate": 0.5,
+        "log_loss": 1.2027919041162882,
+        "brier_multiclass": 0.7300838180717244,
+        "roi": 0.30000000000000004,
+        "net": 0.6000000000000001,
+        "max_drawdown_day_order_units": 1.0
+      },
+      "fixed_share": {
+        "n": 2,
+        "hits": 0,
+        "hit_rate": 0.0,
+        "log_loss": 1.2594453167234811,
+        "brier_multiclass": 0.7769308202115925,
+        "roi": -1.0,
+        "net": -2.0,
+        "max_drawdown_day_order_units": 2.0
+      }
+    },
+    "league:vl:여배코리": {
+      "market": {
+        "n": 15,
+        "hits": 8,
+        "hit_rate": 0.5333333333333333,
+        "log_loss": 0.6820334561330308,
+        "brier_multiclass": 0.48828369883288525,
+        "roi": -0.2846666666666666,
+        "net": -4.27,
+        "max_drawdown_day_order_units": 5.239999999999999
+      },
+      "equal": {
+        "n": 15,
+        "hits": 9,
+        "hit_rate": 0.6,
+        "log_loss": 0.6802071796763198,
+        "brier_multiclass": 0.48470993118016586,
+        "roi": -0.09066666666666663,
+        "net": -1.3599999999999994,
+        "max_drawdown_day_order_units": 3.1799999999999997
+      },
+      "fixed_50_50": {
+        "n": 15,
+        "hits": 9,
+        "hit_rate": 0.6,
+        "log_loss": 0.687606748936039,
+        "brier_multiclass": 0.4922124431516058,
+        "roi": -0.09066666666666663,
+        "net": -1.3599999999999994,
+        "max_drawdown_day_order_units": 3.1799999999999997
+      },
+      "fixed_share": {
+        "n": 15,
+        "hits": 9,
+        "hit_rate": 0.6,
+        "log_loss": 0.6782195351630246,
+        "brier_multiclass": 0.48297077625922197,
+        "roi": -0.1613333333333333,
+        "net": -2.4199999999999995,
+        "max_drawdown_day_order_units": 4.239999999999999
+      }
+    },
+    "league:sc:코파리베": {
+      "market": {
+        "n": 44,
+        "hits": 19,
+        "hit_rate": 0.4318181818181818,
+        "log_loss": 1.0310104884146059,
+        "brier_multiclass": 0.6305624832673246,
+        "roi": -0.26568181818181813,
+        "net": -11.689999999999998,
+        "max_drawdown_day_order_units": 12.299999999999997
+      },
+      "equal": {
+        "n": 44,
+        "hits": 17,
+        "hit_rate": 0.38636363636363635,
+        "log_loss": 1.0437755762134853,
+        "brier_multiclass": 0.6380017434065166,
+        "roi": -0.3702272727272727,
+        "net": -16.29,
+        "max_drawdown_day_order_units": 16.9
+      },
+      "fixed_50_50": {
+        "n": 44,
+        "hits": 16,
+        "hit_rate": 0.36363636363636365,
+        "log_loss": 1.0600795501340974,
+        "brier_multiclass": 0.6474175394964072,
+        "roi": -0.4147727272727273,
+        "net": -18.25,
+        "max_drawdown_day_order_units": 18.86
+      },
+      "fixed_share": {
+        "n": 44,
+        "hits": 18,
+        "hit_rate": 0.4090909090909091,
+        "log_loss": 1.040163846504873,
+        "brier_multiclass": 0.6357695370196861,
+        "roi": -0.31795454545454543,
+        "net": -13.989999999999998,
+        "max_drawdown_day_order_units": 14.599999999999998
+      }
+    },
+    "league:sc:U슈퍼컵": {
+      "market": {
+        "n": 2,
+        "hits": 1,
+        "hit_rate": 0.5,
+        "log_loss": 1.1122125595697587,
+        "brier_multiclass": 0.6986122178702495,
+        "roi": -0.19499999999999995,
+        "net": -0.3899999999999999,
+        "max_drawdown_day_order_units": 1.0
+      },
+      "equal": {
+        "n": 2,
+        "hits": 1,
+        "hit_rate": 0.5,
+        "log_loss": 1.1050701478388931,
+        "brier_multiclass": 0.6792221041490483,
+        "roi": -0.19499999999999995,
+        "net": -0.3899999999999999,
+        "max_drawdown_day_order_units": 1.0
+      },
+      "fixed_50_50": {
+        "n": 2,
+        "hits": 1,
+        "hit_rate": 0.5,
+        "log_loss": 1.0979287038956198,
+        "brier_multiclass": 0.669936598015179,
+        "roi": -0.19499999999999995,
+        "net": -0.3899999999999999,
+        "max_drawdown_day_order_units": 1.0
+      },
+      "fixed_share": {
+        "n": 2,
+        "hits": 1,
+        "hit_rate": 0.5,
+        "log_loss": 1.1083011620960315,
+        "brier_multiclass": 0.6832076199527966,
+        "roi": -0.19499999999999995,
+        "net": -0.3899999999999999,
+        "max_drawdown_day_order_units": 1.0
+      }
+    },
+    "league:sc:독슈퍼컵": {
+      "market": {
+        "n": 2,
+        "hits": 2,
+        "hit_rate": 1.0,
+        "log_loss": 0.5281644414822941,
+        "brier_multiclass": 0.25271373640624645,
+        "roi": 0.475,
+        "net": 0.95,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "equal": {
+        "n": 2,
+        "hits": 2,
+        "hit_rate": 1.0,
+        "log_loss": 0.7476560068714198,
+        "brier_multiclass": 0.4179571616663468,
+        "roi": 0.475,
+        "net": 0.95,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "fixed_50_50": {
+        "n": 2,
+        "hits": 2,
+        "hit_rate": 1.0,
+        "log_loss": 0.8411925880996691,
+        "brier_multiclass": 0.4892374410767881,
+        "roi": 0.475,
+        "net": 0.95,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "fixed_share": {
+        "n": 2,
+        "hits": 2,
+        "hit_rate": 1.0,
+        "log_loss": 0.7125566170399956,
+        "brier_multiclass": 0.3910505788092168,
+        "roi": 0.475,
+        "net": 0.95,
+        "max_drawdown_day_order_units": 0.0
+      }
+    },
+    "league:sc:리그스컵": {
+      "market": {
+        "n": 8,
+        "hits": 4,
+        "hit_rate": 0.5,
+        "log_loss": 1.0397628249624524,
+        "brier_multiclass": 0.6336321409425356,
+        "roi": -0.006249999999999978,
+        "net": -0.04999999999999982,
+        "max_drawdown_day_order_units": 2.0
+      },
+      "equal": {
+        "n": 8,
+        "hits": 6,
+        "hit_rate": 0.75,
+        "log_loss": 1.0234042005274413,
+        "brier_multiclass": 0.6173693235543984,
+        "roi": 0.6062500000000001,
+        "net": 4.8500000000000005,
+        "max_drawdown_day_order_units": 1.0
+      },
+      "fixed_50_50": {
+        "n": 8,
+        "hits": 5,
+        "hit_rate": 0.625,
+        "log_loss": 1.0082334096704075,
+        "brier_multiclass": 0.6046937120898788,
+        "roi": 0.34375000000000006,
+        "net": 2.7500000000000004,
+        "max_drawdown_day_order_units": 1.0
+      },
+      "fixed_share": {
+        "n": 8,
+        "hits": 6,
+        "hit_rate": 0.75,
+        "log_loss": 1.0276392209865655,
+        "brier_multiclass": 0.6210629920863155,
+        "roi": 0.6062500000000001,
+        "net": 4.8500000000000005,
+        "max_drawdown_day_order_units": 1.0
+      }
+    },
+    "league:vl:여배세계": {
+      "market": {
+        "n": 37,
+        "hits": 28,
+        "hit_rate": 0.7567567567567568,
+        "log_loss": 0.4869155280200035,
+        "brier_multiclass": 0.31366571324860115,
+        "roi": -0.0837837837837838,
+        "net": -3.1000000000000005,
+        "max_drawdown_day_order_units": 5.450000000000001
+      },
+      "equal": {
+        "n": 37,
+        "hits": 30,
+        "hit_rate": 0.8108108108108109,
+        "log_loss": 0.5373557443125083,
+        "brier_multiclass": 0.35160149021372317,
+        "roi": 0.016486486486486502,
+        "net": 0.6100000000000005,
+        "max_drawdown_day_order_units": 3.3600000000000003
+      },
+      "fixed_50_50": {
+        "n": 37,
+        "hits": 29,
+        "hit_rate": 0.7837837837837838,
+        "log_loss": 0.5681973575594144,
+        "brier_multiclass": 0.37886942698636916,
+        "roi": -0.02054054054054053,
+        "net": -0.7599999999999996,
+        "max_drawdown_day_order_units": 3.3600000000000003
+      },
+      "fixed_share": {
+        "n": 37,
+        "hits": 30,
+        "hit_rate": 0.8108108108108109,
+        "log_loss": 0.5231010635053412,
+        "brier_multiclass": 0.33972746043056923,
+        "roi": 0.016486486486486502,
+        "net": 0.6100000000000005,
+        "max_drawdown_day_order_units": 3.3600000000000003
+      }
+    },
+    "league:bk:남농유로": {
+      "market": {
+        "n": 54,
+        "hits": 39,
+        "hit_rate": 0.7222222222222222,
+        "log_loss": 0.5670181224300135,
+        "brier_multiclass": 0.37924460060502135,
+        "roi": -0.12555555555555553,
+        "net": -6.7799999999999985,
+        "max_drawdown_day_order_units": 9.120000000000001
+      },
+      "equal": {
+        "n": 54,
+        "hits": 37,
+        "hit_rate": 0.6851851851851852,
+        "log_loss": 0.5762298384095866,
+        "brier_multiclass": 0.38775206505114074,
+        "roi": -0.18870370370370365,
+        "net": -10.189999999999998,
+        "max_drawdown_day_order_units": 11.069999999999999
+      },
+      "fixed_50_50": {
+        "n": 54,
+        "hits": 37,
+        "hit_rate": 0.6851851851851852,
+        "log_loss": 0.5935992823966864,
+        "brier_multiclass": 0.4030930340334782,
+        "roi": -0.17611111111111108,
+        "net": -9.509999999999998,
+        "max_drawdown_day_order_units": 11.000000000000002
+      },
+      "fixed_share": {
+        "n": 54,
+        "hits": 37,
+        "hit_rate": 0.6851851851851852,
+        "log_loss": 0.5739870417392677,
+        "brier_multiclass": 0.38583542900222717,
+        "roi": -0.18870370370370365,
+        "net": -10.189999999999998,
+        "max_drawdown_day_order_units": 11.069999999999999
+      }
+    },
+    "league:bk:박신자컵": {
+      "market": {
+        "n": 21,
+        "hits": 16,
+        "hit_rate": 0.7619047619047619,
+        "log_loss": 0.5672569559500853,
+        "brier_multiclass": 0.37550941709430424,
+        "roi": -0.019047619047619053,
+        "net": -0.40000000000000013,
+        "max_drawdown_day_order_units": 2.21
+      },
+      "equal": {
+        "n": 21,
+        "hits": 16,
+        "hit_rate": 0.7619047619047619,
+        "log_loss": 0.5850296227378697,
+        "brier_multiclass": 0.3940150216872221,
+        "roi": -0.014285714285714287,
+        "net": -0.30000000000000004,
+        "max_drawdown_day_order_units": 2.91
+      },
+      "fixed_50_50": {
+        "n": 21,
+        "hits": 16,
+        "hit_rate": 0.7619047619047619,
+        "log_loss": 0.6035766712567051,
+        "brier_multiclass": 0.4123332631884211,
+        "roi": -0.014285714285714287,
+        "net": -0.30000000000000004,
+        "max_drawdown_day_order_units": 2.91
+      },
+      "fixed_share": {
+        "n": 21,
+        "hits": 16,
+        "hit_rate": 0.7619047619047619,
+        "log_loss": 0.5808506798244392,
+        "brier_multiclass": 0.3900396642074352,
+        "roi": -0.014285714285714287,
+        "net": -0.30000000000000004,
+        "max_drawdown_day_order_units": 2.91
+      }
+    },
+    "league:sc:U23아컵Q": {
+      "market": {
+        "n": 1,
+        "hits": 1,
+        "hit_rate": 1.0,
+        "log_loss": 0.4289956055183586,
+        "brier_multiclass": 0.1834072471606274,
+        "roi": 0.32000000000000006,
+        "net": 0.32000000000000006,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "equal": {
+        "n": 1,
+        "hits": 1,
+        "hit_rate": 1.0,
+        "log_loss": 0.5170646094281359,
+        "brier_multiclass": 0.24500024323604544,
+        "roi": 0.32000000000000006,
+        "net": 0.32000000000000006,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "fixed_50_50": {
+        "n": 1,
+        "hits": 1,
+        "hit_rate": 1.0,
+        "log_loss": 0.5890870511767025,
+        "brier_multiclass": 0.2973962642187457,
+        "roi": 0.32000000000000006,
+        "net": 0.32000000000000006,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "fixed_share": {
+        "n": 1,
+        "hits": 1,
+        "hit_rate": 1.0,
+        "log_loss": 0.4996428781196273,
+        "brier_multiclass": 0.23257468686983168,
+        "roi": 0.32000000000000006,
+        "net": 0.32000000000000006,
+        "max_drawdown_day_order_units": 0.0
+      }
+    },
+    "league:vl:남배세계": {
+      "market": {
+        "n": 41,
+        "hits": 23,
+        "hit_rate": 0.5609756097560976,
+        "log_loss": 0.7205190045398498,
+        "brier_multiclass": 0.5162790476600595,
+        "roi": -0.3039024390243903,
+        "net": -12.460000000000003,
+        "max_drawdown_day_order_units": 12.970000000000002
+      },
+      "equal": {
+        "n": 41,
+        "hits": 24,
+        "hit_rate": 0.5853658536585366,
+        "log_loss": 0.678491480595272,
+        "brier_multiclass": 0.4843056614272758,
+        "roi": -0.25829268292682933,
+        "net": -10.590000000000002,
+        "max_drawdown_day_order_units": 11.2
+      },
+      "fixed_50_50": {
+        "n": 41,
+        "hits": 23,
+        "hit_rate": 0.5609756097560976,
+        "log_loss": 0.6740658525135479,
+        "brier_multiclass": 0.48074546436479504,
+        "roi": -0.2907317073170732,
+        "net": -11.920000000000002,
+        "max_drawdown_day_order_units": 12.430000000000003
+      },
+      "fixed_share": {
+        "n": 41,
+        "hits": 24,
+        "hit_rate": 0.5853658536585366,
+        "log_loss": 0.6884677765407766,
+        "brier_multiclass": 0.49257342811138344,
+        "roi": -0.25829268292682933,
+        "net": -10.590000000000002,
+        "max_drawdown_day_order_units": 11.2
+      }
+    },
+    "league:vl:KOVO컵남": {
+      "market": {
+        "n": 3,
+        "hits": 3,
+        "hit_rate": 1.0,
+        "log_loss": 0.5249076781780744,
+        "brier_multiclass": 0.3341010660635715,
+        "roi": 0.47333333333333333,
+        "net": 1.42,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "equal": {
+        "n": 3,
+        "hits": 3,
+        "hit_rate": 1.0,
+        "log_loss": 0.5202010154239808,
+        "brier_multiclass": 0.3290764486705818,
+        "roi": 0.47333333333333333,
+        "net": 1.42,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "fixed_50_50": {
+        "n": 3,
+        "hits": 3,
+        "hit_rate": 1.0,
+        "log_loss": 0.5258659227123692,
+        "brier_multiclass": 0.33472120583288345,
+        "roi": 0.47333333333333333,
+        "net": 1.42,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "fixed_share": {
+        "n": 3,
+        "hits": 3,
+        "hit_rate": 1.0,
+        "log_loss": 0.5191739802385927,
+        "brier_multiclass": 0.32814485573615043,
+        "roi": 0.47333333333333333,
+        "net": 1.42,
+        "max_drawdown_day_order_units": 0.0
+      }
+    },
+    "league:sc:인터컨컵": {
+      "market": {
+        "n": 4,
+        "hits": 2,
+        "hit_rate": 0.5,
+        "log_loss": 1.0285353704503388,
+        "brier_multiclass": 0.6242548662404686,
+        "roi": -0.3,
+        "net": -1.2,
+        "max_drawdown_day_order_units": 1.2
+      },
+      "equal": {
+        "n": 4,
+        "hits": 2,
+        "hit_rate": 0.5,
+        "log_loss": 1.0685927320282809,
+        "brier_multiclass": 0.6421744736168333,
+        "roi": -0.3,
+        "net": -1.2,
+        "max_drawdown_day_order_units": 1.2
+      },
+      "fixed_50_50": {
+        "n": 4,
+        "hits": 2,
+        "hit_rate": 0.5,
+        "log_loss": 1.091507211540205,
+        "brier_multiclass": 0.6582369370674148,
+        "roi": -0.3,
+        "net": -1.2,
+        "max_drawdown_day_order_units": 1.2
+      },
+      "fixed_share": {
+        "n": 4,
+        "hits": 2,
+        "hit_rate": 0.5,
+        "log_loss": 1.0629178258975784,
+        "brier_multiclass": 0.6390432715527627,
+        "roi": -0.3,
+        "net": -1.2,
+        "max_drawdown_day_order_units": 1.2
+      }
+    },
+    "league:sc:U20월드": {
+      "market": {
+        "n": 48,
+        "hits": 24,
+        "hit_rate": 0.5,
+        "log_loss": 1.0056896343078368,
+        "brier_multiclass": 0.5972109853197063,
+        "roi": -0.1970833333333333,
+        "net": -9.459999999999999,
+        "max_drawdown_day_order_units": 11.919999999999998
+      },
+      "equal": {
+        "n": 48,
+        "hits": 25,
+        "hit_rate": 0.5208333333333334,
+        "log_loss": 1.011641240279692,
+        "brier_multiclass": 0.6040995987130791,
+        "roi": -0.145,
+        "net": -6.959999999999999,
+        "max_drawdown_day_order_units": 10.73
+      },
+      "fixed_50_50": {
+        "n": 48,
+        "hits": 24,
+        "hit_rate": 0.5,
+        "log_loss": 1.0164311536517012,
+        "brier_multiclass": 0.6081758525800188,
+        "roi": -0.131875,
+        "net": -6.33,
+        "max_drawdown_day_order_units": 8.809999999999999
+      },
+      "fixed_share": {
+        "n": 48,
+        "hits": 25,
+        "hit_rate": 0.5208333333333334,
+        "log_loss": 1.0103215165072144,
+        "brier_multiclass": 0.6028177085536758,
+        "roi": -0.145,
+        "net": -6.959999999999999,
+        "max_drawdown_day_order_units": 10.73
+      }
+    },
+    "quarter:2025Q4": {
+      "market": {
+        "n": 3103,
+        "hits": 1779,
+        "hit_rate": 0.573316145665485,
+        "log_loss": 0.855356255401813,
+        "brier_multiclass": 0.5282733327830337,
+        "roi": -0.11397357396068336,
+        "net": -353.6600000000005,
+        "max_drawdown_day_order_units": 357.7100000000005
+      },
+      "equal": {
+        "n": 3103,
+        "hits": 1777,
+        "hit_rate": 0.572671608121173,
+        "log_loss": 0.8633416510198858,
+        "brier_multiclass": 0.5334131809983257,
+        "roi": -0.1096809539155659,
+        "net": -340.340000000001,
+        "max_drawdown_day_order_units": 344.390000000001
+      },
+      "fixed_50_50": {
+        "n": 3103,
+        "hits": 1784,
+        "hit_rate": 0.5749274895262649,
+        "log_loss": 0.8701147605722153,
+        "brier_multiclass": 0.5382282637525068,
+        "roi": -0.0957911698356431,
+        "net": -297.2400000000006,
+        "max_drawdown_day_order_units": 301.2900000000006
+      },
+      "fixed_share": {
+        "n": 3103,
+        "hits": 1771,
+        "hit_rate": 0.5707379954882372,
+        "log_loss": 0.8618053847389846,
+        "brier_multiclass": 0.532368772274843,
+        "roi": -0.11640992587818264,
+        "net": -361.2200000000007,
+        "max_drawdown_day_order_units": 365.2700000000007
+      }
+    },
+    "league:sc:캄페오컵": {
+      "market": {
+        "n": 1,
+        "hits": 1,
+        "hit_rate": 1.0,
+        "log_loss": 0.7657817575643657,
+        "brier_multiclass": 0.4298066246557533,
+        "roi": 0.8500000000000001,
+        "net": 0.8500000000000001,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "equal": {
+        "n": 1,
+        "hits": 1,
+        "hit_rate": 1.0,
+        "log_loss": 0.8862780242782865,
+        "brier_multiclass": 0.5226880100845382,
+        "roi": 0.8500000000000001,
+        "net": 0.8500000000000001,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "fixed_50_50": {
+        "n": 1,
+        "hits": 1,
+        "hit_rate": 1.0,
+        "log_loss": 0.96570794381712,
+        "brier_multiclass": 0.5806416824619584,
+        "roi": 0.8500000000000001,
+        "net": 0.8500000000000001,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "fixed_share": {
+        "n": 1,
+        "hits": 1,
+        "hit_rate": 1.0,
+        "log_loss": 0.8707279979391547,
+        "brier_multiclass": 0.5109281102445172,
+        "roi": 0.8500000000000001,
+        "net": 0.8500000000000001,
+        "max_drawdown_day_order_units": 0.0
+      }
+    },
+    "league:bs:야INTL": {
+      "market": {
+        "n": 3,
+        "hits": 3,
+        "hit_rate": 1.0,
+        "log_loss": 0.267673717118621,
+        "brier_multiclass": 0.11438527928330085,
+        "roi": 0.14000000000000004,
+        "net": 0.42000000000000015,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "equal": {
+        "n": 3,
+        "hits": 3,
+        "hit_rate": 1.0,
+        "log_loss": 0.3869810207357151,
+        "brier_multiclass": 0.20708130266880778,
+        "roi": 0.14000000000000004,
+        "net": 0.42000000000000015,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "fixed_50_50": {
+        "n": 3,
+        "hits": 3,
+        "hit_rate": 1.0,
+        "log_loss": 0.4529387550008542,
+        "brier_multiclass": 0.2658437736515919,
+        "roi": 0.14000000000000004,
+        "net": 0.42000000000000015,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "fixed_share": {
+        "n": 3,
+        "hits": 3,
+        "hit_rate": 1.0,
+        "log_loss": 0.38183016735809755,
+        "brier_multiclass": 0.20260986679747042,
+        "roi": 0.14000000000000004,
+        "net": 0.42000000000000015,
+        "max_drawdown_day_order_units": 0.0
+      }
+    },
+    "league:sc:U남축INT": {
+      "market": {
+        "n": 3,
+        "hits": 2,
+        "hit_rate": 0.6666666666666666,
+        "log_loss": 1.0518391106965115,
+        "brier_multiclass": 0.6047023396961915,
+        "roi": 0.09000000000000001,
+        "net": 0.27,
+        "max_drawdown_day_order_units": 1.0
+      },
+      "equal": {
+        "n": 3,
+        "hits": 2,
+        "hit_rate": 0.6666666666666666,
+        "log_loss": 0.9301123623940523,
+        "brier_multiclass": 0.5459477836886667,
+        "roi": 0.09000000000000001,
+        "net": 0.27,
+        "max_drawdown_day_order_units": 1.0
+      },
+      "fixed_50_50": {
+        "n": 3,
+        "hits": 2,
+        "hit_rate": 0.6666666666666666,
+        "log_loss": 0.9111527334385118,
+        "brier_multiclass": 0.5364762753052975,
+        "roi": 0.09000000000000001,
+        "net": 0.27,
+        "max_drawdown_day_order_units": 1.0
+      },
+      "fixed_share": {
+        "n": 3,
+        "hits": 2,
+        "hit_rate": 0.6666666666666666,
+        "log_loss": 0.9282378345879359,
+        "brier_multiclass": 0.5441195846806454,
+        "roi": 0.09000000000000001,
+        "net": 0.27,
+        "max_drawdown_day_order_units": 1.0
+      }
+    },
+    "league:bk:남농월예": {
+      "market": {
+        "n": 135,
+        "hits": 92,
+        "hit_rate": 0.6814814814814815,
+        "log_loss": 0.6112950419226361,
+        "brier_multiclass": 0.42257486821271073,
+        "roi": -0.18037037037037026,
+        "net": -24.349999999999987,
+        "max_drawdown_day_order_units": 25.03999999999999
+      },
+      "equal": {
+        "n": 135,
+        "hits": 95,
+        "hit_rate": 0.7037037037037037,
+        "log_loss": 0.6155193697585177,
+        "brier_multiclass": 0.42595891872826563,
+        "roi": -0.13881481481481472,
+        "net": -18.739999999999988,
+        "max_drawdown_day_order_units": 19.42999999999999
+      },
+      "fixed_50_50": {
+        "n": 135,
+        "hits": 97,
+        "hit_rate": 0.7185185185185186,
+        "log_loss": 0.6314623629866397,
+        "brier_multiclass": 0.4401748944320209,
+        "roi": -0.09925925925925928,
+        "net": -13.400000000000004,
+        "max_drawdown_day_order_units": 14.090000000000003
+      },
+      "fixed_share": {
+        "n": 135,
+        "hits": 94,
+        "hit_rate": 0.6962962962962963,
+        "log_loss": 0.6127429947002383,
+        "brier_multiclass": 0.42362736935255646,
+        "roi": -0.15414814814814812,
+        "net": -20.809999999999995,
+        "max_drawdown_day_order_units": 21.499999999999996
+      }
+    },
+    "league:sc:K승강PO": {
+      "market": {
+        "n": 4,
+        "hits": 0,
+        "hit_rate": 0.0,
+        "log_loss": 1.308846549638854,
+        "brier_multiclass": 0.8098203287086362,
+        "roi": -1.0,
+        "net": -4.0,
+        "max_drawdown_day_order_units": 4.0
+      },
+      "equal": {
+        "n": 4,
+        "hits": 1,
+        "hit_rate": 0.25,
+        "log_loss": 1.1676820988032202,
+        "brier_multiclass": 0.7157385206562394,
+        "roi": -0.25,
+        "net": -1.0,
+        "max_drawdown_day_order_units": 2.0
+      },
+      "fixed_50_50": {
+        "n": 4,
+        "hits": 2,
+        "hit_rate": 0.5,
+        "log_loss": 1.0977027257594445,
+        "brier_multiclass": 0.6686538581121633,
+        "roi": 0.48750000000000004,
+        "net": 1.9500000000000002,
+        "max_drawdown_day_order_units": 1.0
+      },
+      "fixed_share": {
+        "n": 4,
+        "hits": 1,
+        "hit_rate": 0.25,
+        "log_loss": 1.1829549708363785,
+        "brier_multiclass": 0.7260104779792166,
+        "roi": -0.25,
+        "net": -1.0,
+        "max_drawdown_day_order_units": 2.0
+      }
+    },
+    "league:bk:NBA컵": {
+      "market": {
+        "n": 1,
+        "hits": 1,
+        "hit_rate": 1.0,
+        "log_loss": 0.6161861394238172,
+        "brier_multiclass": 0.42320000000000013,
+        "roi": 0.6100000000000001,
+        "net": 0.6100000000000001,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "equal": {
+        "n": 1,
+        "hits": 1,
+        "hit_rate": 1.0,
+        "log_loss": 0.6149831477750927,
+        "brier_multiclass": 0.4220048332625984,
+        "roi": 0.6100000000000001,
+        "net": 0.6100000000000001,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "fixed_50_50": {
+        "n": 1,
+        "hits": 1,
+        "hit_rate": 1.0,
+        "log_loss": 0.6052435445520997,
+        "brier_multiclass": 0.4123383347792535,
+        "roi": 0.6100000000000001,
+        "net": 0.6100000000000001,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "fixed_share": {
+        "n": 1,
+        "hits": 1,
+        "hit_rate": 1.0,
+        "log_loss": 0.6157757017564331,
+        "brier_multiclass": 0.4227922037174341,
+        "roi": 0.6100000000000001,
+        "net": 0.6100000000000001,
+        "max_drawdown_day_order_units": 0.0
+      }
+    },
+    "league:sc:아네이션": {
+      "market": {
+        "n": 52,
+        "hits": 33,
+        "hit_rate": 0.6346153846153846,
+        "log_loss": 0.816679703884498,
+        "brier_multiclass": 0.4794566756221359,
+        "roi": -0.021730769230769206,
+        "net": -1.1299999999999988,
+        "max_drawdown_day_order_units": 6.11
+      },
+      "equal": {
+        "n": 52,
+        "hits": 32,
+        "hit_rate": 0.6153846153846154,
+        "log_loss": 0.874704070865145,
+        "brier_multiclass": 0.5112678328162165,
+        "roi": -0.06749999999999998,
+        "net": -3.509999999999999,
+        "max_drawdown_day_order_units": 7.69
+      },
+      "fixed_50_50": {
+        "n": 52,
+        "hits": 32,
+        "hit_rate": 0.6153846153846154,
+        "log_loss": 0.9117685838419178,
+        "brier_multiclass": 0.5355616578853903,
+        "roi": -0.06749999999999998,
+        "net": -3.509999999999999,
+        "max_drawdown_day_order_units": 7.69
+      },
+      "fixed_share": {
+        "n": 52,
+        "hits": 32,
+        "hit_rate": 0.6153846153846154,
+        "log_loss": 0.864683295293565,
+        "brier_multiclass": 0.5051929465895205,
+        "roi": -0.06749999999999998,
+        "net": -3.509999999999999,
+        "max_drawdown_day_order_units": 7.69
+      }
+    },
+    "year:2026": {
+      "market": {
+        "n": 8133,
+        "hits": 4600,
+        "hit_rate": 0.5655969506947006,
+        "log_loss": 0.8034021572005106,
+        "brier_multiclass": 0.5183987289086632,
+        "roi": -0.12414115332595588,
+        "net": -1009.6399999999992,
+        "max_drawdown_day_order_units": 1016.0499999999994
+      },
+      "equal": {
+        "n": 8133,
+        "hits": 4578,
+        "hit_rate": 0.5628919218000737,
+        "log_loss": 0.8094797819391376,
+        "brier_multiclass": 0.5226109600991518,
+        "roi": -0.1281568916758884,
+        "net": -1042.3000000000004,
+        "max_drawdown_day_order_units": 1044.9200000000003
+      },
+      "fixed_50_50": {
+        "n": 8133,
+        "hits": 4538,
+        "hit_rate": 0.5579736874462068,
+        "log_loss": 0.8141900816763133,
+        "brier_multiclass": 0.5261674761837069,
+        "roi": -0.13298290913562033,
+        "net": -1081.5500000000002,
+        "max_drawdown_day_order_units": 1082.73
+      },
+      "fixed_share": {
+        "n": 8133,
+        "hits": 4584,
+        "hit_rate": 0.5636296569531538,
+        "log_loss": 0.8083373572274254,
+        "brier_multiclass": 0.5218136014195508,
+        "roi": -0.1274917004795281,
+        "net": -1036.890000000002,
+        "max_drawdown_day_order_units": 1039.5100000000018
+      }
+    },
+    "quarter:2026Q1": {
+      "market": {
+        "n": 3002,
+        "hits": 1720,
+        "hit_rate": 0.5729513657561626,
+        "log_loss": 0.8415960222174406,
+        "brier_multiclass": 0.522867333988569,
+        "roi": -0.1368221185876084,
+        "net": -410.7400000000004,
+        "max_drawdown_day_order_units": 413.55000000000035
+      },
+      "equal": {
+        "n": 3002,
+        "hits": 1709,
+        "hit_rate": 0.5692871419053964,
+        "log_loss": 0.8490489040216396,
+        "brier_multiclass": 0.5282958559759876,
+        "roi": -0.14191872085276497,
+        "net": -426.0400000000004,
+        "max_drawdown_day_order_units": 428.85000000000036
+      },
+      "fixed_50_50": {
+        "n": 3002,
+        "hits": 1690,
+        "hit_rate": 0.5629580279813458,
+        "log_loss": 0.8549318797964593,
+        "brier_multiclass": 0.5328270498903669,
+        "roi": -0.14925716189207208,
+        "net": -448.0700000000004,
+        "max_drawdown_day_order_units": 448.5800000000003
+      },
+      "fixed_share": {
+        "n": 3002,
+        "hits": 1709,
+        "hit_rate": 0.5692871419053964,
+        "log_loss": 0.8478559992991499,
+        "brier_multiclass": 0.5274002687889988,
+        "roi": -0.1432345103264492,
+        "net": -429.9900000000005,
+        "max_drawdown_day_order_units": 432.80000000000047
+      }
+    },
+    "league:sc:U23아컵": {
+      "market": {
+        "n": 32,
+        "hits": 13,
+        "hit_rate": 0.40625,
+        "log_loss": 1.0638741959183113,
+        "brier_multiclass": 0.6362310994260294,
+        "roi": -0.393125,
+        "net": -12.58,
+        "max_drawdown_day_order_units": 13.280000000000001
+      },
+      "equal": {
+        "n": 32,
+        "hits": 13,
+        "hit_rate": 0.40625,
+        "log_loss": 1.0540160440557635,
+        "brier_multiclass": 0.633952452541349,
+        "roi": -0.393125,
+        "net": -12.58,
+        "max_drawdown_day_order_units": 13.280000000000001
+      },
+      "fixed_50_50": {
+        "n": 32,
+        "hits": 14,
+        "hit_rate": 0.4375,
+        "log_loss": 1.0588899094493782,
+        "brier_multiclass": 0.638376415754266,
+        "roi": -0.2853125,
+        "net": -9.13,
+        "max_drawdown_day_order_units": 9.83
+      },
+      "fixed_share": {
+        "n": 32,
+        "hits": 13,
+        "hit_rate": 0.40625,
+        "log_loss": 1.054557180701906,
+        "brier_multiclass": 0.6339406325979366,
+        "roi": -0.393125,
+        "net": -12.58,
+        "max_drawdown_day_order_units": 13.280000000000001
+      }
+    },
+    "league:sc:J1백년": {
+      "market": {
+        "n": 276,
+        "hits": 130,
+        "hit_rate": 0.47101449275362317,
+        "log_loss": 1.0637397431548985,
+        "brier_multiclass": 0.6417552675128795,
+        "roi": -0.0800362318840579,
+        "net": -22.08999999999998,
+        "max_drawdown_day_order_units": 39.379999999999995
+      },
+      "equal": {
+        "n": 276,
+        "hits": 119,
+        "hit_rate": 0.4311594202898551,
+        "log_loss": 1.0650983889379178,
+        "brier_multiclass": 0.6435224421195229,
+        "roi": -0.16637681159420287,
+        "net": -45.919999999999995,
+        "max_drawdown_day_order_units": 54.05
+      },
+      "fixed_50_50": {
+        "n": 276,
+        "hits": 119,
+        "hit_rate": 0.4311594202898551,
+        "log_loss": 1.0679384669343999,
+        "brier_multiclass": 0.645407832062444,
+        "roi": -0.15376811594202897,
+        "net": -42.44,
+        "max_drawdown_day_order_units": 51.81
+      },
+      "fixed_share": {
+        "n": 276,
+        "hits": 119,
+        "hit_rate": 0.4311594202898551,
+        "log_loss": 1.0649040812313284,
+        "brier_multiclass": 0.6433219633318882,
+        "roi": -0.16637681159420287,
+        "net": -45.919999999999995,
+        "max_drawdown_day_order_units": 54.05
+      }
+    },
+    "league:sc:J2J3백년": {
+      "market": {
+        "n": 165,
+        "hits": 66,
+        "hit_rate": 0.4,
+        "log_loss": 1.079623968636716,
+        "brier_multiclass": 0.6523887724076599,
+        "roi": -0.19721212121212126,
+        "net": -32.540000000000006,
+        "max_drawdown_day_order_units": 37.72000000000001
+      },
+      "equal": {
+        "n": 165,
+        "hits": 73,
+        "hit_rate": 0.44242424242424244,
+        "log_loss": 1.0782810204755764,
+        "brier_multiclass": 0.6515123810247867,
+        "roi": -0.07884848484848479,
+        "net": -13.009999999999991,
+        "max_drawdown_day_order_units": 25.709999999999997
+      },
+      "fixed_50_50": {
+        "n": 165,
+        "hits": 72,
+        "hit_rate": 0.43636363636363634,
+        "log_loss": 1.077576296333253,
+        "brier_multiclass": 0.6513323622705824,
+        "roi": -0.09284848484848486,
+        "net": -15.320000000000002,
+        "max_drawdown_day_order_units": 28.020000000000007
+      },
+      "fixed_share": {
+        "n": 165,
+        "hits": 67,
+        "hit_rate": 0.40606060606060607,
+        "log_loss": 1.0785150057560626,
+        "brier_multiclass": 0.6516730190034615,
+        "roi": -0.18066666666666675,
+        "net": -29.810000000000013,
+        "max_drawdown_day_order_units": 36.88000000000002
+      }
+    },
+    "league:sc:C챔피언": {
+      "market": {
+        "n": 25,
+        "hits": 13,
+        "hit_rate": 0.52,
+        "log_loss": 0.9291193671572543,
+        "brier_multiclass": 0.5514510695511834,
+        "roi": -0.23999999999999996,
+        "net": -5.999999999999999,
+        "max_drawdown_day_order_units": 8.719999999999999
+      },
+      "equal": {
+        "n": 25,
+        "hits": 14,
+        "hit_rate": 0.56,
+        "log_loss": 0.9537497456502199,
+        "brier_multiclass": 0.5706235033467714,
+        "roi": -0.122,
+        "net": -3.05,
+        "max_drawdown_day_order_units": 6.930000000000001
+      },
+      "fixed_50_50": {
+        "n": 25,
+        "hits": 15,
+        "hit_rate": 0.6,
+        "log_loss": 0.9791525085770132,
+        "brier_multiclass": 0.5888286926750218,
+        "roi": -0.014000000000000004,
+        "net": -0.3500000000000001,
+        "max_drawdown_day_order_units": 4.65
+      },
+      "fixed_share": {
+        "n": 25,
+        "hits": 14,
+        "hit_rate": 0.56,
+        "log_loss": 0.9506650763785859,
+        "brier_multiclass": 0.5684414813955224,
+        "roi": -0.122,
+        "net": -3.05,
+        "max_drawdown_day_order_units": 6.930000000000001
+      }
+    },
+    "league:sc:K슈퍼컵": {
+      "market": {
+        "n": 1,
+        "hits": 1,
+        "hit_rate": 1.0,
+        "log_loss": 0.7044091373166572,
+        "brier_multiclass": 0.38427011368305625,
+        "roi": 0.74,
+        "net": 0.74,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "equal": {
+        "n": 1,
+        "hits": 1,
+        "hit_rate": 1.0,
+        "log_loss": 0.7382961437174506,
+        "brier_multiclass": 0.4089732968251801,
+        "roi": 0.74,
+        "net": 0.74,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "fixed_50_50": {
+        "n": 1,
+        "hits": 1,
+        "hit_rate": 1.0,
+        "log_loss": 0.7723467319904059,
+        "brier_multiclass": 0.4342855162266822,
+        "roi": 0.74,
+        "net": 0.74,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "fixed_share": {
+        "n": 1,
+        "hits": 1,
+        "hit_rate": 1.0,
+        "log_loss": 0.7360586648183561,
+        "brier_multiclass": 0.40731851877291314,
+        "roi": 0.74,
+        "net": 0.74,
+        "max_drawdown_day_order_units": 0.0
+      }
+    },
+    "league:bs:WBC": {
+      "market": {
+        "n": 36,
+        "hits": 26,
+        "hit_rate": 0.7222222222222222,
+        "log_loss": 0.5232565573404122,
+        "brier_multiclass": 0.3501765756823102,
+        "roi": -0.1311111111111111,
+        "net": -4.72,
+        "max_drawdown_day_order_units": 5.71
+      },
+      "equal": {
+        "n": 36,
+        "hits": 26,
+        "hit_rate": 0.7222222222222222,
+        "log_loss": 0.5671290739490293,
+        "brier_multiclass": 0.3810768628937013,
+        "roi": -0.1297222222222222,
+        "net": -4.67,
+        "max_drawdown_day_order_units": 5.58
+      },
+      "fixed_50_50": {
+        "n": 36,
+        "hits": 26,
+        "hit_rate": 0.7222222222222222,
+        "log_loss": 0.5932867756700758,
+        "brier_multiclass": 0.40350033405851643,
+        "roi": -0.1297222222222222,
+        "net": -4.67,
+        "max_drawdown_day_order_units": 5.58
+      },
+      "fixed_share": {
+        "n": 36,
+        "hits": 27,
+        "hit_rate": 0.75,
+        "log_loss": 0.5639782128395845,
+        "brier_multiclass": 0.3786085733198008,
+        "roi": -0.08249999999999999,
+        "net": -2.9699999999999998,
+        "max_drawdown_day_order_units": 4.71
+      }
+    },
+    "league:sc:여축아컵": {
+      "market": {
+        "n": 8,
+        "hits": 5,
+        "hit_rate": 0.625,
+        "log_loss": 0.9639483814105899,
+        "brier_multiclass": 0.5742227472178058,
+        "roi": -0.09375000000000006,
+        "net": -0.7500000000000004,
+        "max_drawdown_day_order_units": 2.0300000000000002
+      },
+      "equal": {
+        "n": 8,
+        "hits": 5,
+        "hit_rate": 0.625,
+        "log_loss": 0.978640467568267,
+        "brier_multiclass": 0.5881865181499225,
+        "roi": -0.09375000000000006,
+        "net": -0.7500000000000004,
+        "max_drawdown_day_order_units": 2.0300000000000002
+      },
+      "fixed_50_50": {
+        "n": 8,
+        "hits": 5,
+        "hit_rate": 0.625,
+        "log_loss": 0.9996376195155607,
+        "brier_multiclass": 0.603525042221417,
+        "roi": -0.09375000000000006,
+        "net": -0.7500000000000004,
+        "max_drawdown_day_order_units": 2.0300000000000002
+      },
+      "fixed_share": {
+        "n": 8,
+        "hits": 5,
+        "hit_rate": 0.625,
+        "log_loss": 0.982700516889579,
+        "brier_multiclass": 0.5912081349730444,
+        "roi": -0.09375000000000006,
+        "net": -0.7500000000000004,
+        "max_drawdown_day_order_units": 2.0300000000000002
+      }
+    },
+    "league:bk:여농월예": {
+      "market": {
+        "n": 17,
+        "hits": 14,
+        "hit_rate": 0.8235294117647058,
+        "log_loss": 0.46319130201969116,
+        "brier_multiclass": 0.29488130097010107,
+        "roi": -0.01235294117647056,
+        "net": -0.20999999999999952,
+        "max_drawdown_day_order_units": 1.5099999999999998
+      },
+      "equal": {
+        "n": 17,
+        "hits": 14,
+        "hit_rate": 0.8235294117647058,
+        "log_loss": 0.49644527096548385,
+        "brier_multiclass": 0.3152273083336634,
+        "roi": -0.01235294117647056,
+        "net": -0.20999999999999952,
+        "max_drawdown_day_order_units": 1.5099999999999998
+      },
+      "fixed_50_50": {
+        "n": 17,
+        "hits": 14,
+        "hit_rate": 0.8235294117647058,
+        "log_loss": 0.5279186414398884,
+        "brier_multiclass": 0.3416362851767388,
+        "roi": -0.01235294117647056,
+        "net": -0.20999999999999952,
+        "max_drawdown_day_order_units": 1.5099999999999998
+      },
+      "fixed_share": {
+        "n": 17,
+        "hits": 14,
+        "hit_rate": 0.8235294117647058,
+        "log_loss": 0.4862556366174027,
+        "brier_multiclass": 0.30768034722388937,
+        "roi": -0.01235294117647056,
+        "net": -0.20999999999999952,
+        "max_drawdown_day_order_units": 1.5099999999999998
+      }
+    },
+    "quarter:2026Q2": {
+      "market": {
+        "n": 3398,
+        "hits": 1900,
+        "hit_rate": 0.559152442613302,
+        "log_loss": 0.7881552607750401,
+        "brier_multiclass": 0.5178756514353401,
+        "roi": -0.12071218363743381,
+        "net": -410.1800000000001,
+        "max_drawdown_day_order_units": 412.9300000000001
+      },
+      "equal": {
+        "n": 3398,
+        "hits": 1899,
+        "hit_rate": 0.5588581518540318,
+        "log_loss": 0.7935209687958046,
+        "brier_multiclass": 0.5213583413191576,
+        "roi": -0.12009711595055932,
+        "net": -408.09000000000054,
+        "max_drawdown_day_order_units": 411.38000000000056
+      },
+      "fixed_50_50": {
+        "n": 3398,
+        "hits": 1895,
+        "hit_rate": 0.5576809888169512,
+        "log_loss": 0.7976454235977886,
+        "brier_multiclass": 0.5243739387183391,
+        "roi": -0.1176809888169512,
+        "net": -399.88000000000017,
+        "max_drawdown_day_order_units": 402.76000000000016
+      },
+      "fixed_share": {
+        "n": 3398,
+        "hits": 1898,
+        "hit_rate": 0.5585638610947616,
+        "log_loss": 0.7925045578177782,
+        "brier_multiclass": 0.520702227843573,
+        "roi": -0.12133902295467935,
+        "net": -412.31000000000046,
+        "max_drawdown_day_order_units": 415.19000000000045
+      }
+    },
+    "league:sc:축월드컵": {
+      "market": {
+        "n": 94,
+        "hits": 59,
+        "hit_rate": 0.6276595744680851,
+        "log_loss": 0.852558349389864,
+        "brier_multiclass": 0.5063703839688575,
+        "roi": -0.05287234042553196,
+        "net": -4.970000000000004,
+        "max_drawdown_day_order_units": 9.92
+      },
+      "equal": {
+        "n": 94,
+        "hits": 57,
+        "hit_rate": 0.6063829787234043,
+        "log_loss": 0.8952422669674752,
+        "brier_multiclass": 0.5274008600450465,
+        "roi": -0.09691489361702128,
+        "net": -9.110000000000001,
+        "max_drawdown_day_order_units": 9.97
+      },
+      "fixed_50_50": {
+        "n": 94,
+        "hits": 56,
+        "hit_rate": 0.5957446808510638,
+        "log_loss": 0.925881513096838,
+        "brier_multiclass": 0.5466029524322836,
+        "roi": -0.11819148936170217,
+        "net": -11.110000000000003,
+        "max_drawdown_day_order_units": 11.970000000000002
+      },
+      "fixed_share": {
+        "n": 94,
+        "hits": 59,
+        "hit_rate": 0.6276595744680851,
+        "log_loss": 0.8781141535799071,
+        "brier_multiclass": 0.5175185492321284,
+        "roi": -0.04829787234042554,
+        "net": -4.540000000000001,
+        "max_drawdown_day_order_units": 7.069999999999999
+      }
+    },
+    "quarter:2026Q3": {
+      "market": {
+        "n": 1733,
+        "hits": 980,
+        "hit_rate": 0.5654933641084824,
+        "log_loss": 0.7671361279293347,
+        "brier_multiclass": 0.5116835903076725,
+        "roi": -0.10889786497403361,
+        "net": -188.72000000000025,
+        "max_drawdown_day_order_units": 196.7000000000002
+      },
+      "equal": {
+        "n": 1733,
+        "hits": 970,
+        "hit_rate": 0.5597230236583959,
+        "log_loss": 0.7722273541084256,
+        "brier_multiclass": 0.5152193508620859,
+        "roi": -0.12012117714945195,
+        "net": -208.17000000000021,
+        "max_drawdown_day_order_units": 210.9200000000002
+      },
+      "fixed_50_50": {
+        "n": 1733,
+        "hits": 953,
+        "hit_rate": 0.5499134448932487,
+        "log_loss": 0.7760549808074001,
+        "brier_multiclass": 0.5181480878628337,
+        "roi": -0.13479515291402203,
+        "net": -233.60000000000016,
+        "max_drawdown_day_order_units": 236.80000000000015
+      },
+      "fixed_share": {
+        "n": 1733,
+        "hits": 977,
+        "hit_rate": 0.5637622619734565,
+        "log_loss": 0.7709252908077288,
+        "brier_multiclass": 0.5143152009395158,
+        "roi": -0.11228505481823439,
+        "net": -194.5900000000002,
+        "max_drawdown_day_order_units": 197.34000000000017
+      }
+    },
+    "league:bk:여농INTL": {
+      "market": {
+        "n": 2,
+        "hits": 2,
+        "hit_rate": 1.0,
+        "log_loss": 0.15238994241151207,
+        "brier_multiclass": 0.04022265747185154,
+        "roi": 0.025000000000000022,
+        "net": 0.050000000000000044,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "equal": {
+        "n": 2,
+        "hits": 2,
+        "hit_rate": 1.0,
+        "log_loss": 0.2913568521736418,
+        "brier_multiclass": 0.12786471072966885,
+        "roi": 0.025000000000000022,
+        "net": 0.050000000000000044,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "fixed_50_50": {
+        "n": 2,
+        "hits": 2,
+        "hit_rate": 1.0,
+        "log_loss": 0.3619485657602197,
+        "brier_multiclass": 0.18448999870591207,
+        "roi": 0.025000000000000022,
+        "net": 0.050000000000000044,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "fixed_share": {
+        "n": 2,
+        "hits": 2,
+        "hit_rate": 1.0,
+        "log_loss": 0.2759044463185568,
+        "brier_multiclass": 0.11638554290778723,
+        "roi": 0.025000000000000022,
+        "net": 0.050000000000000044,
+        "max_drawdown_day_order_units": 0.0
+      }
+    },
+    "league:bk:남농친선": {
+      "market": {
+        "n": 1,
+        "hits": 1,
+        "hit_rate": 1.0,
+        "log_loss": 0.13772580015985794,
+        "brier_multiclass": 0.033108036837194196,
+        "roi": 0.010000000000000009,
+        "net": 0.010000000000000009,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "equal": {
+        "n": 1,
+        "hits": 1,
+        "hit_rate": 1.0,
+        "log_loss": 0.2798098701968937,
+        "brier_multiclass": 0.119142817246445,
+        "roi": 0.010000000000000009,
+        "net": 0.010000000000000009,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "fixed_50_50": {
+        "n": 1,
+        "hits": 1,
+        "hit_rate": 1.0,
+        "log_loss": 0.3529069411828126,
+        "brier_multiclass": 0.17684287352437478,
+        "roi": 0.010000000000000009,
+        "net": 0.010000000000000009,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "fixed_share": {
+        "n": 1,
+        "hits": 1,
+        "hit_rate": 1.0,
+        "log_loss": 0.26390945307006713,
+        "brier_multiclass": 0.10760802505304698,
+        "roi": 0.010000000000000009,
+        "net": 0.010000000000000009,
+        "max_drawdown_day_order_units": 0.0
+      }
+    },
+    "league:vl:여배아선": {
+      "market": {
+        "n": 1,
+        "hits": 1,
+        "hit_rate": 1.0,
+        "log_loss": 0.3101549283038396,
+        "brier_multiclass": 0.14222222222222225,
+        "roi": 0.19999999999999996,
+        "net": 0.19999999999999996,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "equal": {
+        "n": 1,
+        "hits": 1,
+        "hit_rate": 1.0,
+        "log_loss": 0.42379376458277396,
+        "brier_multiclass": 0.23865916073780397,
+        "roi": 0.19999999999999996,
+        "net": 0.19999999999999996,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "fixed_50_50": {
+        "n": 1,
+        "hits": 1,
+        "hit_rate": 1.0,
+        "log_loss": 0.48143839740734196,
+        "brier_multiclass": 0.29201002837648865,
+        "roi": 0.19999999999999996,
+        "net": 0.19999999999999996,
+        "max_drawdown_day_order_units": 0.0
+      },
+      "fixed_share": {
+        "n": 1,
+        "hits": 1,
+        "hit_rate": 1.0,
+        "log_loss": 0.40388852843555206,
+        "brier_multiclass": 0.22082192568719572,
+        "roi": 0.19999999999999996,
+        "net": 0.19999999999999996,
+        "max_drawdown_day_order_units": 0.0
+      }
+    }
+  },
+  "paired_day_bootstrap_500_95pct": {
+    "log_loss_difference": [
+      0.004051502711548971,
+      0.005927843362781848
+    ],
+    "roi_difference": [
+      -0.0030786223063741514,
+      0.009805968850605001
+    ]
+  }
+}
