@@ -1,11 +1,27 @@
 {
- "status":"retrospective_complete_forward_blocked",
- "branch":"codex/kbo-pitching-evidence-20261108c",
- "base":"f293e7397c2197dfdca783b77d90853a8e918c5d",
- "protocol_commit":"8fe0f4ca",
- "commit":"See git rev-parse HEAD",
- "pr":null,
- "paths":["experiments/kbo-pitching-evidence-20261108c/REPORT.md","experiments/kbo-pitching-evidence-20261108c/summary.json","experiments/kbo-pitching-evidence-20261108c/predictions.jsonl.gz","experiments/kbo-pitching-evidence-20261108c/forward-audit.json","tests/test_kbo_pitching_evidence_20261108c.py"],
- "tests":["python -X utf8 -m unittest discover -s tests -p test_kbo_pitching_evidence_20261108c.py -v: 4 passed","git diff --check"],
- "limits":["26 retrospective matched 2026 games, previously inspected","target starter from postgame box, historical receipt not established","forward 0 of 3 complete player-ID to pitch-count joins","2025 draw price selection bias","full-game two-way only; no H/UO evaluation","no production or operational policy changes"]
+  "status": "retrospective_complete_forward_blocked",
+  "branch": "codex/kbo-pitching-evidence-20261108c",
+  "base": "f293e7397c2197dfdca783b77d90853a8e918c5d",
+  "protocol_commit": "8fe0f4ca",
+  "commit": "0a7e3fe6 (experiment); current head includes handoff update",
+  "pr": "https://github.com/choigod1023/proto-odds-research/pull/658",
+  "paths": [
+    "experiments/kbo-pitching-evidence-20261108c/REPORT.md",
+    "experiments/kbo-pitching-evidence-20261108c/summary.json",
+    "experiments/kbo-pitching-evidence-20261108c/predictions.jsonl.gz",
+    "experiments/kbo-pitching-evidence-20261108c/forward-audit.json",
+    "tests/test_kbo_pitching_evidence_20261108c.py"
+  ],
+  "tests": [
+    "python -X utf8 -m unittest discover -s tests -p test_kbo_pitching_evidence_20261108c.py -v: 4 passed",
+    "git diff --check"
+  ],
+  "limits": [
+    "26 retrospective matched 2026 games, previously inspected",
+    "target starter from postgame box, historical receipt not established",
+    "forward 0 of 3 complete player-ID to pitch-count joins",
+    "2025 draw price selection bias",
+    "full-game two-way only; no H/UO evaluation",
+    "no production or operational policy changes"
+  ]
 }
