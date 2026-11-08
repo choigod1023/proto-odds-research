@@ -1,0 +1,434 @@
+{
+  "opportunities": 114,
+  "common_settled": 75,
+  "excluded": {},
+  "incomplete_or_pending": 39,
+  "replay_matches": 114,
+  "common": {
+    "price_first": {
+      "opportunities": 75,
+      "settled": 75,
+      "decided": 75,
+      "hits": 36,
+      "pending": 0,
+      "refunds": 0,
+      "hit_rate": 0.48,
+      "roi": -0.22066666666666668,
+      "net_units": "-16.55",
+      "average_odds": 1.6141333333333334,
+      "maximum_drawdown_units": "19.16",
+      "by_market": {
+        "승무패": 6,
+        "승패": 10,
+        "언더오버": 30,
+        "핸디캡": 29
+      }
+    },
+    "probability_first": {
+      "opportunities": 75,
+      "settled": 75,
+      "decided": 75,
+      "hits": 47,
+      "pending": 0,
+      "refunds": 0,
+      "hit_rate": 0.6266666666666667,
+      "roi": -0.142,
+      "net_units": "-10.65",
+      "average_odds": 1.4042666666666666,
+      "maximum_drawdown_units": "11.85",
+      "by_market": {
+        "승무패": 12,
+        "승패": 26,
+        "언더오버": 14,
+        "핸디캡": 23
+      },
+      "delta_vs_current": {
+        "n": 75,
+        "dates": 3,
+        "low_information": true,
+        "hit_rate_delta95": [
+          -0.2,
+          0.20454545454545453
+        ],
+        "roi_delta95": [
+          -0.32199999999999995,
+          0.19863636363636367
+        ]
+      },
+      "changed": 42
+    },
+    "primary_only": {
+      "opportunities": 75,
+      "settled": 75,
+      "decided": 75,
+      "hits": 44,
+      "pending": 0,
+      "refunds": 0,
+      "hit_rate": 0.5866666666666667,
+      "roi": -0.0656,
+      "net_units": "-4.92",
+      "average_odds": 1.6764000000000001,
+      "maximum_drawdown_units": "9.46",
+      "by_market": {
+        "승무패": 46,
+        "승패": 29
+      },
+      "delta_vs_current": {
+        "n": 75,
+        "dates": 3,
+        "low_information": true,
+        "hit_rate_delta95": [
+          -0.2,
+          0.15384615384615385
+        ],
+        "roi_delta95": [
+          -0.32199999999999995,
+          0.21863636363636366
+        ]
+      },
+      "changed": 59
+    }
+  },
+  "by_sport": {
+    "bk": {
+      "price_first": {
+        "opportunities": 23,
+        "settled": 23,
+        "decided": 23,
+        "hits": 11,
+        "pending": 0,
+        "refunds": 0,
+        "hit_rate": 0.4782608695652174,
+        "roi": -0.20391304347826086,
+        "net_units": "-4.69",
+        "average_odds": 1.671304347826087,
+        "maximum_drawdown_units": "7.29",
+        "by_market": {
+          "승패": 5,
+          "언더오버": 6,
+          "핸디캡": 12
+        }
+      },
+      "probability_first": {
+        "opportunities": 23,
+        "settled": 23,
+        "decided": 23,
+        "hits": 17,
+        "pending": 0,
+        "refunds": 0,
+        "hit_rate": 0.7391304347826086,
+        "roi": -0.018695652173913044,
+        "net_units": "-0.43",
+        "average_odds": 1.3604347826086955,
+        "maximum_drawdown_units": "3.92",
+        "by_market": {
+          "승패": 22,
+          "핸디캡": 1
+        },
+        "delta_vs_current": {
+          "n": 23,
+          "dates": 3,
+          "low_information": true,
+          "hit_rate_delta95": [
+            0.0,
+            0.35714285714285715
+          ],
+          "roi_delta95": [
+            -0.1414285714285714,
+            0.375
+          ]
+        },
+        "changed": 17
+      },
+      "primary_only": {
+        "opportunities": 23,
+        "settled": 23,
+        "decided": 23,
+        "hits": 17,
+        "pending": 0,
+        "refunds": 0,
+        "hit_rate": 0.7391304347826086,
+        "roi": -0.018695652173913044,
+        "net_units": "-0.43",
+        "average_odds": 1.430869565217391,
+        "maximum_drawdown_units": "3.92",
+        "by_market": {
+          "승패": 23
+        },
+        "delta_vs_current": {
+          "n": 23,
+          "dates": 3,
+          "low_information": true,
+          "hit_rate_delta95": [
+            0.0,
+            0.35714285714285715
+          ],
+          "roi_delta95": [
+            -0.1414285714285714,
+            0.375
+          ]
+        },
+        "changed": 18
+      }
+    },
+    "bs": {
+      "price_first": {
+        "opportunities": 2,
+        "settled": 2,
+        "decided": 2,
+        "hits": 1,
+        "pending": 0,
+        "refunds": 0,
+        "hit_rate": 0.5,
+        "roi": -0.195,
+        "net_units": "-0.39",
+        "average_odds": 1.56,
+        "maximum_drawdown_units": "1.00",
+        "by_market": {
+          "승패": 1,
+          "언더오버": 1
+        }
+      },
+      "probability_first": {
+        "opportunities": 2,
+        "settled": 2,
+        "decided": 2,
+        "hits": 1,
+        "pending": 0,
+        "refunds": 0,
+        "hit_rate": 0.5,
+        "roi": -0.315,
+        "net_units": "-0.63",
+        "average_odds": 1.3050000000000002,
+        "maximum_drawdown_units": "1",
+        "by_market": {
+          "핸디캡": 2
+        },
+        "delta_vs_current": {
+          "n": 2,
+          "dates": 2,
+          "low_information": true,
+          "hit_rate_delta95": [
+            -1.0,
+            1.0
+          ],
+          "roi_delta95": [
+            -1.6099999999999999,
+            1.37
+          ]
+        },
+        "changed": 2
+      },
+      "primary_only": {
+        "opportunities": 2,
+        "settled": 2,
+        "decided": 2,
+        "hits": 0,
+        "pending": 0,
+        "refunds": 0,
+        "hit_rate": 0.0,
+        "roi": -1.0,
+        "net_units": "-2",
+        "average_odds": 1.655,
+        "maximum_drawdown_units": "2",
+        "by_market": {
+          "승패": 2
+        },
+        "delta_vs_current": {
+          "n": 2,
+          "dates": 2,
+          "low_information": true,
+          "hit_rate_delta95": [
+            -1.0,
+            0.0
+          ],
+          "roi_delta95": [
+            -1.6099999999999999,
+            0.0
+          ]
+        },
+        "changed": 1
+      }
+    },
+    "sc": {
+      "price_first": {
+        "opportunities": 46,
+        "settled": 46,
+        "decided": 46,
+        "hits": 24,
+        "pending": 0,
+        "refunds": 0,
+        "hit_rate": 0.5217391304347826,
+        "roi": -0.1623913043478261,
+        "net_units": "-7.47",
+        "average_odds": 1.607391304347826,
+        "maximum_drawdown_units": "9.34",
+        "by_market": {
+          "승무패": 6,
+          "언더오버": 23,
+          "핸디캡": 17
+        }
+      },
+      "probability_first": {
+        "opportunities": 46,
+        "settled": 46,
+        "decided": 46,
+        "hits": 29,
+        "pending": 0,
+        "refunds": 0,
+        "hit_rate": 0.6304347826086957,
+        "roi": -0.12152173913043478,
+        "net_units": "-5.59",
+        "average_odds": 1.4317391304347826,
+        "maximum_drawdown_units": "6.96",
+        "by_market": {
+          "승무패": 12,
+          "언더오버": 14,
+          "핸디캡": 20
+        },
+        "delta_vs_current": {
+          "n": 46,
+          "dates": 2,
+          "low_information": true,
+          "hit_rate_delta95": [
+            0.10526315789473684,
+            0.11111111111111116
+          ],
+          "roi_delta95": [
+            -0.01263157894736841,
+            0.07851851851851853
+          ]
+        },
+        "changed": 23
+      },
+      "primary_only": {
+        "opportunities": 46,
+        "settled": 46,
+        "decided": 46,
+        "hits": 27,
+        "pending": 0,
+        "refunds": 0,
+        "hit_rate": 0.5869565217391305,
+        "roi": 0.03282608695652174,
+        "net_units": "1.51",
+        "average_odds": 1.825,
+        "maximum_drawdown_units": "7.63",
+        "by_market": {
+          "승무패": 46
+        },
+        "delta_vs_current": {
+          "n": 46,
+          "dates": 2,
+          "low_information": true,
+          "hit_rate_delta95": [
+            0.0,
+            0.1578947368421053
+          ],
+          "roi_delta95": [
+            0.16185185185185186,
+            0.24263157894736842
+          ]
+        },
+        "changed": 40
+      }
+    },
+    "vl": {
+      "price_first": {
+        "opportunities": 4,
+        "settled": 4,
+        "decided": 4,
+        "hits": 0,
+        "pending": 0,
+        "refunds": 0,
+        "hit_rate": 0.0,
+        "roi": -1.0,
+        "net_units": "-4",
+        "average_odds": 1.39,
+        "maximum_drawdown_units": "4",
+        "by_market": {
+          "승패": 4
+        }
+      },
+      "probability_first": {
+        "opportunities": 4,
+        "settled": 4,
+        "decided": 4,
+        "hits": 0,
+        "pending": 0,
+        "refunds": 0,
+        "hit_rate": 0.0,
+        "roi": -1.0,
+        "net_units": "-4",
+        "average_odds": 1.39,
+        "maximum_drawdown_units": "4",
+        "by_market": {
+          "승패": 4
+        },
+        "delta_vs_current": {
+          "n": 4,
+          "dates": 2,
+          "low_information": true,
+          "hit_rate_delta95": [
+            0.0,
+            0.0
+          ],
+          "roi_delta95": [
+            0.0,
+            0.0
+          ]
+        },
+        "changed": 0
+      },
+      "primary_only": {
+        "opportunities": 4,
+        "settled": 4,
+        "decided": 4,
+        "hits": 0,
+        "pending": 0,
+        "refunds": 0,
+        "hit_rate": 0.0,
+        "roi": -1.0,
+        "net_units": "-4",
+        "average_odds": 1.39,
+        "maximum_drawdown_units": "4",
+        "by_market": {
+          "승패": 4
+        },
+        "delta_vs_current": {
+          "n": 4,
+          "dates": 2,
+          "low_information": true,
+          "hit_rate_delta95": [
+            0.0,
+            0.0
+          ],
+          "roi_delta95": [
+            0.0,
+            0.0
+          ]
+        },
+        "changed": 0
+      }
+    }
+  },
+  "date_blocks": [
+    "2026-11-06",
+    "2026-11-07",
+    "2026-11-08"
+  ],
+  "limits": [
+    "Exploratory frozen-offer sensitivity, not new probability-model validation",
+    "Rules can choose different markets: same event and frozen snapshot, different products",
+    "API-selected export is incomplete and does not authenticate the whole ledger hash chain",
+    "Outcomes come from saved official grades, not newly independently fetched score originals",
+    "Small date-block count and already examined outcomes do not support deployment or future-profit claims"
+  ],
+  "source": {
+    "sha256": "5667e855f7696798fea7411bee9b1f286f2204517bec775b8e175781371e171e",
+    "captured_at": "2026-11-08T06:50:33.554575+00:00",
+    "rows": 903,
+    "selection": "exact snapshot IDs already in public API; all original revisions for those IDs",
+    "complete_ledger": false,
+    "full_chain_verified": false
+  }
+}
