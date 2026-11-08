@@ -30,7 +30,7 @@ python scripts/diagnose_nba_shot_clock.py --archive <보존본_디렉터리> --a
 
 ```
 python scripts/audit_nba_shots.py --archive <보존본_디렉터리> --out <출력_디렉터리>
-python -m unittest scripts.test_audit_nba_shots -v
+python -m pytest tests/test_nba_shot_location_audit.py -v
 ```
 
 원문 대량 배포 없이 경기별 파생 집계만 보존했다. 원문은 별도 보존본에서 읽으며 보존된 404 본문을 검증한다. 결과는 사후 ESPN 수신본이며 당시 경기 전 가용성을 증명하지 않는다. 사전 예측에는 목표 경기의 슛을 사용할 수 없고, 과거 경기 D-4 이력만 후보로 사용할 수 있다. D-4는 보수적인 대리 기준일 뿐 실제 가용 시각의 증거가 아니다. 존 입력, 예측 적중률, ROI 향상, 실전 수익성은 검증하지 않았다.
