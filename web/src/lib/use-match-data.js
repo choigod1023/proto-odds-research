@@ -1,7 +1,8 @@
 import {useEffect, useState} from 'react';
 import {readMatchJson} from './match-data.js';
+import {MATCH_LIST_REFRESH_MS} from './match-refresh-notice.js';
 
-export function useMatchData(path, everyMs=60000) {
+export function useMatchData(path, everyMs=MATCH_LIST_REFRESH_MS) {
   const [state,setState]=useState({path:null,data:null,checked:false,error:false});
   const [attempt,setAttempt]=useState(0);
   useEffect(()=>{
