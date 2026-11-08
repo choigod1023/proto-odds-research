@@ -579,9 +579,29 @@ class PredictionRuntime:
                 continue
             settlement = settlements.get(prediction["snapshot_id"]) or {}
             grade = (settlement.get("outcome") or {}).get("featured_pick_result")
+            features = prediction.get("features") or {}
+            hybrid = features.get("tipster_hybrid") or {}
+            selection_policy = (prediction.get("model") or {}).get("selection_policy") or hybrid.get("version") or "unknown"
+            selection_source = "unknown"
+            selection_model = None
+            if pick.get("market") in {"승패", "승무패"}:
+                if hybrid.get("selection_source") == "market_fallback" or hybrid.get("status") == "market_fallback":
+                    selection_source = "market_fallback"
+                elif selection_policy == "tipster-vote-v1" and hybrid.get("status") == "applied" and type(hybrid.get("authors")) is int and hybrid["authors"] > 0:
+                    selection_source = "tipster_vote"
+            else:
+                items = ((prediction.get("predictions") or {}).get("market_recommendations") or {}).get("items") or []
+                matched = [item for item in items if all(item.get(key) == pick.get(key)
+                           for key in ("selection_id", "offer_id", "market", "label", "line", "odds", "settlement_rule"))]
+                if len(matched) == 1:
+                    selection_source = matched[0].get("selection_source") or "unknown"
+                    selection_model = matched[0].get("model")
             result[event] = dict(pick=pick, result=grade, prediction_snapshot_id=prediction["snapshot_id"],
                                  captured_at=prediction["captured_at"], kickoff=prediction["kickoff"],
-                                 settled_at=settlement.get("settled_at"))
+                                 settled_at=settlement.get("settled_at"),
+                                 fixture=_safe_json(features.get("fixture") or {}),
+                                 selection_source=selection_source, selection_model=selection_model,
+                                 selection_policy=selection_policy)
         return result
 
     def market_records(self, *, events=None) -> dict[str, dict[str, Any]]:

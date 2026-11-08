@@ -94,7 +94,7 @@ def attach(document, records):
     return changed
 
 
-def performance(records):
+def _performance(records):
     """One unit per settled fixture, refunds excluded from hit rate only."""
     grades = [record["result"] for record in records.values() if record["result"]]
     hits = sum(grade["result"] == "hit" for grade in grades)
@@ -105,3 +105,27 @@ def performance(records):
                 hits=hits, decided=decided, refunds=refunds, net_units=str(net),
                 hit_rate=hits / decided if decided else None,
                 roi=float(net / len(grades)) if grades else None)
+
+
+def performance(records):
+    """Retain the same ledger cohort while exposing its sport and market mix."""
+    result = _performance(records)
+    for field, name in (("sport", "by_sport"), ("league", "by_league"),
+                        ("market", "by_market"), ("selection_source", "by_selection_source"),
+                        ("selection_policy", "by_policy")):
+        groups = defaultdict(dict)
+        for event, record in records.items():
+            if field in {"sport", "league"}:
+                key = (record.get("fixture") or {}).get(field)
+            elif field == "market":
+                key = (record.get("pick") or {}).get(field)
+            else:
+                key = record.get(field)
+            groups[str(key or "unknown")][event] = record
+        result[name] = {key: _performance(group) for key, group in sorted(groups.items())}
+    result["selection_rule"] = {
+        "version": VERSION, "preferred_odds": PREFERRED_ODDS,
+        "probability_basis": "normalized_inverse_market",
+        "validated_edge": False,
+    }
+    return result
