@@ -1,9 +1,21 @@
 {
   "branch": "codex/regime-changepoint-20261108b",
   "base": "f293e7397c2197dfdca783b77d90853a8e918c5d",
-  "commit": "resolve branch HEAD with git rev-parse HEAD; self-referential commit hashes cannot be embedded in the same commit",
-  "pr": "see branch pull request on GitHub",
-  "paths": ["experiments/regime-changepoint-20261108b/PROTOCOL.md", "experiments/regime-changepoint-20261108b/REPORT.md", "experiments/regime-changepoint-20261108b/run.py", "experiments/regime-changepoint-20261108b/summary.json", "experiments/regime-changepoint-20261108b/predictions.jsonl.gz", "experiments/regime-changepoint-20261108b/test_regime_changepoint.py"],
-  "tests": ["pytest: 3 passed", "independent Decimal replay: 4143 matched events per model; all net totals agree", "day+4 weekend/month boundary and future/current outcome perturbation", "probability normalization and draw exclusion"],
+  "commit": "25c51d857c40f472e987c0a4cd9fa3718d1e05da (research implementation; branch HEAD includes this handoff update)",
+  "pr": "https://github.com/choigod1023/proto-odds-research/pull/646",
+  "paths": [
+    "experiments/regime-changepoint-20261108b/PROTOCOL.md",
+    "experiments/regime-changepoint-20261108b/REPORT.md",
+    "experiments/regime-changepoint-20261108b/run.py",
+    "experiments/regime-changepoint-20261108b/summary.json",
+    "experiments/regime-changepoint-20261108b/predictions.jsonl.gz",
+    "experiments/regime-changepoint-20261108b/test_regime_changepoint.py"
+  ],
+  "tests": [
+    "pytest: 3 passed",
+    "independent Decimal replay: 4143 matched events per model; all net totals agree",
+    "day+4 weekend/month boundary and future/current outcome perturbation",
+    "probability normalization and draw exclusion"
+  ],
   "status": "research only; draft PR requested; not merged, deployed, adopted, or traded; soccer posthoc nondraw diagnostic only; baseball/basketball primary"
 }
