@@ -5,10 +5,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path[:0] = [str(ROOT / 'src'), str(ROOT / 'scripts')]
 from bets import SEL_NAMES
-from same_line_research_rules_20261108 import canonical_options, partition
+from same_line_research_rules_20261108 import canonical_options, partition, valid_odds, matching_offer, before_cutoff
 
 class SameLineRulesTest(unittest.TestCase):
-    def row(self, round_no=1, capture='2026-11-01T09:30:00+00:00', kickoff='2026-11-01T10:00:00+00:00'):
+    def row(self, round_no=1, capture='2026-11-01T09:29:59+00:00', kickoff='2026-11-01T10:00:00+00:00'):
         return {'fixture_key': [round_no, 'sc', 'league', 'home', 'away', '11.01'],
                 'round': round_no, 'kickoff': kickoff, 'record_captured_at': capture}
 
@@ -27,16 +27,33 @@ class SameLineRulesTest(unittest.TestCase):
         pre, late, duplicates = partition([a, b, c])
         self.assertEqual((pre, late, duplicates), ([c], [], 2))
 
-    def test_t30_is_inclusive_and_late_and_missing_are_separate(self):
-        on_time = self.row()
+    def test_t30_boundary_and_late_and_missing_are_excluded(self):
+        on_time = self.row(capture='2026-11-01T09:29:59+00:00')
+        boundary = self.row(4, capture='2026-11-01T09:30:00+00:00')
+        boundary['fixture_key'][3] = 'boundary'
         late = self.row(2, capture='2026-11-01T09:30:01+00:00', kickoff='2026-11-01T10:00:00+00:00')
         late['fixture_key'][3] = 'other'
         missing = self.row(3, capture=None)
         missing['fixture_key'][3] = 'third'
-        pre, excluded, duplicates = partition([on_time, late, missing])
+        pre, excluded, duplicates = partition([on_time, late, missing, boundary])
         self.assertEqual(pre, [on_time])
-        self.assertEqual(excluded, [late, missing])
+        self.assertEqual(excluded, [late, missing, boundary])
         self.assertEqual(duplicates, 0)
+
+    def test_observation_boundary_is_strict(self):
+        from datetime import datetime
+        cutoff = datetime.fromisoformat('2026-11-01T09:30:00+00:00')
+        self.assertTrue(before_cutoff('2026-11-01T09:29:59+00:00', cutoff))
+        self.assertFalse(before_cutoff('2026-11-01T09:30:00+00:00', cutoff))
+        self.assertFalse(before_cutoff('2026-11-01T09:30:01+00:00', cutoff))
+
+    def test_nonfinite_prices_and_offer_identity(self):
+        self.assertTrue(valid_odds([1.5, 2.0]))
+        for value in (float('nan'), float('inf'), float('-inf'), True):
+            self.assertFalse(valid_odds([1.5, value]))
+        self.assertTrue(matching_offer({'offer_id': 'a'}, {'offer_id': 'a'}))
+        self.assertFalse(matching_offer({}, {}))
+        self.assertFalse(matching_offer({'offer_id': 'a'}, {'offer_id': 'b'}))
 
     def test_actual_artifact_aggregation(self):
         import json

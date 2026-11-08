@@ -6,7 +6,7 @@
   "report": "experiments\\same-line-market-evidence-20261108\\report.md",
   "audit": "experiments\\same-line-market-evidence-20261108\\audit.json",
   "command": "python scripts/research_same_line_direction_20261108.py",
-  "matched_events": 210,
+  "matched_events": 209,
   "metrics": "direction-results.json",
   "missing": [
     "raw HTTP receipt evidence and independent settlement rules",
@@ -15,6 +15,6 @@
   "operations_modified": false,
   "model_adoption": false,
   "deployment": false,
-  "main_result": "210 events, 28 changed, +2 wins; paired day-block 95% interval -3.70 to +5.81 percentage points",
-  "correction": "canonical SEL_NAMES order; exclude all duplicate physical events and late or missing record capture"
+  "main_result": "209 events, 28 changed, +2 wins; paired day-block 95% interval -3.76 to +5.79 percentage points",
+  "correction": "strictly before T-30, finite odds, matching offer_id; canonical direction and physical duplicate exclusions"
 }
