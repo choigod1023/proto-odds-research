@@ -1,0 +1,2307 @@
+{
+  "homepage_script_sha256": "727fc2e0012d768bd8cc7c79212740aecd4096ba3bca7c81111905511873bce2",
+  "sources": [
+    {
+      "url": "https://user-api.kovo.co.kr/matches/001/seasons",
+      "status": 200,
+      "received_at": "2026-11-08T08:00:47.033163+00:00",
+      "sha256": "ce26765ac52b9eedf9704c48ae6442655f0a3b1ce72f3928bdce40e7de6ea695",
+      "bytes": 5173,
+      "content_type": "application/json;charset=UTF-8"
+    },
+    {
+      "url": "https://user-api.kovo.co.kr/matches/001/seasons/022/leagues",
+      "status": 200,
+      "received_at": "2026-11-08T08:00:47.364200+00:00",
+      "sha256": "475a435bace5238ee7493beb1985efa7ef1826e9431bd29a55cb87c8cb34ec23",
+      "bytes": 1107,
+      "content_type": "application/json;charset=UTF-8"
+    },
+    {
+      "url": "https://user-api.kovo.co.kr/games/schedules?match=001&season=022&league=201",
+      "status": 200,
+      "received_at": "2026-11-08T08:00:47.703577+00:00",
+      "sha256": "cc8f8b3eebe24d3b6bc4982365062f36b97508c39cef0946a69e1891cd07ff19",
+      "bytes": 134976,
+      "content_type": "application/json;charset=UTF-8"
+    },
+    {
+      "url": "https://user-api.kovo.co.kr/robots.txt",
+      "status": 200,
+      "received_at": "2026-11-08T08:00:48.005153+00:00",
+      "sha256": "efdb5938a9736727f5cce2b60355588e4fa541d19d022d222d8a09b8efd5dcce",
+      "bytes": 25,
+      "content_type": "text/plain;charset=UTF-8"
+    }
+  ],
+  "result_receipts": {
+    "gACIxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gACIxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:01:51.347125+00:00",
+      "sha256": "09910f178d665afe41ba794eb92f022df5f4fb43631b0e822df559421ec2e69b",
+      "number": 1,
+      "date": "2025-10-18",
+      "gender": "FEMALE"
+    },
+    "gACIyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gACIyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:01:53.810020+00:00",
+      "sha256": "c3bea8446cc06b68cead042924610513cf0259ec429d3f33217c6068608983b4",
+      "number": 2,
+      "date": "2025-10-19",
+      "gender": "FEMALE"
+    },
+    "gACIzoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gACIzoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:01:56.248441+00:00",
+      "sha256": "c6dbcc100bab10865e46f1e0e793a0504fba9337bc9961031cae631632f7c35e",
+      "number": 3,
+      "date": "2025-10-20",
+      "gender": "MALE"
+    },
+    "gACI0oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gACI0oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:01:58.711017+00:00",
+      "sha256": "76694ec6da05d96053a2d6de006caf477587e0d911390619e1e74396efbb54d5",
+      "number": 4,
+      "date": "2025-10-21",
+      "gender": "MALE"
+    },
+    "gACI1oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gACI1oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:02:01.204446+00:00",
+      "sha256": "5b7da59c48b83d2237e63c5af8abe4c6761809291fcf6bc461bb1485f9ca3537",
+      "number": 5,
+      "date": "2025-10-21",
+      "gender": "FEMALE"
+    },
+    "gACI2oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gACI2oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:02:03.657070+00:00",
+      "sha256": "a76c143dbdabed3c9de82716760179f648aa784cc52407fef3ff56c17fd7d71b",
+      "number": 6,
+      "date": "2025-10-22",
+      "gender": "MALE"
+    },
+    "gACI3oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gACI3oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:02:06.109993+00:00",
+      "sha256": "b642c81826cd7b66a36c0b85366b5c82d172803186bc96ff33df84d7b93818b7",
+      "number": 7,
+      "date": "2025-10-22",
+      "gender": "FEMALE"
+    },
+    "gACI4oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gACI4oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:02:08.590310+00:00",
+      "sha256": "85df4c265c2ac65a40049496a9ee8c0c84edf9ac108428f9c02d19da3620f79c",
+      "number": 8,
+      "date": "2025-10-23",
+      "gender": "MALE"
+    },
+    "gACI5oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gACI5oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:02:11.040443+00:00",
+      "sha256": "d9fb5be206adb9e8927f9da323fb85515590df2a8c7ec2f00e21f5e8dc53fbbf",
+      "number": 9,
+      "date": "2025-10-23",
+      "gender": "FEMALE"
+    },
+    "gACMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gACMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:02:13.462926+00:00",
+      "sha256": "961daa26573cf7f46a7176cf2d56a47ffaaf5d05101de4a43fabea8bb6c1da0a",
+      "number": 10,
+      "date": "2025-10-24",
+      "gender": "MALE"
+    },
+    "gASMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gASMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:02:15.938855+00:00",
+      "sha256": "e66fb24474cbcbb10c4c0ebef911eae3b1edfeb009bdbfce80dfe3155a37d2ca",
+      "number": 11,
+      "date": "2025-10-24",
+      "gender": "FEMALE"
+    },
+    "gAiMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAiMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:02:18.535320+00:00",
+      "sha256": "2bf64b7d26644cd02e0eff6cf69488b7e29a9dce9dedb94f02849b1c04cf8a7c",
+      "number": 12,
+      "date": "2025-10-25",
+      "gender": "MALE"
+    },
+    "gAyMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAyMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:02:20.949405+00:00",
+      "sha256": "a813018b61f6daf71079b3186555735026ef9de230bff20c43eff666688ef314",
+      "number": 13,
+      "date": "2025-10-25",
+      "gender": "FEMALE"
+    },
+    "gACNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gACNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:02:23.425989+00:00",
+      "sha256": "ec5f4f18b0319b4cda64992bf6bf073948d2b9911dcb19cd14a9472c053d5fbf",
+      "number": 14,
+      "date": "2025-10-26",
+      "gender": "MALE"
+    },
+    "gASNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gASNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:02:25.867579+00:00",
+      "sha256": "a6e5c5baac374eb8b3322fc1ad0245b8f6b6b526134f481fb5caa83935c960cc",
+      "number": 15,
+      "date": "2025-10-26",
+      "gender": "FEMALE"
+    },
+    "gAiNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAiNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:02:28.327829+00:00",
+      "sha256": "d784ecc0cca92cba67ce1a5404975cdb22e2b60ba5cda779228198386afc2935",
+      "number": 16,
+      "date": "2025-10-28",
+      "gender": "MALE"
+    },
+    "gAyNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAyNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:02:30.779242+00:00",
+      "sha256": "1d86bd7e45265414d30bf92853011c1fde51d02fc6175115a444f549d508f9ff",
+      "number": 17,
+      "date": "2025-10-28",
+      "gender": "FEMALE"
+    },
+    "gACOxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gACOxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:02:33.199566+00:00",
+      "sha256": "3b8eb807af4f85b629d28b5477f862841c3da52bdfc09be2d76700671ff99ed7",
+      "number": 18,
+      "date": "2025-10-29",
+      "gender": "MALE"
+    },
+    "gASOxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gASOxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:02:35.680582+00:00",
+      "sha256": "619912ff42bed9d84303e0de5b00e7e0a6790b471f91ea640a39c769781b73c9",
+      "number": 19,
+      "date": "2025-10-29",
+      "gender": "FEMALE"
+    },
+    "gASMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gASMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:02:38.158558+00:00",
+      "sha256": "170045030f398635b097e2246270141e7c13395213a9788163ad2943d5cee4db",
+      "number": 21,
+      "date": "2025-10-30",
+      "gender": "FEMALE"
+    },
+    "gACMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gACMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:02:40.615631+00:00",
+      "sha256": "cf3b294473cdd9347ffd9d44480cb2c3bb976375848bf15a483568387f28d7ab",
+      "number": 20,
+      "date": "2025-10-30",
+      "gender": "MALE"
+    },
+    "gAiMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAiMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:02:43.024513+00:00",
+      "sha256": "271030061a1a969507f137d22f31869155dcdb86e8c8f697e094226b6d24f355",
+      "number": 22,
+      "date": "2025-10-31",
+      "gender": "MALE"
+    },
+    "gAyMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAyMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:02:45.498091+00:00",
+      "sha256": "bb07a314655939dc2b86193862ae8497836020337765d67a6099a10dc85a385a",
+      "number": 23,
+      "date": "2025-10-31",
+      "gender": "FEMALE"
+    },
+    "gACNyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gACNyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:02:47.959881+00:00",
+      "sha256": "547e14f7c9e31b4f9401944c87fe961f81cd61b085c74009269bdb7fe504dbf2",
+      "number": 24,
+      "date": "2025-11-01",
+      "gender": "MALE"
+    },
+    "gASNyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gASNyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:02:50.416316+00:00",
+      "sha256": "448263b41427de13ed8740a30833ff067532163604eb5e53be5a7c837b6fe990",
+      "number": 25,
+      "date": "2025-11-01",
+      "gender": "FEMALE"
+    },
+    "gAiNyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAiNyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:02:52.566316+00:00",
+      "sha256": "e62936c400fc23965d4890760fa4c4a26b2027d9d686bf6507145654f66578d0",
+      "number": 26,
+      "date": "2025-11-02",
+      "gender": "MALE"
+    },
+    "gAyNyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAyNyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:02:55.026572+00:00",
+      "sha256": "56471e39cb0e0cbe4752c3c1c5608abd9c7b6b778559114b92b78419d047bb9a",
+      "number": 27,
+      "date": "2025-11-02",
+      "gender": "FEMALE"
+    },
+    "gACOyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gACOyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:02:57.497465+00:00",
+      "sha256": "4c8e48291ddb03975d8a5ff1d65567db8a27589bd4b8321265ec4ffee91496cc",
+      "number": 28,
+      "date": "2025-11-04",
+      "gender": "MALE"
+    },
+    "gASOyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gASOyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:02:59.975968+00:00",
+      "sha256": "0f9154079bfddcdfe3dee00d22067d7ec6b6ad949324e3030e8973498e75266b",
+      "number": 29,
+      "date": "2025-11-04",
+      "gender": "FEMALE"
+    },
+    "gACMzoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gACMzoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:03:02.451594+00:00",
+      "sha256": "650f8c54685fbfdf06e384a93ecc4e0746586e8cd5d18cd8ab33dc4f46a38ffb",
+      "number": 30,
+      "date": "2025-11-05",
+      "gender": "MALE"
+    },
+    "gASMzoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gASMzoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:03:04.887760+00:00",
+      "sha256": "34cfa8d0ae6de8ec72c1cfcadcca4e12c8416cad2cc0592ebc7e4fa0127b8286",
+      "number": 31,
+      "date": "2025-11-05",
+      "gender": "FEMALE"
+    },
+    "gAiMzoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAiMzoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:03:07.330058+00:00",
+      "sha256": "5c1c2b61bc1a827339c567a47b32e2de2a6209b259685d0b9f7c597766d2fec3",
+      "number": 32,
+      "date": "2025-11-06",
+      "gender": "MALE"
+    },
+    "gAyMzoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAyMzoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:03:09.852270+00:00",
+      "sha256": "393ce13bb81f355369f2a63c2479c02d9606fde7147f87c2049afc8f6b56dc15",
+      "number": 33,
+      "date": "2025-11-06",
+      "gender": "FEMALE"
+    },
+    "gASNzoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gASNzoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:03:12.343673+00:00",
+      "sha256": "dea328deb0d5ca32e03ed12bad36ef520c7a9ee29be04525820a0d16f7dbc9f3",
+      "number": 35,
+      "date": "2025-11-07",
+      "gender": "FEMALE"
+    },
+    "gACNzoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gACNzoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:03:14.480363+00:00",
+      "sha256": "e90f8903f168e7b54cf27c63e3c042544c938f135ee0caec6d8c3fc35e89e302",
+      "number": 34,
+      "date": "2025-11-07",
+      "gender": "MALE"
+    },
+    "gAiNzoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAiNzoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:03:16.909830+00:00",
+      "sha256": "2fc274e8a58fc4895b0a8a41f728b2232c8211a75ca58f66dcc03da4baba9afb",
+      "number": 36,
+      "date": "2025-11-08",
+      "gender": "MALE"
+    },
+    "gAyNzoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAyNzoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:03:19.357818+00:00",
+      "sha256": "16067052e8c726d8dfcb2bc33700fff4c7ecfcc6713ca8af3089324de6c2509d",
+      "number": 37,
+      "date": "2025-11-08",
+      "gender": "FEMALE"
+    },
+    "gACOzoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gACOzoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:03:21.845214+00:00",
+      "sha256": "83d90d8e15fe4be5694b5dc0737056a4fe7c2340b7e662637acc627ee96bba9f",
+      "number": 38,
+      "date": "2025-11-09",
+      "gender": "MALE"
+    },
+    "gASOzoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gASOzoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:03:24.315972+00:00",
+      "sha256": "4a97da99dc9d378b5967c21f66abdf389cd4de26122b2381b39389a8dbfde7c6",
+      "number": 39,
+      "date": "2025-11-09",
+      "gender": "FEMALE"
+    },
+    "gACM0oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gACM0oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:03:26.726599+00:00",
+      "sha256": "7a994f587de20224c4c660825249cd6ce2804cf43287a66226bd0a0b04ae6cac",
+      "number": 40,
+      "date": "2025-11-11",
+      "gender": "MALE"
+    },
+    "gASM0oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gASM0oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:03:29.214435+00:00",
+      "sha256": "d4d6df8166d974ea723dc85e852b7fd3b6f83934a2b286946f4c14c184b6d461",
+      "number": 41,
+      "date": "2025-11-11",
+      "gender": "FEMALE"
+    },
+    "gAiM0oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAiM0oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:03:31.641887+00:00",
+      "sha256": "e6d656f6e80e951a7afe5291ae9e6b8d0d3eda3a74608420d2b24b42a06abfa9",
+      "number": 42,
+      "date": "2025-11-12",
+      "gender": "MALE"
+    },
+    "gAyM0oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAyM0oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:03:34.141545+00:00",
+      "sha256": "5db61b2139a5fcf80d030a55f6990fca8bca6e5d8db15400ec564a178049db6f",
+      "number": 43,
+      "date": "2025-11-12",
+      "gender": "FEMALE"
+    },
+    "gACN0oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gACN0oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:03:36.625935+00:00",
+      "sha256": "927c52b40de685d6d4edb620a78cf5b548342d4fad71bdfff26d5e539bbd2491",
+      "number": 44,
+      "date": "2025-11-13",
+      "gender": "MALE"
+    },
+    "gASN0oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gASN0oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:03:39.085656+00:00",
+      "sha256": "166e14d1a67ef5d35fc7c7cc5a7eb1acd59a270239f99bca89c57f8f54c3c22f",
+      "number": 45,
+      "date": "2025-11-13",
+      "gender": "FEMALE"
+    },
+    "gAiN0oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAiN0oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:03:41.592834+00:00",
+      "sha256": "6726e6808dfb9672b96d358fd2f058119ddd720dce293851187fa800028eec7d",
+      "number": 46,
+      "date": "2025-11-14",
+      "gender": "MALE"
+    },
+    "gAyN0oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAyN0oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:03:44.036810+00:00",
+      "sha256": "d5c994a96ccf8ad112d3cc559a030f13904ae3096d290c12681481e31b0003b6",
+      "number": 47,
+      "date": "2025-11-14",
+      "gender": "FEMALE"
+    },
+    "gACO0oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gACO0oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:03:46.493902+00:00",
+      "sha256": "c7c269c68512ab7aa59edc774e2ff20f1a2dc6b269b976cd2ed3e88f2c033bce",
+      "number": 48,
+      "date": "2025-11-15",
+      "gender": "MALE"
+    },
+    "gASO0oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gASO0oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:03:48.938348+00:00",
+      "sha256": "6461e575ae5d95a9e2088a6ee2c321de0faafbd0e798aedc542483956c50b201",
+      "number": 49,
+      "date": "2025-11-15",
+      "gender": "FEMALE"
+    },
+    "gACM1oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gACM1oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:03:51.401217+00:00",
+      "sha256": "3d7d33817da7fb4187927ff6edecb9afc24f773a7b5106e74f31b652108c5c2c",
+      "number": 50,
+      "date": "2025-11-16",
+      "gender": "MALE"
+    },
+    "gASM1oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gASM1oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:03:53.834299+00:00",
+      "sha256": "3241e54d4a8dbbdd769313d72654b4c3a010aeb42da360bca3472fdf71eb4665",
+      "number": 51,
+      "date": "2025-11-16",
+      "gender": "FEMALE"
+    },
+    "gAiM1oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAiM1oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:03:56.280331+00:00",
+      "sha256": "e9b85b53b984b48827379766d79c81484c86b6a3065e7c2424615ec6984fd1a3",
+      "number": 52,
+      "date": "2025-11-18",
+      "gender": "MALE"
+    },
+    "gAyM1oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAyM1oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:03:58.800119+00:00",
+      "sha256": "0a8c18a8c5b77ac028dccda9470e9d8b3c0f76bf88894cf0841aab118d975b45",
+      "number": 53,
+      "date": "2025-11-18",
+      "gender": "FEMALE"
+    },
+    "gACN1oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gACN1oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:04:01.249343+00:00",
+      "sha256": "881c8b8d4b35e2b1fe9fd64f796187053ba03af13766bf516f9404c29bbf937c",
+      "number": 54,
+      "date": "2025-11-19",
+      "gender": "MALE"
+    },
+    "gASN1oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gASN1oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:04:03.727631+00:00",
+      "sha256": "67c435af3c376e2a18c864e011c89ef694f27fcf34584db6a09fdc1fd0fdf48e",
+      "number": 55,
+      "date": "2025-11-19",
+      "gender": "FEMALE"
+    },
+    "gAiN1oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAiN1oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:04:06.148178+00:00",
+      "sha256": "2adf2aef850db7e3ee9f4a963e2c87519d144c0b0d4df2c7db9913b213842355",
+      "number": 56,
+      "date": "2025-11-20",
+      "gender": "MALE"
+    },
+    "gAyN1oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAyN1oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:04:08.658407+00:00",
+      "sha256": "3d501b9a11fc1270194d9cfc9d529962661cec55613e10488cf778dec868abee",
+      "number": 57,
+      "date": "2025-11-20",
+      "gender": "FEMALE"
+    },
+    "gACO1oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gACO1oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:04:11.087968+00:00",
+      "sha256": "03ea1e07245e97756ef91a4bafdb11aba6785b62368554f9324b6bf918c40ed9",
+      "number": 58,
+      "date": "2025-11-21",
+      "gender": "MALE"
+    },
+    "gASO1oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gASO1oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:04:13.564383+00:00",
+      "sha256": "165d69fb94d78e998ec2ce49e02194ed7ca2e9b22e871992f2425eee74b8d2a8",
+      "number": 59,
+      "date": "2025-11-21",
+      "gender": "FEMALE"
+    },
+    "gACM2oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gACM2oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:04:16.003002+00:00",
+      "sha256": "a6c507d67d0d1fec796d09a109647b52ff5c0bd1bc16eeff9abdc7c7eb5e96ff",
+      "number": 60,
+      "date": "2025-11-22",
+      "gender": "MALE"
+    },
+    "gASM2oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gASM2oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:04:18.434537+00:00",
+      "sha256": "97ecf5a5a2f0af86370e9bea754365e2a056a22be785a14f8f77845dcf99eefc",
+      "number": 61,
+      "date": "2025-11-22",
+      "gender": "FEMALE"
+    },
+    "gAiM2oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAiM2oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:04:20.861299+00:00",
+      "sha256": "f91382c8012bc170df112c84ec95fad1685f4017086f1ea3946bb71b4d5e7098",
+      "number": 62,
+      "date": "2025-11-23",
+      "gender": "MALE"
+    },
+    "gAyM2oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAyM2oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:04:23.291820+00:00",
+      "sha256": "c157a1d6b159d69604f80694cc8b6c97ee44575ea91021a2b5c7836d3f7b2767",
+      "number": 63,
+      "date": "2025-11-23",
+      "gender": "FEMALE"
+    },
+    "gASN2oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gASN2oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:04:25.798581+00:00",
+      "sha256": "d3ea8f01dfc80a8a6ddbaf208f9a62f63ece4c10962d61d87f518a833cce56d4",
+      "number": 65,
+      "date": "2025-11-25",
+      "gender": "FEMALE"
+    },
+    "gACN2oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gACN2oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:04:28.317628+00:00",
+      "sha256": "8c397df864625076ace5ff9d820a4542e51d979354e200440ed0fab028e66cab",
+      "number": 64,
+      "date": "2025-11-25",
+      "gender": "MALE"
+    },
+    "gAiN2oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAiN2oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:04:30.745693+00:00",
+      "sha256": "51a88948667e79f1b8b950ccc148000f145a2098bb811c035cc96d8175907a9c",
+      "number": 66,
+      "date": "2025-11-26",
+      "gender": "MALE"
+    },
+    "gAyN2oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAyN2oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:04:33.259026+00:00",
+      "sha256": "977ecdd02b299d54d469a0d25bb228710fcd61d3c6a04547c1b53977e4fa273b",
+      "number": 67,
+      "date": "2025-11-26",
+      "gender": "FEMALE"
+    },
+    "gACO2oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gACO2oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:04:35.679913+00:00",
+      "sha256": "c8a3322841fe8ed2e6c51684643af127f82af58d38dcd9d32e8b5c6a8fc0b141",
+      "number": 68,
+      "date": "2025-11-27",
+      "gender": "MALE"
+    },
+    "gASO2oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gASO2oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:04:38.163680+00:00",
+      "sha256": "208b267264593e15ee04c7a6a4f91ccd58308c8b4530b9ccbbcb3aa9a9e71e71",
+      "number": 69,
+      "date": "2025-11-27",
+      "gender": "FEMALE"
+    },
+    "gACM3oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gACM3oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:04:40.627189+00:00",
+      "sha256": "dc0d3f03963ab89daadbee4c25c9cdd64fafebb1bccf406a239272a5e6c18efc",
+      "number": 70,
+      "date": "2025-11-28",
+      "gender": "MALE"
+    },
+    "gASM3oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gASM3oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:04:43.119035+00:00",
+      "sha256": "e9019f1d6b6c190d4157165baa20b47293d9ffe7c766f6f891d5782ee8d976d0",
+      "number": 71,
+      "date": "2025-11-28",
+      "gender": "FEMALE"
+    },
+    "gAiM3oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAiM3oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:04:45.569591+00:00",
+      "sha256": "0da64a6d4c046eb11af9e08981521b15c52b26814f87c30f6b41299442bc2b35",
+      "number": 72,
+      "date": "2025-11-29",
+      "gender": "MALE"
+    },
+    "gAyM3oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAyM3oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:04:48.004950+00:00",
+      "sha256": "db882fa7b746e870212fd19a41f146c4f76ad7b6c61ea927c6671dfcb03bfb5c",
+      "number": 73,
+      "date": "2025-11-29",
+      "gender": "FEMALE"
+    },
+    "gACN3oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gACN3oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:04:50.461285+00:00",
+      "sha256": "550d8c80fcd0e168963b5ce1e3a5ec845bab9248f82fece2cff12342e7cf9c8a",
+      "number": 74,
+      "date": "2025-11-30",
+      "gender": "MALE"
+    },
+    "gASN3oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gASN3oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:04:52.941891+00:00",
+      "sha256": "575c0fe563661db60d4d86492587ed76757741c266bef3f3a23bcec1ef495643",
+      "number": 75,
+      "date": "2025-11-30",
+      "gender": "FEMALE"
+    },
+    "gAiN3oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAiN3oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:04:55.411533+00:00",
+      "sha256": "1596e6b37b05d2f3c977cad4111ca674254b6f8261e7145aa23385d2a611f638",
+      "number": 76,
+      "date": "2025-12-02",
+      "gender": "MALE"
+    },
+    "gAyN3oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAyN3oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:04:57.858378+00:00",
+      "sha256": "5c1145a67b9469c923622f433ac1a2269723f2144d074a974ddc6fa9358fc78e",
+      "number": 77,
+      "date": "2025-12-02",
+      "gender": "FEMALE"
+    },
+    "gACO3oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gACO3oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:05:00.336227+00:00",
+      "sha256": "f25455b6f5ee2b89034c8b95e29fc45ee5bd92387b2d25725b3bb457edc6db7d",
+      "number": 78,
+      "date": "2025-12-03",
+      "gender": "MALE"
+    },
+    "gASO3oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gASO3oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:05:02.776593+00:00",
+      "sha256": "2aabb03a21037773747aaf9c768e704255eb0d31863cf3e72dbaa4e9f2696673",
+      "number": 79,
+      "date": "2025-12-03",
+      "gender": "FEMALE"
+    },
+    "gACM4oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gACM4oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:05:05.226108+00:00",
+      "sha256": "7de137f7cfde96d6f3c0fc04ebdd1a761d689a84423748b517367fa5af67ce37",
+      "number": 80,
+      "date": "2025-12-04",
+      "gender": "MALE"
+    },
+    "gASM4oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gASM4oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:05:07.689352+00:00",
+      "sha256": "4d2083134c5bfafd6d9d4c6b7ebec6d3cd349ecfbbe843e926ee9e86054468c5",
+      "number": 81,
+      "date": "2025-12-04",
+      "gender": "FEMALE"
+    },
+    "gAiM4oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAiM4oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:05:10.140978+00:00",
+      "sha256": "25829bf3ebcfa36f6a403667fa3ba06a6dfd995f9bca74d01abffd39bc89c06d",
+      "number": 82,
+      "date": "2025-12-05",
+      "gender": "MALE"
+    },
+    "gAyM4oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAyM4oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:05:12.619677+00:00",
+      "sha256": "863975b75760b4194fede1211947895b891d12c4a94413c482fedf0abe5b0d66",
+      "number": 83,
+      "date": "2025-12-05",
+      "gender": "FEMALE"
+    },
+    "gACN4oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gACN4oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:05:15.052073+00:00",
+      "sha256": "e5aabf9daebaf6708a86cecd21dc01d4a17eabf4ee9f2b00074d6907a563b934",
+      "number": 84,
+      "date": "2025-12-06",
+      "gender": "MALE"
+    },
+    "gASN4oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gASN4oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:05:17.484738+00:00",
+      "sha256": "8ef24507d7a6979889962dbd71c030bee7437ce9281029c8f9c4673ec6f8382a",
+      "number": 85,
+      "date": "2025-12-06",
+      "gender": "FEMALE"
+    },
+    "gAiN4oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAiN4oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:05:19.937300+00:00",
+      "sha256": "1f7a5469f6ca21cb5c358470c2c04c845d587937633d661bb55b4d23582ef9ae",
+      "number": 86,
+      "date": "2025-12-07",
+      "gender": "MALE"
+    },
+    "gAyN4oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAyN4oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:05:22.383777+00:00",
+      "sha256": "8bbca56721494f36ac58855b52f39f9efbb31c81f3583475813a83282e944692",
+      "number": 87,
+      "date": "2025-12-07",
+      "gender": "FEMALE"
+    },
+    "gACO4oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gACO4oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:05:24.850633+00:00",
+      "sha256": "beebf2fea93bbd8a3c57e1c02f66465d5a70c8b06563e94c21e594fa3d6fd82e",
+      "number": 88,
+      "date": "2025-12-09",
+      "gender": "MALE"
+    },
+    "gASO4oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gASO4oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:05:27.313260+00:00",
+      "sha256": "205d475e05fadb576def2725c6728eeabbd0410a2848c9b2da22374da537465a",
+      "number": 89,
+      "date": "2025-12-09",
+      "gender": "FEMALE"
+    },
+    "gACM5oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gACM5oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:05:29.774716+00:00",
+      "sha256": "76fab26521cdec966149d0e7d2020470d329095edca757f46d9bd27355f77ac5",
+      "number": 90,
+      "date": "2025-12-10",
+      "gender": "MALE"
+    },
+    "gASM5oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gASM5oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:05:32.222288+00:00",
+      "sha256": "003d21e017221ee61bc5318d56e265afa05885ca9e89ad12142ea17f307b7226",
+      "number": 91,
+      "date": "2025-12-10",
+      "gender": "FEMALE"
+    },
+    "gAiM5oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAiM5oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:05:34.666156+00:00",
+      "sha256": "d50eaa47df806af8795e6036eb8bab46d145d92086a45b1e70cbba61dfd214d3",
+      "number": 92,
+      "date": "2025-12-11",
+      "gender": "MALE"
+    },
+    "gAyM5oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAyM5oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:05:37.147673+00:00",
+      "sha256": "876c21b393d5da7caed1e914e3d2d28b21bc55dfb38b1b7b96efb913ec6697d9",
+      "number": 93,
+      "date": "2025-12-11",
+      "gender": "FEMALE"
+    },
+    "gACN5oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gACN5oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:05:39.605771+00:00",
+      "sha256": "f263434c996cbb84ac0aab6441f5a4bb0c9ef1b2d6022479fb48cc5bc5e57ba1",
+      "number": 94,
+      "date": "2025-12-12",
+      "gender": "MALE"
+    },
+    "gASN5oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gASN5oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:05:42.055149+00:00",
+      "sha256": "d6f35d7f9244b99dba923377613280ce290ea6cae9e8f0e081684cd2248ccbae",
+      "number": 95,
+      "date": "2025-12-12",
+      "gender": "FEMALE"
+    },
+    "gAiN5oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAiN5oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:05:44.486496+00:00",
+      "sha256": "d9d1d04f9a36cd0c07d1b025afa2b2d3a96b1278386d4039c19cf6d8d3018f3b",
+      "number": 96,
+      "date": "2025-12-13",
+      "gender": "MALE"
+    },
+    "gAyN5oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAyN5oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:05:46.956917+00:00",
+      "sha256": "5dfb6cf75ff28d2a48c9ad3b1d9dbeb49b417fb415b6a5ae8277c8a557e8c4f4",
+      "number": 97,
+      "date": "2025-12-13",
+      "gender": "FEMALE"
+    },
+    "gACO5oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gACO5oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:05:49.438159+00:00",
+      "sha256": "32ffb7c361072de445236b58629e2e506dd828b0a868abf19d6cb16b2f2eb698",
+      "number": 98,
+      "date": "2025-12-14",
+      "gender": "MALE"
+    },
+    "gASO5oTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gASO5oTMwIjOyIDM",
+      "received_at": "2026-11-08T08:05:51.920931+00:00",
+      "sha256": "bdc5c7289f867ba6c1fc6029191df20e41c3fa6570a27f6919be6bbb9636e4e2",
+      "number": 99,
+      "date": "2025-12-14",
+      "gender": "FEMALE"
+    },
+    "gADMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gADMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:05:54.381082+00:00",
+      "sha256": "1a5114e29a564ed3ae77a314edf3b6198f2c5847e009f015a25990d68e484b88",
+      "number": 100,
+      "date": "2025-12-16",
+      "gender": "MALE"
+    },
+    "gEDMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gEDMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:05:56.847900+00:00",
+      "sha256": "2bf7b8b2e5b8dd61ce6d2fd802b181cba122f5fb8fce936f014623a4c64933a4",
+      "number": 101,
+      "date": "2025-12-16",
+      "gender": "FEMALE"
+    },
+    "gIDMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gIDMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:05:59.325864+00:00",
+      "sha256": "6ddc8cf1dd6b1c3a5025bd70cde067ddb0ff9b9073ea92de790158916cd3d97f",
+      "number": 102,
+      "date": "2025-12-17",
+      "gender": "MALE"
+    },
+    "gMDMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gMDMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:06:01.809478+00:00",
+      "sha256": "c5f003183012de66ae46ea9764ab94788b9cc904cfda7df93d97ef20ca15e693",
+      "number": 103,
+      "date": "2025-12-17",
+      "gender": "FEMALE"
+    },
+    "gQDMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gQDMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:06:06.775604+00:00",
+      "sha256": "050c69085a095861b30f3ad8e89d38c4719c3e8cc74756ded9a36ca135d84b2b",
+      "number": 104,
+      "date": "2025-12-18",
+      "gender": "MALE"
+    },
+    "gUDMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gUDMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:06:09.264112+00:00",
+      "sha256": "a8a52160b624ea1adf12810a3387ab6d27855d525ccc5bf8ca9910fd78e08c68",
+      "number": 105,
+      "date": "2025-12-18",
+      "gender": "FEMALE"
+    },
+    "gYDMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gYDMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:06:11.715275+00:00",
+      "sha256": "dda0e17726fc7e122fcbf8f3230cb3d94b637f65e801ae5494b443eff01e40e6",
+      "number": 106,
+      "date": "2025-12-19",
+      "gender": "MALE"
+    },
+    "gcDMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gcDMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:06:14.193491+00:00",
+      "sha256": "2b49f59114229bdb5c9d8c60f3adad35a4feec7852085f702df2a5c3e97f1a9b",
+      "number": 107,
+      "date": "2025-12-19",
+      "gender": "FEMALE"
+    },
+    "ggDMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=ggDMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:06:16.656566+00:00",
+      "sha256": "390ecf3703a06f01e5958a8230af234b873ba28fb69415b37fb6a63d3604d68b",
+      "number": 108,
+      "date": "2025-12-20",
+      "gender": "MALE"
+    },
+    "gkDMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gkDMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:06:19.113537+00:00",
+      "sha256": "f1965e85d266ecb860b08fe8b73d91373e127276129ccfe77d327466a29fb6be",
+      "number": 109,
+      "date": "2025-12-20",
+      "gender": "FEMALE"
+    },
+    "gATMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gATMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:06:21.592729+00:00",
+      "sha256": "a5b0d4e076e09e821442ee1136f5edfaaa5037aed9a2eff80538e6565c321176",
+      "number": 110,
+      "date": "2025-12-21",
+      "gender": "MALE"
+    },
+    "gETMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gETMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:06:24.076945+00:00",
+      "sha256": "c351a5d20dcb84c4216eac115d5bbffe9d0a1bfa6b83329b3b19e5dcaa182cee",
+      "number": 111,
+      "date": "2025-12-21",
+      "gender": "FEMALE"
+    },
+    "gITMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gITMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:06:26.524586+00:00",
+      "sha256": "5ef0daa5ab39f4ce7d7db9da4858d1ff0db2fb9e05b7b4eaea39f451f3848b84",
+      "number": 112,
+      "date": "2025-12-23",
+      "gender": "MALE"
+    },
+    "gMTMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gMTMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:06:28.996824+00:00",
+      "sha256": "539fa5f69ea40264f0abdd090d20822c9c8993b02d17da1bb6e73ec9d998150e",
+      "number": 113,
+      "date": "2025-12-23",
+      "gender": "FEMALE"
+    },
+    "gQTMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gQTMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:06:31.438065+00:00",
+      "sha256": "f72ae7c582e50478fbb650925f7b79c926204d29a0325f6d8bff0dd6bc8f395d",
+      "number": 114,
+      "date": "2025-12-24",
+      "gender": "MALE"
+    },
+    "gUTMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gUTMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:06:33.923063+00:00",
+      "sha256": "61e44c6d1b747f81cce8acbe63f40edbb608363ed5a7f701243517abe47f8fa3",
+      "number": 115,
+      "date": "2025-12-24",
+      "gender": "FEMALE"
+    },
+    "gYTMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gYTMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:06:36.384341+00:00",
+      "sha256": "d6191f03ebc20d5df109a60212aa96cea7b2b16120193bfb1095c6567b44db47",
+      "number": 116,
+      "date": "2025-12-25",
+      "gender": "MALE"
+    },
+    "gcTMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gcTMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:06:38.859007+00:00",
+      "sha256": "f7093198b5426d0abef622fda22ad7bc1b3503475ae5129d24511385b6484955",
+      "number": 117,
+      "date": "2025-12-25",
+      "gender": "FEMALE"
+    },
+    "ggTMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=ggTMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:06:41.328744+00:00",
+      "sha256": "bc125b0575ef70d42fe67e8448be6e4aa184117ce4ce505a645bd6508483715e",
+      "number": 118,
+      "date": "2025-12-26",
+      "gender": "MALE"
+    },
+    "gkTMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gkTMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:06:43.774437+00:00",
+      "sha256": "e347e368fb546bb59495720d76a85bd6b54b4b36ae53aaca61384921832dad9d",
+      "number": 119,
+      "date": "2025-12-26",
+      "gender": "FEMALE"
+    },
+    "gAjMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAjMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:06:46.201954+00:00",
+      "sha256": "28935c122698bca0df37268771919edc83841d374998a2e9222701a817f78b3c",
+      "number": 120,
+      "date": "2025-12-27",
+      "gender": "MALE"
+    },
+    "gEjMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gEjMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:06:48.681959+00:00",
+      "sha256": "3795c77976f481077e0a49cfae306ec3b5b45fce8558923fa10039935fe90a59",
+      "number": 121,
+      "date": "2025-12-27",
+      "gender": "FEMALE"
+    },
+    "gIjMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gIjMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:06:51.127412+00:00",
+      "sha256": "0b96c93def00cc2111ffe79aea6a0aaf62437cd0110ef1963440994f1818faa0",
+      "number": 122,
+      "date": "2025-12-28",
+      "gender": "MALE"
+    },
+    "gMjMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gMjMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:06:53.620451+00:00",
+      "sha256": "5f6845711e379fdf94c665410c9079eb4caf11147312455d1078bf7d574138b9",
+      "number": 123,
+      "date": "2025-12-28",
+      "gender": "FEMALE"
+    },
+    "gQjMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gQjMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:06:56.061270+00:00",
+      "sha256": "e8b769b421f39a0b110d5b799b72aef8902227a097b7020656521dd675166226",
+      "number": 124,
+      "date": "2025-12-30",
+      "gender": "MALE"
+    },
+    "gUjMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gUjMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:06:58.518463+00:00",
+      "sha256": "2d6a43fb771da6fba456fc59793a1cc6772609bbf4c538a90a84b54cfd0b5be7",
+      "number": 125,
+      "date": "2025-12-30",
+      "gender": "FEMALE"
+    },
+    "gcjMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gcjMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:07:00.978159+00:00",
+      "sha256": "0d6feb4682df345c1ac1d2799c0b6677181aab22a6c2268789e582f0a5025391",
+      "number": 127,
+      "date": "2025-12-31",
+      "gender": "FEMALE"
+    },
+    "gYjMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gYjMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:07:03.405406+00:00",
+      "sha256": "ac6cba94d13b0ac5a54a2a027533e48fa0ad6a3869e5783f0f81c48ea8b6bdb6",
+      "number": 126,
+      "date": "2025-12-31",
+      "gender": "MALE"
+    },
+    "ggjMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=ggjMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:07:05.901166+00:00",
+      "sha256": "776b381a081762de63b3d8e0cdb045ab3fc9c193e1ddfb8223c4705911320f64",
+      "number": 128,
+      "date": "2026-01-01",
+      "gender": "MALE"
+    },
+    "gkjMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gkjMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:07:08.347599+00:00",
+      "sha256": "adc9d68e91664073504cf7078df3b1c82b3fe3be7908e2da3c065ad2564099ae",
+      "number": 129,
+      "date": "2026-01-01",
+      "gender": "FEMALE"
+    },
+    "gAzMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAzMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:07:10.840267+00:00",
+      "sha256": "e2f5e6dc7caa887e29e5800d5ce2e6d8cab39fa0b50da2ebb4ae89a565cb17a2",
+      "number": 130,
+      "date": "2026-01-02",
+      "gender": "MALE"
+    },
+    "gEzMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gEzMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:07:13.327106+00:00",
+      "sha256": "03df5cc670db437fac1f47951a10fa54a1642a527643f888b8109611ebd94437",
+      "number": 131,
+      "date": "2026-01-02",
+      "gender": "FEMALE"
+    },
+    "gIzMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gIzMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:07:15.748446+00:00",
+      "sha256": "af1fd988ac2c9011787d1293ff3e89d5ce79a5107389c9b679134f95d6b8a2fc",
+      "number": 132,
+      "date": "2026-01-03",
+      "gender": "MALE"
+    },
+    "gMzMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gMzMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:07:18.207756+00:00",
+      "sha256": "943a2936e13c59a70bae1013594af040bb6981d0c95c62f76a7aae760d629c5a",
+      "number": 133,
+      "date": "2026-01-03",
+      "gender": "FEMALE"
+    },
+    "gQzMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gQzMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:07:20.729848+00:00",
+      "sha256": "a1f9d9a841556ac7627735a8c0835c9b2b81531c6f54cb47b7822422462110c7",
+      "number": 134,
+      "date": "2026-01-04",
+      "gender": "MALE"
+    },
+    "gUzMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gUzMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:07:23.180944+00:00",
+      "sha256": "5d39aa27668ffe753cce1c812efc137998fd3b72c02fc31985e06fafbb738da7",
+      "number": 135,
+      "date": "2026-01-04",
+      "gender": "FEMALE"
+    },
+    "gYzMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gYzMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:07:25.645701+00:00",
+      "sha256": "79f6381e8e148eea5c0fb04ba50376d4875bfa7308573af240f5bb347f729720",
+      "number": 136,
+      "date": "2026-01-06",
+      "gender": "MALE"
+    },
+    "gczMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gczMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:07:28.107275+00:00",
+      "sha256": "604e840e593cf4b7fbdc547348298211d5377792955d1a4722ebadb23bb414a0",
+      "number": 137,
+      "date": "2026-01-06",
+      "gender": "FEMALE"
+    },
+    "ggzMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=ggzMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:07:30.591626+00:00",
+      "sha256": "2726abf0d1e64d192e8b305c8502ac12757967e9954545e2486f1db065fa0254",
+      "number": 138,
+      "date": "2026-01-07",
+      "gender": "MALE"
+    },
+    "gkzMxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gkzMxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:07:33.073672+00:00",
+      "sha256": "7184eae6e478db81b41623a4e1b476f1ba8ae864829913ad6498d1b5b4c8f6aa",
+      "number": 139,
+      "date": "2026-01-07",
+      "gender": "FEMALE"
+    },
+    "gADNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gADNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:07:35.515906+00:00",
+      "sha256": "11d79d830ebf3614a49656e9bae4b6df66c3b5271ed7842cc46d032275645f04",
+      "number": 140,
+      "date": "2026-01-08",
+      "gender": "MALE"
+    },
+    "gEDNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gEDNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:07:37.995381+00:00",
+      "sha256": "80964649c4a42ec606805c0ba8827e064e5e84858d651f6997acdf66d27800ab",
+      "number": 141,
+      "date": "2026-01-08",
+      "gender": "FEMALE"
+    },
+    "gIDNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gIDNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:07:40.426951+00:00",
+      "sha256": "7e3f1656c7a8213747891c232db5ae558ad5553e1af86db4f1bd8972ab473ed1",
+      "number": 142,
+      "date": "2026-01-09",
+      "gender": "MALE"
+    },
+    "gMDNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gMDNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:07:42.921021+00:00",
+      "sha256": "89422a02a2467dbc3dfda5967f5b1b9446625368d9ca823728c9273331018660",
+      "number": 143,
+      "date": "2026-01-09",
+      "gender": "FEMALE"
+    },
+    "gQDNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gQDNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:07:45.399073+00:00",
+      "sha256": "832ad4f60e7894dd7c6cb879f162f4253f91aa70a20d738a205ee5ec194118c8",
+      "number": 144,
+      "date": "2026-01-10",
+      "gender": "MALE"
+    },
+    "gUDNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gUDNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:07:47.853542+00:00",
+      "sha256": "6da06f01ce104c033df30941cb8993dae2216e591a4df0d957107f820247bcc8",
+      "number": 145,
+      "date": "2026-01-10",
+      "gender": "FEMALE"
+    },
+    "gYDNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gYDNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:07:50.328840+00:00",
+      "sha256": "90f8e5bc38bcaae64a8cbb5d3e0de3468179c330769c6080f6fb273a78cf2b1d",
+      "number": 146,
+      "date": "2026-01-11",
+      "gender": "MALE"
+    },
+    "gcDNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gcDNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:07:52.807960+00:00",
+      "sha256": "4ce29ecfa5acfa22d2da3e55f4d5b0a492482b7e07bca5f3c2b19c4cb83b3c87",
+      "number": 147,
+      "date": "2026-01-11",
+      "gender": "FEMALE"
+    },
+    "ggDNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=ggDNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:07:55.258072+00:00",
+      "sha256": "16bf3bd1fb69177d73f02f4cb42ccd902b7b3954039990101da5a416be85c15f",
+      "number": 148,
+      "date": "2026-01-13",
+      "gender": "MALE"
+    },
+    "gkDNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gkDNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:07:57.713411+00:00",
+      "sha256": "b3fae863b756c6dfa41dde4f68db8db49daebf81b236cd247e8b1d1bbbb679a4",
+      "number": 149,
+      "date": "2026-01-13",
+      "gender": "FEMALE"
+    },
+    "gATNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gATNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:08:00.151538+00:00",
+      "sha256": "8e4106b4efa486818ac329333bb8c3791dc6d5d07766fdf1a9188e666108994e",
+      "number": 150,
+      "date": "2026-01-14",
+      "gender": "MALE"
+    },
+    "gETNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gETNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:08:02.600006+00:00",
+      "sha256": "610748ddb4e0d1adedee8b0c6b16b6fa4365b5c620b5b1cb709210bee96adc0e",
+      "number": 151,
+      "date": "2026-01-14",
+      "gender": "FEMALE"
+    },
+    "gITNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gITNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:08:05.029891+00:00",
+      "sha256": "65891e7f9c98a50f1f3f0a306223dddbdbd10c2134252f9ce7983b1fc84ce7f2",
+      "number": 152,
+      "date": "2026-01-15",
+      "gender": "MALE"
+    },
+    "gMTNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gMTNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:08:07.499667+00:00",
+      "sha256": "f589b156c353523edebe6a8b7583c47564fd609748d808907c44fa16a5c40264",
+      "number": 153,
+      "date": "2026-01-15",
+      "gender": "FEMALE"
+    },
+    "gQTNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gQTNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:08:09.971769+00:00",
+      "sha256": "54a9f189d854a1fa215aad8dad74b9ebce45adcd09913115b1c4c82febc9a992",
+      "number": 154,
+      "date": "2026-01-16",
+      "gender": "MALE"
+    },
+    "gUTNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gUTNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:08:12.442065+00:00",
+      "sha256": "c4cea34539f2672a11f568ecfc9d658816cdc47646077c3ab935002d75650ed2",
+      "number": 155,
+      "date": "2026-01-16",
+      "gender": "FEMALE"
+    },
+    "gYTNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gYTNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:08:14.909165+00:00",
+      "sha256": "6f6e44dd4d6a0b5e3147ee593dad3b3f76086e361168ae0927c0ac020e33ca64",
+      "number": 156,
+      "date": "2026-01-17",
+      "gender": "MALE"
+    },
+    "gcTNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gcTNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:08:17.439634+00:00",
+      "sha256": "75e6348eaae136e16dc00f83295e928be229746d591f4e7d2730417d714f79ca",
+      "number": 157,
+      "date": "2026-01-17",
+      "gender": "FEMALE"
+    },
+    "ggTNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=ggTNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:08:20.121861+00:00",
+      "sha256": "844f8c5fff13f627f14c7844d499617f0b0b02e38ffb318c639de6139f7ec51a",
+      "number": 158,
+      "date": "2026-01-18",
+      "gender": "MALE"
+    },
+    "gkTNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gkTNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:08:22.594583+00:00",
+      "sha256": "7b7085af0d89cc9305a363f8182f6b522d2b793819b4754f8b910ced225f15af",
+      "number": 159,
+      "date": "2026-01-18",
+      "gender": "FEMALE"
+    },
+    "gAjNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAjNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:08:25.089821+00:00",
+      "sha256": "be932949448c1c099ee7b4a983af882331c65c2bf53fdc5db0405a13c4f55615",
+      "number": 160,
+      "date": "2026-01-20",
+      "gender": "MALE"
+    },
+    "gEjNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gEjNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:08:27.695440+00:00",
+      "sha256": "ff2fdb88489e84b6cf8211534011a40f009a81a9cec81c83d778f62cf9c093aa",
+      "number": 161,
+      "date": "2026-01-20",
+      "gender": "FEMALE"
+    },
+    "gIjNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gIjNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:08:30.244090+00:00",
+      "sha256": "a0d0b4f52eea9082e946bebb5531255bf3d688a4d1d7f5464f2d5909b8a281b7",
+      "number": 162,
+      "date": "2026-01-21",
+      "gender": "MALE"
+    },
+    "gMjNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gMjNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:08:32.745035+00:00",
+      "sha256": "42f7ee49b3f3d15585cc1338f88bde6be18c46da1e32dab91532328a4972d108",
+      "number": 163,
+      "date": "2026-01-21",
+      "gender": "FEMALE"
+    },
+    "gQjNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gQjNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:08:35.192555+00:00",
+      "sha256": "81236cab43d748b6710bfa32a9118b4ec2258ea305bd46cb46e5b536d9712f36",
+      "number": 164,
+      "date": "2026-01-22",
+      "gender": "MALE"
+    },
+    "gUjNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gUjNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:08:37.674021+00:00",
+      "sha256": "ba03932dc7fcc1406bde92168c29e1dfa158613fd6307d25ac328d473069a2a5",
+      "number": 165,
+      "date": "2026-01-22",
+      "gender": "FEMALE"
+    },
+    "gYjNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gYjNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:08:40.107304+00:00",
+      "sha256": "a6f630b275ad232f1bd055962e425c2f2d668caf6f9dc34f3b33006e41fcaf64",
+      "number": 166,
+      "date": "2026-01-23",
+      "gender": "MALE"
+    },
+    "gcjNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gcjNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:08:42.543956+00:00",
+      "sha256": "2f92778259ad8a48e2cf7cbbce6c99b9f8d2cf6b9226544c1714d0879a6c22e9",
+      "number": 167,
+      "date": "2026-01-23",
+      "gender": "FEMALE"
+    },
+    "ggjNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=ggjNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:08:45.017401+00:00",
+      "sha256": "9e4ad4c3bea9b4c9ccf4cb66c4c66f0f5072a6c97f4bef9d7588eb24194ff8fb",
+      "number": 168,
+      "date": "2026-01-29",
+      "gender": "MALE"
+    },
+    "gkjNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gkjNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:08:47.473695+00:00",
+      "sha256": "3952e954237efd9243e90f245b84e10ab19016e57196db344d19f2c919a027bd",
+      "number": 169,
+      "date": "2026-01-29",
+      "gender": "FEMALE"
+    },
+    "gAzNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAzNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:08:49.942095+00:00",
+      "sha256": "ecf4eafa838dc9b1e8018d7ca892319f1e25570ed44e2d9a29edd384bdf76b37",
+      "number": 170,
+      "date": "2026-01-30",
+      "gender": "MALE"
+    },
+    "gEzNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gEzNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:08:52.378402+00:00",
+      "sha256": "a58670e564741bcb4553f4180cb222f7072e1639153f8c326243e836fdb6f59d",
+      "number": 171,
+      "date": "2026-01-30",
+      "gender": "FEMALE"
+    },
+    "gIzNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gIzNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:08:54.828779+00:00",
+      "sha256": "06b5206d9f7772c4bb25a3e626d92409e5cdb2f2158c20fdc70451960e620ecc",
+      "number": 172,
+      "date": "2026-01-31",
+      "gender": "MALE"
+    },
+    "gMzNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gMzNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:08:57.296447+00:00",
+      "sha256": "e26f8725b897cc2babe190900cd8ec97531d65a61d7726f2877216b8df59d193",
+      "number": 173,
+      "date": "2026-01-31",
+      "gender": "FEMALE"
+    },
+    "gQzNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gQzNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:08:59.742368+00:00",
+      "sha256": "5be7a79f7c8d5cc746139017aa45fb59236c22a4f50edb16f03da68388edca87",
+      "number": 174,
+      "date": "2026-02-01",
+      "gender": "MALE"
+    },
+    "gUzNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gUzNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:09:02.283617+00:00",
+      "sha256": "f36ee3ae835ab91cca1c07e55c9f77316ebecd31bb5c8fa443015a3cd152a8e0",
+      "number": 175,
+      "date": "2026-02-01",
+      "gender": "FEMALE"
+    },
+    "gYzNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gYzNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:09:04.768863+00:00",
+      "sha256": "28ab5a5494d21b522cc832e00f18d47b211eddb2ce1f855bf2795ee55d47c0c7",
+      "number": 176,
+      "date": "2026-02-02",
+      "gender": "MALE"
+    },
+    "gczNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gczNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:09:07.240725+00:00",
+      "sha256": "74ea886757bc5966ed1c866d3b56a639e2b749b65e56d681f3f37cbdc238b6ad",
+      "number": 177,
+      "date": "2026-02-02",
+      "gender": "FEMALE"
+    },
+    "ggzNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=ggzNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:09:09.751873+00:00",
+      "sha256": "43daf9a86376aec39ee80ea2bd06a8454fbf6f8a508b8fe6534b9f1c04b73377",
+      "number": 178,
+      "date": "2026-02-03",
+      "gender": "MALE"
+    },
+    "gkzNxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gkzNxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:09:12.207447+00:00",
+      "sha256": "072488214b27a2880ed5543e47458e7029b4cc1abfba4c4fa2e3ed95e2ba5569",
+      "number": 179,
+      "date": "2026-02-03",
+      "gender": "FEMALE"
+    },
+    "gADOxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gADOxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:09:14.665332+00:00",
+      "sha256": "bbe1e68336f123d987bd8b7874f2ff557f42eb9c9954d48578c7a9e504cf772e",
+      "number": 180,
+      "date": "2026-02-04",
+      "gender": "MALE"
+    },
+    "gEDOxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gEDOxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:09:17.440207+00:00",
+      "sha256": "bece6e37c0a0e9a8545eca496191c62746c6bfaf0ffff93eb0212d4e5de2b0a0",
+      "number": 181,
+      "date": "2026-02-04",
+      "gender": "FEMALE"
+    },
+    "gIDOxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gIDOxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:09:19.905033+00:00",
+      "sha256": "b213f57275db10096b8e937d1f04422268dde33f36e75f0b5b0474139f8f7227",
+      "number": 182,
+      "date": "2026-02-06",
+      "gender": "MALE"
+    },
+    "gMDOxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gMDOxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:09:22.332305+00:00",
+      "sha256": "f35401bddf2d638275876360da22cdba3f249fe2a588ad8a0c1be90ed5e4a591",
+      "number": 183,
+      "date": "2026-02-06",
+      "gender": "FEMALE"
+    },
+    "gQDOxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gQDOxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:09:24.783164+00:00",
+      "sha256": "662449477a3d509958dbd085586af0c935da545a1aa983c410f30c0522dfe817",
+      "number": 184,
+      "date": "2026-02-07",
+      "gender": "MALE"
+    },
+    "gUDOxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gUDOxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:09:27.226109+00:00",
+      "sha256": "7181a92bedcfe35abeb502358f3772a11a9a6b4d6be4b225c9abd2b2c1ffc680",
+      "number": 185,
+      "date": "2026-02-07",
+      "gender": "FEMALE"
+    },
+    "gYDOxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gYDOxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:09:29.657342+00:00",
+      "sha256": "ebd1e049fbe51fbcfefea827f8a2c719a55d8bc4c4ac86fb53e8f7c4aafb99b8",
+      "number": 186,
+      "date": "2026-02-08",
+      "gender": "MALE"
+    },
+    "gcDOxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gcDOxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:09:32.142916+00:00",
+      "sha256": "ce350c8a160991f053bb8017609d8ee4031f7bb40b513471bf86a0644875caec",
+      "number": 187,
+      "date": "2026-02-08",
+      "gender": "FEMALE"
+    },
+    "gkDOxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gkDOxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:09:34.637111+00:00",
+      "sha256": "81a0fa66f686c4375e3c87355595b235aa8d37bb708119a88eddb48ff4534053",
+      "number": 189,
+      "date": "2026-02-09",
+      "gender": "FEMALE"
+    },
+    "ggDOxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=ggDOxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:09:37.069121+00:00",
+      "sha256": "c4104fd07ef088f6be36fdaf9b630a056e423364a10a48e099fdbd7147ca6b01",
+      "number": 188,
+      "date": "2026-02-09",
+      "gender": "MALE"
+    },
+    "gATOxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gATOxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:09:39.555187+00:00",
+      "sha256": "430455c387fa0ec2ca1a45cfc2de62abd5d3a1a194dbc410994aee86290c07d0",
+      "number": 190,
+      "date": "2026-02-10",
+      "gender": "MALE"
+    },
+    "gETOxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gETOxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:09:42.043003+00:00",
+      "sha256": "64447de4c6f61d3625b368e5caafb228c1346ea9b995f99e6b108a84791888cf",
+      "number": 191,
+      "date": "2026-02-10",
+      "gender": "FEMALE"
+    },
+    "gITOxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gITOxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:09:44.467488+00:00",
+      "sha256": "5aded6aaddbfbeeddc92c0a90f0189fd96d65d29462c281e7fa8d138728a84a8",
+      "number": 192,
+      "date": "2026-02-11",
+      "gender": "MALE"
+    },
+    "gMTOxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gMTOxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:09:46.951125+00:00",
+      "sha256": "9a247ceceae0ea52aaeed7b34737205a5602cb21b89ef4390df539904452de49",
+      "number": 193,
+      "date": "2026-02-11",
+      "gender": "FEMALE"
+    },
+    "gQTOxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gQTOxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:09:49.394764+00:00",
+      "sha256": "d1ca25b50730db39af15355e5a8e624eca1a2da0082ac960e202dc6355b703b0",
+      "number": 194,
+      "date": "2026-02-13",
+      "gender": "MALE"
+    },
+    "gUTOxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gUTOxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:09:51.952147+00:00",
+      "sha256": "1850e75d139ab42c34a7ad2df39ee03f8d377180433a1feb0a39694ba32f2996",
+      "number": 195,
+      "date": "2026-02-13",
+      "gender": "FEMALE"
+    },
+    "gYTOxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gYTOxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:09:54.418967+00:00",
+      "sha256": "15a53b1fbffd6af5360865cd30e0864dcf7232fa8c29366069961e99ee22f035",
+      "number": 196,
+      "date": "2026-02-14",
+      "gender": "MALE"
+    },
+    "gcTOxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gcTOxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:09:56.905970+00:00",
+      "sha256": "92555838a234a0ba6a09641f346a7b5d7bf4aea0defdd16d99589389f8606b8b",
+      "number": 197,
+      "date": "2026-02-14",
+      "gender": "FEMALE"
+    },
+    "ggTOxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=ggTOxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:09:59.384165+00:00",
+      "sha256": "5e822e2af59cee265d8b3946888681e41fddcfd6fb3f99572659df6dd397f378",
+      "number": 198,
+      "date": "2026-02-15",
+      "gender": "MALE"
+    },
+    "gkTOxoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gkTOxoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:10:01.867508+00:00",
+      "sha256": "4f47e347d948ea01ce87792a2a6daf86681b962a7c46475e09bd1708abad0b3c",
+      "number": 199,
+      "date": "2026-02-15",
+      "gender": "FEMALE"
+    },
+    "gADMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gADMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:10:04.323841+00:00",
+      "sha256": "c6aef3a0fdb1704d7a1fa75bc1cfb2fc13c9e01a6312528b684acfe00bff4727",
+      "number": 200,
+      "date": "2026-02-16",
+      "gender": "MALE"
+    },
+    "gEDMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gEDMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:10:06.779164+00:00",
+      "sha256": "753405b033d9cc1f63e0cbc83b8c60eeb354ea7ccd9f30012b434d997ff52f32",
+      "number": 201,
+      "date": "2026-02-16",
+      "gender": "FEMALE"
+    },
+    "gIDMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gIDMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:10:09.197189+00:00",
+      "sha256": "cd85b5b728d661a5a139f91083563a2d1a59b2ef8e8f2e27e463c75281ee7b6c",
+      "number": 202,
+      "date": "2026-02-17",
+      "gender": "MALE"
+    },
+    "gMDMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gMDMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:10:11.663073+00:00",
+      "sha256": "0f196e1140cc2cc3e17757baa8c48a0f4595dc77577a0f3b781c3e1646fc6118",
+      "number": 203,
+      "date": "2026-02-17",
+      "gender": "FEMALE"
+    },
+    "gQDMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gQDMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:10:14.199440+00:00",
+      "sha256": "239eb1dd003ff48c0942694e62d12e45711bf7c94621aad71206ede5f5f08ac0",
+      "number": 204,
+      "date": "2026-02-18",
+      "gender": "MALE"
+    },
+    "gUDMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gUDMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:10:16.674192+00:00",
+      "sha256": "c4603d3d517e165c344f4eaaeae970f43e70e79c13099692445bc0d06474a929",
+      "number": 205,
+      "date": "2026-02-18",
+      "gender": "FEMALE"
+    },
+    "gYDMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gYDMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:10:19.163507+00:00",
+      "sha256": "2907d9c5a07b0a277229ae638acd35da58ec350abe40961b8abc97b1e734cad3",
+      "number": 206,
+      "date": "2026-02-20",
+      "gender": "MALE"
+    },
+    "gcDMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gcDMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:10:21.624428+00:00",
+      "sha256": "f3e51e0d57a97c75f2830b11d81db0850c5a18229207d9c1cb91da2bc1c5582f",
+      "number": 207,
+      "date": "2026-02-20",
+      "gender": "FEMALE"
+    },
+    "ggDMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=ggDMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:10:24.222204+00:00",
+      "sha256": "e806b22c81b4131bc85470dc5739ca85f23b5b233f60b2bbbabd3e97386f5219",
+      "number": 208,
+      "date": "2026-02-21",
+      "gender": "MALE"
+    },
+    "gkDMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gkDMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:10:26.686087+00:00",
+      "sha256": "81e306fed9b0cc4d82f6231df753f100071b91b68d04c8a5d07bfd71b26a16e3",
+      "number": 209,
+      "date": "2026-02-21",
+      "gender": "FEMALE"
+    },
+    "gATMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gATMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:10:29.123490+00:00",
+      "sha256": "45ca21dc7f995ef6a075f459c0c34caea1c648199e1501fa3e18df9885dd37b1",
+      "number": 210,
+      "date": "2026-02-22",
+      "gender": "MALE"
+    },
+    "gETMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gETMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:10:31.572064+00:00",
+      "sha256": "0e7d73171301dc696e055bfc7642ba5504e1a6b1d86223501167c35748f7fe8b",
+      "number": 211,
+      "date": "2026-02-22",
+      "gender": "FEMALE"
+    },
+    "gITMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gITMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:10:34.023575+00:00",
+      "sha256": "f7474edd5b92e1a06ec366a803b9f51b4d39d5edafa7571322a68df19fce32d3",
+      "number": 212,
+      "date": "2026-02-24",
+      "gender": "MALE"
+    },
+    "gMTMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gMTMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:10:36.494272+00:00",
+      "sha256": "625cb162263b2db33891d0cb75b72407442ae68bd09fd22e72ead3401d222a26",
+      "number": 213,
+      "date": "2026-02-24",
+      "gender": "FEMALE"
+    },
+    "gQTMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gQTMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:10:38.996164+00:00",
+      "sha256": "5020f37f35db1a3da2607f6f5a3ed19746a34d1fab133d01f803daba63c63f91",
+      "number": 214,
+      "date": "2026-02-25",
+      "gender": "MALE"
+    },
+    "gUTMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gUTMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:10:41.460387+00:00",
+      "sha256": "15616f55b56d619411d6a20ac655f13e1279b6153cabb8fd8a0dc8f854f95254",
+      "number": 215,
+      "date": "2026-02-25",
+      "gender": "FEMALE"
+    },
+    "gYTMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gYTMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:10:43.893229+00:00",
+      "sha256": "5659ed35a6723b364d0fcc2bd16a24b8e16bd94d06bc345f034366bfc5d9328c",
+      "number": 216,
+      "date": "2026-02-26",
+      "gender": "MALE"
+    },
+    "gcTMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gcTMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:10:46.345280+00:00",
+      "sha256": "f65b9b3cd887fa1fdba9a4ec09dd8e8e36262c88c0d9f78ef045e1f99d29c3d8",
+      "number": 217,
+      "date": "2026-02-26",
+      "gender": "FEMALE"
+    },
+    "gkTMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gkTMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:10:48.779228+00:00",
+      "sha256": "f788f07b0e660a112c6e06098650938eb812f9e5a2abb78b46e4d427b7e30306",
+      "number": 219,
+      "date": "2026-02-27",
+      "gender": "FEMALE"
+    },
+    "ggTMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=ggTMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:10:51.257154+00:00",
+      "sha256": "80ad202de4b74a67ebae8b69769634973c569bf19b8ea3627ff8a11690ce857e",
+      "number": 218,
+      "date": "2026-02-27",
+      "gender": "MALE"
+    },
+    "gAjMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAjMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:10:53.719826+00:00",
+      "sha256": "486aff028a9c8ee3f75885b2bcc1004f8aed1a0ae6a1844a76b214fa5e1d9baf",
+      "number": 220,
+      "date": "2026-02-28",
+      "gender": "MALE"
+    },
+    "gEjMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gEjMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:10:56.209084+00:00",
+      "sha256": "831392e5df7f0e6fedeceb878a047440fd2869af4007927d00980950b7a82a3e",
+      "number": 221,
+      "date": "2026-02-28",
+      "gender": "FEMALE"
+    },
+    "gIjMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gIjMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:10:58.698203+00:00",
+      "sha256": "5d93c286f7e11e5e8bbbdc8d2670ec00ded9487777861f288c491097c891aecf",
+      "number": 222,
+      "date": "2026-03-01",
+      "gender": "MALE"
+    },
+    "gMjMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gMjMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:11:01.173983+00:00",
+      "sha256": "3c6c9abdac95b2f40d0991254493cc8abe2074dc06cd57763c261b075f54236a",
+      "number": 223,
+      "date": "2026-03-01",
+      "gender": "FEMALE"
+    },
+    "gQjMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gQjMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:11:03.683668+00:00",
+      "sha256": "51282674607d072deb2cbf6ef405f5b5929db46812ef4370de9b59232131935a",
+      "number": 224,
+      "date": "2026-03-02",
+      "gender": "MALE"
+    },
+    "gUjMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gUjMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:11:06.105255+00:00",
+      "sha256": "d97e31a56563f943c78a81dca3fc11a063ff930098475c6997ec50a9a38909ee",
+      "number": 225,
+      "date": "2026-03-02",
+      "gender": "FEMALE"
+    },
+    "gYjMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gYjMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:11:08.552246+00:00",
+      "sha256": "039e1e2454e370b1b4beef4401fd71dd5c98a6592947343434e3e04c8ffe2e99",
+      "number": 226,
+      "date": "2026-03-04",
+      "gender": "MALE"
+    },
+    "gcjMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gcjMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:11:11.032521+00:00",
+      "sha256": "e6b769a77179a78ca3824d6fd10d39fa0deab59f27190bcddf4f0fdb02d89965",
+      "number": 227,
+      "date": "2026-03-04",
+      "gender": "FEMALE"
+    },
+    "ggjMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=ggjMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:11:13.503610+00:00",
+      "sha256": "3c968fa78445c42ed3c21076ff6baeb74d1f74d82e2416307f15f89ced2667f0",
+      "number": 228,
+      "date": "2026-03-05",
+      "gender": "MALE"
+    },
+    "gkjMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gkjMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:11:16.007058+00:00",
+      "sha256": "3e27c42e033619fcb79a14d336f73507a7fbd109bd727ef5fc6b9b0537f4e904",
+      "number": 229,
+      "date": "2026-03-05",
+      "gender": "FEMALE"
+    },
+    "gAzMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gAzMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:11:18.528672+00:00",
+      "sha256": "b8e539c03bb672f2288e5e15ea06960c95a9b6089a3fa791686aec4f3ca5cbc3",
+      "number": 230,
+      "date": "2026-03-06",
+      "gender": "MALE"
+    },
+    "gEzMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gEzMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:11:20.977140+00:00",
+      "sha256": "ab77a87c189ab11282aa46eb5365c75b058588aaf61fc3866750668c5d883c4f",
+      "number": 231,
+      "date": "2026-03-06",
+      "gender": "FEMALE"
+    },
+    "gIzMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gIzMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:11:23.409184+00:00",
+      "sha256": "c725eccd26f20034ff7d5f3336a135b50117af655d999abc5fd0d4e83fe1382e",
+      "number": 232,
+      "date": "2026-03-07",
+      "gender": "MALE"
+    },
+    "gMzMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gMzMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:11:25.859988+00:00",
+      "sha256": "aac0a323ccd76405778fd75035dc0e4e6b3cf4078443119e16f489ceea968d8c",
+      "number": 233,
+      "date": "2026-03-07",
+      "gender": "FEMALE"
+    },
+    "gQzMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gQzMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:11:28.351185+00:00",
+      "sha256": "70582bc7bcd5759b67b831fbb90974ff688275d31014918ec6b068365fe764f8",
+      "number": 234,
+      "date": "2026-03-08",
+      "gender": "MALE"
+    },
+    "gUzMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gUzMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:11:30.857590+00:00",
+      "sha256": "acdd5b887f0eb4b96974ace66c270ff25898131357f6f918217887958bd90fe1",
+      "number": 235,
+      "date": "2026-03-08",
+      "gender": "FEMALE"
+    },
+    "gYzMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gYzMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:11:33.368162+00:00",
+      "sha256": "c840bc289527232f878c39332f3bc93a3d9c232441b53ff159a8eeea105f03f3",
+      "number": 236,
+      "date": "2026-03-10",
+      "gender": "MALE"
+    },
+    "gczMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gczMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:11:36.186995+00:00",
+      "sha256": "9bc20561a14b7de1c0a4d2cb3907a8a0858e5e97f6fa06098952de7b63b5149a",
+      "number": 237,
+      "date": "2026-03-10",
+      "gender": "FEMALE"
+    },
+    "ggzMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=ggzMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:11:39.007238+00:00",
+      "sha256": "f8e90c04134338c6277d1296a89061f987a5fb5288c3fb756ef96e9d3790f6a2",
+      "number": 238,
+      "date": "2026-03-11",
+      "gender": "MALE"
+    },
+    "gkzMyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gkzMyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:11:41.484480+00:00",
+      "sha256": "5dd64406b1d0ec9aa1138998af1cd858e9034d3e4eb9fd7d3c232caf408fe202",
+      "number": 239,
+      "date": "2026-03-11",
+      "gender": "FEMALE"
+    },
+    "gADNyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gADNyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:11:44.231410+00:00",
+      "sha256": "219fe4fe02de17c3518ee24d2a399e9158ed1c62ba1646e54668fc5a8d44c0c8",
+      "number": 240,
+      "date": "2026-03-12",
+      "gender": "MALE"
+    },
+    "gEDNyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gEDNyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:11:47.031428+00:00",
+      "sha256": "a8ce60c58a21081d1e81932e8a24ae21c142c5ba8e64d7ddf6a1e732a06e1109",
+      "number": 241,
+      "date": "2026-03-12",
+      "gender": "FEMALE"
+    },
+    "gIDNyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gIDNyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:11:49.747302+00:00",
+      "sha256": "d3603bf6aa89fc934d9b48b4adfd91573956dc56e761d192cb9203dfff0b54a6",
+      "number": 242,
+      "date": "2026-03-13",
+      "gender": "MALE"
+    },
+    "gMDNyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gMDNyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:11:52.285475+00:00",
+      "sha256": "216f561b1dd17ba83128dd767bf87277f03e4fa40dda8b0f27153f3f641a3066",
+      "number": 243,
+      "date": "2026-03-13",
+      "gender": "FEMALE"
+    },
+    "gQDNyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gQDNyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:11:54.730355+00:00",
+      "sha256": "2a77d7614fefb73fb5d89a7e0a32ff51f5f53b0d1d30d99754ef3fc9498d2227",
+      "number": 244,
+      "date": "2026-03-14",
+      "gender": "MALE"
+    },
+    "gUDNyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gUDNyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:11:57.239231+00:00",
+      "sha256": "628a2bc8ab94ab794f76c774f8c6f806d58f2a7c71a2ef6f3602148909b5a217",
+      "number": 245,
+      "date": "2026-03-14",
+      "gender": "FEMALE"
+    },
+    "gYDNyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gYDNyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:11:59.718830+00:00",
+      "sha256": "8af9ec343a781feed6b5dca1a49269871bb5d3f1490a3ec11985f61ab9990c5e",
+      "number": 246,
+      "date": "2026-03-15",
+      "gender": "MALE"
+    },
+    "gcDNyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gcDNyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:12:02.188604+00:00",
+      "sha256": "93d6e03c611e2328b97c9d9340a12e6b5a5ce65e18e0e9e5fb92204fbe285f62",
+      "number": 247,
+      "date": "2026-03-15",
+      "gender": "FEMALE"
+    },
+    "gkDNyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gkDNyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:12:04.643801+00:00",
+      "sha256": "9e9a99789bb9ead68d6f6e16ed2633e87227d6977af67da4ce92fdf29c44dff6",
+      "number": 249,
+      "date": "2026-03-17",
+      "gender": "FEMALE"
+    },
+    "ggDNyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=ggDNyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:12:07.080512+00:00",
+      "sha256": "b5380dcdcaded986d19e1f8147813aab94c97650861580815341490bd5fe0931",
+      "number": 248,
+      "date": "2026-03-17",
+      "gender": "MALE"
+    },
+    "gETNyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gETNyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:12:09.548756+00:00",
+      "sha256": "37d3b48c8d8acdb3db608bca9cdfb2bc7c2952275c4ee08103077ecb3ee804b4",
+      "number": 251,
+      "date": "2026-03-18",
+      "gender": "FEMALE"
+    },
+    "gATNyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gATNyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:12:11.998893+00:00",
+      "sha256": "a2a04545c3a2c3082c096c2afa84dc855e9dabacafefd27fc48fd11684535a97",
+      "number": 250,
+      "date": "2026-03-18",
+      "gender": "MALE"
+    },
+    "gITNyoTMwIjOyIDM": {
+      "status": "ok",
+      "url": "https://dbbank.kovo.co.kr/game/11110_pop_result.asp?PID=gITNyoTMwIjOyIDM",
+      "received_at": "2026-11-08T08:12:14.461654+00:00",
+      "sha256": "15ecf03f9f9b8c252a21e35161f89c860289d1567997f19e3c52f85d735cb2c0",
+      "number": 252,
+      "date": "2026-03-19",
+      "gender": "MALE"
+    }
+  }
+}
