@@ -1,0 +1,10 @@
+{
+  "branch": "codex/group-dro-research-20261108",
+  "research_commit": "e46c56c3ef5904f9ca5e1f9256e6e714b2cf1419",
+  "handoff_commit": "See branch HEAD; this file is committed separately after research_commit.",
+  "pull_request": "https://github.com/choigod1023/proto-odds-research/pull/638",
+  "status": "draft; not merged or deployed",
+  "paths": ["experiments/group-dro-20261108/README.md", "experiments/group-dro-20261108/run.py", "experiments/group-dro-20261108/summary.json", "experiments/group-dro-20261108/predictions.jsonl", "experiments/group-dro-20261108/test_run.py"],
+  "checks": {"real_replay": "completed", "synthetic_unittest": "2 passed after rebase", "production_build": "not applicable: offline research only"},
+  "conclusion": "2026 worst-league log loss worsened for baseball and basketball and slightly improved for soccer; soccer paired overall intervals include zero. Retrospective reused data and executable prices unverified. No production adoption."
+}
