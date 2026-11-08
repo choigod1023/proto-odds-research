@@ -1,0 +1,1273 @@
+{
+  "primary_all_policies": {
+    "by_sport": {
+      "bk": {
+        "captured": 96,
+        "hits": 55,
+        "misses": 30,
+        "refunds": 0,
+        "pending": 11,
+        "decided": 85,
+        "settled": 85,
+        "hit_rate": 0.6470588235294118,
+        "wilson95": [
+          0.5411250053311214,
+          0.7402751464882753
+        ],
+        "net_units": "-11.04",
+        "roi": -0.12988235294117648
+      },
+      "bs": {
+        "captured": 8,
+        "hits": 3,
+        "misses": 4,
+        "refunds": 0,
+        "pending": 1,
+        "decided": 7,
+        "settled": 7,
+        "hit_rate": 0.42857142857142855,
+        "wilson95": [
+          0.15821985525146975,
+          0.7495416354723428
+        ],
+        "net_units": "-2.57",
+        "roi": -0.36714285714285716
+      },
+      "sc": {
+        "captured": 369,
+        "hits": 188,
+        "misses": 128,
+        "refunds": 1,
+        "pending": 52,
+        "decided": 316,
+        "settled": 317,
+        "hit_rate": 0.5949367088607594,
+        "wilson95": [
+          0.5399849755093579,
+          0.647607965759824
+        ],
+        "net_units": "4.82",
+        "roi": 0.015205047318611987
+      },
+      "vl": {
+        "captured": 11,
+        "hits": 4,
+        "misses": 5,
+        "refunds": 0,
+        "pending": 2,
+        "decided": 9,
+        "settled": 9,
+        "hit_rate": 0.4444444444444444,
+        "wilson95": [
+          0.18877852109766452,
+          0.733348706504507
+        ],
+        "net_units": "-3.64",
+        "roi": -0.40444444444444444
+      }
+    },
+    "by_policy": {
+      "market90-tipster10-v2": {
+        "captured": 18,
+        "hits": 11,
+        "misses": 7,
+        "refunds": 0,
+        "pending": 0,
+        "decided": 18,
+        "settled": 18,
+        "hit_rate": 0.6111111111111112,
+        "wilson95": [
+          0.3861904160223791,
+          0.7969475342783638
+        ],
+        "net_units": "-1.75",
+        "roi": -0.09722222222222222
+      },
+      "tipster-vote-v1": {
+        "captured": 466,
+        "hits": 239,
+        "misses": 160,
+        "refunds": 1,
+        "pending": 66,
+        "decided": 399,
+        "settled": 400,
+        "hit_rate": 0.5989974937343359,
+        "wilson95": [
+          0.5501847743821814,
+          0.6459221512338414
+        ],
+        "net_units": "-10.68",
+        "roi": -0.0267
+      }
+    }
+  },
+  "current_primary": {
+    "by_sport": {
+      "bk": {
+        "captured": 90,
+        "hits": 50,
+        "misses": 29,
+        "refunds": 0,
+        "pending": 11,
+        "decided": 79,
+        "settled": 79,
+        "hit_rate": 0.6329113924050633,
+        "wilson95": [
+          0.5227691853982361,
+          0.730727074795025
+        ],
+        "net_units": "-12.01",
+        "roi": -0.1520253164556962
+      },
+      "bs": {
+        "captured": 6,
+        "hits": 2,
+        "misses": 3,
+        "refunds": 0,
+        "pending": 1,
+        "decided": 5,
+        "settled": 5,
+        "hit_rate": 0.4,
+        "wilson95": [
+          0.11762077423264783,
+          0.769275718723987
+        ],
+        "net_units": "-1.88",
+        "roi": -0.376
+      },
+      "sc": {
+        "captured": 359,
+        "hits": 183,
+        "misses": 123,
+        "refunds": 1,
+        "pending": 52,
+        "decided": 306,
+        "settled": 307,
+        "hit_rate": 0.5980392156862745,
+        "wilson95": [
+          0.5422174278829975,
+          0.6514299949905248
+        ],
+        "net_units": "6.85",
+        "roi": 0.02231270358306189
+      },
+      "vl": {
+        "captured": 11,
+        "hits": 4,
+        "misses": 5,
+        "refunds": 0,
+        "pending": 2,
+        "decided": 9,
+        "settled": 9,
+        "hit_rate": 0.4444444444444444,
+        "wilson95": [
+          0.18877852109766452,
+          0.733348706504507
+        ],
+        "net_units": "-3.64",
+        "roi": -0.40444444444444444
+      }
+    },
+    "by_source": {
+      "market_fallback": {
+        "captured": 430,
+        "hits": 220,
+        "misses": 144,
+        "refunds": 1,
+        "pending": 65,
+        "decided": 364,
+        "settled": 365,
+        "hit_rate": 0.6043956043956044,
+        "wilson95": [
+          0.5533235290063707,
+          0.6532872218417181
+        ],
+        "net_units": "-6.43",
+        "roi": -0.017616438356164384
+      },
+      "tipster_vote": {
+        "captured": 36,
+        "hits": 19,
+        "misses": 16,
+        "refunds": 0,
+        "pending": 1,
+        "decided": 35,
+        "settled": 35,
+        "hit_rate": 0.5428571428571428,
+        "wilson95": [
+          0.3818972506848375,
+          0.6953398071159278
+        ],
+        "net_units": "-4.25",
+        "roi": -0.12142857142857143
+      }
+    }
+  },
+  "current_primary_pre_t30": {
+    "by_sport": {
+      "bk": {
+        "captured": 89,
+        "hits": 49,
+        "misses": 29,
+        "refunds": 0,
+        "pending": 11,
+        "decided": 78,
+        "settled": 78,
+        "hit_rate": 0.6282051282051282,
+        "wilson95": [
+          0.5173105378126465,
+          0.7270643827739703
+        ],
+        "net_units": "-14.40",
+        "roi": -0.18461538461538463
+      },
+      "bs": {
+        "captured": 6,
+        "hits": 2,
+        "misses": 3,
+        "refunds": 0,
+        "pending": 1,
+        "decided": 5,
+        "settled": 5,
+        "hit_rate": 0.4,
+        "wilson95": [
+          0.11762077423264783,
+          0.769275718723987
+        ],
+        "net_units": "-1.88",
+        "roi": -0.376
+      },
+      "sc": {
+        "captured": 359,
+        "hits": 183,
+        "misses": 123,
+        "refunds": 1,
+        "pending": 52,
+        "decided": 306,
+        "settled": 307,
+        "hit_rate": 0.5980392156862745,
+        "wilson95": [
+          0.5422174278829975,
+          0.6514299949905248
+        ],
+        "net_units": "6.85",
+        "roi": 0.02231270358306189
+      },
+      "vl": {
+        "captured": 10,
+        "hits": 3,
+        "misses": 5,
+        "refunds": 0,
+        "pending": 2,
+        "decided": 8,
+        "settled": 8,
+        "hit_rate": 0.375,
+        "wilson95": [
+          0.13684428582359742,
+          0.6942576053973727
+        ],
+        "net_units": "-4.14",
+        "roi": -0.5175
+      }
+    },
+    "by_league": {
+      "ACL2": {
+        "captured": 17,
+        "hits": 11,
+        "misses": 6,
+        "refunds": 0,
+        "pending": 0,
+        "decided": 17,
+        "settled": 17,
+        "hit_rate": 0.6470588235294118,
+        "wilson95": [
+          0.41300363485218694,
+          0.8269027960275627
+        ],
+        "net_units": "-1.53",
+        "roi": -0.09
+      },
+      "ACLE": {
+        "captured": 16,
+        "hits": 8,
+        "misses": 8,
+        "refunds": 0,
+        "pending": 0,
+        "decided": 16,
+        "settled": 16,
+        "hit_rate": 0.5,
+        "wilson95": [
+          0.27999563610326017,
+          0.7200043638967398
+        ],
+        "net_units": "-4.46",
+        "roi": -0.27875
+      },
+      "A리그": {
+        "captured": 11,
+        "hits": 4,
+        "misses": 6,
+        "refunds": 0,
+        "pending": 1,
+        "decided": 10,
+        "settled": 10,
+        "hit_rate": 0.4,
+        "wilson95": [
+          0.16818032970623614,
+          0.6873262302663417
+        ],
+        "net_units": "-2.44",
+        "roi": -0.244
+      },
+      "CSL": {
+        "captured": 8,
+        "hits": 0,
+        "misses": 0,
+        "refunds": 0,
+        "pending": 8,
+        "decided": 0,
+        "settled": 0,
+        "hit_rate": null,
+        "wilson95": null,
+        "net_units": "0",
+        "roi": null
+      },
+      "EFL챔": {
+        "captured": 36,
+        "hits": 22,
+        "misses": 14,
+        "refunds": 0,
+        "pending": 0,
+        "decided": 36,
+        "settled": 36,
+        "hit_rate": 0.6111111111111112,
+        "wilson95": [
+          0.44864459096605147,
+          0.75215126934629
+        ],
+        "net_units": "5.17",
+        "roi": 0.1436111111111111
+      },
+      "EPL": {
+        "captured": 20,
+        "hits": 7,
+        "misses": 8,
+        "refunds": 0,
+        "pending": 5,
+        "decided": 15,
+        "settled": 15,
+        "hit_rate": 0.4666666666666667,
+        "wilson95": [
+          0.24809535365737387,
+          0.698830199745016
+        ],
+        "net_units": "-3.11",
+        "roi": -0.20733333333333334
+      },
+      "J1리그": {
+        "captured": 20,
+        "hits": 8,
+        "misses": 8,
+        "refunds": 0,
+        "pending": 4,
+        "decided": 16,
+        "settled": 16,
+        "hit_rate": 0.5,
+        "wilson95": [
+          0.27999563610326017,
+          0.7200043638967398
+        ],
+        "net_units": "-1.02",
+        "roi": -0.06375
+      },
+      "J2리그": {
+        "captured": 20,
+        "hits": 15,
+        "misses": 2,
+        "refunds": 0,
+        "pending": 3,
+        "decided": 17,
+        "settled": 17,
+        "hit_rate": 0.8823529411764706,
+        "wilson95": [
+          0.6566364940511412,
+          0.9671202262362074
+        ],
+        "net_units": "12.81",
+        "roi": 0.7535294117647059
+      },
+      "KBL": {
+        "captured": 11,
+        "hits": 5,
+        "misses": 3,
+        "refunds": 0,
+        "pending": 3,
+        "decided": 8,
+        "settled": 8,
+        "hit_rate": 0.625,
+        "wilson95": [
+          0.30574239460262737,
+          0.8631557141764026
+        ],
+        "net_units": "-0.88",
+        "roi": -0.11
+      },
+      "KBO": {
+        "captured": 6,
+        "hits": 2,
+        "misses": 3,
+        "refunds": 0,
+        "pending": 1,
+        "decided": 5,
+        "settled": 5,
+        "hit_rate": 0.4,
+        "wilson95": [
+          0.11762077423264783,
+          0.769275718723987
+        ],
+        "net_units": "-1.88",
+        "roi": -0.376
+      },
+      "KOVO남": {
+        "captured": 5,
+        "hits": 1,
+        "misses": 3,
+        "refunds": 0,
+        "pending": 1,
+        "decided": 4,
+        "settled": 4,
+        "hit_rate": 0.25,
+        "wilson95": [
+          0.04558726080970055,
+          0.6993581574175981
+        ],
+        "net_units": "-2.76",
+        "roi": -0.69
+      },
+      "KOVO여": {
+        "captured": 5,
+        "hits": 2,
+        "misses": 2,
+        "refunds": 0,
+        "pending": 1,
+        "decided": 4,
+        "settled": 4,
+        "hit_rate": 0.5,
+        "wilson95": [
+          0.15003898915214947,
+          0.8499610108478506
+        ],
+        "net_units": "-1.38",
+        "roi": -0.345
+      },
+      "K리그1": {
+        "captured": 12,
+        "hits": 3,
+        "misses": 5,
+        "refunds": 0,
+        "pending": 4,
+        "decided": 8,
+        "settled": 8,
+        "hit_rate": 0.375,
+        "wilson95": [
+          0.13684428582359742,
+          0.6942576053973727
+        ],
+        "net_units": "-1.76",
+        "roi": -0.22
+      },
+      "K리그2": {
+        "captured": 16,
+        "hits": 6,
+        "misses": 7,
+        "refunds": 0,
+        "pending": 3,
+        "decided": 13,
+        "settled": 13,
+        "hit_rate": 0.46153846153846156,
+        "wilson95": [
+          0.23206067809538303,
+          0.7085620428549398
+        ],
+        "net_units": "-3.18",
+        "roi": -0.24461538461538462
+      },
+      "MLS": {
+        "captured": 31,
+        "hits": 20,
+        "misses": 11,
+        "refunds": 0,
+        "pending": 0,
+        "decided": 31,
+        "settled": 31,
+        "hit_rate": 0.6451612903225806,
+        "wilson95": [
+          0.46947954064368874,
+          0.788833409061346
+        ],
+        "net_units": "4.08",
+        "roi": 0.13161290322580646
+      },
+      "NBA": {
+        "captured": 70,
+        "hits": 42,
+        "misses": 21,
+        "refunds": 0,
+        "pending": 7,
+        "decided": 63,
+        "settled": 63,
+        "hit_rate": 0.6666666666666666,
+        "wilson95": [
+          0.5436724114497559,
+          0.7705038553539602
+        ],
+        "net_units": "-8.99",
+        "roi": -0.14269841269841269
+      },
+      "UCL": {
+        "captured": 18,
+        "hits": 15,
+        "misses": 3,
+        "refunds": 0,
+        "pending": 0,
+        "decided": 18,
+        "settled": 18,
+        "hit_rate": 0.8333333333333334,
+        "wilson95": [
+          0.6077796189608428,
+          0.9416342319413856
+        ],
+        "net_units": "6.08",
+        "roi": 0.3377777777777778
+      },
+      "UECL": {
+        "captured": 18,
+        "hits": 11,
+        "misses": 7,
+        "refunds": 0,
+        "pending": 0,
+        "decided": 18,
+        "settled": 18,
+        "hit_rate": 0.6111111111111112,
+        "wilson95": [
+          0.3861904160223791,
+          0.7969475342783638
+        ],
+        "net_units": "-1.96",
+        "roi": -0.10888888888888888
+      },
+      "UEL": {
+        "captured": 18,
+        "hits": 8,
+        "misses": 10,
+        "refunds": 0,
+        "pending": 0,
+        "decided": 18,
+        "settled": 18,
+        "hit_rate": 0.4444444444444444,
+        "wilson95": [
+          0.24559518127005633,
+          0.6628358435795723
+        ],
+        "net_units": "-4.65",
+        "roi": -0.25833333333333336
+      },
+      "WKBL": {
+        "captured": 5,
+        "hits": 1,
+        "misses": 3,
+        "refunds": 0,
+        "pending": 1,
+        "decided": 4,
+        "settled": 4,
+        "hit_rate": 0.25,
+        "wilson95": [
+          0.04558726080970055,
+          0.6993581574175981
+        ],
+        "net_units": "-2.54",
+        "roi": -0.635
+      },
+      "남농EASL": {
+        "captured": 3,
+        "hits": 1,
+        "misses": 2,
+        "refunds": 0,
+        "pending": 0,
+        "decided": 3,
+        "settled": 3,
+        "hit_rate": 0.3333333333333333,
+        "wilson95": [
+          0.06149194472039621,
+          0.7923403991979522
+        ],
+        "net_units": "-1.99",
+        "roi": -0.6633333333333333
+      },
+      "라리가": {
+        "captured": 20,
+        "hits": 8,
+        "misses": 7,
+        "refunds": 0,
+        "pending": 5,
+        "decided": 15,
+        "settled": 15,
+        "hit_rate": 0.5333333333333333,
+        "wilson95": [
+          0.30116980025498397,
+          0.7519046463426261
+        ],
+        "net_units": "-2.65",
+        "roi": -0.17666666666666667
+      },
+      "분데스리": {
+        "captured": 18,
+        "hits": 8,
+        "misses": 7,
+        "refunds": 0,
+        "pending": 3,
+        "decided": 15,
+        "settled": 15,
+        "hit_rate": 0.5333333333333333,
+        "wilson95": [
+          0.30116980025498397,
+          0.7519046463426261
+        ],
+        "net_units": "-2.09",
+        "roi": -0.13933333333333334
+      },
+      "세리에A": {
+        "captured": 23,
+        "hits": 12,
+        "misses": 6,
+        "refunds": 0,
+        "pending": 5,
+        "decided": 18,
+        "settled": 18,
+        "hit_rate": 0.6666666666666666,
+        "wilson95": [
+          0.43749467295945105,
+          0.837212252491663
+        ],
+        "net_units": "2.85",
+        "roi": 0.15833333333333333
+      },
+      "에레디비": {
+        "captured": 18,
+        "hits": 7,
+        "misses": 5,
+        "refunds": 1,
+        "pending": 5,
+        "decided": 12,
+        "settled": 13,
+        "hit_rate": 0.5833333333333334,
+        "wilson95": [
+          0.31951131254954973,
+          0.8067396863412435
+        ],
+        "net_units": "0.54",
+        "roi": 0.04153846153846154
+      },
+      "잉리그컵": {
+        "captured": 1,
+        "hits": 1,
+        "misses": 0,
+        "refunds": 0,
+        "pending": 0,
+        "decided": 1,
+        "settled": 1,
+        "hit_rate": 1.0,
+        "wilson95": [
+          0.20654931437723745,
+          1.0
+        ],
+        "net_units": "1.22",
+        "roi": 1.22
+      },
+      "프리그1": {
+        "captured": 18,
+        "hits": 9,
+        "misses": 3,
+        "refunds": 0,
+        "pending": 6,
+        "decided": 12,
+        "settled": 12,
+        "hit_rate": 0.75,
+        "wilson95": [
+          0.46769466506643426,
+          0.9110583316059453
+        ],
+        "net_units": "2.95",
+        "roi": 0.24583333333333332
+      }
+    },
+    "by_source": {
+      "market_fallback": {
+        "captured": 429,
+        "hits": 219,
+        "misses": 144,
+        "refunds": 1,
+        "pending": 65,
+        "decided": 363,
+        "settled": 364,
+        "hit_rate": 0.6033057851239669,
+        "wilson95": [
+          0.5521506130488184,
+          0.6522973799373254
+        ],
+        "net_units": "-6.93",
+        "roi": -0.01903846153846154
+      },
+      "tipster_vote": {
+        "captured": 35,
+        "hits": 18,
+        "misses": 16,
+        "refunds": 0,
+        "pending": 1,
+        "decided": 34,
+        "settled": 34,
+        "hit_rate": 0.5294117647058824,
+        "wilson95": [
+          0.3673671298006892,
+          0.6854849552491152
+        ],
+        "net_units": "-6.64",
+        "roi": -0.1952941176470588
+      }
+    }
+  },
+  "markets_pre_t30": {
+    "overall": {
+      "captured": 468,
+      "hits": 170,
+      "misses": 158,
+      "refunds": 0,
+      "pending": 140,
+      "decided": 328,
+      "settled": 328,
+      "hit_rate": 0.5182926829268293,
+      "wilson95": [
+        0.46432017590659086,
+        0.571841670906179
+      ],
+      "net_units": "-49.99",
+      "roi": -0.15240853658536585
+    },
+    "by_market": {
+      "언더오버": {
+        "captured": 202,
+        "hits": 76,
+        "misses": 63,
+        "refunds": 0,
+        "pending": 63,
+        "decided": 139,
+        "settled": 139,
+        "hit_rate": 0.5467625899280576,
+        "wilson95": [
+          0.4638590268516676,
+          0.6271509649765357
+        ],
+        "net_units": "-17.43",
+        "roi": -0.1253956834532374
+      },
+      "핸디캡": {
+        "captured": 266,
+        "hits": 94,
+        "misses": 95,
+        "refunds": 0,
+        "pending": 77,
+        "decided": 189,
+        "settled": 189,
+        "hit_rate": 0.4973544973544973,
+        "wilson95": [
+          0.4268385264062089,
+          0.5679758666910254
+        ],
+        "net_units": "-32.56",
+        "roi": -0.17227513227513228
+      }
+    },
+    "by_model": {
+      "kbl-team-margin-handicap-v1": {
+        "captured": 7,
+        "hits": 2,
+        "misses": 2,
+        "refunds": 0,
+        "pending": 3,
+        "decided": 4,
+        "settled": 4,
+        "hit_rate": 0.5,
+        "wilson95": [
+          0.15003898915214947,
+          0.8499610108478506
+        ],
+        "net_units": "-0.44",
+        "roi": -0.11
+      },
+      "kleague1-team-poisson-handicap-v1": {
+        "captured": 12,
+        "hits": 3,
+        "misses": 1,
+        "refunds": 0,
+        "pending": 8,
+        "decided": 4,
+        "settled": 4,
+        "hit_rate": 0.75,
+        "wilson95": [
+          0.30064184258240184,
+          0.9544127391902995
+        ],
+        "net_units": "0.26",
+        "roi": 0.065
+      },
+      "market-baseline-v1": {
+        "captured": 449,
+        "hits": 165,
+        "misses": 155,
+        "refunds": 0,
+        "pending": 129,
+        "decided": 320,
+        "settled": 320,
+        "hit_rate": 0.515625,
+        "wilson95": [
+          0.4610091657474637,
+          0.5698701417890577
+        ],
+        "net_units": "-49.81",
+        "roi": -0.15565625
+      }
+    },
+    "by_source": {
+      "frozen_league_handicap_model": {
+        "captured": 19,
+        "hits": 5,
+        "misses": 3,
+        "refunds": 0,
+        "pending": 11,
+        "decided": 8,
+        "settled": 8,
+        "hit_rate": 0.625,
+        "wilson95": [
+          0.30574239460262737,
+          0.8631557141764026
+        ],
+        "net_units": "-0.18",
+        "roi": -0.0225
+      },
+      "market_fallback_no_exact_line_votes": {
+        "captured": 449,
+        "hits": 165,
+        "misses": 155,
+        "refunds": 0,
+        "pending": 129,
+        "decided": 320,
+        "settled": 320,
+        "hit_rate": 0.515625,
+        "wilson95": [
+          0.4610091657474637,
+          0.5698701417890577
+        ],
+        "net_units": "-49.81",
+        "roi": -0.15565625
+      }
+    }
+  },
+  "featured_pre_t30": {
+    "captured": 114,
+    "settled": 75,
+    "pending": 39,
+    "hits": 36,
+    "decided": 75,
+    "refunds": 0,
+    "net_units": "-16.55",
+    "hit_rate": 0.48,
+    "roi": -0.22066666666666668,
+    "by_sport": {
+      "bk": {
+        "captured": 34,
+        "settled": 23,
+        "pending": 11,
+        "hits": 11,
+        "decided": 23,
+        "refunds": 0,
+        "net_units": "-4.69",
+        "hit_rate": 0.4782608695652174,
+        "roi": -0.20391304347826086
+      },
+      "bs": {
+        "captured": 3,
+        "settled": 2,
+        "pending": 1,
+        "hits": 1,
+        "decided": 2,
+        "refunds": 0,
+        "net_units": "-0.39",
+        "hit_rate": 0.5,
+        "roi": -0.195
+      },
+      "sc": {
+        "captured": 71,
+        "settled": 46,
+        "pending": 25,
+        "hits": 24,
+        "decided": 46,
+        "refunds": 0,
+        "net_units": "-7.47",
+        "hit_rate": 0.5217391304347826,
+        "roi": -0.1623913043478261
+      },
+      "vl": {
+        "captured": 6,
+        "settled": 4,
+        "pending": 2,
+        "hits": 0,
+        "decided": 4,
+        "refunds": 0,
+        "net_units": "-4",
+        "hit_rate": 0.0,
+        "roi": -1.0
+      }
+    },
+    "by_league": {
+      "A리그": {
+        "captured": 1,
+        "settled": 0,
+        "pending": 1,
+        "hits": 0,
+        "decided": 0,
+        "refunds": 0,
+        "net_units": "0",
+        "hit_rate": null,
+        "roi": null
+      },
+      "CSL": {
+        "captured": 6,
+        "settled": 0,
+        "pending": 6,
+        "hits": 0,
+        "decided": 0,
+        "refunds": 0,
+        "net_units": "0",
+        "hit_rate": null,
+        "roi": null
+      },
+      "EFL챔": {
+        "captured": 5,
+        "settled": 5,
+        "pending": 0,
+        "hits": 4,
+        "decided": 5,
+        "refunds": 0,
+        "net_units": "2.03",
+        "hit_rate": 0.8,
+        "roi": 0.406
+      },
+      "EPL": {
+        "captured": 5,
+        "settled": 4,
+        "pending": 1,
+        "hits": 2,
+        "decided": 4,
+        "refunds": 0,
+        "net_units": "-0.93",
+        "hit_rate": 0.5,
+        "roi": -0.2325
+      },
+      "J1리그": {
+        "captured": 5,
+        "settled": 4,
+        "pending": 1,
+        "hits": 4,
+        "decided": 4,
+        "refunds": 0,
+        "net_units": "2.31",
+        "hit_rate": 1.0,
+        "roi": 0.5775
+      },
+      "J2리그": {
+        "captured": 10,
+        "settled": 7,
+        "pending": 3,
+        "hits": 2,
+        "decided": 7,
+        "refunds": 0,
+        "net_units": "-3.95",
+        "hit_rate": 0.2857142857142857,
+        "roi": -0.5642857142857143
+      },
+      "KBL": {
+        "captured": 7,
+        "settled": 4,
+        "pending": 3,
+        "hits": 2,
+        "decided": 4,
+        "refunds": 0,
+        "net_units": "-0.84",
+        "hit_rate": 0.5,
+        "roi": -0.21
+      },
+      "KBO": {
+        "captured": 3,
+        "settled": 2,
+        "pending": 1,
+        "hits": 1,
+        "decided": 2,
+        "refunds": 0,
+        "net_units": "-0.39",
+        "hit_rate": 0.5,
+        "roi": -0.195
+      },
+      "KOVO남": {
+        "captured": 3,
+        "settled": 2,
+        "pending": 1,
+        "hits": 0,
+        "decided": 2,
+        "refunds": 0,
+        "net_units": "-2",
+        "hit_rate": 0.0,
+        "roi": -1.0
+      },
+      "KOVO여": {
+        "captured": 3,
+        "settled": 2,
+        "pending": 1,
+        "hits": 0,
+        "decided": 2,
+        "refunds": 0,
+        "net_units": "-2",
+        "hit_rate": 0.0,
+        "roi": -1.0
+      },
+      "K리그1": {
+        "captured": 5,
+        "settled": 2,
+        "pending": 3,
+        "hits": 0,
+        "decided": 2,
+        "refunds": 0,
+        "net_units": "-2",
+        "hit_rate": 0.0,
+        "roi": -1.0
+      },
+      "MLS": {
+        "captured": 7,
+        "settled": 7,
+        "pending": 0,
+        "hits": 4,
+        "decided": 7,
+        "refunds": 0,
+        "net_units": "-0.81",
+        "hit_rate": 0.5714285714285714,
+        "roi": -0.11571428571428571
+      },
+      "NBA": {
+        "captured": 23,
+        "settled": 16,
+        "pending": 7,
+        "hits": 8,
+        "decided": 16,
+        "refunds": 0,
+        "net_units": "-2.54",
+        "hit_rate": 0.5,
+        "roi": -0.15875
+      },
+      "WKBL": {
+        "captured": 4,
+        "settled": 3,
+        "pending": 1,
+        "hits": 1,
+        "decided": 3,
+        "refunds": 0,
+        "net_units": "-1.31",
+        "hit_rate": 0.3333333333333333,
+        "roi": -0.43666666666666665
+      },
+      "라리가": {
+        "captured": 7,
+        "settled": 4,
+        "pending": 3,
+        "hits": 4,
+        "decided": 4,
+        "refunds": 0,
+        "net_units": "2.22",
+        "hit_rate": 1.0,
+        "roi": 0.555
+      },
+      "분데스리": {
+        "captured": 6,
+        "settled": 5,
+        "pending": 1,
+        "hits": 1,
+        "decided": 5,
+        "refunds": 0,
+        "net_units": "-3.28",
+        "hit_rate": 0.2,
+        "roi": -0.656
+      },
+      "세리에A": {
+        "captured": 8,
+        "settled": 5,
+        "pending": 3,
+        "hits": 2,
+        "decided": 5,
+        "refunds": 0,
+        "net_units": "-1.74",
+        "hit_rate": 0.4,
+        "roi": -0.348
+      },
+      "에레디비": {
+        "captured": 2,
+        "settled": 1,
+        "pending": 1,
+        "hits": 1,
+        "decided": 1,
+        "refunds": 0,
+        "net_units": "0.68",
+        "hit_rate": 1.0,
+        "roi": 0.68
+      },
+      "프리그1": {
+        "captured": 4,
+        "settled": 2,
+        "pending": 2,
+        "hits": 0,
+        "decided": 2,
+        "refunds": 0,
+        "net_units": "-2",
+        "hit_rate": 0.0,
+        "roi": -1.0
+      }
+    },
+    "by_market": {
+      "승무패": {
+        "captured": 8,
+        "settled": 6,
+        "pending": 2,
+        "hits": 3,
+        "decided": 6,
+        "refunds": 0,
+        "net_units": "-1.31",
+        "hit_rate": 0.5,
+        "roi": -0.21833333333333332
+      },
+      "승패": {
+        "captured": 13,
+        "settled": 10,
+        "pending": 3,
+        "hits": 3,
+        "decided": 10,
+        "refunds": 0,
+        "net_units": "-5.32",
+        "hit_rate": 0.3,
+        "roi": -0.532
+      },
+      "언더오버": {
+        "captured": 50,
+        "settled": 30,
+        "pending": 20,
+        "hits": 16,
+        "decided": 30,
+        "refunds": 0,
+        "net_units": "-4.63",
+        "hit_rate": 0.5333333333333333,
+        "roi": -0.15433333333333332
+      },
+      "핸디캡": {
+        "captured": 43,
+        "settled": 29,
+        "pending": 14,
+        "hits": 14,
+        "decided": 29,
+        "refunds": 0,
+        "net_units": "-5.29",
+        "hit_rate": 0.4827586206896552,
+        "roi": -0.18241379310344827
+      }
+    },
+    "by_selection_source": {
+      "frozen_league_handicap_model": {
+        "captured": 2,
+        "settled": 0,
+        "pending": 2,
+        "hits": 0,
+        "decided": 0,
+        "refunds": 0,
+        "net_units": "0",
+        "hit_rate": null,
+        "roi": null
+      },
+      "market_fallback": {
+        "captured": 20,
+        "settled": 15,
+        "pending": 5,
+        "hits": 5,
+        "decided": 15,
+        "refunds": 0,
+        "net_units": "-7.16",
+        "hit_rate": 0.3333333333333333,
+        "roi": -0.47733333333333333
+      },
+      "market_fallback_no_exact_line_votes": {
+        "captured": 91,
+        "settled": 59,
+        "pending": 32,
+        "hits": 30,
+        "decided": 59,
+        "refunds": 0,
+        "net_units": "-9.92",
+        "hit_rate": 0.5084745762711864,
+        "roi": -0.168135593220339
+      },
+      "tipster_vote": {
+        "captured": 1,
+        "settled": 1,
+        "pending": 0,
+        "hits": 1,
+        "decided": 1,
+        "refunds": 0,
+        "net_units": "0.53",
+        "hit_rate": 1.0,
+        "roi": 0.53
+      }
+    },
+    "by_policy": {
+      "tipster-vote-v1": {
+        "captured": 114,
+        "settled": 75,
+        "pending": 39,
+        "hits": 36,
+        "decided": 75,
+        "refunds": 0,
+        "net_units": "-16.55",
+        "hit_rate": 0.48,
+        "roi": -0.22066666666666668
+      }
+    },
+    "selection_rule": {
+      "version": "featured-pregame-v1",
+      "preferred_odds": 1.5,
+      "probability_basis": "normalized_inverse_market",
+      "validated_edge": false
+    }
+  },
+  "late_or_missing_cutoff_snapshots": [
+    "dec_b8633ecb2c811678",
+    "dec_db8f4b32dcfb7c79"
+  ],
+  "limits": [
+    "API-selected snapshot subset, not all operating predictions or a full verified hash chain",
+    "10/28 onward only; mixed legacy policy and current policy kept separate",
+    "T-30 is a timestamp check, not independent authentication of original source bytes",
+    "Official grades are stored ledger outcomes, not independently re-fetched result originals",
+    "Different market and odds cohorts are descriptive, not paired model superiority evidence"
+  ],
+  "source": {
+    "sha256": "5667e855f7696798fea7411bee9b1f286f2204517bec775b8e175781371e171e",
+    "captured_at": "2026-11-08T06:50:33.554575+00:00",
+    "rows": 903,
+    "selection": "exact snapshot IDs already in public API; all original revisions for those IDs",
+    "complete_ledger": false,
+    "full_chain_verified": false
+  }
+}
