@@ -1,0 +1,177 @@
+{
+  "task": "nba-shot-profile-model-20261108",
+  "branch": "codex/nba-shot-profile-model-20261108",
+  "base_main": "f293e739",
+  "protocol_commit": "ddd4d4b8",
+  "pre_result_calendar_correction_commit": "afcae2fe",
+  "status": "research_completed_not_merged_not_deployed",
+  "source_pool_games": 1185,
+  "source_pool_sha256": "1899869c9b8a0cff51e9f2ed7cce57cf08d9a18b51213f46042d9361ebfcd691",
+  "prediction_sha256": "fd71c7ecfebb88f432cf2c4ea3ff621f993645e5ab7cec8a8df65fceb6a84a75",
+  "training_features_sha256": "f6e48cf01cd450bb6850d30f493bd23eb5bfd8428122f7ee793ce7fcdd79768b",
+  "states": {
+    "A": {
+      "beta": -0.01977390451361489,
+      "n": 721,
+      "penalty_l2": 10,
+      "train_ids_sha256": "d7885d17f96f2991369329954e43d72d04cbd50e465e426fbc71830fbd7c79c6",
+      "train_from": "2025-01-01",
+      "train_through": "2025-08-28",
+      "feature_rule": "each row D-365 through D-4 inclusive"
+    },
+    "B": {
+      "beta": -0.12301788422693663,
+      "n": 1187,
+      "penalty_l2": 10,
+      "train_ids_sha256": "9872623ea70e750c3975290cd8c8edacf38ff79f5e02f6046446ec712250d79c",
+      "train_from": "2025-01-01",
+      "train_through": "2025-12-28",
+      "feature_rule": "each row D-365 through D-4 inclusive"
+    }
+  },
+  "coverage": {
+    "A": {
+      "price_archive_rows": 487,
+      "prior_rows": 487,
+      "evaluated": 487,
+      "posthoc_source_target_subset": 135
+    },
+    "B": {
+      "price_archive_rows": 804,
+      "prior_rows": 773,
+      "evaluated": 773,
+      "posthoc_source_target_subset": 243
+    }
+  },
+  "models": {
+    "A": {
+      "market": {
+        "n": 487,
+        "wins": 316,
+        "hit_rate": 0.648870636550308,
+        "roi": -0.17086242299794657,
+        "log_loss": 0.6132736811646049,
+        "brier": 0.213052014044628,
+        "mean_odds": 1.3182135523613963,
+        "daily_mdd": 83.99999999999999
+      },
+      "prior_outcome_form": {
+        "n": 487,
+        "wins": 310,
+        "hit_rate": 0.6365503080082136,
+        "roi": -0.13172484599589324,
+        "log_loss": 0.6536861683586177,
+        "brier": 0.23072542055584203,
+        "mean_odds": 1.4428747433264888,
+        "daily_mdd": 64.80999999999999
+      },
+      "nonspatial": {
+        "n": 487,
+        "wins": 288,
+        "hit_rate": 0.5913757700205339,
+        "roi": -0.16928131416837783,
+        "log_loss": 0.6594794317487493,
+        "brier": 0.23380802266796377,
+        "mean_odds": 1.562464065708419,
+        "daily_mdd": 86.23
+      },
+      "spatial": {
+        "n": 487,
+        "wins": 286,
+        "hit_rate": 0.5872689938398358,
+        "roi": -0.1746201232032854,
+        "log_loss": 0.6631685092999237,
+        "brier": 0.23542229454410768,
+        "mean_odds": 1.5684394250513347,
+        "daily_mdd": 88.83
+      },
+      "spatial_residual": {
+        "n": 487,
+        "wins": 315,
+        "hit_rate": 0.6468172484599589,
+        "roi": -0.174435318275154,
+        "log_loss": 0.6132238158510082,
+        "brier": 0.21303428334568392,
+        "mean_odds": 1.3182135523613963,
+        "daily_mdd": 85.74
+      }
+    },
+    "B": {
+      "market": {
+        "n": 773,
+        "wins": 547,
+        "hit_rate": 0.7076326002587322,
+        "roi": -0.11596377749029754,
+        "log_loss": 0.5576601600060767,
+        "brier": 0.18787924672721104,
+        "mean_odds": 1.2929624838292368,
+        "daily_mdd": 89.82000000000001
+      },
+      "prior_outcome_form": {
+        "n": 773,
+        "wins": 537,
+        "hit_rate": 0.6946959896507116,
+        "roi": -0.06861578266494178,
+        "log_loss": 0.5967870090906267,
+        "brier": 0.20456772492214864,
+        "mean_odds": 1.4503492884864166,
+        "daily_mdd": 59.33
+      },
+      "nonspatial": {
+        "n": 773,
+        "wins": 499,
+        "hit_rate": 0.6455368693402329,
+        "roi": -0.09860284605433377,
+        "log_loss": 0.6418083700807203,
+        "brier": 0.22509425683254533,
+        "mean_odds": 1.6110090556274255,
+        "daily_mdd": 78.16000000000001
+      },
+      "spatial": {
+        "n": 773,
+        "wins": 497,
+        "hit_rate": 0.6429495472186287,
+        "roi": -0.1108796895213454,
+        "log_loss": 0.6429955550508473,
+        "brier": 0.2256293285435063,
+        "mean_odds": 1.6038163001293662,
+        "daily_mdd": 89.51999999999998
+      },
+      "spatial_residual": {
+        "n": 773,
+        "wins": 549,
+        "hit_rate": 0.7102199223803364,
+        "roi": -0.1114359637774903,
+        "log_loss": 0.557574701742319,
+        "brier": 0.18785266292652242,
+        "mean_odds": 1.2930142302716687,
+        "daily_mdd": 86.32000000000001
+      }
+    }
+  },
+  "target_exclusions": {},
+  "validated_edge": false,
+  "production_changed": false,
+  "limits": [
+    "Both periods previously researched",
+    "ESPN coordinates proxy not official zones",
+    "historical price timing, product identity and overtime settlement unverified",
+    "target source pool subset descriptive only",
+    "not operating M0 or vote replay"
+  ],
+  "tests": [
+    "Python full suite 2762 passed, 6 skipped, 123 subtests passed",
+    "targeted 7 passed",
+    "synthetic memory script passed",
+    "beta gradient and unique predictions independently checked",
+    "prediction byte reproducibility confirmed"
+  ],
+  "artifacts": [
+    "PROTOCOL.md",
+    "REPORT.md",
+    "manifest.json",
+    "results.json",
+    "predictions.jsonl.gz",
+    "train_features.jsonl.gz"
+  ]
+}
