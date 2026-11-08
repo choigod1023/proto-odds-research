@@ -24,3 +24,6 @@ scripts/evaluate_draw_calibration_holdout.py text eol=lf
 /research/m1_service/frozen-models.json -text
 /experiments/m1-service-20261104/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 /experiments/m1-input-readiness-20261104/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+
+# Preserve exact bytes of archived forward schedule evidence.
+/experiments/forward-next-check-20261104/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
