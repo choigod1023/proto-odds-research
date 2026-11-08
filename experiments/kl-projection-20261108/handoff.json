@@ -10,7 +10,7 @@
   "summary": "experiments/kl-projection-20261108/summary.json",
   "uncertainty": "experiments/kl-projection-20261108/uncertainty.json",
   "tests": "pytest test_information_projection.py: 3 passed; compileall research Python files passed; all prior predictions and bootstrap intervals exactly unchanged.",
-  "conclusion": "Direct market baseline added: 2025–26 UO 21 changed picks, 5 wins to losses and 16 losses to wins; all changed market probability gaps <=2.85pp. KL logloss difference vs market is -0.000232 with 95% paired-week interval including zero. Retrospective and not current operating model or proof of profit.",
+  "conclusion": "2025–26 UO: KL vs direct market hit and ROI paired-week nominal 95% intervals are positive; vs same-input Poisson also positive. Prior-only comparison intervals and same-input/direct-market logloss intervals include zero. No multiplicity adjustment; reused retrospective prices lack proven receipt/executability and KL ROI is negative. Not evidence of operational promotion or future profit. 21 picks changed: 5 wins to losses, 16 losses to wins.",
   "limitations": "Historical period reused; original 893-study overlap not quantified; NBA/KBO not evaluated; original price archive required for reproduction.",
   "head_push_verification": "Earlier rejected push succeeded on retry: remote branch verified at 7ff6836d3dd8adeb268f209b2c147137fd69596e on 2026-11-08. Subsequent paired-CI commit is pushed to the same PR; check PR headRefOid for current head.",
   "market_diagnostic": "experiments/kl-projection-20261108/market_change_diagnostic.json"
