@@ -7,7 +7,12 @@ import numpy as np
 from scipy.special import expit,logit
 from scipy.optimize import minimize_scalar
 from kovo_parse import parse
-from run import metrics
+# Load the sibling by path: other experiments also expose a module named 'run'.
+import importlib.util
+_spec = importlib.util.spec_from_file_location('volleyball_history_metrics_20261108e', Path(__file__).resolve().with_name('run.py'))
+_metrics_module = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(_metrics_module)
+metrics = _metrics_module.metrics
 ROOT=Path(__file__).resolve().parents[2];HERE=Path(__file__).resolve().parent
 ALIASES={'흥국생명':'흥국생명','정관장':'대전정관','GS칼텍스':'GS칼텍스','IBK기업은행':'IBK기업','페퍼저축은행':'페퍼저축','한국도로공사':'도로공사','현대건설':'현대건설','한국전력':'한국전력','우리카드':'우리카드','삼성화재':'삼성화재','OK저축은행':'OK저축','현대캐피탈':'현대캐피','KB손해보험':'KB손보','대한항공':'대한항공'}
 def build_features(games,prices):

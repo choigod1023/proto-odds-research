@@ -33,3 +33,11 @@ def test_duplicate_price_fixture_is_excluded():
  g={'league':'KOVO남','date':'2025-10-10','home':'A','away':'B','number':11,'sets':[3,0],'receive':[30.,20.]}
  p={'league':'KOVO남','day':'2025-10-10','home':'A','away':'B','odds':[1.8,1.9],'y':0,'id':'x'}
  rows,audit=m.build_features([g],[p,dict(p,id='y')]);assert not rows and audit['KOVO남/2025/duplicate_price_fixture']==2
+
+
+def test_metrics_import_ignores_unrelated_run_module(monkeypatch):
+ import types
+ monkeypatch.setitem(sys.modules, 'run', types.ModuleType('run'))
+ model = load('kovo_model')
+ result = model.metrics([{'y': 1, 'odds': [1.5, 2.5]}], [.8])
+ assert result['accuracy'] == 1.0
