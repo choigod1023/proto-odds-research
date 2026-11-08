@@ -10,7 +10,7 @@
   "predictions": "experiments/volleyball-history-20261108e/predictions.jsonl.gz",
   "summary": "experiments/volleyball-history-20261108e/summary.json",
   "raw_local": "C:/Users/user/.codex/visualizations/2026/11/08/01a1b9e6-33f0-7b92-895d-2849b37ebce2/vnl-history-20261108e/",
-  "tests": "focused 9 passed; full pytest and GitHub CI pending",
+  "tests": "Focused pytest 9 passed; full Windows pytest 2764 passed, 6 skipped, 123 subtests passed. GitHub Python 3.11/3.12 CI: see PR checks.",
   "limits": "KOVO 252 public schedule/result matches; 2026 price-linked 63 men and 62 women; historical capture and execution uncertified; no selection changes; label-lag fix applied after first result.",
   "output_sha256": {
     "predictions.jsonl.gz": "0a7cf683261e5d3503ad85ca783d1dbaf1954de67e4cbabdb18d5e9ae6300852",
@@ -29,5 +29,6 @@
     "kovo-summary.json": "a04ac0ca143c84e8b6b94de62738e922d17d8e4286051fa680908edf4db6e3bc",
     "kovo-predictions.jsonl.gz": "141cd97c0edb4555d3a0d192f7b2ea60957f4727a2600897bec1ef2587d5e537"
   },
-  "ci_fix": "Full pytest collection imported another experiment run.py instead of volleyball metrics; sibling loaded by explicit path under unique name, regression covers unrelated sys.modules run."
+  "ci_fix": "Full pytest collection imported another experiment run.py instead of volleyball metrics; sibling loaded by explicit path under unique name, regression covers unrelated sys.modules run.",
+  "ci_run": "https://github.com/choigod1023/proto-odds-research/actions/runs/42462390036"
 }
