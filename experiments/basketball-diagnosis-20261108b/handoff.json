@@ -1,0 +1,19 @@
+{
+  "status": "incomplete_missing_matched_cohort",
+  "branch": "codex/basketball-diagnosis-20261108b",
+  "base": "f293e7397c2197dfdca783b77d90853a8e918c5d",
+  "commit": null,
+  "pull_request": null,
+  "report": "experiments/basketball-diagnosis-20261108b/REPORT.md",
+  "summary": "experiments/basketball-diagnosis-20261108b/summary.json",
+  "ledger_summary": "experiments/basketball-diagnosis-20261108b/ledger-summary.json",
+  "predictions": null,
+  "tests": "python -m pytest tests/test_basketball_diagnosis_20261108b.py tests/test_frozen_market_results.py tests/test_multi_market_recommendations.py -q: 52 passed",
+  "limits": [
+    "The supplied ledger covers API-selected snapshot IDs and is not a complete ledger or complete hash chain; pre-October 28 is absent.",
+    "The October 28 abstention text predates the explicit October 30 no-vote market fallback implementation; no policy change was made.",
+    "The requested 2025 training and 2026 matched handicap product, all-prices and settlement cohort has not been established.",
+    "No candidate predictions or effectiveness metrics were produced; no model or operating policy was changed.",
+    "Origin main was fetched before handoff; this audit does not establish a model improvement."
+  ]
+}
