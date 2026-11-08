@@ -19,6 +19,13 @@ test('recommendations preserve product identity and never turn votes into probab
   assert.doesNotMatch(vote,/57\.0%|8\.3%/);assert.match(vote,/예상 적중확률 미제공/);
   const market=renderToStaticMarkup(createElement(View,{recommendations:[{item:{...item,probability_basis:'market_conditional_decisive'},option:options[1]}]}));
   assert.match(market,/57\.0%/);assert.match(market,/배당 기반 · 무효 제외 조건부/);
+  const sourceItem={...item,source_ids:['proto_official_current_market']};
+  const current=renderToStaticMarkup(createElement(View,{recommendations:[{item:sourceItem,option:options[1]}]}));
+  const saved=renderToStaticMarkup(createElement(View,{recommendations:[{item:sourceItem,option:{...options[1],배당:1.47},saved:true,capturedAt:'2026-11-05T23:13:19Z'}]}));
+  assert.match(current,/출처 현재 프로토 배당/);
+  assert.match(saved,/출처 기록 당시 프로토 배당/);
+  assert.match(saved,/배당 1\.90배/);assert.match(saved,/예상 수익률 8\.3%/);
+  assert.doesNotMatch(saved,/출처 현재 프로토 배당/);
   for(const change of [{offer_id:'bad'},{line:3.5},{odds:2},{selection:'언더'},{label:'U 3.5'}]) assert.equal(currentMarketRecommendations({...game,market_recommendations:{...game.market_recommendations,items:[{...item,...change}]}},options).length,0);
   assert.equal(currentMarketRecommendations({...game,_liveOddsChanged:true},options).length,0);
   assert.equal(currentMarketRecommendations(game,[...options,options[1]]).length,0);
