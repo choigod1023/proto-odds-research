@@ -12,3 +12,10 @@ def test_fit_ignores_future_rows_by_caller_contract():
  rows=[{'odds':[1.5,3.0],'y':0},{'odds':[3.,1.5],'y':1}]*20
  b=m.fit(rows); assert np.isfinite(b).all()
  assert m.evaluate(rows,[m.market(r) for r in rows])['accuracy']==1
+
+def test_ledger_audit_distinguishes_capture_from_asof(tmp_path):
+ import gzip, json, importlib.util
+ script=p.parent/'audit_ledger.py'; spec=importlib.util.spec_from_file_location('volley_ledger',script); a=importlib.util.module_from_spec(spec);spec.loader.exec_module(a)
+ row={'record_type':'prediction','snapshot_id':'s','event_id':'e','features':{'fixture':{'sport':'vl','league':'L','date':'d'},'tipster_hybrid':{'authors':0,'reason':'market_fallback_no_votes'}},'predictions':{'selection':'홈','market':'승패','odds':1.5},'model':{'selection_policy':'tipster-vote-v1'},'kickoff':'2026-11-04T10:00:00Z','captured_at':'2026-11-04T09:31:00Z','as_of':'2026-11-04T09:29:00Z','market_observed_at':'2026-11-04T09:28:00Z'}
+ f=tmp_path/'ledger.gz';f.write_bytes(gzip.compress((json.dumps(row)+'\n').encode()));x=a.audit(f)['rows'][0]
+ assert x['before_t30_asof'] and not x['before_t30_captured'] and x['result'] is None
