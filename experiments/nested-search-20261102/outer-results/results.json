@@ -1,0 +1,58 @@
+{
+  "classification": "previously_seen_2026_outer_diagnostic_not_blind",
+  "metrics": {
+    "dc": {
+      "games": 77,
+      "hits": 30,
+      "accuracy": 0.38961038961038963,
+      "net_units": "-17.38",
+      "roi": -0.2257142857142857,
+      "logloss": 1.1049277042132812,
+      "brier": 0.6695912929219637,
+      "daily_close_max_drawdown_units": "25.26",
+      "monthly_units": {
+        "2026-02": "-0.83",
+        "2026-03": "-11.44",
+        "2026-04": "-3.28",
+        "2026-05": "-1.83"
+      }
+    },
+    "market": {
+      "games": 77,
+      "hits": 39,
+      "accuracy": 0.5064935064935064,
+      "net_units": "-1.28",
+      "roi": -0.016623376623376623,
+      "logloss": 1.0466951732424783,
+      "brier": 0.6311700441512328,
+      "daily_close_max_drawdown_units": "7.74",
+      "monthly_units": {
+        "2026-02": "1.40",
+        "2026-03": "-6.28",
+        "2026-04": "7.16",
+        "2026-05": "-3.56"
+      }
+    },
+    "residual:form:k=30:prior=10:weight=uniform:half=None:blend=1.0": {
+      "games": 77,
+      "hits": 37,
+      "accuracy": 0.4805194805194805,
+      "net_units": "-3.75",
+      "roi": -0.048701298701298704,
+      "logloss": 1.0213881989923483,
+      "brier": 0.6108468060729386,
+      "daily_close_max_drawdown_units": "7.11",
+      "monthly_units": {
+        "2026-02": "-0.83",
+        "2026-03": "-6.28",
+        "2026-04": "2.52",
+        "2026-05": "0.84"
+      }
+    }
+  },
+  "selected_artifact_sha256": "c89cc21d36af050992cdfd2e067250a8c115b0a50743b23c8bafa9b86d31aac7",
+  "prediction_sha256": "628f110e906714585d74561aafe8f010dbefa7f147c1d28b008dcc4ef1aeea91",
+  "automatic_adoption": false,
+  "actual_wallet_replay": false,
+  "monthly_loss_cap_changed": false
+}
