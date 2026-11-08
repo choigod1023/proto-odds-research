@@ -1,10 +1,23 @@
 {
   "branch": "codex/group-dro-research-20261108",
-  "research_commit": "e46c56c3ef5904f9ca5e1f9256e6e714b2cf1419",
-  "handoff_commit": "See branch HEAD; this file is committed separately after research_commit.",
+  "research_commit": "fd25718a30602ce97ad29440058e14f1a48a9116",
+  "handoff_commit": "Final branch HEAD contains this file; inspect git rev-parse HEAD for its identifier.",
   "pull_request": "https://github.com/choigod1023/proto-odds-research/pull/638",
   "status": "draft; not merged or deployed",
-  "paths": ["experiments/group-dro-20261108/README.md", "experiments/group-dro-20261108/run.py", "experiments/group-dro-20261108/summary.json", "experiments/group-dro-20261108/predictions.jsonl", "experiments/group-dro-20261108/test_run.py"],
-  "checks": {"real_replay": "completed", "synthetic_unittest": "2 passed after rebase", "production_build": "not applicable: offline research only"},
-  "conclusion": "2026 worst-league log loss worsened for baseball and basketball and slightly improved for soccer; soccer paired overall intervals include zero. Retrospective reused data and executable prices unverified. No production adoption."
+  "paths": [
+    "experiments/group-dro-20261108/README.md",
+    "experiments/group-dro-20261108/run.py",
+    "experiments/group-dro-20261108/summary.json",
+    "experiments/group-dro-20261108/predictions.jsonl",
+    "experiments/group-dro-20261108/test_group_dro_research.py"
+  ],
+  "checks": {
+    "real_replay": "completed",
+    "synthetic_unittest": "python -m unittest discover -s experiments/group-dro-20261108 -p test_group_dro_research.py -v: 2 passed after rebase",
+    "production_build": "not applicable: offline research only",
+    "compile": "python -m py_compile experiments/group-dro-20261108/run.py experiments/group-dro-20261108/test_group_dro_research.py: passed"
+  },
+  "conclusion": "2026 worst-league log loss worsened for baseball and basketball and slightly improved for soccer; soccer paired overall intervals include zero. Retrospective reused data and executable prices unverified. No production adoption.",
+  "base_main": "0804da497a7693e6ab7f63a2d7c34f6d71fa2c28",
+  "push_status": "Final branch HEAD pushed to origin; verify with git rev-parse HEAD and origin/codex/group-dro-research-20261108."
 }

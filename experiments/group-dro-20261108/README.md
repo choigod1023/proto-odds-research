@@ -22,4 +22,4 @@
 
 ## 재현
 
-Python, NumPy, SciPy 필요. 저장소 루트에서 `python experiments/group-dro-20261108/run.py` 및 `python -m unittest discover -s experiments/group-dro-20261108 -p test_run.py -v`. 테스트는 합성 예제로 3-way 확률·목적함수 및 정산을 검증하며 위 실제 성과와 별개다. 고정 데이터와 종목 선택만 읽고 운영·DB·예약 작업을 변경하지 않는다.
+Python, NumPy, SciPy 필요. 저장소 루트에서 `python experiments/group-dro-20261108/run.py` 및 `python -m unittest discover -s experiments/group-dro-20261108 -p test_group_dro_research.py -v`. 테스트는 합성 예제로 3-way 확률·목적함수 및 정산을 검증하며 위 실제 성과와 별개다. 고정 데이터와 종목 선택만 읽고 운영·DB·예약 작업을 변경하지 않는다.
