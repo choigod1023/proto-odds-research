@@ -1,0 +1,35 @@
+{
+  "overseas_file_rows": 182,
+  "overseas_rows_on_restored_dates": 0,
+  "base_rows": 3248,
+  "missing_rows": 935,
+  "reason_counts": {
+    "retrospective_both_starter_names_only": 3,
+    "no_official_archive_game": 928,
+    "unknown_team_alias": 4
+  },
+  "result_counts": {
+    "score_matches_original": 3,
+    "not_linked": 932
+  },
+  "pregame_receipt_verified_in_recovered": 0,
+  "same_price_product_time_verified": null,
+  "input_sha256s": {
+    "data\\raw\\npb_starters.json": "6f3c2cfabc21e8a30d6bd475d55e0c7d6091e813181bb8678aa89e3baadf2ed0",
+    "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\rd-baseball-source-links-20261030\\experiments\\source-link-baseball-20261030\\parsed-official-games.jsonl.gz": "c1dc2b34d96c3f474d008c803ac47852dbab2c681132e313b5f667b9b4f23771",
+    "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\rd-baseball-source-links-20261030\\experiments\\source-link-baseball-20261030\\phase2\\parsed-official-games.jsonl.gz": "2f6f1a746e02474e023b95153c76543dc98b7102ffad935c4afe1cc562fada39",
+    "data\\raw\\overseas\\NPB.json": "f6db0654110983b83b4b55b7a8f09e8f494be03f0c29a40f30407dbf62071185",
+    "experiments\\npb-recovery-20261102\\raw\\016ceea6b62b9c13a9f090ae3efe779c6c01688a50ca68b122d14099c0d6dddc.html": "016ceea6b62b9c13a9f090ae3efe779c6c01688a50ca68b122d14099c0d6dddc",
+    "experiments\\npb-recovery-20261102\\raw\\016ceea6b62b9c13a9f090ae3efe779c6c01688a50ca68b122d14099c0d6dddc.json": "47ba8543e9d9ced7d8f7dd8c98b5fe386e4a7012a544a3ad5141797f7c435126",
+    "experiments\\npb-recovery-20261102\\raw\\07ca051e1a8e7485c0fe40ab51068c1e58c12fa5ddeb9e33e407b893074345b5.html": "07ca051e1a8e7485c0fe40ab51068c1e58c12fa5ddeb9e33e407b893074345b5",
+    "experiments\\npb-recovery-20261102\\raw\\07ca051e1a8e7485c0fe40ab51068c1e58c12fa5ddeb9e33e407b893074345b5.json": "597aa1d82861e339153dfcba85ff498ec181f303558cc73d34969be2b959ede5",
+    "experiments\\npb-recovery-20261102\\raw\\4c8be7d50db67d0fa9a5ac9d24a6e2551715e5867d9e35d987dc8180a104d23e.html": "4c8be7d50db67d0fa9a5ac9d24a6e2551715e5867d9e35d987dc8180a104d23e",
+    "experiments\\npb-recovery-20261102\\raw\\4c8be7d50db67d0fa9a5ac9d24a6e2551715e5867d9e35d987dc8180a104d23e.json": "73a0c6190898926a516b00ef1205c3212c4f69b6b263d8f82d32801c4ff2c8a4",
+    "experiments\\npb-recovery-20261102\\raw\\9318806506e11099f8a842b2dced520ae6412342453aaa37c264db075554326c.html": "9318806506e11099f8a842b2dced520ae6412342453aaa37c264db075554326c",
+    "experiments\\npb-recovery-20261102\\raw\\9318806506e11099f8a842b2dced520ae6412342453aaa37c264db075554326c.json": "f8968414def87d243d7ff33a336055fc633674a8f8fb06a5dfc531bf2e1ddad8",
+    "experiments\\npb-recovery-20261102\\raw\\e522d21edf2564def2f185d138654b41898502afd1befa57a7ca5d112715e3ef.html": "e522d21edf2564def2f185d138654b41898502afd1befa57a7ca5d112715e3ef",
+    "experiments\\npb-recovery-20261102\\raw\\e522d21edf2564def2f185d138654b41898502afd1befa57a7ca5d112715e3ef.json": "7207014fe363555fa7ba65e6dbee020f620d40fcdaee9a25e139c07a872c77a7"
+  },
+  "scope": "postgame archive only; no independently verified pregame receipt; no price join performed",
+  "command": "python experiments/npb-recovery-20261102/recover.py"
+}

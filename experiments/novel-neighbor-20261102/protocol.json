@@ -1,0 +1,54 @@
+{
+  "schema": "novel-neighbor-preregister-v1",
+  "date": "2026-11-02",
+  "base_main": "69c91f7cef35595ab637cf484bb61456f0e73f08",
+  "question": "Can a nonparametric nearest-neighbor outcome distribution conditioned jointly on market and frozen-out-of-time DC probabilities change fixed-coverage 1X2 accuracy relative to market on the same K League 1 opportunities?",
+  "scope": "exploratory; 2024/2025 samples reused repeatedly; not independent/blind; no production use",
+  "source": {
+    "path": "C:/Users/user/Documents/ChatGPT/sportstoto-worktrees/kleague-three-candidates-20261101/experiments/kleague-three-candidates-20261101/oof.jsonl",
+    "sha256": "158cd931f3fa576b97678dfcc0b44042b9ef1a5826183853fb6d9b0beb314f05",
+    "source_pr": "https://github.com/choigod1023/proto-odds-research/pull/490",
+    "source_pr_head": "a10cec7238b246dd8cc028b617268793e928511e",
+    "source_counts": "455 rows: 228 2024 OOF / 227 2025 evaluation, as reported by input manifest; exact row eligibility audited after preregistration",
+    "restrictions": "same archived K League 1 full-game 1X2 prices and results; no contemporaneous receipt/price execution verification; no actual tipster or frozen operating selection"
+  },
+  "model": "nearest neighbors in six raw probabilities [market home,draw,away, DC home,draw,away], squared Euclidean metric, uniform weights; class probability (neighbor class count + 1)/(k + 3), no market blend or team labels; order equal distances by id",
+  "hypothesis": "similar historical market-and-team forecast configurations can have different class frequencies than the market argmax; local empirical neighbors may alter choice",
+  "k_grid": [
+    15,
+    30,
+    60
+  ],
+  "validation_selection": "mean multiclass logloss on all eligible validation fixtures; lower k wins ties within 1e-12; candidate must be selected before test; 3-way search disclosed",
+  "splits": {
+    "training": "2024 day < 2024-07-25",
+    "validation": "2024-08-01 <= day < 2025-01-01; train stays frozen",
+    "test": "2025-01-01 <= day < 2026-01-01; refit selected k once using all eligible 2024 rows; each training row day <= first test day minus 7 days",
+    "timing": "all input DC predictions must have dc_training_cutoff <= their own day minus 7 days; older results assumed available +7 calendar days, not independently timestamped; 2025 DC inputs may use earlier 2025 results, despite fixed neighbor bank"
+  },
+  "eligibility": "exact expected source 455 unique ids; fail closed on missing date, id, complete 3-vector, price, valid label or OOF cutoff; never filter by predicted edge; report input and excluded counts separately. Do not use target score/outcome as feature or to join identities.",
+  "picks": "argmax; exact ties smallest side index, no abstention, coverage 100% on accepted source cohort",
+  "controls": [
+    "same market probability and prices",
+    "same historical DC probability and prices"
+  ],
+  "missing_controls": [
+    "actual tipster vote",
+    "frozen 9:1",
+    "current operating pick"
+  ],
+  "metrics": [
+    "n,coverage,hits,accuracy,ROI,net,Brier,logloss,pick changes",
+    "same day close maximum drawdown and monthly hypothetical unit P&L",
+    "observed-week paired bootstrap 5000 seed 20261102: accuracy and ROI difference vs market, descriptive"
+  ],
+  "bias": "prices archive, actual historical quote availability/execution/independent receipt not certified; same-set DC and result provenance inherited; 2025 repeatedly inspected; n<300; no wallet stop-loss simulation",
+  "falsification": [
+    "predict takes no labels/score",
+    "future/target poison does not alter corresponding prediction",
+    "stable tie handling",
+    "probability sum and positive",
+    "independent Decimal settlement of saved predictions"
+  ],
+  "constraints": "no network at execution; no training on 2025 targets; no deploying, operating changes, betting, or merge"
+}
