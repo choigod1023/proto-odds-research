@@ -1,0 +1,33 @@
+{
+  "status": "retrospective_evaluated_new_http_collection_blocked_by_terms",
+  "branch": "codex/kbo-history-20261108e",
+  "base": "f293e7397c2197dfdca783b77d90853a8e918c5d",
+  "protocol_commit": "e98aa19a",
+  "commit": "See git rev-parse HEAD",
+  "pr": null,
+  "paths": [
+    "experiments\\kbo-history-20261108e\\REPORT.md",
+    "experiments\\kbo-history-20261108e\\PROTOCOL.md",
+    "experiments\\kbo-history-20261108e\\run.py",
+    "experiments\\kbo-history-20261108e\\summary.json",
+    "experiments\\kbo-history-20261108e\\predictions.jsonl.gz",
+    "tests/test_kbo_history_20261108e.py"
+  ],
+  "output_sha256": {
+    "summary.json": "32f50314e36b38560168e8b04ec6026b8b0b83b87a7268fadc99a1d8d7b4781e",
+    "predictions.jsonl.gz": "0ec4145ed022c6a64a4916af09aa6d4afe835809c44f96e7619e65bc39debb33"
+  },
+  "tests": [
+    "python -X utf8 -m unittest discover -s tests -p test_kbo_history_20261108e.py -v: 5 passed",
+    "offline run.py executed on retained archives",
+    "git diff --check"
+  ],
+  "limits": [
+    "MyKBO terms prohibit betting-help use; not used in model",
+    "no newly permitted long-history collection or HTTP collector",
+    "retrospective input/price receipt and schedule completeness unverified",
+    "2025 price cohort excludes draws",
+    "2026 previously inspected, not blind",
+    "no verified actual bullpen availability"
+  ]
+}
