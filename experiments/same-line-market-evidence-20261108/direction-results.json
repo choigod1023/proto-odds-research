@@ -1,15 +1,41 @@
 {
   "scope": "retrospective, stored history capped at 50; first retained is not necessarily opening; HTTP receipt and execution unproven",
+  "input_sha256": {
+    "market-changes-audit-live-20261108.json": "1300031983ee4c6bb400a6eb9867ccd89398659eca92c57af0680567a17b8395",
+    "settlement-deploy-all-after-20261108.json": "394fecc75c81773d7e66a10778eccad04064f528958e33ef03532b376e0c75a0"
+  },
   "counts": {
     "fixture_rows": 3314,
     "unique_exact_fixture_result": 2940,
     "unique_record_selection": 1991,
-    "two_way_complete_options": 1102,
+    "two_way_complete_options_canonical": 1102,
     "record_hit_or_miss": 1063,
     "two_pre_t30_observations": 236,
     "same_line_complete_history": 226,
-    "direction_order_witness": 220,
-    "non_tied": 214
+    "non_tied": 214,
+    "physical_duplicate_rows_excluded": 0,
+    "late_or_missing_capture_excluded": 4
+  },
+  "late_or_missing_capture": {
+    "n": 4,
+    "first_wins": 1,
+    "last_wins": 2,
+    "win_to_loss": 0,
+    "loss_to_win": 1,
+    "additional_wins": 1,
+    "hit_rate_difference_pp": 25.0,
+    "profit_units": [
+      -2.5,
+      -0.76
+    ],
+    "roi": [
+      -0.625,
+      -0.19
+    ],
+    "max_drawdown_units": [
+      2.5,
+      1.5
+    ]
   },
   "fixed_pick_probability_metrics": {
     "record_odds_n": 210,
@@ -26,98 +52,98 @@
     ]
   },
   "time_split_first_half": {
-    "n": 107,
+    "n": 105,
     "first_wins": 53,
-    "last_wins": 57,
+    "last_wins": 56,
     "win_to_loss": 6,
-    "loss_to_win": 10,
-    "additional_wins": 4,
-    "hit_rate_difference_pp": 3.7383177570093458,
+    "loss_to_win": 9,
+    "additional_wins": 3,
+    "hit_rate_difference_pp": 2.857142857142857,
     "profit_units": [
-      -21.15,
-      -15.82
+      -19.15,
+      -15.559999999999999
     ],
     "roi": [
-      -0.19766355140186914,
-      -0.14785046728971962
+      -0.18238095238095237,
+      -0.14819047619047618
     ],
     "max_drawdown_units": [
-      21.909999999999993,
-      18.269999999999996
+      21.219999999999995,
+      19.009999999999998
     ]
   },
   "time_split_second_half": {
-    "n": 107,
-    "first_wins": 65,
-    "last_wins": 64,
+    "n": 105,
+    "first_wins": 64,
+    "last_wins": 63,
     "win_to_loss": 7,
     "loss_to_win": 6,
     "additional_wins": -1,
-    "hit_rate_difference_pp": -0.9345794392523364,
+    "hit_rate_difference_pp": -0.9523809523809523,
     "profit_units": [
-      -11.219999999999999,
-      -14.299999999999999
+      -10.719999999999999,
+      -13.799999999999999
     ],
     "roi": [
-      -0.10485981308411214,
-      -0.1336448598130841
+      -0.10209523809523809,
+      -0.13142857142857142
     ],
     "max_drawdown_units": [
-      14.92,
-      15.159999999999998
+      13.419999999999998,
+      14.479999999999999
     ]
   },
   "changed_day_blocks": 16,
   "changed_day_bootstrap_95_hit_difference_pp": [
-    -20.0,
-    46.15384615384615
+    -26.666666666666668,
+    45.45454545454545
   ],
   "total": {
-    "n": 214,
-    "first_wins": 118,
-    "last_wins": 121,
+    "n": 210,
+    "first_wins": 117,
+    "last_wins": 119,
     "win_to_loss": 13,
-    "loss_to_win": 16,
-    "additional_wins": 3,
-    "hit_rate_difference_pp": 1.4018691588785046,
+    "loss_to_win": 15,
+    "additional_wins": 2,
+    "hit_rate_difference_pp": 0.9523809523809523,
     "profit_units": [
-      -32.37,
-      -30.119999999999997
+      -29.869999999999997,
+      -29.36
     ],
     "roi": [
-      -0.15126168224299064,
-      -0.14074766355140186
+      -0.14223809523809522,
+      -0.1398095238095238
     ],
     "max_drawdown_units": [
-      33.80999999999998,
-      32.94999999999999
+      31.309999999999985,
+      32.18999999999999
     ]
   },
   "changed": {
-    "n": 29,
+    "n": 28,
     "first_wins": 13,
-    "last_wins": 16,
+    "last_wins": 15,
     "win_to_loss": 13,
-    "loss_to_win": 16,
-    "additional_wins": 3,
-    "hit_rate_difference_pp": 10.344827586206897,
+    "loss_to_win": 15,
+    "additional_wins": 2,
+    "hit_rate_difference_pp": 7.142857142857143,
     "profit_units": [
-      -4.52,
-      -2.2700000000000005
+      -3.5199999999999996,
+      -3.0100000000000007
     ],
     "roi": [
-      -0.15586206896551721,
-      -0.07827586206896553
+      -0.1257142857142857,
+      -0.10750000000000003
     ],
     "max_drawdown_units": [
-      5.589999999999999,
-      5.71
+      5.359999999999999,
+      6.45
     ]
   },
   "day_blocks": 43,
   "paired_day_bootstrap_95_hit_difference_pp": [
-    -2.7777777777777777,
-    6.043956043956044
+    -3.7037037037037037,
+    5.809128630705394
   ],
   "candidates": [
     {
@@ -3257,38 +3283,6 @@
       ]
     },
     {
-      "round": 121,
-      "kickoff": "2026-10-14T10:00:00.000000Z",
-      "first_time": "2026-10-12T22:08:27+00:00",
-      "last_time": "2026-10-13T11:36:11+00:00",
-      "first_odds": [
-        1.67,
-        1.86
-      ],
-      "last_odds": [
-        1.78,
-        1.74
-      ],
-      "first_pick": 0,
-      "last_pick": 1,
-      "winner": 1,
-      "block": "2026-10-14",
-      "game_no": "8123",
-      "market": "언더오버",
-      "label": "U 3.5",
-      "fixed_pick": 1,
-      "record_odds": 1.5,
-      "record_captured_at": "2026-10-14T09:33:43.973565Z",
-      "fixture_key": [
-        121,
-        "sc",
-        "ACLE",
-        "가시와R",
-        "포트FC",
-        "10.14(수) 19:00"
-      ]
-    },
-    {
       "round": 122,
       "kickoff": "2026-10-14T16:00:00.000000Z",
       "first_time": "2026-10-13T23:16:54+00:00",
@@ -5721,38 +5715,6 @@
       ]
     },
     {
-      "round": 127,
-      "kickoff": "2026-10-27T09:30:00.000000Z",
-      "first_time": "2026-10-26T22:10:58+00:00",
-      "last_time": "2026-10-27T08:42:05+00:00",
-      "first_odds": [
-        2.18,
-        1.45
-      ],
-      "last_odds": [
-        2.02,
-        1.53
-      ],
-      "first_pick": 1,
-      "last_pick": 1,
-      "winner": 0,
-      "block": "2026-10-27",
-      "game_no": "0887",
-      "market": "승패",
-      "label": "",
-      "fixed_pick": 1,
-      "record_odds": 1.53,
-      "record_captured_at": "2026-10-27T09:00:14.666638Z",
-      "fixture_key": [
-        127,
-        "bs",
-        "KBO",
-        "삼성",
-        "KIA",
-        "10.27(화) 18:30"
-      ]
-    },
-    {
       "round": 128,
       "kickoff": "2026-10-28T03:00:00.000000Z",
       "first_time": "2026-10-27T23:09:48+00:00",
@@ -6364,38 +6326,6 @@
       "round": 131,
       "kickoff": "2026-11-04T10:00:00.000000Z",
       "first_time": "2026-11-03T23:15:22+00:00",
-      "last_time": "2026-11-04T09:14:51+00:00",
-      "first_odds": [
-        1.84,
-        1.65
-      ],
-      "last_odds": [
-        2.07,
-        1.5
-      ],
-      "first_pick": 1,
-      "last_pick": 1,
-      "winner": 1,
-      "block": "2026-11-04",
-      "game_no": "2421",
-      "market": "승패",
-      "label": "",
-      "fixed_pick": 1,
-      "record_odds": 1.5,
-      "record_captured_at": "2026-11-04T09:31:19.869989Z",
-      "fixture_key": [
-        131,
-        "vl",
-        "KOVO남",
-        "KB손보",
-        "OK저축",
-        "11.04(수) 19:00"
-      ]
-    },
-    {
-      "round": 131,
-      "kickoff": "2026-11-04T10:00:00.000000Z",
-      "first_time": "2026-11-03T23:15:22+00:00",
       "last_time": "2026-11-04T09:02:34+00:00",
       "first_odds": [
         1.35,
@@ -6518,38 +6448,6 @@
         "오클썬더",
         "클리캐벌",
         "11.05(목) 10:00"
-      ]
-    },
-    {
-      "round": 131,
-      "kickoff": "2026-11-05T01:30:00.000000Z",
-      "first_time": "2026-11-04T00:38:27+00:00",
-      "last_time": "2026-11-04T10:04:14+00:00",
-      "first_odds": [
-        1.14,
-        3.67
-      ],
-      "last_odds": [
-        1.17,
-        3.39
-      ],
-      "first_pick": 0,
-      "last_pick": 0,
-      "winner": 1,
-      "block": "2026-11-05",
-      "game_no": "2583",
-      "market": "승패",
-      "label": "",
-      "fixed_pick": 1,
-      "record_odds": 3.39,
-      "record_captured_at": "2026-11-05T01:01:57.555799Z",
-      "fixture_key": [
-        131,
-        "bk",
-        "NBA",
-        "휴스로케",
-        "미네울브",
-        "11.05(목) 10:30"
       ]
     },
     {
