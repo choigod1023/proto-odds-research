@@ -1,0 +1,17 @@
+{
+  "branch": "codex/kl-information-projection-20261108",
+  "research_commit": "7a2dc501",
+  "main_merge_commit": "1d9bb605",
+  "pull_request": "https://github.com/choigod1023/proto-odds-research/pull/639",
+  "status": "draft; not merged or deployed",
+  "report": "experiments/kl-projection-20261108/README.md",
+  "execution": "experiments/kl-projection-20261108/run.py",
+  "predictions": "experiments/kl-projection-20261108/predictions.json",
+  "summary": "experiments/kl-projection-20261108/summary.json",
+  "uncertainty": "experiments/kl-projection-20261108/uncertainty.json",
+  "tests": "pytest test_information_projection.py: 3 passed; compileall research Python files passed; all prior predictions and bootstrap intervals exactly unchanged.",
+  "conclusion": "2025–26 UO: KL vs direct market hit and ROI paired-week nominal 95% intervals are positive; vs same-input Poisson also positive. Prior-only comparison intervals and same-input/direct-market logloss intervals include zero. No multiplicity adjustment; reused retrospective prices lack proven receipt/executability and KL ROI is negative. Not evidence of operational promotion or future profit. 21 picks changed: 5 wins to losses, 16 losses to wins.",
+  "limitations": "Historical period reused; original 893-study overlap not quantified; NBA/KBO not evaluated; original price archive required for reproduction.",
+  "head_push_verification": "Earlier rejected push succeeded on retry: remote branch verified at 7ff6836d3dd8adeb268f209b2c147137fd69596e on 2026-11-08. Subsequent paired-CI commit is pushed to the same PR; check PR headRefOid for current head.",
+  "market_diagnostic": "experiments/kl-projection-20261108/market_change_diagnostic.json"
+}

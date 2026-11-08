@@ -1,0 +1,548 @@
+{
+  "scope": "post-hoc only, 2025-2026 UO; gap is absolute difference between two devig market probabilities; no rule selection",
+  "changed": {
+    "n": 21,
+    "gap_min": 0.005681818181818177,
+    "gap_median": 0.011363636363636243,
+    "gap_max": 0.028409090909090884,
+    "gap_le_0_05": 21,
+    "gap_le_0_10": 21
+  },
+  "unchanged": {
+    "n": 542,
+    "gap_min": 0.0,
+    "gap_median": 0.08732394366197177,
+    "gap_max": 0.29350649350649355,
+    "gap_le_0_05": 152,
+    "gap_le_0_10": 303
+  },
+  "market_win_to_kl_loss": 5,
+  "market_loss_to_kl_win": 16,
+  "changed_matches": [
+    {
+      "date": "2025-03-02 14:00:00",
+      "league": "K리그2",
+      "home": "부산아이",
+      "away": "경남FC",
+      "line": 2.5,
+      "odds": [
+        1.78,
+        1.74
+      ],
+      "market_probabilities": [
+        0.4943181818181819,
+        0.5056818181818181
+      ],
+      "kl_probabilities": [
+        0.5000075776500656,
+        0.4999924223499343
+      ],
+      "market_pick": 1,
+      "kl_pick": 0,
+      "outcome": 0,
+      "market_win": false,
+      "kl_win": true,
+      "market_probability_gap": 0.011363636363636243
+    },
+    {
+      "date": "2025-03-08 14:00:00",
+      "league": "K리그2",
+      "home": "화성FC",
+      "away": "경남FC",
+      "line": 2.5,
+      "odds": [
+        1.77,
+        1.75
+      ],
+      "market_probabilities": [
+        0.497159090909091,
+        0.5028409090909092
+      ],
+      "kl_probabilities": [
+        0.5035240958609913,
+        0.49647590413900844
+      ],
+      "market_pick": 1,
+      "kl_pick": 0,
+      "outcome": 0,
+      "market_win": false,
+      "kl_win": true,
+      "market_probability_gap": 0.005681818181818177
+    },
+    {
+      "date": "2025-04-19 16:30:00",
+      "league": "K리그1",
+      "home": "김천상무",
+      "away": "대전하나",
+      "line": 2.5,
+      "odds": [
+        1.78,
+        1.74
+      ],
+      "market_probabilities": [
+        0.4943181818181819,
+        0.5056818181818181
+      ],
+      "kl_probabilities": [
+        0.5063620749602024,
+        0.4936379250397979
+      ],
+      "market_pick": 1,
+      "kl_pick": 0,
+      "outcome": 0,
+      "market_win": false,
+      "kl_win": true,
+      "market_probability_gap": 0.011363636363636243
+    },
+    {
+      "date": "2025-05-02 19:30:00",
+      "league": "K리그1",
+      "home": "포항스틸",
+      "away": "김천상무",
+      "line": 2.5,
+      "odds": [
+        1.77,
+        1.75
+      ],
+      "market_probabilities": [
+        0.497159090909091,
+        0.5028409090909092
+      ],
+      "kl_probabilities": [
+        0.5057327581065877,
+        0.4942672418934125
+      ],
+      "market_pick": 1,
+      "kl_pick": 0,
+      "outcome": 1,
+      "market_win": true,
+      "kl_win": false,
+      "market_probability_gap": 0.005681818181818177
+    },
+    {
+      "date": "2025-05-28 19:30:00",
+      "league": "K리그1",
+      "home": "김천상무",
+      "away": "FC서울",
+      "line": 2.5,
+      "odds": [
+        1.81,
+        1.71
+      ],
+      "market_probabilities": [
+        0.48579545454545453,
+        0.5142045454545454
+      ],
+      "kl_probabilities": [
+        0.5000614278435213,
+        0.4999385721564786
+      ],
+      "market_pick": 1,
+      "kl_pick": 0,
+      "outcome": 0,
+      "market_win": false,
+      "kl_win": true,
+      "market_probability_gap": 0.028409090909090884
+    },
+    {
+      "date": "2025-06-15 19:00:00",
+      "league": "K리그2",
+      "home": "전남드래",
+      "away": "부산아이",
+      "line": 2.5,
+      "odds": [
+        1.77,
+        1.75
+      ],
+      "market_probabilities": [
+        0.497159090909091,
+        0.5028409090909092
+      ],
+      "kl_probabilities": [
+        0.5037499141166902,
+        0.49625008588330993
+      ],
+      "market_pick": 1,
+      "kl_pick": 0,
+      "outcome": 0,
+      "market_win": false,
+      "kl_win": true,
+      "market_probability_gap": 0.005681818181818177
+    },
+    {
+      "date": "2025-07-26 19:00:00",
+      "league": "K리그2",
+      "home": "천안시티",
+      "away": "경남FC",
+      "line": 2.5,
+      "odds": [
+        1.77,
+        1.75
+      ],
+      "market_probabilities": [
+        0.497159090909091,
+        0.5028409090909092
+      ],
+      "kl_probabilities": [
+        0.5106317448786699,
+        0.4893682551213304
+      ],
+      "market_pick": 1,
+      "kl_pick": 0,
+      "outcome": 1,
+      "market_win": true,
+      "kl_win": false,
+      "market_probability_gap": 0.005681818181818177
+    },
+    {
+      "date": "2025-08-02 19:00:00",
+      "league": "K리그2",
+      "home": "경남FC",
+      "away": "부산아이",
+      "line": 2.5,
+      "odds": [
+        1.78,
+        1.74
+      ],
+      "market_probabilities": [
+        0.4943181818181819,
+        0.5056818181818181
+      ],
+      "kl_probabilities": [
+        0.5001472467124763,
+        0.49985275328752393
+      ],
+      "market_pick": 1,
+      "kl_pick": 0,
+      "outcome": 0,
+      "market_win": false,
+      "kl_win": true,
+      "market_probability_gap": 0.011363636363636243
+    },
+    {
+      "date": "2025-08-10 19:00:00",
+      "league": "K리그2",
+      "home": "서울이랜",
+      "away": "화성FC",
+      "line": 2.5,
+      "odds": [
+        1.78,
+        1.74
+      ],
+      "market_probabilities": [
+        0.4943181818181819,
+        0.5056818181818181
+      ],
+      "kl_probabilities": [
+        0.5022293190439042,
+        0.4977706809560959
+      ],
+      "market_pick": 1,
+      "kl_pick": 0,
+      "outcome": 0,
+      "market_win": false,
+      "kl_win": true,
+      "market_probability_gap": 0.011363636363636243
+    },
+    {
+      "date": "2025-08-24 19:00:00",
+      "league": "K리그1",
+      "home": "FC안양",
+      "away": "대전하나",
+      "line": 2.5,
+      "odds": [
+        1.78,
+        1.74
+      ],
+      "market_probabilities": [
+        0.4943181818181819,
+        0.5056818181818181
+      ],
+      "kl_probabilities": [
+        0.5094700994401664,
+        0.4905299005598338
+      ],
+      "market_pick": 1,
+      "kl_pick": 0,
+      "outcome": 1,
+      "market_win": true,
+      "kl_win": false,
+      "market_probability_gap": 0.011363636363636243
+    },
+    {
+      "date": "2025-09-13 16:30:00",
+      "league": "K리그2",
+      "home": "충남아산",
+      "away": "부천FC",
+      "line": 2.5,
+      "odds": [
+        1.76,
+        1.72
+      ],
+      "market_probabilities": [
+        0.4942528735632184,
+        0.5057471264367815
+      ],
+      "kl_probabilities": [
+        0.5019731922620854,
+        0.4980268077379146
+      ],
+      "market_pick": 1,
+      "kl_pick": 0,
+      "outcome": 1,
+      "market_win": true,
+      "kl_win": false,
+      "market_probability_gap": 0.011494252873563149
+    },
+    {
+      "date": "2025-09-27 19:00:00",
+      "league": "K리그1",
+      "home": "FC서울",
+      "away": "전북현대",
+      "line": 2.5,
+      "odds": [
+        1.77,
+        1.71
+      ],
+      "market_probabilities": [
+        0.4913793103448277,
+        0.5086206896551725
+      ],
+      "kl_probabilities": [
+        0.5035038934819356,
+        0.4964961065180642
+      ],
+      "market_pick": 1,
+      "kl_pick": 0,
+      "outcome": 0,
+      "market_win": false,
+      "kl_win": true,
+      "market_probability_gap": 0.017241379310344807
+    },
+    {
+      "date": "2025-09-28 16:30:00",
+      "league": "K리그2",
+      "home": "경남FC",
+      "away": "안산그리",
+      "line": 2.5,
+      "odds": [
+        1.75,
+        1.73
+      ],
+      "market_probabilities": [
+        0.4971264367816091,
+        0.5028735632183908
+      ],
+      "kl_probabilities": [
+        0.5015811270714534,
+        0.4984188729285464
+      ],
+      "market_pick": 1,
+      "kl_pick": 0,
+      "outcome": 0,
+      "market_win": false,
+      "kl_win": true,
+      "market_probability_gap": 0.005747126436781713
+    },
+    {
+      "date": "2025-10-08 16:30:00",
+      "league": "K리그2",
+      "home": "부천FC",
+      "away": "성남FC",
+      "line": 2.5,
+      "odds": [
+        1.75,
+        1.73
+      ],
+      "market_probabilities": [
+        0.4971264367816091,
+        0.5028735632183908
+      ],
+      "kl_probabilities": [
+        0.5146233771191642,
+        0.4853766228808361
+      ],
+      "market_pick": 1,
+      "kl_pick": 0,
+      "outcome": 0,
+      "market_win": false,
+      "kl_win": true,
+      "market_probability_gap": 0.005747126436781713
+    },
+    {
+      "date": "2025-11-01 16:30:00",
+      "league": "K리그2",
+      "home": "부천FC",
+      "away": "안산그리",
+      "line": 2.5,
+      "odds": [
+        1.76,
+        1.72
+      ],
+      "market_probabilities": [
+        0.4942528735632184,
+        0.5057471264367815
+      ],
+      "kl_probabilities": [
+        0.5021807074796254,
+        0.4978192925203745
+      ],
+      "market_pick": 1,
+      "kl_pick": 0,
+      "outcome": 0,
+      "market_win": false,
+      "kl_win": true,
+      "market_probability_gap": 0.011494252873563149
+    },
+    {
+      "date": "2025-11-02 14:00:00",
+      "league": "K리그2",
+      "home": "전남드래",
+      "away": "성남FC",
+      "line": 2.5,
+      "odds": [
+        1.75,
+        1.73
+      ],
+      "market_probabilities": [
+        0.4971264367816091,
+        0.5028735632183908
+      ],
+      "kl_probabilities": [
+        0.5099317741301599,
+        0.4900682258698401
+      ],
+      "market_pick": 1,
+      "kl_pick": 0,
+      "outcome": 0,
+      "market_win": false,
+      "kl_win": true,
+      "market_probability_gap": 0.005747126436781713
+    },
+    {
+      "date": "2025-11-08 14:00:00",
+      "league": "K리그2",
+      "home": "화성FC",
+      "away": "경남FC",
+      "line": 2.5,
+      "odds": [
+        1.76,
+        1.72
+      ],
+      "market_probabilities": [
+        0.4942528735632184,
+        0.5057471264367815
+      ],
+      "kl_probabilities": [
+        0.5018691519907745,
+        0.49813084800922536
+      ],
+      "market_pick": 1,
+      "kl_pick": 0,
+      "outcome": 0,
+      "market_win": false,
+      "kl_win": true,
+      "market_probability_gap": 0.011494252873563149
+    },
+    {
+      "date": "2025-11-23 14:00:00",
+      "league": "K리그2",
+      "home": "경남FC",
+      "away": "천안시티",
+      "line": 2.5,
+      "odds": [
+        1.75,
+        1.73
+      ],
+      "market_probabilities": [
+        0.4971264367816091,
+        0.5028735632183908
+      ],
+      "kl_probabilities": [
+        0.5048033102313254,
+        0.4951966897686744
+      ],
+      "market_pick": 1,
+      "kl_pick": 0,
+      "outcome": 0,
+      "market_win": false,
+      "kl_win": true,
+      "market_probability_gap": 0.005747126436781713
+    },
+    {
+      "date": "2026-04-04 14:00:00",
+      "league": "K리그2",
+      "home": "서울이랜",
+      "away": "수원FC",
+      "line": 2.5,
+      "odds": [
+        1.76,
+        1.72
+      ],
+      "market_probabilities": [
+        0.4942528735632184,
+        0.5057471264367815
+      ],
+      "kl_probabilities": [
+        0.5035603858844773,
+        0.4964396141155226
+      ],
+      "market_pick": 1,
+      "kl_pick": 0,
+      "outcome": 1,
+      "market_win": true,
+      "kl_win": false,
+      "market_probability_gap": 0.011494252873563149
+    },
+    {
+      "date": "2026-05-10 16:30:00",
+      "league": "K리그2",
+      "home": "부산아이",
+      "away": "천안시티",
+      "line": 2.5,
+      "odds": [
+        1.76,
+        1.72
+      ],
+      "market_probabilities": [
+        0.4942528735632184,
+        0.5057471264367815
+      ],
+      "kl_probabilities": [
+        0.5010159714198532,
+        0.49898402858014657
+      ],
+      "market_pick": 1,
+      "kl_pick": 0,
+      "outcome": 0,
+      "market_win": false,
+      "kl_win": true,
+      "market_probability_gap": 0.011494252873563149
+    },
+    {
+      "date": "2026-05-30 19:00:00",
+      "league": "K리그2",
+      "home": "수원FC",
+      "away": "성남FC",
+      "line": 2.5,
+      "odds": [
+        1.75,
+        1.73
+      ],
+      "market_probabilities": [
+        0.4971264367816091,
+        0.5028735632183908
+      ],
+      "kl_probabilities": [
+        0.5072121481774315,
+        0.49278785182256857
+      ],
+      "market_pick": 1,
+      "kl_pick": 0,
+      "outcome": 0,
+      "market_win": false,
+      "kl_win": true,
+      "market_probability_gap": 0.005747126436781713
+    }
+  ]
+}
