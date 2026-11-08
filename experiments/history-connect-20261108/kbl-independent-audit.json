@@ -1,0 +1,54 @@
+{
+  "models": {
+    "efficiency_offset": {
+      "n": 152,
+      "decided": 152,
+      "refunds": 0,
+      "hits": 100,
+      "accuracy": 0.6578947368421053,
+      "net_units": "-11.37",
+      "conditional_roi": -0.07480263157894737,
+      "mean_odds": 1.4270394736842107,
+      "logloss": 0.6301638068512216,
+      "brier": 0.21970278999914875,
+      "daily_mdd_units": "15.55"
+    },
+    "market": {
+      "n": 152,
+      "decided": 152,
+      "refunds": 0,
+      "hits": 99,
+      "accuracy": 0.6513157894736842,
+      "net_units": "-13.13",
+      "conditional_roi": -0.08638157894736842,
+      "mean_odds": 1.4267763157894737,
+      "logloss": 0.63124830247292,
+      "brier": 0.2203248058504629,
+      "daily_mdd_units": "16.62"
+    },
+    "team_margin": {
+      "n": 152,
+      "decided": 152,
+      "refunds": 0,
+      "hits": 86,
+      "accuracy": 0.5657894736842105,
+      "net_units": "-21.17",
+      "conditional_roi": -0.1392763157894737,
+      "mean_odds": 1.6470394736842109,
+      "logloss": 0.6866584118494712,
+      "brier": 0.2467413835693967,
+      "daily_mdd_units": "26.93"
+    }
+  },
+  "period": [
+    "2026-01-01",
+    "2026-05-13"
+  ],
+  "limits": [
+    "Independent arithmetic and cohort audit only; no source identity or pregame availability certification",
+    "Conditional one-unit historical returns, not wallet returns or future profit"
+  ],
+  "predictions_sha256": "ceccda8b3aaac5f15988548e11ef7a481a29f5a6cbc797c57c723f3424277e95",
+  "schema": "kbl",
+  "league_filter": null
+}
