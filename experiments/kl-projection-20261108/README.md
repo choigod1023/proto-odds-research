@@ -25,7 +25,7 @@ Csiszár의 [I-divergence 투영 논문](https://web.mit.edu/course/6/6.291/www/
 ```powershell
 python -X utf8 experiments/kl-projection-20261108/run.py --raw <games.csv.tmp> --out experiments/kl-projection-20261108
 python -X utf8 experiments/kl-projection-20261108/uncertainty.py
-python -m pytest -q experiments/kl-projection-20261108/test_run.py
+python -m pytest -q experiments/kl-projection-20261108/test_information_projection.py
 ```
 
 `predictions.json`은 경기·점수·상품·기준점·가격·각 선택 확률·선택·결과·손익을 모두 보존한다. 실행 시 사용한 원본 로더 버전은 이 브랜치 커밋에 고정된다. 연구 기록이며 운영 채택, 실매수, 배포 또는 미래 수익의 증거가 아니다.
