@@ -26,6 +26,54 @@ class CollectorTest(unittest.TestCase):
         self.assertEqual(c.normalize(d,self.meta(),date(2025,1,1),date(2026,12,31)),[])
         vals[keys.index('handi')]=0; vals[keys.index('drawAllot')]=0
         self.assertEqual(c.normalize(d,self.meta(),date(2025,1,1),date(2026,12,31)),[])
+
+    def test_market_capture_preserves_line_and_rejects_first_half_and_late_price(self):
+        data = self.fixture()
+        schedule = data['compSchedules']
+        row = dict(zip(schedule['keys'], schedule['datas'][0]))
+        row.update(leagueName='K리그1', homeId='K01', awayId='K02',
+                   betId='78', betTypId='7', betNm='축구 언더오버', handi=9,
+                   winHandi=2.5, loseHandi=2.5, drawAllot=0)
+        half = dict(row, matchSeq=2, betId='121', betNm='축구 전반 언더오버')
+        handicap = dict(row, matchSeq=3, betId='5', betTypId='4', betNm='축구 핸디캡',
+                        handi=2, winHandi=-1, drawHandi=1, loseHandi=1, drawAllot=3)
+        schedule.update(keys=list(row), datas=[list(r.values()) for r in (row, half, handicap)])
+        window = (date(2026, 1, 1), date(2026, 12, 31))
+        meta = self.meta()
+        total, spread = c.normalize_markets(data, meta, *window)
+        self.assertEqual(total['payload']['product_id'], 'G101:260130:1')
+        self.assertEqual(total['payload']['line'], '2.5')
+        self.assertEqual(total['payload']['period'], 'regulation')
+        self.assertEqual(total['payload']['odds'], {'under': 2, 'over': 4})
+        self.assertEqual(spread['payload']['line'], '-1')
+        self.assertEqual(spread['payload']['odds'], {'home': 2, 'draw': 3, 'away': 4})
+        self.assertEqual(total['timing_basis'], 'actual_receipt')
+        self.assertFalse(total['payload']['execution_price_verified'])
+
+        row['gameDate'] = 1793750400000 + 29 * 60 * 1000  # Within T-30 at receipt.
+        schedule['datas'] = [list(row.values())]
+        self.assertEqual(c.normalize_markets(data, meta, *window)[0]['timing_basis'], 'retrospective')
+
+    def test_archive_requires_product_score_and_official_result_to_agree(self):
+        spec = importlib.util.spec_from_file_location(
+            'market_replay', Path(__file__).parents[1] / 'scripts/replay_multisport_market_frontier.py')
+        replay = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(replay)
+        data = self.fixture()
+        schedule = data['compSchedules']
+        winner = dict(zip(schedule['keys'], schedule['datas'][0]))
+        winner.update(leagueName='K리그1', homeId='K01', awayId='K02',
+                      mchScore='2:1', gameResult='0', protoStatus='4')
+        total = dict(winner, matchSeq=2, betId='78', betTypId='7', betNm='축구 언더오버',
+                     handi=9, winHandi=2.5, loseHandi=2.5, drawAllot=0, mchScore='3:0', gameResult='2')
+        wrong_outcome = dict(total, matchSeq=3, gameResult='0')
+        wrong_score = dict(total, matchSeq=4, mchScore='4:0')
+        wrong_fixture = dict(total, matchSeq=5, awayId='K03')
+        result = replay.archived_products([('260130', 'a'*64,
+                                           [winner, total, wrong_outcome, wrong_score, wrong_fixture])])
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result[0][3].game_no, '2')
+        self.assertEqual(result[0][5], 'over')
     def test_cache_integrity(self):
         with tempfile.TemporaryDirectory() as tmp:
             p=Path(tmp); raw=b'abc'; (p/'a.gz').write_bytes(gzip.compress(raw)); meta={'body_file':'a.gz','body_sha256':c.digest(raw)}
