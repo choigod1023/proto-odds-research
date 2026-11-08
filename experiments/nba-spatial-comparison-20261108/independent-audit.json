@@ -1,0 +1,762 @@
+{
+  "n": 1260,
+  "training_rows": 1908,
+  "independently_recomputed_feature_keys": 1981,
+  "max_feature_or_probability_error": 1.3100631690576847e-13,
+  "beta_check": {
+    "A": {
+      "n": 721,
+      "independent_beta": -0.019773916443964056,
+      "saved_beta": -0.01977390451361489
+    },
+    "B": {
+      "n": 1187,
+      "independent_beta": -0.12301789244800657,
+      "saved_beta": -0.12301788422693663
+    }
+  },
+  "groups": {
+    "A": {
+      "n": 487,
+      "actual_dates": [
+        "2025-10-22",
+        "2025-12-31"
+      ],
+      "models": {
+        "market": {
+          "n": 487,
+          "hits": 316,
+          "accuracy": 0.648870636550308,
+          "roi": -0.1708624229979466,
+          "net_units": "-83.21",
+          "logloss": 0.6132736811646057,
+          "brier": 0.21305201404462767,
+          "mean_odds": 1.3182135523613951,
+          "daily_mdd_units": "84.00"
+        },
+        "nonspatial": {
+          "n": 487,
+          "hits": 288,
+          "accuracy": 0.5913757700205339,
+          "roi": -0.16928131416837783,
+          "net_units": "-82.44",
+          "logloss": 0.6594794317487495,
+          "brier": 0.23380802266796363,
+          "mean_odds": 1.56246406570842,
+          "daily_mdd_units": "86.23"
+        },
+        "prior_outcome_form": {
+          "n": 487,
+          "hits": 310,
+          "accuracy": 0.6365503080082136,
+          "roi": -0.13172484599589324,
+          "net_units": "-64.15",
+          "logloss": 0.6536861683586171,
+          "brier": 0.23072542055584186,
+          "mean_odds": 1.4428747433264888,
+          "daily_mdd_units": "64.81"
+        },
+        "spatial": {
+          "n": 487,
+          "hits": 286,
+          "accuracy": 0.5872689938398358,
+          "roi": -0.17462012320328543,
+          "net_units": "-85.04",
+          "logloss": 0.663168509299924,
+          "brier": 0.23542229454410776,
+          "mean_odds": 1.5684394250513352,
+          "daily_mdd_units": "88.83"
+        },
+        "spatial_residual": {
+          "n": 487,
+          "hits": 315,
+          "accuracy": 0.6468172484599589,
+          "roi": -0.17443531827515402,
+          "net_units": "-84.95",
+          "logloss": 0.6132238158510077,
+          "brier": 0.21303428334568386,
+          "mean_odds": 1.3182135523613951,
+          "daily_mdd_units": "85.74"
+        }
+      },
+      "monthly": {
+        "2025-10": {
+          "market": {
+            "n": 72,
+            "hits": 46,
+            "accuracy": 0.6388888888888888,
+            "roi": -0.15583333333333332,
+            "net_units": "-11.22",
+            "logloss": 0.6019418367970556,
+            "brier": 0.20786833938530455,
+            "mean_odds": 1.376111111111111,
+            "daily_mdd_units": "12.01"
+          },
+          "nonspatial": {
+            "n": 72,
+            "hits": 44,
+            "accuracy": 0.6111111111111112,
+            "roi": -0.10041666666666667,
+            "net_units": "-7.23",
+            "logloss": 0.6521686233967334,
+            "brier": 0.22972495412353805,
+            "mean_odds": 1.6079166666666664,
+            "daily_mdd_units": "9.46"
+          },
+          "prior_outcome_form": {
+            "n": 72,
+            "hits": 46,
+            "accuracy": 0.6388888888888888,
+            "roi": -0.06986111111111111,
+            "net_units": "-5.03",
+            "logloss": 0.6521167172165679,
+            "brier": 0.22915239705208393,
+            "mean_odds": 1.5526388888888887,
+            "daily_mdd_units": "10.03"
+          },
+          "spatial": {
+            "n": 72,
+            "hits": 45,
+            "accuracy": 0.625,
+            "roi": -0.06944444444444445,
+            "net_units": "-5.00",
+            "logloss": 0.6603039043752152,
+            "brier": 0.23319027641641943,
+            "mean_odds": 1.6205555555555555,
+            "daily_mdd_units": "7.23"
+          },
+          "spatial_residual": {
+            "n": 72,
+            "hits": 46,
+            "accuracy": 0.6388888888888888,
+            "roi": -0.15583333333333332,
+            "net_units": "-11.22",
+            "logloss": 0.6018007130118098,
+            "brier": 0.20781385430486093,
+            "mean_odds": 1.376111111111111,
+            "daily_mdd_units": "12.01"
+          }
+        },
+        "2025-11": {
+          "market": {
+            "n": 219,
+            "hits": 153,
+            "accuracy": 0.6986301369863014,
+            "roi": -0.11648401826484019,
+            "net_units": "-25.51",
+            "logloss": 0.5624452681571227,
+            "brier": 0.1903606407299119,
+            "mean_odds": 1.3096347031963467,
+            "daily_mdd_units": "25.51"
+          },
+          "nonspatial": {
+            "n": 219,
+            "hits": 132,
+            "accuracy": 0.6027397260273972,
+            "roi": -0.1690867579908676,
+            "net_units": "-37.03",
+            "logloss": 0.6394593446016231,
+            "brier": 0.2243718353292197,
+            "mean_odds": 1.6111872146118715,
+            "daily_mdd_units": "40.02"
+          },
+          "prior_outcome_form": {
+            "n": 219,
+            "hits": 151,
+            "accuracy": 0.6894977168949772,
+            "roi": -0.0547945205479452,
+            "net_units": "-12.00",
+            "logloss": 0.6138716932526906,
+            "brier": 0.21314142092990487,
+            "mean_odds": 1.4658904109589035,
+            "daily_mdd_units": "17.69"
+          },
+          "spatial": {
+            "n": 219,
+            "hits": 132,
+            "accuracy": 0.6027397260273972,
+            "roi": -0.17506849315068493,
+            "net_units": "-38.34",
+            "logloss": 0.6415630333750427,
+            "brier": 0.2252319601424231,
+            "mean_odds": 1.5924200913242004,
+            "daily_mdd_units": "43.36"
+          },
+          "spatial_residual": {
+            "n": 219,
+            "hits": 152,
+            "accuracy": 0.6940639269406392,
+            "roi": -0.12442922374429223,
+            "net_units": "-27.25",
+            "logloss": 0.5624241076335936,
+            "brier": 0.1903561663095034,
+            "mean_odds": 1.3096347031963467,
+            "daily_mdd_units": "27.25"
+          }
+        },
+        "2025-12": {
+          "market": {
+            "n": 196,
+            "hits": 117,
+            "accuracy": 0.5969387755102041,
+            "roi": -0.23714285714285716,
+            "net_units": "-46.48",
+            "logloss": 0.6742293711804318,
+            "brier": 0.24031035757214883,
+            "mean_odds": 1.3065306122448979,
+            "daily_mdd_units": "46.48"
+          },
+          "nonspatial": {
+            "n": 196,
+            "hits": 112,
+            "accuracy": 0.5714285714285714,
+            "roi": -0.19479591836734694,
+            "net_units": "-38.18",
+            "logloss": 0.6845344179046976,
+            "brier": 0.24585142043522715,
+            "mean_odds": 1.4913265306122447,
+            "daily_mdd_units": "45.36"
+          },
+          "prior_outcome_form": {
+            "n": 196,
+            "hits": 113,
+            "accuracy": 0.576530612244898,
+            "roi": -0.24040816326530612,
+            "net_units": "-47.12",
+            "logloss": 0.6987492833097689,
+            "brier": 0.2509506940780402,
+            "mean_odds": 1.3768367346938777,
+            "daily_mdd_units": "47.12"
+          },
+          "spatial": {
+            "n": 196,
+            "hits": 109,
+            "accuracy": 0.5561224489795918,
+            "roi": -0.21275510204081632,
+            "net_units": "-41.70",
+            "logloss": 0.6883616255352696,
+            "brier": 0.24762835851942666,
+            "mean_odds": 1.522499999999999,
+            "daily_mdd_units": "48.88"
+          },
+          "spatial_residual": {
+            "n": 196,
+            "hits": 117,
+            "accuracy": 0.5969387755102041,
+            "roi": -0.23714285714285716,
+            "net_units": "-46.48",
+            "logloss": 0.674180956177723,
+            "brier": 0.2402913166204943,
+            "mean_odds": 1.3065306122448979,
+            "daily_mdd_units": "46.48"
+          }
+        }
+      },
+      "descriptive_target_pool_subset": {
+        "n": 135,
+        "models": {
+          "market": {
+            "n": 135,
+            "hits": 88,
+            "accuracy": 0.6518518518518519,
+            "roi": -0.17103703703703704,
+            "net_units": "-23.09",
+            "logloss": 0.6020494986454876,
+            "brier": 0.2074894891089447,
+            "mean_odds": 1.3202962962962965,
+            "daily_mdd_units": "23.82"
+          },
+          "nonspatial": {
+            "n": 135,
+            "hits": 78,
+            "accuracy": 0.5777777777777777,
+            "roi": -0.20814814814814814,
+            "net_units": "-28.10",
+            "logloss": 0.6479776235211676,
+            "brier": 0.22870385314154884,
+            "mean_odds": 1.574148148148148,
+            "daily_mdd_units": "28.83"
+          },
+          "prior_outcome_form": {
+            "n": 135,
+            "hits": 92,
+            "accuracy": 0.6814814814814815,
+            "roi": -0.07681481481481481,
+            "net_units": "-10.37",
+            "logloss": 0.6319455617462678,
+            "brier": 0.21991170820973596,
+            "mean_odds": 1.4092592592592588,
+            "daily_mdd_units": "14.23"
+          },
+          "spatial": {
+            "n": 135,
+            "hits": 76,
+            "accuracy": 0.562962962962963,
+            "roi": -0.22977777777777778,
+            "net_units": "-31.02",
+            "logloss": 0.655986920348014,
+            "brier": 0.23242226551339815,
+            "mean_odds": 1.592296296296296,
+            "daily_mdd_units": "31.75"
+          },
+          "spatial_residual": {
+            "n": 135,
+            "hits": 88,
+            "accuracy": 0.6518518518518519,
+            "roi": -0.17103703703703704,
+            "net_units": "-23.09",
+            "logloss": 0.6019248656081758,
+            "brier": 0.20744442330555274,
+            "mean_odds": 1.3202962962962965,
+            "daily_mdd_units": "23.82"
+          }
+        }
+      },
+      "changed_from_market": {
+        "market": 0,
+        "nonspatial": 126,
+        "prior_outcome_form": 90,
+        "spatial": 128,
+        "spatial_residual": 1
+      }
+    },
+    "B": {
+      "n": 773,
+      "actual_dates": [
+        "2026-01-01",
+        "2026-05-04"
+      ],
+      "models": {
+        "market": {
+          "n": 773,
+          "hits": 547,
+          "accuracy": 0.7076326002587322,
+          "roi": -0.11596377749029754,
+          "net_units": "-89.64",
+          "logloss": 0.5576601600060774,
+          "brier": 0.18787924672721062,
+          "mean_odds": 1.2929624838292344,
+          "daily_mdd_units": "89.82"
+        },
+        "nonspatial": {
+          "n": 773,
+          "hits": 499,
+          "accuracy": 0.6455368693402329,
+          "roi": -0.09860284605433377,
+          "net_units": "-76.22",
+          "logloss": 0.64180837008072,
+          "brier": 0.22509425683254514,
+          "mean_odds": 1.6110090556274228,
+          "daily_mdd_units": "78.16"
+        },
+        "prior_outcome_form": {
+          "n": 773,
+          "hits": 537,
+          "accuracy": 0.6946959896507116,
+          "roi": -0.06861578266494178,
+          "net_units": "-53.04",
+          "logloss": 0.5967870090906264,
+          "brier": 0.20456772492214875,
+          "mean_odds": 1.450349288486414,
+          "daily_mdd_units": "59.33"
+        },
+        "spatial": {
+          "n": 773,
+          "hits": 497,
+          "accuracy": 0.6429495472186287,
+          "roi": -0.1108796895213454,
+          "net_units": "-85.71",
+          "logloss": 0.6429955550508468,
+          "brier": 0.2256293285435062,
+          "mean_odds": 1.6038163001293633,
+          "daily_mdd_units": "89.52"
+        },
+        "spatial_residual": {
+          "n": 773,
+          "hits": 549,
+          "accuracy": 0.7102199223803364,
+          "roi": -0.1114359637774903,
+          "net_units": "-86.14",
+          "logloss": 0.5575747017423189,
+          "brier": 0.18785266292652245,
+          "mean_odds": 1.2930142302716665,
+          "daily_mdd_units": "86.32"
+        }
+      },
+      "monthly": {
+        "2026-01": {
+          "market": {
+            "n": 236,
+            "hits": 151,
+            "accuracy": 0.6398305084745762,
+            "roi": -0.1578813559322034,
+            "net_units": "-37.26",
+            "logloss": 0.6401734618863412,
+            "brier": 0.22360129870615197,
+            "mean_odds": 1.3454237288135593,
+            "daily_mdd_units": "37.26"
+          },
+          "nonspatial": {
+            "n": 236,
+            "hits": 143,
+            "accuracy": 0.6059322033898306,
+            "roi": -0.1036864406779661,
+            "net_units": "-24.47",
+            "logloss": 0.6620747703849212,
+            "brier": 0.23470407947778768,
+            "mean_odds": 1.5914830508474562,
+            "daily_mdd_units": "24.68"
+          },
+          "prior_outcome_form": {
+            "n": 236,
+            "hits": 146,
+            "accuracy": 0.6186440677966102,
+            "roi": -0.11796610169491525,
+            "net_units": "-27.84",
+            "logloss": 0.6554141326219258,
+            "brier": 0.23080445736845312,
+            "mean_odds": 1.5014406779661007,
+            "daily_mdd_units": "30.03"
+          },
+          "spatial": {
+            "n": 236,
+            "hits": 146,
+            "accuracy": 0.6186440677966102,
+            "roi": -0.07889830508474577,
+            "net_units": "-18.62",
+            "logloss": 0.664672165650686,
+            "brier": 0.23597791621103453,
+            "mean_odds": 1.608516949152541,
+            "daily_mdd_units": "20.70"
+          },
+          "spatial_residual": {
+            "n": 236,
+            "hits": 153,
+            "accuracy": 0.6483050847457628,
+            "roi": -0.1430508474576271,
+            "net_units": "-33.76",
+            "logloss": 0.6400315476626749,
+            "brier": 0.22352428254124004,
+            "mean_odds": 1.345593220338983,
+            "daily_mdd_units": "33.76"
+          }
+        },
+        "2026-02": {
+          "market": {
+            "n": 167,
+            "hits": 117,
+            "accuracy": 0.7005988023952096,
+            "roi": -0.10712574850299401,
+            "net_units": "-17.89",
+            "logloss": 0.5689993220891553,
+            "brier": 0.19309799947713144,
+            "mean_odds": 1.3120958083832328,
+            "daily_mdd_units": "17.99"
+          },
+          "nonspatial": {
+            "n": 167,
+            "hits": 102,
+            "accuracy": 0.6107784431137725,
+            "roi": -0.09095808383233533,
+            "net_units": "-15.19",
+            "logloss": 0.6591505484173601,
+            "brier": 0.2334005679664902,
+            "mean_odds": 1.7713173652694605,
+            "daily_mdd_units": "16.08"
+          },
+          "prior_outcome_form": {
+            "n": 167,
+            "hits": 107,
+            "accuracy": 0.6407185628742516,
+            "roi": -0.12748502994011976,
+            "net_units": "-21.29",
+            "logloss": 0.637540518056026,
+            "brier": 0.2240094420294322,
+            "mean_odds": 1.5467065868263463,
+            "daily_mdd_units": "21.29"
+          },
+          "spatial": {
+            "n": 167,
+            "hits": 102,
+            "accuracy": 0.6107784431137725,
+            "roi": -0.10976047904191617,
+            "net_units": "-18.33",
+            "logloss": 0.6612115819536941,
+            "brier": 0.23429456152133124,
+            "mean_odds": 1.7173053892215566,
+            "daily_mdd_units": "19.51"
+          },
+          "spatial_residual": {
+            "n": 167,
+            "hits": 117,
+            "accuracy": 0.7005988023952096,
+            "roi": -0.10712574850299401,
+            "net_units": "-17.89",
+            "logloss": 0.5686801738394198,
+            "brier": 0.19296422006221298,
+            "mean_odds": 1.3120958083832328,
+            "daily_mdd_units": "17.99"
+          }
+        },
+        "2026-03": {
+          "market": {
+            "n": 237,
+            "hits": 181,
+            "accuracy": 0.7637130801687764,
+            "roi": -0.08759493670886076,
+            "net_units": "-20.76",
+            "logloss": 0.4876365865615542,
+            "brier": 0.15714580604600367,
+            "mean_odds": 1.243459915611813,
+            "daily_mdd_units": "22.10"
+          },
+          "nonspatial": {
+            "n": 237,
+            "hits": 165,
+            "accuracy": 0.6962025316455697,
+            "roi": -0.08443037974683544,
+            "net_units": "-20.01",
+            "logloss": 0.6141420744893341,
+            "brier": 0.21201155190100868,
+            "mean_odds": 1.5852742616033737,
+            "daily_mdd_units": "27.30"
+          },
+          "prior_outcome_form": {
+            "n": 237,
+            "hits": 184,
+            "accuracy": 0.7763713080168776,
+            "roi": -0.014135021097046414,
+            "net_units": "-3.35",
+            "logloss": 0.5356897730069947,
+            "brier": 0.17632021630023076,
+            "mean_odds": 1.355822784810125,
+            "daily_mdd_units": "8.64"
+          },
+          "spatial": {
+            "n": 237,
+            "hits": 161,
+            "accuracy": 0.679324894514768,
+            "roi": -0.12143459915611815,
+            "net_units": "-28.78",
+            "logloss": 0.6150838957796407,
+            "brier": 0.21241254619239006,
+            "mean_odds": 1.5823206751054835,
+            "daily_mdd_units": "33.87"
+          },
+          "spatial_residual": {
+            "n": 237,
+            "hits": 181,
+            "accuracy": 0.7637130801687764,
+            "roi": -0.08759493670886076,
+            "net_units": "-20.76",
+            "logloss": 0.4875775908358056,
+            "brier": 0.15713972788862896,
+            "mean_odds": 1.243459915611813,
+            "daily_mdd_units": "22.10"
+          }
+        },
+        "2026-04": {
+          "market": {
+            "n": 128,
+            "hits": 96,
+            "accuracy": 0.75,
+            "roi": -0.08890625,
+            "net_units": "-11.38",
+            "logloss": 0.5120308752615343,
+            "brier": 0.16815589530324918,
+            "mean_odds": 1.2605468750000004,
+            "daily_mdd_units": "12.30"
+          },
+          "nonspatial": {
+            "n": 128,
+            "hits": 86,
+            "accuracy": 0.671875,
+            "roi": -0.131484375,
+            "net_units": "-16.83",
+            "logloss": 0.6303530916332362,
+            "brier": 0.2195041059494476,
+            "mean_odds": 1.4851562499999995,
+            "daily_mdd_units": "18.49"
+          },
+          "prior_outcome_form": {
+            "n": 128,
+            "hits": 97,
+            "accuracy": 0.7578125,
+            "roi": -0.003203125,
+            "net_units": "-0.41",
+            "logloss": 0.5445253258220025,
+            "brier": 0.1812165214325836,
+            "mean_odds": 1.40328125,
+            "daily_mdd_units": "5.64"
+          },
+          "spatial": {
+            "n": 128,
+            "hits": 85,
+            "accuracy": 0.6640625,
+            "roi": -0.15828125,
+            "net_units": "-20.26",
+            "logloss": 0.6280911559564076,
+            "brier": 0.21840970578561447,
+            "mean_odds": 1.4862499999999998,
+            "daily_mdd_units": "21.92"
+          },
+          "spatial_residual": {
+            "n": 128,
+            "hits": 96,
+            "accuracy": 0.75,
+            "roi": -0.08890625,
+            "net_units": "-11.38",
+            "logloss": 0.5123059836632388,
+            "brier": 0.1683250976376648,
+            "mean_odds": 1.2605468750000004,
+            "daily_mdd_units": "12.30"
+          }
+        },
+        "2026-05": {
+          "market": {
+            "n": 5,
+            "hits": 2,
+            "accuracy": 0.4,
+            "roi": -0.47,
+            "net_units": "-2.35",
+            "logloss": 0.7715313684133902,
+            "brier": 0.28917493621649537,
+            "mean_odds": 1.3539999999999999,
+            "daily_mdd_units": "2.53"
+          },
+          "nonspatial": {
+            "n": 5,
+            "hits": 3,
+            "accuracy": 0.6,
+            "roi": 0.056,
+            "net_units": "0.28",
+            "logloss": 0.7106430585659705,
+            "brier": 0.2573079124654792,
+            "mean_odds": 1.6199999999999999,
+            "daily_mdd_units": "1.53"
+          },
+          "prior_outcome_form": {
+            "n": 5,
+            "hits": 3,
+            "accuracy": 0.6,
+            "roi": -0.03,
+            "net_units": "-0.15",
+            "logloss": 0.7023276610099192,
+            "brier": 0.2535633200850761,
+            "mean_odds": 1.506,
+            "daily_mdd_units": "1"
+          },
+          "spatial": {
+            "n": 5,
+            "hits": 3,
+            "accuracy": 0.6,
+            "roi": 0.056,
+            "net_units": "0.28",
+            "logloss": 0.7160095024561812,
+            "brier": 0.2590550352217559,
+            "mean_odds": 1.6199999999999999,
+            "daily_mdd_units": "1.53"
+          },
+          "spatial_residual": {
+            "n": 5,
+            "hits": 2,
+            "accuracy": 0.4,
+            "roi": -0.47,
+            "net_units": "-2.35",
+            "logloss": 0.7714310460515527,
+            "brier": 0.2891250009706817,
+            "mean_odds": 1.3539999999999999,
+            "daily_mdd_units": "2.53"
+          }
+        }
+      },
+      "descriptive_target_pool_subset": {
+        "n": 243,
+        "models": {
+          "market": {
+            "n": 243,
+            "hits": 167,
+            "accuracy": 0.6872427983539094,
+            "roi": -0.1423045267489712,
+            "net_units": "-34.58",
+            "logloss": 0.5822338321123505,
+            "brier": 0.1984673511741457,
+            "mean_odds": 1.2877366255144027,
+            "daily_mdd_units": "34.58"
+          },
+          "nonspatial": {
+            "n": 243,
+            "hits": 160,
+            "accuracy": 0.6584362139917695,
+            "roi": -0.06185185185185185,
+            "net_units": "-15.03",
+            "logloss": 0.6440154661771289,
+            "brier": 0.22609229511844142,
+            "mean_odds": 1.595061728395061,
+            "daily_mdd_units": "22.31"
+          },
+          "prior_outcome_form": {
+            "n": 243,
+            "hits": 158,
+            "accuracy": 0.6502057613168725,
+            "roi": -0.12255144032921811,
+            "net_units": "-29.78",
+            "logloss": 0.61741304788887,
+            "brier": 0.21375386461080942,
+            "mean_odds": 1.4781481481481467,
+            "daily_mdd_units": "41.54"
+          },
+          "spatial": {
+            "n": 243,
+            "hits": 158,
+            "accuracy": 0.6502057613168725,
+            "roi": -0.07810699588477366,
+            "net_units": "-18.98",
+            "logloss": 0.6465875368847593,
+            "brier": 0.22732324027287343,
+            "mean_odds": 1.595802469135802,
+            "daily_mdd_units": "24.32"
+          },
+          "spatial_residual": {
+            "n": 243,
+            "hits": 167,
+            "accuracy": 0.6872427983539094,
+            "roi": -0.1423045267489712,
+            "net_units": "-34.58",
+            "logloss": 0.5821267159971931,
+            "brier": 0.1984436163663197,
+            "mean_odds": 1.2877366255144027,
+            "daily_mdd_units": "34.58"
+          }
+        }
+      },
+      "changed_from_market": {
+        "market": 0,
+        "nonspatial": 204,
+        "prior_outcome_form": 142,
+        "spatial": 196,
+        "spatial_residual": 2
+      }
+    }
+  },
+  "limits": [
+    "Independent mathematical, temporal and arithmetic audit; no new candidate fitted or selected",
+    "Source-time lag and retrospective price matching do not certify real historical execution",
+    "Targets are not filtered by their own post-game shot quality in the primary comparison"
+  ],
+  "source_verification": {
+    "verified_games": 1185,
+    "verified_team_games": 2370,
+    "field_attempts_recounted": 210663,
+    "official_zone_certification": false,
+    "geometry": "unofficial provider radius hypot(x-25,y)"
+  },
+  "sha256": {
+    "profiles": "1899869c9b8a0cff51e9f2ed7cce57cf08d9a18b51213f46042d9361ebfcd691",
+    "quality": "1ef7f311d53a9511f2fbcc6b5422bafaf1f3e7e8037b4a9cec1cea40e8ebfb9f",
+    "predictions": "fd71c7ecfebb88f432cf2c4ea3ff621f993645e5ab7cec8a8df65fceb6a84a75",
+    "training": "f6e48cf01cd450bb6850d30f493bd23eb5bfd8428122f7ee793ce7fcdd79768b",
+    "baseline": "0c5049b1570d06ced2a3cb1c3a2f6a175dca06b26c4af44558dfdfdad180a286",
+    "prices": "4bf3abf8bb82838ee72975e1ef486a471b357a03ee4d8627808780f046dae51a"
+  }
+}
