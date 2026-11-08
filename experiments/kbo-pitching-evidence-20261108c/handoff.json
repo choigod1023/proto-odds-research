@@ -10,16 +10,20 @@
     "experiments/kbo-pitching-evidence-20261108c/summary.json",
     "experiments/kbo-pitching-evidence-20261108c/predictions.jsonl.gz",
     "experiments/kbo-pitching-evidence-20261108c/forward-audit.json",
-    "tests/test_kbo_pitching_evidence_20261108c.py"
+    "tests/test_kbo_pitching_evidence_20261108c.py",
+    "experiments/kbo-pitching-evidence-20261108c/link_saved_pitch_counts.py",
+    "experiments/kbo-pitching-evidence-20261108c/verified-pitch-counts.json",
+    "tests/test_kbo_pitch_count_link_20261108c.py"
   ],
   "tests": [
     "python -X utf8 -m unittest discover -s tests -p test_kbo_pitching_evidence_20261108c.py -v: 4 passed",
-    "git diff --check"
+    "git diff --check",
+    "python -X utf8 -m unittest discover -s tests -p test_kbo_pitch*20261108c.py -v: 8 passed including preserved raw archive"
   ],
   "limits": [
     "26 retrospective matched 2026 games, previously inspected",
     "target starter from postgame box, historical receipt not established",
-    "forward 0 of 3 complete player-ID to pitch-count joins",
+    "forward selected starter counts extracted from three verified archives; complete feature eligibility not evaluated",
     "2025 draw price selection bias",
     "full-game two-way only; no H/UO evaluation",
     "no production or operational policy changes"
