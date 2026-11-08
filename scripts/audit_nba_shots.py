@@ -17,7 +17,7 @@ def classify(p):
     return attempt,made
 
 def read_checked(receipt):
-    r=json.loads(receipt.read_text(encoding='utf8')); path=receipt.with_name(receipt.name.replace('.receipt.json','.json'))
+    r=json.loads(receipt.read_text(encoding='utf8')); path=receipt.with_name(receipt.name.replace('.receipt.json','.body' if r.get('status')!=200 else '.json'))
     if not path.exists(): return r,None,False
     data=path.read_bytes(); return r, data, hashlib.sha256(data).hexdigest()==r.get('sha256')
 
@@ -104,8 +104,8 @@ def main():
             eligible=not mismatch and not shotissues and not dup and not missing and scoreok and not score_issues
             counts['team_box_match' if not mismatch else 'team_box_mismatch']+=1; counts['eligible_team_games' if eligible else 'excluded_team_games']+=1
             rows.append({'game_id':gid,'date_utc':date,'team':ab,'team_id':tid,'home_away':next(s for s,c in byside.items() if c['id']==tid),'eligible':eligible,'pbp':actual,'box':box,'mismatch':mismatch,'duplicate_ids':dup,'missing_ids':missing,'ambiguous_shots':shotissues,'final_score_match':scoreok,'score_issues':score_issues,'coordinate_missing_game':badcoord,'period_counts':{str(period):dict(c) for (t,period),c in byperiod.items() if t==tid},'zones':None})
-    summary={'counts':dict(counts),'date_min':min(dates,default=None),'date_max':max(dates,default=None),'geometry':{k:{'n':len(v),'median_abs_error_ft':statistics.median(v),'mean_abs_error_ft':statistics.mean(v),'over_5ft_fraction':sum(x>5 for x in v)/len(v)} for k,v in geometry.items()},'geometry_examples':examples,'coordinate_status':'uncertified','zone_export':'withheld','prediction_accuracy_measured':False}
-    (out/'results.json').write_text(json.dumps(summary,indent=2,ensure_ascii=False)+'\n',encoding='utf8'); (out/'receipt_hashes.json').write_text(json.dumps(hashes,indent=2)+'\n',encoding='utf8')
+    summary={'counts':dict(counts),'date_min':min(dates,default=None),'date_max':max(dates,default=None),'geometry':{k:{'n':len(v),'median_abs_error_ft':statistics.median(v),'mean_abs_error_ft':statistics.mean(v),'over_5ft_fraction':sum(x>5 for x in v)/len(v)} for k,v in geometry.items()},'geometry_examples':examples,'coordinate_status':'uncertified','source_geometry_status':'internally_consistent_unofficial','zone_export':'withheld','prediction_accuracy_measured':False}
+    (out/'geometry_examples.json').write_text(json.dumps({'source_geometry_status':'internally_consistent_unofficial','hypothesis':'xy, scale 1, basket (25,0), half court; not certified', 'examples':[dict(e, hypothesis_distance=math.hypot(e['coordinate']['x']-25,e['coordinate']['y'])) for e in examples]},indent=2,ensure_ascii=False)+'\n',encoding='utf8'); (out/'results.json').write_text(json.dumps(summary,indent=2,ensure_ascii=False)+'\n',encoding='utf8'); (out/'receipt_hashes.json').write_text(json.dumps(hashes,indent=2)+'\n',encoding='utf8')
     with gzip.GzipFile(filename='',mode='wb',fileobj=(out/'game_team_audit.jsonl.gz').open('wb'),mtime=0) as z:
         for row in rows: z.write((json.dumps(row,sort_keys=True)+'\n').encode())
     print(json.dumps(summary,indent=2,ensure_ascii=False))

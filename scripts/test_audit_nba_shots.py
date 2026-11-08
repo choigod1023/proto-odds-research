@@ -1,5 +1,6 @@
 import unittest
-from scripts.audit_nba_shots import classify, geom, box_counts
+import tempfile, pathlib, json, hashlib
+from scripts.audit_nba_shots import classify, geom, box_counts, read_checked
 
 class ShotAuditTests(unittest.TestCase):
     def test_missed_three_uses_attempt_not_score(self):
@@ -16,6 +17,18 @@ class ShotAuditTests(unittest.TestCase):
         r=geom(25,15.25,10)
         self.assertEqual(r['xy_scale1_basket5.25_half'],0)
         self.assertEqual(len(r),16)
+    def test_404_body_receipt_hash(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=pathlib.Path(tmp); body=b'not found'
+            (root/'401.unavailable.body').write_bytes(body)
+            receipt=root/'401.unavailable.receipt.json'
+            receipt.write_text(json.dumps({'status':404,'sha256':hashlib.sha256(body).hexdigest()}),encoding='utf8')
+            status,data,ok=read_checked(receipt)
+            self.assertEqual(status['status'],404)
+            self.assertEqual(data,body)
+            self.assertTrue(ok)
+            (root/'401.unavailable.body').write_bytes(b'corrupt')
+            self.assertFalse(read_checked(receipt)[2])
     def test_box_requires_all_metrics(self):
         self.assertIsNone(box_counts({'statistics':[]}))
 
