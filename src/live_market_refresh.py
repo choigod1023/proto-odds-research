@@ -665,7 +665,11 @@ def _settle_live_market_results_locked(live_odds: dict, runtime: PredictionRunti
                 key = (event_id(game), selection_id(game, option), offer_id(game, option))
                 candidates.setdefault(key, []).append((
                     "void" if void else "hit" if index == winner else "miss", row, round_no))
-    # All outcomes below require an exact official product in this feed. Keep
+    # A changed line can lose the original product's displayed final grade.
+    # Recover only sealed full-game terms with an independently confirmed score.
+    from frozen_market_results import add_frozen_candidates, settlement_source
+    add_frozen_candidates(candidates, live_odds, runtime._cached_latest(), observed)
+    # All outcomes below require an exact saved product. Keep
     # full-chain verification, but do not expand historical display records for
     # fixtures that cannot possibly settle during this cycle.
     events = {event for event, _selection, _offer in candidates}
@@ -678,14 +682,16 @@ def _settle_live_market_results_locked(live_odds: dict, runtime: PredictionRunti
         result, row, round_no = matches[0]
         if record.get("result") == result:
             continue  # Full generator may already have settled with extra score metadata.
+        outcome = {"result": result, "selection_id": record["selection_id"]}
+        if row.get('_frozen_score_source'):
+            outcome['settlement_basis'] = 'frozen_line_final_score'
+        else:
+            outcome['official_result'] = row.get('result')
         pending.append(dict(
             event_id=event, expected_snapshot_id=record.get('prediction_snapshot_id'),
-            outcome={"result": result, "selection_id": record["selection_id"],
-                            "official_result": row.get("result")},
+            outcome=outcome,
             settled_at=observed.isoformat(),
-            source={"name": "proto_official", "round": round_no,
-                    "game_no": row.get("game_no"), "game_date": row.get("date"),
-                    "path": "live_odds"}))
+            source=settlement_source(row, round_no)))
     # Research arms also exist when the operating policy abstains. Settle their
     # exact saved offers without inventing an operating bet or touching wallets.
     from decimal import Decimal,ROUND_HALF_UP
@@ -701,8 +707,7 @@ def _settle_live_market_results_locked(live_odds: dict, runtime: PredictionRunti
                 continue
             status, row, round_no = matches[0]
             grade = result_for_offer(item, status)
-            source = {'name': 'proto_official', 'round': round_no, 'game_no': row.get('game_no'),
-                      'game_date': row.get('date'), 'path': 'live_odds'}
+            source = settlement_source(row, round_no)
             grade['source'] = source
             comparisons = {}
             for name, arm in (item.get('comparisons') or {}).items():
@@ -736,10 +741,13 @@ def _settle_live_market_results_locked(live_odds: dict, runtime: PredictionRunti
         prior_time = _aware_timestamp(record["settled_at"])
         if prior.get("result") == status or (prior and prior_time is not None and observed <= prior_time):
             continue
-        source = {"name": "proto_official", "round": round_no, "game_no": row.get("game_no"),
-                  "game_date": row.get("date"), "path": "live_odds"}
+        source = settlement_source(row, round_no)
         grade = result_for_offer(dict(pick, model=pick["version"]), status)
-        grade.update(source=source, official_result=row["result"])
+        grade['source'] = source
+        if row.get('_frozen_score_source'):
+            grade['settlement_basis'] = 'frozen_line_final_score'
+        else:
+            grade['official_result'] = row['result']
         if event not in indexed:
             operating = runtime._cached_latest()[event]["predictions"]
             entry = dict(event_id=event, expected_snapshot_id=record["prediction_snapshot_id"],
@@ -766,8 +774,7 @@ def _settle_live_market_results_locked(live_odds: dict, runtime: PredictionRunti
                                 hypothetical_stake_won=10000,hypothetical_net_won=profit,
                                 paper_wallet_affected=False,monthly_cap_applied=False)
             official=row.get('result')
-            source={'name':'proto_official','round':round_no,'game_no':row.get('game_no'),
-                    'game_date':row.get('date'),'path':'live_odds'}
+            source=settlement_source(row, round_no)
         if not outcomes:
             continue
         if event not in indexed:

@@ -1,0 +1,132 @@
+{
+  "provenance": {
+    "kind": "retained_operational_payload_replay",
+    "audited_on": "2026-11-08",
+    "snapshot_id": "dec_c37e00c140b358f0",
+    "score_table": "read-only /data/proodd.sqlite3 match_results; source=proto",
+    "rule": "https://www.sportstoto.co.kr/proto_intro",
+    "not_new_pregame_capture": true,
+    "api_payload": "retained collector all-scope response: settlement-deploy-all-after-20261108.json"
+  },
+  "prediction": {
+    "features": {
+      "fixture": {
+        "away": "KB스타즈",
+        "date": "11.06(금) 19:00",
+        "home": "하나은행",
+        "league": "WKBL",
+        "match_id": null,
+        "round": 132,
+        "source_event_id": null,
+        "sport": "bk",
+        "year": 2026
+      }
+    },
+    "kickoff": "2026-11-06T10:00:00.000000Z",
+    "as_of": "2026-11-06T09:12:44.369004+00:00",
+    "captured_at": "2026-11-06T09:14:10.689278Z",
+    "market_observed_at": "2026-11-06T09:09:41+00:00",
+    "predictions": {
+      "market_recommendations": {
+        "items": [
+          {
+            "automatic_recommendation": true,
+            "candidate_only": false,
+            "estimated_roi": null,
+            "game_no": "2854",
+            "label": "H -2.5",
+            "line": -2.5,
+            "market": "핸디캡",
+            "market_observed_at": "2026-11-06T09:09:41+00:00",
+            "model": "market-baseline-v1",
+            "odds": 1.72,
+            "offer_id": "off_a8a5ce25245d3217",
+            "p_push": null,
+            "period": "full_game",
+            "probability": 0.505747,
+            "probability_basis": "normalized_inverse_market_conditional_decisive",
+            "result_period": "full_including_extra",
+            "rule_source": "https://www.sportstoto.co.kr/terms_allocation.php",
+            "selection": "핸디홈",
+            "selection_id": "sel_4db289cec6e0e770",
+            "selection_source": "market_fallback_no_exact_line_votes",
+            "settlement_rule": "handicap_half",
+            "source_evidence": [],
+            "source_ids": [
+              "proto_official_current_market"
+            ],
+            "terms": {
+              "game_no": "2854",
+              "league": "WKBL",
+              "line": "-2.5",
+              "market": "handicap",
+              "n_way": 2,
+              "period": "full_including_extra",
+              "settlement_rule": "handicap_half",
+              "sport": "bk",
+              "unit": "points"
+            },
+            "tipster_vote": null,
+            "validated_edge": false,
+            "validation_status": "user_authorized_unvalidated"
+          }
+        ]
+      }
+    }
+  },
+  "feed": {
+    "markets": {
+      "132": {
+        "2854": {
+          "game_no": "2854",
+          "date": "11.06(금) 19:00",
+          "sport": "bk",
+          "league": "WKBL",
+          "home": "하나은행",
+          "away": "KB스타즈",
+          "market": "핸디캡",
+          "label": "H -3.5",
+          "n_way": 2,
+          "odds": [
+            1.74,
+            1.74
+          ],
+          "result": "핸디패"
+        }
+      }
+    },
+    "generated_at": "2026-11-08T01:06:29+00:00"
+  },
+  "score_rows": [
+    [
+      "proto",
+      2026,
+      132,
+      "2852",
+      "2026-11-06T19:00:00",
+      "WKBL",
+      "bk",
+      "하나은행",
+      "KB스타즈",
+      69,
+      74,
+      "2026-11-06T12:02:05.973034+00:00",
+      "confirmed"
+    ],
+    [
+      "proto",
+      2026,
+      131,
+      "2852",
+      "2026-11-06T19:00:00",
+      "WKBL",
+      "bk",
+      "하나은행",
+      "KB스타즈",
+      69,
+      74,
+      "2026-11-06T12:01:40.048320+00:00",
+      "confirmed"
+    ]
+  ]
+}
