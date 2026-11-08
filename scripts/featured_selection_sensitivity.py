@@ -174,6 +174,8 @@ def evaluate(records):
     result = dict(opportunities=len(replay), common_settled=len(common), excluded=dict(excluded),
                   incomplete_or_pending=len(replay)-len(common), replay_matches=len(replay),
                   common=comparison(common), by_sport={s: comparison([r for r in common if r["sport"] == s]) for s in sorted({r["sport"] for r in replay})},
+                  non_soccer_by_league={league: comparison([r for r in common if r["sport"] != "sc" and r["league"] == league])
+                                        for league in sorted({r["league"] for r in replay if r["sport"] != "sc"})},
                   date_blocks=sorted({r["date_kst"] for r in common}),
                   limits=["Exploratory frozen-offer sensitivity, not new probability-model validation",
                           "Rules can choose different markets: same event and frozen snapshot, different products",
