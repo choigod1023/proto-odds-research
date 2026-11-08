@@ -1,0 +1,95 @@
+{
+  "source_observations": [
+    {
+      "url": "https://mykbostats.com/robots.txt",
+      "requested_at": "2026-11-08T07:39:49.207375+00:00",
+      "received_at": "2026-11-08T07:39:49.673433+00:00",
+      "timestamp_basis": "http_body_completed_local_clock",
+      "status": 200,
+      "sha256": "72bb6ed871a2b3b6531a33eb25b53e6cdfef39a9ceb76c2d420d404ad1a59ee5",
+      "bytes": 226,
+      "content_type": "text/plain"
+    },
+    {
+      "url": "https://mykbostats.com/players/1990",
+      "requested_at": "2026-11-08T07:39:54.674068+00:00",
+      "received_at": "2026-11-08T07:39:54.790761+00:00",
+      "timestamp_basis": "http_body_completed_local_clock",
+      "status": 200,
+      "sha256": "c7625b12bbb713336bc36aab8095e6953ec1bbbc8e4c448a95daf6d7884a2ab5",
+      "bytes": 86582,
+      "content_type": "text/html; charset=utf-8"
+    },
+    {
+      "url": "https://mykbostats.com/games/14037",
+      "requested_at": "2026-11-08T07:39:59.791458+00:00",
+      "received_at": "2026-11-08T07:39:59.897108+00:00",
+      "timestamp_basis": "http_body_completed_local_clock",
+      "status": 200,
+      "sha256": "38c3eb0806dd4476d39d8d6a2d37c441c1cb19df85469b23e88aeba9f2ecf413",
+      "bytes": 169638,
+      "content_type": "text/html; charset=utf-8"
+    },
+    {
+      "url": "https://www.koreabaseball.com/robots.txt",
+      "requested_at": "2026-11-08T07:39:59.898391+00:00",
+      "received_at": "2026-11-08T07:40:00.310374+00:00",
+      "timestamp_basis": "http_body_completed_local_clock",
+      "status": 200,
+      "sha256": "54b3308452c57a3091d013ca640c2d75b52f3e36bc8c96c46a1d4bbfd8825a17",
+      "bytes": 268,
+      "content_type": "text/plain"
+    },
+    {
+      "url": "https://mykbostats.com/players/1990?year=2025",
+      "requested_at": "2026-11-08T07:40:30.345922+00:00",
+      "received_at": "2026-11-08T07:40:31.009069+00:00",
+      "timestamp_basis": "http_body_completed_local_clock",
+      "status": 200,
+      "sha256": "dd97350045ece17084f90f6822fda897f8acde43f595b79316198f167c551fbf",
+      "bytes": 86582,
+      "content_type": "text/html; charset=utf-8"
+    }
+  ],
+  "official_source": {
+    "event_id": "20261012KTSS02026",
+    "box_sha256": "6f28d97353ca799317a98243bee25bc5e75758e5561a39908faba6e4a2449459",
+    "box_received_at": "2026-11-06T06:34:13.465711+00:00",
+    "history_bundle_sha256": "f5da1af5893ca55a74c4fc3646cf166478685312509fcfc8a5ce2d06e71609c4",
+    "archive_verification": "_verify_archives reconstructs source identity, roster and history; local clock only"
+  },
+  "cross_source_link": {
+    "site_game_id": "14037",
+    "official_fixture_id": "20261012KTSS02026",
+    "link_basis": "same date, KT away, Samsung home, unique player official profile link and matching official pitching row; not proof of identity across other dates",
+    "official_player_id": "50030",
+    "site_player_id": "1990",
+    "pitch_count_official": 84,
+    "pitch_count_site": 84,
+    "official_outs": 18,
+    "official_strikeouts": 8
+  },
+  "site": {
+    "season_rows": [
+      "2026",
+      "2025"
+    ],
+    "pitching_table_row_counts": [
+      4,
+      7
+    ],
+    "game_log_2025_query": "?year=2025 returned selected year 2026; not verified"
+  },
+  "model": {
+    "status": "not_fit",
+    "reason": "no verified dated roster availability and prior bullpen completeness joined to matching 2025/2026 odds and M0",
+    "prospective_training_eligible_joined_games": 0,
+    "scope": "this one investigated historical example only, not total existing population"
+  },
+  "limitations": [
+    "captured November 2026 after target game; not pregame observation",
+    "season totals are current snapshots not historical as-of records",
+    "no source availability or entitlement authorization inferred from status 200",
+    "not independent outcomes or ROI"
+  ]
+}
