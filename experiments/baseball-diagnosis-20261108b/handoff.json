@@ -1,0 +1,11 @@
+{
+  "status": "partial_data_blocked",
+  "branch": "codex/baseball-diagnosis-20261108b",
+  "base_local_origin_main": "f293e7397c2197dfdca783b77d90853a8e918c5d",
+  "protocol_commit": "50d8834e",
+  "commit": "See git rev-parse HEAD; a commit cannot contain its own hash.",
+  "pr": null,
+  "paths": ["experiments/baseball-diagnosis-20261108b/REPORT.md", "experiments/baseball-diagnosis-20261108b/summary.json", "experiments/baseball-diagnosis-20261108b/model-predictions.jsonl.gz", "tests/test_baseball_diagnosis_20261108b.py"],
+  "tests": ["python -X utf8 -m unittest discover -s tests -p test_baseball_diagnosis_20261108b.py -v: 3 passed", "git diff --check"],
+  "limits": ["operating ledger not provided at inspection", "KBO retrospective only; outcome-dependent 2025 draw exclusions", "MLB and NPB matched eligible cohorts unavailable", "no production changes or promotion"]
+}
