@@ -478,10 +478,12 @@ body { word-break: keep-all; overflow-wrap: break-word; font-family: "Pretendard
   .ticket-leg-live { display: none; }
 }
 
-/* Mobile-first match explorer. Recommendation, personal selection and result are separate states. */
+/* Mobile match explorer polish follows Unslop by Damir Sokolovsky (@heydamir), CC BY 4.0. */
 .site-nav { align-items: center; gap: 16px; border-bottom-color: var(--color-rule); }
 .site-brand { font-size: 22px; letter-spacing: -.06em; }
 .site-nav-links { margin-left: auto; }
+.site-nav-icon { display: none; }
+body { padding-inline: env(safe-area-inset-left) env(safe-area-inset-right); }
 .theme-control { order: 3; }
 .theme-control select { min-height: 44px; max-width: 135px; padding: 8px; font-size: 14px; border: 1px solid var(--color-rule); border-radius: 8px; background: var(--color-panel); color: var(--color-ink2); }
 .market-header { padding: 24px 0 16px; gap: 16px; border: 0; }
@@ -493,18 +495,25 @@ body { word-break: keep-all; overflow-wrap: break-word; font-family: "Pretendard
 button, a, select, summary { touch-action: manipulation; }
 button:focus-visible, a:focus-visible, select:focus-visible, input:focus-visible, summary:focus-visible { outline: 2px solid var(--color-signal); outline-offset: 3px; }
 @media (max-width: 700px) {
-  .site-nav { display: flex; flex-wrap: wrap; padding: 12px 0 0; gap: 8px; }
+  .site-nav { display: flex; flex-wrap: wrap; padding: calc(12px + env(safe-area-inset-top)) 0 0; gap: 8px; }
   .theme-control { order: 0; margin-left: auto; }
-  .site-nav-links { position: fixed; bottom: 0; left: 0; right: 0; width: 100%; z-index: 30; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding-bottom: env(safe-area-inset-bottom); background: var(--color-panel); border-top: 1px solid var(--color-rule); }
-  .site-nav-link { min-width: 0; min-height: 58px; padding: 8px 3px; font-size: 14px; border-bottom: 0; border-top: 3px solid transparent; }
-  .site-nav-link[aria-current="page"] { border-top-color: var(--color-signal); color: var(--color-signal); }
-  body { padding-bottom: calc(74px + env(safe-area-inset-bottom)); }
+  .site-nav-links { position: fixed; bottom: 0; left: 0; right: 0; width: 100%; z-index: 30; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); padding: 0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); background: var(--color-panel); border-top: 1px solid var(--color-rule); }
+  .site-nav-link { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-width: 0; min-height: 60px; padding: 4px; font-size: 11px; text-align: center; line-height: 1.2; border-bottom: 0; border-top: 2px solid transparent; }
+  .site-nav-icon { display: block; width: 20px; height: 20px; }
+  .site-nav-link[aria-current="page"] { border-top-color: var(--color-signal); color: var(--color-signal); font-weight: 600; }
+  body { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
   .market-header { display: block; padding: 20px 0 14px; }
   .market-header h1 { font-size: 24px; }
   .market-meta { text-align: left; margin-top: 8px; }
   .game-info-modal { width: 100%; max-width: 100%; max-height: 90dvh; margin: auto 0 0; border-radius: 18px 18px 0 0; box-shadow: none; }
   .game-info-modal-header button { min-height: 44px; }
 }
+.match-results-disclosure { margin-bottom: 12px; }
+.match-results-disclosure > summary { display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 44px; padding: 8px 12px; border: 1px solid var(--color-rule); border-radius: 8px; background: var(--color-panel); color: var(--color-ink); font-size: 14px; font-weight: 600; cursor: pointer; }
+.match-results-disclosure > summary::-webkit-details-marker { display: none; }
+.match-results-chevron { width: 8px; height: 8px; margin-right: 4px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg); }
+.match-results-disclosure[open] .match-results-chevron { transform: rotate(225deg); }
+.match-results-content { margin-top: 8px; }
 /* Explorer controls stay above the match list; details carry secondary data. */
 .explorer-page { padding-bottom: 140px; }
 .explorer-page .filter-shell { margin: 0; padding: 16px; border: 1px solid var(--color-rule); border-radius: 12px; background: var(--color-panel); }

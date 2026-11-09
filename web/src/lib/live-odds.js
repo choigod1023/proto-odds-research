@@ -88,9 +88,27 @@ const lineOf = (label) => {
   return match ? Number(match[0]) : null;
 };
 
-const rowsForGame = (game, roundMarkets) => Object.values(roundMarkets || {}).filter((row) =>
-  row?.home === game?.home && row?.away === game?.away && row?.date === game?.date)
-  .sort((left, right) => Number(left?.game_no || 0) - Number(right?.game_no || 0));
+const roundIndexes = new WeakMap();
+const fixtureKey = ({ home, away, date }) => JSON.stringify([home, away, date]);
+
+export function rowsForGame(game, roundMarkets) {
+  if (!roundMarkets || !game) return [];
+  let index = roundIndexes.get(roundMarkets);
+  if (!index) {
+    index = new Map();
+    for (const row of Object.values(roundMarkets)) {
+      if (!row) continue;
+      const key = fixtureKey(row);
+      if (!index.has(key)) index.set(key, []);
+      index.get(key).push(row);
+    }
+    for (const rows of index.values()) {
+      rows.sort((left, right) => Number(left.game_no || 0) - Number(right.game_no || 0));
+    }
+    roundIndexes.set(roundMarkets, index);
+  }
+  return index.get(fixtureKey(game)) || [];
+}
 
 const optionsFromRows = (rows) => rows.flatMap((row) => {
   const values = (row?.odds || []).map(Number);
