@@ -283,7 +283,7 @@ function kstStamp(value) {
 // 둘을 나눠 적어야 "화면이 멈춘 건지, 서버가 안 만든 건지"가 구분된다.
 function Shell({ children }) {
   return (
-    <div className="explorer-page mx-auto max-w-[1180px] px-5 pb-20">
+    <div className="proodd-workbench explorer-page mx-auto max-w-[1180px] px-5 pb-20">
       <Nav current="markets.html" />
       <header className="market-header">
         <div>

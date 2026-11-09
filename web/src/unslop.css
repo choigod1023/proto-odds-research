@@ -1,0 +1,116 @@
+/* PROODD record desk. Adapted from unslop by Damir Sokolovsky (@heydamir),
+   https://github.com/heydamir/unslop, CC BY 4.0. */
+:root {
+  --color-paper: #141415; --color-panel: #19191b;
+  --color-rule: #37373b; --color-rule2: #2b2b2e;
+  --color-ink: #ededed; --color-ink2: #b1b1b7; --color-ink3: #99999f;
+  --color-signal: #a2bee9;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --color-paper: #fafafa; --color-panel: #fff;
+    --color-rule: #d4d4d8; --color-rule2: #e8e8eb;
+    --color-ink: #171717; --color-ink2: #525252; --color-ink3: #62626a;
+    --color-signal: #294f84;
+  }
+}
+:root[data-theme="light"] {
+  --color-paper: #fafafa; --color-panel: #fff;
+  --color-rule: #d4d4d8; --color-rule2: #e8e8eb;
+  --color-ink: #171717; --color-ink2: #525252; --color-ink3: #62626a;
+  --color-signal: #294f84;
+}
+.proodd-workbench { max-width: 1440px; padding: 0 32px 96px; font-size: 14px; font-variant-numeric: tabular-nums; }
+.proodd-workbench :is(h1,h2,h3,h4) { font-weight: 500; }
+.proodd-workbench :is(b,strong) { font-weight: 600; }
+.proodd-workbench :is(small,.tnum) { letter-spacing: 0; }
+.proodd-workbench .site-nav { min-height: 64px; border-color: var(--color-rule); gap: 16px; }
+.proodd-workbench .site-brand { font-size: 18px; font-weight: 600; letter-spacing: 0; }
+.proodd-workbench .site-nav-link { min-height: 44px; padding: 0 16px; font-size: 14px; font-weight: 500; border-bottom-width: 2px; }
+.proodd-workbench .site-nav-link[aria-current="page"] { border-color: var(--color-signal); }
+.proodd-workbench .site-terms-link { color: var(--color-ink2); font-size: 12px; }
+.proodd-workbench .market-header { padding: 32px 0 24px; }
+.proodd-workbench .market-header h1 { font-size: clamp(28px,3vw,36px); font-weight: 500; letter-spacing: -.02em; }
+.proodd-workbench .section-nav { background: var(--color-paper); backdrop-filter: none; gap: 24px; }
+.proodd-workbench .section-nav a { min-height: 44px; display: flex; align-items: center; padding: 8px 0; font-size: 13px; font-weight: 500; }
+.proodd-workbench .recommendation-results { padding: 24px; margin: 0 0 24px; border-radius: 12px; }
+.proodd-workbench .recommendation-results h2 { margin: 0 0 12px; font-size: clamp(22px,3vw,28px); font-weight: 500; letter-spacing: 0; }
+.proodd-workbench .recommendation-result-filters { gap: 4px; margin: 0 0 20px; }
+.proodd-workbench .recommendation-result-filters button { min-height: 44px; padding: 8px 16px; border-radius: 8px; border-color: transparent; font-size: 14px; font-weight: 400; }
+.proodd-workbench .recommendation-result-filters button:hover { background: var(--color-paper); }
+.proodd-workbench .recommendation-result-filters button[aria-pressed="true"] { color: var(--color-ink); background: var(--color-rule2); font-weight: 500; border-color: var(--color-rule); }
+.proodd-workbench :is(.recommendation-result-scope,.recommendation-result-rules) { color: var(--color-ink2); font-size: 13px; line-height: 1.6; margin: 8px 0; }
+.proodd-workbench .recommendation-result-sports { margin: 16px 0 8px; }
+.recommendation-result-columns { display: none; }
+.proodd-workbench :is(.recommendation-result-columns,.recommendation-result-tile) { display: grid; grid-template-columns: minmax(120px,.8fr) minmax(200px,1.6fr) 192px 48px; align-items: center; gap: 16px; }
+.proodd-workbench .recommendation-result-columns { padding: 12px 16px; color: var(--color-ink3); font-size: 12px; border-bottom: 1px solid var(--color-rule); }
+.proodd-workbench .recommendation-result-columns > :last-child { text-align: right; }
+.proodd-workbench .recommendation-result-tiles { display: block; margin: 0; }
+.proodd-workbench .recommendation-result-tile { width: 100%; min-height: 64px; padding: 16px; border: 0; border-bottom: 1px solid var(--color-rule2); border-radius: 0; background: transparent; color: var(--color-ink2); transition: background-color 160ms ease; }
+.proodd-workbench .recommendation-result-tile:hover { background: var(--color-paper); }
+.proodd-workbench .recommendation-result-tile.is-hit { border-color: var(--color-rule2); background: transparent; color: var(--color-ink2); }
+.proodd-workbench .recommendation-result-tile.is-hit:hover { background: var(--color-paper); }
+.proodd-workbench .recommendation-result-competition { font-size: 13px; overflow-wrap: anywhere; }
+.proodd-workbench .recommendation-result-match { font-size: 14px; font-weight: 500; }
+.proodd-workbench .recommendation-result-tile time { font-size: 12px; white-space: nowrap; }
+.proodd-workbench .recommendation-result-state { justify-self: end; font-size: 13px; font-weight: 500; }
+.proodd-workbench .recommendation-result-tile.is-hit .recommendation-result-state { color: var(--color-signal); }
+.proodd-workbench .recommendation-result-tile.is-miss .recommendation-result-state { color: var(--color-ink2); }
+.proodd-workbench .match-section-title { margin-top: 32px; }
+.proodd-workbench .match-section-title h2 { font-size: 22px; letter-spacing: 0; }
+.proodd-workbench .filter-shell { border-color: var(--color-rule); border-radius: 12px; padding: 16px; }
+.proodd-workbench :is(.filter-grid,.filter-primary) { gap: 12px; }
+.proodd-workbench :is(.date-switch button,.sport-switch button) { font-weight: 500; }
+.proodd-workbench .match-card.card { border-color: var(--color-rule); border-radius: 8px; box-shadow: none; }
+.proodd-workbench .match-row { padding: 16px !important; gap: 16px !important; }
+.proodd-workbench :is(.odds-chip,.is-today-highlighted) { box-shadow: none; }
+.proodd-workbench .dashboard-summary { gap: 16px; margin: 24px 0; }
+.proodd-workbench .dashboard-summary > div { padding: 20px; border-radius: 12px; background: var(--color-panel); }
+.proodd-workbench .dashboard-summary small { color: var(--color-ink2); font-size: 13px; }
+.proodd-workbench .dashboard-summary b { font-size: clamp(22px,2vw,28px); font-weight: 500; }
+.proodd-workbench :is(.dashboard-ticket-card,.dashboard-bet-card) { border-radius: 12px; border-color: var(--color-rule); box-shadow: none; }
+.proodd-workbench .dashboard-bet-card { padding: 24px; }
+.proodd-workbench :is(.dashboard-bet-card h2,.dashboard-ticket-card h2) { font-size: 18px; font-weight: 500; letter-spacing: 0; }
+.proodd-workbench :is(.dashboard-bet-card small,.dashboard-ticket-card small) { font-size: 12px; }
+.proodd-workbench .dashboard-empty { border: 1px solid var(--color-rule); padding: 48px 24px; border-radius: 12px; }
+.proodd-workbench .dashboard-empty b { font-size: 18px; font-weight: 500; }
+.proodd-workbench .dashboard-empty a { display: inline-flex; align-items: center; min-height: 44px; margin-top: 16px; font-size: 14px; }
+.game-info-modal { border-radius: 12px; box-shadow: none; font-variant-numeric: tabular-nums; }
+.game-info-modal-header { padding: 20px 24px; gap: 16px; }
+.game-info-modal-header h2 { font-size: 18px; font-weight: 500; letter-spacing: 0; }
+.game-info-modal-header button { min-height: 44px; border-radius: 8px; font-size: 14px; }
+.game-info-modal-body { padding: 24px; }
+.game-info-modal :is(.intel-tab,.prediction-commentary p,.pick-probability-note,.source-stamp) { font-size: 13px; letter-spacing: 0; }
+.game-info-modal .intel-content { padding: 20px 16px; }
+.game-info-modal :is(th,td) { padding: 12px; font-variant-numeric: tabular-nums; }
+.game-info-modal .intel-tabs { gap: 24px; }
+.game-info-modal .intel-tab { font-weight: 500; }
+.proodd-workbench .loading-line,.proodd-workbench .loading-chip { animation: none; background: var(--color-rule2); }
+@media (min-width: 901px) {
+  .game-info-modal { width: min(960px,80vw); max-height: 100dvh; height: 100dvh; margin: 0 0 0 auto; border-radius: 0; }
+}
+@media (max-width: 1000px) {
+  .proodd-workbench :is(.recommendation-result-columns,.recommendation-result-tile) { grid-template-columns: minmax(100px,.8fr) minmax(160px,1.5fr) 176px 40px; gap: 12px; }
+}
+@media (max-width: 720px) {
+  .proodd-workbench { padding: 0 16px 96px; }
+  .proodd-workbench .market-header { padding: 24px 0 20px; }
+  .proodd-workbench .site-nav { gap: 8px; }
+  .proodd-workbench .site-nav-link { min-height: 56px; padding: 8px 4px; font-size: 13px; border-bottom: 0; }
+  .proodd-workbench .recommendation-results { padding: 16px; }
+  .proodd-workbench .recommendation-result-columns { display: none; }
+  .proodd-workbench .recommendation-result-tile { grid-template-columns: minmax(0,1fr) 48px; gap: 8px 12px; padding: 16px 0; }
+  .proodd-workbench .recommendation-result-competition { grid-column: 1; grid-row: 1; }
+  .proodd-workbench .recommendation-result-match { grid-column: 1; grid-row: 2; }
+  .proodd-workbench .recommendation-result-tile time { grid-column: 1; grid-row: 3; }
+  .proodd-workbench .recommendation-result-state { grid-column: 2; grid-row: 1 / 4; }
+  .proodd-workbench .recommendation-result-filters { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; }
+  .proodd-workbench .recommendation-result-filters button { flex-shrink: 0; padding: 8px 12px; }
+  .proodd-workbench .dashboard-summary { gap: 12px; }
+  .proodd-workbench .dashboard-summary > div { padding: 16px; }
+  .proodd-workbench .dashboard-bet-card { padding: 16px; }
+  .game-info-modal-header,.game-info-modal-body { padding: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .proodd-workbench *, .game-info-modal * { transition: none !important; animation: none !important; }
+}
