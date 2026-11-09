@@ -15,11 +15,36 @@ test('a real live reprice explains publication and automatic polling instead of 
   const notice = matchRefreshNotice(next, {now});
   assert.equal(MATCH_LIST_REFRESH_MS, 60000);
   assert.equal(notice.kind, 'recalculating');
+  assert.equal(notice.previous, null);
   assert.match(notice.body, /사전 원장 저장 → 경기 목록 게시/);
   assert.match(notice.followUp, /약 1분 간격/);
   assert.match(notice.followUp, /완료 시각은 확정할 수 없습니다/);
   assert.equal(notice.observedAt, '2026-11-07T02:59:00Z');
   assert.equal(notice.freezeAt, '2026-11-07T04:30:00.000Z');
+});
+
+test('recalculation shows only the recorded previous price and capture time', () => {
+  const recorded = { ...game, featured_pick_record: {
+    captured_at: '2026-11-07T02:20:00Z',
+    kickoff: '2026-11-07T05:00:00Z',
+    prediction_snapshot_id: 'stored-1',
+    pick: {version:'featured-pregame-v1', selection_id:'s1', offer_id:'o1',
+      market:'언더오버', label:'U 7.5', selection:'언더', odds:1.82,
+      probability:.58, estimated_roi:.0556},
+  }};
+  const next = repriceGameOdds(recorded, {'1':[1.7, 2.1]}, '2026-11-07T02:59:00Z');
+  assert.equal(next.options[0].배당, 1.7);
+  assert.deepEqual(matchRefreshNotice(next, {now}).previous, {
+    capturedAt: '2026-11-07T02:20:00Z',
+    option: {market:'언더오버', label:'U 7.5', 선택:'언더', 배당:1.82},
+  });
+  assert.equal(matchRefreshNotice({...next, prediction_ledger_reason:'ledger_conflict'}, {now}).previous, undefined);
+  assert.equal(matchRefreshNotice({...next, featured_pick_record:{
+    ...recorded.featured_pick_record, captured_at:'2026-11-07T02:59:30Z',
+  }}, {now}).previous, null);
+  assert.equal(matchRefreshNotice({...next, featured_pick_record:{
+    ...recorded.featured_pick_record, kickoff:'2026-11-08T05:00:00Z',
+  }}, {now}).previous, null);
 });
 
 test('ready picks and normal abstentions have no recalculation notice', () => {
