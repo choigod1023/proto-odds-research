@@ -1,5 +1,6 @@
 import { decisionFrozen, gamePhase, scheduledAt } from './match-status.js';
 import { recommendationOutcome } from './pick-result.js';
+import { pregameRecommendation } from './pregame-recommendation.js';
 
 export const MATCH_LIST_REFRESH_MS = 60000;
 const FINAL = new Set(['hit', 'miss', 'void']);
@@ -25,10 +26,16 @@ export function matchRefreshNotice(game, { now = Date.now(), phase = gamePhase(g
   }
   if (waiting && phase === 'upcoming') {
     const start = scheduledAt(game);
+    const observedAt = validTime(game._liveOddsRecalculatedAt);
+    const capturedAt = validTime(game.featured_pick_record?.captured_at);
+    const saved = capturedAt && Date.parse(capturedAt) <= Math.min(now, observedAt ? Date.parse(observedAt) : now)
+      ? pregameRecommendation(game, { frozen: true }) : null;
     return { kind: 'recalculating', title: '새 배당 판정 반영 대기',
-      body: '새 배당 판정 → 사전 원장 저장 → 경기 목록 게시가 끝나면 추천을 다시 표시합니다. 그동안 이전 추천과 확률을 숨깁니다.',
+      body: '새 배당 판정 → 사전 원장 저장 → 경기 목록 게시가 끝나면 새 배당 기준 추천을 표시합니다.',
+      previous: saved?.option.market && saved.option.선택 && !FINAL.has(saved.result)
+        ? { option: saved.option, capturedAt } : null,
       followUp: '화면이 열려 있으면 게시된 목록을 약 1분 간격으로 자동 확인합니다. 서버 처리 대기나 재시도가 있어 완료 시각은 확정할 수 없습니다.',
-      observedAt: validTime(game._liveOddsRecalculatedAt),
+      observedAt,
       freezeAt: start == null ? null : new Date(start - 30 * 60000).toISOString() };
   }
   if (phase !== 'finished') return null;
