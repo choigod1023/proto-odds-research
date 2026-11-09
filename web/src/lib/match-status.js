@@ -16,6 +16,17 @@ export function decisionFrozen(game, now = Date.now()) {
   return start != null && Number(now) >= start - 30 * 60 * 1000;
 }
 
+export function nextDecisionFreeze(games, now) {
+  let next = Infinity;
+  for (const game of games) {
+    const start = scheduledAt(game);
+    if (start == null) continue;
+    const cutoff = start - 30 * 60 * 1000;
+    if (cutoff > now) next = Math.min(next, cutoff);
+  }
+  return next;
+}
+
 export function liveFeedWithFallback(direct, fallback) {
   return direct || fallback || null;
 }

@@ -9,10 +9,10 @@ import { readTheme, THEME_KEY } from "../lib/explorer-preferences.js";
 //    이 페이지의 모든 숫자가 손실이라, 초록을 칠하면 −18.7% 가 이득처럼 읽힌다.
 
 export const NAV = [
-  { href: "markets.html", label: "경기 분석" },
-  { href: "dashboard.html", label: "내 기록" },
-  { href: "slip.html", label: "프로토 배당표" },
-  ...(SHOW_PICK_METHOD ? [{ href: "research.html", label: "픽 선택 방식" }] : []),
+  { href: "markets.html", label: "경기 분석", icon: "M4 5h16v14H4z M7 10h4 M13 10h4 M7 14h4 M13 14h4" },
+  { href: "dashboard.html", label: "내 기록", icon: "M5 3h11l3 3v15H5z M8 9h8 M8 13h8 M8 17h5" },
+  { href: "slip.html", label: "프로토 배당표", icon: "M4 4h16v16H4z M4 9h16 M4 14h16 M12 9v11" },
+  ...(SHOW_PICK_METHOD ? [{ href: "research.html", label: "픽 선택 방식", icon: "M4 18h16 M5 15l5-5 4 3 5-7 M16 6h3v3" }] : []),
 ];
 
 export function Nav({ current }) {
@@ -26,7 +26,11 @@ export function Nav({ current }) {
           <a key={n.href} href={n.href}
             aria-current={n.href === current ? "page" : undefined}
             className="site-nav-link">
-            {n.label}
+            <svg className="site-nav-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d={n.icon} />
+            </svg>
+            <span>{n.label}</span>
           </a>
         ))}
       </div>

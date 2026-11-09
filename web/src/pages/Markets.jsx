@@ -31,15 +31,17 @@ import { infoTabs, pitcherMetrics, sourceFor, starterFor, teamRecordFor,
 import { performanceAnalysis } from "../lib/performance-analysis.js";
 import { buildDecisionViewModel, resolveDecisionOption } from "../lib/decision-view-model.js";
 import { usesTipsterVote, tipsterPolicyInfo, tipsterVoteSummary, tipsterWithholdLabel, isMarketFallback } from "../lib/fixed-tipster-policy.js";
-import { repriceGameOdds } from "../lib/live-odds.js";
+import { repriceGameOdds, rowsForGame } from "../lib/live-odds.js";
 import { alignTodayRecommendations, buildTodayMemberships,
   todaySelectionForGame } from "../lib/unified-recommendation.js";
 import { usePolledData } from "../lib/poll.js";
+import { createPollLoader } from "../lib/poll-loader.js";
+import { startForegroundPoll } from "../lib/foreground-poll.js";
 import { useMatchData } from "../lib/use-match-data.js";
 import { mergeMatchDetail, shouldRefreshDetailList } from "../lib/match-data.js";
 import { availableToday, nextTodayRefreshDelay } from "../lib/today-plan.js";
 import { freshnessStatus, isLiveFeedDelayed, isDataStale, waitingLabel } from "../lib/data-freshness.js";
-import { decisionFrozen, gamePhase, PHASE_LABEL, recommendationOutcome, scheduledAt } from "../lib/match-status.js";
+import { decisionFrozen, gamePhase, nextDecisionFreeze, PHASE_LABEL, recommendationOutcome, scheduledAt } from "../lib/match-status.js";
 import { predictionForGame } from "../lib/game-prediction.js";
 import { savedLivePrediction } from "../lib/saved-live-prediction.js";
 import { commentaryMethod, directPickReason } from "../lib/recommendation.js";
@@ -59,38 +61,20 @@ const LIVE_URL = apiUrl('/api/live-scores');
 // 판정과 배당을 각각 DB API에서 받아 동일 화면 revision으로 합친다.
 const ODDS_URL = apiUrl('/api/live-odds');
 const RECOMMENDATION_URL = apiUrl('/api/today-recommendations');
-const PICKS_URL = apiUrl('/api/picks');
 const GRADES_URL = apiUrl('/api/loss-grades');
 
 /** DB-backed API를 주기적으로 조회하고 마지막 정상 응답을 메모리에 유지한다. */
 function usePoll(url, ms) {
   const [state, setState] = useState({ data: null, checked: false });
   useEffect(() => {
-    let stop = false;
-    const load = () =>
-      fetch(`${url}?${Date.now()}`, {
-        cache: "no-store",
-        headers: { "Cache-Control": "no-cache" },
-      })
-        .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`HTTP ${r.status}`))))
-        .then((d) => { if (!stop) setState((old) => ({
-          data: url === LIVE_URL ? mergeLiveFeed(old.data, d) : d, checked: true,
-        })); })
-        // 일시 실패 때 마지막 정상값은 버리지 않는다. 첫 확인 실패만 checked로 남겨
-        // 오래된 정적 fallback인지 실제 장애인지 구분한다.
-        .catch(() => { if (!stop) setState((old) => ({ ...old, checked: true })); });
-    load();
-    const t = setInterval(load, ms);
-    const onVisible = () => { if (document.visibilityState === "visible") load(); };
-    document.addEventListener("visibilitychange", onVisible);
-    window.addEventListener("focus", load);
-    window.addEventListener("online", load);
+    const loader = createPollLoader({ current: url }, ({ data }) => setState((old) => ({
+      data: url === LIVE_URL && data.current ? mergeLiveFeed(old.data, data.current) : data.current,
+      checked: true,
+    })));
+    const stopPolling = startForegroundPoll(loader.load, ms);
     return () => {
-      stop = true;
-      clearInterval(t);
-      document.removeEventListener("visibilitychange", onVisible);
-      window.removeEventListener("focus", load);
-      window.removeEventListener("online", load);
+      stopPolling();
+      loader.stop();
     };
   }, [url, ms]);
   return state;
@@ -134,8 +118,7 @@ function scoreForecastForView(game) {
  *    어제 경기와 오늘 경기가 뭉개진다 — 정산 경기 55건 중 37건이 어긋났었다. */
 
 function marketHistoryForGame(game, liveOdds) {
-  const rows = Object.values(liveOdds?.markets?.[String(game?.round)] || {}).filter((row) =>
-    row?.home === game?.home && row?.away === game?.away && row?.date === game?.date);
+  const rows = rowsForGame(game, liveOdds?.markets?.[String(game?.round)]);
   const history = liveOdds?.history?.[String(game?.round)] || {};
   return rows.flatMap((row) => (history[String(row.game_no)] || []).map((entry) => ({
     ...entry, gameNo: String(row.game_no),
@@ -145,11 +128,13 @@ function marketHistoryForGame(game, liveOdds) {
 export default function Markets() {
   // ⚠️ 예전엔 처음 한 번만 fetch 했다. 수집기는 30분마다 새 JSON 을 올리는데
   //    화면이 첫 로드에 멈춰 있어 새로고침을 눌러야만 바뀌었다. 이제 스스로 갱신한다.
-  const { data, at } = usePolledData({ grades: GRADES_URL }, 300000);   // 5분
+  const { data } = usePolledData({ grades: GRADES_URL }, 300000);   // 5분
   const { grades } = data;
   // Git push·Pages 배포와 분리하여 판정 지연을 막는다.
   const [allMatches, setAllMatches] = useState(false);
   const [accuracyOpen, setAccuracyOpen] = useState(false);
+  const [resultsOpen, setResultsOpen] = useState(() =>
+    !globalThis.matchMedia?.("(max-width: 700px)").matches);
   const { data: livePicks, checked: picksChecked, error: picksError, retry: retryPicks } = useMatchData(`/api/matches?scope=${allMatches ? 'all' : 'recent'}`);
   const { data: accuracyData, error: accuracyError, retry: retryAccuracy } = useMatchData(accuracyOpen ? '/api/matches?scope=performance' : null);
   const d = livePicks;
@@ -158,6 +143,30 @@ export default function Markets() {
   const { data: directLiveFeed, checked: liveChecked } = useLive();
   const liveFeed = directLiveFeed;
   const liveIndex = useMemo(() => buildLiveIndex(liveFeed), [liveFeed]);
+  const [freezeClock, setFreezeClock] = useState(0);
+  useEffect(() => {
+    if (!d) return;
+    const games = [...(d.live || []), ...(d.past || [])];
+    let timer;
+    const schedule = () => {
+      clearTimeout(timer);
+      const now = Date.now();
+      const next = nextDecisionFreeze(games, now);
+      if (Number.isFinite(next)) timer = setTimeout(refresh, Math.min(next - now, 2147483647));
+    };
+    const refresh = () => { setFreezeClock(Date.now()); schedule(); };
+    const onVisible = () => { if (document.visibilityState === "visible") refresh(); };
+    schedule();
+    document.addEventListener("visibilitychange", onVisible);
+    return () => { clearTimeout(timer); document.removeEventListener("visibilitychange", onVisible); };
+  }, [d]);
+  // A score refresh must not recalculate every market probability.
+  const repricedGames = useMemo(() => new Map(
+    [...(d?.live || []), ...(d?.past || [])]
+      .filter((game) => !decisionFrozen(game))
+      .map((game) => [game, repriceGameOdds(game, liveOdds?.odds?.[String(game.round)],
+        liveOdds?.generated_at || null, liveOdds?.markets?.[String(game.round)])]),
+  ), [d, liveOdds]);
   // 실시간 가격 revision을 페이지 최상단에서 한 번만 합친다. 오늘 조합·경기 카드·
   // 배당 비교가 서로 다른 가격 시점을 읽지 않게 같은 객체를 아래로 전달한다.
   const synchronized = useMemo(() => {
@@ -166,26 +175,18 @@ export default function Markets() {
       const liveState = liveOf(liveIndex, game);
       // 킥오프 뒤에는 사전 배당·선택 revision을 동결한다. 라이브 배당으로 덮어쓰면
       // 저장한 판정 원장의 selection/offer가 어긋나 사전 픽이 사라진다.
-      const frozen = decisionFrozen(game);
-      const repriced = liveState || frozen ? game : repriceGameOdds(
-          game,
-          liveOdds?.odds?.[String(game.round)],
-          liveOdds?.generated_at || null,
-          liveOdds?.markets?.[String(game.round)],
-        );
-      const marketHistory = marketHistoryForGame(game, liveOdds);
-      const withHistory = { ...repriced, _marketHistory: marketHistory,
-        _officialMarkets: liveOdds?.markets?.[String(game.round)] };
+      const frozen = decisionFrozen(game, Math.max(Date.now(), freezeClock));
+      const repriced = liveState || frozen ? game : repricedGames.get(game) || game;
       // 저장 파일에 과거의 재계산 표식이 남아 있어도 T-30 이후에는 사전 결정을
       // 그대로 고정한다. 라이브 중 "재계산 대기"로 되돌아가면 안 된다.
       const frozenGame = frozen
-        ? { ...withHistory, _decisionFrozen: true, _liveOddsChanged: false }
-        : withHistory;
+        ? { ...repriced, _decisionFrozen: true, _liveOddsChanged: false }
+        : repriced;
       return liveState ? { ...frozenGame, _liveState: liveState, _liveStarted: true,
         _liveFeedAt: liveFeed?.generated_at || null } : frozenGame;
     });
     return { ...d, live: merge(d.live), past: merge(d.past) };
-  }, [d, liveOdds, liveIndex]);
+  }, [d, repricedGames, liveIndex, liveFeed?.generated_at, freezeClock]);
 
   if (picksChecked && !synchronized) return <Shell><Empty>
     <p role="alert">경기 데이터를 불러오지 못했습니다. 서버가 응답하지 않거나 목록을 준비 중입니다.</p>
@@ -207,9 +208,15 @@ export default function Markets() {
       {allMatches && !picksChecked && <p role="status">과거·전체 경기 목록을 불러오는 중입니다.</p>}
       {picksError && <p role="status">경기 목록 갱신에 실패했습니다. 마지막 정상 목록을 유지합니다. <button onClick={retryPicks}>다시 시도</button></p>}
       {livePicks?.view?.day && livePicks.view.day !== new Intl.DateTimeFormat('sv-SE', {timeZone:'Asia/Seoul'}).format(new Date()) && <p role="status">날짜 변경 후 목록 갱신 대기 중입니다. {livePicks.view.day}에 준비한 마지막 정상 목록이며 새 경기가 아직 빠져 있을 수 있습니다.</p>}
-      <RecommendationResults today={liveToday} data={synchronized} odds={liveOdds} />
-      <FeaturedPickPerformance data={synchronized.featured_pick_performance} />
-      <MarketRecommendationPerformance data={synchronized.market_recommendation_performance} />
+      <details className="match-results-disclosure" open={resultsOpen}
+        onToggle={(event) => setResultsOpen(event.currentTarget.open)}>
+        <summary><span>최근 추천 결과와 성적</span><span className="match-results-chevron" aria-hidden="true" /></summary>
+        {resultsOpen && <div className="match-results-content">
+          <RecommendationResults today={liveToday} data={synchronized} odds={liveOdds} />
+          <FeaturedPickPerformance data={synchronized.featured_pick_performance} />
+          <MarketRecommendationPerformance data={synchronized.market_recommendation_performance} />
+        </div>}
+      </details>
       <p><a href="./dashboard.html#per-event-shadow">경기별 새 픽 가상 비교 · 선택/보류 사유와 정산 성적 보기</a></p>
       <details className="overall-accuracy-secondary" onToggle={event => setAccuracyOpen(event.currentTarget.open)}><summary>전체 사전 픽 성적 보기</summary>
         {accuracyOpen && (accuracyData ? <OverallAccuracy data={accuracyData} /> : <p role="status">{accuracyError ? '성적을 불러오지 못했습니다.' : '전체 성적을 불러오는 중입니다.'}{accuracyError && <button onClick={retryAccuracy}>다시 시도</button>}</p>)}
@@ -428,7 +435,10 @@ export function GameList({ data, grades, caps, stale, today, marketOdds, liveGen
     game.sport === openedGame.sport && String(game.round) === String(openedGame.round) && game.date === openedGame.date &&
     game.home === openedGame.home && game.away === openedGame.away &&
     game.league === openedGame.league) || openedGame);
-  const modalGame = modalSummary && mergeMatchDetail(modalSummary, detail.data, data.view?.revision);
+  const modalGame = useMemo(() => {
+    const game = modalSummary && mergeMatchDetail(modalSummary, detail.data, data.view?.revision);
+    return game && { ...game, _marketHistory: marketHistoryForGame(game, marketOdds) };
+  }, [modalSummary, detail.data, data.view?.revision, marketOdds]);
   const modalSelection = modalGame && !stale &&
     !(modalGame._liveOddsChanged && !decisionFrozen(modalGame))
     ? todaySelectionForGame(todayMemberships, modalGame.options || [], modalGame.round)

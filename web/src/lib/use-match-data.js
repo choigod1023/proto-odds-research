@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 import {readMatchJson} from './match-data.js';
 import {MATCH_LIST_REFRESH_MS} from './match-refresh-notice.js';
+import {startForegroundPoll} from './foreground-poll.js';
 
 export function useMatchData(path, everyMs=MATCH_LIST_REFRESH_MS) {
   const [state,setState]=useState({path:null,data:null,checked:false,error:false});
@@ -19,14 +20,8 @@ export function useMatchData(path, everyMs=MATCH_LIST_REFRESH_MS) {
         if (!stopped) setState(old=>({path,data:old.path===path || (path.startsWith('/api/matches?') && old.path?.startsWith('/api/matches?'))?old.data:null,checked:true,error:true,errorStatus:error.status ?? null}));
       } finally {clearTimeout(timer); active=null;}
     };
-    load();
-    const timer=everyMs ? setInterval(load,everyMs) : null;
-    const visible=()=>{if(document.visibilityState==='visible') load();};
-    document.addEventListener('visibilitychange',visible);
-    window.addEventListener('focus',load); window.addEventListener('online',load);
-    return ()=>{stopped=true;active?.abort();clearInterval(timer);
-      document.removeEventListener('visibilitychange',visible);
-      window.removeEventListener('focus',load);window.removeEventListener('online',load);};
+    const stopPolling=startForegroundPoll(load,everyMs);
+    return ()=>{stopped=true;stopPolling();active?.abort();};
   },[path,everyMs,attempt]);
   const previousList = path?.startsWith('/api/matches?') && state.path?.startsWith('/api/matches?');
   return {...(state.path===path?state:{data:previousList?state.data:null,checked:false,error:false}),retry:()=>setAttempt(n=>n+1)};
