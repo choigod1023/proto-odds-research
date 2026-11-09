@@ -1,0 +1,927 @@
+{
+  "accepted_games": [
+    "S45G01N116",
+    "S45G01N117",
+    "S45G01N119",
+    "S45G01N121",
+    "S45G01N123",
+    "S45G01N124",
+    "S45G01N126",
+    "S45G01N128",
+    "S45G01N130",
+    "S45G01N131",
+    "S45G01N133",
+    "S45G01N137",
+    "S45G01N140",
+    "S45G01N142",
+    "S45G01N144",
+    "S45G01N147",
+    "S45G01N151",
+    "S45G01N153",
+    "S45G01N154",
+    "S45G01N156",
+    "S45G01N158",
+    "S45G01N160",
+    "S45G01N161",
+    "S45G01N163",
+    "S45G01N165",
+    "S45G01N167",
+    "S45G01N169",
+    "S45G01N170",
+    "S45G01N174",
+    "S45G01N176",
+    "S45G01N177",
+    "S45G01N179",
+    "S45G01N181",
+    "S45G01N184",
+    "S45G01N185",
+    "S45G01N189",
+    "S45G01N191",
+    "S45G01N194",
+    "S45G01N196",
+    "S45G01N199",
+    "S45G01N201",
+    "S45G01N202",
+    "S45G01N204",
+    "S45G01N206",
+    "S45G01N208",
+    "S45G01N209",
+    "S45G01N212",
+    "S45G01N214",
+    "S45G01N216",
+    "S45G01N217",
+    "S45G01N220",
+    "S45G01N222",
+    "S45G01N224",
+    "S45G01N227",
+    "S45G01N229",
+    "S45G01N231",
+    "S45G01N233",
+    "S45G01N234",
+    "S45G01N236",
+    "S45G01N238",
+    "S45G01N241",
+    "S45G01N243",
+    "S45G01N245",
+    "S45G01N247",
+    "S45G01N250",
+    "S45G01N252",
+    "S45G01N254",
+    "S45G01N255",
+    "S45G01N257",
+    "S45G01N259",
+    "S45G01N262",
+    "S45G01N264",
+    "S45G01N269",
+    "S45G01N270",
+    "S45G03N2",
+    "S45G03N4",
+    "S45G03N6",
+    "S45G03N7",
+    "S45G03N11",
+    "S45G03N13",
+    "S45G03N15",
+    "S45G03N16",
+    "S45G04N1",
+    "S45G04N3",
+    "S45G04N5",
+    "S45G04N7"
+  ],
+  "calibration_n": 100,
+  "coef": {
+    "efficiency": [
+      -0.1370223550101488
+    ],
+    "pair": [
+      -0.11584923139479131,
+      -0.03164969656218852,
+      -0.0006208134596038238,
+      -0.10082009573207654,
+      0.08725229911821358
+    ],
+    "player": [
+      -0.11348896449332775,
+      -0.03074651002523081,
+      -6.96995265943501e-06,
+      -0.09792071987163621
+    ],
+    "rotation": [
+      -0.1285387072486465,
+      -0.03577804290413174,
+      -0.001321691424926653
+    ]
+  },
+  "evaluation_n": 152,
+  "metrics": {
+    "efficiency": {
+      "accuracy": 0.6118421052631579,
+      "drawdown": 23.289999999999992,
+      "hits": 93,
+      "logloss": 0.6376080390789933,
+      "roi": -0.14947368421052631,
+      "vs_market": {
+        "accuracy_roi_logloss_delta": [
+          -0.039473684210526314,
+          -0.06309210526315791,
+          0.006359736606073023
+        ],
+        "changed": 12,
+        "ci95": [
+          [
+            -0.08275862068965517,
+            0.0
+          ],
+          [
+            -0.1349102717912922,
+            0.004631172099712369
+          ],
+          [
+            -0.004321934725739518,
+            0.01607804451198513
+          ]
+        ]
+      }
+    },
+    "market": {
+      "accuracy": 0.6513157894736842,
+      "drawdown": 16.62,
+      "hits": 99,
+      "logloss": 0.6312483024729203,
+      "roi": -0.08638157894736842
+    },
+    "pair": {
+      "accuracy": 0.6118421052631579,
+      "drawdown": 23.6,
+      "hits": 93,
+      "logloss": 0.6378968876605813,
+      "roi": -0.1479605263157895,
+      "vs_market": {
+        "accuracy_roi_logloss_delta": [
+          -0.039473684210526314,
+          -0.06157894736842106,
+          0.006648585187661006
+        ],
+        "changed": 14,
+        "ci95": [
+          [
+            -0.0827597188666813,
+            0.0
+          ],
+          [
+            -0.13305569727891156,
+            0.007129166666666642
+          ],
+          [
+            -0.0054651349625600395,
+            0.01848278275988046
+          ]
+        ]
+      },
+      "vs_player": {
+        "accuracy_roi_logloss_delta": [
+          -0.006578947368421052,
+          -0.010328947368421054,
+          -0.00022452885553744077
+        ],
+        "changed": 1,
+        "ci95": [
+          [
+            -0.02142857142857143,
+            0.0
+          ],
+          [
+            -0.03364285714285714,
+            0.0
+          ],
+          [
+            -0.0008843609943957137,
+            0.00045168000351555095
+          ]
+        ]
+      }
+    },
+    "player": {
+      "accuracy": 0.618421052631579,
+      "drawdown": 22.029999999999994,
+      "hits": 94,
+      "logloss": 0.6381214165161186,
+      "roi": -0.13763157894736844,
+      "vs_market": {
+        "accuracy_roi_logloss_delta": [
+          -0.03289473684210526,
+          -0.051250000000000004,
+          0.006873114043198448
+        ],
+        "changed": 13,
+        "ci95": [
+          [
+            -0.07482993197278912,
+            0.006995486782720811
+          ],
+          [
+            -0.12154410331384015,
+            0.017122492163009404
+          ],
+          [
+            -0.005160173298652199,
+            0.018311181717850088
+          ]
+        ]
+      },
+      "vs_rotation": {
+        "accuracy_roi_logloss_delta": [
+          0.013157894736842105,
+          0.02256578947368421,
+          0.0002547217321507912
+        ],
+        "changed": 6,
+        "ci95": [
+          [
+            -0.012738853503184714,
+            0.0389674051438757
+          ],
+          [
+            -0.020871474735605168,
+            0.06586054824561399
+          ],
+          [
+            -0.004726302773165099,
+            0.005137347197787339
+          ]
+        ]
+      }
+    },
+    "rotation": {
+      "accuracy": 0.6052631578947368,
+      "drawdown": 24.92,
+      "hits": 92,
+      "logloss": 0.6378666947839678,
+      "roi": -0.16019736842105264,
+      "vs_efficiency": {
+        "accuracy_roi_logloss_delta": [
+          -0.006578947368421052,
+          -0.010723684210526316,
+          0.00025865570497462744
+        ],
+        "changed": 1,
+        "ci95": [
+          [
+            -0.021130506442912797,
+            0.0
+          ],
+          [
+            -0.03444272550194786,
+            0.0
+          ],
+          [
+            -0.00012127883819503737,
+            0.0006122396829481764
+          ]
+        ]
+      },
+      "vs_market": {
+        "accuracy_roi_logloss_delta": [
+          -0.046052631578947366,
+          -0.07381578947368422,
+          0.006618392311047652
+        ],
+        "changed": 13,
+        "ci95": [
+          [
+            -0.08983179474384564,
+            0.0
+          ],
+          [
+            -0.1479235109717868,
+            0.001737535919540222
+          ],
+          [
+            -0.004418448293291972,
+            0.016709728412504562
+          ]
+        ]
+      }
+    }
+  },
+  "predictions_sha256_uncompressed": "920906095eafe89e30ef12bae36fede7b52d0cab79aa10f64882f2a757ae5797",
+  "rejections": {
+    "Q1: clock went backwards at event 108": 1,
+    "Q1: clock went backwards at event 113": 1,
+    "Q1: clock went backwards at event 76": 1,
+    "Q1: clock went backwards at event 85": 1,
+    "Q1: clock went backwards at event 93": 1,
+    "Q2: clock went backwards at event 203": 1,
+    "Q2: clock went backwards at event 257": 1,
+    "Q2: clock went backwards at event 298": 1,
+    "Q3: clock went backwards at event 406": 1,
+    "Q4: clock went backwards at event 479": 1,
+    "Q4: clock went backwards at event 480": 1,
+    "Q4: clock went backwards at event 499": 1,
+    "Q4: clock went backwards at event 608": 1,
+    "invalid or duplicate text-cast sequence number": 1
+  },
+  "requested_games": 100,
+  "source_receipts": [
+    {
+      "game_id": "S45G01N116",
+      "received_at": "2026-11-09T14:57:44.606370+00:00",
+      "sha256": "206e1dbbeeb2ea3f46311e267543df280f27a33c210c6d5ba52e5919df740a20",
+      "url": "https://api.kbl.or.kr/match/S45G01N116/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N117",
+      "received_at": "2026-11-09T14:57:45.742331+00:00",
+      "sha256": "7aef5d83ebc29d33febdc81074c105ef96a6c0b12c382d5955441f2ec7dcdaa2",
+      "url": "https://api.kbl.or.kr/match/S45G01N117/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N119",
+      "received_at": "2026-11-09T14:57:46.889470+00:00",
+      "sha256": "4b62ce4d058d283c1f4f7a3f0ab91716694bd75532b8f891360e1ed345dbc957",
+      "url": "https://api.kbl.or.kr/match/S45G01N119/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N121",
+      "received_at": "2026-11-09T14:57:48.006767+00:00",
+      "sha256": "fdfdb116917c778585b21a9512d23e7d555f7923f435027fd5e13e0ee87615bb",
+      "url": "https://api.kbl.or.kr/match/S45G01N121/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N123",
+      "received_at": "2026-11-09T14:57:49.158828+00:00",
+      "sha256": "12c8f6a235154c04dfffb7cf45198eca1ab0a213558c301f37af169b62dd2e4a",
+      "url": "https://api.kbl.or.kr/match/S45G01N123/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N124",
+      "received_at": "2026-11-09T14:57:50.307366+00:00",
+      "sha256": "0d3a48cc8402c70c7d5c45ceaa51061f79332c0fe0d1a9b1e626b6913120fb2c",
+      "url": "https://api.kbl.or.kr/match/S45G01N124/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N126",
+      "received_at": "2026-11-09T14:57:51.438380+00:00",
+      "sha256": "c5a692b99c6d3c2d9b4474d093e14d03de82833c228deebe789bc1cefdba1661",
+      "url": "https://api.kbl.or.kr/match/S45G01N126/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N128",
+      "received_at": "2026-11-09T14:57:52.583732+00:00",
+      "sha256": "4d6e42a4e26f8ef94e15866e1af69f0f6fdb848c90570e630ff64b3c0d55fcd0",
+      "url": "https://api.kbl.or.kr/match/S45G01N128/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N130",
+      "received_at": "2026-11-09T14:57:53.724833+00:00",
+      "sha256": "391f827f9cd35c10b294675796f8fff766ebabb9d1eedf02d72def7491eb68c4",
+      "url": "https://api.kbl.or.kr/match/S45G01N130/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N131",
+      "received_at": "2026-11-09T14:57:54.858623+00:00",
+      "sha256": "52a3da3ab2d216db947fd4ae6d4762fa26e3e3f4db9d053737db8f98fe37c2a5",
+      "url": "https://api.kbl.or.kr/match/S45G01N131/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N133",
+      "received_at": "2026-11-09T14:57:55.989306+00:00",
+      "sha256": "86998629bae0fc2034a1e71dbc91d0b7e8d76e4009db2a1fb528cd9484652bd8",
+      "url": "https://api.kbl.or.kr/match/S45G01N133/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N135",
+      "received_at": "2026-11-09T14:57:57.130154+00:00",
+      "sha256": "e54a9e5e58dfcffd4c32be8fc5d38bb40a53a696dff443a25ba5cb6a42eb48b9",
+      "url": "https://api.kbl.or.kr/match/S45G01N135/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N137",
+      "received_at": "2026-11-09T14:57:58.266091+00:00",
+      "sha256": "8ac148f916aa0746dfbb5f64f3cd3df3871686529b674b3947ba144bf8bf3e15",
+      "url": "https://api.kbl.or.kr/match/S45G01N137/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N138",
+      "received_at": "2026-11-09T14:57:59.399473+00:00",
+      "sha256": "91518bcfe87e7a655833343b21b72f57019c03015900a6909a560da05e0114e1",
+      "url": "https://api.kbl.or.kr/match/S45G01N138/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N140",
+      "received_at": "2026-11-09T14:58:00.536342+00:00",
+      "sha256": "246c1e11a611335663dee5efc44e211a8a8034de08d0e6d2a171b2083546639c",
+      "url": "https://api.kbl.or.kr/match/S45G01N140/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N142",
+      "received_at": "2026-11-09T14:58:01.671528+00:00",
+      "sha256": "2c4080305f126a50e854eae4d65f3c05cc0af828fb6856fd0f9728880199fd95",
+      "url": "https://api.kbl.or.kr/match/S45G01N142/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N144",
+      "received_at": "2026-11-09T14:58:02.806650+00:00",
+      "sha256": "f88c90434703140edd9fe5ae138a8cb31ce9424cb0e0b75cfdeea2d841f5e59a",
+      "url": "https://api.kbl.or.kr/match/S45G01N144/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N146",
+      "received_at": "2026-11-09T14:58:03.955779+00:00",
+      "sha256": "9197ed322e15296127a4ba078a12b7a9fdcb7dc6274d4073b326f4329b4266d5",
+      "url": "https://api.kbl.or.kr/match/S45G01N146/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N147",
+      "received_at": "2026-11-09T14:58:05.084988+00:00",
+      "sha256": "eb2b8cb9c43a44ea91497d28e9a9b11d309c0f272aa0b2fbd78ac2bc67dfb7da",
+      "url": "https://api.kbl.or.kr/match/S45G01N147/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N149",
+      "received_at": "2026-11-09T14:58:06.219756+00:00",
+      "sha256": "5fc159a22fa53beac4b36ec468814cdf58f04fbdb4584cff278f8e25e0edbbcf",
+      "url": "https://api.kbl.or.kr/match/S45G01N149/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N151",
+      "received_at": "2026-11-09T14:58:07.364381+00:00",
+      "sha256": "1de11e4c5577db38032c6071c382772caf37724db89fd65335668e6e9caee988",
+      "url": "https://api.kbl.or.kr/match/S45G01N151/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N153",
+      "received_at": "2026-11-09T14:58:08.505880+00:00",
+      "sha256": "02c80775f916fc548af308e1dccd1590645f64b5253845e72a04822c41589212",
+      "url": "https://api.kbl.or.kr/match/S45G01N153/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N154",
+      "received_at": "2026-11-09T14:58:09.644292+00:00",
+      "sha256": "75b78771b426bd687fbf7c596839e9c657364249375a56f20f5e2f06bd9a3e0e",
+      "url": "https://api.kbl.or.kr/match/S45G01N154/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N156",
+      "received_at": "2026-11-09T14:58:10.792890+00:00",
+      "sha256": "c88c50f4aac46f33bd0e85a0980e5ac893a6cb918201782636bf0a1af59811b8",
+      "url": "https://api.kbl.or.kr/match/S45G01N156/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N158",
+      "received_at": "2026-11-09T14:58:11.923926+00:00",
+      "sha256": "5ccc9ca6639e845ba9a8f86dff3e01c6e263378340f7f5a8d04118fe6d281c50",
+      "url": "https://api.kbl.or.kr/match/S45G01N158/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N160",
+      "received_at": "2026-11-09T14:58:13.070423+00:00",
+      "sha256": "32bbdcea835214c603c9b869445e486c9b9a195bef245929d0534d1d49b7a454",
+      "url": "https://api.kbl.or.kr/match/S45G01N160/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N161",
+      "received_at": "2026-11-09T14:58:14.214222+00:00",
+      "sha256": "79707000aa4d904017685cf2389c693fd30236c63f9625b4495be378bb2a38ba",
+      "url": "https://api.kbl.or.kr/match/S45G01N161/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N163",
+      "received_at": "2026-11-09T14:58:15.346959+00:00",
+      "sha256": "20086754151980c88052fd33a8a818ba8d3878664ad3e116f7d110ae8c883385",
+      "url": "https://api.kbl.or.kr/match/S45G01N163/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N165",
+      "received_at": "2026-11-09T14:58:16.504817+00:00",
+      "sha256": "7941df3e1a28d52159c6fe8caeb4910de3a8f2660d38b9e1d5efc5cfb5330ca2",
+      "url": "https://api.kbl.or.kr/match/S45G01N165/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N167",
+      "received_at": "2026-11-09T14:58:17.647820+00:00",
+      "sha256": "61b034cdcec694384c9f5fa585f6540ab0bc935d1cb49bdd25ab90e50796dff8",
+      "url": "https://api.kbl.or.kr/match/S45G01N167/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N169",
+      "received_at": "2026-11-09T14:58:18.786065+00:00",
+      "sha256": "d26843fe5419c34e1f87187bcd909b354cdd31970b24903e63c200921dcfc727",
+      "url": "https://api.kbl.or.kr/match/S45G01N169/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N170",
+      "received_at": "2026-11-09T14:58:19.937825+00:00",
+      "sha256": "ee4aba8bac57144c8cd1b052f91373114a148e2101e2f209de74a5d7abf0c321",
+      "url": "https://api.kbl.or.kr/match/S45G01N170/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N172",
+      "received_at": "2026-11-09T14:58:21.085217+00:00",
+      "sha256": "684f3d521b9e0736a23f090ade0304f7f99141d9564f5b67e471f4de360334b9",
+      "url": "https://api.kbl.or.kr/match/S45G01N172/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N174",
+      "received_at": "2026-11-09T14:58:22.221884+00:00",
+      "sha256": "e39cec4b40c5f6de1dd17ee8db978ce9def3d245c0077a5210140a035cfa845d",
+      "url": "https://api.kbl.or.kr/match/S45G01N174/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N176",
+      "received_at": "2026-11-09T14:58:23.360700+00:00",
+      "sha256": "a70951f9f068d963d58c401b6d323a036a5a1b86d51aad1223dc869e8f1a1839",
+      "url": "https://api.kbl.or.kr/match/S45G01N176/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N177",
+      "received_at": "2026-11-09T14:58:24.502395+00:00",
+      "sha256": "ddcb7ee6c4c4e1ce88ebe58d4a91d38ea3b114160d3871827432b5438b690d82",
+      "url": "https://api.kbl.or.kr/match/S45G01N177/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N179",
+      "received_at": "2026-11-09T14:58:25.649973+00:00",
+      "sha256": "7957a5eb6c3f29f2a2f0a428428155f61df9fd8fd168ad48e55dfe07e43cc363",
+      "url": "https://api.kbl.or.kr/match/S45G01N179/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N181",
+      "received_at": "2026-11-09T14:58:26.807562+00:00",
+      "sha256": "d26ffb7996f9bd9711f4708b9766e6f249dd659831fe473cca13b08d57abd8c2",
+      "url": "https://api.kbl.or.kr/match/S45G01N181/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N184",
+      "received_at": "2026-11-09T14:58:27.943705+00:00",
+      "sha256": "999577808b8184051ffd075eabdc5f1d4366ca6602c10ae3a627ab7599c38913",
+      "url": "https://api.kbl.or.kr/match/S45G01N184/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N185",
+      "received_at": "2026-11-09T14:58:29.091614+00:00",
+      "sha256": "81ff27bd6b2aa5d7a78080dc3b264dc375f406cbea589c65edc2d67a338e5745",
+      "url": "https://api.kbl.or.kr/match/S45G01N185/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N187",
+      "received_at": "2026-11-09T14:58:30.246118+00:00",
+      "sha256": "323a6c021c5fd7338515a42a68a31730dfe0d182abf413269ecd4e439e3a0f04",
+      "url": "https://api.kbl.or.kr/match/S45G01N187/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N189",
+      "received_at": "2026-11-09T14:58:31.457584+00:00",
+      "sha256": "c20b9c854eef29d8537537165ec75f9e195b2fb357ecdbb2c366a53b05cdc3e1",
+      "url": "https://api.kbl.or.kr/match/S45G01N189/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N191",
+      "received_at": "2026-11-09T14:58:32.589565+00:00",
+      "sha256": "d576b3f9b33608bbb5417861775d99b3edeab013a98b9fa7b638530bee7ec2b0",
+      "url": "https://api.kbl.or.kr/match/S45G01N191/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N193",
+      "received_at": "2026-11-09T14:58:33.724269+00:00",
+      "sha256": "bf918d403f024c373fdc1543e7d4d44317a010e7a67d85e245c76253b5ebf738",
+      "url": "https://api.kbl.or.kr/match/S45G01N193/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N194",
+      "received_at": "2026-11-09T14:58:34.860301+00:00",
+      "sha256": "befbd643f22c212a7e95936663a681703bc26d2ca2fb3a499cfd6f7dd1217923",
+      "url": "https://api.kbl.or.kr/match/S45G01N194/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N196",
+      "received_at": "2026-11-09T14:58:35.997594+00:00",
+      "sha256": "bce7bee83e69a43ffde40bbd7e50c30746c8edc81055520ad54f51d15b2424e6",
+      "url": "https://api.kbl.or.kr/match/S45G01N196/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N199",
+      "received_at": "2026-11-09T14:58:37.144902+00:00",
+      "sha256": "38f5c980bb307d92c4f43bd9553f039c4412f47284f4339847d0bbd50038b1c2",
+      "url": "https://api.kbl.or.kr/match/S45G01N199/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N201",
+      "received_at": "2026-11-09T14:58:38.272098+00:00",
+      "sha256": "81be83053771c6c844915999d5102bd8fe62cfb7ed90481d9f6a18c1445c42b2",
+      "url": "https://api.kbl.or.kr/match/S45G01N201/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N202",
+      "received_at": "2026-11-09T14:58:39.408434+00:00",
+      "sha256": "39d56547aca5d211a9d6c3a39b63e440662fe1d152ecbc7a6abdcf5327405aef",
+      "url": "https://api.kbl.or.kr/match/S45G01N202/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N204",
+      "received_at": "2026-11-09T14:58:40.552760+00:00",
+      "sha256": "985066dacf810e86ff23ff877e7faa20765a1c70d35200ce805b26904864fbb6",
+      "url": "https://api.kbl.or.kr/match/S45G01N204/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N206",
+      "received_at": "2026-11-09T14:58:41.698533+00:00",
+      "sha256": "211966c9feff72d0aad5573846ca1320573e1b27fb7d2420c0c7726a498242b0",
+      "url": "https://api.kbl.or.kr/match/S45G01N206/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N208",
+      "received_at": "2026-11-09T14:58:42.832017+00:00",
+      "sha256": "10f910581446cd02bffc81d420c05a643cd3997a944bf523f103b53f27cdbf70",
+      "url": "https://api.kbl.or.kr/match/S45G01N208/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N209",
+      "received_at": "2026-11-09T14:58:43.969569+00:00",
+      "sha256": "195239ebea0bb8b675cb73151aec0df7064dd937c97bcf91b5a1278d310f8de7",
+      "url": "https://api.kbl.or.kr/match/S45G01N209/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N212",
+      "received_at": "2026-11-09T14:58:45.114052+00:00",
+      "sha256": "64291c5dbb96fc490d3f57e1935dc6b93ca43d592b7d50915f6283de00d57481",
+      "url": "https://api.kbl.or.kr/match/S45G01N212/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N214",
+      "received_at": "2026-11-09T14:58:46.251723+00:00",
+      "sha256": "0202d0c162f1b0f965d23d9d8124dcdac0e1369daf238177b196cbc4256d9a99",
+      "url": "https://api.kbl.or.kr/match/S45G01N214/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N216",
+      "received_at": "2026-11-09T14:58:47.398589+00:00",
+      "sha256": "f83611dfa869e7b05f8349286a80df6b649cd2977d7e5372522b580ba22cca38",
+      "url": "https://api.kbl.or.kr/match/S45G01N216/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N217",
+      "received_at": "2026-11-09T14:58:48.546888+00:00",
+      "sha256": "2b5ce4d74a66c1cb61edd6e64add9c326740796368fa8a2479f7cbb92d819b38",
+      "url": "https://api.kbl.or.kr/match/S45G01N217/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N220",
+      "received_at": "2026-11-09T14:58:49.678774+00:00",
+      "sha256": "23c12180412f622f2852b3419bfcdcd227b33c335cdc3b7184bcd925f2a5efb2",
+      "url": "https://api.kbl.or.kr/match/S45G01N220/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N222",
+      "received_at": "2026-11-09T14:58:50.809068+00:00",
+      "sha256": "01aa2b21955bfb7b51ca75d729f43db6fc8ce3487247a63d31e41624a37143b1",
+      "url": "https://api.kbl.or.kr/match/S45G01N222/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N224",
+      "received_at": "2026-11-09T14:58:51.947939+00:00",
+      "sha256": "162e49e6007b8810ca14e4336a2bfd1d1ce40160d7fbb000739c02995f5a1569",
+      "url": "https://api.kbl.or.kr/match/S45G01N224/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N226",
+      "received_at": "2026-11-09T14:58:53.083118+00:00",
+      "sha256": "a0c8829d5d5d2bb700da9d64f5b3a62996b731490d81c83ea091b19d5a08eab7",
+      "url": "https://api.kbl.or.kr/match/S45G01N226/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N227",
+      "received_at": "2026-11-09T14:58:54.213826+00:00",
+      "sha256": "9105a6572c62f8ea22b4358e0be25e2c82f70a54b218b0b59aad6923b3ccb130",
+      "url": "https://api.kbl.or.kr/match/S45G01N227/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N229",
+      "received_at": "2026-11-09T14:58:55.349494+00:00",
+      "sha256": "a70c84326ba55786d7f96399f56f5161905e3b535b0442c394cdf921cf4b84bd",
+      "url": "https://api.kbl.or.kr/match/S45G01N229/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N231",
+      "received_at": "2026-11-09T14:58:56.491790+00:00",
+      "sha256": "a5f0209730586a38ffd35d2ee7c013ff745151906466fadf46c2676638896245",
+      "url": "https://api.kbl.or.kr/match/S45G01N231/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N233",
+      "received_at": "2026-11-09T14:58:57.669640+00:00",
+      "sha256": "404629617f415a9dc4dfdc300b0bc4a22caf49278ef61af9a97ce5728da06328",
+      "url": "https://api.kbl.or.kr/match/S45G01N233/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N234",
+      "received_at": "2026-11-09T14:58:58.801820+00:00",
+      "sha256": "637af54c7281399c5ef453ece9984e089db8f02277b9fa290a3ee191a1ab9f50",
+      "url": "https://api.kbl.or.kr/match/S45G01N234/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N236",
+      "received_at": "2026-11-09T14:58:59.950936+00:00",
+      "sha256": "aaf30663b1729328b87c315c8a3fdc0052a97382a06c1f3f0bd262606535d0cd",
+      "url": "https://api.kbl.or.kr/match/S45G01N236/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N238",
+      "received_at": "2026-11-09T14:59:01.070979+00:00",
+      "sha256": "0961cc2ec93ffeb7e090bc83412c126ab7dc99ee37b854bedfe724064f7f6a7c",
+      "url": "https://api.kbl.or.kr/match/S45G01N238/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N240",
+      "received_at": "2026-11-09T14:59:02.227323+00:00",
+      "sha256": "cea8743559a05b7470e0b5a55f0fa51e148bcd17e83466a03787b4c50ac27c8f",
+      "url": "https://api.kbl.or.kr/match/S45G01N240/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N241",
+      "received_at": "2026-11-09T14:59:03.380225+00:00",
+      "sha256": "8d5f476fca455acdd5e40155d7dd962ca535c160f30cce559e54ec3b2abb12d7",
+      "url": "https://api.kbl.or.kr/match/S45G01N241/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S46G03N2",
+      "received_at": "2026-11-09T14:59:04.519943+00:00",
+      "sha256": "305cab969451a567d022674070e2090da7f7daf7de531b200a4079bd28fd7b0a",
+      "url": "https://api.kbl.or.kr/match/S46G03N2/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N243",
+      "received_at": "2026-11-09T14:59:05.648184+00:00",
+      "sha256": "6b42200a0dd9f5782a7bf0eecf0c6520aee36238182798c20c17a427d7b3074a",
+      "url": "https://api.kbl.or.kr/match/S45G01N243/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N245",
+      "received_at": "2026-11-09T14:59:06.783959+00:00",
+      "sha256": "af5adbbf50d13557419a8518ce9637e52c8426aeeb095dac48a76a48d7707a1e",
+      "url": "https://api.kbl.or.kr/match/S45G01N245/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N247",
+      "received_at": "2026-11-09T14:59:07.914763+00:00",
+      "sha256": "33d8a395423deb850aebfbfeba92a8eec0764d8bad5846c14b8479f3b3711086",
+      "url": "https://api.kbl.or.kr/match/S45G01N247/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N248",
+      "received_at": "2026-11-09T14:59:09.062967+00:00",
+      "sha256": "5f5e7d8cadea1c8d84de32ad84edbf9580c2474a5c82d455677ac21f8293e0ab",
+      "url": "https://api.kbl.or.kr/match/S45G01N248/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N250",
+      "received_at": "2026-11-09T14:59:10.196629+00:00",
+      "sha256": "ac9185b5410c3b91130f9b3bbfa69e6e226cc202707844121d9fa340d926f25a",
+      "url": "https://api.kbl.or.kr/match/S45G01N250/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N252",
+      "received_at": "2026-11-09T14:59:11.333405+00:00",
+      "sha256": "ef333c2bd2b92260c2395d648396612aaabd105dec4434ce6e65dab544ed19c9",
+      "url": "https://api.kbl.or.kr/match/S45G01N252/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N254",
+      "received_at": "2026-11-09T14:59:12.459424+00:00",
+      "sha256": "2125c51193e1959e10240d4dfcf80bacd17634936ea793ab0bbde3a470cbb911",
+      "url": "https://api.kbl.or.kr/match/S45G01N254/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N255",
+      "received_at": "2026-11-09T14:59:13.613020+00:00",
+      "sha256": "813c3190ab2b6eff13cfa29afa952b89a20d562adf518c55e3c51ccb0c7f8367",
+      "url": "https://api.kbl.or.kr/match/S45G01N255/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N257",
+      "received_at": "2026-11-09T14:59:14.767054+00:00",
+      "sha256": "dddba6f9eac4c6c55f521182cc19409188b46ef50e828b6fb1b261c3f7367e86",
+      "url": "https://api.kbl.or.kr/match/S45G01N257/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N259",
+      "received_at": "2026-11-09T14:59:15.905781+00:00",
+      "sha256": "321be5da9f2a76664b1ef87c11fd1803c08737354899449b1fe78eefd51a7645",
+      "url": "https://api.kbl.or.kr/match/S45G01N259/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N261",
+      "received_at": "2026-11-09T14:59:17.042959+00:00",
+      "sha256": "9e5c9ddaf9516fda290216cff45b19ccfdc89b9377ba82efb81f5837f8a45931",
+      "url": "https://api.kbl.or.kr/match/S45G01N261/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N262",
+      "received_at": "2026-11-09T14:59:18.187487+00:00",
+      "sha256": "254ee76f970facfb7d6937b8a7f01c73890840a861b05d66570dbcda80c290aa",
+      "url": "https://api.kbl.or.kr/match/S45G01N262/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N264",
+      "received_at": "2026-11-09T14:59:19.325708+00:00",
+      "sha256": "ce2fa80729e880846bef96db4fd41fd619ed8ab90ff710270b7a026f2faf0e02",
+      "url": "https://api.kbl.or.kr/match/S45G01N264/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S46G04N1",
+      "received_at": "2026-11-09T14:59:20.461896+00:00",
+      "sha256": "980fbf6964d3afb722fc1d03140fa991ff5f9e95727ec331ff0847521040345b",
+      "url": "https://api.kbl.or.kr/match/S46G04N1/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N267",
+      "received_at": "2026-11-09T14:59:21.589482+00:00",
+      "sha256": "981e6cdcef63fe78b947c0c157ed9092dabf03abff8741a44b756582e1fb3e1a",
+      "url": "https://api.kbl.or.kr/match/S45G01N267/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N269",
+      "received_at": "2026-11-09T14:59:22.723208+00:00",
+      "sha256": "eac5c06dca9831ca0403d12f0d24d716c8aa7b86dfbd0c514244b854efd36db0",
+      "url": "https://api.kbl.or.kr/match/S45G01N269/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G01N270",
+      "received_at": "2026-11-09T14:59:23.870047+00:00",
+      "sha256": "0d849bcc870f7f93fabe06b39941710882bf9b04bd465c0ed4774a3ea5efd27a",
+      "url": "https://api.kbl.or.kr/match/S45G01N270/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G03N2",
+      "received_at": "2026-11-09T14:59:25.071935+00:00",
+      "sha256": "47f0ccd8440015e6b5f8bfc9999df0b828436ef5a62cf36872988a1e9348d18e",
+      "url": "https://api.kbl.or.kr/match/S45G03N2/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G03N4",
+      "received_at": "2026-11-09T14:59:26.216090+00:00",
+      "sha256": "8016951e6bdd7da9e9d884cc6ad268195bb208dadf1abbc1fecb943317e3dffc",
+      "url": "https://api.kbl.or.kr/match/S45G03N4/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G03N6",
+      "received_at": "2026-11-09T14:59:27.350720+00:00",
+      "sha256": "50394e8350f3f38448ee89dd0fe994f9521b40865dc2529495f81225e3488451",
+      "url": "https://api.kbl.or.kr/match/S45G03N6/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G03N7",
+      "received_at": "2026-11-09T14:59:28.487405+00:00",
+      "sha256": "7e42c26af178e6ff9efaa5ce9f4abb68107c106630b1f11bde91911d7d4daf52",
+      "url": "https://api.kbl.or.kr/match/S45G03N7/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G03N11",
+      "received_at": "2026-11-09T14:59:29.605448+00:00",
+      "sha256": "4c37e7ad90d8b651f4b4089a2716ac6e8fd1054dd91135d2b2c4c819d6fd6ecc",
+      "url": "https://api.kbl.or.kr/match/S45G03N11/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G03N13",
+      "received_at": "2026-11-09T14:59:30.744622+00:00",
+      "sha256": "a0b1acf169efa73eaa2c3cf4372816a078538295f2d818e58fd9e92231078433",
+      "url": "https://api.kbl.or.kr/match/S45G03N13/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G03N15",
+      "received_at": "2026-11-09T14:59:31.874853+00:00",
+      "sha256": "d2b2833bcf8aebab7cf95162d843830d9fb46d0f1bb4fdca944b082ebaf3f808",
+      "url": "https://api.kbl.or.kr/match/S45G03N15/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G03N16",
+      "received_at": "2026-11-09T14:59:33.016693+00:00",
+      "sha256": "7856c9cba0cef9a394d73f302066f66863090916992fbfbf4b44be4ce1c1ab13",
+      "url": "https://api.kbl.or.kr/match/S45G03N16/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G04N1",
+      "received_at": "2026-11-09T14:59:34.154398+00:00",
+      "sha256": "2bacb7937d1a3eea6de50b8fc7017ebe48b870636937ae195964b816c84dd479",
+      "url": "https://api.kbl.or.kr/match/S45G04N1/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G04N3",
+      "received_at": "2026-11-09T14:59:35.296679+00:00",
+      "sha256": "769a97933abd19ada0492fce8ff995b6914016fca6b26f917739d6b168268fc2",
+      "url": "https://api.kbl.or.kr/match/S45G04N3/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G04N5",
+      "received_at": "2026-11-09T14:59:36.429838+00:00",
+      "sha256": "09e6c3ce858f1b2646303a46a6151de14e64280b069ce855e11506b58d035365",
+      "url": "https://api.kbl.or.kr/match/S45G04N5/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    },
+    {
+      "game_id": "S45G04N7",
+      "received_at": "2026-11-09T14:59:37.569083+00:00",
+      "sha256": "1788e06f7ce33db884b09f3fc7e3b09e81cc0f329ae83a4b5d7b2a725183cc78",
+      "url": "https://api.kbl.or.kr/match/S45G04N7/text-cast?quarterList=Q1,Q2,Q3,Q4"
+    }
+  ],
+  "stints": 2244
+}

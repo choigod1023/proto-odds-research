@@ -1,6 +1,7 @@
 """Reproduce the KBL-only, chronological NBA transfer experiment."""
 
 import argparse
+from bisect import bisect_right
 from collections import Counter, defaultdict
 from datetime import date, timedelta
 import gzip
@@ -67,32 +68,39 @@ def parse_box(body, teams, score):
 
 def parse_chart(body, players):
     counts = {}
+    seen = Counter(row["pcode"] for row in body["shootLog"] if row["logs"])
+    errors = Counter()
     for row in body["shootLog"]:
         pid = row["pcode"]
         logs = row["logs"]
         if not logs:
             continue
-        if pid not in players or pid in counts or row["tcode"] != players[pid][0]:
-            raise ValueError("chart_identity")
+        if pid not in players or seen[pid] != 1 or row["tcode"] != players[pid][0]:
+            errors["chart_identity"] += 1
+            continue
         inner = made = 0
         for shot in logs:
             x, y, basket = shot["x"], shot["y"], shot["d"]
             if not (0 <= x <= 726 and 0 <= y <= 412) or basket not in ("1", "2") or shot["o"] not in ("O", "X"):
-                raise ValueError("chart_coordinate")
+                errors["chart_coordinate"] += 1
+                break
             # Left basket in normalized image coordinates, with a fixed 110px interior zone.
             court_x = x if basket == "2" else 726 - x
             inner += (court_x - 55) ** 2 + (y - 206) ** 2 <= 110 ** 2
             made += shot["o"] == "O"
-        box = players[pid][2]
-        if len(logs) != sum(box[:2]) or made != sum(box[3:5]):
-            raise ValueError("chart_box_counts")
-        counts[pid] = np.array([inner, len(logs)])
-    if any(pid not in counts and sum(v[2][:2]) for pid, v in players.items()):
-        raise ValueError("chart_missing_shooter")
-    return counts
+        else:
+            box = players[pid][2]
+            if len(logs) != sum(box[:2]) or made != sum(box[3:5]):
+                errors["chart_box_counts"] += 1
+                continue
+            counts[pid] = np.array([inner, len(logs)])
+    missing = sum(1 for pid, v in players.items() if pid not in counts and sum(v[2][:2]) > 0)
+    if missing:
+        errors["chart_missing_shooter"] = missing
+    return counts, errors
 
 
-def load(boxes, charts):
+def load(boxes, charts=None):
     games, audit, receipts = [], Counter(), []
     records = defaultdict(lambda: defaultdict(list))
     for line in FIXTURES.read_text(encoding="utf8").splitlines():
@@ -114,16 +122,24 @@ def load(boxes, charts):
         try:
             body, receipt = read_snapshot(boxes, gid, "player-stat")
             g["players"], g["box"] = parse_box(body, teams, score)
+            g["overtime"] = (sum(p[1] for p in g["players"].values()) - 24000) // 3000
             receipts.append(receipt)
             audit["verified_box"] += 1
         except (OSError, ValueError, TypeError, KeyError) as exc:
             audit["box_missing" if isinstance(exc, FileNotFoundError) else "box_invalid"] += 1
             continue
+        if charts is None:
+            continue
         try:
             body, receipt = read_snapshot(charts, gid, "match-chart")
-            g["chart"] = parse_chart(body, g["players"])
             receipts.append(receipt)
-            audit["verified_chart"] += 1
+            g["partial_chart"], issues = parse_chart(body, g["players"])
+            if not issues:
+                g["chart"] = g["partial_chart"]
+                audit["verified_chart"] += 1
+            else:
+                audit["chart_partial"] += 1
+                audit.update({f"player_rejected:{key}": value for key, value in issues.items()})
         except (OSError, ValueError, TypeError, KeyError) as exc:
             audit["chart_missing" if isinstance(exc, FileNotFoundError) else "chart_invalid:" + str(exc)] += 1
     return games, audit, receipts
@@ -133,7 +149,46 @@ def possessions(box):
     return box[0] + box[1] + 0.44 * box[2] - box[6] + box[7]
 
 
-def profile(team, history):
+def projected_minutes(minutes):
+    """Preserve 200 team minutes after dropping known transfers, with a 40-minute cap."""
+    minutes = {pid: value for pid, value in minutes.items() if value > 0}
+    if len(minutes) < 5:
+        raise ValueError("expected_rotation_short")
+    remaining = 200.0
+    out = {}
+    while minutes:
+        scale = remaining / sum(minutes.values())
+        capped = [pid for pid, value in minutes.items() if value * scale > 40]
+        if not capped:
+            out.update({pid: value * scale for pid, value in minutes.items()})
+            break
+        for pid in capped:
+            out[pid] = 40.0
+            del minutes[pid]
+            remaining -= 40
+    return out
+
+
+def profiles_index(games):
+    schedule, rosters = defaultdict(list), defaultdict(list)
+    for g in sorted(games, key=lambda row: (row["day"], row["id"])):
+        for team in g["teams"]:
+            schedule[team].append(g)
+        for pid, (team, seconds, _) in g.get("players", {}).items():
+            if seconds:
+                rosters[pid].append((g["day"], team))
+    for history in rosters.values():
+        history.sort()
+    return schedule, rosters
+
+
+def on_team(pid, team, cutoff, rosters):
+    history = rosters.get(pid, ())
+    i = bisect_right(history, (cutoff, "\uffff"))
+    return i == 0 or history[i - 1][1] == team
+
+
+def profile(team, history, cutoff, rosters):
     games = [(g, g["teams"].index(team)) for g in history]
     own, opp = (np.array([g["box"][i if offset == 0 else 1-i] for g, i in games]) for offset in (0, 1))
     net = np.mean([
@@ -141,7 +196,9 @@ def profile(team, history):
                - POINTS @ g["box"][1-i][3:6] / possessions(g["box"][1-i]))
         for g, i in games
     ])
-    minutes, records, chart = defaultdict(float), defaultdict(lambda: np.zeros(9)), defaultdict(lambda: np.zeros(2))
+    minutes, records = defaultdict(float), defaultdict(lambda: np.zeros(9))
+    chart, partial = defaultdict(lambda: np.zeros(2)), defaultdict(lambda: np.zeros(2))
+    official_attempts = 0
     for n, (g, _) in enumerate(games):
         scale = 12000 / sum(p[1] for p in g["players"].values() if p[0] == team)
         for pid, (t, seconds, box) in g["players"].items():
@@ -153,61 +210,83 @@ def profile(team, history):
                 minutes[pid] += equivalent / 5
             if pid in g.get("chart", {}):
                 chart[pid] += g["chart"][pid]
+            if pid in g.get("partial_chart", {}):
+                partial[pid] += g["partial_chart"][pid]
+            official_attempts += sum(box[:2])
     mean = own.mean(axis=0)
     projected = np.zeros(8)
-    inner, chart_attempts = 0.0, 0.0
+    inner, partial_inner, chart_attempts = 0.0, 0.0, 0.0
+    observed, partial_observed = 0.0, 0.0
+    minutes = projected_minutes({pid: value for pid, value in minutes.items() if on_team(pid, team, cutoff, rosters)})
     for pid, expected in minutes.items():
         v = records[pid]
         projected += expected * (v[:8] + 40 * mean / 200) / (v[8] + 40)
         attempts = expected * (sum(v[:2]) + 40 * sum(mean[:2]) / 200) / (v[8] + 40)
-        inner += attempts * (chart[pid][0] + 5) / (chart[pid][1] + 10)
+        if chart[pid][1]:
+            inner += attempts * (chart[pid][0] + 5) / (chart[pid][1] + 10)
+            observed += attempts
+        if partial[pid][1]:
+            partial_inner += attempts * (partial[pid][0] + 5) / (partial[pid][1] + 10)
+            partial_observed += attempts
         chart_attempts += attempts
     return {
         "own": mean, "opp": opp.mean(axis=0), "net": net, "rotation": projected,
-        "inner": inner / chart_attempts, "charts": sum("chart" in g for g, _ in games),
+        "inner": inner / observed if observed else None, "charts": sum("chart" in g for g, _ in games),
+        "partial_inner": partial_inner / partial_observed if partial_observed else None,
+        "partial_coverage": float(sum(v[1] for v in partial.values()) / official_attempts),
+        "partial_projected_coverage": float(partial_observed / chart_attempts),
+        "minutes": minutes,
         "ids": [g["id"] for g, _ in games],
     }
 
 
-def score(offense, defense):
+def score(offense, defense, pace):
     # Mix component rates per possession, then multiply by a common game tempo.
     off_poss, def_poss = possessions(offense), possessions(defense)
     tries = (offense[:3] / off_poss + defense[:3] / def_poss) / 2
     rates = (offense[3:6] + defense[3:6]) / (offense[:3] + defense[:3])
-    return float(POINTS @ (tries * rates) * (off_poss + def_poss) / 2)
+    return float(POINTS @ (tries * rates) * pace)
 
 
-def features(game, schedule):
+def features(game, schedule, rosters=None):
+    rosters = rosters or {}
     cutoff = (date.fromisoformat(game["day"]) - timedelta(days=4)).isoformat()
     profiles = []
     for team in game["teams"]:
         history = [g for g in schedule[team] if g["day"] <= cutoff][-10:]
         if len(history) < 10 or any("box" not in g for g in history):
             return None
-        profiles.append(profile(team, history))
+        profiles.append(profile(team, history, cutoff, rosters))
     a, b = profiles
-    component = [score(a["own"], b["opp"]), score(b["own"], a["opp"])]
-    rotation = [score(a["rotation"], b["opp"]), score(b["rotation"], a["opp"])]
+    pace = np.mean([possessions(profile[k]) for profile in profiles for k in ("own", "opp")])
+    component = [score(a["own"], b["opp"], pace), score(b["own"], a["opp"], pace)]
+    rotation = [score(a["rotation"], b["opp"], pace), score(b["rotation"], a["opp"], pace)]
     form = [float(POINTS @ (a["own"][3:6] + b["opp"][3:6]) / 2),
             float(POINTS @ (b["own"][3:6] + a["opp"][3:6]) / 2)]
     margin = component[0] - component[1]
+    strict = min(a["charts"], b["charts"]) >= 8 and all(p["inner"] is not None for p in profiles)
+    partial = min(p[k] for p in profiles for k in ("partial_coverage", "partial_projected_coverage")) >= 0.8
     return {
         "x": [(a["net"] - b["net"]) / 10, margin / 10, ((rotation[0] - rotation[1]) - margin) / 10,
-              (a["inner"] - b["inner"]) * 10],
-        "chart_ok": min(a["charts"], b["charts"]) >= 8,
+              (a["inner"] - b["inner"]) * 10 if strict else None],
+        "chart_ok": strict,
+        "partial_ok": partial,
+        "partial_coverage": [a["partial_coverage"], b["partial_coverage"]],
+        "partial_projected_coverage": [a["partial_projected_coverage"], b["partial_projected_coverage"]],
+        "partial_x": (a["partial_inner"] - b["partial_inner"]) * 10 if partial else None,
         "score_components": component,
         "score_rotation": rotation,
         "score_form": form,
         "history": [a["ids"], b["ids"]],
+        "minutes": [a["minutes"], b["minutes"]],
     }
 
 
 def match(games):
-    schedule, index, quotes = defaultdict(list), defaultdict(list), defaultdict(list)
+    schedule, rosters = profiles_index(games)
+    index, quotes = defaultdict(list), defaultdict(list)
     for game in sorted(games, key=lambda g: (g["day"], g["id"])):
         index[(game["day"], game["teams"])].append(game)
-        for team in game["teams"]:
-            schedule[team].append(game)
     aliases = json.loads(ALIASES.read_text(encoding="utf8"))["KBL"]["aliases"]
     audit = Counter()
     with gzip.open(PRICES, "rt", encoding="utf8") as f:
@@ -234,12 +313,18 @@ def match(games):
             audit["invalid_price"] += 1
             continue
         audit["matched_" + g["day"][:4]] += 1
-        x = features(g, schedule)
+        try:
+            x = features(g, schedule, rosters)
+        except ValueError as error:
+            if str(error) != "expected_rotation_short":
+                raise
+            audit["expected_rotation_short"] += 1
+            continue
         if x is None:
             audit["incomplete_history_" + g["day"][:4]] += 1
             continue
         targets.append(dict(x, id=g["id"], day=g["day"], teams=g["teams"], score=g["score"], y=y,
-                            odds=odds, market=odds[1] / sum(odds), quote=q["id"]))
+                            odds=odds, market=odds[1] / sum(odds), quote=q["id"], overtime=g.get("overtime")))
     return targets, audit
 
 
@@ -293,11 +378,18 @@ def metrics(rows, names):
     return results
 
 
-def evaluate(rows, start, end, cutoff, spatial):
-    eligible = [r for r in rows if not spatial or r["chart_ok"]]
+def eligible_for(rows, group):
+    if group == "spatial":
+        return [r for r in rows if r["chart_ok"]]
+    if group == "spatial_player_audit":
+        return [dict(r, x=r["x"][:3] + [r["partial_x"]]) for r in rows if r["partial_ok"]]
+    return rows
+
+
+def evaluate(eligible, start, end, cutoff, group):
     train = [r for r in eligible if r["day"] <= cutoff]
     test = [r for r in eligible if start <= r["day"] <= end]
-    families = FAMILIES if spatial else FAMILIES[:-1]
+    families = FAMILIES if group != "box" else FAMILIES[:-1]
     names = ("market", *families, "score_components")
     betas = {name: fit_offset(train, n) for n, name in enumerate(families, 1)}
     margin_error = [r["score"][0] - r["score"][1] - (r["score_components"][0] - r["score_components"][1]) for r in train]
@@ -314,8 +406,11 @@ def evaluate(rows, start, end, cutoff, spatial):
     errors = {}
     for name in ("score_form", "score_components", "score_rotation"):
         delta = np.asarray([r[name] for r in test]) - np.asarray([r["score"] for r in test])
+        regular = delta[[r["overtime"] == 0 for r in test]]
         errors[name] = {"total_mae": float(np.abs(delta.sum(axis=1)).mean()),
-                        "margin_mae": float(np.abs(delta[:, 0] - delta[:, 1]).mean())}
+                        "margin_mae": float(np.abs(delta[:, 0] - delta[:, 1]).mean()),
+                        "regulation_n": len(regular),
+                        "regulation_total_mae": float(np.abs(regular.sum(axis=1)).mean()) if len(regular) else None}
     return {"train": len(train), "n": len(test), "date_range": [test[0]["day"], test[-1]["day"]],
             "metrics": metrics(output, names), "score_errors": errors,
             "betas": {n: x.tolist() for n, x in betas.items()}}, output
@@ -334,17 +429,20 @@ def main():
                "inputs": {path.name: sha(path.read_bytes()) for path in (FIXTURES, PRICES, ALIASES)}, "runs": {}}
     predictions = []
     for period, start, end, cutoff in (
-        ("validation_2025", "2025-10-01", "2025-12-26", "2025-09-26"),
+        ("validation_2025", "2025-10-01", "2025-12-31", "2025-09-26"),
         ("evaluation_2026", "2026-01-01", "2026-12-31", "2025-12-27"),
     ):
-        for group in ("box", "spatial"):
+        for group in ("box", "spatial", "spatial_player_audit"):
             name = period + "_" + group
-            if group == "spatial" and (
-                not any(start <= r["day"] <= end and r["chart_ok"] for r in rows)
-                or not any(r["day"] <= cutoff and r["chart_ok"] for r in rows)
-            ):
+            eligible = eligible_for(rows, group)
+            if not any(start <= r["day"] <= end for r in eligible) or not any(r["day"] <= cutoff for r in eligible):
+                summary["runs"][name] = {
+                    "train": sum(r["day"] <= cutoff for r in eligible),
+                    "n": sum(start <= r["day"] <= end for r in eligible),
+                    "status": "insufficient_eligible_sample",
+                }
                 continue
-            summary["runs"][name], output = evaluate(rows, start, end, cutoff, group == "spatial")
+            summary["runs"][name], output = evaluate(eligible, start, end, cutoff, group)
             predictions.extend(dict(r, run=name) for r in output)
     args.out.mkdir(parents=True, exist_ok=True)
     def dump(obj):
@@ -356,6 +454,9 @@ def main():
     summary["predictions_sha256_uncompressed"] = sha(body)
     (args.out / "summary.json").write_bytes(dump(summary).encode())
     for name, run in summary["runs"].items():
+        if "status" in run:
+            print(name, run["train"], run["n"], run["status"])
+            continue
         print(name, run["train"], run["n"], run["date_range"])
         for model, m in run["metrics"].items():
             print(f"  {model:18} {m['hits']:3} {m['accuracy']:7.2%} {m['roi']:7.2%} {m['logloss']:.5f}")
