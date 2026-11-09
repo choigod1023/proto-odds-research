@@ -141,6 +141,30 @@ def _json_chunks(payload):
         yield bytes(pending)
 
 
+def _slip_json_fragments(payload):
+    # Keep one fixture in memory at a time, including only its offered prices.
+    game_fields = ("year", "round", "date", "home", "away", "sport", "league")
+    option_fields = ("게임번호", "market", "label", "line", "선택", "배당", "_live")
+    encode = json.JSONEncoder(ensure_ascii=False, separators=(",", ":"), allow_nan=False).encode
+    yield '{"generated_at":'
+    yield encode(payload.get("generated_at"))
+    yield ',"live":['
+    live = payload.get("live")
+    games = (game for game in live if isinstance(game, Mapping)) if isinstance(live, (list, tuple)) else ()
+    for index, game in enumerate(games):
+        if index:
+            yield ","
+        options = game.get("options")
+        yield encode({
+            **{key: game[key] for key in game_fields if key in game},
+            "options": [
+                {key: option[key] for key in option_fields if key in option}
+                for option in options if isinstance(option, Mapping)
+            ] if isinstance(options, (list, tuple)) else [],
+        })
+    yield "]}"
+
+
 def configured_path() -> Path:
     return Path(os.environ.get("PROODD_DB_PATH", DEFAULT_PATH))
 
@@ -744,9 +768,33 @@ class RuntimeDatabase(DatasetStore):
                 stored_clock = prior + timedelta(microseconds=1)
         return stored_clock.isoformat(timespec="microseconds")
 
+    @staticmethod
+    def _put_artifact(connection, name, generated_at, body, stored_at):
+        connection.execute(
+            """INSERT INTO artifacts(name,generated_at,payload_json,stored_at)
+               VALUES (?,?,?,?) ON CONFLICT(name) DO UPDATE SET
+               generated_at=excluded.generated_at,
+               payload_json=excluded.payload_json,stored_at=excluded.stored_at""",
+            (name, generated_at, body, stored_at),
+        )
+
     def store_artifact(self, name: str, payload: Mapping[str, Any]) -> None:
         if name == "picks_v2":
             return self._store_picks_stream(payload)
+        # Keep the original and its list response on the same committed revision.
+        summary = None
+        if name == "live_odds":
+            summary = {key: value for key, value in payload.items() if key != "history"}
+        elif name == "live_scores":
+            summary = dict(payload)
+            if isinstance(payload.get("games"), list):
+                summary["games"] = [
+                    {key: value for key, value in row.items() if key != "timeline"}
+                    if isinstance(row, Mapping) else row
+                    for row in payload["games"]
+                ]
+        summary_body = (json.dumps(summary, ensure_ascii=False, separators=(",", ":"), allow_nan=False)
+                        if summary is not None else None)
         # Encode independent artifacts before reserving SQLite's sole writer.
         # today_combo depends on prior committed state and stays inside the lock.
         body = (json.dumps(payload, ensure_ascii=False, separators=(",", ":"), allow_nan=False)
@@ -768,41 +816,45 @@ class RuntimeDatabase(DatasetStore):
                     history, price_payload, datetime.fromisoformat(now)), connection),
                     "per_event_shadow": capture_event_shadow(
                         payload, previous, price_payload, datetime.fromisoformat(now))}
+                summary = {key: value for key, value in payload.items()
+                           if key not in {"recommendation_history", "per_event_shadow"}}
+                summary_body = json.dumps(summary, ensure_ascii=False, separators=(",", ":"), allow_nan=False)
             if body is None:
                 body = json.dumps(payload, ensure_ascii=False, separators=(",", ":"), allow_nan=False)
-            connection.execute(
-                """INSERT INTO artifacts(name,generated_at,payload_json,stored_at)
-                   VALUES (?,?,?,?) ON CONFLICT(name) DO UPDATE SET
-                   generated_at=excluded.generated_at,
-                   payload_json=excluded.payload_json,stored_at=excluded.stored_at""",
-                (name, payload.get("generated_at"), body, now),
-            )
+            self._put_artifact(connection, name, payload.get("generated_at"), body, now)
+            if summary_body is not None:
+                self._put_artifact(connection, f"{name}_summary", payload.get("generated_at"), summary_body, now)
+
+    @staticmethod
+    def _put_spooled_artifact(connection, name, generated_at, stored_at, spool, size):
+        connection.execute("""INSERT INTO artifacts(name,generated_at,payload_json,stored_at)
+            VALUES (?,?,CAST(zeroblob(?) AS TEXT),?)
+            ON CONFLICT(name) DO UPDATE SET generated_at=excluded.generated_at,
+            payload_json=excluded.payload_json,stored_at=excluded.stored_at""",
+            (name, generated_at, size, stored_at))
+        rowid = connection.execute("SELECT rowid FROM artifacts WHERE name=?", (name,)).fetchone()[0]
+        remaining = size
+        with connection.blobopen("artifacts", "payload_json", rowid) as blob:
+            while remaining:
+                size_to_read = min(remaining, 1024 * 1024)
+                chunk = spool.read(size_to_read)
+                if not chunk or len(chunk) > size_to_read:
+                    raise ValueError("picks spool size changed during copy")
+                blob.write(chunk)
+                remaining -= len(chunk)
 
     def _store_picks_stream(self, payload):
-        # Encode/validate exactly once before taking SQLite's sole writer. An
-        # anonymous spool bounds RAM and is closed on every success/failure.
-        # Readers keep the previous committed TEXT until the transaction ends.
+        # Both documents are encoded before taking SQLite's sole writer.
+        # The spool bounds RAM and readers keep the previous committed pair.
         with tempfile.TemporaryFile(mode="w+b", prefix="proto-picks-") as spool:
-            size = 0
-            for chunk in _json_chunks(payload):
-                spool.write(chunk)
-                size += len(chunk)
+            full_size = sum(spool.write(chunk) for chunk in _json_chunks(payload))
+            slip_size = sum(spool.write(fragment.encode("utf-8")) for fragment in _slip_json_fragments(payload))
             spool.seek(0)
+            generated_at = payload.get("generated_at")
             with self.transaction() as connection:
                 now = self._next_artifact_stamp(connection, "picks_v2")
-                connection.execute("""INSERT INTO artifacts(name,generated_at,payload_json,stored_at)
-                    VALUES ('picks_v2',?,CAST(zeroblob(?) AS TEXT),?)
-                    ON CONFLICT(name) DO UPDATE SET generated_at=excluded.generated_at,
-                    payload_json=excluded.payload_json,stored_at=excluded.stored_at""",
-                    (payload.get("generated_at"), size, now))
-                rowid = connection.execute("SELECT rowid FROM artifacts WHERE name='picks_v2'").fetchone()[0]
-                written = 0
-                with connection.blobopen("artifacts", "payload_json", rowid) as blob:
-                    while chunk := spool.read(1024 * 1024):
-                        blob.write(chunk)
-                        written += len(chunk)
-                if written != size:
-                    raise ValueError("picks spool size changed during copy")
+                self._put_spooled_artifact(connection, "picks_v2", generated_at, now, spool, full_size)
+                self._put_spooled_artifact(connection, "picks_slip", generated_at, now, spool, slip_size)
 
     def get_artifact(self, name: str) -> dict[str, Any] | None:
         if name == "picks_v2" and ijson is not None:

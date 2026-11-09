@@ -23,7 +23,7 @@ export function ShadowView({ payload, error, loading, retry, now = Date.now() })
     String(b.recorded_at).localeCompare(String(a.recorded_at)) || String(a.id).localeCompare(String(b.id)));
   const status = { recording: '기록 중', closed_settling: '신규 기록 종료 · 결과 정산 중',
     awaiting_fresh_source: '최신 원천 대기' }[state?.status] || '실험 기록 확인 전';
-  return <section id="per-event-shadow" className="recommendation-results per-event-shadow" aria-label="경기별 픽 가상 비교">
+  return <section className="recommendation-results per-event-shadow" aria-label="경기별 픽 가상 비교">
     <h2>경기별 픽 가상 비교</h2>
     <p>실험용 · 실제 베팅 및 정식 추천과 별개입니다. 기존 추천은 유지합니다.</p>
     <p role="status">{loading && !payload ? '실험 기록 불러오는 중…' : status}</p>

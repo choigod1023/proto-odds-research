@@ -37,3 +37,23 @@ test('older servers and failures keep last good data and allow later refresh', a
   loader.stop(); assert.deepEqual(published.map(p => p.data.picks.x), [1,2]);
   assert.ok(calls.every(c => !c.headers['If-None-Match']));
 });
+
+test('compact routes keep separate ETags and retain compact data during outages', async () => {
+  const published = [], calls = [];
+  const replies = [new TypeError('old edge'), response(200, '{"x":"legacy"}', 'legacy-tag'),
+    response(503, ''), response(304, ''), response(200, '{"x":"compact"}', 'compact-tag'),
+    response(503, '')];
+  const loader = createPollLoader({scores:['/summary', '/legacy']}, value => published.push(value), {
+    fetcher: async (url, {headers}) => {
+      calls.push([url.split('?')[0], headers['If-None-Match']]);
+      const reply = replies.shift();
+      if (reply instanceof Error) throw reply;
+      return reply;
+    },
+  });
+  for (let i=0;i<4;i++) await loader.load();
+  loader.stop();
+  assert.deepEqual(published.map(p => p.data.scores.x), ['legacy', 'compact']);
+  assert.deepEqual(calls, [['/summary', undefined], ['/legacy', undefined], ['/summary', undefined],
+    ['/legacy', 'legacy-tag'], ['/summary', undefined], ['/summary', 'compact-tag']]);
+});
