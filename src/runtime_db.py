@@ -836,8 +836,9 @@ class RuntimeDatabase(DatasetStore):
         remaining = size
         with connection.blobopen("artifacts", "payload_json", rowid) as blob:
             while remaining:
-                chunk = spool.read(min(remaining, 1024 * 1024))
-                if not chunk:
+                size_to_read = min(remaining, 1024 * 1024)
+                chunk = spool.read(size_to_read)
+                if not chunk or len(chunk) > size_to_read:
                     raise ValueError("picks spool size changed during copy")
                 blob.write(chunk)
                 remaining -= len(chunk)
@@ -846,12 +847,8 @@ class RuntimeDatabase(DatasetStore):
         # Both documents are encoded before taking SQLite's sole writer.
         # The spool bounds RAM and readers keep the previous committed pair.
         with tempfile.TemporaryFile(mode="w+b", prefix="proto-picks-") as spool:
-            for chunk in _json_chunks(payload):
-                spool.write(chunk)
-            full_size = spool.tell()
-            for fragment in _slip_json_fragments(payload):
-                spool.write(fragment.encode("utf-8"))
-            slip_size = spool.tell() - full_size
+            full_size = sum(spool.write(chunk) for chunk in _json_chunks(payload))
+            slip_size = sum(spool.write(fragment.encode("utf-8")) for fragment in _slip_json_fragments(payload))
             spool.seek(0)
             generated_at = payload.get("generated_at")
             with self.transaction() as connection:
