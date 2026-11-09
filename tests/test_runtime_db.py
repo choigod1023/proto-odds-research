@@ -46,7 +46,7 @@ def test_prediction_records_and_artifacts_survive_source_file_removal(tmp_path):
 
     db.store_artifact("picks_v2", {"generated_at": "now", "live": []})
     assert db.counts() == {"odds_snapshots": 0, "prediction_records": 1,
-                           "artifacts": 1}
+                           "artifacts": 2}
 
 
 def test_unchanged_migration_source_is_skipped(tmp_path):
@@ -184,3 +184,60 @@ def test_dataset_csv_round_trip(tmp_path):
     db.export_dataset_csv("sample", target)
 
     assert target.read_text(encoding="utf-8") == source.read_text(encoding="utf-8")
+
+def test_page_artifacts_publish_with_the_original_revision(tmp_path):
+    db = RuntimeDatabase(tmp_path / "runtime.sqlite3")
+    stamp = "2026-08-29T01:00:00+00:00"
+    scores = {"generated_at": stamp, "games": [{
+        "game_id": "match-1", "home_score": 2, "period_scores": [1, 1],
+        "timeline": [{"event": "goal"}],
+    }]}
+    odds = {"generated_at": stamp, "rounds": [102], "markets": {"102": {}},
+            "history": {"102": {"1": [{"odds": [1.8, 2.1]}]}}}
+    live = {"year": 2026, "round": 102, "home": "홈", "away": "원정",
+            "sport": "sc", "league": "K리그", "date": "08.29",
+            "options": [{"게임번호": "1", "배당": 1.8}]}
+    picks = {"generated_at": stamp, "live": [{**live, "prediction_record": {"id": 1},
+             "추천": None, "options": [{**live["options"][0], "제외": ["text"]}]}],
+             "past": [{"home": "old"}]}
+    today = {"generated_at": stamp, "candidates": []}
+    for name, body in (("live_scores", scores), ("live_odds", odds),
+                       ("picks_v2", picks), ("today_combo", today)):
+        db.store_artifact(name, body)
+    assert db.get_artifact("picks_v2") == picks
+    assert db.get_artifact("live_scores") == scores
+    assert db.get_artifact("live_odds") == odds
+    expected = {
+        ("live_scores", "live_scores_summary"): {
+            **scores, "games": [{"game_id": "match-1", "home_score": 2, "period_scores": [1, 1]}]},
+        ("live_odds", "live_odds_summary"): {k: v for k, v in odds.items() if k != "history"},
+        ("picks_v2", "picks_slip"): {"generated_at": stamp, "live": [live]},
+        ("today_combo", "today_combo_summary"): {
+            k: v for k, v in db.get_artifact("today_combo").items()
+            if k not in {"recommendation_history", "per_event_shadow"}},
+    }
+    for (original, compact), payload in expected.items():
+        assert db.get_artifact(compact) == payload
+        assert db.artifact_metadata(compact)["stored_at"] == db.artifact_metadata(original)["stored_at"]
+    db.store_artifact("today_combo", {"generated_at": "2026-08-28T00:00:00+00:00", "candidates": []})
+    assert db.get_artifact("today_combo_summary") == expected[("today_combo", "today_combo_summary")]
+
+
+def test_compact_picks_write_failure_keeps_previous_pair(tmp_path, monkeypatch):
+    import pytest
+
+    db = RuntimeDatabase(tmp_path / "runtime.sqlite3")
+    old = {"generated_at": "2026-11-09T08:00:00+00:00", "live": []}
+    db.store_artifact("picks_v2", old)
+    put = db._put_spooled_artifact
+
+    def fail_on_compact(connection, name, *args):
+        if name == "picks_slip":
+            raise OSError("simulated compact write failure")
+        put(connection, name, *args)
+
+    monkeypatch.setattr(db, "_put_spooled_artifact", fail_on_compact)
+    with pytest.raises(OSError, match="simulated compact write failure"):
+        db.store_artifact("picks_v2", {**old, "generated_at": "2026-11-09T08:01:00+00:00"})
+    assert db.get_artifact("picks_v2") == old
+    assert db.get_artifact("picks_slip") == old

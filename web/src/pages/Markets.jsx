@@ -51,16 +51,16 @@ import { missingMarketFixtures } from "../lib/missing-market-fixtures.js";
 import { matchesGameMarketFilters } from "../lib/game-list-filter.js";
 import { recordedMarketOffers } from "../lib/recorded-market-offers.js";
 import { isOvernightGame, matchesGameDate } from "../lib/game-date-filter.js";
-import { buildLiveIndex, mergeLiveFeed } from "../lib/live-feed.js";
+import { attachTimeline, buildLiveIndex, mergeLiveFeed } from "../lib/live-feed.js";
 import { gameStatusLabel } from "../lib/match-status.js";
 
 // 모든 동적 상태는 수집 머신의 SQLite-backed API에서 직접 받는다.
 import { apiUrl } from '../lib/api-origin.js';
-const LIVE_URL = apiUrl('/api/live-scores');
+const LIVE_URL = [apiUrl('/api/live-scores-summary'), apiUrl('/api/live-scores')];
 
 // 판정과 배당을 각각 DB API에서 받아 동일 화면 revision으로 합친다.
-const ODDS_URL = apiUrl('/api/live-odds');
-const RECOMMENDATION_URL = apiUrl('/api/today-recommendations');
+const ODDS_URL = [apiUrl('/api/live-odds-summary'), apiUrl('/api/live-odds')];
+const RECOMMENDATION_URL = [apiUrl('/api/today-recommendations-summary'), apiUrl('/api/today-recommendations')];
 const GRADES_URL = apiUrl('/api/loss-grades');
 
 /** DB-backed API를 주기적으로 조회하고 마지막 정상 응답을 메모리에 유지한다. */
@@ -140,6 +140,8 @@ export default function Markets() {
   const d = livePicks;
   const { data: liveOdds, checked: liveOddsChecked } = useLiveOdds();
   const { data: liveToday } = usePoll(RECOMMENDATION_URL, 120000);
+  const results = useMatchData(resultsOpen && liveToday && !("recommendation_history" in liveToday)
+    ? '/api/today-recommendations' : null, 120000);
   const { data: directLiveFeed, checked: liveChecked } = useLive();
   const liveFeed = directLiveFeed;
   const liveIndex = useMemo(() => buildLiveIndex(liveFeed), [liveFeed]);
@@ -212,7 +214,11 @@ export default function Markets() {
         onToggle={(event) => setResultsOpen(event.currentTarget.open)}>
         <summary><span>최근 추천 결과와 성적</span><span className="match-results-chevron" aria-hidden="true" /></summary>
         {resultsOpen && <div className="match-results-content">
-          <RecommendationResults today={liveToday} data={synchronized} odds={liveOdds} />
+          {results.data || (liveToday && "recommendation_history" in liveToday)
+            ? <RecommendationResults today={results.data || liveToday} data={synchronized} odds={liveOdds} />
+            : results.error
+              ? <button type="button" onClick={results.retry}>추천 결과 다시 불러오기</button>
+              : <p role="status">추천 결과를 불러오는 중입니다.</p>}
           <FeaturedPickPerformance data={synchronized.featured_pick_performance} />
           <MarketRecommendationPerformance data={synchronized.market_recommendation_performance} />
         </div>}
@@ -435,10 +441,22 @@ export function GameList({ data, grades, caps, stale, today, marketOdds, liveGen
     game.sport === openedGame.sport && String(game.round) === String(openedGame.round) && game.date === openedGame.date &&
     game.home === openedGame.home && game.away === openedGame.away &&
     game.league === openedGame.league) || openedGame);
+  const projectTimeline = useMemo(() => openedGame
+    ? (feed) => liveOf(buildLiveIndex(feed), openedGame) : undefined, [openedGame]);
+  const projectHistory = useMemo(() => openedGame
+    ? (feed) => marketHistoryForGame(openedGame, feed) : undefined, [openedGame]);
+  const currentScore = modalSummary?._liveState;
+  const { data: detailedScore } = useMatchData(currentScore && !("timeline" in currentScore)
+    ? '/api/live-scores' : null, 15000, projectTimeline);
+  const { data: history } = useMatchData(modalSummary && marketOdds && !("history" in marketOdds)
+    ? '/api/live-odds' : null, 120000, projectHistory);
   const modalGame = useMemo(() => {
     const game = modalSummary && mergeMatchDetail(modalSummary, detail.data, data.view?.revision);
-    return game && { ...game, _marketHistory: marketHistoryForGame(game, marketOdds) };
-  }, [modalSummary, detail.data, data.view?.revision, marketOdds]);
+    return game && { ...game,
+      _liveState: attachTimeline(game._liveState, detailedScore),
+      _marketHistory: history || marketHistoryForGame(game, marketOdds),
+    };
+  }, [modalSummary, detail.data, data.view?.revision, marketOdds, detailedScore, history]);
   const modalSelection = modalGame && !stale &&
     !(modalGame._liveOddsChanged && !decisionFrozen(modalGame))
     ? todaySelectionForGame(todayMemberships, modalGame.options || [], modalGame.round)

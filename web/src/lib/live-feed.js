@@ -45,3 +45,12 @@ export function buildLiveIndex(feed) {
   }
   return index;
 }
+
+/** The timeline must belong to the same provider event as the current score. */
+export function attachTimeline(score, detail) {
+  if (!score || score.timeline || !detail?.timeline) return score;
+  const fields = ["source", "game_id", "start", "md", "home", "away"];
+  return fields.every((field) => score[field] === detail[field])
+    ? { ...score, timeline: detail.timeline }
+    : score;
+}

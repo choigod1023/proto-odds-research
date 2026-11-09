@@ -5,9 +5,9 @@ import { usePolledData } from "../lib/poll.js";
 import { recommendedTodayPicks, slipRows } from "../lib/slip.js";
 
 import { apiUrl } from '../lib/api-origin.js';
-const LIVE_ODDS_URL = apiUrl('/api/live-odds');
-const PICKS_URL = apiUrl('/api/picks');
-const TODAY_URL = apiUrl('/api/today-recommendations');
+const LIVE_ODDS_URL = [apiUrl('/api/live-odds-summary'), apiUrl('/api/live-odds')];
+const PICKS_URL = [apiUrl('/api/picks-slip'), apiUrl('/api/picks')];
+const TODAY_URL = [apiUrl('/api/today-recommendations-summary'), apiUrl('/api/today-recommendations')];
 
 const stamp = (value) => {
   const date = new Date(value);

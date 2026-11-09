@@ -1,34 +1,20 @@
-import { useEffect, useMemo, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import { Nav } from "../components/ui.jsx";
-import ReceiptOcr from "../components/ReceiptOcr.jsx";
-import PerEventShadow from "../components/PerEventShadow.jsx";
 import GameInfoModal from "../components/GameInfoModal.jsx";
 import RecordMatchDetails from "../components/RecordMatchDetails.jsx";
 import { appendProbabilityHistory, estimateLiveProbability, groupBetTickets, recordLive,
   readBetLedger, removeBet, removeTicket, settleBet, writeBetLedger } from "../lib/bet-ledger.js";
 import { usePolledData } from "../lib/poll.js";
+import { useMatchData } from "../lib/use-match-data.js";
+import { attachTimeline } from "../lib/live-feed.js";
 
 import { apiUrl } from '../lib/api-origin.js';
-const LIVE_URL = apiUrl('/api/live-scores');
-const PICKS_URL = apiUrl('/api/picks');
+const LIVE_URL = [apiUrl('/api/live-scores-summary'), apiUrl('/api/live-scores')];
+const PICKS_URL = [apiUrl('/api/picks-slip'), apiUrl('/api/picks')];
+const ReceiptOcr = lazy(() => import("../components/ReceiptOcr.jsx"));
+const PerEventShadow = lazy(() => import("../components/PerEventShadow.jsx"));
 const pct = (value) => Number.isFinite(value) ? `${(value * 100).toFixed(1)}%` : "–";
 const money = (value) => `${Math.round(value).toLocaleString("ko-KR")}원`;
-
-function useLiveScores() {
-  const [data, setData] = useState(null);
-  useEffect(() => {
-    let stopped = false;
-    const load = () => fetch(`${LIVE_URL}?${Date.now()}`, {
-      cache: "no-store",
-      headers: { "Cache-Control": "no-cache" },
-    }).then((response) => response.ok ? response.json() : null)
-      .then((value) => { if (!stopped && value) setData(value); }).catch(() => {});
-    load();
-    const timer = setInterval(load, 15000);
-    return () => { stopped = true; clearInterval(timer); };
-  }, []);
-  return data;
-}
 
 function liveIndex(data) {
   const index = new Map();
@@ -140,23 +126,39 @@ export function ComboCard({ group, index, onRemove, onOpen }) {
   );
 }
 
+function ReceiptPanel({ onImported }) {
+  const { data: { picks } } = usePolledData({ picks: PICKS_URL }, 60000);
+  const receiptGames = useMemo(() => {
+    const seen = new Set();
+    return (picks?.live || []).filter((game) => {
+      const key = [game.round, game.home, game.away, game.date].join("|");
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }, [picks]);
+  return <ReceiptOcr games={receiptGames} onImported={onImported} />;
+}
+
 export default function Dashboard() {
   const [bets, setBets] = useState(() => readBetLedger());
   const [openedBetId, setOpenedBetId] = useState(null);
   const openedBet = bets.find((bet) => bet.id === openedBetId);
-  const liveData = useLiveScores();
-  const { data: pickSources } = usePolledData({
-    picks: PICKS_URL,
-  }, 60000);
-  const receiptGames = useMemo(() => {
-    const seen = new Set();
-    return [pickSources.picks].flatMap((source) => source?.live || []).filter((game) => {
-      const key = `${game.round}|${game.home}|${game.away}|${game.date}`;
-      if (seen.has(key)) return false;
-      seen.add(key); return true;
-    });
-  }, [pickSources.picks]);
+  const [receiptOpen, setReceiptOpen] = useState(false);
+  const [shadowOpen, setShadowOpen] = useState(() => globalThis.location?.hash === "#per-event-shadow");
+  useEffect(() => {
+    const openShadowLink = () => { if (location.hash === "#per-event-shadow") setShadowOpen(true); };
+    window.addEventListener("hashchange", openShadowLink);
+    return () => window.removeEventListener("hashchange", openShadowLink);
+  }, []);
+  const { data: { scores: liveData } } = usePolledData(bets.length ? { scores: LIVE_URL } : {}, 15000);
   const index = useMemo(() => liveIndex(liveData), [liveData]);
+  const score = openedBet && recordLive(index, openedBet.game);
+  const game = openedBet?.game;
+  const projectScore = useMemo(() => game
+    ? (feed) => recordLive(liveIndex(feed), game) : undefined, [game]);
+  const { data: detailedScore } = useMatchData(score && !("timeline" in score)
+    ? '/api/live-scores' : null, 15000, projectScore);
   const groups = useMemo(() => groupBetTickets(bets), [bets]);
   useEffect(() => {
     const refresh = () => setBets(readBetLedger());
@@ -194,8 +196,20 @@ export default function Dashboard() {
         <div><h1>내 베팅 대시보드</h1></div>
 
       </header>
-      <PerEventShadow />
-      <ReceiptOcr games={receiptGames} onImported={() => setBets(readBetLedger())} />
+      <details id="per-event-shadow" className="match-results-disclosure" open={shadowOpen}
+        onToggle={(event) => setShadowOpen(event.currentTarget.open)}>
+        <summary><span>경기별 픽 가상 비교</span><span className="match-results-chevron" aria-hidden="true" /></summary>
+        {shadowOpen && <Suspense fallback={<p role="status">비교 화면을 불러오는 중입니다.</p>}>
+          <PerEventShadow />
+        </Suspense>}
+      </details>
+      <details className="match-results-disclosure" open={receiptOpen}
+        onToggle={(event) => setReceiptOpen(event.currentTarget.open)}>
+        <summary><span>영수증 가져오기</span><span className="match-results-chevron" aria-hidden="true" /></summary>
+        {receiptOpen && <Suspense fallback={<p role="status">영수증 도구를 불러오는 중입니다.</p>}>
+          <ReceiptPanel onImported={() => setBets(readBetLedger())} />
+        </Suspense>}
+      </details>
       <section className="dashboard-summary">
         <div><small>저장한 티켓</small><b>{groups.length}장 · {bets.length}픽</b></div>
         <div><small>총 투입금</small><b>{money(totals.stake)}</b></div>
@@ -215,7 +229,7 @@ export default function Dashboard() {
         </div>}
       </section>
       {openedBet && <GameInfoModal title={`${openedBet.game.home} vs ${openedBet.game.away}`} onClose={() => setOpenedBetId(null)}>
-        <RecordMatchDetails bet={openedBet} live={recordLive(index, openedBet.game)} />
+        <RecordMatchDetails bet={openedBet} live={attachTimeline(score, detailedScore)} />
       </GameInfoModal>}
     </main>
   );
