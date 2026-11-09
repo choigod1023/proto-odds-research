@@ -15,6 +15,17 @@ export async function readMatchJson(path, signal) {
   return response.json();
 }
 
+export async function readFixtureHistory(path, signal, legacyPath, project) {
+  try {
+    return await readMatchJson(path, signal);
+  } catch (error) {
+    // During a staged rollout the collector may not have indexed a feed yet,
+    // or the old edge can reject an unknown route without CORS headers.
+    if (signal?.aborted || (error.status !== 404 && !(error instanceof TypeError))) throw error;
+    return project(await readMatchJson(legacyPath, signal));
+  }
+}
+
 export function shouldRefreshDetailList(path, status, previousPath) {
   return Boolean(path?.startsWith('/api/match-detail?') && status === 409 && path !== previousPath);
 }

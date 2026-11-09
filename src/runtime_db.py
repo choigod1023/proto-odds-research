@@ -253,6 +253,13 @@ class RuntimeDatabase(DatasetStore):
                 CREATE INDEX IF NOT EXISTS idx_prediction_event
                     ON prediction_records(event_id, ledger_sequence);
 
+                CREATE TABLE IF NOT EXISTS fixture_history (
+                    kind TEXT NOT NULL,
+                    fixture_key TEXT NOT NULL,
+                    payload_json TEXT NOT NULL,
+                    PRIMARY KEY(kind, fixture_key)
+                ) WITHOUT ROWID;
+
                 CREATE TABLE IF NOT EXISTS artifacts (
                     name TEXT PRIMARY KEY,
                     generated_at TEXT,
@@ -778,10 +785,51 @@ class RuntimeDatabase(DatasetStore):
             (name, generated_at, body, stored_at),
         )
 
+    @staticmethod
+    def _put_fixture_history(connection, kind, details):
+        from fixture_history import encode
+
+        keys = [""]
+        def rows():
+            # An empty key marks an initialized feed, even when it has no events.
+            yield kind, "", "null"
+            for key, body in details:
+                keys.append(key)
+                yield kind, key, body
+
+        connection.executemany(
+            """INSERT INTO fixture_history VALUES (?,?,?)
+               ON CONFLICT(kind, fixture_key) DO UPDATE SET payload_json=excluded.payload_json
+               WHERE fixture_history.payload_json<>excluded.payload_json""",
+            rows(),
+        )
+        connection.execute(
+            """DELETE FROM fixture_history WHERE kind=? AND fixture_key NOT IN
+               (SELECT value FROM json_each(?))""",
+            (kind, encode(keys)),
+        )
+
+    def get_fixture_history(self, kind, key) -> bytes | None:
+        from fixture_history import canonical_key
+
+        key = canonical_key(kind, key)
+        with self.connect() as connection:
+            row = connection.execute(
+                """SELECT fixture_key,payload_json FROM fixture_history
+                   WHERE kind=? AND fixture_key IN (?, '') ORDER BY fixture_key DESC LIMIT 1""",
+                (kind, key),
+            ).fetchone()
+        if row is None:
+            return None
+        if not row["fixture_key"] and kind == "live_odds":
+            return b"[]"
+        return row["payload_json"].encode("utf-8")
+
     def store_artifact(self, name: str, payload: Mapping[str, Any]) -> None:
         if name == "picks_v2":
             return self._store_picks_stream(payload)
-        # Keep the original and its list response on the same committed revision.
+        from fixture_history import BUILDERS
+        # Keep the original, list and detail responses on the same committed revision.
         summary = None
         if name == "live_odds":
             summary = {key: value for key, value in payload.items() if key != "history"}
@@ -824,6 +872,8 @@ class RuntimeDatabase(DatasetStore):
             self._put_artifact(connection, name, payload.get("generated_at"), body, now)
             if summary_body is not None:
                 self._put_artifact(connection, f"{name}_summary", payload.get("generated_at"), summary_body, now)
+            if name in BUILDERS:
+                self._put_fixture_history(connection, name, BUILDERS[name](payload))
 
     @staticmethod
     def _put_spooled_artifact(connection, name, generated_at, stored_at, spool, size):

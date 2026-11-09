@@ -6,7 +6,7 @@ import { appendProbabilityHistory, estimateLiveProbability, groupBetTickets, rec
   readBetLedger, removeBet, removeTicket, settleBet, writeBetLedger } from "../lib/bet-ledger.js";
 import { usePolledData } from "../lib/poll.js";
 import { useMatchData } from "../lib/use-match-data.js";
-import { attachTimeline } from "../lib/live-feed.js";
+import { attachTimeline, fixtureTimelinePath, readFixtureTimeline } from "../lib/live-feed.js";
 
 import { apiUrl } from '../lib/api-origin.js';
 const LIVE_URL = [apiUrl('/api/live-scores-summary'), apiUrl('/api/live-scores')];
@@ -154,11 +154,8 @@ export default function Dashboard() {
   const { data: { scores: liveData } } = usePolledData(bets.length ? { scores: LIVE_URL } : {}, 15000);
   const index = useMemo(() => liveIndex(liveData), [liveData]);
   const score = openedBet && recordLive(index, openedBet.game);
-  const game = openedBet?.game;
-  const projectScore = useMemo(() => game
-    ? (feed) => recordLive(liveIndex(feed), game) : undefined, [game]);
   const { data: detailedScore } = useMatchData(score && !("timeline" in score)
-    ? '/api/live-scores' : null, 15000, projectScore);
+    ? fixtureTimelinePath(score) : null, 15000, readFixtureTimeline);
   const groups = useMemo(() => groupBetTickets(bets), [bets]);
   useEffect(() => {
     const refresh = () => setBets(readBetLedger());

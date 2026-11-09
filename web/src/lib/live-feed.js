@@ -1,3 +1,5 @@
+import { readFixtureHistory } from "./match-data.js";
+
 const stamp = (row) => Date.parse(row?.observed_at || "") || 0;
 const key = (row) => `${row.source || ""}|${row.game_id || `${row.home}|${row.away}`}|${row.start || row.md || ""}`;
 const closed = (row) => row.finished || row.cancelled || row.postponed;
@@ -46,11 +48,21 @@ export function buildLiveIndex(feed) {
   return index;
 }
 
+const timelineFields = ["source", "game_id", "start", "md", "home", "away"];
+const timelineKey = (row) => JSON.stringify(timelineFields.map((field) => row[field] ?? null));
+
+export const fixtureTimelinePath = (row) => '/api/fixture-timeline?key=' + encodeURIComponent(timelineKey(row));
+
+export function readFixtureTimeline(path, signal) {
+  const key = new URLSearchParams(path.split("?")[1]).get("key");
+  return readFixtureHistory(path, signal, "/api/live-scores",
+    (feed) => (feed.games || []).find((row) => timelineKey(row) === key) ?? null);
+}
+
 /** The timeline must belong to the same provider event as the current score. */
 export function attachTimeline(score, detail) {
   if (!score || score.timeline || !detail?.timeline) return score;
-  const fields = ["source", "game_id", "start", "md", "home", "away"];
-  return fields.every((field) => score[field] === detail[field])
+  return timelineKey(score) === timelineKey(detail)
     ? { ...score, timeline: detail.timeline }
     : score;
 }

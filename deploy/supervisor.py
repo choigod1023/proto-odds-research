@@ -1206,6 +1206,8 @@ def serve_live() -> None:
         log('재시작 응답 복원 — 원래 생성 시각과 revision 유지')
     _release_match_working_set = match_views.views.release_working_set
     from artifact_responses import ArtifactResponses
+    from fixture_history import ROUTES as FIXTURE_HISTORY_ROUTES
+    from sqlite3 import Error as SQLiteError
     artifact_responses = ArtifactResponses(database, memory_lock=_memory_heavy_lock)
 
     def publish_match_responses():
@@ -1234,6 +1236,21 @@ def serve_live() -> None:
 
         def do_GET(self):                              # noqa: N802
             route = urlsplit(self.path)
+            if route.path in FIXTURE_HISTORY_ROUTES:
+                query = parse_qs(route.query).get("key", [])
+                try:
+                    body = database.get_fixture_history(FIXTURE_HISTORY_ROUTES[route.path],
+                                                        query[0] if len(query) == 1 else None)
+                except ValueError:
+                    self.send_response(400); self._cors(); self.end_headers(); return
+                except (OSError, SQLiteError):
+                    self.send_response(503); self._cors(); self.end_headers(); return
+                if body is None:
+                    self.send_response(404); self._cors(); self.end_headers(); return
+                self.send_response(200); self._cors()
+                self.send_header("Content-Type", "application/json; charset=utf-8")
+                self.send_header("Content-Length", str(len(body)))
+                self.end_headers(); self.wfile.write(body); return
             if route.path in ('/api/matches', '/api/match-detail'):
                 query = parse_qs(route.query)
                 try:

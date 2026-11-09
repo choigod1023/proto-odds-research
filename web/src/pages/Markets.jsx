@@ -38,7 +38,7 @@ import { usePolledData } from "../lib/poll.js";
 import { createPollLoader } from "../lib/poll-loader.js";
 import { startForegroundPoll } from "../lib/foreground-poll.js";
 import { useMatchData } from "../lib/use-match-data.js";
-import { mergeMatchDetail, shouldRefreshDetailList } from "../lib/match-data.js";
+import { mergeMatchDetail, readFixtureHistory, shouldRefreshDetailList } from "../lib/match-data.js";
 import { availableToday, nextTodayRefreshDelay } from "../lib/today-plan.js";
 import { freshnessStatus, isLiveFeedDelayed, isDataStale, waitingLabel } from "../lib/data-freshness.js";
 import { decisionFrozen, gamePhase, nextDecisionFreeze, PHASE_LABEL, recommendationOutcome, scheduledAt } from "../lib/match-status.js";
@@ -51,7 +51,7 @@ import { missingMarketFixtures } from "../lib/missing-market-fixtures.js";
 import { matchesGameMarketFilters } from "../lib/game-list-filter.js";
 import { recordedMarketOffers } from "../lib/recorded-market-offers.js";
 import { isOvernightGame, matchesGameDate } from "../lib/game-date-filter.js";
-import { attachTimeline, buildLiveIndex, mergeLiveFeed } from "../lib/live-feed.js";
+import { attachTimeline, buildLiveIndex, fixtureTimelinePath, mergeLiveFeed, readFixtureTimeline } from "../lib/live-feed.js";
 import { gameStatusLabel } from "../lib/match-status.js";
 
 // 모든 동적 상태는 수집 머신의 SQLite-backed API에서 직접 받는다.
@@ -441,15 +441,14 @@ export function GameList({ data, grades, caps, stale, today, marketOdds, liveGen
     game.sport === openedGame.sport && String(game.round) === String(openedGame.round) && game.date === openedGame.date &&
     game.home === openedGame.home && game.away === openedGame.away &&
     game.league === openedGame.league) || openedGame);
-  const projectTimeline = useMemo(() => openedGame
-    ? (feed) => liveOf(buildLiveIndex(feed), openedGame) : undefined, [openedGame]);
-  const projectHistory = useMemo(() => openedGame
-    ? (feed) => marketHistoryForGame(openedGame, feed) : undefined, [openedGame]);
+  const readHistory = useMemo(() => (path, signal) => readFixtureHistory(path, signal,
+    '/api/live-odds', (feed) => marketHistoryForGame(openedGame, feed)), [openedGame]);
   const currentScore = modalSummary?._liveState;
   const { data: detailedScore } = useMatchData(currentScore && !("timeline" in currentScore)
-    ? '/api/live-scores' : null, 15000, projectTimeline);
-  const { data: history } = useMatchData(modalSummary && marketOdds && !("history" in marketOdds)
-    ? '/api/live-odds' : null, 120000, projectHistory);
+    ? fixtureTimelinePath(currentScore) : null, 15000, readFixtureTimeline);
+  const historyKey = openedGame && JSON.stringify([String(openedGame.round), openedGame.home, openedGame.away, openedGame.date]);
+  const { data: history } = useMatchData(historyKey && marketOdds && !("history" in marketOdds)
+    ? '/api/fixture-odds-history?key=' + encodeURIComponent(historyKey) : null, 120000, readHistory);
   const modalGame = useMemo(() => {
     const game = modalSummary && mergeMatchDetail(modalSummary, detail.data, data.view?.revision);
     return game && { ...game,
