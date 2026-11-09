@@ -172,6 +172,14 @@ class EdgeIntegration(unittest.TestCase):
                 self.assertEqual(get(detail)[1]['X-Response-Cache'], 'HIT')
                 self.assertEqual(get('/api/match-detail?key=game1&revision=wrong')[0], 409)
                 self.assertEqual(get('/api/match-detail?key=game2&revision=first')[1]['X-Response-Cache'], 'MISS')
+                for route in ('fixture-timeline', 'fixture-odds-history'):
+                    first_key = f'/api/{route}?key=game1'
+                    second_key = f'/api/{route}?key=game2'
+                    self.assertEqual(get(first_key + '&_=1')[1]['X-Response-Cache'], 'MISS')
+                    self.assertEqual(get(first_key + '&_=2')[1]['X-Response-Cache'], 'HIT')
+                    second = get(second_key)
+                    self.assertEqual(second[1]['X-Response-Cache'], 'MISS')
+                    self.assertEqual(json.loads(second[2])['path'], second_key)
                 self.assertEqual(get('/anonymous-bets', data=b'{}')[0], 201)
                 self.assertEqual(get('/anonymous-bets', data=b'{}')[0], 201)
                 self.assertEqual(state['posts'], 2)
