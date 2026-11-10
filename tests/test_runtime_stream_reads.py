@@ -100,10 +100,11 @@ def test_ledger_iteration_preserves_sequence_and_all_rows(tmp_path):
     assert db.prediction_records() == [{"sequence": 1}, {"sequence": 2}, {"sequence": 3}]
 
 
-def test_ledger_shares_strings_but_not_mutable_feature_objects(tmp_path):
+def test_ledger_shares_scalars_but_not_mutable_feature_objects(tmp_path):
     db = RuntimeDatabase(tmp_path / "db.sqlite3")
-    values = [{"features": {"repeated_field_name": "same text", "array": [1, 2]}},
-              {"features": {"repeated_field_name": "same text", "array": [1, 2]}}]
+    numbers = [1.75, -0.0, 0.0]
+    values = [{"features": {"repeated_field_name": "same text", "array": numbers}}
+              for _ in range(2)]
     with db.transaction() as c:
         for i, value in enumerate(values):
             c.execute("INSERT INTO prediction_records(ledger_sequence,record_type,identity,record_hash,record_json) "
@@ -113,5 +114,8 @@ def test_ledger_shares_strings_but_not_mutable_feature_objects(tmp_path):
     a, b = records[0]['features'], records[1]['features']
     assert next(iter(a)) is next(iter(b))
     assert a['repeated_field_name'] is b['repeated_field_name']
+    assert a['array'][0] is b['array'][0]
+    assert math.copysign(1, a['array'][1]) == -1
+    assert math.copysign(1, a['array'][2]) == 1
     a['array'].append(3)
-    assert b['array'] == [1, 2] and db.prediction_records() == values
+    assert b['array'] == numbers and db.prediction_records() == values

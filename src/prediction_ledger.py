@@ -502,27 +502,25 @@ class PredictionLedger:
         return self._read_verified_storage()
 
     def _read_verified_storage(self) -> list[dict[str, Any]]:
+        records: list[dict[str, Any]] = []
         if self._database is not None:
-            source = self._database.prediction_records()
+            records = self._database.prediction_records()
         elif self.path.exists():
             with self.path.open("r", encoding="utf-8") as handle:
-                source = []
                 for line_number, raw_line in enumerate(handle, start=1):
                     if not raw_line.strip():
                         raise LedgerCorruptionError(f"blank JSONL record at line {line_number}")
                     try:
-                        source.append(json.loads(raw_line))
+                        records.append(json.loads(raw_line))
                     except json.JSONDecodeError as exc:
                         raise LedgerCorruptionError(
                             f"invalid JSONL record at line {line_number}"
                         ) from exc
-        else:
-            source = []
-        records: list[dict[str, Any]] = []
+
         previous_hash: str | None = None
         seen_identities: set[tuple[str, str]] = set()
         predictions: dict[str, dict[str, Any]] = {}
-        for line_number, record in enumerate(source, start=1):
+        for line_number, record in enumerate(records, start=1):
             if not isinstance(record, dict):
                 raise LedgerCorruptionError(f"non-object record at line {line_number}")
             if record.get("schema_version") != SCHEMA_VERSION:
@@ -557,7 +555,6 @@ class PredictionLedger:
                     raise LedgerCorruptionError(
                         f"settlement predates kickoff at line {line_number}"
                     )
-            records.append(record)
             previous_hash = claimed_hash
         return records
 

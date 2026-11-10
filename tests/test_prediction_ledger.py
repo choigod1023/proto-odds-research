@@ -92,6 +92,49 @@ def test_verified_session_rejects_corruption_after_unlock(tmp_path, monkeypatch)
     assert not hasattr(ledger._session, "records")
 
 
+def test_sqlite_ledger_verifies_one_snapshot_during_concurrent_commit(tmp_path, monkeypatch):
+    from runtime_db import RuntimeDatabase
+
+    with monkeypatch.context() as patch:
+        patch.delenv("PROODD_DB_PATH", raising=False)
+        fixture = PredictionLedger(tmp_path / "fixture.jsonl", clock=lambda: PREGAME_NOW)
+        games = [_game(str(index)) for index in range(3)]
+        expected = [_append(fixture, game, _snapshot(game)).record for game in games]
+
+    db_path = tmp_path / "runtime.sqlite3"
+    monkeypatch.setenv("PROODD_DB_PATH", str(db_path))
+    writer = RuntimeDatabase(db_path)
+    assert writer.mirror_prediction_records(expected[:2]) == 2
+    # Existing rows may use noncanonical formatting while hashing the same value.
+    legacy = json.dumps(expected[0], indent=2).replace(
+        '"elo_delta": 18.4', '"elo_delta": 18.4' + "0" * 40
+    )
+    with writer.transaction() as connection:
+        connection.execute("UPDATE prediction_records SET record_json=? WHERE ledger_sequence=1",
+                           (legacy,))
+    ledger = PredictionLedger(tmp_path / "ledger.jsonl")
+    read_records = RuntimeDatabase.iter_prediction_records
+
+    def append_during_read(db):
+        for record in read_records(db):
+            if record["ledger_sequence"] == 1:
+                assert writer.mirror_prediction_records(expected[2:]) == 1
+            yield record
+
+    with monkeypatch.context() as patch:
+        patch.setattr(RuntimeDatabase, "iter_prediction_records", append_during_read)
+        assert ledger.records() == expected[:2]
+
+    assert ledger.records() == expected
+    tampered = dict(expected[0], features={"tampered": True})
+    with writer.transaction() as connection:
+        connection.execute("UPDATE prediction_records SET record_json=? WHERE ledger_sequence=1",
+                           (json.dumps(tampered),))
+    with pytest.raises(LedgerCorruptionError, match="invalid record hash at line 1"):
+        with ledger.verified_session():
+            pytest.fail("corrupted ledger was accepted")
+
+
 def _game(source_id: str = "kbo-20260828-01") -> dict:
     return {
         "source_event_id": source_id,

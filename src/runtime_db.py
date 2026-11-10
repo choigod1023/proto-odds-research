@@ -9,6 +9,7 @@ from contextlib import contextmanager
 import csv
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal, InvalidOperation
+from functools import lru_cache
 import hashlib
 import gzip
 import io
@@ -735,8 +736,8 @@ class RuntimeDatabase(DatasetStore):
         """Do not keep the entire serialized ledger beside its decoded copy."""
         # A decoder normally shares keys only within one record. Feature histories
         # repeat the same hundreds of field names across thousands of records.
-        # Share immutable strings only, with a bounded pool local to this read;
-        # dictionaries/lists stay independent and every complete record is hashed.
+        # Share immutable scalars with bounded pools local to this read;
+        # dictionaries and lists stay independent.
         keys, strings = {}, {}
         def object_pairs(pairs):
             result = {}
@@ -752,7 +753,18 @@ class RuntimeDatabase(DatasetStore):
                         strings[value] = value
                 result[key] = value
             return result
-        decoder = json.JSONDecoder(object_pairs_hook=object_pairs)
+        # Revisions repeat many odds and model inputs. Cache by JSON token so
+        # signed zero and the standard decoder's float conversion are preserved.
+        cached_float = lru_cache(maxsize=16384)(float)
+
+        def parse_float(token: str) -> float:
+            # Keep the pool bounded even for unusually long legacy numbers.
+            return cached_float(token) if len(token) <= 32 else float(token)
+
+        decoder = json.JSONDecoder(
+            object_pairs_hook=object_pairs,
+            parse_float=parse_float,
+        )
         with self.connect() as connection:
             for row in connection.execute(
                 "SELECT record_json FROM prediction_records ORDER BY ledger_sequence"
