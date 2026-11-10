@@ -149,8 +149,6 @@ PUBLISH = [
 # ⚠️ 이 단계들은 games.csv 를 읽으므로, 그 파일이 없으면 무거운 쪽을 먼저 돌려야 한다.
 #    (run_publish 가 그때는 강제로 HEAVY 를 낀다)
 PUBLISH_LIGHT = [
-    ("픽스터 전향판정", [sys.executable, "-u", "src/pickster_eval.py"], False, 300),
-    ("무료 야구 feature", [sys.executable, "-u", "src/baseball_live_features.py"], False, 300),
     # 홈페이지가 실제 읽는 전마켓 판정을 먼저 만든다. 캐시된 LLM 해설은 재사용하되
     # 새 API 호출은 뒤의 보강 단계로 미뤄 수치 판정 게시를 막지 않게 한다.
     ("전마켓 빠른 판정", ["env", "LLM_MAX_CALLS=0", sys.executable, "-u",
@@ -160,6 +158,14 @@ PUBLISH_LIGHT = [
     #    combo·loss_grades 는 무거운 쪽이라 최대 6시간 낡을 수 있지만,
     #    그건 과거 통계라 낡아도 값이 같다. 낡은 입력으로나마 도는 편이 낫다.
     ("오늘의 조합", [sys.executable, "-u", "src/today_combo.py"], False, 1200),
+]
+
+
+# These projections may wait on the same gate as live publication. Run them
+# only after the current picks are written and skip admission if the gate is busy.
+PUBLISH_OBSERVERS = [
+    ("픽스터 전향판정", [sys.executable, "-u", "src/pickster_eval.py"], False, 300),
+    ("무료 야구 feature", [sys.executable, "-u", "src/baseball_live_features.py"], False, 300),
 ]
 
 DATABASE_BOOTSTRAP = [sys.executable, "-u", "src/migrate_runtime_db.py", "--critical"]
@@ -266,7 +272,7 @@ def _available_memory_mb() -> int | None:
 
 
 @contextmanager
-def _background_slot(name: str):
+def _background_slot(name: str, *, wait: bool = True):
     """Serialize background jobs and defer admission while realtime headroom is low.
 
     Never kill/pause an active worker: it may hold a SQLite transaction. Missing
@@ -277,7 +283,10 @@ def _background_slot(name: str):
     next_notice = started
     next_reclaim = started
     while True:
-        with _memory_heavy_lock:
+        if not _memory_heavy_lock.acquire(blocking=wait):
+            yield False
+            return
+        try:
             available = _available_memory_mb()
             preferred = _preferred_tipster()
             priority_pending = (_market_cycle_pending.is_set()
@@ -297,8 +306,13 @@ def _background_slot(name: str):
                     available = None
             if not priority_pending and available is not None and available >= BACKGROUND_MIN_AVAILABLE_MB:
                 log(f"{name} 실제 실행 — 여유 {available}MB, 대기 {int(time.monotonic()-started)}s")
-                yield
+                yield True
                 return
+        finally:
+            _memory_heavy_lock.release()
+        if not wait:
+            yield False
+            return
         now = time.monotonic()
         if now >= next_notice:
             reason = "배당·판정 우선 대기" if priority_pending else "메모리 대기"
@@ -976,14 +990,17 @@ def run_daily() -> None:
         time.sleep(DAILY_EVERY)
 
 
-def _run_steps(steps: list) -> None:
+def _run_steps(steps: list, *, wait_for_slot: bool = True) -> None:
     """단계 목록을 순서대로 실행한다. critical 이 실패하면 거기서 멈춘다."""
     for name, cmd, critical, tmo in steps:
         log(f"{name} 실행")
         try:
             # 산출물 생성은 pandas/NumPy 데이터 전체를 메모리에 올린다. 대형 HTML
             # 및 선수 수집기와 겹치지 않게 해 피크 RSS를 제한한다.
-            with _background_slot(name):
+            with _background_slot(name, wait=wait_for_slot) as admitted:
+                if not admitted:
+                    log(f"{name} 슬롯 미확보 — 다음 게시 주기에 재확인")
+                    continue
                 r = subprocess.run(cmd, cwd=REPO, capture_output=True,
                                    text=True, timeout=tmo)
             # ⚠️ 예전엔 마지막 한 줄만 찍었다. 그래서 생성기가 끝에 남기는 요약
@@ -1039,6 +1056,7 @@ def _run_publish_cycle(n: int) -> None:
         _run_steps(PUBLISH)
     _run_steps(PUBLISH_LIGHT)
     push_data()
+    _run_steps(PUBLISH_OBSERVERS, wait_for_slot=False)
     _run_steps(PUBLISH_ENRICH)
     push_data()
 

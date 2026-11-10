@@ -139,6 +139,17 @@ def test_publish_steps_wait_and_preserve_order(gate, monkeypatch):
     assert calls == ['wait', 'a', 'wait', 'b']
 
 
+
+def test_optional_publish_does_not_wait_for_busy_slot_or_low_memory(gate, monkeypatch):
+    monkeypatch.setattr(supervisor, '_available_memory_mb', lambda: 511)
+    monkeypatch.setattr(supervisor.time, 'sleep', lambda *_: pytest.fail('optional wait'))
+    monkeypatch.setattr(supervisor.subprocess, 'run', lambda *a, **kw: pytest.fail('not admitted'))
+    steps = [('observer', ['observer'], False, 10)]
+    with gate:
+        supervisor._run_steps(steps, wait_for_slot=False)
+    supervisor._run_steps(steps, wait_for_slot=False)
+    assert not gate.locked()
+
 def test_recommendation_handoff_between_odds_runs(gate, monkeypatch):
     calls = []
     monkeypatch.setattr(supervisor, '_available_memory_mb', lambda: 600)
