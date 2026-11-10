@@ -59,6 +59,8 @@ LOOPERS = [
     ("KBO M0 사전예측", [sys.executable, "-u", "research/kbo_forward/server_cycle.py",
                       "--state", "/data/research/kbo-m0-forward-v1",
                       "--m1-state", "/data/research/kbo-m0-actual-forward-v1"], 300),
+    ("KBL 핸디캡 모의비교", [sys.executable, "-u", "-m", "research.kbl_handicap_forward.cycle",
+                        "--state", "/data/research/kbl-handicap-forward-v1", "--scheduled"], 1800),
     # API 키가 필요 없는 Open-Meteo 예보 변경 이력을 보존해 T-24h/T-6h
     # 당시 정보로 백테스트할 수 있게 한다.
     ("무료 날씨", [sys.executable, "-u", "src/weather_watch.py",
@@ -81,6 +83,7 @@ LOOPER_START_DELAYS = {
     "공개 픽스터": 0,
     "다종목 픽스터": 0,
     "KBO M0 사전예측": 120,
+    "KBL 핸디캡 모의비교": 180,
     "무료 날씨": 360,
 }
 
