@@ -101,9 +101,7 @@ def records(state, name):
     return {path.stem: json.loads(path.read_bytes()) for path in sorted((state / name).glob("*.json"))}
 
 
-def counts(predictions, settlements):
-    if not settlements.keys() <= predictions.keys():
-        raise ValueError("KBL settlement lacks a paired prediction")
+def _cohort_counts(prediction_count, settlements):
     models = {}
     for name in MODELS:
         rows = [x["models"][name] for x in settlements.values()]
@@ -113,8 +111,21 @@ def counts(predictions, settlements):
         models[name] = {"hits": hits, "decided": decided, "net_units": net,
                         "accuracy": hits / decided if decided else None,
                         "roi": net / len(rows) if rows else None}
-    return {"predictions": len(predictions), "settled": len(settlements),
-            "pending": len(predictions) - len(settlements), "models": models}
+    return {"predictions": prediction_count, "settled": len(settlements),
+            "pending": prediction_count - len(settlements),
+            "void": sum(row["status"] == "void" for row in settlements.values()), "models": models}
+
+
+def counts(predictions, settlements):
+    if not settlements.keys() <= predictions.keys():
+        raise ValueError("KBL settlement lacks a paired prediction")
+    different = {
+        game_id for game_id, record in predictions.items()
+        if len({record["models"][name]["selection"] for name in MODELS}) > 1
+    }
+    different_settlements = {game_id: row for game_id, row in settlements.items() if game_id in different}
+    return {**_cohort_counts(len(predictions), settlements),
+            "disagreements": _cohort_counts(len(different), different_settlements)}
 
 
 def eligible(game, at):
