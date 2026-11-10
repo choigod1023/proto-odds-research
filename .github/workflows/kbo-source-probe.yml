@@ -1,8 +1,5 @@
-name: kbo-source-probe
+name: kbl-betman-cloud-probe
 on:
-  push:
-    branches: [codex/kbo-actions-route-20261027]
-    paths: ['.github/workflows/kbo-source-probe.yml', 'src/kbo_official.py']
   workflow_dispatch:
 permissions:
   contents: read
@@ -14,17 +11,39 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
-      - run: pip install requests
-      - name: Read public KBO source without production writes
-        env:
-          PYTHONPATH: src
+          python-version: "3.12"
+      - run: python -m pip -q install requests
+      - name: Verify official read-only source reachability
         run: |
           python - <<'PY'
           import json, time
-          from kbo_official import collect_official
-          start = time.monotonic()
-          doc = collect_official(existing={})
-          print(json.dumps({'elapsed': round(time.monotonic()-start, 2), 'document': doc}, ensure_ascii=False))
-          assert not doc['errors'], 'Partial source failure'
+          import requests
+          from research.kbl_handicap_forward import sources
+          from concurrent.futures import ThreadPoolExecutor
+          base={"kind":"detail","gmId":"G101","gmTs":"260133","gameYear":"2026"}
+          targets=[
+            ("listing", sources.LIST_URL, sources.ROUND),
+            ("detail", sources.DETAIL_URL, {**sources.ROUND, **{k:v for k,v in base.items() if k!="kind"}}),
+            ("mobile", "https://m.betman.co.kr/main/mainPage/gamebuy/buyableGameList.do", None),
+          ]
+          def read(spec):
+              name,url,payload=spec
+              start=time.monotonic()
+              record={"source":name}
+              try:
+                  r=requests.request("POST" if payload is not None else "GET",url,json=payload,
+                                     headers=sources.BETMAN_HEADERS,timeout=(6,10),allow_redirects=False)
+                  record["status"]=r.status_code
+                  if r.ok and name=="detail":
+                      _, rows=sources.detail(r.content,"260133")
+                      record["offers"]=[{k:row.get(k) for k in ("matchSeq","gameResult","mchScore","protoStatus","winHandi","winAllot","loseAllot")}
+                                        for row in rows if row.get("matchSeq") in (3673,3730)]
+                  elif r.ok and name=="listing":
+                      record["valid_listing"]=isinstance(r.json().get("protoGames"),list)
+              except (requests.RequestException,ValueError,KeyError) as exc:
+                  record["error"]=type(exc).__name__
+              record["elapsed"]=round(time.monotonic()-start,2)
+              return record
+          with ThreadPoolExecutor(max_workers=2) as pool:
+              for row in pool.map(read,targets): print(json.dumps(row))
           PY
