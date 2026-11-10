@@ -1,0 +1,138 @@
+{
+  "protocol": "PROTOCOL.md",
+  "pool_sha256": "1899869c9b8a0cff51e9f2ed7cce57cf08d9a18b51213f46042d9361ebfcd691",
+  "pool_manifest": {
+    "audit_receipt_manifest_sha256": "e57db52d219dd496d939129a87d67f1cb65293b2fdec8faefbfe6f2c385df8ab",
+    "boundary_within_1ft": {
+      "2pt_within_1ft_10": 7597,
+      "2pt_within_1ft_16": 4650,
+      "2pt_within_1ft_4": 18028,
+      "3pt_within_1ft_24": 22971,
+      "3pt_within_1ft_27": 30314
+    },
+    "games_sha256": "1899869c9b8a0cff51e9f2ed7cce57cf08d9a18b51213f46042d9361ebfcd691",
+    "geometry_limit": "Unofficial ESPN internal distance proxy; unknown coordinates retained; not NBA-certified zones",
+    "geometry_status": "internally_consistent_unofficial",
+    "pool_sha256": "1ef7f311d53a9511f2fbcc6b5422bafaf1f3e7e8037b4a9cec1cea40e8ebfb9f",
+    "pregame_limit": "Target date D uses only source day <= D-4; retrospective collection does not prove historical availability.",
+    "raw_receipt_sha256": "7fa8c2121879408be34f375352d9e782f7945c343aec8c320125a554a6baf3d9",
+    "source_counts": {
+      "scoreboard_200": 400,
+      "summary_200": 2357,
+      "summary_404": 8
+    },
+    "source_day_max": "2026-10-28",
+    "source_day_min": "2025-01-01",
+    "source_games": 1185,
+    "source_team_games": 2370,
+    "zone_counts": {
+      "fta": 53262,
+      "ftm": 41507,
+      "three_0_24_attempts": 16246,
+      "three_0_24_makes": 6246,
+      "three_24_27_attempts": 51240,
+      "three_24_27_makes": 18590,
+      "three_27_plus_attempts": 20428,
+      "three_27_plus_makes": 6723,
+      "three_unknown_attempts": 0,
+      "three_unknown_makes": 0,
+      "two_0_4_attempts": 53900,
+      "two_0_4_makes": 36484,
+      "two_10_16_attempts": 20491,
+      "two_10_16_makes": 9125,
+      "two_16_plus_attempts": 11073,
+      "two_16_plus_makes": 4403,
+      "two_4_10_attempts": 37285,
+      "two_4_10_makes": 16730,
+      "two_unknown_attempts": 0,
+      "two_unknown_makes": 0
+    },
+    "zone_labels": [
+      "two_0_4",
+      "two_4_10",
+      "two_10_16",
+      "two_16_plus",
+      "two_unknown",
+      "three_0_24",
+      "three_24_27",
+      "three_27_plus",
+      "three_unknown"
+    ],
+    "zone_points": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      3,
+      3,
+      3,
+      3
+    ],
+    "zone_spec_id": "espn_xy25_0_radial_proxy_v1"
+  },
+  "previous_predictions_sha256": "0c5049b1570d06ced2a3cb1c3a2f6a175dca06b26c4af44558dfdfdad180a286",
+  "price_sha256": "4bf3abf8bb82838ee72975e1ef486a471b357a03ee4d8627808780f046dae51a",
+  "states": {
+    "A": {
+      "beta": -0.01977390451361489,
+      "n": 721,
+      "penalty_l2": 10,
+      "train_ids_sha256": "d7885d17f96f2991369329954e43d72d04cbd50e465e426fbc71830fbd7c79c6",
+      "train_from": "2025-01-01",
+      "train_through": "2025-08-28",
+      "feature_rule": "each row D-365 through D-4 inclusive"
+    },
+    "B": {
+      "beta": -0.12301788422693663,
+      "n": 1187,
+      "penalty_l2": 10,
+      "train_ids_sha256": "9872623ea70e750c3975290cd8c8edacf38ff79f5e02f6046446ec712250d79c",
+      "train_from": "2025-01-01",
+      "train_through": "2025-12-28",
+      "feature_rule": "each row D-365 through D-4 inclusive"
+    }
+  },
+  "source_scoreboard_duplicates": 0,
+  "source_conflicts": 0,
+  "all_price_exclusions": {
+    "feature_insufficient_team_history": 121
+  },
+  "target_exclusions": {},
+  "per_team_history_counts": {
+    "ATL": 72,
+    "BKN": 85,
+    "BOS": 89,
+    "CHA": 71,
+    "CHI": 82,
+    "CLE": 74,
+    "DAL": 74,
+    "DEN": 74,
+    "DET": 97,
+    "GS": 81,
+    "HOU": 78,
+    "IND": 90,
+    "LAC": 78,
+    "LAL": 83,
+    "MEM": 72,
+    "MIA": 77,
+    "MIL": 63,
+    "MIN": 96,
+    "NO": 66,
+    "NY": 103,
+    "OKC": 98,
+    "ORL": 72,
+    "PHI": 81,
+    "PHX": 70,
+    "POR": 75,
+    "SA": 76,
+    "SAC": 67,
+    "TOR": 85,
+    "UTAH": 73,
+    "WSH": 68
+  },
+  "evaluation_history_min_max": [
+    19,
+    77
+  ]
+}
