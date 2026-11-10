@@ -119,11 +119,18 @@ def card_game(game):
     return result
 
 
-def result_game(game):
+def result_game(game, *, compact=False):
     keys = ('home', 'away', 'sport', 'league', 'date', 'round', 'prediction_record')
     result = {k: game[k] for k in keys if k in game}
-    if 'prediction_record' in result:
-        result['prediction_record'] = _compact_pick_record(result['prediction_record'])
+    record = result.get('prediction_record')
+    if isinstance(record, dict):
+        if compact:
+            # Recent recommendation results match the archived pick by these terms.
+            fields = ('selection_id', 'market', 'label', 'selection', 'odds', 'result',
+                      'result_source', 'prediction_snapshot_id')
+            result['prediction_record'] = {k: record[k] for k in fields if k in record}
+        else:
+            result['prediction_record'] = _compact_pick_record(record)
     result['options'] = [{k: option[k] for k in ('selection_id', '적중') if k in option}
                          for option in game.get('options', []) if isinstance(option.get('적중'), bool)]
     return result
@@ -139,7 +146,7 @@ def summary(payload, revision, scope='recent', now=None):
     result = {k: v for k, v in payload.items() if k not in ('live', 'past', 'prediction_performance')}
     for section in ('live', 'past'):
         result[section] = [card_game(g) for g in payload.get(section, []) if included(g)]
-    result['result_games'] = [result_game(g) for section in ('live', 'past')
+    result['result_games'] = [result_game(g, compact=scope == 'recent') for section in ('live', 'past')
                               for g in payload.get(section, []) if g.get('prediction_record')]
     result['view'] = {'scope': scope, 'revision': revision, 'day': today.isoformat()}
     return result

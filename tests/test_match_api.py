@@ -60,6 +60,29 @@ def test_summary_preserves_decision_and_separates_detail_history():
     assert len(summary(payload,'r','all')['past'])==1
 
 
+def test_recent_result_lookup_keeps_old_game_and_exact_settlement_fields():
+    old = game('08.01(토) 18:00')
+    record = old['prediction_record']
+    record.update(market='핸디캡', label='H +1.5', selection='핸디홈', odds=1.74,
+                  market_recommendations={'items': [{'offer_id': 'o'}]},
+                  market_recommendation_results=[{'result': 'hit'}],
+                  score_forecast={'predicted': [90, 80]})
+    payload = {'live': [], 'past': [old]}
+    now = datetime(2026, 9, 22, tzinfo=KST)
+
+    recent = summary(payload, 'r', now=now)
+    assert recent['past'] == []
+    archived = recent['result_games'][0]
+    assert (archived['home'], archived['away'], archived['date'], archived['round']) == (
+        old['home'], old['away'], old['date'], old['round'],
+    )
+    assert archived['options'] == [{'selection_id': 's', '적중': True}]
+    assert archived['prediction_record'] == {
+        'selection_id': 's', 'result': 'hit', 'market': '핸디캡',
+        'label': 'H +1.5', 'selection': '핸디홈', 'odds': 1.74,
+    }
+    assert summary(payload, 'r', 'all', now=now)['result_games'][0]['prediction_record'] == record
+
 def test_frontier_rows_only_in_detail_preserve_frozen_identity(tmp_path):
     current = game()
     market = {'pick_comparison_version': 'exact-market-frontier-v1', 'evidence_hash': 'same',
