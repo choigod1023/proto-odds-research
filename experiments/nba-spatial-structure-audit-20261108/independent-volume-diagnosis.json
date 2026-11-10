@@ -1,0 +1,78 @@
+{
+  "evaluation_games": 1260,
+  "team_family_rows": 5040,
+  "summaries": {
+    "A_two": {
+      "rate_ratio": {
+        "n": 974,
+        "mean": 1.0001216052926851,
+        "min": 0.9582493909198386,
+        "p05": 0.9856781611778441,
+        "median": 1.0001770580908076,
+        "p95": 1.0157371549103411,
+        "max": 1.0468530099600335
+      },
+      "mean_volume_points": 0.00847566398812263,
+      "mean_accuracy_points": 0.0026943322117624208,
+      "max_conservation_error": 1.1102230246251565e-16
+    },
+    "A_three": {
+      "rate_ratio": {
+        "n": 974,
+        "mean": 0.9994712170708606,
+        "min": 0.941907871591453,
+        "p05": 0.9807648928705553,
+        "median": 0.9998887043980875,
+        "p95": 1.0192945767056212,
+        "max": 1.039669075859053
+      },
+      "mean_volume_points": -0.019115821924415525,
+      "mean_accuracy_points": 0.0010785129292985702,
+      "max_conservation_error": 5.551115123125783e-17
+    },
+    "A_attribution": {
+      "changed_picks": 20,
+      "q_win_s_loss": 11,
+      "q_loss_s_win": 9,
+      "mean_abs_team_volume_points": 0.5327972249371533,
+      "mean_abs_team_accuracy_points": 0.2420716502508793,
+      "max_abs_team_volume_points": 3.089754622080075
+    },
+    "B_two": {
+      "rate_ratio": {
+        "n": 1546,
+        "mean": 0.9994421208245692,
+        "min": 0.955901427940976,
+        "p05": 0.9816937111961498,
+        "median": 0.9996096430394958,
+        "p95": 1.0168324549052836,
+        "max": 1.0467857799294045
+      },
+      "mean_volume_points": -0.03170957562734932,
+      "mean_accuracy_points": 0.001778329631189096,
+      "max_conservation_error": 1.1102230246251565e-16
+    },
+    "B_three": {
+      "rate_ratio": {
+        "n": 1546,
+        "mean": 0.9999532953423482,
+        "min": 0.9385831069161689,
+        "p05": 0.980858081572709,
+        "median": 0.9998086121907026,
+        "p95": 1.0197876841636795,
+        "max": 1.0554622773190605
+      },
+      "mean_volume_points": -0.003299344802392246,
+      "mean_accuracy_points": 0.005019837681289166,
+      "max_conservation_error": 5.551115123125783e-17
+    },
+    "B_attribution": {
+      "changed_picks": 30,
+      "q_win_s_loss": 16,
+      "q_loss_s_win": 14,
+      "mean_abs_team_volume_points": 0.5832633880691022,
+      "mean_abs_team_accuracy_points": 0.2497590593841559,
+      "max_abs_team_volume_points": 3.1727490269811267
+    }
+  }
+}

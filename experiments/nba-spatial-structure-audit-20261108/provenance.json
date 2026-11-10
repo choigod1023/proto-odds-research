@@ -1,0 +1,45 @@
+{
+  "base_main": "f293e7397c2197dfdca783b77d90853a8e918c5d",
+  "branch": "codex/spatial-structure-orchestrator-20261108",
+  "scope": "isolated retrospective research; no production changes",
+  "sources": {
+    "old_model": {
+      "worktree": "C:\\Users\\user\\Documents\\Codex\\nba-shot-profile-model-20261108",
+      "commit": "f116f87e705cedc3b91563f6c2fcb90930bf6741",
+      "pr": "https://github.com/choigod1023/proto-odds-research/pull/673",
+      "files": {
+        "experiments/nba-shot-profile-model-20261108/predictions.jsonl.gz": "fd71c7ecfebb88f432cf2c4ea3ff621f993645e5ab7cec8a8df65fceb6a84a75",
+        "experiments/nba-shot-profile-model-20261108/train_features.jsonl.gz": "f6e48cf01cd450bb6850d30f493bd23eb5bfd8428122f7ee793ce7fcdd79768b"
+      }
+    },
+    "hard_profile": {
+      "worktree": "C:\\Users\\user\\Documents\\Codex\\nba-shot-profile-data-20261108",
+      "commit": "107512ecd13256b1bb4cf46e8f977f70f125b6ec",
+      "pr": "https://github.com/choigod1023/proto-odds-research/pull/672",
+      "files": {
+        "experiments/nba-shot-profile-data-20261108/games.jsonl.gz": "1899869c9b8a0cff51e9f2ed7cce57cf08d9a18b51213f46042d9361ebfcd691"
+      }
+    },
+    "diagnostics": {
+      "worktree": "C:\\Users\\user\\Documents\\Codex\\nba-spatial-structure-diagnostics-20261108",
+      "commit": "ccf3a61e27f5fdda041e5cc289467c2b5dab4936",
+      "pr": "https://github.com/choigod1023/proto-odds-research/pull/675",
+      "files": {
+        "experiments/nba-spatial-structure-diagnostics-20261108/soft_games.jsonl.gz": "968a0b873a575ef0f25b37d81e3c8bbd41c49a5b94c2d57427439a982cb209c4",
+        "experiments/nba-spatial-structure-diagnostics-20261108/diagnostics.json": "81b945252206211b477a7c342f5b1a595e2fdadc5a877aa1ee6d860e535c2e3a"
+      }
+    },
+    "new_model": {
+      "worktree": "C:\\Users\\user\\Documents\\Codex\\nba-spatial-conserved-model-20261108",
+      "commit": "0536bb401d4701c6713c791fa0d137632ea30d58",
+      "pr": "https://github.com/choigod1023/proto-odds-research/pull/676",
+      "files": {
+        "experiments/nba-spatial-conserved-model-20261108/predictions.jsonl.gz": "fde07277ddc91b9c66da10ae8cbba8655a3d338a936bb3a40b4dc92be67a0b70",
+        "experiments/nba-spatial-conserved-model-20261108/train_features.jsonl.gz": "459f041795884f5fff278ac6e0805fe64ac7ee69e7af26eb4462943f6313fcf3",
+        "experiments/nba-spatial-conserved-model-20261108/manifest.json": "7f0806a230fe665786e954ffb10318e70b3ca57bde954bf5d965fa32357840a2",
+        "experiments/nba-spatial-conserved-model-20261108/results.json": "4a41eae83c636b0c252fe0721d518a4495ecf0830f4fba06d82380a265d35f76"
+      }
+    }
+  },
+  "reproduce_command": "python scripts/audit_nba_spatial_structure.py --pool <hard-profile>/games.jsonl.gz --old-predictions <old-model>/predictions.jsonl.gz --out experiments/nba-spatial-structure-audit-20261108 --soft <diagnostics>/soft_games.jsonl.gz --cache <raw-cache> --old-training <old-model>/train_features.jsonl.gz --model-dir <new-model>"
+}
