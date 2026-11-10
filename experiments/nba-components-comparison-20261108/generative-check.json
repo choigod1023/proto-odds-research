@@ -1,0 +1,19 @@
+{
+  "n": 1260,
+  "history_references": 25200,
+  "maximum_probability_error": 1.7208456881689926e-14,
+  "method": "independent probability-generating-function recurrence; no model imports or fitting",
+  "verified_summary_200": 2357,
+  "verified_summary_404": 8,
+  "nba_component_boxes": 2343,
+  "training_priors_recomputed": true,
+  "cutoffs": {
+    "validation": "2025-08-28",
+    "evaluation": "2025-12-28"
+  },
+  "limits": [
+    "Validates the frozen approximate count model, not its physical correctness or predictive superiority",
+    "Logical four-day lag is not proof of historical receipt times"
+  ],
+  "predictions_sha256": "5e9187cd52a38c19954f3727da8132c490df8b6b1086b2db2cd7f00fa3dcccfd"
+}
