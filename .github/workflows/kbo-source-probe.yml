@@ -16,39 +16,28 @@ jobs:
       - name: Verify official read-only source reachability
         run: |
           python - <<'PY'
-          import json, re, requests
-          from urllib.parse import urljoin, urlsplit
+          import requests,json,sys,time
+          from concurrent.futures import ThreadPoolExecutor
           from research.kbl_handicap_forward import sources
           base="https://m.betman.co.kr"
-          public=base+"/main/mainPage/gamebuy/buyableGameList.do"
-          h={**sources.BETMAN_HEADERS,"Referer":public}
-          def describe(r):
-              info={"status":r.status_code,"content_type":r.headers.get("Content-Type",""),"size":len(r.content)}
+          h={**sources.BETMAN_HEADERS,"Referer":base+"/main/mainPage/gamebuy/buyableGameList.do"}
+          queries=(("listing",sources.LIST_URL,sources.ROUND),("detail",sources.DETAIL_URL,{**sources.ROUND,"gmId":"G101","gmTs":"260133","gameYear":"2026"}))
+          def read(item):
+              name,url,payload=item
+              start=time.monotonic()
+              out={"source":name}
               try:
-                  d=r.json()
-                  if isinstance(d,dict): info["keys"]=list(d)[:25]
-              except ValueError:
-                  info["scripts"]=re.findall(r"<script[^>]+src=[\x22\x27]([^\x22\x27]+)",r.text)[:20]
-                  info["routes"]=sorted(set(re.findall(r"[/A-Za-z0-9_-]+\.do",r.text)))[:60]
-              return info
-          def fetch(name,url,payload=None):
-              try:
-                  r=requests.request("POST" if payload is not None else "GET",url,json=payload,
-                                     headers=h,timeout=(5,8),allow_redirects=False)
-                  print("MOBILE "+json.dumps({"route":name,**describe(r)}),flush=True)
-                  return r
-              except requests.RequestException as exc:
-                  print("MOBILE "+json.dumps({"route":name,"error":type(exc).__name__}),flush=True)
-          listing=fetch("public",public)
-          for name,url,payload in (
-              ("listing_api",sources.LIST_URL,sources.ROUND),
-              ("detail_api",sources.DETAIL_URL,{**sources.ROUND,"gmId":"G101","gmTs":"260133","gameYear":"2026"}),
-          ):
-              fetch(name,base+urlsplit(url).path,payload)
-          if listing and listing.ok:
-              scripts=re.findall(r"<script[^>]+src=[\x22\x27]([^\x22\x27]+)",listing.text)
-              for script in scripts:
-                  url=urljoin(public,script)
-                  if urlsplit(url).hostname=="m.betman.co.kr" and any(key in url.lower() for key in ("buyable","gamebuy","gameinfo")):
-                      fetch("public_script",url)
+                  r=requests.post(url.replace("https://www.betman.co.kr",base),json=payload,headers=h,timeout=(5,10),allow_redirects=False)
+                  out["status"]=r.status_code
+                  if r.ok and name=="listing":
+                      out["valid"]=isinstance(r.json().get("protoGames"),list)
+                  if r.ok and name=="detail":
+                      _,rows=sources.detail(r.content,"260133")
+                      out["offers"]=[{k:row.get(k) for k in ("matchSeq","gameResult","mchScore","protoStatus","winHandi","winAllot","loseAllot")}
+                                     for row in rows if row.get("matchSeq") in (3673,3730)]
+              except (requests.RequestException,ValueError,KeyError) as exc: out["error"]=type(exc).__name__
+              out["seconds"]=round(time.monotonic()-start,2)
+              return out
+          with ThreadPoolExecutor(max_workers=2) as pool:
+              print("MOBILE_SOURCE "+json.dumps(list(pool.map(read,queries))))
           PY
