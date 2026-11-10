@@ -1,0 +1,165 @@
+{
+  "task": "nba-player-spatial-model-20261108",
+  "branch": "codex/nba-player-spatial-model-20261108",
+  "base_main": "f293e739",
+  "protocol_commits": [
+    "8277a9f9",
+    "95caa270"
+  ],
+  "status": "projected_proxy_completed_strict_lineup_blocked_not_merged_not_deployed",
+  "strict_verified_pregame_lineups": 0,
+  "source_pool_games": 1185,
+  "reconciled_player_games": 1069,
+  "prior_cohort": 1260,
+  "coverage": {
+    "A": {
+      "price_archive_rows": 487,
+      "prior_rows": 487,
+      "evaluated": 265,
+      "excluded": 222
+    },
+    "B": {
+      "price_archive_rows": 804,
+      "prior_rows": 773,
+      "evaluated": 362,
+      "excluded": 411
+    }
+  },
+  "models": {
+    "A": {
+      "market": {
+        "n": 265,
+        "wins": 169,
+        "hit_rate": 0.6377358490566037,
+        "roi": -0.19769811320754718,
+        "log_loss": 0.6214584008191593,
+        "brier": 0.2167435002275589,
+        "mean_odds": 1.3017358490566038,
+        "daily_mdd": 52.57999999999999
+      },
+      "prior_outcome_form": {
+        "n": 265,
+        "wins": 170,
+        "hit_rate": 0.6415094339622641,
+        "roi": -0.14935849056603773,
+        "log_loss": 0.645651669822958,
+        "brier": 0.2277867810740779,
+        "mean_odds": 1.3938490566037736,
+        "daily_mdd": 45.34
+      },
+      "q": {
+        "n": 265,
+        "wins": 155,
+        "hit_rate": 0.5849056603773585,
+        "roi": -0.20022641509433964,
+        "log_loss": 0.6575770997217836,
+        "brier": 0.23292121994357393,
+        "mean_odds": 1.5325283018867923,
+        "daily_mdd": 56.52
+      },
+      "player_nonspatial": {
+        "n": 265,
+        "wins": 160,
+        "hit_rate": 0.6037735849056604,
+        "roi": -0.18196226415094338,
+        "log_loss": 0.6583727704423905,
+        "brier": 0.23318932998382735,
+        "mean_odds": 1.486377358490566,
+        "daily_mdd": 52.64999999999999
+      },
+      "player_spatial": {
+        "n": 265,
+        "wins": 162,
+        "hit_rate": 0.6113207547169811,
+        "roi": -0.13456603773584905,
+        "log_loss": 0.6595666438290139,
+        "brier": 0.23372598944700682,
+        "mean_odds": 1.536679245283019,
+        "daily_mdd": 43.64999999999999
+      }
+    },
+    "B": {
+      "market": {
+        "n": 362,
+        "wins": 249,
+        "hit_rate": 0.6878453038674033,
+        "roi": -0.1249171270718232,
+        "log_loss": 0.579006018894735,
+        "brier": 0.19704653399887417,
+        "mean_odds": 1.3153038674033148,
+        "daily_mdd": 45.39999999999999
+      },
+      "prior_outcome_form": {
+        "n": 362,
+        "wins": 246,
+        "hit_rate": 0.6795580110497238,
+        "roi": -0.06265193370165746,
+        "log_loss": 0.6083221231268013,
+        "brier": 0.20977866970819342,
+        "mean_odds": 1.489088397790055,
+        "daily_mdd": 28.590000000000003
+      },
+      "q": {
+        "n": 362,
+        "wins": 229,
+        "hit_rate": 0.6325966850828729,
+        "roi": -0.08386740331491713,
+        "log_loss": 0.6455811682730376,
+        "brier": 0.22689042592474637,
+        "mean_odds": 1.659779005524862,
+        "daily_mdd": 32.67
+      },
+      "player_nonspatial": {
+        "n": 362,
+        "wins": 232,
+        "hit_rate": 0.6408839779005525,
+        "roi": -0.08367403314917128,
+        "log_loss": 0.6565035769511404,
+        "brier": 0.2320286652682287,
+        "mean_odds": 1.6147790055248616,
+        "daily_mdd": 33.760000000000005
+      },
+      "player_spatial": {
+        "n": 362,
+        "wins": 223,
+        "hit_rate": 0.6160220994475138,
+        "roi": -0.13392265193370165,
+        "log_loss": 0.6571178236530641,
+        "brier": 0.23231013448709734,
+        "mean_odds": 1.6363259668508288,
+        "daily_mdd": 49.25999999999999
+      }
+    }
+  },
+  "target_exclusions": {
+    "missing_or_invalid_recent_box": 633
+  },
+  "cold_minute_fraction_mean": 0.03642329374827759,
+  "prediction_sha256": "d334dea23006988dae8725209555874b58cb87e215b47d0fe13f28e9f20465a5",
+  "validated_edge": false,
+  "production_changed": false,
+  "limitations": [
+    "confirmed pregame lineup evidence absent, only projected past-minute proxy",
+    "selected subset excludes 633 targets due missing recent player boxes",
+    "source data received retrospectively; projected minutes not actual lineups",
+    "ESPN shot geometry unofficial",
+    "actual price timing, product identity and overtime settlement unverified",
+    "both periods previously investigated"
+  ],
+  "tests": [
+    "python full pytest 2760 passed, 6 skipped, 123 subtests (before final no-linescore guard and one added test)",
+    "targeted model tests 6 passed after fix",
+    "synthetic memory CI passed",
+    "627 target identity and 1254 actual-10-game rotations independently checked",
+    "pre-fix and corrected predictions/results/manifest/exclusions byte identical"
+  ],
+  "artifacts": [
+    "PROTOCOL.md",
+    "README.md",
+    "manifest.json",
+    "results.json",
+    "predictions.jsonl.gz",
+    "exclusions.jsonl.gz",
+    "pre-fix-no-line-score-guard/"
+  ]
+}
