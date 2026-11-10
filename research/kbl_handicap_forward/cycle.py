@@ -21,6 +21,16 @@ MAX_BODY = 4 * 1024 * 1024
 MAX_REQUESTS = 9
 
 
+class TransientSourceError(ValueError):
+    """A temporary upstream HTTP failure."""
+
+
+RECOVERABLE_SOURCE_ERRORS = (
+    TransientSourceError, requests.ConnectionError, requests.Timeout,
+    requests.exceptions.ChunkedEncodingError,
+)
+
+
 def now():
     return datetime.now(timezone.utc)
 
@@ -66,13 +76,17 @@ def fetcher(state, session, clock):
                     "retry_after": response.headers.get("Retry-After"),
                 }))
                 raise ValueError(f"KBL research source HTTP {response.status_code}; paused")
+            if response.status_code == 408 or 500 <= response.status_code < 600:
+                raise TransientSourceError(f"KBL research source HTTP {response.status_code}")
             if response.status_code != 200:
                 raise ValueError(f"KBL research source HTTP {response.status_code}")
             data = bytearray()
             for chunk in response.iter_content(65536):
                 data.extend(chunk)
-                if len(data) > MAX_BODY or time.monotonic() > deadline:
-                    raise ValueError("KBL research response exceeds size or time limit")
+                if len(data) > MAX_BODY:
+                    raise ValueError("KBL research response exceeds size limit")
+                if time.monotonic() > deadline:
+                    raise requests.Timeout("KBL research response exceeds time limit")
         received = clock()
         if received < started:
             raise ValueError("Clock moved backwards during source capture")
@@ -176,19 +190,34 @@ def cycle(state, session, clock=now):
 
     def detail(round_id):
         if round_id not in detail_cache:
-            detail_cache[round_id] = fetch(sources.DETAIL_URL, payload={
-                **sources.ROUND, "gmId": "G101", "gmTs": round_id, "gameYear": "20" + round_id[:2],
-            })
+            try:
+                detail_cache[round_id] = fetch(sources.DETAIL_URL, payload={
+                    **sources.ROUND, "gmId": "G101", "gmTs": round_id, "gameYear": "20" + round_id[:2],
+                })
+            except RECOVERABLE_SOURCE_ERRORS:
+                # A failed attempt consumes the budget and is retried next cycle.
+                detail_cache[round_id] = None
+                raise
         return detail_cache[round_id]
 
     report = {"candidates": len(candidates), "captured": [], "settled_now": [], "ambiguous_offers": []}
     if candidates:
-        listing = fetch(sources.LIST_URL, payload=sources.ROUND)
-        active = sources.rounds(listing[0], _moment(listing[1]["received_at"]))
         matched = []
-        for number, round_info in sorted(active.items()):
-            price = detail(number)
-            matched.extend((g, q, price) for g, q in sources.quotes(price[0], number, round_info, candidates, price[1]))
+        sale_round = None
+        try:
+            listing = fetch(sources.LIST_URL, payload=sources.ROUND)
+            active = sources.rounds(listing[0], _moment(listing[1]["received_at"]))
+            for sale_round, round_info in sorted(active.items()):
+                price = detail(sale_round)
+                matched.extend((g, q, price) for g, q in sources.quotes(
+                    price[0], sale_round, round_info, candidates, price[1]))
+        except RECOVERABLE_SOURCE_ERRORS as exc:
+            # An incomplete scan cannot prove that an offer is unique.
+            matched.clear()
+            report["capture_error"] = {
+                "stage": "listing" if sale_round is None else "detail",
+                "round": sale_round, "reason": f"{type(exc).__name__}: {exc}",
+            }
         by_fixture = Counter(g["id"] for g, _, _ in matched)
         for g, q, price in matched:
             if by_fixture[g["id"]] != 1:
@@ -202,8 +231,14 @@ def cycle(state, session, clock=now):
         gid = record["game"]["id"]
         number = record["quote"]["offer_id"].split(":")[1]
         if number not in detail_cache and len(detail_cache) >= MAX_REQUESTS - 2:
-            break
-        result = detail(number)
+            continue
+        try:
+            result = detail(number)
+        except RECOVERABLE_SOURCE_ERRORS as exc:
+            report.setdefault("settlement_errors", {})[number] = f"{type(exc).__name__}: {exc}"
+            continue
+        if result is None:
+            continue
         grade = settle(record, games[gid], result[0], result[1])
         if grade is not None:
             preserve(state, schedule)
@@ -234,6 +269,8 @@ def main():
                 out = cycle(state, session)
             write(state / "last-run.json", json_body(dict(out, ran_at=now().isoformat())))
         print(json.dumps(out, ensure_ascii=False, allow_nan=False))
+        if out.get("capture_error") or out.get("settlement_errors"):
+            raise SystemExit(1)
 
 
 if __name__ == "__main__":
