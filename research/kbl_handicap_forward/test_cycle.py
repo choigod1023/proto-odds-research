@@ -77,6 +77,44 @@ def test_immutable_paired_freeze_and_pending_without_roi(tmp_path):
     predict.assert_called_once()
 
 
+
+def test_counts_separate_different_picks_and_preserve_refund_denominators():
+    def prediction(*sides):
+        return {"models": {name: {"selection": side}
+                           for name, side in zip(cycle.MODELS, sides, strict=True)}}
+
+    def grade(status, *results):
+        return {"status": status, "models": {name: {"hit": hit, "net": net}
+                 for name, (hit, net) in zip(cycle.MODELS, results, strict=True)}}
+
+    agree = prediction("away", "away", "away")
+    disagree = prediction("home", "away", "home")
+    predictions = {"same": agree, "different": disagree, "waiting": disagree, "refund": disagree}
+    settlements = {
+        "same": grade("settled", *((True, 0.74),) * 3),
+        "different": grade("settled", (False, -1.0), (True, 0.99), (False, -1.0)),
+        "refund": grade("void", *((None, 0.0),) * 3),
+    }
+    report = cycle.counts(predictions, settlements)
+    assert (report["predictions"], report["settled"], report["pending"], report["void"]) == (4, 3, 1, 1)
+    assert report["models"]["frozen"]["accuracy"] == 0.5
+    assert report["models"]["static"]["roi"] == 1.73 / 3
+    different = report["disagreements"]
+    assert (different["predictions"], different["settled"], different["pending"], different["void"]) == (3, 2, 1, 1)
+    assert different["models"]["frozen"] == {
+        "hits": 0, "decided": 1, "net_units": -1.0, "accuracy": 0.0, "roi": -0.5,
+    }
+    assert different["models"]["static"] == {
+        "hits": 1, "decided": 1, "net_units": 0.99, "accuracy": 1.0, "roi": 0.495,
+    }
+
+
+def test_counts_without_different_picks_has_no_comparison_metrics():
+    report = cycle.counts({}, {})
+    different = report["disagreements"]
+    assert (different["predictions"], different["settled"], different["pending"], different["void"]) == (0, 0, 0, 0)
+    assert all(row["accuracy"] is None and row["roi"] is None for row in different["models"].values())
+
 def test_freeze_does_not_use_stale_or_late_capture(tmp_path):
     g, quote = price()[0]
     predict = Mock()
