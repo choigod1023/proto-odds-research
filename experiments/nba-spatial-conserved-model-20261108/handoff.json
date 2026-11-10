@@ -1,0 +1,286 @@
+{
+  "task": "nba-spatial-conserved-model-20261108",
+  "branch": "codex/nba-spatial-conserved-model-20261108",
+  "base_main": "f293e739",
+  "protocol_commit": "c854390e",
+  "status": "research_completed_not_merged_not_deployed",
+  "source_pool_games": 1185,
+  "frozen_cohort": {
+    "A": 487,
+    "B": 773
+  },
+  "posthoc_target_source_subset": {
+    "A": 135,
+    "B": 243
+  },
+  "source_sha256": {
+    "hard": "1899869c9b8a0cff51e9f2ed7cce57cf08d9a18b51213f46042d9361ebfcd691",
+    "soft": "968a0b873a575ef0f25b37d81e3c8bbd41c49a5b94c2d57427439a982cb209c4",
+    "diagnostics": "81b945252206211b477a7c342f5b1a595e2fdadc5a877aa1ee6d860e535c2e3a"
+  },
+  "prediction_sha256": "fde07277ddc91b9c66da10ae8cbba8655a3d338a936bb3a40b4dc92be67a0b70",
+  "training_sha256": "459f041795884f5fff278ac6e0805fe64ac7ee69e7af26eb4462943f6313fcf3",
+  "states": {
+    "A": {
+      "hard": {
+        "beta": 0.02969713883088063,
+        "n": 721,
+        "penalty_l2": 10,
+        "train_from": "2025-01-01",
+        "train_through": "2025-08-28",
+        "train_ids_sha256": "d7885d17f96f2991369329954e43d72d04cbd50e465e426fbc71830fbd7c79c6"
+      },
+      "soft": {
+        "beta": 0.03645713619204478,
+        "n": 721,
+        "penalty_l2": 10,
+        "train_from": "2025-01-01",
+        "train_through": "2025-08-28",
+        "train_ids_sha256": "d7885d17f96f2991369329954e43d72d04cbd50e465e426fbc71830fbd7c79c6"
+      }
+    },
+    "B": {
+      "hard": {
+        "beta": -0.0011903606933254287,
+        "n": 1187,
+        "penalty_l2": 10,
+        "train_from": "2025-01-01",
+        "train_through": "2025-12-28",
+        "train_ids_sha256": "9872623ea70e750c3975290cd8c8edacf38ff79f5e02f6046446ec712250d79c"
+      },
+      "soft": {
+        "beta": -0.0019919794318531627,
+        "n": 1187,
+        "penalty_l2": 10,
+        "train_from": "2025-01-01",
+        "train_through": "2025-12-28",
+        "train_ids_sha256": "9872623ea70e750c3975290cd8c8edacf38ff79f5e02f6046446ec712250d79c"
+      }
+    }
+  },
+  "models": {
+    "A": {
+      "market": {
+        "n": 487,
+        "wins": 316,
+        "hit_rate": 0.648870636550308,
+        "roi": -0.17086242299794657,
+        "log_loss": 0.6132736811646049,
+        "brier": 0.213052014044628,
+        "mean_odds": 1.3182135523613963,
+        "daily_mdd": 83.99999999999999
+      },
+      "prior_outcome_form": {
+        "n": 487,
+        "wins": 310,
+        "hit_rate": 0.6365503080082136,
+        "roi": -0.13172484599589324,
+        "log_loss": 0.6536861683586177,
+        "brier": 0.23072542055584203,
+        "mean_odds": 1.4428747433264888,
+        "daily_mdd": 64.80999999999999
+      },
+      "q": {
+        "n": 487,
+        "wins": 288,
+        "hit_rate": 0.5913757700205339,
+        "roi": -0.16928131416837783,
+        "log_loss": 0.6594794317487493,
+        "brier": 0.23380802266796377,
+        "mean_odds": 1.562464065708419,
+        "daily_mdd": 86.23
+      },
+      "old_s": {
+        "n": 487,
+        "wins": 286,
+        "hit_rate": 0.5872689938398358,
+        "roi": -0.1746201232032854,
+        "log_loss": 0.6631685092999237,
+        "brier": 0.23542229454410768,
+        "mean_odds": 1.5684394250513347,
+        "daily_mdd": 88.83
+      },
+      "old_residual": {
+        "n": 487,
+        "wins": 315,
+        "hit_rate": 0.6468172484599589,
+        "roi": -0.174435318275154,
+        "log_loss": 0.6132238158510082,
+        "brier": 0.21303428334568392,
+        "mean_odds": 1.3182135523613963,
+        "daily_mdd": 85.74
+      },
+      "hard": {
+        "n": 487,
+        "wins": 285,
+        "hit_rate": 0.5852156057494866,
+        "roi": -0.17967145790554415,
+        "log_loss": 0.6606006482874638,
+        "brier": 0.234251064323963,
+        "mean_odds": 1.5666735112936345,
+        "daily_mdd": 91.29
+      },
+      "soft": {
+        "n": 487,
+        "wins": 286,
+        "hit_rate": 0.5872689938398358,
+        "roi": -0.17472279260780288,
+        "log_loss": 0.6606235961418103,
+        "brier": 0.23426441133880188,
+        "mean_odds": 1.568829568788501,
+        "daily_mdd": 88.88
+      },
+      "hard_anchor": {
+        "n": 487,
+        "wins": 316,
+        "hit_rate": 0.648870636550308,
+        "roi": -0.17086242299794657,
+        "log_loss": 0.6132939399054924,
+        "brier": 0.21305960852033226,
+        "mean_odds": 1.3182135523613963,
+        "daily_mdd": 83.99999999999999
+      },
+      "soft_anchor": {
+        "n": 487,
+        "wins": 316,
+        "hit_rate": 0.648870636550308,
+        "roi": -0.17086242299794657,
+        "log_loss": 0.6133026482570864,
+        "brier": 0.21306312900401345,
+        "mean_odds": 1.3182135523613963,
+        "daily_mdd": 83.99999999999999
+      }
+    },
+    "B": {
+      "market": {
+        "n": 773,
+        "wins": 547,
+        "hit_rate": 0.7076326002587322,
+        "roi": -0.11596377749029754,
+        "log_loss": 0.5576601600060767,
+        "brier": 0.18787924672721104,
+        "mean_odds": 1.2929624838292368,
+        "daily_mdd": 89.82000000000001
+      },
+      "prior_outcome_form": {
+        "n": 773,
+        "wins": 537,
+        "hit_rate": 0.6946959896507116,
+        "roi": -0.06861578266494178,
+        "log_loss": 0.5967870090906267,
+        "brier": 0.20456772492214864,
+        "mean_odds": 1.4503492884864166,
+        "daily_mdd": 59.33
+      },
+      "q": {
+        "n": 773,
+        "wins": 499,
+        "hit_rate": 0.6455368693402329,
+        "roi": -0.09860284605433377,
+        "log_loss": 0.6418083700807203,
+        "brier": 0.22509425683254533,
+        "mean_odds": 1.6110090556274255,
+        "daily_mdd": 78.16000000000001
+      },
+      "old_s": {
+        "n": 773,
+        "wins": 497,
+        "hit_rate": 0.6429495472186287,
+        "roi": -0.1108796895213454,
+        "log_loss": 0.6429955550508473,
+        "brier": 0.2256293285435063,
+        "mean_odds": 1.6038163001293662,
+        "daily_mdd": 89.51999999999998
+      },
+      "old_residual": {
+        "n": 773,
+        "wins": 549,
+        "hit_rate": 0.7102199223803364,
+        "roi": -0.1114359637774903,
+        "log_loss": 0.557574701742319,
+        "brier": 0.18785266292652242,
+        "mean_odds": 1.2930142302716687,
+        "daily_mdd": 86.32000000000001
+      },
+      "hard": {
+        "n": 773,
+        "wins": 498,
+        "hit_rate": 0.6442432082794308,
+        "roi": -0.10271668822768436,
+        "log_loss": 0.6420712709646937,
+        "brier": 0.22520307334671402,
+        "mean_odds": 1.6165329883570507,
+        "daily_mdd": 81.55999999999996
+      },
+      "soft": {
+        "n": 773,
+        "wins": 497,
+        "hit_rate": 0.6429495472186287,
+        "roi": -0.10423027166882276,
+        "log_loss": 0.6421707047674613,
+        "brier": 0.22525290085540456,
+        "mean_odds": 1.6187839586028463,
+        "daily_mdd": 82.50999999999998
+      },
+      "hard_anchor": {
+        "n": 773,
+        "wins": 547,
+        "hit_rate": 0.7076326002587322,
+        "roi": -0.11596377749029754,
+        "log_loss": 0.5576600260435113,
+        "brier": 0.18787926038762912,
+        "mean_odds": 1.2929624838292368,
+        "daily_mdd": 89.82000000000001
+      },
+      "soft_anchor": {
+        "n": 773,
+        "wins": 547,
+        "hit_rate": 0.7076326002587322,
+        "roi": -0.11596377749029754,
+        "log_loss": 0.557659782560512,
+        "brier": 0.18787919540446202,
+        "mean_odds": 1.2929624838292368,
+        "daily_mdd": 89.82000000000001
+      }
+    }
+  },
+  "joint_improvement_vs_q": {
+    "A": {
+      "hard": false,
+      "soft": false,
+      "hard_anchor": false,
+      "soft_anchor": false
+    },
+    "B": {
+      "hard": false,
+      "soft": false,
+      "hard_anchor": false,
+      "soft_anchor": false
+    }
+  },
+  "production_changed": false,
+  "validated_edge": false,
+  "limitations": [
+    "prior periods already examined",
+    "ESPN distance is unofficial geometry proxy",
+    "price timing, product identity and overtime settlement unverified",
+    "target-source subset is selected retrospectively",
+    "not operating vote or M0"
+  ],
+  "tests": [
+    "python -m pytest -q: 2760 passed, 6 skipped, 123 subtests passed",
+    "model tests: 5 passed",
+    "synthetic memory CI passed, outputs equal",
+    "1260 prior identities and prices matched",
+    "all family weights sum 1 within 2.3e-16 and beta gradients independently checked",
+    "prediction and train gzip hashes matched on replay"
+  ],
+  "artifacts": [
+    "PROTOCOL.md",
+    "README.md",
+    "manifest.json",
+    "results.json",
+    "predictions.jsonl.gz",
+    "train_features.jsonl.gz"
+  ]
+}
