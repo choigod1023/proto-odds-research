@@ -1,0 +1,51 @@
+{
+  "buy_reject_zero": 570,
+  "by_season": {
+    "S45": {
+      "completed_by_phase": {
+        "playoff": 22,
+        "regular": 270
+      },
+      "rows_by_phase": {
+        "playoff": 22,
+        "regular": 269
+      },
+      "schedule_start": "2024-10-19"
+    },
+    "S47": {
+      "completed_by_phase": {
+        "playoff": 18,
+        "regular": 270
+      },
+      "rows_by_phase": {
+        "playoff": 14,
+        "regular": 270
+      },
+      "schedule_start": "2025-10-03"
+    }
+  },
+  "deduplication": "Earliest numeric round then matchSeq among valid priced offers for the exact official fixture, before settlement checks. No fallback.",
+  "duplicate_offers": 0,
+  "equal_price_offers": 103,
+  "execution_price_verified": false,
+  "extra_schedule": "kbl-2024-q4.jsonl",
+  "invalid_or_unpriced": 3,
+  "manifest": ".local-test/kbl-season-source/manifest-v2.json",
+  "matched_sha256_uncompressed": "498e7abc06312c4ff2127ce9b3d2d7c52ab93935b79dfa105a0aea57a7865692",
+  "missing_rest_rows": 11,
+  "no_unique_official_fixture": 14,
+  "other_season": 59,
+  "price_observation_status": "retrospective_unverified",
+  "priced_candidates": 576,
+  "purchase_availability_verified": false,
+  "raw_offers": 652,
+  "rounds": 282,
+  "rows": 575,
+  "settlement_conflict": 0,
+  "source_sha256": {
+    "betman_manifest": "e8e4e58dc1f5465dcb930ba5938a3dc3f6e5a0f2ae0adc0b799c4c6672536aba",
+    "extra_official_normalized": "ab4f8264182e50ddd8e33116e82caf06bdcbee5e2ec94fdc57c56a9fcd629eca",
+    "official_normalized": "dac4176550b0e52934aa31975e01b89391fe6bafdf10e2729de5f74fce3eff3a"
+  },
+  "unsettled_or_void": 1
+}
