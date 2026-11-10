@@ -1,5 +1,8 @@
+from contextlib import contextmanager
 import subprocess
 from types import SimpleNamespace
+
+import pytest
 
 from deploy import supervisor
 
@@ -266,14 +269,48 @@ def test_restart_refreshes_site_before_heavy_pipeline(tmp_path, monkeypatch):
     monkeypatch.setattr(supervisor, "REPO", tmp_path)
     monkeypatch.setattr(supervisor, "PUBLISH_LIGHT", ["light"])
     monkeypatch.setattr(supervisor, "PUBLISH_ENRICH", ["enrich"])
+    monkeypatch.setattr(supervisor, "PUBLISH_OBSERVERS", ["observers"])
     monkeypatch.setattr(supervisor, "PUBLISH", ["heavy"])
-    monkeypatch.setattr(supervisor, "_run_steps", lambda steps: calls.append(steps[0]))
+    monkeypatch.setattr(supervisor, "_run_steps", lambda steps, **kwargs: calls.append(steps[0]))
     monkeypatch.setattr(supervisor, "push_data", lambda: calls.append("push"))
 
     supervisor._run_publish_cycle(0)
 
-    assert calls == ["light", "push", "heavy", "light", "push", "enrich", "push"]
+    assert calls == ["light", "push", "heavy", "light", "push", "observers", "enrich", "push"]
 
+
+
+@pytest.mark.parametrize("observer_ready", [False, True])
+def test_publication_finishes_before_optional_observers(tmp_path, monkeypatch, observer_ready):
+    (tmp_path / "data" / "processed").mkdir(parents=True)
+    (tmp_path / "data" / "processed" / "games.csv").write_text("ok", encoding="utf-8")
+    monkeypatch.delenv("PROODD_DB_PATH", raising=False)
+    monkeypatch.setattr(supervisor, "REPO", tmp_path)
+    monkeypatch.setattr(supervisor, "PUBLISH_ENRICH", [])
+    calls = []
+    observers = {"픽스터 전향판정", "무료 야구 feature"}
+
+    @contextmanager
+    def slot(name, *, wait=True):
+        if name in observers:
+            assert not wait, "an optional observer cannot block publication"
+            yield observer_ready
+        else:
+            assert wait
+            yield True
+
+    def run(cmd, **kwargs):
+        calls.append(next(x for x in cmd if x.startswith("src/")))
+        return subprocess.CompletedProcess(cmd, 0, stdout="ok", stderr="")
+
+    monkeypatch.setattr(supervisor, "_background_slot", slot)
+    monkeypatch.setattr(supervisor.subprocess, "run", run)
+    monkeypatch.setattr(supervisor, "push_data", lambda: calls.append("push"))
+    supervisor._run_publish_cycle(1)
+
+    assert calls[:4] == ["src/generate_v2.py", "src/generate_today.py", "src/today_combo.py", "push"]
+    assert calls[4:] == (["src/pickster_eval.py", "src/baseball_live_features.py", "push"]
+                        if observer_ready else ["push"])
 
 def test_restart_clears_nested_prediction_ledger_lock(tmp_path, monkeypatch):
     nested = tmp_path / "data" / "raw" / "prediction_ledger" / "pregame.jsonl.lock"
