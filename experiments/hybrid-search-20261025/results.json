@@ -1,0 +1,24 @@
+{
+  "candidate_count": 230,
+  "paired_n": 0,
+  "day_count": 0,
+  "partitions": {
+    "train": 0,
+    "validation": 0,
+    "test": 0
+  },
+  "status": "blocked_insufficient_paired_data",
+  "monthly_loss_limit_krw": 50000,
+  "paper_policy_changed": false,
+  "selection_rule": "validation Brier ascending; ROI descending tie-break; name ascending",
+  "selected": null,
+  "evaluation": null,
+  "limitations": [
+    "Single-pick equal-stake diagnostic; not two-leg monthly paper profit.",
+    "Minimum counts are a screening guard, not proof of statistical significance.",
+    "Model/tipster overlap is required; never substitute a market proxy.",
+    "Hundreds of candidates require independent forward confirmation.",
+    "No species-specific weights fit without sufficient per-sport data."
+  ],
+  "input_sha256": "547342bac3f3c4494eac80ec495943e62d52dfcee3a1e8e662d9829f3783a297"
+}
