@@ -1,0 +1,441 @@
+{
+  "source_sha256": {
+    "C:\\Users\\user\\Documents\\Codex\\kbtdata\\experiments\\kbo-actual-training-data-20261103\\paired-train-projected.jsonl.gz": "300da51d893770af62317ef975efec8e37edd5a60445c3c545daadf3e7a39eb8",
+    "C:\\Users\\user\\Documents\\Codex\\kbtdata\\experiments\\kbo-actual-training-data-20261103\\paired-test-projected.jsonl.gz": "2ef8e3a7f17b9f43262b875d3b913f0420e23f31a25aaba8f943131445a35bc6",
+    "C:\\Users\\user\\Documents\\Codex\\kbtmodel\\experiments\\kbo-actual-training-20261103\\artifacts\\development.json": "e598cf380f03a8544559592cca8f055217bd4a24f1b58863b60866fa12fdec45",
+    "C:\\Users\\user\\Documents\\Codex\\kbtmodel\\experiments\\kbo-actual-training-20261103\\artifacts\\predictions.json": "b41b8dc71af26ccfb5b17ad568309dd4bf742df15e2ba8aaf5091eda693aabbd",
+    "C:\\Users\\user\\Documents\\Codex\\kbo-history-20261108e\\experiments\\pregame-baseball-20261104\\overlap.json": "946efb8eae1d0a766eb378b68dd3d20914f816f6bf43ce457c758b626f44fd81"
+  },
+  "counts": {
+    "2025": {
+      "paired_fixture_opportunities": 731,
+      "insufficient_team_history": 77,
+      "history_proxy_available": 654,
+      "matched": 603,
+      "missing_exact_price_outcome": 51
+    },
+    "2026": {
+      "paired_fixture_opportunities": 709,
+      "insufficient_team_history": 234,
+      "history_proxy_available": 475,
+      "matched": 443,
+      "missing_exact_price_outcome": 32
+    }
+  },
+  "history_team_game_keys": 2463,
+  "conflicting_history_keys_in_full_archive": 0,
+  "split_n": {
+    "fit": 326,
+    "validation": 277,
+    "test": 443
+  },
+  "date_bounds": {
+    "fit": [
+      "2025-04-02",
+      "2025-06-28"
+    ],
+    "validation": [
+      "2025-07-04",
+      "2025-10-14"
+    ],
+    "test": [
+      "2026-04-07",
+      "2026-10-10"
+    ]
+  },
+  "beta_validation": -0.10392943446544067,
+  "beta_frozen": -0.08430533491741689,
+  "validation": {
+    "market": {
+      "n": 277,
+      "decided": 277,
+      "refunds": 0,
+      "hits": 159,
+      "accuracy": 0.5740072202166066,
+      "mean_odds": 1.5219494584837545,
+      "roi": -0.1368231046931408,
+      "ll": 0.67106226807085,
+      "brier": 0.2392714847467246,
+      "mdd": 38.980000000000004
+    },
+    "m0_projected": {
+      "n": 277,
+      "decided": 277,
+      "refunds": 0,
+      "hits": 151,
+      "accuracy": 0.5451263537906137,
+      "mean_odds": 1.7383032490974728,
+      "roi": -0.08310469314079422,
+      "ll": 0.7059692519598798,
+      "brier": 0.25598160327417446,
+      "mdd": 29.97
+    },
+    "candidate": {
+      "n": 277,
+      "decided": 277,
+      "refunds": 0,
+      "hits": 163,
+      "accuracy": 0.5884476534296029,
+      "mean_odds": 1.530361010830325,
+      "roi": -0.10714801444043322,
+      "ll": 0.669522302663348,
+      "brier": 0.23847255018483332,
+      "mdd": 30.75999999999999
+    }
+  },
+  "test": {
+    "market": {
+      "n": 443,
+      "decided": 433,
+      "refunds": 10,
+      "hits": 252,
+      "accuracy": 0.581986143187067,
+      "mean_odds": 1.541218961625282,
+      "roi": -0.10580135440180588,
+      "ll": 0.6769705120796758,
+      "brier": 0.2419644383202777,
+      "mdd": 51.13999999999999
+    },
+    "m0_projected": {
+      "n": 443,
+      "decided": 433,
+      "refunds": 10,
+      "hits": 245,
+      "accuracy": 0.5658198614318707,
+      "mean_odds": 1.5998871331828441,
+      "roi": -0.10586907449209931,
+      "ll": 0.6861796758829382,
+      "brier": 0.24638909410523513,
+      "mdd": 56.10999999999999
+    },
+    "candidate": {
+      "n": 443,
+      "decided": 433,
+      "refunds": 10,
+      "hits": 248,
+      "accuracy": 0.5727482678983834,
+      "mean_odds": 1.5459142212189616,
+      "roi": -0.11950338600451467,
+      "ll": 0.6790726032663891,
+      "brier": 0.24296371056567456,
+      "mdd": 57.239999999999995
+    }
+  },
+  "changed_vs_market": 26,
+  "changed_vs_m0_projected": 103,
+  "paired_ci": {
+    "market": {
+      "accuracy": [
+        -0.02947845804988658,
+        0.009708737864077666
+      ],
+      "roi": [
+        -0.04835164835164836,
+        0.019088785046728965
+      ],
+      "ll": [
+        -0.0013604089695418153,
+        0.005537162873385348
+      ],
+      "brier": [
+        -0.0007014388299317331,
+        0.0026590765071953515
+      ]
+    },
+    "m0_projected": {
+      "accuracy": [
+        -0.04137931034482767,
+        0.05476190476190479
+      ],
+      "roi": [
+        -0.09645739910313901,
+        0.0680373831775701
+      ],
+      "ll": [
+        -0.02256519640142507,
+        0.007846908551167875
+      ],
+      "brier": [
+        -0.010704193253099403,
+        0.003871341505123138
+      ]
+    }
+  },
+  "by_month": {
+    "2026-04": {
+      "market": {
+        "n": 70,
+        "decided": 69,
+        "refunds": 1,
+        "hits": 37,
+        "accuracy": 0.5362318840579711,
+        "mean_odds": 1.5471428571428572,
+        "roi": -0.1682857142857143,
+        "ll": 0.6974356098606213,
+        "brier": 0.2520027912116501,
+        "mdd": 14.950000000000001
+      },
+      "m0_projected": {
+        "n": 70,
+        "decided": 69,
+        "refunds": 1,
+        "hits": 37,
+        "accuracy": 0.5362318840579711,
+        "mean_odds": 1.6281428571428571,
+        "roi": -0.12728571428571428,
+        "ll": 0.7042236736102792,
+        "brier": 0.2550369918574709,
+        "mdd": 18.12
+      },
+      "candidate": {
+        "n": 70,
+        "decided": 69,
+        "refunds": 1,
+        "hits": 37,
+        "accuracy": 0.5362318840579711,
+        "mean_odds": 1.5491428571428572,
+        "roi": -0.16785714285714284,
+        "ll": 0.7014532310527845,
+        "brier": 0.25388988089527126,
+        "mdd": 14.95
+      }
+    },
+    "2026-05": {
+      "market": {
+        "n": 128,
+        "decided": 126,
+        "refunds": 2,
+        "hits": 72,
+        "accuracy": 0.5714285714285714,
+        "mean_odds": 1.539453125,
+        "roi": -0.13078125000000002,
+        "ll": 0.6678372936183997,
+        "brier": 0.23757349059211455,
+        "mdd": 22.37
+      },
+      "m0_projected": {
+        "n": 128,
+        "decided": 126,
+        "refunds": 2,
+        "hits": 77,
+        "accuracy": 0.6111111111111112,
+        "mean_odds": 1.576015625,
+        "roi": -0.0471875,
+        "ll": 0.6681306657946772,
+        "brier": 0.23766667363070093,
+        "mdd": 15.659999999999998
+      },
+      "candidate": {
+        "n": 128,
+        "decided": 126,
+        "refunds": 2,
+        "hits": 73,
+        "accuracy": 0.5793650793650794,
+        "mean_odds": 1.542734375,
+        "roi": -0.115546875,
+        "ll": 0.673589990488736,
+        "brier": 0.24035726024437049,
+        "mdd": 21.520000000000003
+      }
+    },
+    "2026-06": {
+      "market": {
+        "n": 122,
+        "decided": 120,
+        "refunds": 2,
+        "hits": 76,
+        "accuracy": 0.6333333333333333,
+        "mean_odds": 1.5381147540983606,
+        "roi": -0.03565573770491803,
+        "ll": 0.6515378886941116,
+        "brier": 0.22966232671340522,
+        "mdd": 9.25
+      },
+      "m0_projected": {
+        "n": 122,
+        "decided": 120,
+        "refunds": 2,
+        "hits": 74,
+        "accuracy": 0.6166666666666667,
+        "mean_odds": 1.6252459016393443,
+        "roi": -0.021475409836065575,
+        "ll": 0.6703568801595916,
+        "brier": 0.23853003470824183,
+        "mdd": 13.07
+      },
+      "candidate": {
+        "n": 122,
+        "decided": 120,
+        "refunds": 2,
+        "hits": 74,
+        "accuracy": 0.6166666666666667,
+        "mean_odds": 1.5428688524590164,
+        "roi": -0.06221311475409836,
+        "ll": 0.6489654605933743,
+        "brier": 0.2284989621605562,
+        "mdd": 13.560000000000002
+      }
+    },
+    "2026-07": {
+      "market": {
+        "n": 90,
+        "decided": 87,
+        "refunds": 3,
+        "hits": 50,
+        "accuracy": 0.5747126436781609,
+        "mean_odds": 1.5364444444444445,
+        "roi": -0.10977777777777778,
+        "ll": 0.6913961642816411,
+        "brier": 0.24891006075108235,
+        "mdd": 13.93
+      },
+      "m0_projected": {
+        "n": 90,
+        "decided": 87,
+        "refunds": 3,
+        "hits": 44,
+        "accuracy": 0.5057471264367817,
+        "mean_odds": 1.5777777777777777,
+        "roi": -0.20777777777777778,
+        "ll": 0.7059738696454259,
+        "brier": 0.25632779158413505,
+        "mdd": 18.7
+      },
+      "candidate": {
+        "n": 90,
+        "decided": 87,
+        "refunds": 3,
+        "hits": 48,
+        "accuracy": 0.5517241379310345,
+        "mean_odds": 1.5450000000000002,
+        "roi": -0.14444444444444443,
+        "ll": 0.6896614178542151,
+        "brier": 0.24800472243184654,
+        "mdd": 18.29
+      }
+    },
+    "2026-08": {
+      "market": {
+        "n": 20,
+        "decided": 19,
+        "refunds": 1,
+        "hits": 11,
+        "accuracy": 0.5789473684210527,
+        "mean_odds": 1.567,
+        "roi": -0.08100000000000002,
+        "ll": 0.7111958516988884,
+        "brier": 0.2580978106296885,
+        "mdd": 4.16
+      },
+      "m0_projected": {
+        "n": 20,
+        "decided": 19,
+        "refunds": 1,
+        "hits": 9,
+        "accuracy": 0.47368421052631576,
+        "mean_odds": 1.598,
+        "roi": -0.2435,
+        "ll": 0.7246742335201773,
+        "brier": 0.26443148620702384,
+        "mdd": 6.91
+      },
+      "candidate": {
+        "n": 20,
+        "decided": 19,
+        "refunds": 1,
+        "hits": 10,
+        "accuracy": 0.5263157894736842,
+        "mean_odds": 1.5755000000000001,
+        "roi": -0.16550000000000004,
+        "ll": 0.7256945031515443,
+        "brier": 0.2650598436402182,
+        "mdd": 5.85
+      }
+    },
+    "2026-09": {
+      "market": {
+        "n": 12,
+        "decided": 11,
+        "refunds": 1,
+        "hits": 5,
+        "accuracy": 0.45454545454545453,
+        "mean_odds": 1.5358333333333334,
+        "roi": -0.2675,
+        "ll": 0.7585279447082808,
+        "brier": 0.2812399334450952,
+        "mdd": 4.449999999999999
+      },
+      "m0_projected": {
+        "n": 12,
+        "decided": 11,
+        "refunds": 1,
+        "hits": 4,
+        "accuracy": 0.36363636363636365,
+        "mean_odds": 1.5833333333333333,
+        "roi": -0.39666666666666667,
+        "ll": 0.7246198797461797,
+        "brier": 0.26566650729693614,
+        "mdd": 6.0
+      },
+      "candidate": {
+        "n": 12,
+        "decided": 11,
+        "refunds": 1,
+        "hits": 5,
+        "accuracy": 0.45454545454545453,
+        "mean_odds": 1.5358333333333334,
+        "roi": -0.2675,
+        "ll": 0.7675175428866723,
+        "brier": 0.2849767367699886,
+        "mdd": 4.449999999999999
+      }
+    },
+    "2026-10": {
+      "market": {
+        "n": 1,
+        "decided": 1,
+        "refunds": 0,
+        "hits": 1,
+        "accuracy": 1.0,
+        "mean_odds": 1.71,
+        "roi": 0.71,
+        "ll": 0.6651341443322715,
+        "brier": 0.23599722365702477,
+        "mdd": 0
+      },
+      "m0_projected": {
+        "n": 1,
+        "decided": 1,
+        "refunds": 0,
+        "hits": 0,
+        "accuracy": 0.0,
+        "mean_odds": 1.81,
+        "roi": -1.0,
+        "ll": 0.7377208956792187,
+        "brier": 0.2722725809244834,
+        "mdd": 1.0
+      },
+      "candidate": {
+        "n": 1,
+        "decided": 1,
+        "refunds": 0,
+        "hits": 1,
+        "accuracy": 1.0,
+        "mean_odds": 1.71,
+        "roi": 0.71,
+        "ll": 0.6585383139692302,
+        "brier": 0.23270265790128342,
+        "mdd": 0
+      }
+    }
+  },
+  "limits": [
+    "retrospective_source_unverified: historical receipt/price time unavailable",
+    "prior game observations use first archive witness strictly before target and dates lagged four days; completion times unverified",
+    "schedule coverage unverified, 5 observed games is not completeness proof",
+    "2025 price cohort excludes draws due to outcome-dependent matching",
+    "M0 projected roster generated from previous games, historical receipt unverified and not production model",
+    "prior observed 2026 data: not blind",
+    "single market only, no prospectively observed player availability"
+  ]
+}
