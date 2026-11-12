@@ -1,0 +1,50 @@
+{
+  "alpha_grid": [
+    1,
+    10,
+    100
+  ],
+  "excluded": {
+    "non_regular_playoff": 2
+  },
+  "folds": {
+    "test": 128,
+    "train": 273,
+    "validation": 120
+  },
+  "selected": {
+    "lineup": 100,
+    "team_only": 100
+  },
+  "test_results_scored": false,
+  "validation_score_logloss": {
+    "lineup": [
+      {
+        "alpha": 1,
+        "score_logloss": 2.9941455732868767
+      },
+      {
+        "alpha": 10,
+        "score_logloss": 2.9206116363154644
+      },
+      {
+        "alpha": 100,
+        "score_logloss": 2.872721929652522
+      }
+    ],
+    "team_only": [
+      {
+        "alpha": 1,
+        "score_logloss": 2.9505751159715947
+      },
+      {
+        "alpha": 10,
+        "score_logloss": 2.903851562765904
+      },
+      {
+        "alpha": 100,
+        "score_logloss": 2.870229501037606
+      }
+    ]
+  }
+}
