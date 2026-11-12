@@ -1,0 +1,59 @@
+{
+  "schema_version": "kbo-official-lineup-overlay-v1",
+  "scenario": "retrospective_official_confirmed_lineup_assumed_available",
+  "status": "retrospective_assumption_only_no_performance",
+  "protocol_commit": "82018ecccb23fdcfebc00c362d90848b4a884063",
+  "base_commit": "b0833a69814b3fadf1eb91b8205abc35ffee4d55",
+  "source_official_commit": "fdcad1305bc2ce0652c011ee858056d9b2686cda",
+  "source_official_path": "C:\\Users\\user\\Documents\\Codex\\klu\\.research-state\\kbo-lineups-v4\\official-lineups.jsonl",
+  "source_official_sha256": "92015aa1af2e23813b0b4d8c3c5bd182d1c0ee7b2226920af3445e86569ae67c",
+  "source_manifest_sha256": "e3d0c225ddb754d894bca28b57e5ab07918244aed0883cb1490b2d05e7484c9e",
+  "source_audit_sha256": "442a457025c33b4e8e010a7f3a01c37554d1a2c912b0b87c52e60f5c3179fbaa",
+  "exact_raw_git_blob_checks": {
+    "experiments/kbo-player-data-20261103/rows.jsonl": {
+      "raw_sha256": "66433dd4706e602befd75f8084ee43eb2e84a54b2657438c37733e3d80531c8c",
+      "git_blob_sha256": "66433dd4706e602befd75f8084ee43eb2e84a54b2657438c37733e3d80531c8c",
+      "exact_bytes_equal": true
+    },
+    "experiments/kbo-player-data-20261103/labels.jsonl": {
+      "raw_sha256": "ef32ffe806b41521f5bd53c12d0eea1362bd44293181fc3ebb7c24c6fcb249ca",
+      "git_blob_sha256": "ef32ffe806b41521f5bd53c12d0eea1362bd44293181fc3ebb7c24c6fcb249ca",
+      "exact_bytes_equal": true
+    },
+    "experiments/kbo-player-data-20261103/prior-projected-features.jsonl.gz": {
+      "raw_sha256": "eca78a16ca59ccc1de6eca47713acded513541c59cddbbb4d8dd193e7c5b27ae",
+      "git_blob_sha256": "eca78a16ca59ccc1de6eca47713acded513541c59cddbbb4d8dd193e7c5b27ae",
+      "exact_bytes_equal": true
+    },
+    "data/raw/detail/kbo_batters_indiv_2023_2026.json": {
+      "raw_sha256": "24bdea9094046bdab4967d314c043d548a252599b652009d5ffdabd341cc84e8",
+      "git_blob_sha256": "24bdea9094046bdab4967d314c043d548a252599b652009d5ffdabd341cc84e8",
+      "exact_bytes_equal": true
+    }
+  },
+  "games_sha256": "c1561a252f226edcfaceffefedc0295394b2905a7368078b96cf71ba76389fce",
+  "cohort_2026_denominator": 726,
+  "official_2026_collected": 193,
+  "official_2026_unprocessed": 533,
+  "overlay_rows": 193,
+  "official_rejected": 0,
+  "archived_market_present": 162,
+  "archived_market_missing": 31,
+  "lineups_with_missing_history": 8,
+  "non_lineup_features_sha256_before": "f0066020e920923808927589459a64d128e8600572337cb38cf4a1a232610da3",
+  "non_lineup_features_sha256_after": "f0066020e920923808927589459a64d128e8600572337cb38cf4a1a232610da3",
+  "players_total": 3474,
+  "player_history_present": 3464,
+  "player_history_missing": 10,
+  "point_in_time_verified": 0,
+  "output_sha256": "ddc66e073ada98ef9cbf469fac64aed53e45ac3d4e44a1e4330f2c661eced627",
+  "source_bytes_policy": "Exact SHA256 raw checkout bytes must equal pinned Git blob bytes; no CRLF/LF normalization; official responses exact raw bytes, no git witness claimed.",
+  "limitations": [
+    "Current official lineup is assumed available retrospectively; historical publication, receipt and change history unproven.",
+    "Official player ID derives from same-game postgame order plus current official profile names, not independently conclusive identity.",
+    "Remaining 533 2026 games not processed, not proven missing.",
+    "Only lineup histories changed; prior baseline projection metadata kept as provenance, never official selector. Existing adapter.scalar supports the history objects, but adapter.build_features rejects the new scenario until a separate explicit adapter is implemented.",
+    "Prior date completion is an assumption and actual game completion/receipt times remain null.",
+    "Non-lineup input unchanged; no model fitting, evaluation, ROI or operating action."
+  ]
+}

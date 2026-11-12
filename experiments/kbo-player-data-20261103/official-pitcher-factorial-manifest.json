@@ -1,0 +1,81 @@
+{
+  "schema_version": "kbo-official-pitcher-factorial-v1",
+  "status": "retrospective_assumption_only_no_training_no_scores",
+  "protocol_commit": "c897a13e06209da14561ce1eb2c3c856eff6e757",
+  "factorial_contract_commits": [
+    "38d25ef3",
+    "e03addcb"
+  ],
+  "official_source_sha256": "92015aa1af2e23813b0b4d8c3c5bd182d1c0ee7b2226920af3445e86569ae67c",
+  "h1_sha256": "ddc66e073ada98ef9cbf469fac64aed53e45ac3d4e44a1e4330f2c661eced627",
+  "exact_input_git_blob_checks": {
+    "experiments/kbo-player-data-20261103/rows.jsonl": {
+      "raw_sha256": "66433dd4706e602befd75f8084ee43eb2e84a54b2657438c37733e3d80531c8c",
+      "git_blob_sha256": "66433dd4706e602befd75f8084ee43eb2e84a54b2657438c37733e3d80531c8c",
+      "exact_bytes_equal": true
+    },
+    "experiments/kbo-player-data-20261103/labels.jsonl": {
+      "raw_sha256": "ef32ffe806b41521f5bd53c12d0eea1362bd44293181fc3ebb7c24c6fcb249ca",
+      "git_blob_sha256": "ef32ffe806b41521f5bd53c12d0eea1362bd44293181fc3ebb7c24c6fcb249ca",
+      "exact_bytes_equal": true
+    },
+    "experiments/kbo-player-data-20261103/prior-projected-features.jsonl.gz": {
+      "raw_sha256": "eca78a16ca59ccc1de6eca47713acded513541c59cddbbb4d8dd193e7c5b27ae",
+      "git_blob_sha256": "eca78a16ca59ccc1de6eca47713acded513541c59cddbbb4d8dd193e7c5b27ae",
+      "exact_bytes_equal": true
+    },
+    "data/raw/detail/kbo_batters_indiv_2023_2026.json": {
+      "raw_sha256": "24bdea9094046bdab4967d314c043d548a252599b652009d5ffdabd341cc84e8",
+      "git_blob_sha256": "24bdea9094046bdab4967d314c043d548a252599b652009d5ffdabd341cc84e8",
+      "exact_bytes_equal": true
+    },
+    "experiments/kbo-player-data-20261103/official-lineup-overlay-2026.jsonl.gz": {
+      "raw_sha256": "ddc66e073ada98ef9cbf469fac64aed53e45ac3d4e44a1e4330f2c661eced627",
+      "git_blob_sha256": "ddc66e073ada98ef9cbf469fac64aed53e45ac3d4e44a1e4330f2c661eced627",
+      "exact_bytes_equal": true
+    },
+    "data/raw/detail/kbo_baseball_2023_2026.json": {
+      "raw_sha256": "c87faa6a43140dad067860086b00140fe8f05883a9e42121fd2e8f7233775a66",
+      "git_blob_sha256": "c87faa6a43140dad067860086b00140fe8f05883a9e42121fd2e8f7233775a66",
+      "exact_bytes_equal": true
+    },
+    "data/model_candidates/kbo/archived-games.jsonl.gz": {
+      "raw_sha256": "c1561a252f226edcfaceffefedc0295394b2905a7368078b96cf71ba76389fce",
+      "git_blob_sha256": "c1561a252f226edcfaceffefedc0295394b2905a7368078b96cf71ba76389fce",
+      "exact_bytes_equal": true
+    }
+  },
+  "official_2026_eligible_for_check": 193,
+  "common_cohort": 193,
+  "excluded_games": 0,
+  "exclusion_reasons": {},
+  "prior_starter_history_missing": {
+    "either_team_missing_games": 17,
+    "both_teams_missing_games": 2,
+    "home_missing": 12,
+    "away_missing": 7
+  },
+  "postgame_first_pitcher_crosscheck_sides": {
+    "match": 386,
+    "mismatch": 0,
+    "postgame_missing": 0
+  },
+  "postgame_crosscheck_affects_selection": false,
+  "point_in_time_verified": 0,
+  "input_unchanged_nonstarter_hash": "60f71ab77c59264f5e007507b314753a6664dbb3f8d404db571117df89cc15d2",
+  "starter_only_nonstarter_hash": "60f71ab77c59264f5e007507b314753a6664dbb3f8d404db571117df89cc15d2",
+  "h1_unchanged_nonstarter_hash": "e70611045437829d54339bbb1682c0f1e123452cf7a0c24d315051950c35128f",
+  "both_nonstarter_hash": "e70611045437829d54339bbb1682c0f1e123452cf7a0c24d315051950c35128f",
+  "outputs_sha256": {
+    "official_starter_only": "beda5b82e7cd9045e01fdb09b5b27061ce2f82cd58b568b057bd119f37609fce",
+    "official_batting_and_starter": "4306cc9b429446de30677a4916577ac0680480d36aa2cdd509eb487e20a0cb7a"
+  },
+  "limitations": [
+    "Only 3 official examples independently checked by name, ID matching archived postgame record is not independent official certification.",
+    "Official schedule fields are retrospective assumptions of actual starter; publication/receipt timing and changes unproven.",
+    "Postgame first pitcher crosscheck is diagnostic only and does not select/filter the cohort.",
+    "Historical prior dates assumed completed; source BF units unknown; no target-day and future stats.",
+    "No model fitting, predictions, returns, production or wallet changes.",
+    "H1 primary 193 game cohort remains unchanged; 2x2 is a secondary comparison on the common set."
+  ]
+}
