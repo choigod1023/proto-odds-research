@@ -1,0 +1,360 @@
+{
+  "source_sha256": "5667e855f7696798fea7411bee9b1f286f2204517bec775b8e175781371e171e",
+  "source_captured_at": "2026-11-08T06:50:33.554575+00:00",
+  "scope": "exact snapshot IDs already in public API; all original revisions for those IDs",
+  "rows": [
+    {
+      "snapshot_id": "dec_a05eb3795031187e",
+      "league": "MLB",
+      "date_kst": "2026-10-28",
+      "kickoff_utc": "2026-10-28T00:00:00.000000Z",
+      "captured_at": "2026-10-27T23:12:22.509909Z",
+      "minutes_before_kickoff": 47.62,
+      "market_observed_at": "2026-10-27T23:09:48.000000Z",
+      "policy": "market90-tipster10-v2",
+      "tipster_status": "market_fallback",
+      "tipster_source": null,
+      "authors": null,
+      "evidence_count": 0,
+      "prediction": {
+        "market": "승패",
+        "selection": "원정",
+        "odds": 1.64,
+        "probability": 0.5346,
+        "action": "market_reference"
+      },
+      "settlement": "miss",
+      "official_result": "홈승",
+      "settlement_revisions": 1,
+      "market_recommendations": [],
+      "featured": null,
+      "player_status": {
+        "status": "captured",
+        "observed_at": "2026-10-27T23:11:38.342727+00:00",
+        "training_eligible": false,
+        "reason": "requires_feature_provenance_review"
+      }
+    },
+    {
+      "snapshot_id": "dec_d390f8b1feeeacd8",
+      "league": "NPB",
+      "date_kst": "2026-10-28",
+      "kickoff_utc": "2026-10-28T09:00:00.000000Z",
+      "captured_at": "2026-10-28T07:13:43.627033Z",
+      "minutes_before_kickoff": 106.27,
+      "market_observed_at": "2026-10-28T07:10:59.000000Z",
+      "policy": "market90-tipster10-v2",
+      "tipster_status": "market_fallback",
+      "tipster_source": null,
+      "authors": null,
+      "evidence_count": 0,
+      "prediction": {
+        "market": "승패",
+        "selection": "홈",
+        "odds": 1.31,
+        "probability": 0.6886,
+        "action": "market_reference"
+      },
+      "settlement": "hit",
+      "official_result": "홈승",
+      "settlement_revisions": 1,
+      "market_recommendations": [],
+      "featured": null,
+      "player_status": {
+        "status": "unavailable",
+        "observed_at": "2026-10-28T07:12:55.543062+00:00",
+        "training_eligible": false,
+        "reason": "missing_or_future_provenance"
+      }
+    },
+    {
+      "snapshot_id": "dec_3af20241522c0154",
+      "league": "KBO",
+      "date_kst": "2026-11-01",
+      "kickoff_utc": "2026-11-01T05:00:00.000000Z",
+      "captured_at": "2026-10-31T05:13:11.515169Z",
+      "minutes_before_kickoff": 1426.81,
+      "market_observed_at": "2026-10-31T05:04:55.000000Z",
+      "policy": "tipster-vote-v1",
+      "tipster_status": "withheld",
+      "tipster_source": "market_fallback",
+      "authors": 0,
+      "evidence_count": 0,
+      "prediction": {
+        "market": "승패",
+        "selection": "홈",
+        "odds": 1.73,
+        "probability": 0.5033,
+        "action": "market_reference"
+      },
+      "settlement": "hit",
+      "official_result": "홈승",
+      "settlement_revisions": 1,
+      "market_recommendations": [],
+      "featured": null,
+      "player_status": {
+        "status": "captured",
+        "observed_at": "2026-10-31T05:11:42.720739+00:00",
+        "training_eligible": false,
+        "reason": "requires_feature_provenance_review"
+      }
+    },
+    {
+      "snapshot_id": "dec_b2902c19266c8357",
+      "league": "KBO",
+      "date_kst": "2026-11-03",
+      "kickoff_utc": "2026-11-03T09:30:00.000000Z",
+      "captured_at": "2026-11-03T08:52:44.032484Z",
+      "minutes_before_kickoff": 37.27,
+      "market_observed_at": "2026-11-03T08:50:07.000000Z",
+      "policy": "tipster-vote-v1",
+      "tipster_status": "applied",
+      "tipster_source": null,
+      "authors": 1,
+      "evidence_count": 1,
+      "prediction": {
+        "market": "승패",
+        "selection": "홈",
+        "odds": 1.39,
+        "probability": 0.6451,
+        "action": "market_reference"
+      },
+      "settlement": "hit",
+      "official_result": "홈승",
+      "settlement_revisions": 1,
+      "market_recommendations": [],
+      "featured": null,
+      "player_status": {
+        "status": "captured",
+        "observed_at": "2026-11-03T08:51:09.632402+00:00",
+        "training_eligible": false,
+        "reason": "requires_feature_provenance_review"
+      }
+    },
+    {
+      "snapshot_id": "dec_0b4e0fc9ac476740",
+      "league": "KBO",
+      "date_kst": "2026-11-04",
+      "kickoff_utc": "2026-11-04T09:30:00.000000Z",
+      "captured_at": "2026-11-04T08:49:36.749437Z",
+      "minutes_before_kickoff": 40.39,
+      "market_observed_at": "2026-11-04T08:32:47.000000Z",
+      "policy": "tipster-vote-v1",
+      "tipster_status": "applied",
+      "tipster_source": null,
+      "authors": 1,
+      "evidence_count": 1,
+      "prediction": {
+        "market": "승패",
+        "selection": "홈",
+        "odds": 1.59,
+        "probability": 0.554,
+        "action": "market_reference"
+      },
+      "settlement": "miss",
+      "official_result": "홈패",
+      "settlement_revisions": 1,
+      "market_recommendations": [],
+      "featured": null,
+      "player_status": {
+        "status": "captured",
+        "observed_at": "2026-11-04T08:48:20.219511+00:00",
+        "training_eligible": false,
+        "reason": "requires_feature_provenance_review"
+      }
+    },
+    {
+      "snapshot_id": "dec_27b7484ac4d547c9",
+      "league": "KBO",
+      "date_kst": "2026-11-06",
+      "kickoff_utc": "2026-11-06T09:30:00.000000Z",
+      "captured_at": "2026-11-06T08:54:32.451392Z",
+      "minutes_before_kickoff": 35.46,
+      "market_observed_at": "2026-11-06T08:49:55.000000Z",
+      "policy": "tipster-vote-v1",
+      "tipster_status": "applied",
+      "tipster_source": null,
+      "authors": 2,
+      "evidence_count": 2,
+      "prediction": {
+        "market": "승패",
+        "selection": "원정",
+        "odds": 1.8,
+        "probability": 0.4802,
+        "action": "market_reference"
+      },
+      "settlement": "miss",
+      "official_result": "홈승",
+      "settlement_revisions": 1,
+      "market_recommendations": [
+        {
+          "market": "핸디캡",
+          "line": -2.5,
+          "odds": 1.24,
+          "selection": "핸디원정",
+          "selection_source": "market_fallback_no_exact_line_votes",
+          "model": "market-baseline-v1",
+          "settlement_rule": "handicap_half",
+          "result": "miss",
+          "net_units": "-1"
+        },
+        {
+          "market": "언더오버",
+          "line": 9.5,
+          "odds": 1.61,
+          "selection": "언더",
+          "selection_source": "market_fallback_no_exact_line_votes",
+          "model": "market-baseline-v1",
+          "settlement_rule": "total_half",
+          "result": "hit",
+          "net_units": "0.61"
+        }
+      ],
+      "featured": {
+        "market": "언더오버",
+        "selection": "언더",
+        "line": 9.5,
+        "odds": 1.61,
+        "settlement_rule": "total_half",
+        "result": "hit"
+      },
+      "player_status": {
+        "status": "captured",
+        "observed_at": "2026-11-06T08:52:11.007858+00:00",
+        "training_eligible": false,
+        "reason": "requires_feature_provenance_review"
+      }
+    },
+    {
+      "snapshot_id": "dec_6e0dd8fd798ce693",
+      "league": "KBO",
+      "date_kst": "2026-11-07",
+      "kickoff_utc": "2026-11-07T05:00:00.000000Z",
+      "captured_at": "2026-11-07T04:22:22.526269Z",
+      "minutes_before_kickoff": 37.62,
+      "market_observed_at": "2026-11-07T04:18:16.000000Z",
+      "policy": "tipster-vote-v1",
+      "tipster_status": "withheld",
+      "tipster_source": "market_fallback",
+      "authors": 0,
+      "evidence_count": 0,
+      "prediction": {
+        "market": "승패",
+        "selection": "원정",
+        "odds": 1.51,
+        "probability": 0.5872,
+        "action": "market_reference"
+      },
+      "settlement": "miss",
+      "official_result": "홈승",
+      "settlement_revisions": 1,
+      "market_recommendations": [
+        {
+          "market": "핸디캡",
+          "line": 2.5,
+          "odds": 1.37,
+          "selection": "핸디홈",
+          "selection_source": "market_fallback_no_exact_line_votes",
+          "model": "market-baseline-v1",
+          "settlement_rule": "handicap_half",
+          "result": "hit",
+          "net_units": "0.37"
+        },
+        {
+          "market": "언더오버",
+          "line": 9.5,
+          "odds": 1.72,
+          "selection": "오버",
+          "selection_source": "market_fallback_no_exact_line_votes",
+          "model": "market-baseline-v1",
+          "settlement_rule": "total_half",
+          "result": "hit",
+          "net_units": "0.72"
+        }
+      ],
+      "featured": {
+        "market": "승패",
+        "selection": "원정",
+        "line": null,
+        "odds": 1.51,
+        "settlement_rule": "official_winner",
+        "result": "miss"
+      },
+      "player_status": {
+        "status": "captured",
+        "observed_at": "2026-11-07T04:20:34.133345+00:00",
+        "training_eligible": false,
+        "reason": "requires_feature_provenance_review"
+      }
+    },
+    {
+      "snapshot_id": "dec_a82608fcc3fe7250",
+      "league": "KBO",
+      "date_kst": "2026-11-08",
+      "kickoff_utc": "2026-11-08T05:00:00.000000Z",
+      "captured_at": "2026-11-08T04:27:25.826855Z",
+      "minutes_before_kickoff": 32.57,
+      "market_observed_at": "2026-11-08T04:23:54.000000Z",
+      "policy": "tipster-vote-v1",
+      "tipster_status": "applied",
+      "tipster_source": null,
+      "authors": 1,
+      "evidence_count": 1,
+      "prediction": {
+        "market": "승패",
+        "selection": "원정",
+        "odds": 1.68,
+        "probability": 0.5198,
+        "action": "market_reference"
+      },
+      "settlement": null,
+      "official_result": null,
+      "settlement_revisions": 0,
+      "market_recommendations": [
+        {
+          "market": "핸디캡",
+          "line": 2.5,
+          "odds": 1.26,
+          "selection": "핸디홈",
+          "selection_source": "market_fallback_no_exact_line_votes",
+          "model": "market-baseline-v1",
+          "settlement_rule": "handicap_half",
+          "result": null,
+          "net_units": null
+        },
+        {
+          "market": "언더오버",
+          "line": 8.5,
+          "odds": 1.6,
+          "selection": "오버",
+          "selection_source": "market_fallback_no_exact_line_votes",
+          "model": "market-baseline-v1",
+          "settlement_rule": "total_half",
+          "result": null,
+          "net_units": null
+        }
+      ],
+      "featured": {
+        "market": "언더오버",
+        "selection": "오버",
+        "line": 8.5,
+        "odds": 1.6,
+        "settlement_rule": "total_half",
+        "result": null
+      },
+      "player_status": {
+        "status": "captured",
+        "observed_at": "2026-11-08T04:25:06.786313+00:00",
+        "training_eligible": false,
+        "reason": "requires_feature_provenance_review"
+      }
+    }
+  ],
+  "limits": [
+    "API-selected snapshots only, not full ledger or full hash chain",
+    "kickoffs before 2026-10-28 absent; 14/30-day windows incomplete",
+    "captured_at is revision recording, not proof it is the final freeze",
+    "official settlement labels, not independent score reconfirmation",
+    "league/market opportunities beyond captured snapshot IDs omitted"
+  ]
+}
