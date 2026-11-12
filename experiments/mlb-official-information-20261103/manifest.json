@@ -1,0 +1,3245 @@
+{
+  "census_unique_gamePk": 2354,
+  "coverage": {
+    "both_initial_codes_nine": 102,
+    "both_lineups_nine_and_code_match": 102,
+    "both_postgame_starter_identified": 102,
+    "both_probables": 102,
+    "both_probables_match_actual": 102,
+    "both_raw": 102,
+    "event_replay_pass": 101,
+    "postgame_boxscore_raw": 102,
+    "postgame_final_battingOrder_differs_initial": 99,
+    "pregame_lineups_match_postgame_initial": 102,
+    "pregame_raw": 102,
+    "retrospective_price_and_both_raw": 66,
+    "retrospective_price_and_replay_pass": 66,
+    "selected": 102
+  },
+  "duplicate_gamePk": 29,
+  "evidence": {
+    "776498-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 183804,
+      "params": {},
+      "received_at": "2026-11-03T03:04:24.591708+00:00",
+      "requested_at": "2026-11-03T03:04:23.626691+00:00",
+      "sha256": "a3911b1f2316e0e0741c18c8f7579f5e9a04fc3568d90e99caf2d8f563df0832",
+      "status": 200,
+      "stored_gzip_sha256": "f4f8249c53ca8e245d9f64a1bd943e695571a0beb106f0c07d25f6d0ec1c5441",
+      "url": "https://statsapi.mlb.com/api/v1/game/776498/boxscore"
+    },
+    "776498-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 230292,
+      "params": {
+        "timecode": "20250901_163000"
+      },
+      "received_at": "2026-11-03T03:04:19.445567+00:00",
+      "requested_at": "2026-11-03T03:04:18.333300+00:00",
+      "sha256": "552e62c279aab62e0e9de80c0f61b97f6303970a45067bcfd77163d1a72e7e0c",
+      "status": 200,
+      "stored_gzip_sha256": "e6041689f0ded535f578a47fb341b734c0c866723dd08e5f028958d2d5027953",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/776498/feed/live?timecode=20250901_163000"
+    },
+    "776498-probe-180": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 230292,
+      "params": {
+        "timecode": "20250901_140500"
+      },
+      "received_at": "2026-11-03T03:04:17.232761+00:00",
+      "requested_at": "2026-11-03T03:04:12.345950+00:00",
+      "sha256": "552e62c279aab62e0e9de80c0f61b97f6303970a45067bcfd77163d1a72e7e0c",
+      "status": 200,
+      "stored_gzip_sha256": "e6041689f0ded535f578a47fb341b734c0c866723dd08e5f028958d2d5027953",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/776498/feed/live?timecode=20250901_140500"
+    },
+    "776498-probe-plus120": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 677016,
+      "params": {
+        "timecode": "20250901_190500"
+      },
+      "received_at": "2026-11-03T03:04:22.526232+00:00",
+      "requested_at": "2026-11-03T03:04:20.545863+00:00",
+      "sha256": "ea7886ccb8f5e2f0b3179e172ba60b529e5e1589c40511d9569e94f6b9c672bb",
+      "status": 200,
+      "stored_gzip_sha256": "ad1a9c46969c182d069db5334833cb1d17c86d1c51f198f93f0311c1eab987e9",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/776498/feed/live?timecode=20250901_190500"
+    },
+    "777691-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 171023,
+      "params": {},
+      "received_at": "2026-11-03T03:04:11.245774+00:00",
+      "requested_at": "2026-11-03T03:04:10.248627+00:00",
+      "sha256": "d3826cbbfd0dcbb85203909d0eb312efd847d8ebd89ebce0f18d1e489a628ca5",
+      "status": 200,
+      "stored_gzip_sha256": "23e4c4aedd405a14741771b0365ee0ef0144df3ece0f5e778f4885b34d6e5a47",
+      "url": "https://statsapi.mlb.com/api/v1/game/777691/boxscore"
+    },
+    "777691-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 217140,
+      "params": {
+        "timecode": "20250601_010500"
+      },
+      "received_at": "2026-11-03T03:04:06.311445+00:00",
+      "requested_at": "2026-11-03T03:04:05.203138+00:00",
+      "sha256": "36aa53130f24fb7d970c1ef84ca8f7b9b58ef81d78719d9ccf0c66ecb138026d",
+      "status": 200,
+      "stored_gzip_sha256": "6c1555625f4440d95e88d3e2032e9d010b9a1d0e15aad3de56305e5544ca484c",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/777691/feed/live?timecode=20250601_010500"
+    },
+    "777691-probe-180": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 217140,
+      "params": {
+        "timecode": "20250531_224000"
+      },
+      "received_at": "2026-11-03T03:04:04.102621+00:00",
+      "requested_at": "2026-11-03T03:03:58.798153+00:00",
+      "sha256": "36aa53130f24fb7d970c1ef84ca8f7b9b58ef81d78719d9ccf0c66ecb138026d",
+      "status": 200,
+      "stored_gzip_sha256": "6c1555625f4440d95e88d3e2032e9d010b9a1d0e15aad3de56305e5544ca484c",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/777691/feed/live?timecode=20250531_224000"
+    },
+    "777691-probe-plus120": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 635321,
+      "params": {
+        "timecode": "20250601_034000"
+      },
+      "received_at": "2026-11-03T03:04:09.148197+00:00",
+      "requested_at": "2026-11-03T03:04:07.411629+00:00",
+      "sha256": "ed0d92d80f964b921291d32d877556de5623842556dc1cbe795e008f07bfc32e",
+      "status": 200,
+      "stored_gzip_sha256": "d2d0610eaa954484dfdc62e59190da5633717c17c8b9d19edc1ff43c2274eacf",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/777691/feed/live?timecode=20250601_034000"
+    },
+    "778097-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 170823,
+      "params": {},
+      "received_at": "2026-11-03T03:06:53.863706+00:00",
+      "requested_at": "2026-11-03T03:06:52.889069+00:00",
+      "sha256": "cfc648f30457a8688e090b0c7ea83983376fcc72399c5452a5c8400bb40ec84e",
+      "status": 200,
+      "stored_gzip_sha256": "25109ba363e4679424ff9ff14830fe07aa34bd535aa4166fc4ec73e63222b68a",
+      "url": "https://statsapi.mlb.com/api/v1/game/778097/boxscore"
+    },
+    "778097-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 217238,
+      "params": {
+        "timecode": "20250501_163500"
+      },
+      "received_at": "2026-11-03T03:06:51.788474+00:00",
+      "requested_at": "2026-11-03T03:06:46.012498+00:00",
+      "sha256": "765bf48d36e86248095c1d0ab3fe6f20653eebebe8d3dbae82754854546d364b",
+      "status": 200,
+      "stored_gzip_sha256": "aa80e3118ff0291332311276323674c27b27cc42b144ad3296c36a11e5f52eca",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/778097/feed/live?timecode=20250501_163500"
+    },
+    "778100-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 169171,
+      "params": {},
+      "received_at": "2026-11-03T03:06:37.869354+00:00",
+      "requested_at": "2026-11-03T03:06:36.889532+00:00",
+      "sha256": "8c85bea5fdaa0735fad6e73b5d4f29480cea2db8d30f88dbcfc490dbfd130a28",
+      "status": 200,
+      "stored_gzip_sha256": "d4f86f50bbbc71759c4153af0e00d101e6b1e80f7e49455babc8c028bbd03e2f",
+      "url": "https://statsapi.mlb.com/api/v1/game/778100/boxscore"
+    },
+    "778100-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 216345,
+      "params": {
+        "timecode": "20250501_160000"
+      },
+      "received_at": "2026-11-03T03:06:35.789344+00:00",
+      "requested_at": "2026-11-03T03:06:30.975637+00:00",
+      "sha256": "f6b0df61deba9bbbea90dce68d2d4bc32735bb2baa5be39abf13d16b8458b32c",
+      "status": 200,
+      "stored_gzip_sha256": "a808cd8d4f684b24ce8bf9022345661b3d32aaae838d0409680f8731341b5124",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/778100/feed/live?timecode=20250501_160000"
+    },
+    "778103-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 168648,
+      "params": {},
+      "received_at": "2026-11-03T03:06:59.675721+00:00",
+      "requested_at": "2026-11-03T03:06:58.672130+00:00",
+      "sha256": "f39c7b0fa8a4230e8f87de06e49859815d6fdf830f13aae301b25a9bdf1a4009",
+      "status": 200,
+      "stored_gzip_sha256": "a12dcdc5914ba918e8b09fb19ac09fa2c6ba8a4f3ba3442a12b325402191f81e",
+      "url": "https://statsapi.mlb.com/api/v1/game/778103/boxscore"
+    },
+    "778103-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 213368,
+      "params": {
+        "timecode": "20250501_163500"
+      },
+      "received_at": "2026-11-03T03:06:57.571956+00:00",
+      "requested_at": "2026-11-03T03:06:54.963793+00:00",
+      "sha256": "ad024a74846aa5fa807c3f9d409531aa6c29427f3e298e87d3f901e4170ea614",
+      "status": 200,
+      "stored_gzip_sha256": "b607e3065faeaf1dfa53ff5585ae7e81467b42c22664abbd35520917c969833f",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/778103/feed/live?timecode=20250501_163500"
+    },
+    "778106-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 169572,
+      "params": {},
+      "received_at": "2026-11-03T03:06:29.875460+00:00",
+      "requested_at": "2026-11-03T03:06:28.900828+00:00",
+      "sha256": "1b253e5fac84c7d4dcaa472acc61e703e2630b29576fb41a07388f699be2ad1d",
+      "status": 200,
+      "stored_gzip_sha256": "efe5a5206c54cbe286ddeaf0f6d12f723f2c1e42856d6e33ba353a7fc2979639",
+      "url": "https://statsapi.mlb.com/api/v1/game/778106/boxscore"
+    },
+    "778106-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 216468,
+      "params": {
+        "timecode": "20250430_233000"
+      },
+      "received_at": "2026-11-03T03:06:27.800430+00:00",
+      "requested_at": "2026-11-03T03:06:20.904910+00:00",
+      "sha256": "3f124674bd59b77f95176f4ee3e0c45cd8bded6e7a2cb73f5be03236689390aa",
+      "status": 200,
+      "stored_gzip_sha256": "d2b007d490005ae7b72bbef8e28a105a7074096faeeb6d283db86f4a9b125d71",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/778106/feed/live?timecode=20250430_233000"
+    },
+    "778107-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 166935,
+      "params": {},
+      "received_at": "2026-11-03T03:06:44.912374+00:00",
+      "requested_at": "2026-11-03T03:06:43.872472+00:00",
+      "sha256": "252e157d10956c9405a09f004a84a8d5ed4233123d5859acd67773d0e5a6db1d",
+      "status": 200,
+      "stored_gzip_sha256": "726cd00007b37eb06b691e13dc5d6749d42b621a186c96f42b6eb45a30fbb760",
+      "url": "https://statsapi.mlb.com/api/v1/game/778107/boxscore"
+    },
+    "778107-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 213324,
+      "params": {
+        "timecode": "20250501_160500"
+      },
+      "received_at": "2026-11-03T03:06:42.772251+00:00",
+      "requested_at": "2026-11-03T03:06:38.969481+00:00",
+      "sha256": "1bd301f04857d053a4a9293294642b69dde16a1d5349d69340c27168ac69894b",
+      "status": 200,
+      "stored_gzip_sha256": "a851725749c415d8552dab2ada300b2715f535ac975a49e5b9f6fea5f23e8329",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/778107/feed/live?timecode=20250501_160500"
+    },
+    "778473-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 166442,
+      "params": {},
+      "received_at": "2026-11-03T03:06:19.804495+00:00",
+      "requested_at": "2026-11-03T03:06:18.750915+00:00",
+      "sha256": "1b1a64ce84a8977cb2e246988a5418ace743488a99a4421dc6ae1223bb1272e6",
+      "status": 200,
+      "stored_gzip_sha256": "cfcb48cc5f82e3c0dbbca6d99aa8aac3a8ddb86847d0e0f3950b8e4ecc403c83",
+      "url": "https://statsapi.mlb.com/api/v1/game/778473/boxscore"
+    },
+    "778473-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 212901,
+      "params": {
+        "timecode": "20250402_164000"
+      },
+      "received_at": "2026-11-03T03:06:17.650813+00:00",
+      "requested_at": "2026-11-03T03:06:14.124724+00:00",
+      "sha256": "d5d142953da840ac5556066d4cd6ac29bc60aa15c238d1246393eca82b04b78e",
+      "status": 200,
+      "stored_gzip_sha256": "926262daf0ddd7797510bd2585b467994162cbc3ea81d92a531d9ccac9954497",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/778473/feed/live?timecode=20250402_164000"
+    },
+    "778477-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 177875,
+      "params": {},
+      "received_at": "2026-11-03T03:06:03.469610+00:00",
+      "requested_at": "2026-11-03T03:06:02.388608+00:00",
+      "sha256": "d340dc82db12604e53f8ceab243a15f91875747433ff8e672313de0505a44851",
+      "status": 200,
+      "stored_gzip_sha256": "635335a800db8642d8e47df8965fc08ac9e352a08cbf9e47ab6a46d8781cc491",
+      "url": "https://statsapi.mlb.com/api/v1/game/778477/boxscore"
+    },
+    "778477-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 216547,
+      "params": {
+        "timecode": "20250402_163500"
+      },
+      "received_at": "2026-11-03T03:06:01.288303+00:00",
+      "requested_at": "2026-11-03T03:05:59.681695+00:00",
+      "sha256": "a4e1870d0612ab2aa82d2bc45bcf40406dbfbfc42fca332e4f583db119c02dc2",
+      "status": 200,
+      "stored_gzip_sha256": "55945a8111f14cec283994a3e21d52952f7476c0b1b5679bc912c54f790a56ca",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/778477/feed/live?timecode=20250402_163500"
+    },
+    "778479-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 170227,
+      "params": {},
+      "received_at": "2026-11-03T03:06:13.024511+00:00",
+      "requested_at": "2026-11-03T03:06:12.052041+00:00",
+      "sha256": "787b364f32e108e1d13d566b9dfb7e7ae19704de47a1051eb3014b0b18153d92",
+      "status": 200,
+      "stored_gzip_sha256": "d678e5666015f408c7e5dfa35194599c73746294761fd6c5c05e6eab2ed9b77f",
+      "url": "https://statsapi.mlb.com/api/v1/game/778479/boxscore"
+    },
+    "778479-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 216308,
+      "params": {
+        "timecode": "20250402_163500"
+      },
+      "received_at": "2026-11-03T03:06:10.951529+00:00",
+      "requested_at": "2026-11-03T03:06:04.569794+00:00",
+      "sha256": "fe68603df3af36f1b2d42a6388792f3543c5645c4bad6831f3bdcb89cecb1815",
+      "status": 200,
+      "stored_gzip_sha256": "2fe725e433f524257bbb4dad388a6a6869d4fabc96a37f290a43e4bcc90d3ed2",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/778479/feed/live?timecode=20250402_163500"
+    },
+    "778480-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 169151,
+      "params": {},
+      "received_at": "2026-11-03T03:05:58.581312+00:00",
+      "requested_at": "2026-11-03T03:05:57.480906+00:00",
+      "sha256": "af5cf3885d3ddd51b10ca7ab24aa32a3cec1eb9910f73028e96fd5fdf6265223",
+      "status": 200,
+      "stored_gzip_sha256": "c8254d0e9d3f48be093cf19f8e39a43452d394efe1450790af1780ca2347e0e8",
+      "url": "https://statsapi.mlb.com/api/v1/game/778480/boxscore"
+    },
+    "778480-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 225123,
+      "params": {
+        "timecode": "20250402_160500"
+      },
+      "received_at": "2026-11-03T03:05:56.380435+00:00",
+      "requested_at": "2026-11-03T03:05:54.787574+00:00",
+      "sha256": "0ffd280274dbe544740675ade95307d0e9b953b8542c537f2c525d41e069a0db",
+      "status": 200,
+      "stored_gzip_sha256": "fde1ff6eeb805e2993965165b3046a628ac0df4443bd2868adcbe0afb69858d4",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/778480/feed/live?timecode=20250402_160500"
+    },
+    "778485-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 173436,
+      "params": {},
+      "received_at": "2026-11-03T03:05:31.041182+00:00",
+      "requested_at": "2026-11-03T03:05:30.063305+00:00",
+      "sha256": "a4560040b189e50c18831935ba16b103c7280bef03bcc03964d1845069ffd551",
+      "status": 200,
+      "stored_gzip_sha256": "b17a00bf73d7df0e00b30aaf4b610ffb2ec9e17aef7e4b7346708cc2239f8902",
+      "url": "https://statsapi.mlb.com/api/v1/game/778485/boxscore"
+    },
+    "778485-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 219381,
+      "params": {
+        "timecode": "20250402_010500"
+      },
+      "received_at": "2026-11-03T03:05:28.962791+00:00",
+      "requested_at": "2026-11-03T03:05:24.080892+00:00",
+      "sha256": "acbf641de9153de0ccd443b12b9f4bc5c44baf4c99ea4bf810fad47ebccccbab",
+      "status": 200,
+      "stored_gzip_sha256": "1029508d656608713eaa535572ed0907e7eb30372185c0784a639fa69c26e8aa",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/778485/feed/live?timecode=20250402_010500"
+    },
+    "778486-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 169366,
+      "params": {},
+      "received_at": "2026-11-03T03:05:38.239496+00:00",
+      "requested_at": "2026-11-03T03:05:37.267107+00:00",
+      "sha256": "714771570ed6b7daaa027eb129132400b63e9949c88fcd53e2ec493fe5cec5d5",
+      "status": 200,
+      "stored_gzip_sha256": "46a0cae8c7052c1ec4230b8cc5889e1aea48686b8bb04d5b2237fd53fabc58de",
+      "url": "https://statsapi.mlb.com/api/v1/game/778486/boxscore"
+    },
+    "778486-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 215693,
+      "params": {
+        "timecode": "20250402_010500"
+      },
+      "received_at": "2026-11-03T03:05:36.166890+00:00",
+      "requested_at": "2026-11-03T03:05:32.141551+00:00",
+      "sha256": "43ad36ede9a1029bddf7796da00d72a01e97c5f7d57fd77e5f0b6371c3b7b880",
+      "status": 200,
+      "stored_gzip_sha256": "2e8038de9837a954bbd6fbccc36280e07dfd5db281bcc01d2d6c106d2cfc0ced",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/778486/feed/live?timecode=20250402_010500"
+    },
+    "778487-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 167079,
+      "params": {},
+      "received_at": "2026-11-03T03:05:53.687165+00:00",
+      "requested_at": "2026-11-03T03:05:52.601819+00:00",
+      "sha256": "8e1d24c7dded3d1f811207d51e22211f92f7fafc7839ecd35ef7b7bfe6e29c6f",
+      "status": 200,
+      "stored_gzip_sha256": "f51d739fd0211152fc91dabe9b66969cfaaecf65ec5cc7750e76b89cf3b91198",
+      "url": "https://statsapi.mlb.com/api/v1/game/778487/boxscore"
+    },
+    "778487-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 212863,
+      "params": {
+        "timecode": "20250402_013500"
+      },
+      "received_at": "2026-11-03T03:05:51.501265+00:00",
+      "requested_at": "2026-11-03T03:05:47.603648+00:00",
+      "sha256": "a7075c49daccca9cd4cec5786e12a38c44ce4081fab77d3695c4ace493fb0534",
+      "status": 200,
+      "stored_gzip_sha256": "186d5d36af449e47327347f5dab21a2e2b3653b6a91425f6338ae53ac8ec2b71",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/778487/feed/live?timecode=20250402_013500"
+    },
+    "778488-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 168862,
+      "params": {},
+      "received_at": "2026-11-03T03:05:04.189843+00:00",
+      "requested_at": "2026-11-03T03:05:03.214882+00:00",
+      "sha256": "fb275fbc1e810950aa5861ace2002afe9b4c852f4c5fdbe1a742f0dc7f6b4cf2",
+      "status": 200,
+      "stored_gzip_sha256": "79fd314755764e6855bfc7ff428932b10a9b777fe19ad88b6f7cea5e364dcf14",
+      "url": "https://statsapi.mlb.com/api/v1/game/778488/boxscore"
+    },
+    "778488-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 216451,
+      "params": {
+        "timecode": "20250401_230500"
+      },
+      "received_at": "2026-11-03T03:05:02.114783+00:00",
+      "requested_at": "2026-11-03T03:05:01.099277+00:00",
+      "sha256": "6a94e73a34ca7d6fce8e5b89d4719d6c9f98efd568d62defb394d4c4cceeed6d",
+      "status": 200,
+      "stored_gzip_sha256": "0ce823171c561b65cc68717b8dc0bcf974b060c45d8f987221bdb636be756b83",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/778488/feed/live?timecode=20250401_230500"
+    },
+    "778489-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 168797,
+      "params": {},
+      "received_at": "2026-11-03T03:05:22.980618+00:00",
+      "requested_at": "2026-11-03T03:05:22.006739+00:00",
+      "sha256": "9275a6e93dc33d15fff075e14b8699cfd26cea17e37ce1a720fca8dcbffb5e3a",
+      "status": 200,
+      "stored_gzip_sha256": "5783ddf4a9ddecef6fbc37f3cb9a104bd08026106cb30a8748b5409cd3042469",
+      "url": "https://statsapi.mlb.com/api/v1/game/778489/boxscore"
+    },
+    "778489-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 215952,
+      "params": {
+        "timecode": "20250401_233500"
+      },
+      "received_at": "2026-11-03T03:05:20.906546+00:00",
+      "requested_at": "2026-11-03T03:05:16.652898+00:00",
+      "sha256": "2c31340838938b2ba47e68e0529c8c811a0d74ea8f0216545bd7f7ad18190550",
+      "status": 200,
+      "stored_gzip_sha256": "bcbfa6077739b9e056763038606e4191a8fc677d0a935bbc8b47256062d3b28b",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/778489/feed/live?timecode=20250401_233500"
+    },
+    "778490-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 177548,
+      "params": {},
+      "received_at": "2026-11-03T03:05:08.702876+00:00",
+      "requested_at": "2026-11-03T03:05:07.723643+00:00",
+      "sha256": "1b533ceef3ab4918e7ae889c5775a9d21b52f7de7d43597e5fe80626ebfb9166",
+      "status": 200,
+      "stored_gzip_sha256": "2dec847b3342c63487df6510d5fc3127089d415bfa3eee0e43f523f02e53660f",
+      "url": "https://statsapi.mlb.com/api/v1/game/778490/boxscore"
+    },
+    "778490-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 216028,
+      "params": {
+        "timecode": "20250401_230500"
+      },
+      "received_at": "2026-11-03T03:05:06.623192+00:00",
+      "requested_at": "2026-11-03T03:05:05.289952+00:00",
+      "sha256": "47d0df0d96d6d3827c9539e2e2cd3d6012689cfe21022ec5e7bdf055b386ca4b",
+      "status": 200,
+      "stored_gzip_sha256": "47b2a5c05cc9915c46d6160448b8c92d05f221e57cb9e254658a07209168a1cf",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/778490/feed/live?timecode=20250401_230500"
+    },
+    "778491-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 167748,
+      "params": {},
+      "received_at": "2026-11-03T03:04:59.999058+00:00",
+      "requested_at": "2026-11-03T03:04:59.026724+00:00",
+      "sha256": "3f7508d71b7df6251ea7c7c3d7fcd01323304ba353a2cec101f9a07577eaad63",
+      "status": 200,
+      "stored_gzip_sha256": "22552acc8efdc24297acd2e72d7929c5ea2ad915242756e810d686bf9078660a",
+      "url": "https://statsapi.mlb.com/api/v1/game/778491/boxscore"
+    },
+    "778491-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 212609,
+      "params": {
+        "timecode": "20250401_223200"
+      },
+      "received_at": "2026-11-03T03:04:57.926377+00:00",
+      "requested_at": "2026-11-03T03:04:52.944005+00:00",
+      "sha256": "26f32ce018698124dabe60b901094d0a2cfa15fc9757c3ce1f7cbdb1300cb4ac",
+      "status": 200,
+      "stored_gzip_sha256": "bfa666af3765530db2a811029a93ef2553459589dd990f0cc0d21b9f8dacecc4",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/778491/feed/live?timecode=20250401_223200"
+    },
+    "778492-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 174401,
+      "params": {},
+      "received_at": "2026-11-03T03:04:47.207781+00:00",
+      "requested_at": "2026-11-03T03:04:46.099186+00:00",
+      "sha256": "5a4ed95b8231ba8082392a6a04bd51b955e1ce93a21f2949f921e74f1f27408d",
+      "status": 200,
+      "stored_gzip_sha256": "dfe62be216f04e6bd0810a1fe653b710f5b3be67eb7e2b5739636e1a87182a86",
+      "url": "https://statsapi.mlb.com/api/v1/game/778492/boxscore"
+    },
+    "778492-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 216602,
+      "params": {
+        "timecode": "20250401_223000"
+      },
+      "received_at": "2026-11-03T03:04:44.998856+00:00",
+      "requested_at": "2026-11-03T03:04:41.023360+00:00",
+      "sha256": "f03e8554a55a91d90695b4e03fcdd04cb553d2c130562e97380e5756ea6b7263",
+      "status": 200,
+      "stored_gzip_sha256": "1094cde8977605948bc2ca6be9dd5f0eb98797a60b29b9b53d7b6aec22fec899",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/778492/feed/live?timecode=20250401_223000"
+    },
+    "778493-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 167942,
+      "params": {},
+      "received_at": "2026-11-03T03:04:51.843784+00:00",
+      "requested_at": "2026-11-03T03:04:50.859664+00:00",
+      "sha256": "03cc3b8d26ec864e082bd15fcd72410f5e5ff827254da4da05e9e48da17302eb",
+      "status": 200,
+      "stored_gzip_sha256": "292c2a93d86367b15772d1366a7c1c7ddd184e3fece0c4e8bccca666cebbfbd6",
+      "url": "https://statsapi.mlb.com/api/v1/game/778493/boxscore"
+    },
+    "778493-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 216220,
+      "params": {
+        "timecode": "20250401_223000"
+      },
+      "received_at": "2026-11-03T03:04:49.759172+00:00",
+      "requested_at": "2026-11-03T03:04:48.307980+00:00",
+      "sha256": "55f5dfc34597826f058e1900c3f5366ca64af9879ee741c3538c70f0fbdb7b86",
+      "status": 200,
+      "stored_gzip_sha256": "23933e1568aba766d641149d79ec73db0ceb16d51ec6a181feec39f926536892",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/778493/feed/live?timecode=20250401_223000"
+    },
+    "778494-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 168773,
+      "params": {},
+      "received_at": "2026-11-03T03:05:46.503403+00:00",
+      "requested_at": "2026-11-03T03:05:45.479006+00:00",
+      "sha256": "a04e4428e05f028def1cf482af4682819d22248180c64c85fdb4b3688392dc90",
+      "status": 200,
+      "stored_gzip_sha256": "4c02bc670e1f92afaf505d565595d0641eb68f8fcca45623d734cd57941db865",
+      "url": "https://statsapi.mlb.com/api/v1/game/778494/boxscore"
+    },
+    "778494-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 215780,
+      "params": {
+        "timecode": "20250402_013000"
+      },
+      "received_at": "2026-11-03T03:05:44.378718+00:00",
+      "requested_at": "2026-11-03T03:05:39.339707+00:00",
+      "sha256": "9a74362d8bc7cc189650d4f81e1763eba1c1f2eb7c65c70d31e295e363f34fc8",
+      "status": 200,
+      "stored_gzip_sha256": "b8292b6a4b8c1607ed53101e670096c540066408da7d23c6875923fc8502e47a",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/778494/feed/live?timecode=20250402_013000"
+    },
+    "778495-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 177352,
+      "params": {},
+      "received_at": "2026-11-03T03:05:15.552362+00:00",
+      "requested_at": "2026-11-03T03:05:14.512096+00:00",
+      "sha256": "9c44925c4df149d2e4958fa035261698a0f173befe7fcf2f269550ea4f738323",
+      "status": 200,
+      "stored_gzip_sha256": "f7997142e1b6bf9118350e2aba8f1e1bde05475e8b3ceaf2e464aa5eafc7d062",
+      "url": "https://statsapi.mlb.com/api/v1/game/778495/boxscore"
+    },
+    "778495-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 216110,
+      "params": {
+        "timecode": "20250401_231000"
+      },
+      "received_at": "2026-11-03T03:05:13.411783+00:00",
+      "requested_at": "2026-11-03T03:05:09.803262+00:00",
+      "sha256": "ab8cead8e2ca81faa8fa1c82eaba561b393411c71577c51d39cf5c608873c609",
+      "status": 200,
+      "stored_gzip_sha256": "0f5293932a3f1c383b67fbd7dd3a17e08d40edf6b206ce1967de5432a18acc85",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/778495/feed/live?timecode=20250401_231000"
+    },
+    "778497-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 167049,
+      "params": {},
+      "received_at": "2026-11-03T03:03:57.697880+00:00",
+      "requested_at": "2026-11-03T03:03:56.655774+00:00",
+      "sha256": "00f3c90f554b68478b780aa3629147c95c36af94d9c060201bf1d774094de9a9",
+      "status": 200,
+      "stored_gzip_sha256": "7da003aa7ad36ca421ec1907d5e2ee0d1f4ab96dcc5dc3b3d1d3aaace639ba96",
+      "url": "https://statsapi.mlb.com/api/v1/game/778497/boxscore"
+    },
+    "778497-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 215600,
+      "params": {
+        "timecode": "20250401_220500"
+      },
+      "received_at": "2026-11-03T03:03:52.547099+00:00",
+      "requested_at": "2026-11-03T03:03:51.419495+00:00",
+      "sha256": "ac234f0b09980bb0d0854e3ff12760e0e37d627213ca467100d72ceb1e86ca45",
+      "status": 200,
+      "stored_gzip_sha256": "d94584da12c719a8d2a3ee27b25e92d22ef13a6960cc107b0f532df154727c40",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/778497/feed/live?timecode=20250401_220500"
+    },
+    "778497-probe-180": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 215600,
+      "params": {
+        "timecode": "20250401_194000"
+      },
+      "received_at": "2026-11-03T03:03:50.319320+00:00",
+      "requested_at": "2026-11-03T03:03:45.879257+00:00",
+      "sha256": "ac234f0b09980bb0d0854e3ff12760e0e37d627213ca467100d72ceb1e86ca45",
+      "status": 200,
+      "stored_gzip_sha256": "d94584da12c719a8d2a3ee27b25e92d22ef13a6960cc107b0f532df154727c40",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/778497/feed/live?timecode=20250401_194000"
+    },
+    "778497-probe-plus120": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 649977,
+      "params": {
+        "timecode": "20250402_004000"
+      },
+      "received_at": "2026-11-03T03:03:55.555687+00:00",
+      "requested_at": "2026-11-03T03:03:53.647514+00:00",
+      "sha256": "6181831bdd4c5bf50fc96653feeba112388c77e93907a8f1edc67b971c1aaac5",
+      "status": 200,
+      "stored_gzip_sha256": "417034356c0ab150d73c582fb24eb633c37929abf173cd240db78fa0b9fef842",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/778497/feed/live?timecode=20250402_004000"
+    },
+    "778498-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 164562,
+      "params": {},
+      "received_at": "2026-11-03T03:04:39.923261+00:00",
+      "requested_at": "2026-11-03T03:04:38.947190+00:00",
+      "sha256": "00fce35bbc30652a12797a0992877044f9e782beb7ac99565b1f7c8e160b162a",
+      "status": 200,
+      "stored_gzip_sha256": "0f14ded51dfa8237f38124ed0177ddeed009b067163f2f501cf89815188275b9",
+      "url": "https://statsapi.mlb.com/api/v1/game/778498/boxscore"
+    },
+    "778498-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 225044,
+      "params": {
+        "timecode": "20250401_220500"
+      },
+      "received_at": "2026-11-03T03:04:37.847009+00:00",
+      "requested_at": "2026-11-03T03:04:36.751418+00:00",
+      "sha256": "ec9f955c01cfacde7ce19583d31faf23b926d1c86f6659a1754de6672a7e058b",
+      "status": 200,
+      "stored_gzip_sha256": "5ff5a17e980d6165991bfa85dd3bc07cc7cfb770f2c4fe5ebd89d924bd4a1705",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/778498/feed/live?timecode=20250401_220500"
+    },
+    "822687-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 180207,
+      "params": {},
+      "received_at": "2026-11-03T03:18:11.531201+00:00",
+      "requested_at": "2026-11-03T03:18:10.482635+00:00",
+      "sha256": "2d4cdd01cd25f298d8b161995622d4107a9efffc41a7c123c6dcdb63df767226",
+      "status": 200,
+      "stored_gzip_sha256": "6748e9124e4184f74c63c092974366ab4d395e9d9e264cf2eefe62046685f5fe",
+      "url": "https://statsapi.mlb.com/api/v1/game/822687/boxscore"
+    },
+    "822687-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 227004,
+      "params": {
+        "timecode": "20260901_221000"
+      },
+      "received_at": "2026-11-03T03:18:09.382302+00:00",
+      "requested_at": "2026-11-03T03:18:07.595096+00:00",
+      "sha256": "2b4477c2e263cb1764cc2ed3d9d96c2fa1b7524aacc5f39e0cc73c16bad3afa9",
+      "status": 200,
+      "stored_gzip_sha256": "9e9666027eec656a325004aafe7146babcbc1d1aaa8981375bcc983b457c8b33",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/822687/feed/live?timecode=20260901_221000"
+    },
+    "822728-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 173920,
+      "params": {},
+      "received_at": "2026-11-03T03:12:32.411823+00:00",
+      "requested_at": "2026-11-03T03:12:31.310481+00:00",
+      "sha256": "ba3b8ae675152ba9b90e1010543415afe2e2e5df0b7ce1c72b565af011669631",
+      "status": 200,
+      "stored_gzip_sha256": "bf5636cc1b7a746b2cad6ea28ed18ed61f689490a32f5ed6aa0f64e75c0e3e67",
+      "url": "https://statsapi.mlb.com/api/v1/game/822728/boxscore"
+    },
+    "822728-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 216722,
+      "params": {
+        "timecode": "20260602_221000"
+      },
+      "received_at": "2026-11-03T03:12:30.210355+00:00",
+      "requested_at": "2026-11-03T03:12:25.860012+00:00",
+      "sha256": "948a6ae518700352af489ffa93327f0beffee896024ddff517833772b08d2a8f",
+      "status": 200,
+      "stored_gzip_sha256": "2eb05738a3af6863ad3cb3849019a45a7f8c92076f6b66181c945bbd265fccac",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/822728/feed/live?timecode=20260602_221000"
+    },
+    "822730-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 169540,
+      "params": {},
+      "received_at": "2026-11-03T03:11:19.591745+00:00",
+      "requested_at": "2026-11-03T03:11:18.583065+00:00",
+      "sha256": "fd62529cd392d3ea5ea9768531407fb5aee32a9fd72eab1e453bdda56b4dbe0f",
+      "status": 200,
+      "stored_gzip_sha256": "d04f53036c3eb22e84a4c5b93b071400f84c248981cd2c57966264a61617158b",
+      "url": "https://statsapi.mlb.com/api/v1/game/822730/boxscore"
+    },
+    "822730-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 213292,
+      "params": {
+        "timecode": "20260601_221000"
+      },
+      "received_at": "2026-11-03T03:11:17.482683+00:00",
+      "requested_at": "2026-11-03T03:11:12.695628+00:00",
+      "sha256": "27027bd6f336938ce7fbbdd521eb36a0429a50d836b7e5b24799486933fcb5ee",
+      "status": 200,
+      "stored_gzip_sha256": "329731fcb2e7ac90670f525658d14a5bc79da7966ddcb0edd367f77325619c2f",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/822730/feed/live?timecode=20260601_221000"
+    },
+    "822744-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 171077,
+      "params": {},
+      "received_at": "2026-11-03T03:09:46.974389+00:00",
+      "requested_at": "2026-11-03T03:09:45.953205+00:00",
+      "sha256": "408d65a67e95f391622cca4d64a1fd0ace1c252ccb9859f5446b55dcbc77f5d3",
+      "status": 200,
+      "stored_gzip_sha256": "47cebafb6cae635986345f5d3bee2a921dcadde4f050dd1675f8da7f4876611a",
+      "url": "https://statsapi.mlb.com/api/v1/game/822744/boxscore"
+    },
+    "822744-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 216553,
+      "params": {
+        "timecode": "20260501_221000"
+      },
+      "received_at": "2026-11-03T03:09:44.853132+00:00",
+      "requested_at": "2026-11-03T03:09:40.991165+00:00",
+      "sha256": "558274bd4733c5a2bd1364626061d5c82f0fc1852484d490998491813278e616",
+      "status": 200,
+      "stored_gzip_sha256": "e169a8906b22bd334bedd500ee89e10047fd40a941f5ea256c58489e8711a56c",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/822744/feed/live?timecode=20260501_221000"
+    },
+    "822781-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 172061,
+      "params": {},
+      "received_at": "2026-11-03T03:16:08.007877+00:00",
+      "requested_at": "2026-11-03T03:16:06.962421+00:00",
+      "sha256": "5d5bae84bcec18c3819f899d0f57a6ce9150cf3d8128e0ccd7ba0e02249ea976",
+      "status": 200,
+      "stored_gzip_sha256": "e2629c63c7ae3bfe75650cb392bcb9c7af707f633f218f8862334bf567b23c3d",
+      "url": "https://statsapi.mlb.com/api/v1/game/822781/boxscore"
+    },
+    "822781-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 217713,
+      "params": {
+        "timecode": "20260801_183200"
+      },
+      "received_at": "2026-11-03T03:16:05.862203+00:00",
+      "requested_at": "2026-11-03T03:16:00.351135+00:00",
+      "sha256": "4cdc89d20434ace7009715950d46328bb6b0c0cf2b372f33d9a04015ad6b66c3",
+      "status": 200,
+      "stored_gzip_sha256": "44099e997de8b06902525501e82f8819582fd6a2f8b925dbc146b0444733d505",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/822781/feed/live?timecode=20260801_183200"
+    },
+    "822791-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 169306,
+      "params": {},
+      "received_at": "2026-11-03T03:14:34.240899+00:00",
+      "requested_at": "2026-11-03T03:14:33.182675+00:00",
+      "sha256": "c3ab8e19ac38be94c047206a80223836a6a265cb69c4eb73f85eba890de633ac",
+      "status": 200,
+      "stored_gzip_sha256": "07fbf1c4f762275bed07e78560072b991ca64e2176ffd3e16474dced49a8cbd9",
+      "url": "https://statsapi.mlb.com/api/v1/game/822791/boxscore"
+    },
+    "822791-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 217133,
+      "params": {
+        "timecode": "20260701_183200"
+      },
+      "received_at": "2026-11-03T03:14:32.082311+00:00",
+      "requested_at": "2026-11-03T03:14:27.256740+00:00",
+      "sha256": "656177d2eec4a36ec69ec229e2033939a00a341dcb2f9ae98b9bc66516a22742",
+      "status": 200,
+      "stored_gzip_sha256": "88c5b140bcbed3927f1df85c35f5fdc9402dc4134a1281e90ca0026ddc4d16a5",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/822791/feed/live?timecode=20260701_183200"
+    },
+    "822835-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 176911,
+      "params": {},
+      "received_at": "2026-11-03T03:08:15.534430+00:00",
+      "requested_at": "2026-11-03T03:08:14.523586+00:00",
+      "sha256": "0123c8bab3ceac01ff42a63a98bc4a5e9ee6f43c1769794488ac56f822efd8ba",
+      "status": 200,
+      "stored_gzip_sha256": "4e66dbb29adf59ea771591765cc1d2f43a03fb3c3582f409247d04ce0320332e",
+      "url": "https://statsapi.mlb.com/api/v1/game/822835/boxscore"
+    },
+    "822835-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 213161,
+      "params": {
+        "timecode": "20260401_163200"
+      },
+      "received_at": "2026-11-03T03:08:13.423052+00:00",
+      "requested_at": "2026-11-03T03:08:10.393963+00:00",
+      "sha256": "48f835444373faf6e157849d9e2d189c6c72f951e8c65591cd6048269ec7d3f9",
+      "status": 200,
+      "stored_gzip_sha256": "f5c1e37a1b3adf25ae8e0cb31112617528c68a5aa27d5eb8b43b92764472cc89",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/822835/feed/live?timecode=20260401_163200"
+    },
+    "822854-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 187114,
+      "params": {},
+      "received_at": "2026-11-03T03:18:39.990055+00:00",
+      "requested_at": "2026-11-03T03:18:38.928658+00:00",
+      "sha256": "dbd2adfd2d1ab9b5ca9a9bc1f60787eb5b662dd60e614890441c861f6e416a4e",
+      "status": 200,
+      "stored_gzip_sha256": "4d5cf98e6e78c494a5249d9baa4aedf617e13f2a597387dba068fd766e8e559e",
+      "url": "https://statsapi.mlb.com/api/v1/game/822854/boxscore"
+    },
+    "822854-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 230212,
+      "params": {
+        "timecode": "20260901_233000"
+      },
+      "received_at": "2026-11-03T03:18:37.828314+00:00",
+      "requested_at": "2026-11-03T03:18:35.558132+00:00",
+      "sha256": "1f77e38c35e24214bc415d2033a5cc1dceb5747f922bbacefc98ed8f63760180",
+      "status": 200,
+      "stored_gzip_sha256": "e547677ab941ab72be7c603d46500cf6baa84f8c43ea4c8cea3c246fd9288173",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/822854/feed/live?timecode=20260901_233000"
+    },
+    "822855-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 169904,
+      "params": {},
+      "received_at": "2026-11-03T03:07:37.242267+00:00",
+      "requested_at": "2026-11-03T03:07:36.270758+00:00",
+      "sha256": "b6b1efd9c0e455f5755f37ece22137127d271cef5719101d9ef352f7d19500bd",
+      "status": 200,
+      "stored_gzip_sha256": "1d801dac58d29e43845143298b5506aa22977cf47b4f27cfb224479ff89bcdc3",
+      "url": "https://statsapi.mlb.com/api/v1/game/822855/boxscore"
+    },
+    "822855-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 216950,
+      "params": {
+        "timecode": "20260831_233000"
+      },
+      "received_at": "2026-11-03T03:07:32.221788+00:00",
+      "requested_at": "2026-11-03T03:07:31.196395+00:00",
+      "sha256": "9feca6bf052c23ce977d8ce58cbd55ca80183defef011a599ba49b7b5e6a060f",
+      "status": 200,
+      "stored_gzip_sha256": "85b22f4ca88a34d709e49ae5e5c133358a793f579d40078f294a4a653c9815d1",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/822855/feed/live?timecode=20260831_233000"
+    },
+    "822855-probe-180": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 216950,
+      "params": {
+        "timecode": "20260831_210500"
+      },
+      "received_at": "2026-11-03T03:07:30.096118+00:00",
+      "requested_at": "2026-11-03T03:07:27.533576+00:00",
+      "sha256": "9feca6bf052c23ce977d8ce58cbd55ca80183defef011a599ba49b7b5e6a060f",
+      "status": 200,
+      "stored_gzip_sha256": "85b22f4ca88a34d709e49ae5e5c133358a793f579d40078f294a4a653c9815d1",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/822855/feed/live?timecode=20260831_210500"
+    },
+    "822855-probe-plus120": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 646028,
+      "params": {
+        "timecode": "20260901_020500"
+      },
+      "received_at": "2026-11-03T03:07:35.170625+00:00",
+      "requested_at": "2026-11-03T03:07:33.321904+00:00",
+      "sha256": "5c242053ec285ee7604c78ca24ab48335dec1f70f0c0b49a75456bd36e51dd26",
+      "status": 200,
+      "stored_gzip_sha256": "d71e1baa9e518e22ff9c985bbeecadb4248df212d2a404ab240ba014b5b7948e",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/822855/feed/live?timecode=20260901_020500"
+    },
+    "822929-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 179914,
+      "params": {},
+      "received_at": "2026-11-03T03:17:50.217409+00:00",
+      "requested_at": "2026-11-03T03:17:49.171058+00:00",
+      "sha256": "8d4bcc62686a07d6929a984b9f1c5bdff18a83e3f8f93da584d2e0b1a0eb01c0",
+      "status": 200,
+      "stored_gzip_sha256": "3b1a6bdbda3cd2c804efcb104b3b5311501c467778a10a842d6c8e7b707f6797",
+      "url": "https://statsapi.mlb.com/api/v1/game/822929/boxscore"
+    },
+    "822929-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 230668,
+      "params": {
+        "timecode": "20260901_220500"
+      },
+      "received_at": "2026-11-03T03:17:48.070627+00:00",
+      "requested_at": "2026-11-03T03:17:44.139533+00:00",
+      "sha256": "62849da11c63b125b32502505004074358a122671e295cea46ce3bfe23ac8c29",
+      "status": 200,
+      "stored_gzip_sha256": "b46d672fa6c0e93e7f381aa3376c48f93d7b38a728100896f4ec256e9edc2ccb",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/822929/feed/live?timecode=20260901_220500"
+    },
+    "822944-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 175247,
+      "params": {},
+      "received_at": "2026-11-03T03:16:15.477203+00:00",
+      "requested_at": "2026-11-03T03:16:14.474883+00:00",
+      "sha256": "d8cb1a170096f6d16b5a3cec51a466f18b92f2e3efcb6d60dc20ce46457b55dc",
+      "status": 200,
+      "stored_gzip_sha256": "52a7020eb6400df1d226d2d594fa875401845831d1af41d16a4cb8a66a3679cc",
+      "url": "https://statsapi.mlb.com/api/v1/game/822944/boxscore"
+    },
+    "822944-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 217564,
+      "params": {
+        "timecode": "20260801_193500"
+      },
+      "received_at": "2026-11-03T03:16:13.374498+00:00",
+      "requested_at": "2026-11-03T03:16:09.108104+00:00",
+      "sha256": "6f104cd0baddc8d5530e1a8f37bf8f7775a186a0d76d34491def6a77b1342c00",
+      "status": 200,
+      "stored_gzip_sha256": "daa7caf505c905d1f73538a0e6df1ce0a44aff0f6a500c513ac8d221872688c7",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/822944/feed/live?timecode=20260801_193500"
+    },
+    "822971-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 166702,
+      "params": {},
+      "received_at": "2026-11-03T03:12:18.099796+00:00",
+      "requested_at": "2026-11-03T03:12:17.063779+00:00",
+      "sha256": "ea6946975b48bc35f666d78dd66037bf749c7556a00d705cff8090e6550800dc",
+      "status": 200,
+      "stored_gzip_sha256": "e534280028ced707d1f9f1542e73d98bf119af021c6da215e697ba5cc7e82060",
+      "url": "https://statsapi.mlb.com/api/v1/game/822971/boxscore"
+    },
+    "822971-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 213597,
+      "params": {
+        "timecode": "20260602_220500"
+      },
+      "received_at": "2026-11-03T03:12:15.963611+00:00",
+      "requested_at": "2026-11-03T03:12:10.876442+00:00",
+      "sha256": "822a9fcae0f3df0c3a409fe371fe06a61b0fec6ecb4514882e396f29072e00c9",
+      "status": 200,
+      "stored_gzip_sha256": "ec68098a6800e18e82c874836a5d6c1525d84f32489728513e54fa31d4f42985",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/822971/feed/live?timecode=20260602_220500"
+    },
+    "822974-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 178263,
+      "params": {},
+      "received_at": "2026-11-03T03:07:26.432895+00:00",
+      "requested_at": "2026-11-03T03:07:25.365076+00:00",
+      "sha256": "396fecbfb3fbe55a6adc83c3c076a6eb57e3d17d04f9b1976dd61f68d6aa01d7",
+      "status": 200,
+      "stored_gzip_sha256": "36a16d1b332ba4d68c0e94bfdc980f4a34e38b0bcf1bf84920eaa1d9636092c4",
+      "url": "https://statsapi.mlb.com/api/v1/game/822974/boxscore"
+    },
+    "822974-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 213400,
+      "params": {
+        "timecode": "20260601_220500"
+      },
+      "received_at": "2026-11-03T03:07:21.180334+00:00",
+      "requested_at": "2026-11-03T03:07:20.169344+00:00",
+      "sha256": "cfe8b3bffb3e731ee160a7c1cc2a48fdececdc9d50e42c6bd6f43389ec54e34c",
+      "status": 200,
+      "stored_gzip_sha256": "6aadbf5b90fe2475f3fcec3d299492bd15184e94b36cbf6f0519feb3eabc27e6",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/822974/feed/live?timecode=20260601_220500"
+    },
+    "822974-probe-180": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 213400,
+      "params": {
+        "timecode": "20260601_194000"
+      },
+      "received_at": "2026-11-03T03:07:19.069249+00:00",
+      "requested_at": "2026-11-03T03:07:17.677199+00:00",
+      "sha256": "cfe8b3bffb3e731ee160a7c1cc2a48fdececdc9d50e42c6bd6f43389ec54e34c",
+      "status": 200,
+      "stored_gzip_sha256": "6aadbf5b90fe2475f3fcec3d299492bd15184e94b36cbf6f0519feb3eabc27e6",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/822974/feed/live?timecode=20260601_194000"
+    },
+    "822974-probe-plus120": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 661986,
+      "params": {
+        "timecode": "20260602_004000"
+      },
+      "received_at": "2026-11-03T03:07:24.264970+00:00",
+      "requested_at": "2026-11-03T03:07:22.280661+00:00",
+      "sha256": "c81c8ee52520d5fc91a94757f5720e6d32aed5e998a396aaa8c2db828fe7c64d",
+      "status": 200,
+      "stored_gzip_sha256": "411de73d90069331333a798265e1e048506685889821cef1bf5c6ec631640809",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/822974/feed/live?timecode=20260602_004000"
+    },
+    "822990-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 166819,
+      "params": {},
+      "received_at": "2026-11-03T03:10:06.246562+00:00",
+      "requested_at": "2026-11-03T03:10:05.139507+00:00",
+      "sha256": "2b3aeeb484bb8e3e0808be458d736dbd1eb11b6adcd049ee186462e2dc034362",
+      "status": 200,
+      "stored_gzip_sha256": "3b5a8e6d0eb59c159a72b0bde26a95b25d775d3f01d8479659b9f0c7de7a4644",
+      "url": "https://statsapi.mlb.com/api/v1/game/822990/boxscore"
+    },
+    "822990-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 213135,
+      "params": {
+        "timecode": "20260501_223500"
+      },
+      "received_at": "2026-11-03T03:10:04.039449+00:00",
+      "requested_at": "2026-11-03T03:10:01.148388+00:00",
+      "sha256": "b0343eab53f96e101cd89d6a9cdbf3b5d7c9e69a0744c077052cce7b03d40df3",
+      "status": 200,
+      "stored_gzip_sha256": "4d66f540160fca8093167a23344306199591eac344f75e5636b18b32a0c8ba6e",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/822990/feed/live?timecode=20260501_223500"
+    },
+    "823050-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 171498,
+      "params": {},
+      "received_at": "2026-11-03T03:11:50.652990+00:00",
+      "requested_at": "2026-11-03T03:11:49.552330+00:00",
+      "sha256": "bfa429077faa3adb37e9c36b5c23d3f8c5043e89daf4b3d18c1b580e9acb9f37",
+      "status": 200,
+      "stored_gzip_sha256": "579c0e32eec800f9ae8a05b31449f587fe8e84a1f3b14dae074f405a62b67096",
+      "url": "https://statsapi.mlb.com/api/v1/game/823050/boxscore"
+    },
+    "823050-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 216931,
+      "params": {
+        "timecode": "20260601_231000"
+      },
+      "received_at": "2026-11-03T03:11:48.452109+00:00",
+      "requested_at": "2026-11-03T03:11:43.790747+00:00",
+      "sha256": "c52d6727024776c1315856091317970dbf431d7b8f3f4a74ffc9c7dd81a77b32",
+      "status": 200,
+      "stored_gzip_sha256": "52e2b3000fb67b8d836d9554df94a0590ffadbb3322064a4fbf0f384331b06b5",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823050/feed/live?timecode=20260601_231000"
+    },
+    "823066-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 169317,
+      "params": {},
+      "received_at": "2026-11-03T03:10:32.391479+00:00",
+      "requested_at": "2026-11-03T03:10:31.333535+00:00",
+      "sha256": "eb6e495a6945d208c04d639f3d6ccb83794803bf308c4173f3b256cd3ff4426b",
+      "status": 200,
+      "stored_gzip_sha256": "98018a20b6bb5235b8b426cb0de4525af3fec2d5b1b039a8aa694dfc094155fa",
+      "url": "https://statsapi.mlb.com/api/v1/game/823066/boxscore"
+    },
+    "823066-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 216954,
+      "params": {
+        "timecode": "20260501_234000"
+      },
+      "received_at": "2026-11-03T03:10:30.233177+00:00",
+      "requested_at": "2026-11-03T03:10:24.969417+00:00",
+      "sha256": "50cae8af038197a419651cfbd6c57e865eacc00596af645663166fd18e96bc8a",
+      "status": 200,
+      "stored_gzip_sha256": "738e185698e89b8fd3ebb0d7947e125bd3d8ee9b5da65a4513d5c618d60934c8",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823066/feed/live?timecode=20260501_234000"
+    },
+    "823078-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 177753,
+      "params": {},
+      "received_at": "2026-11-03T03:08:27.652608+00:00",
+      "requested_at": "2026-11-03T03:08:26.673473+00:00",
+      "sha256": "ddec9e275a1181cb0a2ef709f1db6098b91f67a5a6bf2b3c9df75174d0041178",
+      "status": 200,
+      "stored_gzip_sha256": "28760cc26b7ac0a48f92e62119f8754343443be673ce32b70d99eed26f748acc",
+      "url": "https://statsapi.mlb.com/api/v1/game/823078/boxscore"
+    },
+    "823078-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 217228,
+      "params": {
+        "timecode": "20260401_164000"
+      },
+      "received_at": "2026-11-03T03:08:25.573209+00:00",
+      "requested_at": "2026-11-03T03:08:24.153317+00:00",
+      "sha256": "ef3837d1631292bf40c1873534c8895ffe5ca80f201801678ecd9af4b1af3180",
+      "status": 200,
+      "stored_gzip_sha256": "71ab3e20f8caa27e744ab51f1a9d5d0591ba8c4ca98408f05e570135ee3e2651",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823078/feed/live?timecode=20260401_164000"
+    },
+    "823109-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 170493,
+      "params": {},
+      "received_at": "2026-11-03T03:16:21.572316+00:00",
+      "requested_at": "2026-11-03T03:16:20.677185+00:00",
+      "sha256": "f7a3dca16e3bf3771a36e6de3920694028eed69197f34aece1f6e418c193f592",
+      "status": 200,
+      "stored_gzip_sha256": "238d9bfbb349c4f6b9438e80faa3d6fa8d1f68b77f95684d2cecc85b422969df",
+      "url": "https://statsapi.mlb.com/api/v1/game/823109/boxscore"
+    },
+    "823109-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 213781,
+      "params": {
+        "timecode": "20260801_193500"
+      },
+      "received_at": "2026-11-03T03:16:19.576833+00:00",
+      "requested_at": "2026-11-03T03:16:16.577335+00:00",
+      "sha256": "7715287d91657f6afed49d8e2b0b27a98c042d6778f1d9002989fa7533c557f6",
+      "status": 200,
+      "stored_gzip_sha256": "4337137b2c60ea090cbbce90a25d993179b91c7234c2b333a20069697e4a3d2e",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823109/feed/live?timecode=20260801_193500"
+    },
+    "823111-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 171361,
+      "params": {},
+      "received_at": "2026-11-03T03:15:50.819653+00:00",
+      "requested_at": "2026-11-03T03:15:49.672532+00:00",
+      "sha256": "c827b765073da29732951bc63ae38a175a005b7e50699dde1c559a004282b010",
+      "status": 200,
+      "stored_gzip_sha256": "b22b5d5f6f92daf92086e58795a2f3f46977e6f190a9df029de687bb58cc237f",
+      "url": "https://statsapi.mlb.com/api/v1/game/823111/boxscore"
+    },
+    "823111-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 213779,
+      "params": {
+        "timecode": "20260801_013500"
+      },
+      "received_at": "2026-11-03T03:15:48.572279+00:00",
+      "requested_at": "2026-11-03T03:15:44.817814+00:00",
+      "sha256": "cdf1ebf2b1fc740a2480647cb2e80e3955b6530bc14867dc095abe48298f1f64",
+      "status": 200,
+      "stored_gzip_sha256": "db38298def811416dbb69eeae01466ed7562ef192f24bf93a692913aa6699ce4",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823111/feed/live?timecode=20260801_013500"
+    },
+    "823122-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 168762,
+      "params": {},
+      "received_at": "2026-11-03T03:13:32.440474+00:00",
+      "requested_at": "2026-11-03T03:13:31.458518+00:00",
+      "sha256": "25b639cd0584b2cbe9637ece390b4cd1f1f900661b2843588f6b1b608da67c72",
+      "status": 200,
+      "stored_gzip_sha256": "695f613ecaec0757c52dcd215516673973aeedd3a1a08b7fc1cf119de596b85e",
+      "url": "https://statsapi.mlb.com/api/v1/game/823122/boxscore"
+    },
+    "823122-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 216968,
+      "params": {
+        "timecode": "20260701_010500"
+      },
+      "received_at": "2026-11-03T03:13:30.358401+00:00",
+      "requested_at": "2026-11-03T03:13:25.650881+00:00",
+      "sha256": "71cd34ef0966b5ea341203109a112090c0bbd34a894dd398e71d65a08e03cffd",
+      "status": 200,
+      "stored_gzip_sha256": "d1e3914df2560e9718c7e408d87846883118fd96b39d5de8422e5935547c277c",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823122/feed/live?timecode=20260701_010500"
+    },
+    "823131-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 175291,
+      "params": {},
+      "received_at": "2026-11-03T03:12:02.707349+00:00",
+      "requested_at": "2026-11-03T03:12:01.656628+00:00",
+      "sha256": "9802e2edd9a7915c6a4fa101ce335bb5df6a715ba68a5d7e1b7c84018e055389",
+      "status": 200,
+      "stored_gzip_sha256": "8f1b8bea65fa7ae327eb8469aa478d46f356b3f05b7927c54df0b3a7d43bdf75",
+      "url": "https://statsapi.mlb.com/api/v1/game/823131/boxscore"
+    },
+    "823131-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 216921,
+      "params": {
+        "timecode": "20260602_010500"
+      },
+      "received_at": "2026-11-03T03:12:00.556469+00:00",
+      "requested_at": "2026-11-03T03:11:57.677067+00:00",
+      "sha256": "3655fdeba3277590bc93a47d467bf32348b6c39970108cc5164b0edbb79ce663",
+      "status": 200,
+      "stored_gzip_sha256": "e90b15dcd03ce41fc88a0e1b403c6490e86d41cd76e50a85399f47d42fa078de",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823131/feed/live?timecode=20260602_010500"
+    },
+    "823146-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 166807,
+      "params": {},
+      "received_at": "2026-11-03T03:10:59.563583+00:00",
+      "requested_at": "2026-11-03T03:10:58.562050+00:00",
+      "sha256": "2f3da54f6957d2389747175852eb892c310aca7551e23ea466fb29824716c70a",
+      "status": 200,
+      "stored_gzip_sha256": "d37f4576726f0be45db623beabddfbd275c6d83e237bb3c71794e442710ab9a7",
+      "url": "https://statsapi.mlb.com/api/v1/game/823146/boxscore"
+    },
+    "823146-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 210101,
+      "params": {
+        "timecode": "20260502_011000"
+      },
+      "received_at": "2026-11-03T03:10:57.461800+00:00",
+      "requested_at": "2026-11-03T03:10:55.003906+00:00",
+      "sha256": "d1a0d3f313b70ece45fa3b73aade98bf7a03eff591505b6c66f41185c7acf4ba",
+      "status": 200,
+      "stored_gzip_sha256": "6afe4124215a5f2b7e39aa057113b6c66e957f1d7efc6c226c34bcbd09192c1a",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823146/feed/live?timecode=20260502_011000"
+    },
+    "823157-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 167219,
+      "params": {},
+      "received_at": "2026-11-03T03:08:53.908978+00:00",
+      "requested_at": "2026-11-03T03:08:52.919187+00:00",
+      "sha256": "7a87ba7a6f8b5662bca7f67d22c6b9a8ecfed5eff8f5c146778f36261a7a96c2",
+      "status": 200,
+      "stored_gzip_sha256": "11f290d52fd99ac5c0d9b7a4460604de5d375b4c3c5a71aee2f8797dbdb44c64",
+      "url": "https://statsapi.mlb.com/api/v1/game/823157/boxscore"
+    },
+    "823157-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 224849,
+      "params": {
+        "timecode": "20260401_193500"
+      },
+      "received_at": "2026-11-03T03:08:51.818933+00:00",
+      "requested_at": "2026-11-03T03:08:48.480264+00:00",
+      "sha256": "9ad9745e12a089e80521aff56f6cd4f5e2fa73dfc1e45b73d4ad9fdd8fb37a67",
+      "status": 200,
+      "stored_gzip_sha256": "c7b2cfa8b1f9625e0817ec6c603bf9b58ea74ee4dee1f3ebb713d36949e0c0e9",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823157/feed/live?timecode=20260401_193500"
+    },
+    "823272-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 167443,
+      "params": {},
+      "received_at": "2026-11-03T03:15:43.717617+00:00",
+      "requested_at": "2026-11-03T03:15:42.654864+00:00",
+      "sha256": "98eacad98a8d4707e4730c3217034b8f2e4701338cc021cf890c5739fee96207",
+      "status": 200,
+      "stored_gzip_sha256": "07cf887d38939369e222b73b31fc3d7b4fe3424d55c38dc9cbe849804e91591a",
+      "url": "https://statsapi.mlb.com/api/v1/game/823272/boxscore"
+    },
+    "823272-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 217269,
+      "params": {
+        "timecode": "20260801_011000"
+      },
+      "received_at": "2026-11-03T03:15:41.554816+00:00",
+      "requested_at": "2026-11-03T03:15:39.914911+00:00",
+      "sha256": "e6dbd92b6662435e9fd5edca92110e726c1b331af255d43c6668c89bcd02051f",
+      "status": 200,
+      "stored_gzip_sha256": "8836892385c3c6cc23ecb767256a3f2599472ec5544c38894a4c67461d6c0d70",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823272/feed/live?timecode=20260801_011000"
+    },
+    "823309-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 168704,
+      "params": {},
+      "received_at": "2026-11-03T03:10:49.238034+00:00",
+      "requested_at": "2026-11-03T03:10:48.170198+00:00",
+      "sha256": "b51542324dd070835b09481dd9e5876fcbfe9545829785cdb3c95339a73b5f3f",
+      "status": 200,
+      "stored_gzip_sha256": "354bf0bb8514dd05dd3a32f8f8f2670573b20ca728f216b1f444d4e146160159",
+      "url": "https://statsapi.mlb.com/api/v1/game/823309/boxscore"
+    },
+    "823309-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 217300,
+      "params": {
+        "timecode": "20260502_010500"
+      },
+      "received_at": "2026-11-03T03:10:47.069663+00:00",
+      "requested_at": "2026-11-03T03:10:44.484910+00:00",
+      "sha256": "90b535f03110fedb499b621bb12302e5111b4274c00d76f2474beb42ac69c738",
+      "status": 200,
+      "stored_gzip_sha256": "a4595ba5097e7d0c62bb674b8b33a9a407d6c86b728d3d1670466cb1eccbf04e",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823309/feed/live?timecode=20260502_010500"
+    },
+    "823321-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 168666,
+      "params": {},
+      "received_at": "2026-11-03T03:08:58.620334+00:00",
+      "requested_at": "2026-11-03T03:08:57.591351+00:00",
+      "sha256": "db6b17996038bfeff3c3dc0e13586d258f11a83ec10d421f2a82135d6b2166b6",
+      "status": 200,
+      "stored_gzip_sha256": "ab9791f93adfbd2e0c0cbb4d1468f5945a622c26d9a55594b0059a321b438eec",
+      "url": "https://statsapi.mlb.com/api/v1/game/823321/boxscore"
+    },
+    "823321-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 216371,
+      "params": {
+        "timecode": "20260401_193500"
+      },
+      "received_at": "2026-11-03T03:08:56.491161+00:00",
+      "requested_at": "2026-11-03T03:08:55.009346+00:00",
+      "sha256": "b84a6592be5246353f174515225378509d772657bdbe513079d5e93735749cc8",
+      "status": 200,
+      "stored_gzip_sha256": "f6685ec96b766aa79ad3b755eefe06ffeaa01a6f099f5a114c65e4b05a81281e",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823321/feed/live?timecode=20260401_193500"
+    },
+    "823340-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 185847,
+      "params": {},
+      "received_at": "2026-11-03T03:17:55.094085+00:00",
+      "requested_at": "2026-11-03T03:17:54.123051+00:00",
+      "sha256": "7ae9312020ad7082cb7c034c21b1377ef4e1611dfa773db818f7f46663473011",
+      "status": 200,
+      "stored_gzip_sha256": "4f60e05dc40841ea0b7d525d50eb9b772ab4eb7204727d6d3a61557365b82720",
+      "url": "https://statsapi.mlb.com/api/v1/game/823340/boxscore"
+    },
+    "823340-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 234935,
+      "params": {
+        "timecode": "20260901_220500"
+      },
+      "received_at": "2026-11-03T03:17:53.022912+00:00",
+      "requested_at": "2026-11-03T03:17:51.318087+00:00",
+      "sha256": "24a334eef2f27388bb2b94eff8863384a8520e876a8018f0db23ce014c765e6a",
+      "status": 200,
+      "stored_gzip_sha256": "a2be1b4045ca0f981ea1782613ef2d30e94088b52bf4584726f65a49450fa535",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823340/feed/live?timecode=20260901_220500"
+    },
+    "823389-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 169118,
+      "params": {},
+      "received_at": "2026-11-03T03:09:55.422039+00:00",
+      "requested_at": "2026-11-03T03:09:54.409661+00:00",
+      "sha256": "46aaefe6b8700e453d3801f6f0392280a2ad726fffbd151991498c9b4328ed74",
+      "status": 200,
+      "stored_gzip_sha256": "d98b138900f80fbb15fdc3bda30cbfeaf95884d3ca74c7fb196f51b40fabff31",
+      "url": "https://statsapi.mlb.com/api/v1/game/823389/boxscore"
+    },
+    "823389-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 212953,
+      "params": {
+        "timecode": "20260501_221000"
+      },
+      "received_at": "2026-11-03T03:09:53.309430+00:00",
+      "requested_at": "2026-11-03T03:09:48.074481+00:00",
+      "sha256": "6c7f2fd4affd2e39cb536e7aeba17eb77bb746dbecd628227e966d97373af2f2",
+      "status": 200,
+      "stored_gzip_sha256": "890db18461af010d6b0ad735ab9fdf5c10de2273ca5f3b1c04340b99031d49fb",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823389/feed/live?timecode=20260501_221000"
+    },
+    "823446-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 171443,
+      "params": {},
+      "received_at": "2026-11-03T03:14:43.781024+00:00",
+      "requested_at": "2026-11-03T03:14:42.831422+00:00",
+      "sha256": "15c2267153a1651447104da2d92ca1ddf0da431bc18ef2afcc85ffa95f53468a",
+      "status": 200,
+      "stored_gzip_sha256": "3d769ef95701839c2c942d35908960cd998489ba238643d10a06c3ea093c2da9",
+      "url": "https://statsapi.mlb.com/api/v1/game/823446/boxscore"
+    },
+    "823446-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 217623,
+      "params": {
+        "timecode": "20260701_220500"
+      },
+      "received_at": "2026-11-03T03:14:41.730970+00:00",
+      "requested_at": "2026-11-03T03:14:35.341065+00:00",
+      "sha256": "9b66183bfb693255a2e98ef6d718fec469f33556a790850d4f3f02f0b6b72711",
+      "status": 200,
+      "stored_gzip_sha256": "86994f066ffaa305879602fcff59cad50010f6eb8fc25d1b084a07b4fb2f2600",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823446/feed/live?timecode=20260701_220500"
+    },
+    "823460-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 170589,
+      "params": {},
+      "received_at": "2026-11-03T03:12:24.759566+00:00",
+      "requested_at": "2026-11-03T03:12:23.427722+00:00",
+      "sha256": "2f6b6315883fcf83fef94b4c630adce3c2f38073297ff5c76dac359ac0593944",
+      "status": 200,
+      "stored_gzip_sha256": "a4c920862fb69cfa9b0734f39d83fb6de17480c52b30e3ecd793199297239c6e",
+      "url": "https://statsapi.mlb.com/api/v1/game/823460/boxscore"
+    },
+    "823460-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 214295,
+      "params": {
+        "timecode": "20260602_220500"
+      },
+      "received_at": "2026-11-03T03:12:22.327334+00:00",
+      "requested_at": "2026-11-03T03:12:19.200204+00:00",
+      "sha256": "da1afd3a6c2a09a2fbd3a27152f51f20bc1f2518b8f1da66a076aa631573ccbe",
+      "status": 200,
+      "stored_gzip_sha256": "2f3d5605023980c892deeb42dc9af6be2610935dd03f0125bfe74792756a92f1",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823460/feed/live?timecode=20260602_220500"
+    },
+    "823483-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 175651,
+      "params": {},
+      "received_at": "2026-11-03T03:08:09.293818+00:00",
+      "requested_at": "2026-11-03T03:08:08.304552+00:00",
+      "sha256": "06317a7af576cd35ea6b6352663384160dd1d7d7b93c043df9083da919f66521",
+      "status": 200,
+      "stored_gzip_sha256": "19d57d297fd8efc70a7c31608a5c215bc182690986a750030e93e147e3fd9916",
+      "url": "https://statsapi.mlb.com/api/v1/game/823483/boxscore"
+    },
+    "823483-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 215990,
+      "params": {
+        "timecode": "20260401_163000"
+      },
+      "received_at": "2026-11-03T03:08:07.204267+00:00",
+      "requested_at": "2026-11-03T03:08:01.332380+00:00",
+      "sha256": "d50280a45d271e4b16beeb8bdc0d1bf4085ec6ff2425ed19974fd06f20b5223b",
+      "status": 200,
+      "stored_gzip_sha256": "628094e31094b70d8eaea24a0b17514fb35bc7a7feea7a21f1fb06e297202149",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823483/feed/live?timecode=20260401_163000"
+    },
+    "823530-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 169595,
+      "params": {},
+      "received_at": "2026-11-03T03:14:09.989610+00:00",
+      "requested_at": "2026-11-03T03:14:09.000910+00:00",
+      "sha256": "d709c0557ad8d37e0d1c9cb9a23c69f9fe0d60a97ff6616de535b98e7b71205f",
+      "status": 200,
+      "stored_gzip_sha256": "ba351eb071b5b98ee6ae1521cb4ae1408ebf5c8afcdd32703577c51a433dcee7",
+      "url": "https://statsapi.mlb.com/api/v1/game/823530/boxscore"
+    },
+    "823530-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 210457,
+      "params": {
+        "timecode": "20260701_170000"
+      },
+      "received_at": "2026-11-03T03:14:07.900397+00:00",
+      "requested_at": "2026-11-03T03:14:03.884067+00:00",
+      "sha256": "120a5e6a12ffd25e4791576d02716c3955474377049a0e4a9a07f4f8953ae964",
+      "status": 200,
+      "stored_gzip_sha256": "0ebe7bdf6068033d6db68f4526b0912b65302a1499a89dc77a0652e9f1f42df3",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823530/feed/live?timecode=20260701_170000"
+    },
+    "823541-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 169569,
+      "params": {},
+      "received_at": "2026-11-03T03:12:42.696743+00:00",
+      "requested_at": "2026-11-03T03:12:41.705821+00:00",
+      "sha256": "5cdba680a6a855cec25023c7c448d0224abcb4c09fc474e4d9c9d3f97fc83242",
+      "status": 200,
+      "stored_gzip_sha256": "83136d948963a057de63b9b9367f1ea3d710c89d1b65d0495e434b8d418543d9",
+      "url": "https://statsapi.mlb.com/api/v1/game/823541/boxscore"
+    },
+    "823541-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 213801,
+      "params": {
+        "timecode": "20260602_223000"
+      },
+      "received_at": "2026-11-03T03:12:40.605538+00:00",
+      "requested_at": "2026-11-03T03:12:39.271226+00:00",
+      "sha256": "d81676524611606cdbe1fb7d7f4113d72428772c3e2e15d9d0b2d2316bd4d4cd",
+      "status": 200,
+      "stored_gzip_sha256": "b465238cb4b450f41d589a31785287b28fdf63cb85fe1103f2ad21bf1f692f7e",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823541/feed/live?timecode=20260602_223000"
+    },
+    "823554-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 174987,
+      "params": {},
+      "received_at": "2026-11-03T03:11:06.585480+00:00",
+      "requested_at": "2026-11-03T03:11:05.528916+00:00",
+      "sha256": "5ead8c4cdc6dab55724d1dd1f37eaadab899a0f78da311e5faa742871e9b6c98",
+      "status": 200,
+      "stored_gzip_sha256": "5cc19919ad130ef74922cb8e8118074559d9876e412f36a76b3bad3c9e83bd78",
+      "url": "https://statsapi.mlb.com/api/v1/game/823554/boxscore"
+    },
+    "823554-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 213338,
+      "params": {
+        "timecode": "20260502_170000"
+      },
+      "received_at": "2026-11-03T03:11:04.428689+00:00",
+      "requested_at": "2026-11-03T03:11:00.663765+00:00",
+      "sha256": "74e285bbd85cccb71c4a1737ee934aee261ed6cb277197df61bacf276a577fff",
+      "status": 200,
+      "stored_gzip_sha256": "f9be27b8ed3bd69b97edab8c7ce5eaf6d93bc613a4781804b03f3b3b8fe6bcc9",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823554/feed/live?timecode=20260502_170000"
+    },
+    "823557-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 169231,
+      "params": {},
+      "received_at": "2026-11-03T03:10:00.047866+00:00",
+      "requested_at": "2026-11-03T03:09:59.078342+00:00",
+      "sha256": "de74137d93a046c210c64ac37a25e4e98115a4d3cb7c5220e359f9ebc58b9dc5",
+      "status": 200,
+      "stored_gzip_sha256": "199f77f470d10965ff68c064a8e51289c071e8f88befdccdf0988aa865237edc",
+      "url": "https://statsapi.mlb.com/api/v1/game/823557/boxscore"
+    },
+    "823557-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 216699,
+      "params": {
+        "timecode": "20260501_223000"
+      },
+      "received_at": "2026-11-03T03:09:57.978133+00:00",
+      "requested_at": "2026-11-03T03:09:56.522513+00:00",
+      "sha256": "a9efa2c9a193079f202375081a0bd9085f300dfdf22b64c7bc8b8e3cefe3aec9",
+      "status": 200,
+      "stored_gzip_sha256": "5442abb4960bad339e2ef4fb7dd3d113345564b3ab417d0572519b75e84119fb",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823557/feed/live?timecode=20260501_223000"
+    },
+    "823594-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 166301,
+      "params": {},
+      "received_at": "2026-11-03T03:16:29.013600+00:00",
+      "requested_at": "2026-11-03T03:16:28.149325+00:00",
+      "sha256": "84663ccc8b4f29e10dd72dc5b3af8ca4afa23458b957cb01be74973ed20b2494",
+      "status": 200,
+      "stored_gzip_sha256": "b2edd0ff18b7acd888e24441854b27a8f82922112371203d0b1c403a8926988b",
+      "url": "https://statsapi.mlb.com/api/v1/game/823594/boxscore"
+    },
+    "823594-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 213801,
+      "params": {
+        "timecode": "20260801_193500"
+      },
+      "received_at": "2026-11-03T03:16:27.049185+00:00",
+      "requested_at": "2026-11-03T03:16:22.672774+00:00",
+      "sha256": "82163e09591b98ff3788c91223e240f67fc6e37253a8a7d5bb02bad8038de806",
+      "status": 200,
+      "stored_gzip_sha256": "4333bf9ba701211b26f30e82eb5da57ae344ebcef65ea47b7c176fd45df6204e",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823594/feed/live?timecode=20260801_193500"
+    },
+    "823661-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 184235,
+      "params": {},
+      "received_at": "2026-11-03T03:18:23.709823+00:00",
+      "requested_at": "2026-11-03T03:18:22.568584+00:00",
+      "sha256": "0181fa2a1d4a9849fe864dc2d996cd720d05b0513f6947476e108f97217bc508",
+      "status": 200,
+      "stored_gzip_sha256": "66d2aa310c0aa6892e1a6fda6058ef8ee380a46f73c1cbf3e9b8370b8c331476",
+      "url": "https://statsapi.mlb.com/api/v1/game/823661/boxscore"
+    },
+    "823661-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 227122,
+      "params": {
+        "timecode": "20260901_230500"
+      },
+      "received_at": "2026-11-03T03:18:21.468348+00:00",
+      "requested_at": "2026-11-03T03:18:18.561823+00:00",
+      "sha256": "1b70c9f336bcb228d59c59b306b3291e112fc70549f322976006d4f301492c55",
+      "status": 200,
+      "stored_gzip_sha256": "c583b7e64672ce56e14f43aae85832efa922f274122675267da0230626407b8f",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823661/feed/live?timecode=20260901_230500"
+    },
+    "823700-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 173463,
+      "params": {},
+      "received_at": "2026-11-03T03:13:00.840291+00:00",
+      "requested_at": "2026-11-03T03:12:59.779124+00:00",
+      "sha256": "f48d7733d8e7e559d73de952f9ca3b8608961248ad64d162ca34ab0413d8f198",
+      "status": 200,
+      "stored_gzip_sha256": "41198123312913f97e40dc6f321efa4c9a6b6df02cb726e2504dcb84e021a8aa",
+      "url": "https://statsapi.mlb.com/api/v1/game/823700/boxscore"
+    },
+    "823700-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 220161,
+      "params": {
+        "timecode": "20260602_230500"
+      },
+      "received_at": "2026-11-03T03:12:58.678954+00:00",
+      "requested_at": "2026-11-03T03:12:53.182517+00:00",
+      "sha256": "49f1083afa710c42c7a88f745e04126fbccf3bc9d9531329a82faba569d1aa15",
+      "status": 200,
+      "stored_gzip_sha256": "99bff402fe31dc5890716c71d095352c754d5ce9b88ccb774151d22cdbcfee2f",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823700/feed/live?timecode=20260602_230500"
+    },
+    "823702-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 171958,
+      "params": {},
+      "received_at": "2026-11-03T03:11:36.335013+00:00",
+      "requested_at": "2026-11-03T03:11:35.302811+00:00",
+      "sha256": "6f11944963b419f7bb9ea531d22a97800d84350ca5297aeef07f018e5472817c",
+      "status": 200,
+      "stored_gzip_sha256": "b20aaab077174f3b4825220c05f4ef864365b97b7630e8b2063c6af145f91b63",
+      "url": "https://statsapi.mlb.com/api/v1/game/823702/boxscore"
+    },
+    "823702-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 220047,
+      "params": {
+        "timecode": "20260601_230500"
+      },
+      "received_at": "2026-11-03T03:11:34.202673+00:00",
+      "requested_at": "2026-11-03T03:11:28.461235+00:00",
+      "sha256": "5aadf0bb45030681f5854aa1e2c06dcb088a76596444ec7a59c663e2b1468d10",
+      "status": 200,
+      "stored_gzip_sha256": "10504b58ba35bfa7dc0bef06fe31576996dd079c15144c6d95227134e22f54fc",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823702/feed/live?timecode=20260601_230500"
+    },
+    "823713-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 168342,
+      "params": {},
+      "received_at": "2026-11-03T03:10:23.869053+00:00",
+      "requested_at": "2026-11-03T03:10:22.920021+00:00",
+      "sha256": "360368ce939479e3cfac1915e64904dab546a64453d7b436f3106cda8b53bc49",
+      "status": 200,
+      "stored_gzip_sha256": "30a18a6fe38c0f8792d26c72efe21baab1e5b9acd784861bad0a1ab15a7f9d06",
+      "url": "https://statsapi.mlb.com/api/v1/game/823713/boxscore"
+    },
+    "823713-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 213608,
+      "params": {
+        "timecode": "20260501_233500"
+      },
+      "received_at": "2026-11-03T03:10:21.819497+00:00",
+      "requested_at": "2026-11-03T03:10:20.108361+00:00",
+      "sha256": "22ddb4b9ec8dce52fd4b0571120e7a83d0e253cc0d97baea1a132e56a44a68e8",
+      "status": 200,
+      "stored_gzip_sha256": "98a5521dc10dbb279536804aee09285164bf90be32e1bfe5dfd42b9005ddd3bf",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823713/feed/live?timecode=20260501_233500"
+    },
+    "823715-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 170028,
+      "params": {},
+      "received_at": "2026-11-03T03:11:11.595356+00:00",
+      "requested_at": "2026-11-03T03:11:10.520905+00:00",
+      "sha256": "9cb6c554127ba32083473446758628a5c487efa742b9624d5957ff83648f482c",
+      "status": 200,
+      "stored_gzip_sha256": "19fc45e7e3b3eda4476377d5555e70e354b43ac41f896c249a365c2cec91d521",
+      "url": "https://statsapi.mlb.com/api/v1/game/823715/boxscore"
+    },
+    "823715-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 216811,
+      "params": {
+        "timecode": "20260502_173500"
+      },
+      "received_at": "2026-11-03T03:11:09.420558+00:00",
+      "requested_at": "2026-11-03T03:11:07.685707+00:00",
+      "sha256": "b80d27de15d335a4e2adf24bcd5d1f8bebe7e20c3809b2883470f7b108b32212",
+      "status": 200,
+      "stored_gzip_sha256": "34e2e44f6f8f4f29cd1a1eab2cb8e6fe6be85240b59547f1f5623d6289869f6a",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823715/feed/live?timecode=20260502_173500"
+    },
+    "823767-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 169006,
+      "params": {},
+      "received_at": "2026-11-03T03:15:04.722765+00:00",
+      "requested_at": "2026-11-03T03:15:03.734110+00:00",
+      "sha256": "8bbe4185af5eece476d2b0502eb9efe2824631e91189e24bc37e69511a2774ec",
+      "status": 200,
+      "stored_gzip_sha256": "eed62154a0a654268e7198a4b9a2c6f5e0e4b9252856d00a8302c3c06ec4efd3",
+      "url": "https://statsapi.mlb.com/api/v1/game/823767/boxscore"
+    },
+    "823767-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 213796,
+      "params": {
+        "timecode": "20260701_233500"
+      },
+      "received_at": "2026-11-03T03:15:02.633591+00:00",
+      "requested_at": "2026-11-03T03:14:57.761353+00:00",
+      "sha256": "51ba2f3fd281b87fdc1f793bde171cdf26e9c6f235928ec6d912f7e63ea669a2",
+      "status": 200,
+      "stored_gzip_sha256": "8a6a67f17a99774ab98e1a879a108001813ba214ca65b80da1be31f309605288",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823767/feed/live?timecode=20260701_233500"
+    },
+    "823781-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 172029,
+      "params": {},
+      "received_at": "2026-11-03T03:11:42.690645+00:00",
+      "requested_at": "2026-11-03T03:11:41.664501+00:00",
+      "sha256": "4633cd7578164cb39dde50cb9d20264679f6ccaaabab73698b8a1df866d2d710",
+      "status": 200,
+      "stored_gzip_sha256": "e51a57455d5d594bfce0bfc8a87ee926c98704b4d905d8f1cd62801568019142",
+      "url": "https://statsapi.mlb.com/api/v1/game/823781/boxscore"
+    },
+    "823781-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 213198,
+      "params": {
+        "timecode": "20260601_230500"
+      },
+      "received_at": "2026-11-03T03:11:40.564300+00:00",
+      "requested_at": "2026-11-03T03:11:37.435097+00:00",
+      "sha256": "4f8a7d6774b578b24933320bb1b0e4712a181d615be399ba24f0dc66f31f4241",
+      "status": 200,
+      "stored_gzip_sha256": "7066e103eb5ae41341477874fa4d0f8c769f3488ce47b9271a41aae3df744a68",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823781/feed/live?timecode=20260601_230500"
+    },
+    "823806-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 168335,
+      "params": {},
+      "received_at": "2026-11-03T03:08:32.073650+00:00",
+      "requested_at": "2026-11-03T03:08:31.095698+00:00",
+      "sha256": "8f980da090bfe9fa0e7c5515a2917f47346583e60a11d41299164b439f603aff",
+      "status": 200,
+      "stored_gzip_sha256": "f5225d7b4dd6d0d54e6143994aaef96d08d0d5283d554d23fc819ded44d4c243",
+      "url": "https://statsapi.mlb.com/api/v1/game/823806/boxscore"
+    },
+    "823806-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 213073,
+      "params": {
+        "timecode": "20260401_170500"
+      },
+      "received_at": "2026-11-03T03:08:29.995631+00:00",
+      "requested_at": "2026-11-03T03:08:28.752669+00:00",
+      "sha256": "18dbf4d76bcab2c3823cb061d4e687afbdad06cee8535c11f6801dc303788da2",
+      "status": 200,
+      "stored_gzip_sha256": "687de6ecc3afe541d41f9bc6561700f092437e21eeb016e2bfad16bab6671786",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823806/feed/live?timecode=20260401_170500"
+    },
+    "823877-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 170319,
+      "params": {},
+      "received_at": "2026-11-03T03:10:12.995986+00:00",
+      "requested_at": "2026-11-03T03:10:11.808371+00:00",
+      "sha256": "b22415e3441ef94f1dbd8c4b357d61fe1b352d5dc32171d74909c82c97f478c4",
+      "status": 200,
+      "stored_gzip_sha256": "b911ab3b4430ef71e48f27fc9009720ca6324e1622d30efeb76ce8b7b566f5e6",
+      "url": "https://statsapi.mlb.com/api/v1/game/823877/boxscore"
+    },
+    "823877-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 216788,
+      "params": {
+        "timecode": "20260501_223500"
+      },
+      "received_at": "2026-11-03T03:10:10.707963+00:00",
+      "requested_at": "2026-11-03T03:10:07.346763+00:00",
+      "sha256": "b3097e44913e491e47e4c13662e2ee85114875190d8a092dd8aee9943e93c253",
+      "status": 200,
+      "stored_gzip_sha256": "0c7c5ba0778a66329de0742940e5db01d1980e18a821786b31334e9aa2956375",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823877/feed/live?timecode=20260501_223500"
+    },
+    "823889-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 165795,
+      "params": {},
+      "received_at": "2026-11-03T03:08:23.053001+00:00",
+      "requested_at": "2026-11-03T03:08:22.079839+00:00",
+      "sha256": "72cbc21de10ea7225cda193359694156438ba0edd788eb3ca59f0f38a58431f9",
+      "status": 200,
+      "stored_gzip_sha256": "76940cd82adc01165a89759c8f0e3c4fab77723583140e4db491bb603e222e78",
+      "url": "https://statsapi.mlb.com/api/v1/game/823889/boxscore"
+    },
+    "823889-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 216166,
+      "params": {
+        "timecode": "20260401_163500"
+      },
+      "received_at": "2026-11-03T03:08:20.979536+00:00",
+      "requested_at": "2026-11-03T03:08:16.634758+00:00",
+      "sha256": "8ac246cfbc70205ce5a3369f3a9b12dc8f477e25d653cc1cc72c38d22a1bf235",
+      "status": 200,
+      "stored_gzip_sha256": "d85cb923111c323dbe6ae3cfcfd801b67194e2608f341334354b4d74845a87d6",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823889/feed/live?timecode=20260401_163500"
+    },
+    "823922-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 170723,
+      "params": {},
+      "received_at": "2026-11-03T03:15:59.250946+00:00",
+      "requested_at": "2026-11-03T03:15:58.278576+00:00",
+      "sha256": "d43293bf76a2cabcd9c7fd894ff8aca6e0e95c2aebe8a5d4d14a2170ba865c0a",
+      "status": 200,
+      "stored_gzip_sha256": "664b2ea2625cb2384083ec05881ce530884af3e93b56b59cce1b64abc0b733a6",
+      "url": "https://statsapi.mlb.com/api/v1/game/823922/boxscore"
+    },
+    "823922-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 217527,
+      "params": {
+        "timecode": "20260801_013500"
+      },
+      "received_at": "2026-11-03T03:15:57.178317+00:00",
+      "requested_at": "2026-11-03T03:15:51.919785+00:00",
+      "sha256": "af2fc416e5c3c4497fb8bf796f27261c074a762ca96c2b161d226bd4b2942b64",
+      "status": 200,
+      "stored_gzip_sha256": "7d2f17b030e4d174b7ca1762d79fbdd5b36c316b161fb2c474b01d0b2cc20468",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823922/feed/live?timecode=20260801_013500"
+    },
+    "823970-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 167536,
+      "params": {},
+      "received_at": "2026-11-03T03:09:14.050395+00:00",
+      "requested_at": "2026-11-03T03:09:13.061400+00:00",
+      "sha256": "c0420f92d96f2e4e0d4d83b536702bbcfa637b9cb06563df33d1c9857ee5f06f",
+      "status": 200,
+      "stored_gzip_sha256": "67a90dad3f6e1af858a007e024019fcb463286fdba764d791346b8cb519f81f8",
+      "url": "https://statsapi.mlb.com/api/v1/game/823970/boxscore"
+    },
+    "823970-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 216291,
+      "params": {
+        "timecode": "20260401_234500"
+      },
+      "received_at": "2026-11-03T03:09:11.961137+00:00",
+      "requested_at": "2026-11-03T03:09:10.216584+00:00",
+      "sha256": "900ab861fef3e932244971582b58ea0a668005c23f733a3a6063388edd5edd51",
+      "status": 200,
+      "stored_gzip_sha256": "aeb50f533e855b73b12b6366a2ae91c1470b8a23be37339c7355896dfb078af9",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823970/feed/live?timecode=20260401_234500"
+    },
+    "823982-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 169101,
+      "params": {},
+      "received_at": "2026-11-03T03:17:37.129198+00:00",
+      "requested_at": "2026-11-03T03:17:36.122240+00:00",
+      "sha256": "1aee98616e3dff55251c49ad04508cc723a9e29dbe54a2fa089783815f74d814",
+      "status": 200,
+      "stored_gzip_sha256": "5946e51528c9332095fd73a2218e700813512236460df2044e923cf5d9a4c325",
+      "url": "https://statsapi.mlb.com/api/v1/game/823982/boxscore"
+    },
+    "823982-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 226161,
+      "params": {
+        "timecode": "20260901_010300"
+      },
+      "received_at": "2026-11-03T03:17:35.022113+00:00",
+      "requested_at": "2026-11-03T03:17:32.176267+00:00",
+      "sha256": "1040bc275be3f2437f62e0b9635c79e2d91c5bc6b43d168de490fdd312245525",
+      "status": 200,
+      "stored_gzip_sha256": "e549c1afde147479d2c7790c387999d3b73658aab20676b68d9c78c37991a35d",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823982/feed/live?timecode=20260901_010300"
+    },
+    "823999-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 168675,
+      "params": {},
+      "received_at": "2026-11-03T03:15:33.917229+00:00",
+      "requested_at": "2026-11-03T03:15:32.890337+00:00",
+      "sha256": "a2b44d48f5f5719b601476823d669dd53685447a5953a1bb3fd3808c5777e6c0",
+      "status": 200,
+      "stored_gzip_sha256": "744f234d6eea60fda86898df3d893be944955769a199d8420aee3dcce8ebefc0",
+      "url": "https://statsapi.mlb.com/api/v1/game/823999/boxscore"
+    },
+    "823999-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 213883,
+      "params": {
+        "timecode": "20260801_010300"
+      },
+      "received_at": "2026-11-03T03:15:31.789992+00:00",
+      "requested_at": "2026-11-03T03:15:27.097234+00:00",
+      "sha256": "58db85ddb26452803c6ab0f66eb0f093c28a9f72102a624213b3d924a9522691",
+      "status": 200,
+      "stored_gzip_sha256": "928baf0f2c291c3a78dc73e551d8d255d13ee6e9376e0699ea9f74c9cc048325",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/823999/feed/live?timecode=20260801_010300"
+    },
+    "824027-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 177091,
+      "params": {},
+      "received_at": "2026-11-03T03:11:56.576657+00:00",
+      "requested_at": "2026-11-03T03:11:55.571344+00:00",
+      "sha256": "925316eb1b6c1ece8091029f3c01090b739ede38cca7320de80c16b239eafe12",
+      "status": 200,
+      "stored_gzip_sha256": "4aeecf860a6947ed5bde9dfca36451ef3015432170776fe97fdb28ce052a5e71",
+      "url": "https://statsapi.mlb.com/api/v1/game/824027/boxscore"
+    },
+    "824027-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 220221,
+      "params": {
+        "timecode": "20260602_010300"
+      },
+      "received_at": "2026-11-03T03:11:54.470907+00:00",
+      "requested_at": "2026-11-03T03:11:51.753492+00:00",
+      "sha256": "cb9abc672aa62d51917e5c735b7f5ce080a6e9830b76affb1cd28cfa2400ecc1",
+      "status": 200,
+      "stored_gzip_sha256": "15b3fd138895d95b7cad709d4b745118c3869c282d21a27f053c7bc800c297a2",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824027/feed/live?timecode=20260602_010300"
+    },
+    "824041-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 171584,
+      "params": {},
+      "received_at": "2026-11-03T03:10:43.384435+00:00",
+      "requested_at": "2026-11-03T03:10:42.391539+00:00",
+      "sha256": "42a2a275072207b45b8b8f183654df23b508720389798593b8a6748612738cc4",
+      "status": 200,
+      "stored_gzip_sha256": "7a50ed86a35b435c05b7649eaa5612e3eecfb469aa6d11f06f860c00dd7e043f",
+      "url": "https://statsapi.mlb.com/api/v1/game/824041/boxscore"
+    },
+    "824041-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 213499,
+      "params": {
+        "timecode": "20260502_010300"
+      },
+      "received_at": "2026-11-03T03:10:41.291206+00:00",
+      "requested_at": "2026-11-03T03:10:38.546667+00:00",
+      "sha256": "878baddcc1e7c8d93d643b8bb000b95a33168e78bca7f413e0256d5c6dcc1705",
+      "status": 200,
+      "stored_gzip_sha256": "fa7846eb1245ea139112e2ceeb6f372103036016b17d93656f8ea35dc59d6b29",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824041/feed/live?timecode=20260502_010300"
+    },
+    "824070-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 180068,
+      "params": {},
+      "received_at": "2026-11-03T03:18:29.654012+00:00",
+      "requested_at": "2026-11-03T03:18:28.599240+00:00",
+      "sha256": "f398552003fe08b7c5c30e4e06c8b69797a63dd3dfafc4f55afd65ed25440c4c",
+      "status": 200,
+      "stored_gzip_sha256": "f8310b6203f37e27da8c1b5c9e89019115feb11d1b6d6d06fab5e14b8acf225c",
+      "url": "https://statsapi.mlb.com/api/v1/game/824070/boxscore"
+    },
+    "824070-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 230443,
+      "params": {
+        "timecode": "20260901_230500"
+      },
+      "received_at": "2026-11-03T03:18:27.499191+00:00",
+      "requested_at": "2026-11-03T03:18:24.809955+00:00",
+      "sha256": "9ef007fc17e5455df4b9f8e93f5c5adf5222af88c00f6567e2ce65d57f256844",
+      "status": 200,
+      "stored_gzip_sha256": "67b299605cfae391621ea818555e5c5116caa05e38a46a36032fbc1e21f5d4a8",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824070/feed/live?timecode=20260901_230500"
+    },
+    "824094-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 168642,
+      "params": {},
+      "received_at": "2026-11-03T03:14:56.661180+00:00",
+      "requested_at": "2026-11-03T03:14:55.770981+00:00",
+      "sha256": "c93ac7fab08da18af9d18933d7d23b2ac29c44e609d65a2ef939821350662085",
+      "status": 200,
+      "stored_gzip_sha256": "d45d2683029895f1a54a42b85f4f8440bd564e09b3eab5b1dbfbdeb69bb93f90",
+      "url": "https://statsapi.mlb.com/api/v1/game/824094/boxscore"
+    },
+    "824094-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 217172,
+      "params": {
+        "timecode": "20260701_230500"
+      },
+      "received_at": "2026-11-03T03:14:54.670711+00:00",
+      "requested_at": "2026-11-03T03:14:51.983387+00:00",
+      "sha256": "812e8e9b8c334b45039084d8275f2c6bbd0c983087bfeff143eb2c778dc44a2d",
+      "status": 200,
+      "stored_gzip_sha256": "60b4fb300fe45629dbfadce93685152b61725fa7b207b2ef40cb96456b62e235",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824094/feed/live?timecode=20260701_230500"
+    },
+    "824133-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 170255,
+      "params": {},
+      "received_at": "2026-11-03T03:09:20.134529+00:00",
+      "requested_at": "2026-11-03T03:09:19.170615+00:00",
+      "sha256": "3d1470a2d7343d95730c69ca6ee560029b190e48fff2ba240715d90b9b17722b",
+      "status": 200,
+      "stored_gzip_sha256": "be878080c15889949c87c82dadd3b368b319f39831acafb356a6a20312bb11f2",
+      "url": "https://statsapi.mlb.com/api/v1/game/824133/boxscore"
+    },
+    "824133-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 212516,
+      "params": {
+        "timecode": "20260402_173500"
+      },
+      "received_at": "2026-11-03T03:09:18.070425+00:00",
+      "requested_at": "2026-11-03T03:09:15.150901+00:00",
+      "sha256": "e81559746fe5949c596045e6b95d83108415e49dba670b16724b4a1b292ae241",
+      "status": 200,
+      "stored_gzip_sha256": "6f8f3cc95ad9433516eb6e3703b1b674791a5a3c45695aa4328605f6d85fa786",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824133/feed/live?timecode=20260402_173500"
+    },
+    "824136-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 174488,
+      "params": {},
+      "received_at": "2026-11-03T03:09:09.116136+00:00",
+      "requested_at": "2026-11-03T03:09:08.065618+00:00",
+      "sha256": "4caefaa978050d69e34746497870ad55a377fd6f986bf7fde5e4acda902ac62c",
+      "status": 200,
+      "stored_gzip_sha256": "9d8e665e7acb9be721fc39513a0604d1b38afdd5d397f4ecfcc5ee36483188cc",
+      "url": "https://statsapi.mlb.com/api/v1/game/824136/boxscore"
+    },
+    "824136-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 215702,
+      "params": {
+        "timecode": "20260401_230500"
+      },
+      "received_at": "2026-11-03T03:09:06.965421+00:00",
+      "requested_at": "2026-11-03T03:08:59.720689+00:00",
+      "sha256": "a25905b7a42601c4bb8462befc02ddd71dfc48181744d25ba592018f3d6396ed",
+      "status": 200,
+      "stored_gzip_sha256": "cb125487e4435c3ec069ba651f02b105b87664b3a63bac4c912efb4b12cf433e",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824136/feed/live?timecode=20260401_230500"
+    },
+    "824148-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 176602,
+      "params": {},
+      "received_at": "2026-11-03T03:18:47.211365+00:00",
+      "requested_at": "2026-11-03T03:18:46.241530+00:00",
+      "sha256": "f1321cd3e367898f9d0abd007a3fbc09c2290518e646c5d6c72b3ca7f9e1d6aa",
+      "status": 200,
+      "stored_gzip_sha256": "4243cca26b9db9dc5eaaa400cab28563c2ca6513d384b9699ef343eacaf3aa44",
+      "url": "https://statsapi.mlb.com/api/v1/game/824148/boxscore"
+    },
+    "824148-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 227858,
+      "params": {
+        "timecode": "20260901_233500"
+      },
+      "received_at": "2026-11-03T03:18:45.141415+00:00",
+      "requested_at": "2026-11-03T03:18:41.090540+00:00",
+      "sha256": "5cd4b940985744b3ded8086532c003f8ffc2aedccfaa72fdf3cd5c5fbe38aafc",
+      "status": 200,
+      "stored_gzip_sha256": "3a9b61166da0e13bfb9badd69d5cc7942d87aa1eae0cee96571adec9b17a6d01",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824148/feed/live?timecode=20260901_233500"
+    },
+    "824149-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 171393,
+      "params": {},
+      "received_at": "2026-11-03T03:17:25.308380+00:00",
+      "requested_at": "2026-11-03T03:17:24.271892+00:00",
+      "sha256": "24d96a2fe4146e46c6430de07ce5b2374f01502d3852d20253dd1b130ee1c011",
+      "status": 200,
+      "stored_gzip_sha256": "b882cd240822e596aa6db1961d0df58205a57fc947b75e995a39127c0cd5d2bf",
+      "url": "https://statsapi.mlb.com/api/v1/game/824149/boxscore"
+    },
+    "824149-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 217875,
+      "params": {
+        "timecode": "20260831_233500"
+      },
+      "received_at": "2026-11-03T03:17:23.171665+00:00",
+      "requested_at": "2026-11-03T03:17:20.038443+00:00",
+      "sha256": "eb9074cd9eaef526862d790ebdf668cc90b46e6c58bd68a6095e9d0d586294bb",
+      "status": 200,
+      "stored_gzip_sha256": "d42f12703174517152a347082cd3cc6bc772a13e8ae2907b418685805aac845e",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824149/feed/live?timecode=20260831_233500"
+    },
+    "824162-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 175860,
+      "params": {},
+      "received_at": "2026-11-03T03:16:53.532759+00:00",
+      "requested_at": "2026-11-03T03:16:52.484086+00:00",
+      "sha256": "ebf26b6232e99405458db73795262b284869d6b145382b4163fbb763f002caff",
+      "status": 200,
+      "stored_gzip_sha256": "393c4a42da1570fa0c736e83f5f97540b813ff285b3fb027c360ca7741f11742",
+      "url": "https://statsapi.mlb.com/api/v1/game/824162/boxscore"
+    },
+    "824162-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 217204,
+      "params": {
+        "timecode": "20260801_223500"
+      },
+      "received_at": "2026-11-03T03:16:51.383974+00:00",
+      "requested_at": "2026-11-03T03:16:46.225612+00:00",
+      "sha256": "40eb03ab42668710a8945de7c126b153d278e892ca487ab2b23767ae5816d70c",
+      "status": 200,
+      "stored_gzip_sha256": "b62b15a2ff8e8d19ba2f4db5838de3be9b8518d7c6b015aed247e68c406dd342",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824162/feed/live?timecode=20260801_223500"
+    },
+    "824164-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 174661,
+      "params": {},
+      "received_at": "2026-11-03T03:15:18.813237+00:00",
+      "requested_at": "2026-11-03T03:15:17.903800+00:00",
+      "sha256": "36a5621ff692a6d60c2898e21e1d4c99f9dff6b15b65c11eace8f7a4c7390123",
+      "status": 200,
+      "stored_gzip_sha256": "91479eb97aa82669d65bbb11c610a6efc933b2d6058c9f23c981eabf0eea42b6",
+      "url": "https://statsapi.mlb.com/api/v1/game/824164/boxscore"
+    },
+    "824164-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 213935,
+      "params": {
+        "timecode": "20260731_234000"
+      },
+      "received_at": "2026-11-03T03:15:16.803255+00:00",
+      "requested_at": "2026-11-03T03:15:10.507759+00:00",
+      "sha256": "17274bbbdf0a4e3090e2fb996b6a3a26bdae15cb1b28d4fc0f1dd601f6f57065",
+      "status": 200,
+      "stored_gzip_sha256": "a2d10797812bb9762c17c8577a251d0ffc03f607668c2dda93479718bad4ed32",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824164/feed/live?timecode=20260731_234000"
+    },
+    "824174-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 173949,
+      "params": {},
+      "received_at": "2026-11-03T03:15:09.407511+00:00",
+      "requested_at": "2026-11-03T03:15:08.399030+00:00",
+      "sha256": "a8dc745f227855d6c2095458fe11423aa128a299e33967e87f2e91edef02fb42",
+      "status": 200,
+      "stored_gzip_sha256": "c29513eb662ad8f10d8875ee43a57ade83174f8c537db60be3643ac8cc79651f",
+      "url": "https://statsapi.mlb.com/api/v1/game/824174/boxscore"
+    },
+    "824174-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 217049,
+      "params": {
+        "timecode": "20260701_233500"
+      },
+      "received_at": "2026-11-03T03:15:07.298818+00:00",
+      "requested_at": "2026-11-03T03:15:05.822827+00:00",
+      "sha256": "50271f9a040e2db52d543f7a0d30aaf6158193584c5278a2cde44e285cd28556",
+      "status": 200,
+      "stored_gzip_sha256": "1140b462855aa86567ebc68706dd90fb36b9ba9ba1f54418115b49e7b5b2f7ef",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824174/feed/live?timecode=20260701_233500"
+    },
+    "824175-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 171826,
+      "params": {},
+      "received_at": "2026-11-03T03:13:15.841594+00:00",
+      "requested_at": "2026-11-03T03:13:14.970350+00:00",
+      "sha256": "2471293ba7ae6753a5502a7b9bf3ee22d68966318942a984b75797f645d82353",
+      "status": 200,
+      "stored_gzip_sha256": "b5e6f9b349207b0e6867aeeb3354b4cbcc1a860245cf0f66da837cc74295e781",
+      "url": "https://statsapi.mlb.com/api/v1/game/824175/boxscore"
+    },
+    "824175-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 217015,
+      "params": {
+        "timecode": "20260630_233500"
+      },
+      "received_at": "2026-11-03T03:13:13.870140+00:00",
+      "requested_at": "2026-11-03T03:13:11.992348+00:00",
+      "sha256": "1f726646bac7a383bbcdf1456491285080e3dd5e53d800cae12659e2a0355e79",
+      "status": 200,
+      "stored_gzip_sha256": "935fb9f02e4ed56f7a5ecb090806afc133fc878aefa622b05b78d8fe4aac0a3c",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824175/feed/live?timecode=20260630_233500"
+    },
+    "824211-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 166160,
+      "params": {},
+      "received_at": "2026-11-03T03:08:37.884648+00:00",
+      "requested_at": "2026-11-03T03:08:36.924698+00:00",
+      "sha256": "ae715a71a5c7ae733a159d1e8d12fadb8f2eb6d486fdec2b89fb31d682ca8f5e",
+      "status": 200,
+      "stored_gzip_sha256": "acfe1d0fcec1ce603fb97fd9defa750902ce61bac10669bab130b1166540ab94",
+      "url": "https://statsapi.mlb.com/api/v1/game/824211/boxscore"
+    },
+    "824211-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 209472,
+      "params": {
+        "timecode": "20260401_173500"
+      },
+      "received_at": "2026-11-03T03:08:35.824638+00:00",
+      "requested_at": "2026-11-03T03:08:33.173923+00:00",
+      "sha256": "b93c865b3d9cf4fc4e2ab70c0086756d9b08b54338699b057869dcd49bfc4a0b",
+      "status": 200,
+      "stored_gzip_sha256": "8868ce89224833b79b2eb987dca3709de84a2a3d763f5d2ddf131a642d80a62c",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824211/feed/live?timecode=20260401_173500"
+    },
+    "824287-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 166955,
+      "params": {},
+      "received_at": "2026-11-03T03:09:39.890849+00:00",
+      "requested_at": "2026-11-03T03:09:38.827784+00:00",
+      "sha256": "df79a6ba435c4c2890cda2f86be62b169279bf452aaac4636c69dcea9cee3e09",
+      "status": 200,
+      "stored_gzip_sha256": "aed2bb7fca49979e98cdee3da4280084c27e3dca2516576703beebfdac0e92b5",
+      "url": "https://statsapi.mlb.com/api/v1/game/824287/boxscore"
+    },
+    "824287-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 206756,
+      "params": {
+        "timecode": "20260501_220500"
+      },
+      "received_at": "2026-11-03T03:09:37.727585+00:00",
+      "requested_at": "2026-11-03T03:09:36.091631+00:00",
+      "sha256": "dc19b56586005366f15a8f03d770c3a0e4ad5c8e60e7ddf4c0b3879c89bf02f4",
+      "status": 200,
+      "stored_gzip_sha256": "f0174b87449503acf88bd588063560d4ad1e7dee33519656e4aaafc358547c25",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824287/feed/live?timecode=20260501_220500"
+    },
+    "824313-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 185927,
+      "params": {},
+      "received_at": "2026-11-03T03:18:52.150195+00:00",
+      "requested_at": "2026-11-03T03:18:51.087636+00:00",
+      "sha256": "412c325fa4c418f5da25641ffbbd9afdbfb415c06936df1c3e8d2671db893eb0",
+      "status": 200,
+      "stored_gzip_sha256": "72b03f7b4a0806b1f10f207c9e2adfd8414d855f167fe01046f83b9cf6d15b4a",
+      "url": "https://statsapi.mlb.com/api/v1/game/824313/boxscore"
+    },
+    "824313-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 230742,
+      "params": {
+        "timecode": "20260902_000500"
+      },
+      "received_at": "2026-11-03T03:18:49.987405+00:00",
+      "requested_at": "2026-11-03T03:18:48.311567+00:00",
+      "sha256": "be581ddccf8337847204051b075e570cf78793444d9271fef49d7c1c74ab35c3",
+      "status": 200,
+      "stored_gzip_sha256": "a71724c9f53bffa1b7e50261324c051c370ccb9ad9b269c75afcc4e49ea2aade",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824313/feed/live?timecode=20260902_000500"
+    },
+    "824314-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 172768,
+      "params": {},
+      "received_at": "2026-11-03T03:17:31.075861+00:00",
+      "requested_at": "2026-11-03T03:17:30.028609+00:00",
+      "sha256": "fc54a2f80873b8d459a8f20cb462033c7cb8b3702e3f4e636e2509e0f296e5a3",
+      "status": 200,
+      "stored_gzip_sha256": "c37f5f13eefc27c47b41a7be93899ff17b9ebeb720371622e2e7c4f5dc581f58",
+      "url": "https://statsapi.mlb.com/api/v1/game/824314/boxscore"
+    },
+    "824314-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 213943,
+      "params": {
+        "timecode": "20260901_000500"
+      },
+      "received_at": "2026-11-03T03:17:28.928376+00:00",
+      "requested_at": "2026-11-03T03:17:26.408886+00:00",
+      "sha256": "19d88fea806d2516106a0472698bc1ee6e2e85e9aca62ed9e354d2ca92cce0b9",
+      "status": 200,
+      "stored_gzip_sha256": "171847d7061c35a62920a75c9f08272c710d61ce90ca473386c5658524d3faea",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824314/feed/live?timecode=20260901_000500"
+    },
+    "824325-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 169250,
+      "params": {},
+      "received_at": "2026-11-03T03:15:25.996988+00:00",
+      "requested_at": "2026-11-03T03:15:25.104572+00:00",
+      "sha256": "772dadf9422eb03a40abda3f9f642be92251385bc28a134c33b101dc49e4e13a",
+      "status": 200,
+      "stored_gzip_sha256": "10fab166a5b22dfde5ad614652520e5fd3f9c212e0bac5d68ca608919f5acc16",
+      "url": "https://statsapi.mlb.com/api/v1/game/824325/boxscore"
+    },
+    "824325-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 217543,
+      "params": {
+        "timecode": "20260801_000500"
+      },
+      "received_at": "2026-11-03T03:15:24.004045+00:00",
+      "requested_at": "2026-11-03T03:15:19.913594+00:00",
+      "sha256": "f18401dbbb25899fd9eb53aece790d217c8affaccdd280f5c98eae917c00aef7",
+      "status": 200,
+      "stored_gzip_sha256": "f94d398efc398e2094d0ee2b1c6c0d06698ac2d9fbea6cd8424d7087fc798890",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824325/feed/live?timecode=20260801_000500"
+    },
+    "824338-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 170880,
+      "params": {},
+      "received_at": "2026-11-03T03:13:24.550337+00:00",
+      "requested_at": "2026-11-03T03:13:23.547098+00:00",
+      "sha256": "aac244c008dcc788472732de42f6da2ed486fe60d801c52fe0862d068a934ccb",
+      "status": 200,
+      "stored_gzip_sha256": "c6e9420c68f1579fa5d219531804b261c19d0ca457fd66b0ef8358d7a03b4c0f",
+      "url": "https://statsapi.mlb.com/api/v1/game/824338/boxscore"
+    },
+    "824338-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 217182,
+      "params": {
+        "timecode": "20260701_000500"
+      },
+      "received_at": "2026-11-03T03:13:22.446616+00:00",
+      "requested_at": "2026-11-03T03:13:16.941863+00:00",
+      "sha256": "9e8d6ae812258f4d368eaa64a5cf6fd3b5f0972e787ae21b988b36f2dcfc5c8e",
+      "status": 200,
+      "stored_gzip_sha256": "d98c7cb6afe24b177454828a8f5764db2dfb23a06174dd2483b032e030b8d1e4",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824338/feed/live?timecode=20260701_000500"
+    },
+    "824366-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 173164,
+      "params": {},
+      "received_at": "2026-11-03T03:10:37.446213+00:00",
+      "requested_at": "2026-11-03T03:10:36.267957+00:00",
+      "sha256": "f4858e448ff35b80312ee3d3c515d1dbbbdeb709501829dc692e7401405a33f0",
+      "status": 200,
+      "stored_gzip_sha256": "60cb40280d87a06224f3709ec0b57ee80ea799ecc87fa4daf71c4b3fbbf50c46",
+      "url": "https://statsapi.mlb.com/api/v1/game/824366/boxscore"
+    },
+    "824366-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 213573,
+      "params": {
+        "timecode": "20260502_000500"
+      },
+      "received_at": "2026-11-03T03:10:35.167512+00:00",
+      "requested_at": "2026-11-03T03:10:33.491739+00:00",
+      "sha256": "2a751e0d823f1c0a1763fdfa394a350675970be829fb47916ba51e8a4d933792",
+      "status": 200,
+      "stored_gzip_sha256": "560410d4bd8b6176eefa4b5537482d169378c60c89c51dd8f99656c07281cb56",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824366/feed/live?timecode=20260502_000500"
+    },
+    "824391-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 181045,
+      "params": {},
+      "received_at": "2026-11-03T03:18:01.578938+00:00",
+      "requested_at": "2026-11-03T03:18:00.483076+00:00",
+      "sha256": "df1115c872add25f247a45bee802ae2a542481bf25888ff9cce3cf056aebf8bd",
+      "status": 200,
+      "stored_gzip_sha256": "e5036eb817de114863001a75dc3506c0ddc0f199db99b09594c73c6c8ce57434",
+      "url": "https://statsapi.mlb.com/api/v1/game/824391/boxscore"
+    },
+    "824391-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 230923,
+      "params": {
+        "timecode": "20260901_220500"
+      },
+      "received_at": "2026-11-03T03:17:59.382538+00:00",
+      "requested_at": "2026-11-03T03:17:56.194415+00:00",
+      "sha256": "eff1b23a3b80515bd67bb110dce45498adbc3502a184637dc42d8beaa39ff9c8",
+      "status": 200,
+      "stored_gzip_sha256": "04d928c853ea7485543ed5f9bf62ef213c2b5ece6f455000b0e15acce2a4666f",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824391/feed/live?timecode=20260901_220500"
+    },
+    "824405-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 179586,
+      "params": {},
+      "received_at": "2026-11-03T03:17:03.723922+00:00",
+      "requested_at": "2026-11-03T03:17:02.697406+00:00",
+      "sha256": "7b61ce631467595b2af0aba1db68d7a681f9359533ef44ae63f68cf0b3f84725",
+      "status": 200,
+      "stored_gzip_sha256": "057d350d0f54b9a89df60291d0b17e0d8e2c3414b15d8d042674156ddfa4c9b7",
+      "url": "https://statsapi.mlb.com/api/v1/game/824405/boxscore"
+    },
+    "824405-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 220936,
+      "params": {
+        "timecode": "20260801_224000"
+      },
+      "received_at": "2026-11-03T03:17:01.597218+00:00",
+      "requested_at": "2026-11-03T03:16:54.633155+00:00",
+      "sha256": "4df8cd943d797d79a40fff55ee1fe66ad466c1563f64cca94ca6f921ff8f9693",
+      "status": 200,
+      "stored_gzip_sha256": "90d3216531380ce49b7ca530c362693e8d4987c2f0e120cf457cbd741d281f20",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824405/feed/live?timecode=20260801_224000"
+    },
+    "824419-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 169838,
+      "params": {},
+      "received_at": "2026-11-03T03:14:02.783778+00:00",
+      "requested_at": "2026-11-03T03:14:01.787339+00:00",
+      "sha256": "be9393c204e81b04e3f2091284d9222fd9a15c2cc2be1e1552fdcd8cc732ac9f",
+      "status": 200,
+      "stored_gzip_sha256": "6fb6e0ef20aaed70a80b46ffc53267c5dae6304dfd6235348ad76c7d24299c3f",
+      "url": "https://statsapi.mlb.com/api/v1/game/824419/boxscore"
+    },
+    "824419-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 213675,
+      "params": {
+        "timecode": "20260701_163500"
+      },
+      "received_at": "2026-11-03T03:14:00.686998+00:00",
+      "requested_at": "2026-11-03T03:13:55.531245+00:00",
+      "sha256": "745531380e0f09f005ed5b827b96986b3b5b0c538a33fd903e097bf1db40816d",
+      "status": 200,
+      "stored_gzip_sha256": "441be308bff16ba87fda6f25b879da7558d5bf61efac875944fcd193b62a1e17",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824419/feed/live?timecode=20260701_163500"
+    },
+    "824472-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 186835,
+      "params": {},
+      "received_at": "2026-11-03T03:18:06.494602+00:00",
+      "requested_at": "2026-11-03T03:18:05.472886+00:00",
+      "sha256": "1b6056c836e9c1d93654e888f822b61fe1c917098508cc13e37608e1bd28d550",
+      "status": 200,
+      "stored_gzip_sha256": "ae3c119e6b928969959d250d9a11ccc467acb65efc866e20634219f09178d677",
+      "url": "https://statsapi.mlb.com/api/v1/game/824472/boxscore"
+    },
+    "824472-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 234101,
+      "params": {
+        "timecode": "20260901_220500"
+      },
+      "received_at": "2026-11-03T03:18:04.372475+00:00",
+      "requested_at": "2026-11-03T03:18:02.679062+00:00",
+      "sha256": "229fd989c013bd011855a32cd0b158144d458c2388cd88bed4f9bd15142b2e1a",
+      "status": 200,
+      "stored_gzip_sha256": "80c65c349191c4b8561ddf44694833b2b198476092b35de9cff4193be364d7a2",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824472/feed/live?timecode=20260901_220500"
+    },
+    "824485-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 167409,
+      "params": {},
+      "received_at": "2026-11-03T03:16:36.780020+00:00",
+      "requested_at": "2026-11-03T03:16:35.732015+00:00",
+      "sha256": "268b5bdbf26ceff762f69b122fd04f0e89492cfa5de51f2a1aae9adeef1b7fa1",
+      "status": 200,
+      "stored_gzip_sha256": "de8b8ca43f54ba0addc9f9c73375090ae53153aa6b0eefc3ff1dbae7fb34a266",
+      "url": "https://statsapi.mlb.com/api/v1/game/824485/boxscore"
+    },
+    "824485-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 213937,
+      "params": {
+        "timecode": "20260801_220500"
+      },
+      "received_at": "2026-11-03T03:16:34.631652+00:00",
+      "requested_at": "2026-11-03T03:16:30.114153+00:00",
+      "sha256": "cb4e359819b9ea840ccefde467e9f8771253149d2a905874f6ae441b1dbb3e5a",
+      "status": 200,
+      "stored_gzip_sha256": "0e128baf14c07ffd8a04b4ce4cec52c44eb31da2f7c55a19221de86c7714d069",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824485/feed/live?timecode=20260801_220500"
+    },
+    "824510-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 168966,
+      "params": {},
+      "received_at": "2026-11-03T03:11:27.361112+00:00",
+      "requested_at": "2026-11-03T03:11:26.288981+00:00",
+      "sha256": "e7d3e8c119398c142aa5e57a604bed2f409a000d5f90a9d2ce3302a960fb27d2",
+      "status": 200,
+      "stored_gzip_sha256": "79ce389d34692b8493fdcccc813de74f50adde6ae85f8d6849b97c5b2177ec21",
+      "url": "https://statsapi.mlb.com/api/v1/game/824510/boxscore"
+    },
+    "824510-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 216841,
+      "params": {
+        "timecode": "20260601_223500"
+      },
+      "received_at": "2026-11-03T03:11:25.188931+00:00",
+      "requested_at": "2026-11-03T03:11:20.692235+00:00",
+      "sha256": "49229f54db1f21244cbfdc32ec62a1d6143c9ced3dd8869afd5fc8ba10b94bcf",
+      "status": 200,
+      "stored_gzip_sha256": "a257ddbc9d519c3f6b81a752dc6a4e57ddb02b2f0ebe858e6b7b1c13f7b99157",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824510/feed/live?timecode=20260601_223500"
+    },
+    "824511-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 173690,
+      "params": {},
+      "received_at": "2026-11-03T03:12:47.244296+00:00",
+      "requested_at": "2026-11-03T03:12:46.254919+00:00",
+      "sha256": "b82c1fda5d45c986e8b8d32916010f48c1cec29569b82463ba29ce3b3070ed0f",
+      "status": 200,
+      "stored_gzip_sha256": "3ae9f2f5cbfd2dba2c9f63cef102fdde63ffdf8b34539be64e369486d32ee358",
+      "url": "https://statsapi.mlb.com/api/v1/game/824511/boxscore"
+    },
+    "824511-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 216625,
+      "params": {
+        "timecode": "20260602_223500"
+      },
+      "received_at": "2026-11-03T03:12:45.154616+00:00",
+      "requested_at": "2026-11-03T03:12:43.796918+00:00",
+      "sha256": "f6773ceca67dc0b2fcbfd0852ac2b172f008f47d3e185d0967b1535ddba37144",
+      "status": 200,
+      "stored_gzip_sha256": "fe7ec530ec614ed43c1320b3111534207c75d924997668984aee931771fda5cb",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824511/feed/live?timecode=20260602_223500"
+    },
+    "824536-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 171756,
+      "params": {},
+      "received_at": "2026-11-03T03:08:00.231907+00:00",
+      "requested_at": "2026-11-03T03:07:59.239824+00:00",
+      "sha256": "43c9ddc2aec6dc45e8a78c2eb871dee6b0313bfed9b3e1f6046d2723fb93617d",
+      "status": 200,
+      "stored_gzip_sha256": "72a73ec1e3a8c834883a42fd8b5dff830b3ec7131fd73af592adbc087ba5285e",
+      "url": "https://statsapi.mlb.com/api/v1/game/824536/boxscore"
+    },
+    "824536-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 216019,
+      "params": {
+        "timecode": "20260401_160500"
+      },
+      "received_at": "2026-11-03T03:07:58.139784+00:00",
+      "requested_at": "2026-11-03T03:07:55.042109+00:00",
+      "sha256": "57eedb297db60eea9e6e7518267ca6868239d2e91ab67932d66b6d77998e9e59",
+      "status": 200,
+      "stored_gzip_sha256": "acd8ca6d5595ae4c6dac1be44c61e5336984eb097c370aacd549283126b68467",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824536/feed/live?timecode=20260401_160500"
+    },
+    "824621-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 174593,
+      "params": {},
+      "received_at": "2026-11-03T03:09:25.115473+00:00",
+      "requested_at": "2026-11-03T03:09:24.032103+00:00",
+      "sha256": "a3677975cdc6ed67ed52afc2cb01d0645eed4201bdf7b9a0b1e774fc26154ab5",
+      "status": 200,
+      "stored_gzip_sha256": "d17ac08955275f1bf1e5b56d1c864de3590a1cd746b206de73895703ba91b87a",
+      "url": "https://statsapi.mlb.com/api/v1/game/824621/boxscore"
+    },
+    "824621-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 213166,
+      "params": {
+        "timecode": "20260402_193500"
+      },
+      "received_at": "2026-11-03T03:09:22.931915+00:00",
+      "requested_at": "2026-11-03T03:09:21.234802+00:00",
+      "sha256": "15ea2fe6fcb0982275d920069e280f463a5e719d875d79dc3362495ef177f6df",
+      "status": 200,
+      "stored_gzip_sha256": "b11a5ef8ec4125406eb2999b6b8e7b8936e6801d73e956b6a9530684c275f686",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824621/feed/live?timecode=20260402_193500"
+    },
+    "824633-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 183961,
+      "params": {},
+      "received_at": "2026-11-03T03:18:34.458045+00:00",
+      "requested_at": "2026-11-03T03:18:33.434419+00:00",
+      "sha256": "1e31c3ca876aaf48f97cf9d82b4bc2d7b18dd3e38598f2a57c14e8674d3b7003",
+      "status": 200,
+      "stored_gzip_sha256": "3a30210ef8a7a6b3b41675a4ccdd13946d4fbfc9e51a27ec2512f54028090ddb",
+      "url": "https://statsapi.mlb.com/api/v1/game/824633/boxscore"
+    },
+    "824633-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 231074,
+      "params": {
+        "timecode": "20260901_230500"
+      },
+      "received_at": "2026-11-03T03:18:32.333852+00:00",
+      "requested_at": "2026-11-03T03:18:30.754132+00:00",
+      "sha256": "d2138d90f7bfca90b945b1d93b38f377ef0c4d9d4228bdf870951f0ed9c48a85",
+      "status": 200,
+      "stored_gzip_sha256": "597ebb5617cc6022d56d10a6aecd9d963f948b1d6e78db0c9c412c7a4183ab1c",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824633/feed/live?timecode=20260901_230500"
+    },
+    "824649-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 176477,
+      "params": {},
+      "received_at": "2026-11-03T03:17:11.442759+00:00",
+      "requested_at": "2026-11-03T03:17:10.438290+00:00",
+      "sha256": "a0735ca72875172c2069b3f3f34e941ebf13b48b347bebcdbaeab9f2f0389990",
+      "status": 200,
+      "stored_gzip_sha256": "f930bc15ad9d93ccff588ee91659cbff346c8b86394877581c34aae117d659bf",
+      "url": "https://statsapi.mlb.com/api/v1/game/824649/boxscore"
+    },
+    "824649-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 217542,
+      "params": {
+        "timecode": "20260801_224000"
+      },
+      "received_at": "2026-11-03T03:17:09.338160+00:00",
+      "requested_at": "2026-11-03T03:17:04.824302+00:00",
+      "sha256": "a973f121fc77c86fc3600d8424ac935868473f12ba491953a725f7c4d8d74ffd",
+      "status": 200,
+      "stored_gzip_sha256": "bbac03a5da18f17631806f51815a0703f5ee4eabfea7feab0d79a615af809897",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824649/feed/live?timecode=20260801_224000"
+    },
+    "824660-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 172527,
+      "params": {},
+      "received_at": "2026-11-03T03:14:26.156652+00:00",
+      "requested_at": "2026-11-03T03:14:24.966442+00:00",
+      "sha256": "9b1819584f36629056171a2828281fcf7a43900051d3a9484387ba66558ae96a",
+      "status": 200,
+      "stored_gzip_sha256": "0009ba6c080e958f9c8bde1be4195d28c2b6da56a96fa50e73687447147974c9",
+      "url": "https://statsapi.mlb.com/api/v1/game/824660/boxscore"
+    },
+    "824660-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 217112,
+      "params": {
+        "timecode": "20260701_174500"
+      },
+      "received_at": "2026-11-03T03:14:23.866039+00:00",
+      "requested_at": "2026-11-03T03:14:18.964160+00:00",
+      "sha256": "7aee02898a2a39d9052577e9d270cc6caf28b2b0835b4ce7c6d872953b06705b",
+      "status": 200,
+      "stored_gzip_sha256": "e4b46216c2a55920402b37a32143793f2c2305146ba913fc8623abd7e1f73e0b",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824660/feed/live?timecode=20260701_174500"
+    },
+    "824661-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 170909,
+      "params": {},
+      "received_at": "2026-11-03T03:13:10.891796+00:00",
+      "requested_at": "2026-11-03T03:13:09.783096+00:00",
+      "sha256": "2f76aece347a6a89b41a888ef85bd5365dab43deb747f8e58f114b2595042ff5",
+      "status": 200,
+      "stored_gzip_sha256": "d6996b6592429e1ab0f6ad57e41dca8ffa6c8c5dc8fa2a2d2f356b1323459c2f",
+      "url": "https://statsapi.mlb.com/api/v1/game/824661/boxscore"
+    },
+    "824661-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 217086,
+      "params": {
+        "timecode": "20260630_233000"
+      },
+      "received_at": "2026-11-03T03:13:08.682902+00:00",
+      "requested_at": "2026-11-03T03:13:01.940653+00:00",
+      "sha256": "8a16777251d8e08fec84587d729f4715f1b83ffcac6044653d2fa99f9d8ba674",
+      "status": 200,
+      "stored_gzip_sha256": "78156271c67fdd7aee2461b21f504e64f479bb48ae0804bff10a3ad90d0b8cbd",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824661/feed/live?timecode=20260630_233000"
+    },
+    "824686-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 170550,
+      "params": {},
+      "received_at": "2026-11-03T03:09:34.991115+00:00",
+      "requested_at": "2026-11-03T03:09:33.988406+00:00",
+      "sha256": "8072919d6b587dd06e741e119d8593dd3dc5e503aa1c53258c9ae79a811a3816",
+      "status": 200,
+      "stored_gzip_sha256": "e9e3d83c4a77fd7e2c86840602a39307c11cc85f339aec31fc03d55df4c319d9",
+      "url": "https://statsapi.mlb.com/api/v1/game/824686/boxscore"
+    },
+    "824686-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 217160,
+      "params": {
+        "timecode": "20260501_174500"
+      },
+      "received_at": "2026-11-03T03:09:32.888356+00:00",
+      "requested_at": "2026-11-03T03:09:26.215788+00:00",
+      "sha256": "e5a106d2af092b6bf6341fcddff008e0095bdf030cc9c605ce04b5967d36053b",
+      "status": 200,
+      "stored_gzip_sha256": "a444ebbf61a62fa9a5605f207e3c445727a3f6b9fd37f9053d4705adc4c20b77",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824686/feed/live?timecode=20260501_174500"
+    },
+    "824698-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 167113,
+      "params": {},
+      "received_at": "2026-11-03T03:08:42.491807+00:00",
+      "requested_at": "2026-11-03T03:08:41.496974+00:00",
+      "sha256": "e72658685efe60b248397b9c3408e0c43cd9dcf5514471eab7ec2ba159d14584",
+      "status": 200,
+      "stored_gzip_sha256": "70dafb12909ac82c2f207e7d09244e9d24c10da89154e7cbd82e46287926968f",
+      "url": "https://statsapi.mlb.com/api/v1/game/824698/boxscore"
+    },
+    "824698-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 216326,
+      "params": {
+        "timecode": "20260401_174500"
+      },
+      "received_at": "2026-11-03T03:08:40.396746+00:00",
+      "requested_at": "2026-11-03T03:08:38.984845+00:00",
+      "sha256": "cc35596f0592a03e9914148a58ab9339e402c4dd383dde4899b83f9abd42bd0b",
+      "status": 200,
+      "stored_gzip_sha256": "bb4fc5720a379d24e97541d2c369357dddbda44b598607a57c2b304439118df4",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824698/feed/live?timecode=20260401_174500"
+    },
+    "824716-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 182743,
+      "params": {},
+      "received_at": "2026-11-03T03:18:17.461396+00:00",
+      "requested_at": "2026-11-03T03:18:16.332684+00:00",
+      "sha256": "8802901fa94cbd83c879c80b58de21754b1d32e254755ced63b3d46e79426322",
+      "status": 200,
+      "stored_gzip_sha256": "44c4efbcb863b439ee156bbf5659f3dca116324e20ff1e293c34e663fb49f03b",
+      "url": "https://statsapi.mlb.com/api/v1/game/824716/boxscore"
+    },
+    "824716-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 231002,
+      "params": {
+        "timecode": "20260901_221000"
+      },
+      "received_at": "2026-11-03T03:18:15.232431+00:00",
+      "requested_at": "2026-11-03T03:18:12.631292+00:00",
+      "sha256": "bc6c75afb1c9dd12d19a513925c1c820881a8ecbaceca102792498d33c46fab5",
+      "status": 200,
+      "stored_gzip_sha256": "d61278316b897378e1670f736bd7472b6be3a5e5a0129f2641ae7478e0429a01",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824716/feed/live?timecode=20260901_221000"
+    },
+    "824740-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 169693,
+      "params": {},
+      "received_at": "2026-11-03T03:14:17.863743+00:00",
+      "requested_at": "2026-11-03T03:14:16.854472+00:00",
+      "sha256": "bffd00e8b093a779875871251c877bcad8ee8a87730eefda2c25c7f08361d9d9",
+      "status": 200,
+      "stored_gzip_sha256": "4c898b5e429ec09c626646cdc67e95dfa328fbc2126fc366894b3cb6438025cc",
+      "url": "https://statsapi.mlb.com/api/v1/game/824740/boxscore"
+    },
+    "824740-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 216923,
+      "params": {
+        "timecode": "20260701_170000"
+      },
+      "received_at": "2026-11-03T03:14:15.754046+00:00",
+      "requested_at": "2026-11-03T03:14:11.089713+00:00",
+      "sha256": "b2d571bb6c2e467eb1b5b5762f99d4492e35d53e3656b45ac80c5540193bd164",
+      "status": 200,
+      "stored_gzip_sha256": "f44c7c9a9576fdce67de11054a652f535fce79d7bde47a51bc6357474c56baa8",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824740/feed/live?timecode=20260701_170000"
+    },
+    "824754-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 165491,
+      "params": {},
+      "received_at": "2026-11-03T03:12:38.170873+00:00",
+      "requested_at": "2026-11-03T03:12:37.131367+00:00",
+      "sha256": "14d564474bcdabe7897f5eb3b0131b789f91a26d897aead16639a992cb28a956",
+      "status": 200,
+      "stored_gzip_sha256": "28f77491345587401f71095ef5c165f25ef6db24c974ec540e7b2d78920e7de5",
+      "url": "https://statsapi.mlb.com/api/v1/game/824754/boxscore"
+    },
+    "824754-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 213680,
+      "params": {
+        "timecode": "20260602_221000"
+      },
+      "received_at": "2026-11-03T03:12:36.030931+00:00",
+      "requested_at": "2026-11-03T03:12:33.512185+00:00",
+      "sha256": "22ca57278b66b3e51f39d3ce4a8e4ece91cc52bbd30b7641abc8a54ea80f6193",
+      "status": 200,
+      "stored_gzip_sha256": "935b3e303cdb8ad1c914497f9a473f6b3cb2b7ffa9bae3da506d9694a0916bf1",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824754/feed/live?timecode=20260602_221000"
+    },
+    "824772-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 169996,
+      "params": {},
+      "received_at": "2026-11-03T03:10:19.008039+00:00",
+      "requested_at": "2026-11-03T03:10:17.875618+00:00",
+      "sha256": "afa09ef648555990277430ed2eb6f6969a37f70fd5c9c4bfe4235e0f7af30c39",
+      "status": 200,
+      "stored_gzip_sha256": "c46401622dab9537cabfd5cdcef5add31fa6211d1cb8f7a396e52da89a690476",
+      "url": "https://statsapi.mlb.com/api/v1/game/824772/boxscore"
+    },
+    "824772-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 225422,
+      "params": {
+        "timecode": "20260501_223500"
+      },
+      "received_at": "2026-11-03T03:10:16.775529+00:00",
+      "requested_at": "2026-11-03T03:10:14.096130+00:00",
+      "sha256": "97ca5aadd763201784e2dc2fb856c73f1379f73e49262462875989b6b85c9de0",
+      "status": 200,
+      "stored_gzip_sha256": "07125cf165d454ff158ad703cd9e1ea69f23d52f7cf18eb060cf0c6cb786f803",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824772/feed/live?timecode=20260501_223500"
+    },
+    "824808-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 171863,
+      "params": {},
+      "received_at": "2026-11-03T03:16:45.125483+00:00",
+      "requested_at": "2026-11-03T03:16:44.040441+00:00",
+      "sha256": "ed5cfbf4b3f2b6bd1e549da3c1dfc57a7448bd5cc2348aca576c8ec1137380fb",
+      "status": 200,
+      "stored_gzip_sha256": "759d428649a606ea23cd1a5aa3a936d5de8d68bfd6a50f8da2c6bd9322fd95b8",
+      "url": "https://statsapi.mlb.com/api/v1/game/824808/boxscore"
+    },
+    "824808-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 217694,
+      "params": {
+        "timecode": "20260801_223000"
+      },
+      "received_at": "2026-11-03T03:16:42.940206+00:00",
+      "requested_at": "2026-11-03T03:16:37.880124+00:00",
+      "sha256": "7358225151e6f1e98b8b8f7fd1cda964f01122a3f096812bfcb26404b6a2e073",
+      "status": 200,
+      "stored_gzip_sha256": "4970bdaa1492dbcb9a486fb5abcf4352fe295ceec5d2f4aba74149030fba5d6a",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824808/feed/live?timecode=20260801_223000"
+    },
+    "824818-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 170400,
+      "params": {},
+      "received_at": "2026-11-03T03:13:54.431054+00:00",
+      "requested_at": "2026-11-03T03:13:53.429133+00:00",
+      "sha256": "8e474f6a6d5e9fd610a83185742ffd06983a7de62fe9b139d04354fb2bc94cc4",
+      "status": 200,
+      "stored_gzip_sha256": "29bc95aa54358e4b622c8d8dd2fd077b7038b894def63c90390fd479c829b256",
+      "url": "https://statsapi.mlb.com/api/v1/game/824818/boxscore"
+    },
+    "824818-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 217218,
+      "params": {
+        "timecode": "20260701_160000"
+      },
+      "received_at": "2026-11-03T03:13:52.328950+00:00",
+      "requested_at": "2026-11-03T03:13:48.461380+00:00",
+      "sha256": "57a72956f4e39192ffa1d481368dcbf3091fc4e87c9c6adeb1c6238e0848f987",
+      "status": 200,
+      "stored_gzip_sha256": "ce84dab7dcb2e3c37afdcbd8f35134781285001643718f75effee688ebaae492",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824818/feed/live?timecode=20260701_160000"
+    },
+    "824860-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 167069,
+      "params": {},
+      "received_at": "2026-11-03T03:07:53.941873+00:00",
+      "requested_at": "2026-11-03T03:07:52.971274+00:00",
+      "sha256": "7513e7eaab886468e8eee4d39cbcd405dcfd15abdcc496ffc27a283634a86c10",
+      "status": 200,
+      "stored_gzip_sha256": "f438954aeedc5b1dc75f37cd426148297e0cc5fef4d3361dffb395c10fb1d07a",
+      "url": "https://statsapi.mlb.com/api/v1/game/824860/boxscore"
+    },
+    "824860-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 216079,
+      "params": {
+        "timecode": "20260401_160000"
+      },
+      "received_at": "2026-11-03T03:07:51.870818+00:00",
+      "requested_at": "2026-11-03T03:07:47.877236+00:00",
+      "sha256": "31fc90d314bf6af7b0fadc44dce786f447b1efcc236c10e4ef6596ec2e8fae9b",
+      "status": 200,
+      "stored_gzip_sha256": "c59bde03e3e2ba83dcb2c8195aafe2dea30b5c91e5647b2b59f6cc47d296c1d0",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824860/feed/live?timecode=20260401_160000"
+    },
+    "824890-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 165849,
+      "params": {},
+      "received_at": "2026-11-03T03:17:18.938185+00:00",
+      "requested_at": "2026-11-03T03:17:17.922044+00:00",
+      "sha256": "d1714242a9575e02756ec28ce3649bbc1dd4f772de578cb42eebf68677d7a586",
+      "status": 200,
+      "stored_gzip_sha256": "d7b2cee81438e079e81ee7a901c687556a362b6117d3661654249fa87a04ef75",
+      "url": "https://statsapi.mlb.com/api/v1/game/824890/boxscore"
+    },
+    "824890-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 213685,
+      "params": {
+        "timecode": "20260801_224000"
+      },
+      "received_at": "2026-11-03T03:17:16.821937+00:00",
+      "requested_at": "2026-11-03T03:17:12.543076+00:00",
+      "sha256": "d198868b4a66b0f7ab99b8199c5adb2b733b5c7a61a92cebf08892b1f134d7ed",
+      "status": 200,
+      "stored_gzip_sha256": "f6e03fceca30799641da061b009d1b47943bc0c0f135cbd5738c33501a15d0d4",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824890/feed/live?timecode=20260801_224000"
+    },
+    "824905-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 169759,
+      "params": {},
+      "received_at": "2026-11-03T03:14:50.883255+00:00",
+      "requested_at": "2026-11-03T03:14:50.049813+00:00",
+      "sha256": "65ef2d74925e18ee97dc8a7f983ee411ff23d89f5c764a001426586936094993",
+      "status": 200,
+      "stored_gzip_sha256": "cf859410232840864d6ad0ee563c1769282f9288fe157d6b9ca0e058b94f97c6",
+      "url": "https://statsapi.mlb.com/api/v1/game/824905/boxscore"
+    },
+    "824905-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 213786,
+      "params": {
+        "timecode": "20260701_224000"
+      },
+      "received_at": "2026-11-03T03:14:48.949544+00:00",
+      "requested_at": "2026-11-03T03:14:44.881407+00:00",
+      "sha256": "6e78a7cb5ec5fa74a49b861a5db99db7769c0150bda815536a903d3233b3dd99",
+      "status": 200,
+      "stored_gzip_sha256": "0a1bcd0769cdf72dbea31160f2c62c70d76d79f4135a7b3c0dc61629e92bc911",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824905/feed/live?timecode=20260701_224000"
+    },
+    "824918-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 169791,
+      "params": {},
+      "received_at": "2026-11-03T03:12:52.082428+00:00",
+      "requested_at": "2026-11-03T03:12:50.966227+00:00",
+      "sha256": "dce8986d3ec89cf9f4f72cee4a0e273c4dd14e7ea4f3153d8e2a2bc5af72696b",
+      "status": 200,
+      "stored_gzip_sha256": "595ecc16b0f511a85f9894cf0ce66ecaf65691b424d9eb28e0b6ca155dda4945",
+      "url": "https://statsapi.mlb.com/api/v1/game/824918/boxscore"
+    },
+    "824918-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 217445,
+      "params": {
+        "timecode": "20260602_224000"
+      },
+      "received_at": "2026-11-03T03:12:49.866013+00:00",
+      "requested_at": "2026-11-03T03:12:48.344558+00:00",
+      "sha256": "27489a282b941dbec9a544845a63485028214de334665e1bccdc82bfb24ab5cc",
+      "status": 200,
+      "stored_gzip_sha256": "8df1c8a823bde50a6f0ce5c7f0f40223c68533ff7786ce0af5bc250079968324",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824918/feed/live?timecode=20260602_224000"
+    },
+    "824940-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 168794,
+      "params": {},
+      "received_at": "2026-11-03T03:07:16.576692+00:00",
+      "requested_at": "2026-11-03T03:07:15.521606+00:00",
+      "sha256": "bb4d815ece847463a7b1ea8a3be2218a249864673ffefe45ef38753e63d153c8",
+      "status": 200,
+      "stored_gzip_sha256": "83a038af6dc0b6f80c0b3613125dae6db66c16d821fb0fb6d8571c5d366763df",
+      "url": "https://statsapi.mlb.com/api/v1/game/824940/boxscore"
+    },
+    "824940-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 216175,
+      "params": {
+        "timecode": "20260401_154000"
+      },
+      "received_at": "2026-11-03T03:07:11.407064+00:00",
+      "requested_at": "2026-11-03T03:07:10.325647+00:00",
+      "sha256": "32117e2d5d84e92c50cc4a8ba71b2da97f8c6e36a7811692cd966d343ecae560",
+      "status": 200,
+      "stored_gzip_sha256": "fd9927495994847f8003bcb8bd8c80df3174f4439fe00219ef6f1dfa50849e90",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824940/feed/live?timecode=20260401_154000"
+    },
+    "824940-probe-180": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 216175,
+      "params": {
+        "timecode": "20260401_131500"
+      },
+      "received_at": "2026-11-03T03:07:09.225133+00:00",
+      "requested_at": "2026-11-03T03:07:07.965209+00:00",
+      "sha256": "32117e2d5d84e92c50cc4a8ba71b2da97f8c6e36a7811692cd966d343ecae560",
+      "status": 200,
+      "stored_gzip_sha256": "fd9927495994847f8003bcb8bd8c80df3174f4439fe00219ef6f1dfa50849e90",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824940/feed/live?timecode=20260401_131500"
+    },
+    "824940-probe-plus120": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 639927,
+      "params": {
+        "timecode": "20260401_181500"
+      },
+      "received_at": "2026-11-03T03:07:14.421386+00:00",
+      "requested_at": "2026-11-03T03:07:12.507463+00:00",
+      "sha256": "1469684a083021cbc650cd6875d6e8ad6076821121e4e5468ed1ee3a45f56219",
+      "status": 200,
+      "stored_gzip_sha256": "23e3531ffef1a45ee384206d64fbbdb0f36fc4823394bee1401cd0d2343544ec",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824940/feed/live?timecode=20260401_181500"
+    },
+    "824975-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 172564,
+      "params": {},
+      "received_at": "2026-11-03T03:15:38.814500+00:00",
+      "requested_at": "2026-11-03T03:15:37.794060+00:00",
+      "sha256": "d169bf51a2340b402dcf5110750d1bdb5ed58085aa988b1ab5d8e19b925e493f",
+      "status": 200,
+      "stored_gzip_sha256": "1520c9821ea22a59991bf799d44268168e9752988ee36e112af1a3eb1955cdcd",
+      "url": "https://statsapi.mlb.com/api/v1/game/824975/boxscore"
+    },
+    "824975-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 213425,
+      "params": {
+        "timecode": "20260801_010500"
+      },
+      "received_at": "2026-11-03T03:15:36.693781+00:00",
+      "requested_at": "2026-11-03T03:15:35.017418+00:00",
+      "sha256": "22da4f414bd9979428dfdf23db98627fc79ee742d91c8a4e9c82b38bacf881fa",
+      "status": 200,
+      "stored_gzip_sha256": "ea99ecacbd061175f8aaba3a7ebcec7c0629fc070c9de29ef357dedbecc0aeac",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824975/feed/live?timecode=20260801_010500"
+    },
+    "824984-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 168063,
+      "params": {},
+      "received_at": "2026-11-03T03:13:40.236907+00:00",
+      "requested_at": "2026-11-03T03:13:39.187794+00:00",
+      "sha256": "41cc3d597b0b4dbfbed00530a16270e548f209b147dad911e5b058802c9f8684",
+      "status": 200,
+      "stored_gzip_sha256": "7332ee7add01165da24cf34564ba9a152cf7c4a138fea5721fc5d19c0c894dfc",
+      "url": "https://statsapi.mlb.com/api/v1/game/824984/boxscore"
+    },
+    "824984-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 213519,
+      "params": {
+        "timecode": "20260701_010500"
+      },
+      "received_at": "2026-11-03T03:13:38.087750+00:00",
+      "requested_at": "2026-11-03T03:13:33.540763+00:00",
+      "sha256": "a6df68fb223134a288b699004f3865cf3f351e3e0c79b1cf2e6c9bb24facb9c0",
+      "status": 200,
+      "stored_gzip_sha256": "9dcdfb46e0eb7a74d6be67bf725fc04db9a19f41bf16a96695e11dc746e91e51",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/824984/feed/live?timecode=20260701_010500"
+    },
+    "825012-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 175665,
+      "params": {},
+      "received_at": "2026-11-03T03:10:53.903785+00:00",
+      "requested_at": "2026-11-03T03:10:52.861319+00:00",
+      "sha256": "3aa3f178d5213197f44c0ff0d1c98ca8ba0a1b366a0f417f4083be42ed48ff6a",
+      "status": 200,
+      "stored_gzip_sha256": "63deaf2d02f367d0645f3abf1d8e93e6a18e1a5071def0476a39266387a7fddb",
+      "url": "https://statsapi.mlb.com/api/v1/game/825012/boxscore"
+    },
+    "825012-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 216620,
+      "params": {
+        "timecode": "20260502_010500"
+      },
+      "received_at": "2026-11-03T03:10:51.761008+00:00",
+      "requested_at": "2026-11-03T03:10:50.338095+00:00",
+      "sha256": "ca4f6402bdf456b359afb65cb13ee0a7d1f822580d69ce983cd683ce69facf8a",
+      "status": 200,
+      "stored_gzip_sha256": "c000c56037c28a590d2625f70fd92ee4afc47f6d121b1e6a2b7bfae5299c033c",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/825012/feed/live?timecode=20260502_010500"
+    },
+    "825040-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 172373,
+      "params": {},
+      "received_at": "2026-11-03T03:17:43.039100+00:00",
+      "requested_at": "2026-11-03T03:17:41.866685+00:00",
+      "sha256": "454529d2b7861906e1e9d580f415085eb0aa0fe1ed541b81baa3bdf4284cbd97",
+      "status": 200,
+      "stored_gzip_sha256": "13cf76173defc59693939b6273fceb0bd8fa33fa71e873254bb033d7962feb1b",
+      "url": "https://statsapi.mlb.com/api/v1/game/825040/boxscore"
+    },
+    "825040-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 218042,
+      "params": {
+        "timecode": "20260901_010500"
+      },
+      "received_at": "2026-11-03T03:17:40.766580+00:00",
+      "requested_at": "2026-11-03T03:17:38.229571+00:00",
+      "sha256": "34076b9867c6297425ca57ad59ec81c2eafda135af26c285706fed5eaaa30328",
+      "status": 200,
+      "stored_gzip_sha256": "e7c04371379632e93ad23d0dc23ed1e454a607bc9feb41171eef8bcfcf8007a9",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/825040/feed/live?timecode=20260901_010500"
+    },
+    "825066-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 171057,
+      "params": {},
+      "received_at": "2026-11-03T03:13:47.361073+00:00",
+      "requested_at": "2026-11-03T03:13:46.334844+00:00",
+      "sha256": "41b43f516fa16fb1be7969ad4e5f12695147bc5613bf67d869d4956e95ca1b0c",
+      "status": 200,
+      "stored_gzip_sha256": "e09b308f371da58b7a62f297e8fc6954ae064127802da9a1293dd05dafe09b0f",
+      "url": "https://statsapi.mlb.com/api/v1/game/825066/boxscore"
+    },
+    "825066-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 220703,
+      "params": {
+        "timecode": "20260701_010500"
+      },
+      "received_at": "2026-11-03T03:13:45.234385+00:00",
+      "requested_at": "2026-11-03T03:13:41.337254+00:00",
+      "sha256": "bdcc23e640ac2372d85a26a1cb8d097b0f1e78b919b061b205cae513f0af479c",
+      "status": 200,
+      "stored_gzip_sha256": "8db2a217c99aa6fa84749674204f6d9ebe450945e26f021386c534eedf605ca4",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/825066/feed/live?timecode=20260701_010500"
+    },
+    "825078-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 169713,
+      "params": {},
+      "received_at": "2026-11-03T03:12:09.776378+00:00",
+      "requested_at": "2026-11-03T03:12:08.772848+00:00",
+      "sha256": "116cd863e80166d6e85c1212e49a8c9ec17599cc1f30d8e8e2bf3194dd0660b7",
+      "status": 200,
+      "stored_gzip_sha256": "136de450c48eacc9085904eac41e43c7cf3c8447338b1012cc60cdae506eb7e5",
+      "url": "https://statsapi.mlb.com/api/v1/game/825078/boxscore"
+    },
+    "825078-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 217406,
+      "params": {
+        "timecode": "20260602_010500"
+      },
+      "received_at": "2026-11-03T03:12:07.672740+00:00",
+      "requested_at": "2026-11-03T03:12:03.807683+00:00",
+      "sha256": "dbf8936680e3dcae8ced4a7bf84bf510e2ec5696b746c2c975194fc2645fbbf9",
+      "status": 200,
+      "stored_gzip_sha256": "f21b2b29f0ec699246543cd8f0fbcfa79d0f119bceba3a6a967e457d435959e4",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/825078/feed/live?timecode=20260602_010500"
+    },
+    "825106-boxscore": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 163401,
+      "params": {},
+      "received_at": "2026-11-03T03:08:47.380142+00:00",
+      "requested_at": "2026-11-03T03:08:46.400397+00:00",
+      "sha256": "e8c682bde9b9668de8514f4759cb08f81fd32418ac9ef82994a81c0e69eaf6e4",
+      "status": 200,
+      "stored_gzip_sha256": "78c75cb009e3c063b8873a8f54d16c7776f8295fb3ec7728c2d2c62c6a7c5a97",
+      "url": "https://statsapi.mlb.com/api/v1/game/825106/boxscore"
+    },
+    "825106-pregame": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 212793,
+      "params": {
+        "timecode": "20260401_190500"
+      },
+      "received_at": "2026-11-03T03:08:45.299875+00:00",
+      "requested_at": "2026-11-03T03:08:43.591897+00:00",
+      "sha256": "7250fa186c82aea3be28800ee33929debf0632376c24d89c0814cce562b2b77c",
+      "status": 200,
+      "stored_gzip_sha256": "59f58efb88e727da715ce6165aec9de53148ae0e2caa3e6cc15891f724be2769",
+      "url": "https://statsapi.mlb.com/api/v1.1/game/825106/feed/live?timecode=20260401_190500"
+    },
+    "schedule-2025": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 3140221,
+      "params": {
+        "endDate": "2025-09-30",
+        "gameType": "R",
+        "sportId": 1,
+        "startDate": "2025-04-01"
+      },
+      "received_at": "2026-11-03T03:03:38.342003+00:00",
+      "requested_at": "2026-11-03T03:03:36.833697+00:00",
+      "sha256": "b676e3f00174c28edf76549729b5db5263f540cb5ee6296eb66bbe2830f18f82",
+      "status": 200,
+      "stored_gzip_sha256": "3f8f3b9b7e71768e1f1b7b09d67638d5a6396194bb2234c4c99d9cfa23052861",
+      "url": "https://statsapi.mlb.com/api/v1/schedule?sportId=1&startDate=2025-04-01&endDate=2025-09-30&gameType=R"
+    },
+    "schedule-2026": {
+      "availability": "retrospective_current_receipt",
+      "bytes": 3121493,
+      "params": {
+        "endDate": "2026-09-30",
+        "gameType": "R",
+        "sportId": 1,
+        "startDate": "2026-04-01"
+      },
+      "received_at": "2026-11-03T03:07:06.864938+00:00",
+      "requested_at": "2026-11-03T03:07:04.656506+00:00",
+      "sha256": "802c52b8927dd201fe766d27eb799f97c4c14a4bbf3281b75456504334702c10",
+      "status": 200,
+      "stored_gzip_sha256": "941c48b8d846f98362c2ea009791d19a5882765a9723b8f4a4312a3271757bd3",
+      "url": "https://statsapi.mlb.com/api/v1/schedule?sportId=1&startDate=2026-04-01&endDate=2026-09-30&gameType=R"
+    }
+  },
+  "exact_market_linked": 66,
+  "fixtures_sha256": "002a629734d4c7f32c0f0f4175dfc2e05bcc92830726a16a923b47d9be70cd59",
+  "observed_price_verified": 0,
+  "price_join_sha256": "a781112406ce40799d939298ca06eccd3375e9dc4ad4b133c127124e9584cffa",
+  "raw_request_count_logged": 266,
+  "request_limit": 500,
+  "schedule_rows": 2383,
+  "schedule_sha256": "802c52b8927dd201fe766d27eb799f97c4c14a4bbf3281b75456504334702c10",
+  "status": "complete_raw_capture_pit_unverified",
+  "strict_pit_certified": 0,
+  "unselected_gamePk": 2252
+}
