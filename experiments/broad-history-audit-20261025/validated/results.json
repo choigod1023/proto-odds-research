@@ -1,0 +1,88 @@
+{
+  "retrieved_at": "2026-10-25T09:16:28.703808+00:00",
+  "source_url": "https://www.betshoot.com/archives/tipsters.php?export=json",
+  "source_sha256": null,
+  "download_error": "URLError",
+  "local_odds_inventory": {
+    "files": 41,
+    "rows": 2881889,
+    "unrecognized_sport_rows": 2,
+    "unique_market_offer_keys": 9568,
+    "rows_by_sport": {
+      "bs": 1693510,
+      "sc": 1122648,
+      "vl": 23580,
+      "bk": 42149
+    },
+    "warning": "Repeated quotes and different markets; NOT independent game count"
+  },
+  "paired_sha256": "fca4cc8b98d8cf6ff8aa4d5b5e7998ed659b7ed199522b2ef0ef156f155ddf3d",
+  "external": null,
+  "fixed75_25_development_diagnostics": {
+    "n": 28,
+    "days": 5,
+    "roi_pct": 7.392857142857144,
+    "per_day": {
+      "2026-08-30": {
+        "n": 7,
+        "roi_pct": -37.57142857142857
+      },
+      "2026-08-31": {
+        "n": 6,
+        "roi_pct": 4.5
+      },
+      "2026-09-01": {
+        "n": 8,
+        "roi_pct": 14.000000000000002
+      },
+      "2026-09-03": {
+        "n": 6,
+        "roi_pct": 44.333333333333336
+      },
+      "2026-09-04": {
+        "n": 1,
+        "roi_pct": 64.99999999999999
+      }
+    },
+    "leave_one_day_out": {
+      "2026-08-30": 22.38095238095238,
+      "2026-08-31": 8.181818181818182,
+      "2026-09-01": 4.75,
+      "2026-09-03": -2.681818181818182,
+      "2026-09-04": 5.25925925925926
+    },
+    "descriptive_day_cluster_bootstrap_95": [
+      -20.4,
+      35.6
+    ],
+    "warning": "Same development cohort; five clusters and post-selection bias. Not an independent confidence guarantee."
+  },
+  "git_history": {
+    "data/raw/picksters/tailslips_pick_events.jsonl": {
+      "changes": 279,
+      "first_commit": "2026-08-29T11:07:06+09:00",
+      "last_commit": "2026-09-22T10:08:45+09:00"
+    },
+    "data/raw/prediction_ledger/pregame.jsonl": {
+      "changes": 31,
+      "first_commit": "2026-08-28T21:20:53+09:00",
+      "last_commit": "2026-09-02T23:09:16+09:00"
+    },
+    "docs/data/picks_v2.json": {
+      "changes": 709,
+      "first_commit": "2026-07-28T18:24:37+09:00",
+      "last_commit": "2026-09-22T10:08:45+09:00"
+    }
+  },
+  "independent_hybrid_n": 0,
+  "monthly_loss_limit_krw": 50000,
+  "production_changed": false,
+  "limitations": [
+    "External archive lacks frozen production probabilities and exact publication time.",
+    "Publisher outcome/odds and settlement rules are not independently verified or Proto-equivalent.",
+    "No inference of historical prepublication from a date-only record.",
+    "New external records are not used to retune locked 75:25.",
+    "Football-Data automated training restrictions observed; no bulk download from that source.",
+    "Not a crawl of every historical match or every website."
+  ]
+}
