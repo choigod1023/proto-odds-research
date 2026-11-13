@@ -1,0 +1,36 @@
+{
+  "seed": 2026101701,
+  "n": 1245,
+  "train": 740,
+  "scale_reference": 200,
+  "null_calibration": 999,
+  "null_validation": 200,
+  "permutations": 999,
+  "power_replicates": 200,
+  "injection_strengths": [
+    0,
+    0.1,
+    0.25,
+    0.5,
+    1.0
+  ],
+  "models": [
+    "overlap exponential tilt vs uniform",
+    "ball 1 Markov vs ball 1 iid"
+  ],
+  "smoothing": 100,
+  "theta_bounds": [
+    -2,
+    2
+  ],
+  "alpha": 0.05,
+  "family_test": "max of two null-standardized held-out log gains; plus-one tail",
+  "gate": "family permutation p<=.05 and iid p<=.05 and selected held-out gain>0 and copy-one power at strength 1 >=.8",
+  "future": "only prospective uninspected draws after registration; no retrospective e-value claim",
+  "resources": "one logical CPU, BelowNormal, batch 20, rest >=25% compute, 30 minute wall budget",
+  "source_sha256": "1de0d27156b175b2d31f7e0519d2919de28380f8b7866194f1079b0c98818690",
+  "data_sha256": {
+    "base.jsonl": "30321eef31fe7494a7ada3e2224ca548967fefcb85e2558c771b1e88971224b2",
+    "extra.jsonl": "0d7e5c56ca52b8b362896d0c00eaa450fad607b04cfe5ae9fa644900b891455e"
+  }
+}
