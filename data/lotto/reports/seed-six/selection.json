@@ -1,0 +1,89 @@
+{
+  "odd_halves": [
+    {
+      "half_seed": "10796522787573961961",
+      "draws": [
+        1,
+        517,
+        569
+      ]
+    },
+    {
+      "half_seed": "15585017975376459500",
+      "draws": [
+        1,
+        389,
+        561
+      ]
+    },
+    {
+      "half_seed": "18312488190086753215",
+      "draws": [
+        1,
+        43,
+        277
+      ]
+    }
+  ],
+  "even_halves": [
+    {
+      "half_seed": "17213145854109393052",
+      "draws": [
+        2,
+        366,
+        464
+      ]
+    }
+  ],
+  "pairs": [
+    {
+      "seed_hex": "95d4f445dac194e9eee160f4852da09c",
+      "training_jackpot_draws": [
+        1,
+        2,
+        366,
+        464,
+        517,
+        569
+      ]
+    },
+    {
+      "seed_hex": "d8491b46906436eceee160f4852da09c",
+      "training_jackpot_draws": [
+        1,
+        2,
+        366,
+        389,
+        464,
+        561
+      ]
+    },
+    {
+      "seed_hex": "fe2306fc33a82bbfeee160f4852da09c",
+      "training_jackpot_draws": [
+        1,
+        2,
+        43,
+        277,
+        366,
+        464
+      ]
+    }
+  ],
+  "odd_survival_counts": {
+    "1": 2000000000,
+    "2": 90260,
+    "3": 3,
+    "4": 0
+  },
+  "even_survival_counts": {
+    "1": 2000000000,
+    "2": 90259,
+    "3": 1,
+    "4": 0
+  },
+  "minimum_odd_training_hits": 3,
+  "minimum_even_training_hits": 3,
+  "pairing": "all Cartesian pairs, training-only 3+3 threshold",
+  "control_sha256": "499749b181536cb5d9d469df5c03f2940641f0b42cbcf854714470acbc1f28f4"
+}
