@@ -1,0 +1,21 @@
+{
+  "version": "splitmix64-paired128-v1",
+  "minimum_pair_wins": 7,
+  "minimum_half_wins": 3,
+  "candidates_per_half": 4000000000,
+  "new_candidates": 4000000000,
+  "train_end": 740,
+  "validation_end": 990,
+  "last_draw": 1238,
+  "ledger_hash": "da144c4335ef8ea6a8cc5b105c7dffb5b990e91a36151e2c68c5379c5c032c15",
+  "prefix_protocol_sha256": "7e0f723d63c8274060fa6a84b7f60d4114b399adb2f4f04597dc3a859c550392",
+  "offset": 20261015,
+  "stride": 1000003,
+  "workers": 2,
+  "native_threads_per_worker": 4,
+  "executable_sha256": "e3e41171870c0b3b510119c2eef61af8926b40d0ab2f3a1d4247d59038c3d4bf",
+  "source_sha256": "98e7c4bb4fd33aa9113dff1efac889213df452e9965998eb125af6b7341dbcbd",
+  "selection": "exact-hit Cartesian groups with >=3 hits per half and >=7 total",
+  "controls": "10000 matched-sharing groups per selected group; Bonferroni across groups",
+  "holdout_status": "previously inspected retrospective exploration, not a fresh prospective test"
+}
