@@ -1,0 +1,43 @@
+{
+  "comparison": {
+    "validation": {
+      "n": 250,
+      "mean_log_gain": -0.0025357664010134937,
+      "classical_mean_log_gain": -0.015390675588831376,
+      "geometric_probability_ratio": 0.9974674459387853,
+      "p_upper_plus_one": 0.63,
+      "null_interval_95": [
+        -0.009328849566703028,
+        0.005843077014967844
+      ]
+    },
+    "final": {
+      "n": 248,
+      "mean_log_gain": 0.00295607881356895,
+      "classical_mean_log_gain": -0.006298820458721803,
+      "geometric_probability_ratio": 1.0029604523229627,
+      "p_upper_plus_one": 0.15,
+      "null_interval_95": [
+        -0.013409887839182262,
+        0.00647651880575426
+      ]
+    },
+    "seen_extension": {
+      "n": 7,
+      "mean_log_gain": 0.0014530650075181611,
+      "classical_mean_log_gain": -0.009732088797398852,
+      "geometric_probability_ratio": 1.001454121217995,
+      "p_upper_plus_one": 0.44,
+      "null_interval_95": [
+        -0.04660986480192193,
+        0.04055291720931622
+      ]
+    }
+  },
+  "null_fit_success_count": 99,
+  "actual_fit_success": true,
+  "wall_seconds": 6.670540799999799,
+  "cpu_seconds": 3.953125,
+  "peak_process_memory_mib": 89.8984375,
+  "statevector_bytes": 512
+}

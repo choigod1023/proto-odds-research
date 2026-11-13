@@ -1,0 +1,54 @@
+{
+  "comparisons": {
+    "validation": {
+      "observed": -0.0025357664010134937,
+      "exceedances": 5657,
+      "null_histories": 9999,
+      "p_upper_plus_one": 0.5658,
+      "tail_probability_ci95": [
+        0.5559734005369369,
+        0.5755014292143441
+      ],
+      "null_interval_95": [
+        -0.010753496164092597,
+        0.005643107966935879
+      ]
+    },
+    "final": {
+      "observed": 0.00295607881356895,
+      "exceedances": 976,
+      "null_histories": 9999,
+      "p_upper_plus_one": 0.0977,
+      "tail_probability_ci95": [
+        0.09186036684465981,
+        0.10359471756710831
+      ],
+      "null_interval_95": [
+        -0.010650476054545534,
+        0.005751359744594008
+      ]
+    },
+    "seen_extension": {
+      "observed": 0.0014530650075181611,
+      "exceedances": 4384,
+      "null_histories": 9999,
+      "p_upper_plus_one": 0.4385,
+      "tail_probability_ci95": [
+        0.4286872015457332,
+        0.4482363606066665
+      ],
+      "null_interval_95": [
+        -0.05050859638235575,
+        0.04422838297984251
+      ]
+    }
+  },
+  "actual_replay_exact": true,
+  "prefix_replay_exact": 999,
+  "fit_success_count": 9999,
+  "archive_blocks": 100,
+  "resumed_at": 0,
+  "wall_seconds_this_launch": 1072.9688538999999,
+  "cpu_seconds_this_launch": 449.671875,
+  "peak_memory_mib": 148.5546875
+}
