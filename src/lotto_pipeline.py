@@ -171,6 +171,15 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--data", type=Path, default=DEFAULT_LEDGER)
     sub = parser.add_subparsers(dest="command", required=True)
 
+    survival = sub.add_parser("seed-survival", help="과거 1등 시드 선별 및 미사용 구간 무작위 비교")
+    survival.add_argument("--candidate-count", type=int, default=10000)
+    survival.add_argument("--start-seed", type=int, default=0)
+    survival.add_argument("--train-end", type=int, required=True)
+    survival.add_argument("--validation-end", type=int, required=True)
+    survival.add_argument("--min-wins", type=int, default=1)
+    survival.add_argument("--baseline-repeats", type=int, default=100)
+    survival.add_argument("--report-dir", type=Path, default=DEFAULT_REPORT_DIR / "seed-survival")
+
     collect = sub.add_parser("collect", help="공식 원장 수집")
     collect.add_argument("--last-draw", type=int)
     collect.add_argument("--workers", type=int, default=3)
@@ -223,6 +232,18 @@ def main(argv: list[str] | None = None) -> int:
     if not args.data.exists():
         raise FileNotFoundError(f"원장이 없습니다. 먼저 collect 또는 all --refresh를 실행하세요: {args.data}")
     draws = load_draws_jsonl(args.data)
+    if args.command == "seed-survival":
+        from lotto_seed_survival import markdown_report, run_seed_survival
+        report = run_seed_survival(
+            draws, candidate_count=args.candidate_count, start_seed=args.start_seed,
+            train_end=args.train_end, validation_end=args.validation_end,
+            min_wins=args.min_wins, baseline_repeats=args.baseline_repeats,
+        )
+        _write_json(report, args.report_dir / "experiment.json")
+        path = args.report_dir / "report.md"
+        path.write_text(markdown_report(report), encoding="utf-8")
+        print(f"시드 실험 완료: {path}")
+        return 0
     if args.command == "audit":
         report = run_audit(draws, simulations=args.simulations, report_dir=args.report_dir)
         print(json.dumps(_native(report), ensure_ascii=False, indent=2))

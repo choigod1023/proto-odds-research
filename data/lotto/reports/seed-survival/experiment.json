@@ -1,0 +1,3234 @@
+{
+  "config": {
+    "version": "seed-survival-v1",
+    "python_version": "3.14.3",
+    "candidate_count": 20000,
+    "start_seed": 0,
+    "train_end": 740,
+    "validation_end": 990,
+    "min_wins": 1,
+    "baseline_repeats": 100,
+    "tickets_per_seed_per_draw": 1
+  },
+  "data_hash": "da144c4335ef8ea6a8cc5b105c7dffb5b990e91a36151e2c68c5379c5c032c15",
+  "selection": {
+    "config": {
+      "version": "seed-survival-v1",
+      "python_version": "3.14.3",
+      "candidate_count": 20000,
+      "start_seed": 0,
+      "train_end": 740,
+      "validation_end": 990,
+      "min_wins": 1,
+      "baseline_repeats": 100,
+      "tickets_per_seed_per_draw": 1
+    },
+    "training_data_hash": "13323d50362018813966da8d6046a4ea1e0cf855aab2f8896cdc49619e634280",
+    "stages": [
+      {
+        "min_wins": 1,
+        "seeds": [
+          19588
+        ]
+      },
+      {
+        "min_wins": 2,
+        "seeds": []
+      },
+      {
+        "min_wins": 3,
+        "seeds": []
+      }
+    ],
+    "selected_seeds": [
+      19588
+    ],
+    "control_seed_groups": [
+      [
+        20000
+      ],
+      [
+        20001
+      ],
+      [
+        20002
+      ],
+      [
+        20003
+      ],
+      [
+        20004
+      ],
+      [
+        20005
+      ],
+      [
+        20006
+      ],
+      [
+        20007
+      ],
+      [
+        20008
+      ],
+      [
+        20009
+      ],
+      [
+        20010
+      ],
+      [
+        20011
+      ],
+      [
+        20012
+      ],
+      [
+        20013
+      ],
+      [
+        20014
+      ],
+      [
+        20015
+      ],
+      [
+        20016
+      ],
+      [
+        20017
+      ],
+      [
+        20018
+      ],
+      [
+        20019
+      ],
+      [
+        20020
+      ],
+      [
+        20021
+      ],
+      [
+        20022
+      ],
+      [
+        20023
+      ],
+      [
+        20024
+      ],
+      [
+        20025
+      ],
+      [
+        20026
+      ],
+      [
+        20027
+      ],
+      [
+        20028
+      ],
+      [
+        20029
+      ],
+      [
+        20030
+      ],
+      [
+        20031
+      ],
+      [
+        20032
+      ],
+      [
+        20033
+      ],
+      [
+        20034
+      ],
+      [
+        20035
+      ],
+      [
+        20036
+      ],
+      [
+        20037
+      ],
+      [
+        20038
+      ],
+      [
+        20039
+      ],
+      [
+        20040
+      ],
+      [
+        20041
+      ],
+      [
+        20042
+      ],
+      [
+        20043
+      ],
+      [
+        20044
+      ],
+      [
+        20045
+      ],
+      [
+        20046
+      ],
+      [
+        20047
+      ],
+      [
+        20048
+      ],
+      [
+        20049
+      ],
+      [
+        20050
+      ],
+      [
+        20051
+      ],
+      [
+        20052
+      ],
+      [
+        20053
+      ],
+      [
+        20054
+      ],
+      [
+        20055
+      ],
+      [
+        20056
+      ],
+      [
+        20057
+      ],
+      [
+        20058
+      ],
+      [
+        20059
+      ],
+      [
+        20060
+      ],
+      [
+        20061
+      ],
+      [
+        20062
+      ],
+      [
+        20063
+      ],
+      [
+        20064
+      ],
+      [
+        20065
+      ],
+      [
+        20066
+      ],
+      [
+        20067
+      ],
+      [
+        20068
+      ],
+      [
+        20069
+      ],
+      [
+        20070
+      ],
+      [
+        20071
+      ],
+      [
+        20072
+      ],
+      [
+        20073
+      ],
+      [
+        20074
+      ],
+      [
+        20075
+      ],
+      [
+        20076
+      ],
+      [
+        20077
+      ],
+      [
+        20078
+      ],
+      [
+        20079
+      ],
+      [
+        20080
+      ],
+      [
+        20081
+      ],
+      [
+        20082
+      ],
+      [
+        20083
+      ],
+      [
+        20084
+      ],
+      [
+        20085
+      ],
+      [
+        20086
+      ],
+      [
+        20087
+      ],
+      [
+        20088
+      ],
+      [
+        20089
+      ],
+      [
+        20090
+      ],
+      [
+        20091
+      ],
+      [
+        20092
+      ],
+      [
+        20093
+      ],
+      [
+        20094
+      ],
+      [
+        20095
+      ],
+      [
+        20096
+      ],
+      [
+        20097
+      ],
+      [
+        20098
+      ],
+      [
+        20099
+      ]
+    ]
+  },
+  "selection_hash": "da3e1bf3697f6cd68ada46dc932929cb0aafd5ab0d129b7c9cd2e69715fedd74",
+  "training_jackpot_counts": {
+    "19588": 1
+  },
+  "split_ranges": {
+    "train": [
+      1,
+      740
+    ],
+    "validation": [
+      741,
+      990
+    ],
+    "final": [
+      991,
+      1238
+    ]
+  },
+  "validation": {
+    "status": "evaluated",
+    "selected": {
+      "tickets": 250,
+      "jackpots": 0,
+      "matches_histogram": {
+        "0": 106,
+        "1": 105,
+        "2": 35,
+        "3": 4,
+        "4": 0,
+        "5": 0,
+        "6": 0
+      },
+      "mean_matches": 0.748
+    },
+    "baseline": {
+      "repetitions": 100,
+      "tickets_per_repetition": 250,
+      "mean_matches": 0.8012799999999999,
+      "mean_matches_reference_interval_95": [
+        0.7078,
+        0.9022999999999999
+      ],
+      "jackpots_total": 0,
+      "runs": [
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 95,
+            "1": 105,
+            "2": 46,
+            "3": 4,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.836
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 107,
+            "1": 106,
+            "2": 32,
+            "3": 5,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.74
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 74,
+            "1": 122,
+            "2": 46,
+            "3": 8,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.952
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 88,
+            "1": 119,
+            "2": 39,
+            "3": 3,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.84
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 102,
+            "1": 103,
+            "2": 41,
+            "3": 4,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.788
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 99,
+            "1": 103,
+            "2": 46,
+            "3": 1,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.808
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 104,
+            "1": 96,
+            "2": 45,
+            "3": 5,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.804
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 92,
+            "1": 108,
+            "2": 41,
+            "3": 9,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.868
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 104,
+            "1": 107,
+            "2": 34,
+            "3": 5,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.76
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 90,
+            "1": 121,
+            "2": 34,
+            "3": 5,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.816
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 105,
+            "1": 109,
+            "2": 33,
+            "3": 3,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.736
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 103,
+            "1": 96,
+            "2": 45,
+            "3": 6,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.816
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 105,
+            "1": 104,
+            "2": 35,
+            "3": 6,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.768
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 90,
+            "1": 116,
+            "2": 42,
+            "3": 2,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.824
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 92,
+            "1": 113,
+            "2": 40,
+            "3": 5,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.832
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 96,
+            "1": 108,
+            "2": 39,
+            "3": 7,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.828
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 97,
+            "1": 105,
+            "2": 42,
+            "3": 5,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.832
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 97,
+            "1": 107,
+            "2": 39,
+            "3": 7,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.824
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 105,
+            "1": 98,
+            "2": 38,
+            "3": 9,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.804
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 99,
+            "1": 111,
+            "2": 37,
+            "3": 3,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.776
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 104,
+            "1": 103,
+            "2": 35,
+            "3": 8,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.788
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 117,
+            "1": 101,
+            "2": 29,
+            "3": 2,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.676
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 102,
+            "1": 108,
+            "2": 34,
+            "3": 5,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.78
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 100,
+            "1": 113,
+            "2": 33,
+            "3": 4,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.764
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 107,
+            "1": 94,
+            "2": 45,
+            "3": 3,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.788
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 86,
+            "1": 120,
+            "2": 40,
+            "3": 4,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.848
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 101,
+            "1": 106,
+            "2": 36,
+            "3": 7,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.796
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 90,
+            "1": 93,
+            "2": 59,
+            "3": 8,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.94
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 89,
+            "1": 112,
+            "2": 41,
+            "3": 8,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.872
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 100,
+            "1": 111,
+            "2": 32,
+            "3": 6,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.788
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 105,
+            "1": 105,
+            "2": 35,
+            "3": 5,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.76
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 90,
+            "1": 118,
+            "2": 36,
+            "3": 4,
+            "4": 2,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.84
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 84,
+            "1": 119,
+            "2": 43,
+            "3": 2,
+            "4": 2,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.876
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 95,
+            "1": 116,
+            "2": 32,
+            "3": 7,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.804
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 91,
+            "1": 107,
+            "2": 49,
+            "3": 3,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.856
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 98,
+            "1": 98,
+            "2": 47,
+            "3": 7,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.852
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 96,
+            "1": 112,
+            "2": 35,
+            "3": 6,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.816
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 96,
+            "1": 111,
+            "2": 40,
+            "3": 3,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 110,
+            "1": 98,
+            "2": 37,
+            "3": 5,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.748
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 87,
+            "1": 129,
+            "2": 30,
+            "3": 4,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.804
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 96,
+            "1": 110,
+            "2": 40,
+            "3": 4,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.808
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 108,
+            "1": 102,
+            "2": 38,
+            "3": 1,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.74
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 95,
+            "1": 110,
+            "2": 39,
+            "3": 6,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.824
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 106,
+            "1": 108,
+            "2": 33,
+            "3": 2,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.736
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 105,
+            "1": 108,
+            "2": 35,
+            "3": 2,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.736
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 96,
+            "1": 102,
+            "2": 47,
+            "3": 4,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.848
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 100,
+            "1": 98,
+            "2": 46,
+            "3": 5,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.836
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 89,
+            "1": 124,
+            "2": 33,
+            "3": 4,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.808
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 108,
+            "1": 99,
+            "2": 39,
+            "3": 4,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.756
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 93,
+            "1": 106,
+            "2": 45,
+            "3": 6,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.856
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 103,
+            "1": 101,
+            "2": 44,
+            "3": 2,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.78
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 109,
+            "1": 104,
+            "2": 31,
+            "3": 6,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.736
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 102,
+            "1": 103,
+            "2": 42,
+            "3": 3,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.784
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 110,
+            "1": 99,
+            "2": 34,
+            "3": 6,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.756
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 90,
+            "1": 107,
+            "2": 46,
+            "3": 7,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.88
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 101,
+            "1": 103,
+            "2": 35,
+            "3": 11,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.824
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 99,
+            "1": 105,
+            "2": 41,
+            "3": 5,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.808
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 91,
+            "1": 115,
+            "2": 37,
+            "3": 6,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.844
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 99,
+            "1": 114,
+            "2": 31,
+            "3": 6,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.776
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 95,
+            "1": 115,
+            "2": 34,
+            "3": 5,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.808
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 112,
+            "1": 90,
+            "2": 41,
+            "3": 6,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.776
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 98,
+            "1": 110,
+            "2": 36,
+            "3": 6,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 86,
+            "1": 112,
+            "2": 44,
+            "3": 8,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.896
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 89,
+            "1": 109,
+            "2": 47,
+            "3": 4,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.876
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 81,
+            "1": 114,
+            "2": 52,
+            "3": 3,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.908
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 117,
+            "1": 84,
+            "2": 46,
+            "3": 3,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.74
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 111,
+            "1": 97,
+            "2": 38,
+            "3": 3,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.744
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 99,
+            "1": 107,
+            "2": 38,
+            "3": 5,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.808
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 106,
+            "1": 106,
+            "2": 31,
+            "3": 7,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.756
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 85,
+            "1": 119,
+            "2": 39,
+            "3": 6,
+            "4": 0,
+            "5": 1,
+            "6": 0
+          },
+          "mean_matches": 0.88
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 107,
+            "1": 99,
+            "2": 37,
+            "3": 7,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.776
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 107,
+            "1": 102,
+            "2": 35,
+            "3": 6,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.76
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 108,
+            "1": 104,
+            "2": 31,
+            "3": 6,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.752
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 112,
+            "1": 101,
+            "2": 34,
+            "3": 3,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.712
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 95,
+            "1": 108,
+            "2": 41,
+            "3": 6,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.832
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 95,
+            "1": 102,
+            "2": 43,
+            "3": 9,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.876
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 101,
+            "1": 111,
+            "2": 33,
+            "3": 5,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.768
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 92,
+            "1": 119,
+            "2": 34,
+            "3": 4,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.812
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 98,
+            "1": 106,
+            "2": 37,
+            "3": 8,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.832
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 105,
+            "1": 103,
+            "2": 35,
+            "3": 7,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.776
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 110,
+            "1": 98,
+            "2": 38,
+            "3": 3,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.748
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 105,
+            "1": 108,
+            "2": 29,
+            "3": 8,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.76
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 95,
+            "1": 103,
+            "2": 42,
+            "3": 10,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.868
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 93,
+            "1": 107,
+            "2": 44,
+            "3": 6,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.852
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 102,
+            "1": 108,
+            "2": 32,
+            "3": 8,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.784
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 101,
+            "1": 121,
+            "2": 26,
+            "3": 2,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.716
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 118,
+            "1": 96,
+            "2": 34,
+            "3": 2,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.68
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 110,
+            "1": 96,
+            "2": 36,
+            "3": 7,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.772
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 90,
+            "1": 122,
+            "2": 33,
+            "3": 5,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.812
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 109,
+            "1": 102,
+            "2": 30,
+            "3": 8,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.76
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 96,
+            "1": 102,
+            "2": 40,
+            "3": 10,
+            "4": 2,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.88
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 104,
+            "1": 103,
+            "2": 39,
+            "3": 4,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.772
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 90,
+            "1": 110,
+            "2": 44,
+            "3": 6,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.864
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 98,
+            "1": 110,
+            "2": 32,
+            "3": 10,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.816
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 108,
+            "1": 103,
+            "2": 35,
+            "3": 4,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.74
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 97,
+            "1": 103,
+            "2": 46,
+            "3": 4,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.828
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 108,
+            "1": 107,
+            "2": 33,
+            "3": 1,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.72
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 101,
+            "1": 96,
+            "2": 48,
+            "3": 5,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.828
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 115,
+            "1": 96,
+            "2": 37,
+            "3": 2,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.704
+        },
+        {
+          "tickets": 250,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 107,
+            "1": 105,
+            "2": 33,
+            "3": 3,
+            "4": 2,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.752
+        }
+      ]
+    },
+    "mean_matches_difference": -0.05327999999999988
+  },
+  "final": {
+    "status": "evaluated",
+    "selected": {
+      "tickets": 248,
+      "jackpots": 0,
+      "matches_histogram": {
+        "0": 106,
+        "1": 97,
+        "2": 37,
+        "3": 8,
+        "4": 0,
+        "5": 0,
+        "6": 0
+      },
+      "mean_matches": 0.7862903225806451
+    },
+    "baseline": {
+      "repetitions": 100,
+      "tickets_per_repetition": 248,
+      "mean_matches": 0.8011290322580646,
+      "mean_matches_reference_interval_95": [
+        0.7213709677419355,
+        0.9134072580645161
+      ],
+      "jackpots_total": 0,
+      "runs": [
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 102,
+            "1": 109,
+            "2": 28,
+            "3": 8,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7782258064516129
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 96,
+            "1": 104,
+            "2": 39,
+            "3": 8,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8467741935483871
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 85,
+            "1": 106,
+            "2": 45,
+            "3": 11,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.9395161290322581
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 91,
+            "1": 116,
+            "2": 35,
+            "3": 6,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8225806451612904
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 95,
+            "1": 103,
+            "2": 46,
+            "3": 4,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8346774193548387
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 84,
+            "1": 124,
+            "2": 32,
+            "3": 8,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8548387096774194
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 104,
+            "1": 96,
+            "2": 42,
+            "3": 6,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7983870967741935
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 98,
+            "1": 104,
+            "2": 37,
+            "3": 8,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8306451612903226
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 87,
+            "1": 105,
+            "2": 46,
+            "3": 10,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.9153225806451613
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 101,
+            "1": 114,
+            "2": 28,
+            "3": 5,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7459677419354839
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 105,
+            "1": 100,
+            "2": 39,
+            "3": 4,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7661290322580645
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 100,
+            "1": 112,
+            "2": 29,
+            "3": 7,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7701612903225806
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 90,
+            "1": 108,
+            "2": 45,
+            "3": 5,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8588709677419355
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 108,
+            "1": 101,
+            "2": 34,
+            "3": 4,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7459677419354839
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 109,
+            "1": 111,
+            "2": 22,
+            "3": 6,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.6975806451612904
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 100,
+            "1": 104,
+            "2": 32,
+            "3": 12,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8225806451612904
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 95,
+            "1": 112,
+            "2": 31,
+            "3": 10,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8225806451612904
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 111,
+            "1": 99,
+            "2": 32,
+            "3": 6,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7298387096774194
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 89,
+            "1": 107,
+            "2": 45,
+            "3": 7,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8790322580645161
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 105,
+            "1": 99,
+            "2": 39,
+            "3": 5,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7741935483870968
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 100,
+            "1": 101,
+            "2": 39,
+            "3": 8,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8185483870967742
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 99,
+            "1": 104,
+            "2": 37,
+            "3": 8,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8145161290322581
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 94,
+            "1": 108,
+            "2": 39,
+            "3": 7,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8346774193548387
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 103,
+            "1": 108,
+            "2": 31,
+            "3": 6,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7580645161290323
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 106,
+            "1": 102,
+            "2": 31,
+            "3": 9,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7701612903225806
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 90,
+            "1": 115,
+            "2": 38,
+            "3": 5,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8306451612903226
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 95,
+            "1": 103,
+            "2": 42,
+            "3": 8,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8508064516129032
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 99,
+            "1": 99,
+            "2": 43,
+            "3": 7,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8306451612903226
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 102,
+            "1": 99,
+            "2": 43,
+            "3": 3,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7983870967741935
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 100,
+            "1": 114,
+            "2": 29,
+            "3": 5,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7540322580645161
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 95,
+            "1": 103,
+            "2": 40,
+            "3": 10,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8588709677419355
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 90,
+            "1": 111,
+            "2": 41,
+            "3": 5,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8548387096774194
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 94,
+            "1": 109,
+            "2": 38,
+            "3": 6,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8346774193548387
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 93,
+            "1": 109,
+            "2": 39,
+            "3": 7,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8387096774193549
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 89,
+            "1": 120,
+            "2": 33,
+            "3": 6,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8225806451612904
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 107,
+            "1": 103,
+            "2": 31,
+            "3": 7,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.75
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 95,
+            "1": 108,
+            "2": 42,
+            "3": 3,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8104838709677419
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 97,
+            "1": 110,
+            "2": 40,
+            "3": 0,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.782258064516129
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 92,
+            "1": 112,
+            "2": 38,
+            "3": 6,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8306451612903226
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 95,
+            "1": 115,
+            "2": 33,
+            "3": 4,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7943548387096774
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 99,
+            "1": 105,
+            "2": 37,
+            "3": 7,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8064516129032258
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 103,
+            "1": 101,
+            "2": 38,
+            "3": 6,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7862903225806451
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 103,
+            "1": 111,
+            "2": 29,
+            "3": 5,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7419354838709677
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 99,
+            "1": 106,
+            "2": 40,
+            "3": 3,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7862903225806451
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 86,
+            "1": 105,
+            "2": 50,
+            "3": 7,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.9112903225806451
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 106,
+            "1": 109,
+            "2": 31,
+            "3": 2,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7137096774193549
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 99,
+            "1": 110,
+            "2": 35,
+            "3": 4,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7741935483870968
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 103,
+            "1": 109,
+            "2": 29,
+            "3": 7,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7580645161290323
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 98,
+            "1": 103,
+            "2": 43,
+            "3": 4,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8104838709677419
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 99,
+            "1": 106,
+            "2": 40,
+            "3": 3,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7862903225806451
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 101,
+            "1": 107,
+            "2": 34,
+            "3": 6,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7782258064516129
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 101,
+            "1": 110,
+            "2": 32,
+            "3": 5,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7620967741935484
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 106,
+            "1": 105,
+            "2": 31,
+            "3": 5,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.75
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 81,
+            "1": 123,
+            "2": 37,
+            "3": 7,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8790322580645161
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 103,
+            "1": 91,
+            "2": 49,
+            "3": 5,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8225806451612904
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 94,
+            "1": 120,
+            "2": 26,
+            "3": 8,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7903225806451613
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 96,
+            "1": 112,
+            "2": 37,
+            "3": 3,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7862903225806451
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 97,
+            "1": 114,
+            "2": 34,
+            "3": 3,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7701612903225806
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 98,
+            "1": 103,
+            "2": 40,
+            "3": 7,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8225806451612904
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 104,
+            "1": 93,
+            "2": 45,
+            "3": 6,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8104838709677419
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 98,
+            "1": 111,
+            "2": 34,
+            "3": 5,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.782258064516129
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 93,
+            "1": 97,
+            "2": 46,
+            "3": 12,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.907258064516129
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 106,
+            "1": 103,
+            "2": 34,
+            "3": 5,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.75
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 107,
+            "1": 100,
+            "2": 39,
+            "3": 2,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7419354838709677
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 108,
+            "1": 101,
+            "2": 37,
+            "3": 2,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7298387096774194
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 98,
+            "1": 105,
+            "2": 41,
+            "3": 4,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8024193548387096
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 97,
+            "1": 108,
+            "2": 39,
+            "3": 4,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7983870967741935
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 97,
+            "1": 105,
+            "2": 40,
+            "3": 6,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8185483870967742
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 101,
+            "1": 89,
+            "2": 50,
+            "3": 8,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8588709677419355
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 104,
+            "1": 102,
+            "2": 35,
+            "3": 7,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7782258064516129
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 109,
+            "1": 107,
+            "2": 28,
+            "3": 4,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7056451612903226
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 103,
+            "1": 96,
+            "2": 44,
+            "3": 5,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8024193548387096
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 107,
+            "1": 102,
+            "2": 32,
+            "3": 7,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7540322580645161
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 94,
+            "1": 109,
+            "2": 41,
+            "3": 4,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8185483870967742
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 99,
+            "1": 101,
+            "2": 42,
+            "3": 6,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8185483870967742
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 102,
+            "1": 105,
+            "2": 38,
+            "3": 3,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7661290322580645
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 106,
+            "1": 102,
+            "2": 31,
+            "3": 9,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7701612903225806
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 102,
+            "1": 108,
+            "2": 35,
+            "3": 3,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7540322580645161
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 90,
+            "1": 103,
+            "2": 49,
+            "3": 6,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8830645161290323
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 91,
+            "1": 121,
+            "2": 28,
+            "3": 8,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8104838709677419
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 102,
+            "1": 104,
+            "2": 35,
+            "3": 7,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7862903225806451
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 93,
+            "1": 113,
+            "2": 34,
+            "3": 7,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8306451612903226
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 100,
+            "1": 106,
+            "2": 34,
+            "3": 7,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8024193548387096
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 105,
+            "1": 90,
+            "2": 43,
+            "3": 10,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8306451612903226
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 95,
+            "1": 104,
+            "2": 44,
+            "3": 5,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8346774193548387
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 102,
+            "1": 95,
+            "2": 43,
+            "3": 8,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8266129032258065
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 95,
+            "1": 107,
+            "2": 40,
+            "3": 6,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8266129032258065
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 84,
+            "1": 109,
+            "2": 49,
+            "3": 4,
+            "4": 2,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.9153225806451613
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 99,
+            "1": 111,
+            "2": 32,
+            "3": 6,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7782258064516129
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 112,
+            "1": 93,
+            "2": 37,
+            "3": 5,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.75
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 101,
+            "1": 109,
+            "2": 31,
+            "3": 7,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7741935483870968
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 103,
+            "1": 111,
+            "2": 28,
+            "3": 5,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.75
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 101,
+            "1": 107,
+            "2": 37,
+            "3": 3,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7661290322580645
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 112,
+            "1": 85,
+            "2": 44,
+            "3": 7,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.782258064516129
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 102,
+            "1": 108,
+            "2": 35,
+            "3": 3,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7540322580645161
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 110,
+            "1": 89,
+            "2": 42,
+            "3": 6,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7862903225806451
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 96,
+            "1": 109,
+            "2": 37,
+            "3": 5,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8145161290322581
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 107,
+            "1": 99,
+            "2": 39,
+            "3": 2,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7540322580645161
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 105,
+            "1": 102,
+            "2": 37,
+            "3": 4,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.7580645161290323
+        },
+        {
+          "tickets": 248,
+          "jackpots": 0,
+          "matches_histogram": {
+            "0": 90,
+            "1": 118,
+            "2": 35,
+            "3": 4,
+            "4": 1,
+            "5": 0,
+            "6": 0
+          },
+          "mean_matches": 0.8225806451612904
+        }
+      ]
+    },
+    "mean_matches_difference": -0.014838709677419515
+  },
+  "limitations": [
+    "과거 자료를 나눈 후향 실험이며 실제 미래 사전등록이 아닙니다.",
+    "검증·최종 결과로 시드나 규칙을 재선택하지 않습니다. 재실행·튜닝 시 새 최종 구간이 필요합니다.",
+    "대조군 구간은 평균 일치 수의 경험적 참고 범위이며 예측 우위의 유의성 검정이 아닙니다.",
+    "한 시드당 회차별 한 조합입니다. 시드 간 중복 조합도 동일 비용의 별도 티켓으로 계산합니다.",
+    "부분 일치는 설명용 지표이며 생존 조건은 6개 일치입니다."
+  ]
+}
