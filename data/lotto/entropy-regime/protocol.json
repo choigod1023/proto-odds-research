@@ -1,0 +1,28 @@
+{
+  "seed": 2026101706,
+  "train": [
+    101,
+    740
+  ],
+  "evaluation": [
+    741,
+    1245
+  ],
+  "rules": [
+    "entropy_ratio",
+    "entropy_change_20",
+    "surprise_residual_20",
+    "surprise_residual_50",
+    "surprise_residual_100",
+    "residual_change_20"
+  ],
+  "decay": 0.98,
+  "feature_prior": 100,
+  "conditional_prior": 100,
+  "threshold": "training median",
+  "permutations": 199,
+  "iid_histories": 199,
+  "family": "max held-out total log gain across six rules",
+  "resource": "one CPU BelowNormal; 25 percent rest; 600 second budget",
+  "source_sha256": "034f0e5ae2a3858c8714e9355771c9975386a8cf7e45f9e215d7546854f332e9"
+}
