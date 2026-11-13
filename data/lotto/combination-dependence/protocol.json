@@ -1,0 +1,34 @@
+{
+  "train_rounds": [
+    1,
+    1000
+  ],
+  "validation_rounds": [
+    1001,
+    1245
+  ],
+  "block_size": 200,
+  "null": "uniform binary matrices with row sum6 and exact per-block observed column sums",
+  "null_model": "independent weighted six-subsets with log-additive single-number weights constant within each block; no pair/triple effects",
+  "sampler": "reversible Curveball; Besag-Clifford hub-and-spoke; 20000 steps hub and each of999 spokes; single CPU",
+  "features": {
+    "pairs": 990,
+    "triples": 14190
+  },
+  "tests": [
+    "pair sum squared counts",
+    "triple sum squared counts",
+    "maximum absolute standardized count"
+  ],
+  "multiplicity": "maxT across15180 features; Bonferroni3 across two dispersion tests and maxT family",
+  "gate": "any local family_adjusted_p<=0.05; otherwise validation not opened",
+  "validation": "freeze significant signed interaction weights (count-center)/(variance+4), clipped[-2,2]; enumerate top5; test later >=3-hit frequency against exact uniform coverage; one-sided binomial",
+  "power_control": "one strong synthetic clustered example, n200, seed202610173102, 99 spokes x4000 steps; not a power curve",
+  "main_seed": 202610173101,
+  "resources": "one CPU BelowNormal, >=50% rest, 384MiB/1200s guards",
+  "source_sha256": "3f0f1871a659217da2a78dd134d70f1ae8bc2607f8f3c93af9bfe82aa14a8c46",
+  "data_sha256": {
+    "base.jsonl": "30321eef31fe7494a7ada3e2224ca548967fefcb85e2558c771b1e88971224b2",
+    "extra.jsonl": "0d7e5c56ca52b8b362896d0c00eaa450fad607b04cfe5ae9fa644900b891455e"
+  }
+}
