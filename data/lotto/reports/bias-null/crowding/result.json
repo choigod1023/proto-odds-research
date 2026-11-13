@@ -1,0 +1,3079 @@
+{
+  "protocol": {
+    "trigger": "No Holm-significant bias tests and seed null comparison not significant at .05",
+    "features": [
+      "numbers_at_most_31",
+      "adjacent_pairs",
+      "multiples_of_five",
+      "span"
+    ],
+    "train": [
+      201,
+      740
+    ],
+    "validation": [
+      741,
+      990
+    ],
+    "final": [
+      991,
+      1238
+    ],
+    "model": "Poisson mean regression with log-sales offset; standardized training features; ridge=1",
+    "baseline": "same training rows, intercept and log-sales offset only",
+    "metrics": "heldout mean Poisson deviance, MAE; positive baseline-minus-model deviance gain is better",
+    "uncertainty": "4999 circular block bootstraps, block length 10; descriptive fixed-model intervals",
+    "limitations": "post-fallback exploratory analysis, not a profit estimate or a ticket-selection validation",
+    "ledger_hash": "da144c4335ef8ea6a8cc5b105c7dffb5b990e91a36151e2c68c5379c5c032c15"
+  },
+  "model": {
+    "coefficients": [
+      1.9087440114507557,
+      0.0006003616536629769,
+      -0.024961482341180664,
+      -0.01661575373032213,
+      -0.01615865016884956
+    ],
+    "center": [
+      4.155555555555556,
+      0.6666666666666666,
+      1.2314814814814814,
+      32.907407407407405
+    ],
+    "scale": [
+      1.0407736913196863,
+      0.742867317797636,
+      0.9330007490914554,
+      6.615829833783116
+    ],
+    "sales_scale": 53295030357.40741,
+    "ridge": 1.0,
+    "gradient_max": 8.880481114914573e-07
+  },
+  "baseline": {
+    "coefficients": [
+      1.909268118821529
+    ],
+    "center": [],
+    "scale": [],
+    "sales_scale": 53295030357.40741,
+    "ridge": 1.0,
+    "gradient_max": 3.588240815588506e-13
+  },
+  "results": {
+    "validation": {
+      "draws": 250,
+      "model_mean_deviance": 1.5101220256235763,
+      "baseline_mean_deviance": 1.5121790589336455,
+      "mean_deviance_gain": 0.0020570333100691797,
+      "gain_block_bootstrap_interval_95": [
+        -0.02874177264851752,
+        0.035275310698043974
+      ],
+      "model_mae": 3.2418792837952726,
+      "baseline_mae": 3.2465070294759872
+    },
+    "final": {
+      "draws": 248,
+      "model_mean_deviance": 2.246661678886422,
+      "baseline_mean_deviance": 2.235865822711085,
+      "mean_deviance_gain": -0.010795856175337152,
+      "gain_block_bootstrap_interval_95": [
+        -0.05865375192474887,
+        0.036144487338680156
+      ],
+      "model_mae": 4.079848277655452,
+      "baseline_mae": 4.052918724730078
+    }
+  },
+  "heldout_predictions": [
+    {
+      "draw": 741,
+      "actual_winners": 6,
+      "model": 9.019424292905892,
+      "baseline": 9.41949336246001
+    },
+    {
+      "draw": 742,
+      "actual_winners": 16,
+      "model": 9.131273100337802,
+      "baseline": 9.351778561128802
+    },
+    {
+      "draw": 743,
+      "actual_winners": 7,
+      "model": 9.628497912043498,
+      "baseline": 9.29847968011809
+    },
+    {
+      "draw": 744,
+      "actual_winners": 15,
+      "model": 9.426916329129023,
+      "baseline": 9.307398828873914
+    },
+    {
+      "draw": 745,
+      "actual_winners": 20,
+      "model": 9.356222355521838,
+      "baseline": 9.315986869695482
+    },
+    {
+      "draw": 746,
+      "actual_winners": 9,
+      "model": 9.424101898285599,
+      "baseline": 9.400119939673095
+    },
+    {
+      "draw": 747,
+      "actual_winners": 9,
+      "model": 9.998723666395014,
+      "baseline": 9.285947972864347
+    },
+    {
+      "draw": 748,
+      "actual_winners": 9,
+      "model": 9.233943587778619,
+      "baseline": 9.211546437304564
+    },
+    {
+      "draw": 749,
+      "actual_winners": 13,
+      "model": 9.38657820175266,
+      "baseline": 9.148567808929613
+    },
+    {
+      "draw": 750,
+      "actual_winners": 7,
+      "model": 9.036798800313441,
+      "baseline": 9.147961431913505
+    },
+    {
+      "draw": 751,
+      "actual_winners": 8,
+      "model": 8.817342777942265,
+      "baseline": 9.057572511187344
+    },
+    {
+      "draw": 752,
+      "actual_winners": 9,
+      "model": 8.999551523446215,
+      "baseline": 9.066003924661047
+    },
+    {
+      "draw": 753,
+      "actual_winners": 6,
+      "model": 8.9812294883611,
+      "baseline": 8.725928726544787
+    },
+    {
+      "draw": 754,
+      "actual_winners": 5,
+      "model": 9.461371554824764,
+      "baseline": 8.96028084470839
+    },
+    {
+      "draw": 755,
+      "actual_winners": 8,
+      "model": 9.183544749143321,
+      "baseline": 9.027994633089897
+    },
+    {
+      "draw": 756,
+      "actual_winners": 5,
+      "model": 9.261606372894153,
+      "baseline": 8.98903544793452
+    },
+    {
+      "draw": 757,
+      "actual_winners": 21,
+      "model": 8.97578058634961,
+      "baseline": 8.996639661356811
+    },
+    {
+      "draw": 758,
+      "actual_winners": 8,
+      "model": 9.04736922052303,
+      "baseline": 9.086698107242288
+    },
+    {
+      "draw": 759,
+      "actual_winners": 6,
+      "model": 9.086070104341186,
+      "baseline": 9.196596692490449
+    },
+    {
+      "draw": 760,
+      "actual_winners": 8,
+      "model": 9.069871125013016,
+      "baseline": 9.141971986936904
+    },
+    {
+      "draw": 761,
+      "actual_winners": 7,
+      "model": 9.098319290511858,
+      "baseline": 9.042589718889161
+    },
+    {
+      "draw": 762,
+      "actual_winners": 10,
+      "model": 9.178328265671608,
+      "baseline": 8.934076468978901
+    },
+    {
+      "draw": 763,
+      "actual_winners": 8,
+      "model": 9.1798556496602,
+      "baseline": 8.945877966115317
+    },
+    {
+      "draw": 764,
+      "actual_winners": 7,
+      "model": 9.390778523909553,
+      "baseline": 8.903692662773809
+    },
+    {
+      "draw": 765,
+      "actual_winners": 15,
+      "model": 8.878428892036178,
+      "baseline": 8.986428875110633
+    },
+    {
+      "draw": 766,
+      "actual_winners": 8,
+      "model": 8.58764538556685,
+      "baseline": 8.800097916766388
+    },
+    {
+      "draw": 767,
+      "actual_winners": 15,
+      "model": 8.849980604167921,
+      "baseline": 9.026090794122636
+    },
+    {
+      "draw": 768,
+      "actual_winners": 13,
+      "model": 8.994901159046945,
+      "baseline": 9.15541610863585
+    },
+    {
+      "draw": 769,
+      "actual_winners": 9,
+      "model": 9.14243466619631,
+      "baseline": 9.227140038273808
+    },
+    {
+      "draw": 770,
+      "actual_winners": 8,
+      "model": 9.595042691550765,
+      "baseline": 9.390851449888363
+    },
+    {
+      "draw": 771,
+      "actual_winners": 4,
+      "model": 9.478206475418,
+      "baseline": 9.312292135652886
+    },
+    {
+      "draw": 772,
+      "actual_winners": 10,
+      "model": 9.280183966081466,
+      "baseline": 9.417313494698618
+    },
+    {
+      "draw": 773,
+      "actual_winners": 11,
+      "model": 9.83504530529592,
+      "baseline": 9.440766825652794
+    },
+    {
+      "draw": 774,
+      "actual_winners": 11,
+      "model": 10.122268871846115,
+      "baseline": 9.79358024614355
+    },
+    {
+      "draw": 775,
+      "actual_winners": 5,
+      "model": 9.092216101463682,
+      "baseline": 8.964029011847835
+    },
+    {
+      "draw": 776,
+      "actual_winners": 7,
+      "model": 9.428082621809665,
+      "baseline": 9.474382194648678
+    },
+    {
+      "draw": 777,
+      "actual_winners": 21,
+      "model": 10.038120962731087,
+      "baseline": 9.564063443388406
+    },
+    {
+      "draw": 778,
+      "actual_winners": 3,
+      "model": 9.064471969032462,
+      "baseline": 9.505976602367866
+    },
+    {
+      "draw": 779,
+      "actual_winners": 11,
+      "model": 9.708818290842084,
+      "baseline": 9.341127901473987
+    },
+    {
+      "draw": 780,
+      "actual_winners": 11,
+      "model": 9.548653316112546,
+      "baseline": 9.399170932419864
+    },
+    {
+      "draw": 781,
+      "actual_winners": 9,
+      "model": 9.38825162541445,
+      "baseline": 9.177724046713081
+    },
+    {
+      "draw": 782,
+      "actual_winners": 9,
+      "model": 9.244829714255044,
+      "baseline": 9.1487050636144
+    },
+    {
+      "draw": 783,
+      "actual_winners": 4,
+      "model": 8.525049004787249,
+      "baseline": 9.309673280813845
+    },
+    {
+      "draw": 784,
+      "actual_winners": 9,
+      "model": 9.272199990480118,
+      "baseline": 9.409211543115893
+    },
+    {
+      "draw": 785,
+      "actual_winners": 6,
+      "model": 9.098917863214155,
+      "baseline": 9.23994524194743
+    },
+    {
+      "draw": 786,
+      "actual_winners": 4,
+      "model": 9.559094711338453,
+      "baseline": 9.614178623481804
+    },
+    {
+      "draw": 787,
+      "actual_winners": 6,
+      "model": 9.918692291221864,
+      "baseline": 10.078080085409765
+    },
+    {
+      "draw": 788,
+      "actual_winners": 13,
+      "model": 9.54672858158343,
+      "baseline": 9.891692148644706
+    },
+    {
+      "draw": 789,
+      "actual_winners": 15,
+      "model": 9.338902352324528,
+      "baseline": 9.640318676905135
+    },
+    {
+      "draw": 790,
+      "actual_winners": 16,
+      "model": 10.141680595310966,
+      "baseline": 10.000204258986548
+    },
+    {
+      "draw": 791,
+      "actual_winners": 14,
+      "model": 9.476873449217782,
+      "baseline": 9.395848457393207
+    },
+    {
+      "draw": 792,
+      "actual_winners": 7,
+      "model": 9.898932394086017,
+      "baseline": 9.665946304397336
+    },
+    {
+      "draw": 793,
+      "actual_winners": 5,
+      "model": 9.544638917127148,
+      "baseline": 9.64549409017646
+    },
+    {
+      "draw": 794,
+      "actual_winners": 7,
+      "model": 9.739802153136274,
+      "baseline": 10.122099840663857
+    },
+    {
+      "draw": 795,
+      "actual_winners": 11,
+      "model": 10.298601253171492,
+      "baseline": 10.08661659241518
+    },
+    {
+      "draw": 796,
+      "actual_winners": 7,
+      "model": 9.587953819622888,
+      "baseline": 9.83649411355912
+    },
+    {
+      "draw": 797,
+      "actual_winners": 8,
+      "model": 9.376764278965226,
+      "baseline": 9.792683659037463
+    },
+    {
+      "draw": 798,
+      "actual_winners": 7,
+      "model": 9.983909451885847,
+      "baseline": 9.75454850846568
+    },
+    {
+      "draw": 799,
+      "actual_winners": 10,
+      "model": 9.959735582231808,
+      "baseline": 9.712793075654485
+    },
+    {
+      "draw": 800,
+      "actual_winners": 11,
+      "model": 9.571003558430126,
+      "baseline": 9.748889031854912
+    },
+    {
+      "draw": 801,
+      "actual_winners": 8,
+      "model": 9.432109827721995,
+      "baseline": 9.374190073313187
+    },
+    {
+      "draw": 802,
+      "actual_winners": 16,
+      "model": 9.155620748810334,
+      "baseline": 9.514988689258962
+    },
+    {
+      "draw": 803,
+      "actual_winners": 5,
+      "model": 9.545373215477857,
+      "baseline": 9.58133841424633
+    },
+    {
+      "draw": 804,
+      "actual_winners": 11,
+      "model": 9.638716631130096,
+      "baseline": 9.440314923466435
+    },
+    {
+      "draw": 805,
+      "actual_winners": 4,
+      "model": 9.128704481135248,
+      "baseline": 9.25152047144388
+    },
+    {
+      "draw": 806,
+      "actual_winners": 7,
+      "model": 9.506417174180005,
+      "baseline": 9.373657135150562
+    },
+    {
+      "draw": 807,
+      "actual_winners": 7,
+      "model": 9.038067092086662,
+      "baseline": 9.348459631426106
+    },
+    {
+      "draw": 808,
+      "actual_winners": 6,
+      "model": 9.520513908392303,
+      "baseline": 9.485189861507495
+    },
+    {
+      "draw": 809,
+      "actual_winners": 6,
+      "model": 9.453529830090364,
+      "baseline": 9.39689432796181
+    },
+    {
+      "draw": 810,
+      "actual_winners": 8,
+      "model": 9.378190798184658,
+      "baseline": 9.418957765304416
+    },
+    {
+      "draw": 811,
+      "actual_winners": 7,
+      "model": 9.593521247463787,
+      "baseline": 9.442060362423844
+    },
+    {
+      "draw": 812,
+      "actual_winners": 6,
+      "model": 9.598176193232636,
+      "baseline": 9.38850102672069
+    },
+    {
+      "draw": 813,
+      "actual_winners": 4,
+      "model": 9.046694470068035,
+      "baseline": 9.293173722953762
+    },
+    {
+      "draw": 814,
+      "actual_winners": 6,
+      "model": 9.41628860133815,
+      "baseline": 9.409865022293198
+    },
+    {
+      "draw": 815,
+      "actual_winners": 7,
+      "model": 9.23336480253797,
+      "baseline": 9.295890074201736
+    },
+    {
+      "draw": 816,
+      "actual_winners": 8,
+      "model": 9.400130352542279,
+      "baseline": 9.166919545322088
+    },
+    {
+      "draw": 817,
+      "actual_winners": 9,
+      "model": 8.96475663226531,
+      "baseline": 9.186537848699764
+    },
+    {
+      "draw": 818,
+      "actual_winners": 13,
+      "model": 8.492239773397143,
+      "baseline": 9.090381952075578
+    },
+    {
+      "draw": 819,
+      "actual_winners": 7,
+      "model": 9.430643670132822,
+      "baseline": 9.443085214286105
+    },
+    {
+      "draw": 820,
+      "actual_winners": 4,
+      "model": 9.20455330392724,
+      "baseline": 9.590680089647117
+    },
+    {
+      "draw": 821,
+      "actual_winners": 14,
+      "model": 9.504415084230624,
+      "baseline": 9.637993450861327
+    },
+    {
+      "draw": 822,
+      "actual_winners": 3,
+      "model": 9.982931491932407,
+      "baseline": 9.5827243826778
+    },
+    {
+      "draw": 823,
+      "actual_winners": 9,
+      "model": 9.842477565919793,
+      "baseline": 9.800304079655007
+    },
+    {
+      "draw": 824,
+      "actual_winners": 15,
+      "model": 10.40000164517834,
+      "baseline": 9.908854048992009
+    },
+    {
+      "draw": 825,
+      "actual_winners": 12,
+      "model": 10.847744445887999,
+      "baseline": 10.495498298405328
+    },
+    {
+      "draw": 826,
+      "actual_winners": 9,
+      "model": 10.068789128177643,
+      "baseline": 9.903956183939371
+    },
+    {
+      "draw": 827,
+      "actual_winners": 15,
+      "model": 9.468912690027983,
+      "baseline": 9.685081177529138
+    },
+    {
+      "draw": 828,
+      "actual_winners": 13,
+      "model": 10.212053977037957,
+      "baseline": 9.81963913697191
+    },
+    {
+      "draw": 829,
+      "actual_winners": 8,
+      "model": 9.267062098542496,
+      "baseline": 9.876108550553784
+    },
+    {
+      "draw": 830,
+      "actual_winners": 9,
+      "model": 9.439857234540819,
+      "baseline": 9.840046654787127
+    },
+    {
+      "draw": 831,
+      "actual_winners": 16,
+      "model": 10.016349155529143,
+      "baseline": 9.828493077090583
+    },
+    {
+      "draw": 832,
+      "actual_winners": 9,
+      "model": 9.796006012471546,
+      "baseline": 9.801795141618184
+    },
+    {
+      "draw": 833,
+      "actual_winners": 8,
+      "model": 9.831649916947846,
+      "baseline": 9.843136404619464
+    },
+    {
+      "draw": 834,
+      "actual_winners": 11,
+      "model": 9.44162002842687,
+      "baseline": 9.615651832206467
+    },
+    {
+      "draw": 835,
+      "actual_winners": 15,
+      "model": 9.517711178860411,
+      "baseline": 9.837569359669123
+    },
+    {
+      "draw": 836,
+      "actual_winners": 14,
+      "model": 10.014331763750219,
+      "baseline": 9.437740638414338
+    },
+    {
+      "draw": 837,
+      "actual_winners": 6,
+      "model": 9.373143533668937,
+      "baseline": 9.700788355483857
+    },
+    {
+      "draw": 838,
+      "actual_winners": 5,
+      "model": 10.59933286839794,
+      "baseline": 10.055359750184598
+    },
+    {
+      "draw": 839,
+      "actual_winners": 13,
+      "model": 10.222737112766515,
+      "baseline": 10.030697716997024
+    },
+    {
+      "draw": 840,
+      "actual_winners": 10,
+      "model": 10.547171141545915,
+      "baseline": 10.643286773778375
+    },
+    {
+      "draw": 841,
+      "actual_winners": 17,
+      "model": 10.411316834553434,
+      "baseline": 10.329654501046718
+    },
+    {
+      "draw": 842,
+      "actual_winners": 10,
+      "model": 10.959164095686313,
+      "baseline": 10.377346072356378
+    },
+    {
+      "draw": 843,
+      "actual_winners": 5,
+      "model": 10.531115519203277,
+      "baseline": 10.36469103847626
+    },
+    {
+      "draw": 844,
+      "actual_winners": 18,
+      "model": 10.703933744557228,
+      "baseline": 11.117833324137777
+    },
+    {
+      "draw": 845,
+      "actual_winners": 11,
+      "model": 10.415461418777424,
+      "baseline": 10.621288418454203
+    },
+    {
+      "draw": 846,
+      "actual_winners": 13,
+      "model": 10.338568626196173,
+      "baseline": 10.627974519589207
+    },
+    {
+      "draw": 847,
+      "actual_winners": 8,
+      "model": 10.9707968709637,
+      "baseline": 10.608433833482547
+    },
+    {
+      "draw": 848,
+      "actual_winners": 7,
+      "model": 10.324596900188887,
+      "baseline": 10.702227151542614
+    },
+    {
+      "draw": 849,
+      "actual_winners": 17,
+      "model": 10.670108874119947,
+      "baseline": 10.42498383071305
+    },
+    {
+      "draw": 850,
+      "actual_winners": 6,
+      "model": 10.846243942197455,
+      "baseline": 10.316155300207656
+    },
+    {
+      "draw": 851,
+      "actual_winners": 8,
+      "model": 10.810237636988345,
+      "baseline": 10.26866568574508
+    },
+    {
+      "draw": 852,
+      "actual_winners": 4,
+      "model": 10.628360581091762,
+      "baseline": 10.315726949101894
+    },
+    {
+      "draw": 853,
+      "actual_winners": 7,
+      "model": 10.294460020517336,
+      "baseline": 10.413676273175682
+    },
+    {
+      "draw": 854,
+      "actual_winners": 6,
+      "model": 10.340910494638859,
+      "baseline": 10.360365743243388
+    },
+    {
+      "draw": 855,
+      "actual_winners": 9,
+      "model": 10.272376949271756,
+      "baseline": 10.430182541827552
+    },
+    {
+      "draw": 856,
+      "actual_winners": 5,
+      "model": 9.570765112784727,
+      "baseline": 10.19235360042626
+    },
+    {
+      "draw": 857,
+      "actual_winners": 15,
+      "model": 10.539962924473821,
+      "baseline": 10.247647106021377
+    },
+    {
+      "draw": 858,
+      "actual_winners": 9,
+      "model": 10.367627647759443,
+      "baseline": 10.302570758356095
+    },
+    {
+      "draw": 859,
+      "actual_winners": 11,
+      "model": 10.156497004094756,
+      "baseline": 10.249053333446911
+    },
+    {
+      "draw": 860,
+      "actual_winners": 10,
+      "model": 10.769791180877071,
+      "baseline": 10.363320264290339
+    },
+    {
+      "draw": 861,
+      "actual_winners": 4,
+      "model": 10.67513937534907,
+      "baseline": 10.260237311120488
+    },
+    {
+      "draw": 862,
+      "actual_winners": 9,
+      "model": 9.930172742470196,
+      "baseline": 10.206608461743944
+    },
+    {
+      "draw": 863,
+      "actual_winners": 7,
+      "model": 10.710143091051195,
+      "baseline": 10.292650308818615
+    },
+    {
+      "draw": 864,
+      "actual_winners": 11,
+      "model": 10.49898427369691,
+      "baseline": 10.4106272945689
+    },
+    {
+      "draw": 865,
+      "actual_winners": 13,
+      "model": 9.862931019791551,
+      "baseline": 10.350854018911166
+    },
+    {
+      "draw": 866,
+      "actual_winners": 9,
+      "model": 10.720022614156603,
+      "baseline": 10.377908512679102
+    },
+    {
+      "draw": 867,
+      "actual_winners": 5,
+      "model": 10.790862100291184,
+      "baseline": 10.332997361686154
+    },
+    {
+      "draw": 868,
+      "actual_winners": 6,
+      "model": 10.319632548375424,
+      "baseline": 10.19902058213562
+    },
+    {
+      "draw": 869,
+      "actual_winners": 10,
+      "model": 10.326513342038911,
+      "baseline": 10.163480102228707
+    },
+    {
+      "draw": 870,
+      "actual_winners": 10,
+      "model": 10.152519937364845,
+      "baseline": 9.96345722936436
+    },
+    {
+      "draw": 871,
+      "actual_winners": 7,
+      "model": 10.362884954804729,
+      "baseline": 10.069669943879827
+    },
+    {
+      "draw": 872,
+      "actual_winners": 16,
+      "model": 9.972895780302695,
+      "baseline": 10.256434571315776
+    },
+    {
+      "draw": 873,
+      "actual_winners": 10,
+      "model": 10.272483445641477,
+      "baseline": 10.430290674208374
+    },
+    {
+      "draw": 874,
+      "actual_winners": 18,
+      "model": 10.578966640460843,
+      "baseline": 10.508104457462261
+    },
+    {
+      "draw": 875,
+      "actual_winners": 14,
+      "model": 10.676097087438258,
+      "baseline": 10.209935495044268
+    },
+    {
+      "draw": 876,
+      "actual_winners": 19,
+      "model": 10.946602745500678,
+      "baseline": 10.773779639443294
+    },
+    {
+      "draw": 877,
+      "actual_winners": 12,
+      "model": 10.155586208168634,
+      "baseline": 10.710009644112676
+    },
+    {
+      "draw": 878,
+      "actual_winners": 6,
+      "model": 11.056659420244278,
+      "baseline": 10.659228702826821
+    },
+    {
+      "draw": 879,
+      "actual_winners": 6,
+      "model": 10.063966064616553,
+      "baseline": 10.531416608551549
+    },
+    {
+      "draw": 880,
+      "actual_winners": 7,
+      "model": 10.412950558880956,
+      "baseline": 10.618562064327906
+    },
+    {
+      "draw": 881,
+      "actual_winners": 8,
+      "model": 10.75095746885371,
+      "baseline": 10.698718040533135
+    },
+    {
+      "draw": 882,
+      "actual_winners": 5,
+      "model": 10.379401789040937,
+      "baseline": 10.680491276810297
+    },
+    {
+      "draw": 883,
+      "actual_winners": 15,
+      "model": 10.883468609652642,
+      "baseline": 10.841622325674537
+    },
+    {
+      "draw": 884,
+      "actual_winners": 12,
+      "model": 11.02697679451996,
+      "baseline": 10.959433694148345
+    },
+    {
+      "draw": 885,
+      "actual_winners": 13,
+      "model": 10.547048232080037,
+      "baseline": 10.559534572889184
+    },
+    {
+      "draw": 886,
+      "actual_winners": 7,
+      "model": 11.119033539864827,
+      "baseline": 10.659534866874626
+    },
+    {
+      "draw": 887,
+      "actual_winners": 8,
+      "model": 10.860214909772152,
+      "baseline": 10.688755680201677
+    },
+    {
+      "draw": 888,
+      "actual_winners": 8,
+      "model": 10.893721637527733,
+      "baseline": 10.481156829888016
+    },
+    {
+      "draw": 889,
+      "actual_winners": 10,
+      "model": 10.923681615494653,
+      "baseline": 10.982175554554702
+    },
+    {
+      "draw": 890,
+      "actual_winners": 9,
+      "model": 11.387837576422733,
+      "baseline": 10.977019134090316
+    },
+    {
+      "draw": 891,
+      "actual_winners": 7,
+      "model": 11.89723830557836,
+      "baseline": 11.363102254490721
+    },
+    {
+      "draw": 892,
+      "actual_winners": 17,
+      "model": 11.76653381641129,
+      "baseline": 11.787077164296704
+    },
+    {
+      "draw": 893,
+      "actual_winners": 9,
+      "model": 11.00404599430257,
+      "baseline": 11.099594784874638
+    },
+    {
+      "draw": 894,
+      "actual_winners": 9,
+      "model": 11.34035165641958,
+      "baseline": 11.201347608465415
+    },
+    {
+      "draw": 895,
+      "actual_winners": 12,
+      "model": 12.63663614328799,
+      "baseline": 12.277235928576143
+    },
+    {
+      "draw": 896,
+      "actual_winners": 7,
+      "model": 10.780317166528222,
+      "baseline": 11.45418175367707
+    },
+    {
+      "draw": 897,
+      "actual_winners": 13,
+      "model": 11.372336297353268,
+      "baseline": 11.171755675690834
+    },
+    {
+      "draw": 898,
+      "actual_winners": 8,
+      "model": 11.954127515890123,
+      "baseline": 11.404273848416704
+    },
+    {
+      "draw": 899,
+      "actual_winners": 6,
+      "model": 10.48253312834882,
+      "baseline": 10.873679144933263
+    },
+    {
+      "draw": 900,
+      "actual_winners": 6,
+      "model": 10.919036309901575,
+      "baseline": 10.59030963091716
+    },
+    {
+      "draw": 901,
+      "actual_winners": 9,
+      "model": 10.739661333578676,
+      "baseline": 10.735236143522393
+    },
+    {
+      "draw": 902,
+      "actual_winners": 13,
+      "model": 11.216879760282357,
+      "baseline": 11.079388210956804
+    },
+    {
+      "draw": 903,
+      "actual_winners": 13,
+      "model": 10.96350319237999,
+      "baseline": 11.221603690299997
+    },
+    {
+      "draw": 904,
+      "actual_winners": 8,
+      "model": 11.275432617919277,
+      "baseline": 11.26124294456239
+    },
+    {
+      "draw": 905,
+      "actual_winners": 7,
+      "model": 11.240381537124737,
+      "baseline": 11.440967318323338
+    },
+    {
+      "draw": 906,
+      "actual_winners": 9,
+      "model": 11.51559272742357,
+      "baseline": 11.515753394914213
+    },
+    {
+      "draw": 907,
+      "actual_winners": 7,
+      "model": 11.885362674650493,
+      "baseline": 11.3110119490947
+    },
+    {
+      "draw": 908,
+      "actual_winners": 8,
+      "model": 10.910354256306563,
+      "baseline": 11.386010618504551
+    },
+    {
+      "draw": 909,
+      "actual_winners": 11,
+      "model": 10.816042827642157,
+      "baseline": 11.337852457237833
+    },
+    {
+      "draw": 910,
+      "actual_winners": 21,
+      "model": 11.07653179570618,
+      "baseline": 10.928316385739386
+    },
+    {
+      "draw": 911,
+      "actual_winners": 10,
+      "model": 11.085735757943949,
+      "baseline": 11.311154775002858
+    },
+    {
+      "draw": 912,
+      "actual_winners": 14,
+      "model": 11.13625645271787,
+      "baseline": 11.218310970670874
+    },
+    {
+      "draw": 913,
+      "actual_winners": 16,
+      "model": 11.879263251779838,
+      "baseline": 11.311729497340739
+    },
+    {
+      "draw": 914,
+      "actual_winners": 11,
+      "model": 11.982470513572375,
+      "baseline": 11.339782379659948
+    },
+    {
+      "draw": 915,
+      "actual_winners": 6,
+      "model": 11.56960732287775,
+      "baseline": 11.125026279980549
+    },
+    {
+      "draw": 916,
+      "actual_winners": 11,
+      "model": 10.900252894807773,
+      "baseline": 11.285911308685614
+    },
+    {
+      "draw": 917,
+      "actual_winners": 10,
+      "model": 11.133906723607398,
+      "baseline": 11.262844291424518
+    },
+    {
+      "draw": 918,
+      "actual_winners": 18,
+      "model": 11.462621089775029,
+      "baseline": 11.29449770346392
+    },
+    {
+      "draw": 919,
+      "actual_winners": 5,
+      "model": 11.48062290764571,
+      "baseline": 11.423294131613325
+    },
+    {
+      "draw": 920,
+      "actual_winners": 7,
+      "model": 10.883422703320909,
+      "baseline": 11.371015924047352
+    },
+    {
+      "draw": 921,
+      "actual_winners": 17,
+      "model": 11.599086268780827,
+      "baseline": 11.381546042687479
+    },
+    {
+      "draw": 922,
+      "actual_winners": 6,
+      "model": 11.583517990593872,
+      "baseline": 11.302832380240964
+    },
+    {
+      "draw": 923,
+      "actual_winners": 8,
+      "model": 11.099862058531698,
+      "baseline": 11.125657347645676
+    },
+    {
+      "draw": 924,
+      "actual_winners": 9,
+      "model": 10.623168750339397,
+      "baseline": 11.105506485961513
+    },
+    {
+      "draw": 925,
+      "actual_winners": 12,
+      "model": 11.725258888880845,
+      "baseline": 11.12991996661566
+    },
+    {
+      "draw": 926,
+      "actual_winners": 10,
+      "model": 11.421658203591457,
+      "baseline": 11.189580678237624
+    },
+    {
+      "draw": 927,
+      "actual_winners": 6,
+      "model": 11.65203551782556,
+      "baseline": 11.530881545494811
+    },
+    {
+      "draw": 928,
+      "actual_winners": 7,
+      "model": 10.996794390101853,
+      "baseline": 11.499382608285154
+    },
+    {
+      "draw": 929,
+      "actual_winners": 16,
+      "model": 12.519792801114068,
+      "baseline": 11.69255692820584
+    },
+    {
+      "draw": 930,
+      "actual_winners": 8,
+      "model": 11.779933643143524,
+      "baseline": 11.967800053227624
+    },
+    {
+      "draw": 931,
+      "actual_winners": 8,
+      "model": 11.714568195710303,
+      "baseline": 12.116879279760038
+    },
+    {
+      "draw": 932,
+      "actual_winners": 7,
+      "model": 11.54693912766812,
+      "baseline": 12.161637348729089
+    },
+    {
+      "draw": 933,
+      "actual_winners": 8,
+      "model": 12.475597702620103,
+      "baseline": 11.83693150984151
+    },
+    {
+      "draw": 934,
+      "actual_winners": 4,
+      "model": 11.931999273686774,
+      "baseline": 11.779129560925009
+    },
+    {
+      "draw": 935,
+      "actual_winners": 13,
+      "model": 11.777933478992626,
+      "baseline": 11.89391588172878
+    },
+    {
+      "draw": 936,
+      "actual_winners": 14,
+      "model": 12.131395267313568,
+      "baseline": 11.680088277071123
+    },
+    {
+      "draw": 937,
+      "actual_winners": 11,
+      "model": 11.822219325149993,
+      "baseline": 11.866763258458331
+    },
+    {
+      "draw": 938,
+      "actual_winners": 10,
+      "model": 12.177381467640174,
+      "baseline": 11.832825771456815
+    },
+    {
+      "draw": 939,
+      "actual_winners": 13,
+      "model": 11.884571516931292,
+      "baseline": 11.818590915895767
+    },
+    {
+      "draw": 940,
+      "actual_winners": 8,
+      "model": 11.847413825846637,
+      "baseline": 11.892052687368365
+    },
+    {
+      "draw": 941,
+      "actual_winners": 16,
+      "model": 11.850764471329791,
+      "baseline": 12.01201340849375
+    },
+    {
+      "draw": 942,
+      "actual_winners": 6,
+      "model": 11.436779391621428,
+      "baseline": 11.741602053556466
+    },
+    {
+      "draw": 943,
+      "actual_winners": 7,
+      "model": 12.231904465048508,
+      "baseline": 12.672182105642554
+    },
+    {
+      "draw": 944,
+      "actual_winners": 13,
+      "model": 13.773180592102698,
+      "baseline": 13.571168003246878
+    },
+    {
+      "draw": 945,
+      "actual_winners": 13,
+      "model": 11.637841430943288,
+      "baseline": 12.008152677318535
+    },
+    {
+      "draw": 946,
+      "actual_winners": 11,
+      "model": 12.323839447067506,
+      "baseline": 12.583390226742278
+    },
+    {
+      "draw": 947,
+      "actual_winners": 18,
+      "model": 12.730147394166199,
+      "baseline": 12.592220362542928
+    },
+    {
+      "draw": 948,
+      "actual_winners": 11,
+      "model": 12.78241518251178,
+      "baseline": 12.727644520600686
+    },
+    {
+      "draw": 949,
+      "actual_winners": 10,
+      "model": 12.481124632476071,
+      "baseline": 12.727574880308591
+    },
+    {
+      "draw": 950,
+      "actual_winners": 8,
+      "model": 13.312004896236946,
+      "baseline": 13.78506967985159
+    },
+    {
+      "draw": 951,
+      "actual_winners": 14,
+      "model": 12.680746267200094,
+      "baseline": 13.033751210130768
+    },
+    {
+      "draw": 952,
+      "actual_winners": 9,
+      "model": 13.404644215421238,
+      "baseline": 12.96014015519566
+    },
+    {
+      "draw": 953,
+      "actual_winners": 14,
+      "model": 13.052477534707842,
+      "baseline": 12.558156763303355
+    },
+    {
+      "draw": 954,
+      "actual_winners": 10,
+      "model": 12.964396076307843,
+      "baseline": 12.846141276167454
+    },
+    {
+      "draw": 955,
+      "actual_winners": 12,
+      "model": 13.33349381564153,
+      "baseline": 12.63461483999816
+    },
+    {
+      "draw": 956,
+      "actual_winners": 11,
+      "model": 11.44019152072649,
+      "baseline": 12.290277656005477
+    },
+    {
+      "draw": 957,
+      "actual_winners": 11,
+      "model": 11.62467269911278,
+      "baseline": 12.238293457090872
+    },
+    {
+      "draw": 958,
+      "actual_winners": 15,
+      "model": 12.112632978853922,
+      "baseline": 12.489156655417435
+    },
+    {
+      "draw": 959,
+      "actual_winners": 8,
+      "model": 11.429452755935468,
+      "baseline": 12.33720001863423
+    },
+    {
+      "draw": 960,
+      "actual_winners": 10,
+      "model": 12.302714020120552,
+      "baseline": 12.508014233567973
+    },
+    {
+      "draw": 961,
+      "actual_winners": 9,
+      "model": 12.683267260759534,
+      "baseline": 12.301426940151716
+    },
+    {
+      "draw": 962,
+      "actual_winners": 12,
+      "model": 12.414053795197788,
+      "baseline": 12.149871431450999
+    },
+    {
+      "draw": 963,
+      "actual_winners": 15,
+      "model": 12.531129819010369,
+      "baseline": 12.08603660733937
+    },
+    {
+      "draw": 964,
+      "actual_winners": 10,
+      "model": 12.08591964240044,
+      "baseline": 12.098404723216042
+    },
+    {
+      "draw": 965,
+      "actual_winners": 7,
+      "model": 12.05895092238515,
+      "baseline": 12.177510397197713
+    },
+    {
+      "draw": 966,
+      "actual_winners": 10,
+      "model": 12.33421435013795,
+      "baseline": 12.109870300907117
+    },
+    {
+      "draw": 967,
+      "actual_winners": 4,
+      "model": 11.693581775116439,
+      "baseline": 11.967439189895842
+    },
+    {
+      "draw": 968,
+      "actual_winners": 13,
+      "model": 12.34775489718666,
+      "baseline": 12.145802412493044
+    },
+    {
+      "draw": 969,
+      "actual_winners": 20,
+      "model": 11.470952509186079,
+      "baseline": 12.24766995263771
+    },
+    {
+      "draw": 970,
+      "actual_winners": 14,
+      "model": 12.523787896233951,
+      "baseline": 11.809521090871591
+    },
+    {
+      "draw": 971,
+      "actual_winners": 6,
+      "model": 12.363567999907051,
+      "baseline": 11.961913422645905
+    },
+    {
+      "draw": 972,
+      "actual_winners": 20,
+      "model": 12.329559621960794,
+      "baseline": 11.891625982305868
+    },
+    {
+      "draw": 973,
+      "actual_winners": 8,
+      "model": 12.395016493456815,
+      "baseline": 11.896318345187462
+    },
+    {
+      "draw": 974,
+      "actual_winners": 17,
+      "model": 11.748658220074915,
+      "baseline": 11.920652309289897
+    },
+    {
+      "draw": 975,
+      "actual_winners": 9,
+      "model": 12.133098104979585,
+      "baseline": 11.934284586396226
+    },
+    {
+      "draw": 976,
+      "actual_winners": 7,
+      "model": 12.441923723594774,
+      "baseline": 12.344334096775503
+    },
+    {
+      "draw": 977,
+      "actual_winners": 14,
+      "model": 11.791331652687015,
+      "baseline": 12.142208340327205
+    },
+    {
+      "draw": 978,
+      "actual_winners": 10,
+      "model": 12.586797015140753,
+      "baseline": 12.516917808222106
+    },
+    {
+      "draw": 979,
+      "actual_winners": 14,
+      "model": 13.394285221136732,
+      "baseline": 12.599560449330093
+    },
+    {
+      "draw": 980,
+      "actual_winners": 7,
+      "model": 12.548760941743366,
+      "baseline": 12.61038558957129
+    },
+    {
+      "draw": 981,
+      "actual_winners": 13,
+      "model": 13.742609790883437,
+      "baseline": 13.376687611302568
+    },
+    {
+      "draw": 982,
+      "actual_winners": 8,
+      "model": 12.331333796747806,
+      "baseline": 12.832078622055963
+    },
+    {
+      "draw": 983,
+      "actual_winners": 10,
+      "model": 13.335344052951442,
+      "baseline": 12.902320986134203
+    },
+    {
+      "draw": 984,
+      "actual_winners": 7,
+      "model": 11.74930233817051,
+      "baseline": 12.505163793103026
+    },
+    {
+      "draw": 985,
+      "actual_winners": 10,
+      "model": 13.026379420100563,
+      "baseline": 12.511378112913748
+    },
+    {
+      "draw": 986,
+      "actual_winners": 10,
+      "model": 12.380943239888667,
+      "baseline": 12.540474333427298
+    },
+    {
+      "draw": 987,
+      "actual_winners": 10,
+      "model": 12.938662741590782,
+      "baseline": 12.695998832302772
+    },
+    {
+      "draw": 988,
+      "actual_winners": 9,
+      "model": 11.998173482699125,
+      "baseline": 12.485389495471056
+    },
+    {
+      "draw": 989,
+      "actual_winners": 4,
+      "model": 12.874167563780178,
+      "baseline": 12.221954578377465
+    },
+    {
+      "draw": 990,
+      "actual_winners": 14,
+      "model": 12.035394464460717,
+      "baseline": 12.607051339004336
+    },
+    {
+      "draw": 991,
+      "actual_winners": 8,
+      "model": 12.797233012254695,
+      "baseline": 12.411961657813523
+    },
+    {
+      "draw": 992,
+      "actual_winners": 12,
+      "model": 11.971364177856719,
+      "baseline": 12.290435043065619
+    },
+    {
+      "draw": 993,
+      "actual_winners": 6,
+      "model": 13.046902639237976,
+      "baseline": 12.576233103995257
+    },
+    {
+      "draw": 994,
+      "actual_winners": 12,
+      "model": 12.387563890607248,
+      "baseline": 12.096004159038056
+    },
+    {
+      "draw": 995,
+      "actual_winners": 7,
+      "model": 12.743485179837197,
+      "baseline": 12.773100132059142
+    },
+    {
+      "draw": 996,
+      "actual_winners": 18,
+      "model": 14.631346475367417,
+      "baseline": 14.26034732665931
+    },
+    {
+      "draw": 997,
+      "actual_winners": 19,
+      "model": 13.32438897965269,
+      "baseline": 12.969803062271094
+    },
+    {
+      "draw": 998,
+      "actual_winners": 12,
+      "model": 12.578505711392964,
+      "baseline": 12.874827378669904
+    },
+    {
+      "draw": 999,
+      "actual_winners": 16,
+      "model": 13.782253883448982,
+      "baseline": 12.988718631792143
+    },
+    {
+      "draw": 1000,
+      "actual_winners": 22,
+      "model": 15.422382632762934,
+      "baseline": 15.020627362404776
+    },
+    {
+      "draw": 1001,
+      "actual_winners": 12,
+      "model": 13.179035752439681,
+      "baseline": 13.16422938802499
+    },
+    {
+      "draw": 1002,
+      "actual_winners": 8,
+      "model": 13.410753555428101,
+      "baseline": 13.39568801536126
+    },
+    {
+      "draw": 1003,
+      "actual_winners": 14,
+      "model": 13.079385508241812,
+      "baseline": 13.102425654687094
+    },
+    {
+      "draw": 1004,
+      "actual_winners": 10,
+      "model": 13.402652221407223,
+      "baseline": 13.43582450130924
+    },
+    {
+      "draw": 1005,
+      "actual_winners": 12,
+      "model": 14.145760194990743,
+      "baseline": 13.137356085635224
+    },
+    {
+      "draw": 1006,
+      "actual_winners": 9,
+      "model": 12.830754614812632,
+      "baseline": 13.237028057298094
+    },
+    {
+      "draw": 1007,
+      "actual_winners": 9,
+      "model": 13.731538897832857,
+      "baseline": 12.855598301215702
+    },
+    {
+      "draw": 1008,
+      "actual_winners": 11,
+      "model": 12.96670578279864,
+      "baseline": 13.133784551600277
+    },
+    {
+      "draw": 1009,
+      "actual_winners": 15,
+      "model": 13.365576184910026,
+      "baseline": 13.139396419574993
+    },
+    {
+      "draw": 1010,
+      "actual_winners": 8,
+      "model": 13.340370064316744,
+      "baseline": 13.043184177623564
+    },
+    {
+      "draw": 1011,
+      "actual_winners": 11,
+      "model": 13.096470436147605,
+      "baseline": 12.889705583911232
+    },
+    {
+      "draw": 1012,
+      "actual_winners": 13,
+      "model": 12.342527008821085,
+      "baseline": 12.908565441198599
+    },
+    {
+      "draw": 1013,
+      "actual_winners": 5,
+      "model": 13.423223654960392,
+      "baseline": 12.883156864079721
+    },
+    {
+      "draw": 1014,
+      "actual_winners": 10,
+      "model": 13.400642407527068,
+      "baseline": 12.96529644904134
+    },
+    {
+      "draw": 1015,
+      "actual_winners": 8,
+      "model": 13.546155404424917,
+      "baseline": 12.986354913659607
+    },
+    {
+      "draw": 1016,
+      "actual_winners": 11,
+      "model": 12.94179979248523,
+      "baseline": 12.862328085806663
+    },
+    {
+      "draw": 1017,
+      "actual_winners": 7,
+      "model": 13.090068463256701,
+      "baseline": 12.836958380632655
+    },
+    {
+      "draw": 1018,
+      "actual_winners": 2,
+      "model": 12.628298067497598,
+      "baseline": 12.807711357232032
+    },
+    {
+      "draw": 1019,
+      "actual_winners": 50,
+      "model": 13.430633444441167,
+      "baseline": 13.017021839306759
+    },
+    {
+      "draw": 1020,
+      "actual_winners": 13,
+      "model": 13.632514204363247,
+      "baseline": 13.294508521302529
+    },
+    {
+      "draw": 1021,
+      "actual_winners": 12,
+      "model": 13.01963465929869,
+      "baseline": 12.910064480140692
+    },
+    {
+      "draw": 1022,
+      "actual_winners": 5,
+      "model": 12.038044477415763,
+      "baseline": 12.564758662994281
+    },
+    {
+      "draw": 1023,
+      "actual_winners": 9,
+      "model": 13.07333418330693,
+      "baseline": 12.712475598794533
+    },
+    {
+      "draw": 1024,
+      "actual_winners": 8,
+      "model": 12.938455184015151,
+      "baseline": 12.672132217869667
+    },
+    {
+      "draw": 1025,
+      "actual_winners": 4,
+      "model": 12.757043592973154,
+      "baseline": 12.828821735522592
+    },
+    {
+      "draw": 1026,
+      "actual_winners": 15,
+      "model": 12.245913271350434,
+      "baseline": 12.858937996387317
+    },
+    {
+      "draw": 1027,
+      "actual_winners": 10,
+      "model": 12.97025279618951,
+      "baseline": 12.813200784911361
+    },
+    {
+      "draw": 1028,
+      "actual_winners": 20,
+      "model": 12.514512250238427,
+      "baseline": 12.739556555873472
+    },
+    {
+      "draw": 1029,
+      "actual_winners": 10,
+      "model": 13.278807169901917,
+      "baseline": 12.831073396094204
+    },
+    {
+      "draw": 1030,
+      "actual_winners": 19,
+      "model": 13.844990965914715,
+      "baseline": 13.282293234212336
+    },
+    {
+      "draw": 1031,
+      "actual_winners": 8,
+      "model": 12.757015582172794,
+      "baseline": 13.208367531775657
+    },
+    {
+      "draw": 1032,
+      "actual_winners": 10,
+      "model": 14.383334044086729,
+      "baseline": 14.042902985086204
+    },
+    {
+      "draw": 1033,
+      "actual_winners": 13,
+      "model": 12.864849085647208,
+      "baseline": 13.249668023551374
+    },
+    {
+      "draw": 1034,
+      "actual_winners": 9,
+      "model": 13.617943902414051,
+      "baseline": 13.567206356957477
+    },
+    {
+      "draw": 1035,
+      "actual_winners": 8,
+      "model": 12.953041279921699,
+      "baseline": 13.51775339273258
+    },
+    {
+      "draw": 1036,
+      "actual_winners": 9,
+      "model": 12.914111105378726,
+      "baseline": 13.137189835265172
+    },
+    {
+      "draw": 1037,
+      "actual_winners": 15,
+      "model": 13.24216008093673,
+      "baseline": 13.274727766116193
+    },
+    {
+      "draw": 1038,
+      "actual_winners": 15,
+      "model": 13.742100844266718,
+      "baseline": 13.286406569719803
+    },
+    {
+      "draw": 1039,
+      "actual_winners": 16,
+      "model": 13.329382743618272,
+      "baseline": 13.327767458621585
+    },
+    {
+      "draw": 1040,
+      "actual_winners": 7,
+      "model": 13.931701135057105,
+      "baseline": 13.169262735100435
+    },
+    {
+      "draw": 1041,
+      "actual_winners": 25,
+      "model": 13.721823875411602,
+      "baseline": 13.333153185575043
+    },
+    {
+      "draw": 1042,
+      "actual_winners": 20,
+      "model": 12.984122033337396,
+      "baseline": 13.486191905878744
+    },
+    {
+      "draw": 1043,
+      "actual_winners": 17,
+      "model": 14.093763678753955,
+      "baseline": 13.554019397864442
+    },
+    {
+      "draw": 1044,
+      "actual_winners": 8,
+      "model": 13.671956715742217,
+      "baseline": 13.028049189632465
+    },
+    {
+      "draw": 1045,
+      "actual_winners": 13,
+      "model": 13.18097508383324,
+      "baseline": 13.34311567252521
+    },
+    {
+      "draw": 1046,
+      "actual_winners": 12,
+      "model": 12.576568115507099,
+      "baseline": 12.778866095007459
+    },
+    {
+      "draw": 1047,
+      "actual_winners": 9,
+      "model": 12.851464271301284,
+      "baseline": 13.049093979429745
+    },
+    {
+      "draw": 1048,
+      "actual_winners": 17,
+      "model": 15.515754692997337,
+      "baseline": 14.855401337746434
+    },
+    {
+      "draw": 1049,
+      "actual_winners": 15,
+      "model": 13.357433381738081,
+      "baseline": 13.731131374340704
+    },
+    {
+      "draw": 1050,
+      "actual_winners": 17,
+      "model": 13.895502364962724,
+      "baseline": 13.684013765656651
+    },
+    {
+      "draw": 1051,
+      "actual_winners": 18,
+      "model": 15.405094198908914,
+      "baseline": 15.098510026238483
+    },
+    {
+      "draw": 1052,
+      "actual_winners": 11,
+      "model": 13.273872546369855,
+      "baseline": 13.619800224974718
+    },
+    {
+      "draw": 1053,
+      "actual_winners": 7,
+      "model": 14.38054399897691,
+      "baseline": 14.399290851842299
+    },
+    {
+      "draw": 1054,
+      "actual_winners": 9,
+      "model": 14.102840652591745,
+      "baseline": 14.39155470172116
+    },
+    {
+      "draw": 1055,
+      "actual_winners": 11,
+      "model": 15.030970926337881,
+      "baseline": 14.24311819177546
+    },
+    {
+      "draw": 1056,
+      "actual_winners": 14,
+      "model": 14.48370722827773,
+      "baseline": 14.343319049802147
+    },
+    {
+      "draw": 1057,
+      "actual_winners": 17,
+      "model": 14.220653863171496,
+      "baseline": 14.247629743135022
+    },
+    {
+      "draw": 1058,
+      "actual_winners": 13,
+      "model": 14.184199039515223,
+      "baseline": 14.186535581064243
+    },
+    {
+      "draw": 1059,
+      "actual_winners": 13,
+      "model": 13.896540320740472,
+      "baseline": 14.035282184612527
+    },
+    {
+      "draw": 1060,
+      "actual_winners": 28,
+      "model": 13.809526016871459,
+      "baseline": 14.013802712773844
+    },
+    {
+      "draw": 1061,
+      "actual_winners": 11,
+      "model": 13.747255813680122,
+      "baseline": 13.916579673637285
+    },
+    {
+      "draw": 1062,
+      "actual_winners": 7,
+      "model": 12.788275368364099,
+      "baseline": 13.56211907031033
+    },
+    {
+      "draw": 1063,
+      "actual_winners": 7,
+      "model": 13.339728090592635,
+      "baseline": 13.718774780766905
+    },
+    {
+      "draw": 1064,
+      "actual_winners": 19,
+      "model": 14.259035369603714,
+      "baseline": 13.855579842507622
+    },
+    {
+      "draw": 1065,
+      "actual_winners": 14,
+      "model": 13.294330158098427,
+      "baseline": 13.69783103270253
+    },
+    {
+      "draw": 1066,
+      "actual_winners": 15,
+      "model": 14.327512128121725,
+      "baseline": 13.477416089505933
+    },
+    {
+      "draw": 1067,
+      "actual_winners": 13,
+      "model": 14.638220401367859,
+      "baseline": 14.017109233842675
+    },
+    {
+      "draw": 1068,
+      "actual_winners": 19,
+      "model": 14.228395998542332,
+      "baseline": 13.800038290853925
+    },
+    {
+      "draw": 1069,
+      "actual_winners": 14,
+      "model": 14.20103809668261,
+      "baseline": 13.724061998361726
+    },
+    {
+      "draw": 1070,
+      "actual_winners": 14,
+      "model": 13.768483379984453,
+      "baseline": 13.576413183429013
+    },
+    {
+      "draw": 1071,
+      "actual_winners": 5,
+      "model": 13.224148902930434,
+      "baseline": 13.594118024817256
+    },
+    {
+      "draw": 1072,
+      "actual_winners": 12,
+      "model": 14.25836447948082,
+      "baseline": 13.694656321713834
+    },
+    {
+      "draw": 1073,
+      "actual_winners": 11,
+      "model": 13.980524144196169,
+      "baseline": 13.592787642000753
+    },
+    {
+      "draw": 1074,
+      "actual_winners": 12,
+      "model": 13.065947517273901,
+      "baseline": 13.389189056683929
+    },
+    {
+      "draw": 1075,
+      "actual_winners": 9,
+      "model": 12.263715719097641,
+      "baseline": 13.37539711338063
+    },
+    {
+      "draw": 1076,
+      "actual_winners": 9,
+      "model": 13.153160870899638,
+      "baseline": 13.063087246486564
+    },
+    {
+      "draw": 1077,
+      "actual_winners": 7,
+      "model": 13.3217738304748,
+      "baseline": 13.412402318558435
+    },
+    {
+      "draw": 1078,
+      "actual_winners": 12,
+      "model": 13.273695611645632,
+      "baseline": 13.346576921661217
+    },
+    {
+      "draw": 1079,
+      "actual_winners": 9,
+      "model": 13.137417859035638,
+      "baseline": 13.056947758335173
+    },
+    {
+      "draw": 1080,
+      "actual_winners": 7,
+      "model": 13.835937831976942,
+      "baseline": 13.182525665421217
+    },
+    {
+      "draw": 1081,
+      "actual_winners": 11,
+      "model": 13.554409192891066,
+      "baseline": 13.544951092264816
+    },
+    {
+      "draw": 1082,
+      "actual_winners": 7,
+      "model": 14.156316625303337,
+      "baseline": 13.61997989692833
+    },
+    {
+      "draw": 1083,
+      "actual_winners": 15,
+      "model": 13.63312197038807,
+      "baseline": 13.80082446644236
+    },
+    {
+      "draw": 1084,
+      "actual_winners": 15,
+      "model": 14.00908925530686,
+      "baseline": 13.905130809616313
+    },
+    {
+      "draw": 1085,
+      "actual_winners": 23,
+      "model": 13.356638489363707,
+      "baseline": 13.453235080808684
+    },
+    {
+      "draw": 1086,
+      "actual_winners": 17,
+      "model": 13.747803202518995,
+      "baseline": 13.83313313032105
+    },
+    {
+      "draw": 1087,
+      "actual_winners": 16,
+      "model": 14.644372546352098,
+      "baseline": 14.429582099768263
+    },
+    {
+      "draw": 1088,
+      "actual_winners": 11,
+      "model": 13.703809079382292,
+      "baseline": 13.812747390924454
+    },
+    {
+      "draw": 1089,
+      "actual_winners": 9,
+      "model": 13.693412324790577,
+      "baseline": 13.766737569359607
+    },
+    {
+      "draw": 1090,
+      "actual_winners": 11,
+      "model": 13.829492529358346,
+      "baseline": 13.721019350690598
+    },
+    {
+      "draw": 1091,
+      "actual_winners": 9,
+      "model": 13.808100220443466,
+      "baseline": 13.843930541064122
+    },
+    {
+      "draw": 1092,
+      "actual_winners": 16,
+      "model": 13.522732446918075,
+      "baseline": 13.797705720924766
+    },
+    {
+      "draw": 1093,
+      "actual_winners": 13,
+      "model": 13.237386902507165,
+      "baseline": 13.369547835319217
+    },
+    {
+      "draw": 1094,
+      "actual_winners": 12,
+      "model": 12.819673409581538,
+      "baseline": 13.178326609045108
+    },
+    {
+      "draw": 1095,
+      "actual_winners": 10,
+      "model": 13.368513067871337,
+      "baseline": 13.44191498801874
+    },
+    {
+      "draw": 1096,
+      "actual_winners": 10,
+      "model": 13.689367136864474,
+      "baseline": 13.390318622221768
+    },
+    {
+      "draw": 1097,
+      "actual_winners": 7,
+      "model": 13.192466141660205,
+      "baseline": 13.785371918719296
+    },
+    {
+      "draw": 1098,
+      "actual_winners": 13,
+      "model": 13.801166315602991,
+      "baseline": 13.149396259045464
+    },
+    {
+      "draw": 1099,
+      "actual_winners": 9,
+      "model": 13.480125506071275,
+      "baseline": 13.61287012957994
+    },
+    {
+      "draw": 1100,
+      "actual_winners": 13,
+      "model": 14.364794589134757,
+      "baseline": 14.711451308655134
+    },
+    {
+      "draw": 1101,
+      "actual_winners": 13,
+      "model": 14.567919836261702,
+      "baseline": 14.530621173674387
+    },
+    {
+      "draw": 1102,
+      "actual_winners": 20,
+      "model": 14.270813743419426,
+      "baseline": 14.330465604398904
+    },
+    {
+      "draw": 1103,
+      "actual_winners": 17,
+      "model": 14.028757121299174,
+      "baseline": 13.952757932001097
+    },
+    {
+      "draw": 1104,
+      "actual_winners": 15,
+      "model": 14.211238250157987,
+      "baseline": 14.238196269167371
+    },
+    {
+      "draw": 1105,
+      "actual_winners": 15,
+      "model": 14.181077118141035,
+      "baseline": 14.345304051364373
+    },
+    {
+      "draw": 1106,
+      "actual_winners": 11,
+      "model": 15.48403425628364,
+      "baseline": 16.032119051174714
+    },
+    {
+      "draw": 1107,
+      "actual_winners": 14,
+      "model": 13.971966541913453,
+      "baseline": 14.898586042588908
+    },
+    {
+      "draw": 1108,
+      "actual_winners": 14,
+      "model": 14.996766729718855,
+      "baseline": 14.507833477293955
+    },
+    {
+      "draw": 1109,
+      "actual_winners": 17,
+      "model": 14.568706457637346,
+      "baseline": 14.839248082066145
+    },
+    {
+      "draw": 1110,
+      "actual_winners": 16,
+      "model": 14.777912582872878,
+      "baseline": 14.571760859684714
+    },
+    {
+      "draw": 1111,
+      "actual_winners": 16,
+      "model": 14.521437167468234,
+      "baseline": 14.73624477206671
+    },
+    {
+      "draw": 1112,
+      "actual_winners": 10,
+      "model": 15.011790164573124,
+      "baseline": 14.461893549258635
+    },
+    {
+      "draw": 1113,
+      "actual_winners": 14,
+      "model": 14.238072985125674,
+      "baseline": 14.351258422957494
+    },
+    {
+      "draw": 1114,
+      "actual_winners": 17,
+      "model": 14.437185035868875,
+      "baseline": 14.383618620652346
+    },
+    {
+      "draw": 1115,
+      "actual_winners": 12,
+      "model": 15.207297280291582,
+      "baseline": 14.426836752835026
+    },
+    {
+      "draw": 1116,
+      "actual_winners": 10,
+      "model": 13.11362880581645,
+      "baseline": 14.037273770347825
+    },
+    {
+      "draw": 1117,
+      "actual_winners": 9,
+      "model": 14.30754278308648,
+      "baseline": 14.421280470475287
+    },
+    {
+      "draw": 1118,
+      "actual_winners": 19,
+      "model": 13.097629699563837,
+      "baseline": 14.399981556921203
+    },
+    {
+      "draw": 1119,
+      "actual_winners": 19,
+      "model": 13.443340998186182,
+      "baseline": 14.161127257182796
+    },
+    {
+      "draw": 1120,
+      "actual_winners": 11,
+      "model": 14.961681484169087,
+      "baseline": 14.536380172593491
+    },
+    {
+      "draw": 1121,
+      "actual_winners": 11,
+      "model": 14.37994926988154,
+      "baseline": 14.421683877694603
+    },
+    {
+      "draw": 1122,
+      "actual_winners": 11,
+      "model": 14.292819501659295,
+      "baseline": 14.629526595649326
+    },
+    {
+      "draw": 1123,
+      "actual_winners": 16,
+      "model": 14.600061497496904,
+      "baseline": 14.32601558973382
+    },
+    {
+      "draw": 1124,
+      "actual_winners": 10,
+      "model": 14.140219539475488,
+      "baseline": 14.183174993805007
+    },
+    {
+      "draw": 1125,
+      "actual_winners": 12,
+      "model": 13.785098278387736,
+      "baseline": 13.85301074882276
+    },
+    {
+      "draw": 1126,
+      "actual_winners": 11,
+      "model": 13.719984378454434,
+      "baseline": 14.18106679223512
+    },
+    {
+      "draw": 1127,
+      "actual_winners": 12,
+      "model": 13.732770308406126,
+      "baseline": 14.127023646429953
+    },
+    {
+      "draw": 1128,
+      "actual_winners": 63,
+      "model": 14.511386645924757,
+      "baseline": 14.100790908108765
+    },
+    {
+      "draw": 1129,
+      "actual_winners": 11,
+      "model": 13.760800505225351,
+      "baseline": 13.974084068578454
+    },
+    {
+      "draw": 1130,
+      "actual_winners": 12,
+      "model": 14.207393511458164,
+      "baseline": 13.866659612980479
+    },
+    {
+      "draw": 1131,
+      "actual_winners": 17,
+      "model": 13.82638287457831,
+      "baseline": 13.816734994050002
+    },
+    {
+      "draw": 1132,
+      "actual_winners": 11,
+      "model": 14.000263796085163,
+      "baseline": 13.930353130608498
+    },
+    {
+      "draw": 1133,
+      "actual_winners": 13,
+      "model": 13.918504229624995,
+      "baseline": 14.081373295391048
+    },
+    {
+      "draw": 1134,
+      "actual_winners": 14,
+      "model": 15.223488250255205,
+      "baseline": 14.138256498926705
+    },
+    {
+      "draw": 1135,
+      "actual_winners": 9,
+      "model": 15.0975096758935,
+      "baseline": 14.411379393600873
+    },
+    {
+      "draw": 1136,
+      "actual_winners": 12,
+      "model": 15.02134786729092,
+      "baseline": 14.311955088140447
+    },
+    {
+      "draw": 1137,
+      "actual_winners": 14,
+      "model": 14.924174929149101,
+      "baseline": 15.099282400387212
+    },
+    {
+      "draw": 1138,
+      "actual_winners": 14,
+      "model": 14.227013941918296,
+      "baseline": 13.883933064413842
+    },
+    {
+      "draw": 1139,
+      "actual_winners": 13,
+      "model": 14.451069005203784,
+      "baseline": 14.930357843124883
+    },
+    {
+      "draw": 1140,
+      "actual_winners": 12,
+      "model": 15.052958827500218,
+      "baseline": 14.591357637881195
+    },
+    {
+      "draw": 1141,
+      "actual_winners": 11,
+      "model": 14.734444100457601,
+      "baseline": 14.662848715706115
+    },
+    {
+      "draw": 1142,
+      "actual_winners": 9,
+      "model": 14.627175281318488,
+      "baseline": 14.466739374020268
+    },
+    {
+      "draw": 1143,
+      "actual_winners": 11,
+      "model": 14.395193122885074,
+      "baseline": 14.742583431453504
+    },
+    {
+      "draw": 1144,
+      "actual_winners": 18,
+      "model": 14.69954568245072,
+      "baseline": 14.735697652608245
+    },
+    {
+      "draw": 1145,
+      "actual_winners": 9,
+      "model": 15.013372100288155,
+      "baseline": 14.702352361326989
+    },
+    {
+      "draw": 1146,
+      "actual_winners": 11,
+      "model": 15.01275702113944,
+      "baseline": 14.775738161571839
+    },
+    {
+      "draw": 1147,
+      "actual_winners": 8,
+      "model": 14.913721260854924,
+      "baseline": 14.650679137971283
+    },
+    {
+      "draw": 1148,
+      "actual_winners": 13,
+      "model": 14.730355625372543,
+      "baseline": 14.331799912395509
+    },
+    {
+      "draw": 1149,
+      "actual_winners": 17,
+      "model": 14.748311670865618,
+      "baseline": 14.199873089806927
+    },
+    {
+      "draw": 1150,
+      "actual_winners": 17,
+      "model": 13.94167689465999,
+      "baseline": 14.453783620697
+    },
+    {
+      "draw": 1151,
+      "actual_winners": 17,
+      "model": 14.81923392638072,
+      "baseline": 14.702767923942744
+    },
+    {
+      "draw": 1152,
+      "actual_winners": 35,
+      "model": 14.333160641743156,
+      "baseline": 15.283259643477248
+    },
+    {
+      "draw": 1153,
+      "actual_winners": 15,
+      "model": 15.214929409496358,
+      "baseline": 15.99743451376705
+    },
+    {
+      "draw": 1154,
+      "actual_winners": 15,
+      "model": 15.206714963623668,
+      "baseline": 14.595118340273222
+    },
+    {
+      "draw": 1155,
+      "actual_winners": 7,
+      "model": 15.06668919514822,
+      "baseline": 15.002130774204733
+    },
+    {
+      "draw": 1156,
+      "actual_winners": 21,
+      "model": 16.4405852144282,
+      "baseline": 16.162117344147028
+    },
+    {
+      "draw": 1157,
+      "actual_winners": 12,
+      "model": 15.427242033939311,
+      "baseline": 15.630249362886596
+    },
+    {
+      "draw": 1158,
+      "actual_winners": 21,
+      "model": 15.627762032810866,
+      "baseline": 15.157039779516765
+    },
+    {
+      "draw": 1159,
+      "actual_winners": 23,
+      "model": 15.31936975955714,
+      "baseline": 15.802307100199789
+    },
+    {
+      "draw": 1160,
+      "actual_winners": 12,
+      "model": 15.798993720554085,
+      "baseline": 15.596581067268717
+    },
+    {
+      "draw": 1161,
+      "actual_winners": 16,
+      "model": 15.737853564504197,
+      "baseline": 15.603298696463236
+    },
+    {
+      "draw": 1162,
+      "actual_winners": 36,
+      "model": 14.769531043096743,
+      "baseline": 15.2674726957334
+    },
+    {
+      "draw": 1163,
+      "actual_winners": 15,
+      "model": 15.059448254167826,
+      "baseline": 15.478671189436268
+    },
+    {
+      "draw": 1164,
+      "actual_winners": 13,
+      "model": 15.11081287639665,
+      "baseline": 15.3338610394282
+    },
+    {
+      "draw": 1165,
+      "actual_winners": 13,
+      "model": 14.621406610975338,
+      "baseline": 14.955202840352609
+    },
+    {
+      "draw": 1166,
+      "actual_winners": 14,
+      "model": 15.358288924568607,
+      "baseline": 14.778640009234218
+    },
+    {
+      "draw": 1167,
+      "actual_winners": 10,
+      "model": 14.682938966535774,
+      "baseline": 15.03750816920942
+    },
+    {
+      "draw": 1168,
+      "actual_winners": 13,
+      "model": 15.49332073332835,
+      "baseline": 14.917177848061057
+    },
+    {
+      "draw": 1169,
+      "actual_winners": 10,
+      "model": 15.284008979479461,
+      "baseline": 15.0427076400362
+    },
+    {
+      "draw": 1170,
+      "actual_winners": 20,
+      "model": 15.201258982996562,
+      "baseline": 14.777669350181084
+    },
+    {
+      "draw": 1171,
+      "actual_winners": 21,
+      "model": 14.949643327102791,
+      "baseline": 14.597326444007592
+    },
+    {
+      "draw": 1172,
+      "actual_winners": 13,
+      "model": 15.116024358818649,
+      "baseline": 14.885959497919197
+    },
+    {
+      "draw": 1173,
+      "actual_winners": 24,
+      "model": 14.601315262990845,
+      "baseline": 15.040108537716371
+    },
+    {
+      "draw": 1174,
+      "actual_winners": 15,
+      "model": 15.81719689935473,
+      "baseline": 15.070218341026738
+    },
+    {
+      "draw": 1175,
+      "actual_winners": 20,
+      "model": 14.805521312487231,
+      "baseline": 14.876217960623055
+    },
+    {
+      "draw": 1176,
+      "actual_winners": 13,
+      "model": 14.964110200411312,
+      "baseline": 14.65807227799916
+    },
+    {
+      "draw": 1177,
+      "actual_winners": 6,
+      "model": 14.260503677611544,
+      "baseline": 14.613297621978715
+    },
+    {
+      "draw": 1178,
+      "actual_winners": 12,
+      "model": 14.217530967896534,
+      "baseline": 15.039046333333802
+    },
+    {
+      "draw": 1179,
+      "actual_winners": 13,
+      "model": 14.654036464851737,
+      "baseline": 14.564276680802257
+    },
+    {
+      "draw": 1180,
+      "actual_winners": 11,
+      "model": 14.414846400998007,
+      "baseline": 14.609009426028727
+    },
+    {
+      "draw": 1181,
+      "actual_winners": 17,
+      "model": 14.52346555417515,
+      "baseline": 14.409549120105815
+    },
+    {
+      "draw": 1182,
+      "actual_winners": 13,
+      "model": 15.12373059831541,
+      "baseline": 14.615763648031278
+    },
+    {
+      "draw": 1183,
+      "actual_winners": 13,
+      "model": 15.064113876893012,
+      "baseline": 14.637878872427466
+    },
+    {
+      "draw": 1184,
+      "actual_winners": 15,
+      "model": 15.684361999962642,
+      "baseline": 14.909217202961939
+    },
+    {
+      "draw": 1185,
+      "actual_winners": 12,
+      "model": 15.291003630563694,
+      "baseline": 14.875268193657545
+    },
+    {
+      "draw": 1186,
+      "actual_winners": 14,
+      "model": 15.716250717620493,
+      "baseline": 14.775231053626646
+    },
+    {
+      "draw": 1187,
+      "actual_winners": 11,
+      "model": 14.941402283103542,
+      "baseline": 14.896798819456238
+    },
+    {
+      "draw": 1188,
+      "actual_winners": 24,
+      "model": 15.261827571858154,
+      "baseline": 14.766017389744608
+    },
+    {
+      "draw": 1189,
+      "actual_winners": 13,
+      "model": 15.148295570986747,
+      "baseline": 15.128997026694597
+    },
+    {
+      "draw": 1190,
+      "actual_winners": 6,
+      "model": 15.19974916703063,
+      "baseline": 14.987712827984824
+    },
+    {
+      "draw": 1191,
+      "actual_winners": 18,
+      "model": 14.984697052021335,
+      "baseline": 15.355406986091158
+    },
+    {
+      "draw": 1192,
+      "actual_winners": 29,
+      "model": 16.033012875218553,
+      "baseline": 16.34016971780404
+    },
+    {
+      "draw": 1193,
+      "actual_winners": 16,
+      "model": 16.140634030886936,
+      "baseline": 15.026678723931983
+    },
+    {
+      "draw": 1194,
+      "actual_winners": 28,
+      "model": 15.692214416663578,
+      "baseline": 15.331716245050288
+    },
+    {
+      "draw": 1195,
+      "actual_winners": 10,
+      "model": 15.432068291876266,
+      "baseline": 15.563720599039181
+    },
+    {
+      "draw": 1196,
+      "actual_winners": 15,
+      "model": 15.102064496724337,
+      "baseline": 15.40258803075038
+    },
+    {
+      "draw": 1197,
+      "actual_winners": 13,
+      "model": 15.290476259728724,
+      "baseline": 15.225195467206321
+    },
+    {
+      "draw": 1198,
+      "actual_winners": 10,
+      "model": 15.760967082899981,
+      "baseline": 15.22052108418196
+    },
+    {
+      "draw": 1199,
+      "actual_winners": 17,
+      "model": 14.275696105971436,
+      "baseline": 15.020118988272452
+    },
+    {
+      "draw": 1200,
+      "actual_winners": 12,
+      "model": 14.947246168178104,
+      "baseline": 14.984007331351629
+    },
+    {
+      "draw": 1201,
+      "actual_winners": 19,
+      "model": 14.637559994770397,
+      "baseline": 14.610481748422401
+    },
+    {
+      "draw": 1202,
+      "actual_winners": 14,
+      "model": 14.844369003586444,
+      "baseline": 14.808594957858704
+    },
+    {
+      "draw": 1203,
+      "actual_winners": 21,
+      "model": 15.68924735008074,
+      "baseline": 15.403879415003312
+    },
+    {
+      "draw": 1204,
+      "actual_winners": 18,
+      "model": 15.44197719151061,
+      "baseline": 15.670157048820348
+    },
+    {
+      "draw": 1205,
+      "actual_winners": 10,
+      "model": 17.257861921135046,
+      "baseline": 16.79859922543505
+    },
+    {
+      "draw": 1206,
+      "actual_winners": 15,
+      "model": 15.184099418111408,
+      "baseline": 15.322471053108732
+    },
+    {
+      "draw": 1207,
+      "actual_winners": 17,
+      "model": 15.612387698777093,
+      "baseline": 15.565781191973015
+    },
+    {
+      "draw": 1208,
+      "actual_winners": 6,
+      "model": 15.51947863079273,
+      "baseline": 15.245990564901748
+    },
+    {
+      "draw": 1209,
+      "actual_winners": 22,
+      "model": 15.667058230962573,
+      "baseline": 15.705835036649479
+    },
+    {
+      "draw": 1210,
+      "actual_winners": 24,
+      "model": 16.13210613522518,
+      "baseline": 15.588163708472141
+    },
+    {
+      "draw": 1211,
+      "actual_winners": 14,
+      "model": 17.30634465033478,
+      "baseline": 17.086663761325706
+    },
+    {
+      "draw": 1212,
+      "actual_winners": 12,
+      "model": 16.56651822733986,
+      "baseline": 16.67922082377032
+    },
+    {
+      "draw": 1213,
+      "actual_winners": 18,
+      "model": 16.73235820248276,
+      "baseline": 16.60111607071417
+    },
+    {
+      "draw": 1214,
+      "actual_winners": 12,
+      "model": 16.043940232920786,
+      "baseline": 15.804023543471946
+    },
+    {
+      "draw": 1215,
+      "actual_winners": 16,
+      "model": 15.707639974090373,
+      "baseline": 16.077677097171904
+    },
+    {
+      "draw": 1216,
+      "actual_winners": 14,
+      "model": 15.44546310694782,
+      "baseline": 15.897805719085278
+    },
+    {
+      "draw": 1217,
+      "actual_winners": 14,
+      "model": 16.096849148827975,
+      "baseline": 15.846997428157437
+    },
+    {
+      "draw": 1218,
+      "actual_winners": 18,
+      "model": 15.147872345929356,
+      "baseline": 15.616636458443343
+    },
+    {
+      "draw": 1219,
+      "actual_winners": 12,
+      "model": 14.529395973563412,
+      "baseline": 15.31400165402115
+    },
+    {
+      "draw": 1220,
+      "actual_winners": 14,
+      "model": 15.537439929180783,
+      "baseline": 15.442269069188034
+    },
+    {
+      "draw": 1221,
+      "actual_winners": 16,
+      "model": 16.10341383892494,
+      "baseline": 15.571521577941324
+    },
+    {
+      "draw": 1222,
+      "actual_winners": 24,
+      "model": 16.271116993859362,
+      "baseline": 15.731559400838337
+    },
+    {
+      "draw": 1223,
+      "actual_winners": 16,
+      "model": 15.775434922920006,
+      "baseline": 15.526133834112994
+    },
+    {
+      "draw": 1224,
+      "actual_winners": 12,
+      "model": 15.102832303674116,
+      "baseline": 15.334843980496489
+    },
+    {
+      "draw": 1225,
+      "actual_winners": 13,
+      "model": 14.589564661914377,
+      "baseline": 15.245258582122435
+    },
+    {
+      "draw": 1226,
+      "actual_winners": 10,
+      "model": 16.276274910346697,
+      "baseline": 15.227159196824779
+    },
+    {
+      "draw": 1227,
+      "actual_winners": 11,
+      "model": 15.333691692429392,
+      "baseline": 15.052756480948563
+    },
+    {
+      "draw": 1228,
+      "actual_winners": 11,
+      "model": 14.664222023025564,
+      "baseline": 15.074245575809428
+    },
+    {
+      "draw": 1229,
+      "actual_winners": 8,
+      "model": 14.954263170544523,
+      "baseline": 14.70746395876701
+    },
+    {
+      "draw": 1230,
+      "actual_winners": 16,
+      "model": 15.153166305891475,
+      "baseline": 15.216742781788842
+    },
+    {
+      "draw": 1231,
+      "actual_winners": 17,
+      "model": 15.072192300997445,
+      "baseline": 14.951717533661157
+    },
+    {
+      "draw": 1232,
+      "actual_winners": 11,
+      "model": 15.232505905399115,
+      "baseline": 14.51510126479605
+    },
+    {
+      "draw": 1233,
+      "actual_winners": 31,
+      "model": 14.385850773574191,
+      "baseline": 14.708001328584585
+    },
+    {
+      "draw": 1234,
+      "actual_winners": 18,
+      "model": 14.480826223406668,
+      "baseline": 14.686558829410064
+    },
+    {
+      "draw": 1235,
+      "actual_winners": 9,
+      "model": 14.361228428576288,
+      "baseline": 14.617506048139584
+    },
+    {
+      "draw": 1236,
+      "actual_winners": 11,
+      "model": 15.345680227767167,
+      "baseline": 14.443502307827734
+    },
+    {
+      "draw": 1237,
+      "actual_winners": 23,
+      "model": 14.939348724591605,
+      "baseline": 14.986991101321257
+    },
+    {
+      "draw": 1238,
+      "actual_winners": 23,
+      "model": 14.881941967329183,
+      "baseline": 14.50262856186252
+    }
+  ]
+}
