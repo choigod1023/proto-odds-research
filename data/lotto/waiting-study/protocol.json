@@ -1,0 +1,42 @@
+{
+  "seed_start": 202610171000,
+  "seeds": 32,
+  "selected": 8,
+  "rounds": [
+    1245,
+    1235,
+    1236,
+    1237,
+    1238,
+    1239,
+    1240,
+    1241,
+    1242,
+    1243,
+    1244
+  ],
+  "target_ranks": [
+    2985057,
+    4330041,
+    6945513,
+    6461256,
+    1829369,
+    6589563,
+    6581437,
+    5157499,
+    1243098,
+    6110515,
+    866050
+  ],
+  "space": 8145060,
+  "generator": "numpy default_rng PCG64, uniform integers with replacement; bijective lexicographic combination ranks",
+  "selection": "eight smallest waiting times for 1245; tie seed index",
+  "primary": "log geometric-mean waiting ratio on 10 other targets, selected8 vs remaining24, lower is better",
+  "null": "9999 exact iid joint first-arrival simulations; repeat full selection each time",
+  "resource": "one CPU BelowNormal; chunks100000; sleep >=50% compute per chunk; 384MiB guard; 600 seconds budget",
+  "source_sha256": "0734a27228861f51f56491f2ebb35259080cfe70583b1176cce66e82ef524ea7",
+  "data_hashes": {
+    "base.jsonl": "30321eef31fe7494a7ada3e2224ca548967fefcb85e2558c771b1e88971224b2",
+    "extra.jsonl": "0d7e5c56ca52b8b362896d0c00eaa450fad607b04cfe5ae9fa644900b891455e"
+  }
+}
