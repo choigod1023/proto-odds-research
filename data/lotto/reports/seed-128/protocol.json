@@ -1,0 +1,25 @@
+{
+  "data": "C:\\Users\\user\\Documents\\ChatGPT\\lotto-seed-128-20261015\\data\\lotto\\draws.jsonl",
+  "output": "C:\\Users\\user\\Documents\\ChatGPT\\lotto-seed-128-20261015\\data\\lotto\\reports\\seed-128",
+  "candidates_per_half": 1000000,
+  "train_end": 740,
+  "validation_end": 990,
+  "baseline_repeats": 10000,
+  "odd_search_seed": 20261015,
+  "even_search_seed": 20261016,
+  "odd_control_seed": 12820261015,
+  "even_control_seed": 12820261016,
+  "version": "splitmix64-paired128-v1",
+  "first_draw": 1,
+  "last_draw": 1238,
+  "min_wins_per_half": 2,
+  "minimum_pair_wins": 4,
+  "python": "3.14.3",
+  "numpy": "2.5.1",
+  "training_hash": "13323d50362018813966da8d6046a4ea1e0cf855aab2f8896cdc49619e634280",
+  "ledger_hash": "da144c4335ef8ea6a8cc5b105c7dffb5b990e91a36151e2c68c5379c5c032c15",
+  "source_hashes": {
+    "lotto_seed_128.py": "5bf341e4b265bd8f305ca9aa0760e2b9d89d9d794b3740553750d2025f5f7d86",
+    "lotto_seed_expanded.py": "f66d0dda0027bd576c53253e240c2549e608e325a805dbba1494e79ef21e1c3d"
+  }
+}
