@@ -1,0 +1,83 @@
+{
+  "history": 15722,
+  "targets": 434,
+  "excluded": {
+    "kbo_before_regular_season": 211,
+    "raw_without_late_inning:KBO": 86,
+    "invalid_identity_or_score:archived_starter_score": 14,
+    "raw_without_late_inning:NPB": 78,
+    "raw_without_late_inning:MLB": 202,
+    "invalid_identity_or_score:archived_proto_result": 322,
+    "discarded_lower_priority_score_mismatch": 35,
+    "ambiguous_day_pair_or_score_conflict": 14,
+    "ambiguous_multiple_official_fixtures_same_day": 249,
+    "mlb_outside_official_regular_postseason": 2,
+    "cohort_score_anchor_added": 25
+  },
+  "by_league_year": {
+    "KBO:2023": 721,
+    "KBO:2024": 722,
+    "KBO:2025": 710,
+    "KBO:2026": 726,
+    "MLB:2023": 2392,
+    "MLB:2024": 2411,
+    "MLB:2025": 2417,
+    "MLB:2026": 2417,
+    "NPB:2023": 877,
+    "NPB:2024": 877,
+    "NPB:2025": 872,
+    "NPB:2026": 580
+  },
+  "sources": [
+    {
+      "name": "kbo_starters.json",
+      "sha256_lf": "8e9a415c76c72dc6f0a57e284e2f1ea22dad42c7bb904d54f8dce08f4754c606"
+    },
+    {
+      "name": "npb_starters.json",
+      "sha256_lf": "6f3c2cfabc21e8a30d6bd475d55e0c7d6091e813181bb8678aa89e3baadf2ed0"
+    },
+    {
+      "name": "mlb_starters.json",
+      "sha256_lf": "45c81a540cf8d99a33fbabf1afd6168b96530c77d59ed42d9aca9596cfcd982f"
+    },
+    {
+      "name": "games.csv.tmp",
+      "sha256_lf": "4d42dae9a71fb372cf001a279599741ffcf57ed08ce1105a02cce24bcc29f063"
+    },
+    {
+      "name": "kbo_baseball_2023_2026.json",
+      "sha256_lf": "c87faa6a43140dad067860086b00140fe8f05883a9e42121fd2e8f7233775a66"
+    },
+    {
+      "name": "kbo_batters_indiv_2023_2026.json",
+      "sha256_lf": "24bdea9094046bdab4967d314c043d548a252599b652009d5ffdabd341cc84e8"
+    },
+    {
+      "name": "strict.jsonl",
+      "sha256_lf": "702c4f830218b695c12d79acf42c30ce624f40237137a4c3d7f549a4d887b650"
+    },
+    {
+      "name": "strict-results.json",
+      "sha256_lf": "5d433838cf654ff6227bc617efbe43907a572850f6a883f6969967f414b23e76"
+    },
+    {
+      "name": "mlb-official-final.jsonl",
+      "sha256_lf": "e8df027e6a84535ec77b9ddfd228f7963bb490752b5e6ee4b7053131a8dfbfd7"
+    },
+    {
+      "name": "official_matches.json",
+      "sha256_lf": "ea7b018d6c75b4bef645b61d4312e6d2b7f78dd331a81fbc3c828ce178379a58"
+    },
+    {
+      "name": "official_kbo_results.json",
+      "sha256_lf": "1325bad120fc9ee1e49334b449a2c752ab934059c3e6404baaa0d02593434ce6"
+    },
+    {
+      "name": "official_results.json",
+      "sha256_lf": "c0b6e3066ca2b33054d587c0767ee3e8994f5df638bba1e3df487d39226d1ccb"
+    }
+  ],
+  "archived_starter_identity_is_not_pregame_announcement": true,
+  "history_complete_official_census": false
+}
