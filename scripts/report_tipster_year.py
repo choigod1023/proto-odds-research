@@ -1,0 +1,113 @@
+"""Render a Markdown report from the frozen audit results, without network."""
+import argparse
+import json
+from pathlib import Path
+
+
+def pct(x):
+    return '미확인' if x is None else f'{x*100:+.2f}%'
+
+
+def interval(v):
+    return '표본 주 부족' if v['low'] is None else f"{v['low']*100:+.2f}~{v['high']*100:+.2f}%p"
+
+
+def render(root):
+    strict=json.loads((root/'results.json').read_text(encoding='utf8'))
+    assumed=json.loads((root/'results-standard-ot.json').read_text(encoding='utf8'))
+    q, s = strict['paired_author_consensus'], assumed['paired_author_consensus']
+    # Narrative below is for this frozen experiment, not a generic template.
+    if (q['n'],s['n'],strict['coverage']['picks'],assumed['coverage']['picks']) != (492,580,912,1788):
+        raise ValueError('Frozen results changed; review the report narrative before publishing.')
+    lines=['# 여러 작성자의 과거 픽 1년 범위 확장 검증', '',
+        '2026-10-28 수집·로컬 실행. 대상 경기 날짜 구간: 2025-10-28~2026-10-27. 운영 서버·추천 정책은 변경하지 않았다.', '',
+        '**동일 가격 주 분석 492경기에서 세 대안 모두 손실이다. 9:1 혼합의 시장 대비 개선은 +1.14%p지만, 주 단위 부트스트랩 95% 구간이 −6.28~+9.09%p여서 안정적인 우세를 입증하지 못했다.**', '',
+        '이전의 세 날짜·20경기 결과를 장기 수익의 근거로 일반화할 수 없다. 이번에는 서로 다른 사이트·작성자의 간헐적인 픽을 모았지만, 사후에 접근 가능한 페이지를 표집한 연구이며 전수조사나 독립 홀드아웃은 아니다.', '',
+        '## 실제로 확보한 범위', '',
+        '- 8개 출처에서 추천 후보 2,770건, 출처별 작성자 표기 44개를 확보했다. 작성자 표기는 실명·사람 수·서로 독립적인 정보원을 인증한 숫자가 아니다.',
+        f"- 정산 범위를 보수적으로 확인한 주 분석: {strict['coverage']['picks']:,}픽 / 고유 {strict['coverage']['unique_fixtures']:,}경기 / {strict['coverage']['observed_weeks']}개 주. 직접 명시된 원문 가격을 활용할 수 있는 것은 320픽이다.",
+        f"- 농구의 경기 전체 시장에 연장 포함을 가정한 보충 분석: {assumed['coverage']['picks']:,}픽 / 고유 {assumed['coverage']['unique_fixtures']:,}경기 / {assumed['coverage']['observed_weeks']}개 주. 원문 가격까지 있는 것은 950픽이다. 이 수를 주 분석과 합산하지 않는다.",
+        '- 공식 결과와 프로토의 같은 경기·같은 가격을 대조한 비교 표본은 주 분석 492경기, 보충 분석 580경기다. 여러 작성자의 같은 경기 추천은 독립 경기 수를 늘리지 않는다.',
+        '- 과거에 검토했던 PR #393 표본과 정확히 겹치는 정산 픽은 각 분석에서 25건이다. 전체를 처음 확보한 독립 검증 기록이라고 주장하지 않는다.',
+        '- 프로토 162회차를 새로 조회해 가격 6,304행 / 고유 경기 5,916개를 확보했다. 가격이 있다는 것과 픽스터 원문·공식 결과까지 연결됐다는 것은 다르다.',
+        '- 경기 전에 실제 관측했다는 독립 증거를 갖춘 픽은 0건이다. 모든 수익률은 과거 페이지를 지금 복원한 회고 계산이며 미래 기대수익이나 실제 베팅 수익이 아니다.', '',
+        '원문 가격은 원문에 표시된 과거 추천 가격 주장이다. 당시 구매 가능 가격·전체 시장 호가·편집 이력을 모두 인증한 것은 아니다. 배당이 없으면 다른 경기나 현재 카드에서 가져오지 않았다.', '',
+        '## 동일 경기·동일 프로토 배당 비교', '',
+        '시장 기준은 프로토 배당의 마진을 Shin 방식으로 제거한 확률이다. 픽스터 투표는 경기별 작성자당 1표이며 동률이면 보류한다. 9:1은 시장 확률 90%+해당 경기 작성자 투표 비율 10%다. **과거에 동결한 실제 운영 예측의 재생이 아니다.** 결과를 본 뒤 작성자·혼합 비율·배당 문턱을 최적화하지 않았다.', '',
+        '| 분석 | 대안 | 비교 경기 | 적중률 | 단위 ROI | 월 제한 적용 베팅 수 | 월 제한 적용 총 모의 손익 |',
+        '|---|---|---:|---:|---:|---:|---:|']
+    labels={'archived_market_reference':'시장 기준','tipster':'픽스터 투표','market90_new_tipster10':'시장90:픽스터10'}
+    for label, batch in [('주 분석',q),('연장 포함 가정',s)]:
+        for arm,value in batch['arms'].items():
+            cap=value['monthly_capped']
+            lines.append(f"| {label} | {labels[arm]} | {batch['n']} | {value['pick_hit_rate']*100:.2f}% | {pct(value['quoted_roi'])} | {cap['bets']} | {cap['profit_krw']:+,.0f}원 |")
+    lines += ['',
+        f"주 분석의 혼합−시장 수익 차이: {pct(q['hybrid_minus_market_roi'])}p, 95% 구간 {interval(q['difference_interval'])}. 보충 분석: {pct(s['hybrid_minus_market_roi'])}p, 구간 {interval(s['difference_interval'])}.", '',
+        '월 제한은 전 종목을 합해 월 순손실 5만 원이다. 1회 1만 원 단폴, 당일 미정산 노출을 모두 손실로 예약하고 다음 날 정산하는 보수적 대용 규칙이다. 월이 바뀌면 한도가 새로 적용되므로 1년 누적 손실은 5만 원을 넘을 수 있다. 모델별로 한도에 걸리는 시점이 달라 베팅 수도 다르다. 미집행 전체 표본의 ROI와 제한을 적용한 실제 선택 표본의 손익을 같은 분모로 섞지 않는다.', '',
+        '## 관심 리그별 동일 가격 결과', '',
+        '| 리그 | 주 분석 경기 | 시장 ROI | 픽스터 ROI | 9:1 ROI | 보충 분석 경기 |',
+        '|---|---:|---:|---:|---:|---:|']
+    order=['K리그1','K리그2','KBO','NPB','MLB','KBL','NBA']
+    for league in order:
+        b=strict['paired_by_league'].get(league)
+        if b:
+            values=[pct(b['arms'][a]['quoted_roi']) for a in labels]
+            lines.append(f"| {league} | {b['n']} | {' | '.join(values)} | {assumed['paired_by_league'].get(league,{}).get('n',0)} |")
+    lines += ['',
+        'NBA 보충 분석 98경기는 시장 −10.40%, 픽스터 +0.38%, 혼합 +5.93%다. 흥미로운 후보이지만, 연장 규칙 가정·작은 승패 비교 표본·리그별 여러 비교가 있으므로 곧바로 채택할 근거는 아니다. KBL 18경기, K리그1 19경기, K리그2 11경기는 특히 부족하다. 이들이 수백 경기의 다른 리그 성적 때문에 충분히 검증됐다고 볼 수 없다.', '',
+        '## 실제 연결한 경기 수와 시간 분포', '',
+        '| 리그 | 주 분석 고유 경기 | 보충 분석 고유 경기 | 주 분석 최초~마지막 날짜 |',
+        '|---|---:|---:|---|']
+    for league in order:
+        b=strict['by_league'].get(league)
+        if b:
+            lines.append(f"| {league} | {b['unique_fixtures']} | {assumed['by_league'][league]['unique_fixtures']} | {b['first']}~{b['last']} |")
+    lines += ['',
+        '한국 원문 후보는 2026년 3~10월의 73개 경기일에 분포한다. 2025년 10월~2026년 2월 한국 픽스터 기록은 확보하지 못했다. 전체 1년 범위는 해외 자료가 채우며 모든 종목을 1년 전수 수집한 것은 아니다. 시즌 비수기와 미수집은 다르다.', '',
+        '| 월 | 주 분석 고유 경기 | 보충 분석 고유 경기 |', '|---|---:|---:|']
+    for month,n in strict['coverage']['monthly_fixtures'].items():
+        lines.append(f"| {month} | {n} | {assumed['coverage']['monthly_fixtures'][month]} |")
+    lines += ['',
+        '고정 날짜로 나눈 주 분석 전반부는 126경기(시장 +6.91%, 혼합 −4.53%), 후반부는 366경기(시장 −15.97%, 혼합 −10.50%)다. 평균 하나만 보면 시기별 차이를 놓친다. 이미 본 과거 자료를 새 독립 평가 구간이라고 부르지 않았다.', '',
+        '## 여러 작성자와 표본 독립성', '',
+        '- 서로 다른 작성자의 간헐적인 픽을 허용했다. 그러나 여러 작성자가 한 경기에서 동시에 투표한 동일 가격 표본은 주 분석 17경기, 보충 분석 21경기뿐이다. 따라서 다수 의견 결합 자체의 개선 효과는 아직 부족하다.',
+        '- 동일 작성자·경기·시장·기준점 중복은 제거하며 방향·가격 충돌은 임의로 고르지 않는다. 같은 경기의 서로 다른 총점 기준선은 서로 다른 픽으로 남지만 고유 경기 수는 늘리지 않는다. 단일 경기·작성자가 많은 기준선을 게시하면 픽 단위 ROI가 그 경기의 영향을 많이 받으므로, 이 값으로 사이트를 곧바로 순위화하지 않는다.',
+        '- 결과 미연결은 패배로 계산하지 않는다. 선수 props·전반전·팀 총점·시리즈 우승·분할 아시안은 경기 최종 점수만으로 정산하지 않는다.',
+        '- 날짜·정확한 팀·공식 경기 ID로 결과를 연결했다. 미국 현지 경기일과 KST 날짜를 분리했으며, 더블헤더/다른 공식 ID/불일치 결과가 모호하면 제외했다.',
+        '- NBA 공식 경기 페이지의 날짜별 SSR 최종 점수 1,227경기를 확보했다. CDN 403이나 stats API 시간 초과를 원천 점수로 대체하지 않았다. 비NBA 초청팀이 참가한 프리시즌 경기는 별도 제외했다.',
+        '- 95% 구간은 관측 주를 묶어 재추출한 2,000회 고정 시드 부트스트랩이다. 원문 삭제·작성자 선정·사후 편집·관측되지 않은 달의 편향은 해결하지 못한다. 여러 리그 중 잘 나온 결과만 선택하는 추가 편향도 남는다.', '',
+        '## 현재 판단과 다음 검증', '',
+        '**범위를 늘린 것은 의미가 있지만, 수익이 안정적으로 개선되는 모델을 찾았다는 결론은 아니다.** 같은 가격 주 분석에서는 세 대안 모두 적자이며 혼합의 개선 구간이 0을 포함한다. 전체 1,440개 고유 경기라는 보충 분석 숫자도 모든 리그·동일 가격·다수 작성자 비교의 표본 수가 아니다.', '',
+        '큰수의 법칙은 같은 성격의 표본이 충분히 축적될 때의 이야기다. 독립적인 이항 시행, 최악의 분산 p=0.5, 정규 근사라는 단순 조건에서 적중률 95% 오차 ±3%p에는 약 1,068경기, ±2%p에는 약 2,401경기가 필요하다. ROI는 배당·수익 분산이 달라 이 숫자를 그대로 적용할 수 없다. 수집 기간만 길게 해도 대표성·과거 시점 증명이 생기지 않는다.', '',
+        '채택 판단 전에는 K리그·KBL의 원문/가격 연결을 더 확보하고, 기존 운영 예측·픽스터 입력을 경기 전에 동결한 동일 경기 비교를 축적해야 한다. 그동안 월 손실 5만 원 제한을 유지하며 실제 돈을 투입하지 않는 모의 운용으로 확인한다. 이번 연구는 운영 모델 교체·증설·배포를 실행하지 않았다.', '',
+        '## 출처와 재현', '',
+        '- [한국 원문 수집 범위·URL·제외 사유](../../experiments/tipster-year-20261028/korean/README.md)',
+        '- [해외 원문 수집·작성자·표시 가격](../../experiments/tipster-year-20261028/overseas/README.md)',
+        '- [Betblog·Miky938 농구 자료](../../experiments/tipster-year-20261028/basketball/README.md)',
+        '- [프로토 162회차 수집과 가격 누락](../../experiments/tipster-year-20261028/prices/COLLECTION.md)',
+        '- [주 분석 결과](../../experiments/tipster-year-20261028/results.json), [연장 포함 가정 결과](../../experiments/tipster-year-20261028/results-standard-ot.json), [사전 규칙](../../experiments/tipster-year-20261028/PROTOCOL.md)',
+        '- [NBA 공식 날짜별 경기](https://www.nba.com/games?date=2025-11-01), [KBO 공식 경기센터](https://www.koreabaseball.com/Schedule/GameCenter/Main.aspx), [NPB 공식 결과](https://npb.jp/bis/2026/games/gm20260327.html), [KBL 공식 결과](https://api.kbl.or.kr/match/list?fromDate=20251028&toDate=20261027&tcodeList=all)', '',
+        '오프라인 재현:', '', '```powershell',
+        'python -m scripts.run_tipster_year_audit `',
+        '  --candidate experiments/tipster-year-20261028/korean/candidates.jsonl `',
+        '  --candidate experiments/tipster-year-20261028/overseas/candidates-normalized.jsonl `',
+        '  --candidate experiments/tipster-year-20261028/basketball/candidates.jsonl `',
+        '  --fixture experiments/tipster-year-20261028/korean/official_results.json `',
+        '  --fixture experiments/tipster-year-20261028/korean/official_kbo_results.json `',
+        '  --fixture experiments/tipster-year-20261028/overseas/official_matches.json `',
+        '  --fixture experiments/tipster-year-20261028/basketball/official-kbl-results.jsonl `',
+        '  --fixture experiments/tipster-year-20261028/official/kleague-results.json `',
+        '  --fixture experiments/tipster-year-20261028/official/nba-results.json `',
+        '  --offer experiments/tipster-year-20261028/prices/offers.jsonl `',
+        '  --out .local-test/year-replay', '```', '',
+        '전체 웹 원문은 로컬 캐시이며 재배포하지 않는다. 저장된 후보·공식 점수·가격·입력 해시로 집계는 재현할 수 있지만, 원문 파서 재실행에는 로컬 캐시 또는 재수집이 필요하다. 테스트 44개 통과. 운영 변경 없음.', '']
+    return '\n'.join(lines)
+
+
+if __name__=='__main__':
+    p=argparse.ArgumentParser(description=__doc__)
+    p.add_argument('--root',type=Path,default=Path('experiments/tipster-year-20261028'))
+    p.add_argument('--output',type=Path,default=Path('docs/research/2026-10-28-tipster-year-multi-author.md'))
+    a=p.parse_args()
+    a.output.parent.mkdir(parents=True,exist_ok=True)
+    a.output.write_text(render(a.root),encoding='utf8')

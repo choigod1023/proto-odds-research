@@ -1,0 +1,478 @@
+[
+  {
+    "url": "https://www.kleague.com/getScheduleList.do",
+    "method": "POST",
+    "body": {
+      "leagueId": "1",
+      "teamId": "",
+      "ticketStatus": "",
+      "year": "2025",
+      "month": "10",
+      "ticketYn": "N"
+    },
+    "observed_at": "2026-10-28T09:51:55.883243+00:00",
+    "status": 415,
+    "sha256": "0b4a9ec6a7e18a446f70686aac2323b4ec3f118d175e221471919608d250bce3",
+    "error": "HTTPError: 415 Client Error:  for url: https://www.kleague.com/getScheduleList.do"
+  },
+  {
+    "url": "https://www.kleague.com/getScheduleList.do",
+    "method": "POST",
+    "body": {
+      "leagueId": "1",
+      "teamId": "",
+      "ticketStatus": "",
+      "year": "2025",
+      "month": "10",
+      "ticketYn": "N"
+    },
+    "encoding": "json",
+    "observed_at": "2026-10-28T09:52:13.073070+00:00",
+    "status": 200,
+    "sha256": "831323a1c3dd251ba009f7dd8bac93fa259cc0b0aac4f31b77e8dd84b7b05bfc",
+    "accepted_finals": 0
+  },
+  {
+    "url": "https://www.kleague.com/getScheduleList.do",
+    "method": "POST",
+    "body": {
+      "leagueId": "1",
+      "teamId": "",
+      "ticketStatus": "",
+      "year": "2025",
+      "month": "11",
+      "ticketYn": "N"
+    },
+    "encoding": "json",
+    "observed_at": "2026-10-28T09:52:14.405570+00:00",
+    "status": 200,
+    "sha256": "fcb08f414018ee3692eec5b64dae60d24a3843a092fc4e91fc3169d96b4cca85",
+    "accepted_finals": 24
+  },
+  {
+    "url": "https://www.kleague.com/getScheduleList.do",
+    "method": "POST",
+    "body": {
+      "leagueId": "1",
+      "teamId": "",
+      "ticketStatus": "",
+      "year": "2025",
+      "month": "12",
+      "ticketYn": "N"
+    },
+    "encoding": "json",
+    "observed_at": "2026-10-28T09:52:15.432966+00:00",
+    "status": 200,
+    "sha256": "f8f1115580ae910f17e5ccf6eb3834f20b59a02a750a27efff34cf6cbc76c6cd",
+    "accepted_finals": 0
+  },
+  {
+    "url": "https://www.kleague.com/getScheduleList.do",
+    "method": "POST",
+    "body": {
+      "leagueId": "2",
+      "teamId": "",
+      "ticketStatus": "",
+      "year": "2025",
+      "month": "10",
+      "ticketYn": "N"
+    },
+    "encoding": "json",
+    "observed_at": "2026-10-28T09:52:16.469968+00:00",
+    "status": 200,
+    "sha256": "5c237abff0ebe029db39b59ea17b720d81bc2bd811d5211b0a294177b18d4a69",
+    "accepted_finals": 0
+  },
+  {
+    "url": "https://www.kleague.com/getScheduleList.do",
+    "method": "POST",
+    "body": {
+      "leagueId": "2",
+      "teamId": "",
+      "ticketStatus": "",
+      "year": "2025",
+      "month": "11",
+      "ticketYn": "N"
+    },
+    "encoding": "json",
+    "observed_at": "2026-10-28T09:52:17.498789+00:00",
+    "status": 200,
+    "sha256": "c4e3020fe06bd9e8ce9bd2c3a5189a25376e186441a5e2e3dd0dcabbb9316445",
+    "accepted_finals": 23
+  },
+  {
+    "url": "https://www.kleague.com/getScheduleList.do",
+    "method": "POST",
+    "body": {
+      "leagueId": "2",
+      "teamId": "",
+      "ticketStatus": "",
+      "year": "2025",
+      "month": "12",
+      "ticketYn": "N"
+    },
+    "encoding": "json",
+    "observed_at": "2026-10-28T09:52:18.525238+00:00",
+    "status": 200,
+    "sha256": "9c58749441e38c5287dce73ae5432858a5e0b29038b234a0f300c0b098371b59",
+    "accepted_finals": 0
+  },
+  {
+    "url": "https://www.kleague.com/getScheduleList.do",
+    "method": "POST",
+    "body": {
+      "leagueId": "1",
+      "teamId": "",
+      "ticketStatus": "",
+      "year": "2026",
+      "month": "01",
+      "ticketYn": "N"
+    },
+    "encoding": "json",
+    "observed_at": "2026-10-28T09:52:19.548998+00:00",
+    "status": 200,
+    "sha256": "c05461ff30280c1f10bd8a6baf8f045b22860c588c697377bdb6c0d92af29065",
+    "accepted_finals": 0
+  },
+  {
+    "url": "https://www.kleague.com/getScheduleList.do",
+    "method": "POST",
+    "body": {
+      "leagueId": "1",
+      "teamId": "",
+      "ticketStatus": "",
+      "year": "2026",
+      "month": "02",
+      "ticketYn": "N"
+    },
+    "encoding": "json",
+    "observed_at": "2026-10-28T09:52:20.576309+00:00",
+    "status": 200,
+    "sha256": "febccf0c373fcb9d19e5c8e856705d7ec4ed93bd5137eeebdff457ae0f027e6f",
+    "error": "ValueError: wrong year/league"
+  },
+  {
+    "url": "https://www.kleague.com/getScheduleList.do",
+    "method": "POST",
+    "body": {
+      "leagueId": "1",
+      "teamId": "",
+      "ticketStatus": "",
+      "year": "2026",
+      "month": "02",
+      "ticketYn": "N"
+    },
+    "encoding": "json",
+    "observed_at": "2026-10-28T09:52:36.164112+00:00",
+    "status": 200,
+    "sha256": "febccf0c373fcb9d19e5c8e856705d7ec4ed93bd5137eeebdff457ae0f027e6f",
+    "other_competition_rows": 1,
+    "accepted_finals": 3
+  },
+  {
+    "url": "https://www.kleague.com/getScheduleList.do",
+    "method": "POST",
+    "body": {
+      "leagueId": "1",
+      "teamId": "",
+      "ticketStatus": "",
+      "year": "2026",
+      "month": "03",
+      "ticketYn": "N"
+    },
+    "encoding": "json",
+    "observed_at": "2026-10-28T09:52:37.488071+00:00",
+    "status": 200,
+    "sha256": "4387545ac1d0f74a638454c3153502ab4f45818987ce8557ceec3a4c61c7a179",
+    "accepted_finals": 26
+  },
+  {
+    "url": "https://www.kleague.com/getScheduleList.do",
+    "method": "POST",
+    "body": {
+      "leagueId": "1",
+      "teamId": "",
+      "ticketStatus": "",
+      "year": "2026",
+      "month": "04",
+      "ticketYn": "N"
+    },
+    "encoding": "json",
+    "observed_at": "2026-10-28T09:52:38.518120+00:00",
+    "status": 200,
+    "sha256": "27ebd565b5f42b6ec959736f8b23935fb8c668480cad5a49499b2cd9cb144e77",
+    "accepted_finals": 31
+  },
+  {
+    "url": "https://www.kleague.com/getScheduleList.do",
+    "method": "POST",
+    "body": {
+      "leagueId": "1",
+      "teamId": "",
+      "ticketStatus": "",
+      "year": "2026",
+      "month": "05",
+      "ticketYn": "N"
+    },
+    "encoding": "json",
+    "observed_at": "2026-10-28T09:52:39.549097+00:00",
+    "status": 200,
+    "sha256": "3c9d2b0ef6963fe3a8c21e701a0f0a765715a0aa084c1de12acfa08983801b54",
+    "accepted_finals": 30
+  },
+  {
+    "url": "https://www.kleague.com/getScheduleList.do",
+    "method": "POST",
+    "body": {
+      "leagueId": "1",
+      "teamId": "",
+      "ticketStatus": "",
+      "year": "2026",
+      "month": "06",
+      "ticketYn": "N"
+    },
+    "encoding": "json",
+    "observed_at": "2026-10-28T09:52:40.579608+00:00",
+    "status": 200,
+    "sha256": "3d0e6bfd114abab3fed66fb8413f49b4654e2a10f1724ea97574fe642f56e2ca",
+    "accepted_finals": 0
+  },
+  {
+    "url": "https://www.kleague.com/getScheduleList.do",
+    "method": "POST",
+    "body": {
+      "leagueId": "1",
+      "teamId": "",
+      "ticketStatus": "",
+      "year": "2026",
+      "month": "07",
+      "ticketYn": "N"
+    },
+    "encoding": "json",
+    "observed_at": "2026-10-28T09:52:41.604232+00:00",
+    "status": 200,
+    "sha256": "93fda68d0108871d1a1776b6c3885743830985cc08f1fc939b33db70a3eda878",
+    "accepted_finals": 30
+  },
+  {
+    "url": "https://www.kleague.com/getScheduleList.do",
+    "method": "POST",
+    "body": {
+      "leagueId": "1",
+      "teamId": "",
+      "ticketStatus": "",
+      "year": "2026",
+      "month": "08",
+      "ticketYn": "N"
+    },
+    "encoding": "json",
+    "observed_at": "2026-10-28T09:52:42.637292+00:00",
+    "status": 200,
+    "sha256": "35212a46fb5a74e064e09534a2f2b7d7885e175c1b5aec42ae67fb2682c78ff4",
+    "accepted_finals": 35
+  },
+  {
+    "url": "https://www.kleague.com/getScheduleList.do",
+    "method": "POST",
+    "body": {
+      "leagueId": "1",
+      "teamId": "",
+      "ticketStatus": "",
+      "year": "2026",
+      "month": "09",
+      "ticketYn": "N"
+    },
+    "encoding": "json",
+    "observed_at": "2026-10-28T09:52:43.669533+00:00",
+    "status": 200,
+    "sha256": "11d803e9e670fcaeeb6681445e837764bbaa0952e2898b07aaf4fc1d3d165bfd",
+    "accepted_finals": 25
+  },
+  {
+    "url": "https://www.kleague.com/getScheduleList.do",
+    "method": "POST",
+    "body": {
+      "leagueId": "1",
+      "teamId": "",
+      "ticketStatus": "",
+      "year": "2026",
+      "month": "10",
+      "ticketYn": "N"
+    },
+    "encoding": "json",
+    "observed_at": "2026-10-28T09:52:44.701951+00:00",
+    "status": 200,
+    "sha256": "f703d0a71da75c4845d8d886678df2fe547573d61a3b5712033624ea474d521f",
+    "accepted_finals": 18
+  },
+  {
+    "url": "https://www.kleague.com/getScheduleList.do",
+    "method": "POST",
+    "body": {
+      "leagueId": "2",
+      "teamId": "",
+      "ticketStatus": "",
+      "year": "2026",
+      "month": "01",
+      "ticketYn": "N"
+    },
+    "encoding": "json",
+    "observed_at": "2026-10-28T09:52:45.734255+00:00",
+    "status": 200,
+    "sha256": "0b3b7fe60c3f0bafc3c55260c3c9e0622f22484c412a3980a0583a7246390769",
+    "accepted_finals": 0
+  },
+  {
+    "url": "https://www.kleague.com/getScheduleList.do",
+    "method": "POST",
+    "body": {
+      "leagueId": "2",
+      "teamId": "",
+      "ticketStatus": "",
+      "year": "2026",
+      "month": "02",
+      "ticketYn": "N"
+    },
+    "encoding": "json",
+    "observed_at": "2026-10-28T09:52:46.759310+00:00",
+    "status": 200,
+    "sha256": "acac198f1f686a7f40d4e93e8236d81f2fbc1b8378372e406425e94e31b136ac",
+    "accepted_finals": 2
+  },
+  {
+    "url": "https://www.kleague.com/getScheduleList.do",
+    "method": "POST",
+    "body": {
+      "leagueId": "2",
+      "teamId": "",
+      "ticketStatus": "",
+      "year": "2026",
+      "month": "03",
+      "ticketYn": "N"
+    },
+    "encoding": "json",
+    "observed_at": "2026-10-28T09:52:47.786220+00:00",
+    "status": 200,
+    "sha256": "bccf2f8eb328b1cd0dbf88be87434ba7be59773032ba5a2edcfdcb51cf5c05ca",
+    "accepted_finals": 38
+  },
+  {
+    "url": "https://www.kleague.com/getScheduleList.do",
+    "method": "POST",
+    "body": {
+      "leagueId": "2",
+      "teamId": "",
+      "ticketStatus": "",
+      "year": "2026",
+      "month": "04",
+      "ticketYn": "N"
+    },
+    "encoding": "json",
+    "observed_at": "2026-10-28T09:52:48.817647+00:00",
+    "status": 200,
+    "sha256": "77b75ad8e068cd9d18eda6273ab2e45583c88859b7157e06808cd71b02d56888",
+    "accepted_finals": 32
+  },
+  {
+    "url": "https://www.kleague.com/getScheduleList.do",
+    "method": "POST",
+    "body": {
+      "leagueId": "2",
+      "teamId": "",
+      "ticketStatus": "",
+      "year": "2026",
+      "month": "05",
+      "ticketYn": "N"
+    },
+    "encoding": "json",
+    "observed_at": "2026-10-28T09:52:49.848648+00:00",
+    "status": 200,
+    "sha256": "aa357fe196db5874826d3c7cc4612dacc89e1b526e0b860722d1d41f04f9340f",
+    "accepted_finals": 40
+  },
+  {
+    "url": "https://www.kleague.com/getScheduleList.do",
+    "method": "POST",
+    "body": {
+      "leagueId": "2",
+      "teamId": "",
+      "ticketStatus": "",
+      "year": "2026",
+      "month": "06",
+      "ticketYn": "N"
+    },
+    "encoding": "json",
+    "observed_at": "2026-10-28T09:52:50.887617+00:00",
+    "status": 200,
+    "sha256": "65dab661eac1a8d148eb0290aa607e440f24a3a634265a1c23257edf7aef1da8",
+    "accepted_finals": 8
+  },
+  {
+    "url": "https://www.kleague.com/getScheduleList.do",
+    "method": "POST",
+    "body": {
+      "leagueId": "2",
+      "teamId": "",
+      "ticketStatus": "",
+      "year": "2026",
+      "month": "07",
+      "ticketYn": "N"
+    },
+    "encoding": "json",
+    "observed_at": "2026-10-28T09:52:51.919089+00:00",
+    "status": 200,
+    "sha256": "3802fecf73883530086f7cef6c077a8910e916b4b9d180ad00c35301a7dfce27",
+    "accepted_finals": 32
+  },
+  {
+    "url": "https://www.kleague.com/getScheduleList.do",
+    "method": "POST",
+    "body": {
+      "leagueId": "2",
+      "teamId": "",
+      "ticketStatus": "",
+      "year": "2026",
+      "month": "08",
+      "ticketYn": "N"
+    },
+    "encoding": "json",
+    "observed_at": "2026-10-28T09:52:52.951751+00:00",
+    "status": 200,
+    "sha256": "c611567b2732f5cd48d2704177c53570796d3a4d664fa3b0da06e1d703fa271d",
+    "accepted_finals": 40
+  },
+  {
+    "url": "https://www.kleague.com/getScheduleList.do",
+    "method": "POST",
+    "body": {
+      "leagueId": "2",
+      "teamId": "",
+      "ticketStatus": "",
+      "year": "2026",
+      "month": "09",
+      "ticketYn": "N"
+    },
+    "encoding": "json",
+    "observed_at": "2026-10-28T09:52:53.988351+00:00",
+    "status": 200,
+    "sha256": "c5166d79cdf2ad1562f87fd413057b504e203ec0a3214aa3b4a1cd55f5cc986e",
+    "accepted_finals": 24
+  },
+  {
+    "url": "https://www.kleague.com/getScheduleList.do",
+    "method": "POST",
+    "body": {
+      "leagueId": "2",
+      "teamId": "",
+      "ticketStatus": "",
+      "year": "2026",
+      "month": "10",
+      "ticketYn": "N"
+    },
+    "encoding": "json",
+    "observed_at": "2026-10-28T09:52:55.017244+00:00",
+    "status": 200,
+    "sha256": "f3381b89fdd3b243a88c7fc73d1057d84008304ed78b0e010160a2dcdb1188ce",
+    "accepted_finals": 24
+  }
+]

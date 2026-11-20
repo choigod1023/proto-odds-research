@@ -1,0 +1,31 @@
+{
+  "status": "passed",
+  "checked_at": "2026-10-28T10:24:09.006286+00:00",
+  "checks": {
+    "results.json": {
+      "accepted": 912,
+      "unique_fixtures": 742,
+      "paired": 492,
+      "all_scores_independently_resettled": true,
+      "paired_payouts_verified": true,
+      "monthly_cap_verified": true
+    },
+    "results-standard-ot.json": {
+      "accepted": 1788,
+      "unique_fixtures": 1440,
+      "paired": 580,
+      "all_scores_independently_resettled": true,
+      "paired_payouts_verified": true,
+      "monthly_cap_verified": true
+    }
+  },
+  "hash_basis": "SHA256 of UTF8 artifact bytes with CRLF normalized to LF; original HTTP hashes are not normalized",
+  "artifact_hashes": {
+    "joined.json": "c79e14b5a71a963c1646deb1c0b7f4f7a7685f7fb7075c03041b9a000b005516",
+    "joined-standard-ot.json": "76848a40022d466b549470118cd45d64e234737bfce420dc0f226afa3e75ce54",
+    "results.json": "11c0b5dd37401aaaf12afb81d268bb627638931425a15bb6786448e127cf08ab",
+    "results-standard-ot.json": "d17e95515ba677c9d8456d0b19424618f18e13cd25be97b760c137d8ab36eeb5"
+  },
+  "pytest_tests": 44,
+  "production_changes": false
+}

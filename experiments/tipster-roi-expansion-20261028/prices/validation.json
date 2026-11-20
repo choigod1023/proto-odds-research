@@ -1,0 +1,34 @@
+{
+  "passed": true,
+  "official_results_checked": 5,
+  "invalid_result_cases_checked": 6,
+  "checks": [
+    "actual_official_scores_and_winners",
+    "wrong_date_rejected",
+    "nonfinal_rejected",
+    "cancelled_rejected",
+    "missing_result_flag_rejected",
+    "missing_score_rejected",
+    "wrong_id_rejected",
+    "identical_reissue_deduplicated",
+    "conflicting_reissue_rejected",
+    "synthetic_full_primary_vector",
+    "synthetic_missing_price_rejected",
+    "synthetic_wrong_result_rejected",
+    "synthetic_first_half_excluded",
+    "request_and_round_budgets",
+    "minimum_interval"
+  ],
+  "request_count": 7,
+  "observed_request_intervals_seconds": [
+    2.50049,
+    2.500106,
+    2.500496,
+    11.232777,
+    68.853469,
+    30.872679
+  ],
+  "limitations": [
+    "Primary market parser tested on synthetic fixture only; no actual offer recovered."
+  ]
+}

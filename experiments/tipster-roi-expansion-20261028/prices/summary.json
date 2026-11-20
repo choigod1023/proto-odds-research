@@ -1,0 +1,74 @@
+{
+  "request_count": 7,
+  "request_limit": 25,
+  "rounds_attempted": 2,
+  "round_limit": 10,
+  "actual_offer_count": 0,
+  "official_result_count": 5,
+  "offer_counts_by_league": {},
+  "rejected_count": 0,
+  "failures": [
+    {
+      "source_request_id": 2,
+      "reason": "403 Client Error: Forbidden for url: https://www.wisetoto.com/util/gameinfo/get_proto_list.htm?game_category=pt1&game_year=2025&game_round=85&game_month=&game_day=&game_info_master_seq=29277&sports=&sort=&tab_type=proto",
+      "exact_response_body": "잘못된 접근입니다.[code:gproto_xrw]",
+      "likely_cause": "Initial collector omitted standard X-Requested-With AJAX header; corrected call not attempted"
+    },
+    {
+      "source_request_id": 4,
+      "reason": "403 Client Error: Forbidden for url: https://www.wisetoto.com/util/gameinfo/get_proto_list.htm?game_category=pt1&game_year=2026&game_round=104&game_month=&game_day=&game_info_master_seq=31427&sports=&sort=&tab_type=proto",
+      "exact_response_body": "잘못된 접근입니다.[code:gproto_xrw]",
+      "likely_cause": "Initial collector omitted standard X-Requested-With AJAX header; corrected call not attempted"
+    },
+    {
+      "source_request_id": 6,
+      "reason": "HTTP 200 but HTML KBO error page, not expected JSON; not retried"
+    }
+  ],
+  "rounds": [
+    {
+      "year": 2025,
+      "round": 85,
+      "master_seq": "29277",
+      "index_request_id": 1,
+      "error": "403 Client Error: Forbidden for url: https://www.wisetoto.com/util/gameinfo/get_proto_list.htm?game_category=pt1&game_year=2025&game_round=85&game_month=&game_day=&game_info_master_seq=29277&sports=&sort=&tab_type=proto",
+      "index_sales_startKST": [
+        "2025-07-21 14:10"
+      ],
+      "game_dates_verified": false
+    },
+    {
+      "year": 2026,
+      "round": 104,
+      "master_seq": "31427",
+      "index_request_id": 3,
+      "error": "403 Client Error: Forbidden for url: https://www.wisetoto.com/util/gameinfo/get_proto_list.htm?game_category=pt1&game_year=2026&game_round=104&game_month=&game_day=&game_info_master_seq=31427&sports=&sort=&tab_type=proto",
+      "index_sales_startKST": [
+        "2026-09-02 08:00"
+      ],
+      "game_dates_verified": false
+    }
+  ],
+  "unavailable": [
+    "2025 July K-league primary odds",
+    "2026 September KBO/NPB primary odds"
+  ],
+  "not_attempted": [
+    "2026 October expansion after archive endpoint 403"
+  ],
+  "initial_collector_limitations": [
+    "Requests 1-6 preceded request-header logging and omitted X-Requested-With: XMLHttpRequest.",
+    "Wisetoto requests 2 and 4 returned 403 with exact UTF-8 body: 잘못된 접근입니다.[code:gproto_xrw]",
+    "The existing src/wisetoto.py client includes X-Requested-With; its omission is the likely cause, not confirmed by a corrected request.",
+    "Two different round attempts were issued before the persistent host-stop guard was added; no identical request was repeated.",
+    "Request 6 inherited the Wisetoto index Referer and returned an HTTP-200 HTML KBO error page; cause unverified.",
+    "Request 7 used the KBO GameCenter Referer and succeeded on a distinct public endpoint.",
+    "Final collector restores standard AJAX header but refuses any further Wisetoto call in this run; no corrected request was made."
+  ],
+  "notes": [
+    "No retries, authentication, bypass, env-file reads, or DB reads/writes.",
+    "Five official result rows are not priced offers and cannot independently support ROI.",
+    "Round 85 sales start is July 21; actual target kickoff dates were not recovered.",
+    "Primary HTML parser has synthetic-fixture checks only; no live market row parsed in this run."
+  ]
+}
