@@ -1,0 +1,27 @@
+{
+  "original_inputs": {
+    "pitching": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-bullpen-external-periods-20261029\\experiments\\baseball-bullpen-external-periods-20261029\\sources\\asian-normalized-history.jsonl.gz",
+      "sha256": "e58e7c81c8b41c827696c3fe1cbd103774a18d1f6a0495e0608b7faea3379e79"
+    },
+    "cohort": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-bullpen-external-periods-20261029\\experiments\\baseball-bullpen-external-periods-20261029\\asian-cohort-inputs.jsonl",
+      "sha256": "98272521305f1a3d3edcb7f837e4157128e385556b36d1f1f7a167a7e9ca2cca"
+    },
+    "scores": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-league-fit-20261029\\experiments\\baseball-league-fit-20261029\\history.jsonl",
+      "sha256": "5f02efaa86a95d4b9dae7830d64115c2d2b36abc973a5e8ed6d6f63a2881dc5f"
+    },
+    "batters": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto\\data\\raw\\detail\\kbo_batters_indiv_2023_2026.json",
+      "sha256": "24bdea9094046bdab4967d314c043d548a252599b652009d5ffdabd341cc84e8"
+    }
+  },
+  "policy": "KBO-only lossless row extracts; batter source raw entries preserved; no runtime sibling dependencies",
+  "committed_inputs": {
+    "batters.jsonl.gz": "f2bb9c3f7834dd2c2c778c500ef1c858828014492c9777886f5e0433ac585858",
+    "cohort.jsonl.gz": "e75c5ea74769afe7917c7339ecd082518cfa36ee095ef54eb6343d74110608c4",
+    "pitching.jsonl.gz": "c3f4fd478ace40e9e5ff92da71e1222ff04b9360e1a764a6a333288979d3ff77",
+    "scores.jsonl.gz": "58407d1d47d2e3970644bb13bc2c3a6b0c7f2a2ab301eb197f5c28d727d0ef34"
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "provenance": [
+    {
+      "source": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-feature-partitions-20261029\\experiments\\baseball-feature-partitions-20261029\\other-period-price-facts.jsonl",
+      "source_sha256": "15bedc1cf9b88040401a6c9d8a0a3247446855a2ae6f299517a24b3dce7e0f70",
+      "output": "archived-prices.jsonl",
+      "rows": 4479
+    },
+    {
+      "source": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-league-fit-20261029\\experiments\\baseball-league-fit-20261029\\mlb-official-final.jsonl",
+      "source_sha256": "e8df027e6a84535ec77b9ddfd228f7963bb490752b5e6ee4b7053131a8dfbfd7",
+      "output": "official-final.jsonl",
+      "rows": 9873
+    },
+    {
+      "source": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-bullpen-external-periods-20261029\\experiments\\baseball-bullpen-external-periods-20261029\\mlb-external-features.jsonl",
+      "source_sha256": "32a0ffc6df0548bca68dadc9efa085ea20ea1ca6381ffa78c9341fa969462ee6",
+      "output": "external230.jsonl",
+      "rows": 230
+    },
+    {
+      "source": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\cohort-inputs.jsonl",
+      "source_sha256": "1c5992d1499d490ec312a54bc1f8fb224f900c7ee2ddefd75e9426291fc940d5",
+      "output": "secondary116.jsonl",
+      "rows": 116
+    },
+    {
+      "source": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\schedule-2024.jsonl.gz",
+      "source_sha256": "df0f14bf8e11cdf9fb31ba90705b52c5ce77390250a09a8b2fd14449e06f5dcf",
+      "output": "schedule-2024.jsonl.gz"
+    },
+    {
+      "source": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\schedule-2025.jsonl.gz",
+      "source_sha256": "4470c57a62b1402cd40579702701378aa00d2582840f6624d512b8c189674e3b",
+      "output": "schedule-2025.jsonl.gz"
+    },
+    {
+      "source": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\baseball-event-form-bullpen-20261029\\experiments\\baseball-event-form-bullpen-20261029\\sources\\schedule-2026.jsonl.gz",
+      "source_sha256": "7881b4efe745aefe29bc06da7c89602ca97a82b0ba0f09cab104a65e13d572e3",
+      "output": "schedule-2026.jsonl.gz"
+    },
+    {
+      "source": "https://statsapi.mlb.com/api/v1/schedule?sportId=1&startDate=2023-01-01&endDate=2023-12-31&gameTypes=R%2CF%2CD%2CL%2CW&hydrate=gameInfo",
+      "response_sha256": "f8489cbe9fdb62eeec6f08c695a1883d4ab8860aff2dba7ca070ca29b6158cf1",
+      "collected_at": "2026-10-29T08:28:53.103992+00:00",
+      "output": "schedule-2023.jsonl.gz"
+    }
+  ],
+  "files": {
+    "archived-prices.jsonl": "d01ff9923b207fcae7b282c1dc7c12df0f5a970a8239426b5fa9e5b4e5a5c694",
+    "external230.jsonl": "32a0ffc6df0548bca68dadc9efa085ea20ea1ca6381ffa78c9341fa969462ee6",
+    "official-final.jsonl": "e8df027e6a84535ec77b9ddfd228f7963bb490752b5e6ee4b7053131a8dfbfd7",
+    "schedule-2023.jsonl.gz": "5528ff29659d6ae3b4d37b257736636a94506744cbb6d782797ad4a517cbed68",
+    "schedule-2024.jsonl.gz": "df0f14bf8e11cdf9fb31ba90705b52c5ce77390250a09a8b2fd14449e06f5dcf",
+    "schedule-2025.jsonl.gz": "4470c57a62b1402cd40579702701378aa00d2582840f6624d512b8c189674e3b",
+    "schedule-2026.jsonl.gz": "7881b4efe745aefe29bc06da7c89602ca97a82b0ba0f09cab104a65e13d572e3",
+    "secondary116.jsonl": "429b00d3d80f50bcba417ba31a361c345b936e7083aa36c3b14ade47b8c3fcbf"
+  }
+}

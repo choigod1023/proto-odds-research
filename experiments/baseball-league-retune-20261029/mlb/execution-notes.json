@@ -1,0 +1,15 @@
+{
+  "runtime": {
+    "python": "3.14.3",
+    "numpy": "2.5.1",
+    "scipy": "1.18.0",
+    "requests": "2.32.5"
+  },
+  "execution_notes": [
+    "Protocol commit f68099e7 predates first model execution.",
+    "First run stopped at validation metric calculation: NumPy boolean unary minus TypeError. Converted labels to float without changing model or candidate definitions.",
+    "Second run used an overly strict target first-pitch minus10 minute guard. Its evaluation output was deliberately not inspected. Raw timestamps showed gamePk824194 was still pregame (9 minutes); source guard clarification committed as8cad6aaf before reading evaluation.",
+    "Final cohort includes all2228 training prices,2251 validation prices,230 external games,and116 secondary games. Candidate/selection/period definitions unchanged.",
+    "No individual 2023 pitcher logs available. Duration/density interaction remains a schedule-based staff/bullpen pressure proxy,not a measured relief feature."
+  ]
+}

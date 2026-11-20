@@ -1,0 +1,4798 @@
+{
+  "league": "KBO",
+  "candidate_count": 30,
+  "concrete_research_candidates": 28,
+  "heads": {
+    "primary": "logistic:full:ridge0.1",
+    "hit_leader": "logistic:strength:ridge0.01",
+    "profit_leader": "logistic:strength:ridge0.01",
+    "eligible": [
+      "baseline",
+      "logistic:batting:ridge0.01",
+      "logistic:batting:ridge0.1",
+      "logistic:batting:ridge1",
+      "logistic:bullpen:ridge0.1",
+      "logistic:bullpen:ridge1",
+      "logistic:full:ridge0.01",
+      "logistic:full:ridge0.1",
+      "logistic:full:ridge1",
+      "logistic:strength:ridge0.01",
+      "logistic:strength:ridge0.1",
+      "logistic:strength:ridge1",
+      "market_null",
+      "nb:s20:28days:w0.1",
+      "nb:s20:season:w0.1",
+      "nb:s60:28days:w0.1",
+      "nb:s60:season:w0.1",
+      "pyth:s20:e1.5:w0.1",
+      "pyth:s60:e1.5:w0.1",
+      "pyth:s60:e2:w0.1"
+    ]
+  },
+  "selection_rule": "eligible hit>=market and ROI>=market; minimum logloss/Brier/name; baseline included",
+  "selection_rules": {
+    "primary": "hit>=market and ROI>=market, then min logloss/Brier/name; baseline included",
+    "hit_leader": "max validation hit, then min Brier/name",
+    "profit_leader": "max validation ROI, then min logloss/name"
+  },
+  "candidates": {
+    "baseline": {
+      "specification": {
+        "kind": "baseline"
+      },
+      "selection_fit": {
+        "kind": "baseline",
+        "train_rows": 710,
+        "train_non_draw": 710,
+        "train_first": "2023-04-01",
+        "train_last": "2023-11-13"
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 411,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.577247191011236,
+        "net_krw": -815800,
+        "roi": -0.11457865168539326,
+        "logloss": 0.6768239566036995,
+        "brier": 0.24200357606747847,
+        "monthly_net_krw": {
+          "2024-03": -18900,
+          "2024-04": -244800,
+          "2024-05": -274100,
+          "2024-06": -200,
+          "2024-07": 0,
+          "2024-08": -201200,
+          "2024-09": -67000,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 830900
+      },
+      "validation_changes_vs_market": 0,
+      "final_fit": {
+        "kind": "baseline",
+        "train_rows": 1422,
+        "train_non_draw": 1422,
+        "train_first": "2023-04-01",
+        "train_last": "2024-10-28"
+      },
+      "evaluation": {
+        "n": 198,
+        "bets": 198,
+        "coverage": 1.0,
+        "wins": 119,
+        "settled": 198,
+        "pushes": 0,
+        "accuracy": 0.601010101010101,
+        "net_krw": -146600,
+        "roi": -0.07404040404040405,
+        "logloss": 0.6612822091761741,
+        "brier": 0.23460470849197526,
+        "monthly_net_krw": {
+          "2026-03": -14300,
+          "2026-04": -41300,
+          "2026-05": -61900,
+          "2026-06": 12600,
+          "2026-07": -41700
+        },
+        "daily_close_max_drawdown_krw": 157700
+      },
+      "evaluation_changes_vs_baseline": 0,
+      "evaluation_periods": {
+        "before_july": {
+          "n": 152,
+          "bets": 152,
+          "coverage": 1.0,
+          "wins": 92,
+          "settled": 152,
+          "pushes": 0,
+          "accuracy": 0.6052631578947368,
+          "net_krw": -104900,
+          "roi": -0.06901315789473685,
+          "logloss": 0.655264220030794,
+          "brier": 0.2318891313689326,
+          "monthly_net_krw": {
+            "2026-03": -14300,
+            "2026-04": -41300,
+            "2026-05": -61900,
+            "2026-06": 12600
+          },
+          "daily_close_max_drawdown_krw": 157700
+        },
+        "july_onward": {
+          "n": 46,
+          "bets": 46,
+          "coverage": 1.0,
+          "wins": 27,
+          "settled": 46,
+          "pushes": 0,
+          "accuracy": 0.5869565217391305,
+          "net_krw": -41700,
+          "roi": -0.09065217391304348,
+          "logloss": 0.6811677385261257,
+          "brier": 0.24357791985507257,
+          "monthly_net_krw": {
+            "2026-07": -41700
+          },
+          "daily_close_max_drawdown_krw": 59600
+        }
+      }
+    },
+    "market_null": {
+      "specification": {
+        "kind": "market_null"
+      },
+      "selection_fit": {
+        "kind": "market_null",
+        "train_rows": 710,
+        "train_non_draw": 710,
+        "train_first": "2023-04-01",
+        "train_last": "2023-11-13"
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 411,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.577247191011236,
+        "net_krw": -815800,
+        "roi": -0.11457865168539326,
+        "logloss": 0.6768239566036995,
+        "brier": 0.24200357606747847,
+        "monthly_net_krw": {
+          "2024-03": -18900,
+          "2024-04": -244800,
+          "2024-05": -274100,
+          "2024-06": -200,
+          "2024-07": 0,
+          "2024-08": -201200,
+          "2024-09": -67000,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 830900
+      },
+      "validation_changes_vs_market": 0,
+      "final_fit": {
+        "kind": "market_null",
+        "train_rows": 1422,
+        "train_non_draw": 1422,
+        "train_first": "2023-04-01",
+        "train_last": "2024-10-28"
+      },
+      "evaluation": {
+        "n": 198,
+        "bets": 198,
+        "coverage": 1.0,
+        "wins": 117,
+        "settled": 198,
+        "pushes": 0,
+        "accuracy": 0.5909090909090909,
+        "net_krw": -208400,
+        "roi": -0.10525252525252525,
+        "logloss": 0.6600275141234038,
+        "brier": 0.23387014548990753,
+        "monthly_net_krw": {
+          "2026-03": -32300,
+          "2026-04": -27700,
+          "2026-05": -125700,
+          "2026-06": -27800,
+          "2026-07": 5100
+        },
+        "daily_close_max_drawdown_krw": 247500
+      },
+      "evaluation_changes_vs_baseline": 34,
+      "evaluation_periods": {
+        "before_july": {
+          "n": 152,
+          "bets": 152,
+          "coverage": 1.0,
+          "wins": 87,
+          "settled": 152,
+          "pushes": 0,
+          "accuracy": 0.5723684210526315,
+          "net_krw": -213500,
+          "roi": -0.14046052631578948,
+          "logloss": 0.6546820341897701,
+          "brier": 0.23140934701186922,
+          "monthly_net_krw": {
+            "2026-03": -32300,
+            "2026-04": -27700,
+            "2026-05": -125700,
+            "2026-06": -27800
+          },
+          "daily_close_max_drawdown_krw": 237900
+        },
+        "july_onward": {
+          "n": 46,
+          "bets": 46,
+          "coverage": 1.0,
+          "wins": 30,
+          "settled": 46,
+          "pushes": 0,
+          "accuracy": 0.6521739130434783,
+          "net_krw": 5100,
+          "roi": 0.01108695652173913,
+          "logloss": 0.6776908391214974,
+          "brier": 0.24200147959125137,
+          "monthly_net_krw": {
+            "2026-07": 5100
+          },
+          "daily_close_max_drawdown_krw": 42600
+        }
+      }
+    },
+    "logistic:strength:ridge0.01": {
+      "specification": {
+        "kind": "logistic",
+        "names": [
+          "season_strength",
+          "recent_strength",
+          "venue_net",
+          "rest",
+          "games7"
+        ],
+        "ridge": 0.01
+      },
+      "selection_fit": {
+        "kind": "logistic",
+        "names": [
+          "season_strength",
+          "recent_strength",
+          "venue_net",
+          "rest",
+          "games7"
+        ],
+        "ridge": 0.01,
+        "train_rows": 710,
+        "train_non_draw": 710,
+        "train_first": "2023-04-01",
+        "train_last": "2023-11-13",
+        "scale": [
+          0.1472903314331648,
+          0.17969171556668143,
+          0.14164594729188063,
+          0.6474646508592403,
+          1.0477784662524814
+        ],
+        "beta": [
+          0.06827920517822592,
+          0.08206866068683327,
+          -0.21991223688303602,
+          0.12856176407170727,
+          0.014930263402748977
+        ],
+        "optimizer": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 423,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5941011235955056,
+        "net_krw": -532100,
+        "roi": -0.07473314606741573,
+        "logloss": 0.6777946866604155,
+        "brier": 0.2425300228633457,
+        "monthly_net_krw": {
+          "2024-03": 700,
+          "2024-04": -89800,
+          "2024-05": -249000,
+          "2024-06": 64400,
+          "2024-07": -39600,
+          "2024-08": -188700,
+          "2024-09": -56500,
+          "2024-10": 26400
+        },
+        "daily_close_max_drawdown_krw": 619700
+      },
+      "validation_changes_vs_market": 80,
+      "final_fit": {
+        "kind": "logistic",
+        "names": [
+          "season_strength",
+          "recent_strength",
+          "venue_net",
+          "rest",
+          "games7"
+        ],
+        "ridge": 0.01,
+        "train_rows": 1422,
+        "train_non_draw": 1422,
+        "train_first": "2023-04-01",
+        "train_last": "2024-10-28",
+        "scale": [
+          0.13897037951875751,
+          0.16595661605719095,
+          0.13743181461152318,
+          0.6042437011724833,
+          0.9797222935910965
+        ],
+        "beta": [
+          -0.02577034537511735,
+          0.028497413445665237,
+          -0.1047456850053052,
+          0.08935580555851683,
+          -0.033123290611575255
+        ],
+        "optimizer": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+      },
+      "evaluation": {
+        "n": 198,
+        "bets": 198,
+        "coverage": 1.0,
+        "wins": 118,
+        "settled": 198,
+        "pushes": 0,
+        "accuracy": 0.5959595959595959,
+        "net_krw": -155500,
+        "roi": -0.07853535353535354,
+        "logloss": 0.6641160540470354,
+        "brier": 0.235974115407913,
+        "monthly_net_krw": {
+          "2026-03": -14300,
+          "2026-04": -40000,
+          "2026-05": -114300,
+          "2026-06": 36300,
+          "2026-07": -23200
+        },
+        "daily_close_max_drawdown_krw": 208800
+      },
+      "evaluation_changes_vs_baseline": 19,
+      "evaluation_periods": {
+        "before_july": {
+          "n": 152,
+          "bets": 152,
+          "coverage": 1.0,
+          "wins": 90,
+          "settled": 152,
+          "pushes": 0,
+          "accuracy": 0.5921052631578947,
+          "net_krw": -132300,
+          "roi": -0.08703947368421053,
+          "logloss": 0.6549245500879115,
+          "brier": 0.23170240290315927,
+          "monthly_net_krw": {
+            "2026-03": -14300,
+            "2026-04": -40000,
+            "2026-05": -114300,
+            "2026-06": 36300
+          },
+          "daily_close_max_drawdown_krw": 208800
+        },
+        "july_onward": {
+          "n": 46,
+          "bets": 46,
+          "coverage": 1.0,
+          "wins": 28,
+          "settled": 46,
+          "pushes": 0,
+          "accuracy": 0.6086956521739131,
+          "net_krw": -23200,
+          "roi": -0.050434782608695654,
+          "logloss": 0.694487980172836,
+          "brier": 0.25008933933666444,
+          "monthly_net_krw": {
+            "2026-07": -23200
+          },
+          "daily_close_max_drawdown_krw": 41100
+        }
+      }
+    },
+    "logistic:strength:ridge0.1": {
+      "specification": {
+        "kind": "logistic",
+        "names": [
+          "season_strength",
+          "recent_strength",
+          "venue_net",
+          "rest",
+          "games7"
+        ],
+        "ridge": 0.1
+      },
+      "selection_fit": {
+        "kind": "logistic",
+        "names": [
+          "season_strength",
+          "recent_strength",
+          "venue_net",
+          "rest",
+          "games7"
+        ],
+        "ridge": 0.1,
+        "train_rows": 710,
+        "train_non_draw": 710,
+        "train_first": "2023-04-01",
+        "train_last": "2023-11-13",
+        "scale": [
+          0.1472903314331648,
+          0.17969171556668143,
+          0.14164594729188063,
+          0.6474646508592403,
+          1.0477784662524814
+        ],
+        "beta": [
+          -0.00561630077929977,
+          0.048356449382702844,
+          -0.10193467749795161,
+          0.08364576366804052,
+          0.0007696782271465917
+        ],
+        "optimizer": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH"
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 418,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5870786516853933,
+        "net_krw": -667100,
+        "roi": -0.0936938202247191,
+        "logloss": 0.6755350767988803,
+        "brier": 0.24146020655082365,
+        "monthly_net_krw": {
+          "2024-03": -18400,
+          "2024-04": -189300,
+          "2024-05": -236200,
+          "2024-06": 23200,
+          "2024-07": 21500,
+          "2024-08": -161800,
+          "2024-09": -114200,
+          "2024-10": 8100
+        },
+        "daily_close_max_drawdown_krw": 715700
+      },
+      "validation_changes_vs_market": 47,
+      "final_fit": {
+        "kind": "logistic",
+        "names": [
+          "season_strength",
+          "recent_strength",
+          "venue_net",
+          "rest",
+          "games7"
+        ],
+        "ridge": 0.1,
+        "train_rows": 1422,
+        "train_non_draw": 1422,
+        "train_first": "2023-04-01",
+        "train_last": "2024-10-28",
+        "scale": [
+          0.13897037951875751,
+          0.16595661605719095,
+          0.13743181461152318,
+          0.6042437011724833,
+          0.9797222935910965
+        ],
+        "beta": [
+          -0.030795453824824556,
+          0.009499460635179188,
+          -0.06698325129844859,
+          0.062038763697339946,
+          -0.030599493778327908
+        ],
+        "optimizer": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+      },
+      "evaluation": {
+        "n": 198,
+        "bets": 198,
+        "coverage": 1.0,
+        "wins": 119,
+        "settled": 198,
+        "pushes": 0,
+        "accuracy": 0.601010101010101,
+        "net_krw": -138200,
+        "roi": -0.0697979797979798,
+        "logloss": 0.6632000031806335,
+        "brier": 0.23551772659558826,
+        "monthly_net_krw": {
+          "2026-03": -14300,
+          "2026-04": -56800,
+          "2026-05": -59700,
+          "2026-06": 36300,
+          "2026-07": -43700
+        },
+        "daily_close_max_drawdown_krw": 171000
+      },
+      "evaluation_changes_vs_baseline": 12,
+      "evaluation_periods": {
+        "before_july": {
+          "n": 152,
+          "bets": 152,
+          "coverage": 1.0,
+          "wins": 92,
+          "settled": 152,
+          "pushes": 0,
+          "accuracy": 0.6052631578947368,
+          "net_krw": -94500,
+          "roi": -0.062171052631578946,
+          "logloss": 0.6546165002356876,
+          "brier": 0.23153927835272692,
+          "monthly_net_krw": {
+            "2026-03": -14300,
+            "2026-04": -56800,
+            "2026-05": -59700,
+            "2026-06": 36300
+          },
+          "daily_close_max_drawdown_krw": 171000
+        },
+        "july_onward": {
+          "n": 46,
+          "bets": 46,
+          "coverage": 1.0,
+          "wins": 27,
+          "settled": 46,
+          "pushes": 0,
+          "accuracy": 0.5869565217391305,
+          "net_krw": -43700,
+          "roi": -0.095,
+          "logloss": 0.6915628824769764,
+          "brier": 0.24866390339808647,
+          "monthly_net_krw": {
+            "2026-07": -43700
+          },
+          "daily_close_max_drawdown_krw": 61600
+        }
+      }
+    },
+    "logistic:strength:ridge1": {
+      "specification": {
+        "kind": "logistic",
+        "names": [
+          "season_strength",
+          "recent_strength",
+          "venue_net",
+          "rest",
+          "games7"
+        ],
+        "ridge": 1.0
+      },
+      "selection_fit": {
+        "kind": "logistic",
+        "names": [
+          "season_strength",
+          "recent_strength",
+          "venue_net",
+          "rest",
+          "games7"
+        ],
+        "ridge": 1.0,
+        "train_rows": 710,
+        "train_non_draw": 710,
+        "train_first": "2023-04-01",
+        "train_last": "2023-11-13",
+        "scale": [
+          0.1472903314331648,
+          0.17969171556668143,
+          0.14164594729188063,
+          0.6474646508592403,
+          1.0477784662524814
+        ],
+        "beta": [
+          -0.00891848285848774,
+          0.005252040742511442,
+          -0.022049672646903933,
+          0.02050611719574509,
+          -0.004065031848429336
+        ],
+        "optimizer": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 413,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5800561797752809,
+        "net_krw": -778200,
+        "roi": -0.10929775280898876,
+        "logloss": 0.6759107640114833,
+        "brier": 0.24158927545169606,
+        "monthly_net_krw": {
+          "2024-03": -18900,
+          "2024-04": -227000,
+          "2024-05": -274100,
+          "2024-06": 35600,
+          "2024-07": 17700,
+          "2024-08": -183000,
+          "2024-09": -118900,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 793300
+      },
+      "validation_changes_vs_market": 12,
+      "final_fit": {
+        "kind": "logistic",
+        "names": [
+          "season_strength",
+          "recent_strength",
+          "venue_net",
+          "rest",
+          "games7"
+        ],
+        "ridge": 1.0,
+        "train_rows": 1422,
+        "train_non_draw": 1422,
+        "train_first": "2023-04-01",
+        "train_last": "2024-10-28",
+        "scale": [
+          0.13897037951875751,
+          0.16595661605719095,
+          0.13743181461152318,
+          0.6042437011724833,
+          0.9797222935910965
+        ],
+        "beta": [
+          -0.01374148018928014,
+          -0.004323072041914806,
+          -0.0194548807390332,
+          0.016571606449854098,
+          -0.011230205914382514
+        ],
+        "optimizer": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH"
+      },
+      "evaluation": {
+        "n": 198,
+        "bets": 198,
+        "coverage": 1.0,
+        "wins": 121,
+        "settled": 198,
+        "pushes": 0,
+        "accuracy": 0.6111111111111112,
+        "net_krw": -110100,
+        "roi": -0.0556060606060606,
+        "logloss": 0.6616820996184802,
+        "brier": 0.23478485898441098,
+        "monthly_net_krw": {
+          "2026-03": -14300,
+          "2026-04": -41300,
+          "2026-05": -61900,
+          "2026-06": 52100,
+          "2026-07": -44700
+        },
+        "daily_close_max_drawdown_krw": 157700
+      },
+      "evaluation_changes_vs_baseline": 4,
+      "evaluation_periods": {
+        "before_july": {
+          "n": 152,
+          "bets": 152,
+          "coverage": 1.0,
+          "wins": 94,
+          "settled": 152,
+          "pushes": 0,
+          "accuracy": 0.618421052631579,
+          "net_krw": -65400,
+          "roi": -0.04302631578947368,
+          "logloss": 0.6547256155201368,
+          "brier": 0.23161264957054856,
+          "monthly_net_krw": {
+            "2026-03": -14300,
+            "2026-04": -41300,
+            "2026-05": -61900,
+            "2026-06": 52100
+          },
+          "daily_close_max_drawdown_krw": 157700
+        },
+        "july_onward": {
+          "n": 46,
+          "bets": 46,
+          "coverage": 1.0,
+          "wins": 27,
+          "settled": 46,
+          "pushes": 0,
+          "accuracy": 0.5869565217391305,
+          "net_krw": -44700,
+          "roi": -0.09717391304347826,
+          "logloss": 0.6846687427260497,
+          "brier": 0.24526694226499984,
+          "monthly_net_krw": {
+            "2026-07": -44700
+          },
+          "daily_close_max_drawdown_krw": 62600
+        }
+      }
+    },
+    "logistic:batting:ridge0.01": {
+      "specification": {
+        "kind": "logistic",
+        "names": [
+          "season_strength",
+          "recent_strength",
+          "venue_net",
+          "rest",
+          "games7",
+          "season_ops_proxy",
+          "recent_ops_proxy"
+        ],
+        "ridge": 0.01
+      },
+      "selection_fit": {
+        "kind": "logistic",
+        "names": [
+          "season_strength",
+          "recent_strength",
+          "venue_net",
+          "rest",
+          "games7",
+          "season_ops_proxy",
+          "recent_ops_proxy"
+        ],
+        "ridge": 0.01,
+        "train_rows": 710,
+        "train_non_draw": 710,
+        "train_first": "2023-04-01",
+        "train_last": "2023-11-13",
+        "scale": [
+          0.1472903314331648,
+          0.17969171556668143,
+          0.14164594729188063,
+          0.6474646508592403,
+          1.0477784662524814,
+          0.04858004420805369,
+          0.060952481581981875
+        ],
+        "beta": [
+          -0.015715697826669765,
+          0.1457233523074149,
+          -0.23265011352280665,
+          0.12960039191220235,
+          0.011676488343889683,
+          0.1461747775444232,
+          -0.11040913259887014
+        ],
+        "optimizer": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 412,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5786516853932584,
+        "net_krw": -705700,
+        "roi": -0.09911516853932584,
+        "logloss": 0.6763933877442535,
+        "brier": 0.24184919670488542,
+        "monthly_net_krw": {
+          "2024-03": 18300,
+          "2024-04": -160700,
+          "2024-05": -203900,
+          "2024-06": 46100,
+          "2024-07": -39500,
+          "2024-08": -304400,
+          "2024-09": -54300,
+          "2024-10": -7300
+        },
+        "daily_close_max_drawdown_krw": 748800
+      },
+      "validation_changes_vs_market": 87,
+      "final_fit": {
+        "kind": "logistic",
+        "names": [
+          "season_strength",
+          "recent_strength",
+          "venue_net",
+          "rest",
+          "games7",
+          "season_ops_proxy",
+          "recent_ops_proxy"
+        ],
+        "ridge": 0.01,
+        "train_rows": 1422,
+        "train_non_draw": 1422,
+        "train_first": "2023-04-01",
+        "train_last": "2024-10-28",
+        "scale": [
+          0.13897037951875751,
+          0.16595661605719095,
+          0.13743181461152318,
+          0.6042437011724833,
+          0.9797222935910965,
+          0.045965064609203424,
+          0.0635131179560666
+        ],
+        "beta": [
+          -0.11737375583928016,
+          0.08990607979947363,
+          -0.11254254153309298,
+          0.08820985190125569,
+          -0.03561370695198331,
+          0.1614654217182025,
+          -0.1167258623156621
+        ],
+        "optimizer": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH"
+      },
+      "evaluation": {
+        "n": 198,
+        "bets": 198,
+        "coverage": 1.0,
+        "wins": 122,
+        "settled": 198,
+        "pushes": 0,
+        "accuracy": 0.6161616161616161,
+        "net_krw": -83800,
+        "roi": -0.042323232323232325,
+        "logloss": 0.6636654865762064,
+        "brier": 0.23571082864573295,
+        "monthly_net_krw": {
+          "2026-03": 5400,
+          "2026-04": -24500,
+          "2026-05": -80300,
+          "2026-06": 55900,
+          "2026-07": -40300
+        },
+        "daily_close_max_drawdown_krw": 159300
+      },
+      "evaluation_changes_vs_baseline": 19,
+      "evaluation_periods": {
+        "before_july": {
+          "n": 152,
+          "bets": 152,
+          "coverage": 1.0,
+          "wins": 95,
+          "settled": 152,
+          "pushes": 0,
+          "accuracy": 0.625,
+          "net_krw": -43500,
+          "roi": -0.028618421052631578,
+          "logloss": 0.6548075492452314,
+          "brier": 0.23157194805345307,
+          "monthly_net_krw": {
+            "2026-03": 5400,
+            "2026-04": -24500,
+            "2026-05": -80300,
+            "2026-06": 55900
+          },
+          "daily_close_max_drawdown_krw": 159300
+        },
+        "july_onward": {
+          "n": 46,
+          "bets": 46,
+          "coverage": 1.0,
+          "wins": 27,
+          "settled": 46,
+          "pushes": 0,
+          "accuracy": 0.5869565217391305,
+          "net_krw": -40300,
+          "roi": -0.08760869565217391,
+          "logloss": 0.6929351925394275,
+          "brier": 0.24938712973326657,
+          "monthly_net_krw": {
+            "2026-07": -40300
+          },
+          "daily_close_max_drawdown_krw": 58200
+        }
+      }
+    },
+    "logistic:batting:ridge0.1": {
+      "specification": {
+        "kind": "logistic",
+        "names": [
+          "season_strength",
+          "recent_strength",
+          "venue_net",
+          "rest",
+          "games7",
+          "season_ops_proxy",
+          "recent_ops_proxy"
+        ],
+        "ridge": 0.1
+      },
+      "selection_fit": {
+        "kind": "logistic",
+        "names": [
+          "season_strength",
+          "recent_strength",
+          "venue_net",
+          "rest",
+          "games7",
+          "season_ops_proxy",
+          "recent_ops_proxy"
+        ],
+        "ridge": 0.1,
+        "train_rows": 710,
+        "train_non_draw": 710,
+        "train_first": "2023-04-01",
+        "train_last": "2023-11-13",
+        "scale": [
+          0.1472903314331648,
+          0.17969171556668143,
+          0.14164594729188063,
+          0.6474646508592403,
+          1.0477784662524814,
+          0.04858004420805369,
+          0.060952481581981875
+        ],
+        "beta": [
+          -0.017066274430053766,
+          0.05266804458022585,
+          -0.10832324087412706,
+          0.08356018755979196,
+          0.00030581881348485003,
+          0.037588186404869654,
+          -0.01952595221376104
+        ],
+        "optimizer": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 420,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5898876404494382,
+        "net_krw": -635700,
+        "roi": -0.08928370786516854,
+        "logloss": 0.675104407997735,
+        "brier": 0.24124958222834844,
+        "monthly_net_krw": {
+          "2024-03": -18400,
+          "2024-04": -189300,
+          "2024-05": -218300,
+          "2024-06": 21200,
+          "2024-07": 21500,
+          "2024-08": -180300,
+          "2024-09": -80800,
+          "2024-10": 8700
+        },
+        "daily_close_max_drawdown_krw": 674900
+      },
+      "validation_changes_vs_market": 41,
+      "final_fit": {
+        "kind": "logistic",
+        "names": [
+          "season_strength",
+          "recent_strength",
+          "venue_net",
+          "rest",
+          "games7",
+          "season_ops_proxy",
+          "recent_ops_proxy"
+        ],
+        "ridge": 0.1,
+        "train_rows": 1422,
+        "train_non_draw": 1422,
+        "train_first": "2023-04-01",
+        "train_last": "2024-10-28",
+        "scale": [
+          0.13897037951875751,
+          0.16595661605719095,
+          0.13743181461152318,
+          0.6042437011724833,
+          0.9797222935910965,
+          0.045965064609203424,
+          0.0635131179560666
+        ],
+        "beta": [
+          -0.042372906931407134,
+          0.01677161232970033,
+          -0.07225818939364076,
+          0.06182278368087174,
+          -0.0310775972266983,
+          0.04357621312433678,
+          -0.03219887043553393
+        ],
+        "optimizer": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+      },
+      "evaluation": {
+        "n": 198,
+        "bets": 198,
+        "coverage": 1.0,
+        "wins": 117,
+        "settled": 198,
+        "pushes": 0,
+        "accuracy": 0.5909090909090909,
+        "net_krw": -176900,
+        "roi": -0.08934343434343435,
+        "logloss": 0.6630904404687218,
+        "brier": 0.23545688774809442,
+        "monthly_net_krw": {
+          "2026-03": -14300,
+          "2026-04": -56800,
+          "2026-05": -97100,
+          "2026-06": 52100,
+          "2026-07": -60800
+        },
+        "daily_close_max_drawdown_krw": 208400
+      },
+      "evaluation_changes_vs_baseline": 12,
+      "evaluation_periods": {
+        "before_july": {
+          "n": 152,
+          "bets": 152,
+          "coverage": 1.0,
+          "wins": 91,
+          "settled": 152,
+          "pushes": 0,
+          "accuracy": 0.5986842105263158,
+          "net_krw": -116100,
+          "roi": -0.07638157894736843,
+          "logloss": 0.6544927832947266,
+          "brier": 0.23147164424586258,
+          "monthly_net_krw": {
+            "2026-03": -14300,
+            "2026-04": -56800,
+            "2026-05": -97100,
+            "2026-06": 52100
+          },
+          "daily_close_max_drawdown_krw": 208400
+        },
+        "july_onward": {
+          "n": 46,
+          "bets": 46,
+          "coverage": 1.0,
+          "wins": 26,
+          "settled": 46,
+          "pushes": 0,
+          "accuracy": 0.5652173913043478,
+          "net_krw": -60800,
+          "roi": -0.13217391304347825,
+          "logloss": 0.6915000902610544,
+          "brier": 0.24862551845112152,
+          "monthly_net_krw": {
+            "2026-07": -60800
+          },
+          "daily_close_max_drawdown_krw": 78700
+        }
+      }
+    },
+    "logistic:batting:ridge1": {
+      "specification": {
+        "kind": "logistic",
+        "names": [
+          "season_strength",
+          "recent_strength",
+          "venue_net",
+          "rest",
+          "games7",
+          "season_ops_proxy",
+          "recent_ops_proxy"
+        ],
+        "ridge": 1.0
+      },
+      "selection_fit": {
+        "kind": "logistic",
+        "names": [
+          "season_strength",
+          "recent_strength",
+          "venue_net",
+          "rest",
+          "games7",
+          "season_ops_proxy",
+          "recent_ops_proxy"
+        ],
+        "ridge": 1.0,
+        "train_rows": 710,
+        "train_non_draw": 710,
+        "train_first": "2023-04-01",
+        "train_last": "2023-11-13",
+        "scale": [
+          0.1472903314331648,
+          0.17969171556668143,
+          0.14164594729188063,
+          0.6474646508592403,
+          1.0477784662524814,
+          0.04858004420805369,
+          0.060952481581981875
+        ],
+        "beta": [
+          -0.008894763552850448,
+          0.005354297318520929,
+          -0.02203808247236746,
+          0.020518382725565738,
+          -0.004085124927329691,
+          0.0006236874724365641,
+          -0.0013048494678679003
+        ],
+        "optimizer": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 413,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5800561797752809,
+        "net_krw": -778200,
+        "roi": -0.10929775280898876,
+        "logloss": 0.6758894374841865,
+        "brier": 0.24157944241049734,
+        "monthly_net_krw": {
+          "2024-03": -18900,
+          "2024-04": -227000,
+          "2024-05": -274100,
+          "2024-06": 35600,
+          "2024-07": 17700,
+          "2024-08": -183000,
+          "2024-09": -118900,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 793300
+      },
+      "validation_changes_vs_market": 12,
+      "final_fit": {
+        "kind": "logistic",
+        "names": [
+          "season_strength",
+          "recent_strength",
+          "venue_net",
+          "rest",
+          "games7",
+          "season_ops_proxy",
+          "recent_ops_proxy"
+        ],
+        "ridge": 1.0,
+        "train_rows": 1422,
+        "train_non_draw": 1422,
+        "train_first": "2023-04-01",
+        "train_last": "2024-10-28",
+        "scale": [
+          0.13897037951875751,
+          0.16595661605719095,
+          0.13743181461152318,
+          0.6042437011724833,
+          0.9797222935910965,
+          0.045965064609203424,
+          0.0635131179560666
+        ],
+        "beta": [
+          -0.013150446211778445,
+          -0.0035198799287540455,
+          -0.01904379021809153,
+          0.01660458890558635,
+          -0.011256971932947104,
+          6.922881723950325e-05,
+          -0.007278103825571819
+        ],
+        "optimizer": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH"
+      },
+      "evaluation": {
+        "n": 198,
+        "bets": 198,
+        "coverage": 1.0,
+        "wins": 120,
+        "settled": 198,
+        "pushes": 0,
+        "accuracy": 0.6060606060606061,
+        "net_krw": -126200,
+        "roi": -0.06373737373737373,
+        "logloss": 0.6618005395634126,
+        "brier": 0.23483826944721506,
+        "monthly_net_krw": {
+          "2026-03": -14300,
+          "2026-04": -41300,
+          "2026-05": -61900,
+          "2026-06": 52100,
+          "2026-07": -60800
+        },
+        "daily_close_max_drawdown_krw": 157700
+      },
+      "evaluation_changes_vs_baseline": 3,
+      "evaluation_periods": {
+        "before_july": {
+          "n": 152,
+          "bets": 152,
+          "coverage": 1.0,
+          "wins": 94,
+          "settled": 152,
+          "pushes": 0,
+          "accuracy": 0.618421052631579,
+          "net_krw": -65400,
+          "roi": -0.04302631578947368,
+          "logloss": 0.6549044269943352,
+          "brier": 0.23169446591594878,
+          "monthly_net_krw": {
+            "2026-03": -14300,
+            "2026-04": -41300,
+            "2026-05": -61900,
+            "2026-06": 52100
+          },
+          "daily_close_max_drawdown_krw": 157700
+        },
+        "july_onward": {
+          "n": 46,
+          "bets": 46,
+          "coverage": 1.0,
+          "wins": 26,
+          "settled": 46,
+          "pushes": 0,
+          "accuracy": 0.5652173913043478,
+          "net_krw": -60800,
+          "roi": -0.13217391304347825,
+          "logloss": 0.684587694139494,
+          "brier": 0.24522648981139936,
+          "monthly_net_krw": {
+            "2026-07": -60800
+          },
+          "daily_close_max_drawdown_krw": 78700
+        }
+      }
+    },
+    "logistic:bullpen:ridge0.01": {
+      "specification": {
+        "kind": "logistic",
+        "names": [
+          "season_strength",
+          "recent_strength",
+          "venue_net",
+          "rest",
+          "games7",
+          "starter_innings",
+          "relief_kbb",
+          "dependency_load"
+        ],
+        "ridge": 0.01
+      },
+      "selection_fit": {
+        "kind": "logistic",
+        "names": [
+          "season_strength",
+          "recent_strength",
+          "venue_net",
+          "rest",
+          "games7",
+          "starter_innings",
+          "relief_kbb",
+          "dependency_load"
+        ],
+        "ridge": 0.01,
+        "train_rows": 710,
+        "train_non_draw": 710,
+        "train_first": "2023-04-01",
+        "train_last": "2023-11-13",
+        "scale": [
+          0.1472903314331648,
+          0.17969171556668143,
+          0.14164594729188063,
+          0.6474646508592403,
+          1.0477784662524814,
+          0.4501821690669169,
+          0.056758316699394525,
+          0.1927522472685813
+        ],
+        "beta": [
+          0.045551497461737075,
+          0.15921101524264467,
+          -0.22492122330889938,
+          0.12383937132122812,
+          0.036537980219020896,
+          -0.12391691038622399,
+          -0.05167563278836119,
+          -0.014262202807158276
+        ],
+        "optimizer": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH"
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 406,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5702247191011236,
+        "net_krw": -799300,
+        "roi": -0.11226123595505617,
+        "logloss": 0.6792485009207856,
+        "brier": 0.2432846488849942,
+        "monthly_net_krw": {
+          "2024-03": -800,
+          "2024-04": -144100,
+          "2024-05": -126000,
+          "2024-06": 53100,
+          "2024-07": -121700,
+          "2024-08": -342500,
+          "2024-09": -127700,
+          "2024-10": 10400
+        },
+        "daily_close_max_drawdown_krw": 840200
+      },
+      "validation_changes_vs_market": 93,
+      "final_fit": {
+        "kind": "logistic",
+        "names": [
+          "season_strength",
+          "recent_strength",
+          "venue_net",
+          "rest",
+          "games7",
+          "starter_innings",
+          "relief_kbb",
+          "dependency_load"
+        ],
+        "ridge": 0.01,
+        "train_rows": 1422,
+        "train_non_draw": 1422,
+        "train_first": "2023-04-01",
+        "train_last": "2024-10-28",
+        "scale": [
+          0.13897037951875751,
+          0.16595661605719095,
+          0.13743181461152318,
+          0.6042437011724833,
+          0.9797222935910965,
+          0.43310199006242295,
+          0.05843613692755249,
+          0.19724163848188436
+        ],
+        "beta": [
+          -0.03329409412488695,
+          0.052830069577695565,
+          -0.10820552941289788,
+          0.08625930223268098,
+          -0.026490616258200195,
+          -0.07496654756484078,
+          0.011001383840470754,
+          -0.007822518265883286
+        ],
+        "optimizer": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH"
+      },
+      "evaluation": {
+        "n": 198,
+        "bets": 198,
+        "coverage": 1.0,
+        "wins": 118,
+        "settled": 198,
+        "pushes": 0,
+        "accuracy": 0.5959595959595959,
+        "net_krw": -153300,
+        "roi": -0.07742424242424242,
+        "logloss": 0.6639557949880218,
+        "brier": 0.2358598508122853,
+        "monthly_net_krw": {
+          "2026-03": 5400,
+          "2026-04": -59100,
+          "2026-05": -95300,
+          "2026-06": 36300,
+          "2026-07": -40600
+        },
+        "daily_close_max_drawdown_krw": 193400
+      },
+      "evaluation_changes_vs_baseline": 19,
+      "evaluation_periods": {
+        "before_july": {
+          "n": 152,
+          "bets": 152,
+          "coverage": 1.0,
+          "wins": 91,
+          "settled": 152,
+          "pushes": 0,
+          "accuracy": 0.5986842105263158,
+          "net_krw": -112700,
+          "roi": -0.07414473684210526,
+          "logloss": 0.6539213222991338,
+          "brier": 0.2312042589492227,
+          "monthly_net_krw": {
+            "2026-03": 5400,
+            "2026-04": -59100,
+            "2026-05": -95300,
+            "2026-06": 36300
+          },
+          "daily_close_max_drawdown_krw": 193400
+        },
+        "july_onward": {
+          "n": 46,
+          "bets": 46,
+          "coverage": 1.0,
+          "wins": 27,
+          "settled": 46,
+          "pushes": 0,
+          "accuracy": 0.5869565217391305,
+          "net_krw": -40600,
+          "roi": -0.08826086956521739,
+          "logloss": 0.6971131830034787,
+          "brier": 0.2512435456641445,
+          "monthly_net_krw": {
+            "2026-07": -40600
+          },
+          "daily_close_max_drawdown_krw": 58800
+        }
+      }
+    },
+    "logistic:bullpen:ridge0.1": {
+      "specification": {
+        "kind": "logistic",
+        "names": [
+          "season_strength",
+          "recent_strength",
+          "venue_net",
+          "rest",
+          "games7",
+          "starter_innings",
+          "relief_kbb",
+          "dependency_load"
+        ],
+        "ridge": 0.1
+      },
+      "selection_fit": {
+        "kind": "logistic",
+        "names": [
+          "season_strength",
+          "recent_strength",
+          "venue_net",
+          "rest",
+          "games7",
+          "starter_innings",
+          "relief_kbb",
+          "dependency_load"
+        ],
+        "ridge": 0.1,
+        "train_rows": 710,
+        "train_non_draw": 710,
+        "train_first": "2023-04-01",
+        "train_last": "2023-11-13",
+        "scale": [
+          0.1472903314331648,
+          0.17969171556668143,
+          0.14164594729188063,
+          0.6474646508592403,
+          1.0477784662524814,
+          0.4501821690669169,
+          0.056758316699394525,
+          0.1927522472685813
+        ],
+        "beta": [
+          -0.007810758248229158,
+          0.07131854584922255,
+          -0.10384047562921342,
+          0.08220580046592,
+          0.007493920665455365,
+          -0.06699666902972394,
+          -0.017731075500114116,
+          0.0008772216843157837
+        ],
+        "optimizer": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH"
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 416,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5842696629213483,
+        "net_krw": -698700,
+        "roi": -0.09813202247191011,
+        "logloss": 0.6755877059974638,
+        "brier": 0.24151231713382995,
+        "monthly_net_krw": {
+          "2024-03": -18400,
+          "2024-04": -151300,
+          "2024-05": -235100,
+          "2024-06": -13100,
+          "2024-07": 4600,
+          "2024-08": -194700,
+          "2024-09": -117100,
+          "2024-10": 26400
+        },
+        "daily_close_max_drawdown_krw": 755600
+      },
+      "validation_changes_vs_market": 49,
+      "final_fit": {
+        "kind": "logistic",
+        "names": [
+          "season_strength",
+          "recent_strength",
+          "venue_net",
+          "rest",
+          "games7",
+          "starter_innings",
+          "relief_kbb",
+          "dependency_load"
+        ],
+        "ridge": 0.1,
+        "train_rows": 1422,
+        "train_non_draw": 1422,
+        "train_first": "2023-04-01",
+        "train_last": "2024-10-28",
+        "scale": [
+          0.13897037951875751,
+          0.16595661605719095,
+          0.13743181461152318,
+          0.6042437011724833,
+          0.9797222935910965,
+          0.43310199006242295,
+          0.05843613692755249,
+          0.19724163848188436
+        ],
+        "beta": [
+          -0.03191478775715959,
+          0.017632031568851403,
+          -0.0685932726557531,
+          0.06040694721411313,
+          -0.027447887222979323,
+          -0.04881237440554579,
+          0.013022947954250607,
+          -0.004593421170546376
+        ],
+        "optimizer": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH"
+      },
+      "evaluation": {
+        "n": 198,
+        "bets": 198,
+        "coverage": 1.0,
+        "wins": 116,
+        "settled": 198,
+        "pushes": 0,
+        "accuracy": 0.5858585858585859,
+        "net_krw": -188800,
+        "roi": -0.09535353535353536,
+        "logloss": 0.6632839663587635,
+        "brier": 0.23552351912089733,
+        "monthly_net_krw": {
+          "2026-03": 5400,
+          "2026-04": -75900,
+          "2026-05": -112100,
+          "2026-06": 36300,
+          "2026-07": -42500
+        },
+        "daily_close_max_drawdown_krw": 227000
+      },
+      "evaluation_changes_vs_baseline": 15,
+      "evaluation_periods": {
+        "before_july": {
+          "n": 152,
+          "bets": 152,
+          "coverage": 1.0,
+          "wins": 89,
+          "settled": 152,
+          "pushes": 0,
+          "accuracy": 0.5855263157894737,
+          "net_krw": -146300,
+          "roi": -0.09625,
+          "logloss": 0.6539788744660899,
+          "brier": 0.23122267580618336,
+          "monthly_net_krw": {
+            "2026-03": 5400,
+            "2026-04": -75900,
+            "2026-05": -112100,
+            "2026-06": 36300
+          },
+          "daily_close_max_drawdown_krw": 227000
+        },
+        "july_onward": {
+          "n": 46,
+          "bets": 46,
+          "coverage": 1.0,
+          "wins": 27,
+          "settled": 46,
+          "pushes": 0,
+          "accuracy": 0.5869565217391305,
+          "net_krw": -42500,
+          "roi": -0.09239130434782608,
+          "logloss": 0.6940312265258585,
+          "brier": 0.24973500137821306,
+          "monthly_net_krw": {
+            "2026-07": -42500
+          },
+          "daily_close_max_drawdown_krw": 60400
+        }
+      }
+    },
+    "logistic:bullpen:ridge1": {
+      "specification": {
+        "kind": "logistic",
+        "names": [
+          "season_strength",
+          "recent_strength",
+          "venue_net",
+          "rest",
+          "games7",
+          "starter_innings",
+          "relief_kbb",
+          "dependency_load"
+        ],
+        "ridge": 1.0
+      },
+      "selection_fit": {
+        "kind": "logistic",
+        "names": [
+          "season_strength",
+          "recent_strength",
+          "venue_net",
+          "rest",
+          "games7",
+          "starter_innings",
+          "relief_kbb",
+          "dependency_load"
+        ],
+        "ridge": 1.0,
+        "train_rows": 710,
+        "train_non_draw": 710,
+        "train_first": "2023-04-01",
+        "train_last": "2023-11-13",
+        "scale": [
+          0.1472903314331648,
+          0.17969171556668143,
+          0.14164594729188063,
+          0.6474646508592403,
+          1.0477784662524814,
+          0.4501821690669169,
+          0.056758316699394525,
+          0.1927522472685813
+        ],
+        "beta": [
+          -0.008698687206293895,
+          0.006423907517542451,
+          -0.021907566426343245,
+          0.020410098881566786,
+          -0.0037274500922293606,
+          -0.015813448457825875,
+          -0.0021864309408750546,
+          0.0015477573251594637
+        ],
+        "optimizer": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH"
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 416,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5842696629213483,
+        "net_krw": -724400,
+        "roi": -0.10174157303370787,
+        "logloss": 0.6757774090469415,
+        "brier": 0.24153050582298302,
+        "monthly_net_krw": {
+          "2024-03": -800,
+          "2024-04": -227000,
+          "2024-05": -256100,
+          "2024-06": 35600,
+          "2024-07": 35400,
+          "2024-08": -183000,
+          "2024-09": -118900,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 755300
+      },
+      "validation_changes_vs_market": 15,
+      "final_fit": {
+        "kind": "logistic",
+        "names": [
+          "season_strength",
+          "recent_strength",
+          "venue_net",
+          "rest",
+          "games7",
+          "starter_innings",
+          "relief_kbb",
+          "dependency_load"
+        ],
+        "ridge": 1.0,
+        "train_rows": 1422,
+        "train_non_draw": 1422,
+        "train_first": "2023-04-01",
+        "train_last": "2024-10-28",
+        "scale": [
+          0.13897037951875751,
+          0.16595661605719095,
+          0.13743181461152318,
+          0.6042437011724833,
+          0.9797222935910965,
+          0.43310199006242295,
+          0.05843613692755249,
+          0.19724163848188436
+        ],
+        "beta": [
+          -0.01365228941663953,
+          -0.003778233352696206,
+          -0.01945334642745763,
+          0.016421342709103833,
+          -0.01098150135807519,
+          -0.013516533901856179,
+          0.003155895616357839,
+          -0.0011891659791762835
+        ],
+        "optimizer": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH"
+      },
+      "evaluation": {
+        "n": 198,
+        "bets": 198,
+        "coverage": 1.0,
+        "wins": 120,
+        "settled": 198,
+        "pushes": 0,
+        "accuracy": 0.6060606060606061,
+        "net_krw": -129200,
+        "roi": -0.06525252525252526,
+        "logloss": 0.6616770520390441,
+        "brier": 0.23476872006472077,
+        "monthly_net_krw": {
+          "2026-03": -14300,
+          "2026-04": -60400,
+          "2026-05": -61900,
+          "2026-06": 52100,
+          "2026-07": -44700
+        },
+        "daily_close_max_drawdown_krw": 176800
+      },
+      "evaluation_changes_vs_baseline": 5,
+      "evaluation_periods": {
+        "before_july": {
+          "n": 152,
+          "bets": 152,
+          "coverage": 1.0,
+          "wins": 93,
+          "settled": 152,
+          "pushes": 0,
+          "accuracy": 0.6118421052631579,
+          "net_krw": -84500,
+          "roi": -0.055592105263157894,
+          "logloss": 0.6544829931748088,
+          "brier": 0.23149082729370682,
+          "monthly_net_krw": {
+            "2026-03": -14300,
+            "2026-04": -60400,
+            "2026-05": -61900,
+            "2026-06": 52100
+          },
+          "daily_close_max_drawdown_krw": 176800
+        },
+        "july_onward": {
+          "n": 46,
+          "bets": 46,
+          "coverage": 1.0,
+          "wins": 27,
+          "settled": 46,
+          "pushes": 0,
+          "accuracy": 0.5869565217391305,
+          "net_krw": -44700,
+          "roi": -0.09717391304347826,
+          "logloss": 0.6854487248078217,
+          "brier": 0.2456000179167668,
+          "monthly_net_krw": {
+            "2026-07": -44700
+          },
+          "daily_close_max_drawdown_krw": 62600
+        }
+      }
+    },
+    "logistic:full:ridge0.01": {
+      "specification": {
+        "kind": "logistic",
+        "names": [
+          "season_strength",
+          "recent_strength",
+          "venue_net",
+          "rest",
+          "games7",
+          "season_ops_proxy",
+          "recent_ops_proxy",
+          "starter_innings",
+          "relief_kbb",
+          "dependency_load"
+        ],
+        "ridge": 0.01
+      },
+      "selection_fit": {
+        "kind": "logistic",
+        "names": [
+          "season_strength",
+          "recent_strength",
+          "venue_net",
+          "rest",
+          "games7",
+          "season_ops_proxy",
+          "recent_ops_proxy",
+          "starter_innings",
+          "relief_kbb",
+          "dependency_load"
+        ],
+        "ridge": 0.01,
+        "train_rows": 710,
+        "train_non_draw": 710,
+        "train_first": "2023-04-01",
+        "train_last": "2023-11-13",
+        "scale": [
+          0.1472903314331648,
+          0.17969171556668143,
+          0.14164594729188063,
+          0.6474646508592403,
+          1.0477784662524814,
+          0.04858004420805369,
+          0.060952481581981875,
+          0.4501821690669169,
+          0.056758316699394525,
+          0.1927522472685813
+        ],
+        "beta": [
+          -0.04847269546962743,
+          0.2652430688815528,
+          -0.24258852427231892,
+          0.12564427431329273,
+          0.034647359491650404,
+          0.16891588991920412,
+          -0.16002743857933202,
+          -0.1445860508960533,
+          -0.06679531738396419,
+          -0.01614776014596496
+        ],
+        "optimizer": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH"
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 411,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.577247191011236,
+        "net_krw": -690300,
+        "roi": -0.09695224719101124,
+        "logloss": 0.6777902092415949,
+        "brier": 0.24260039891683544,
+        "monthly_net_krw": {
+          "2024-03": -800,
+          "2024-04": -139600,
+          "2024-05": -126300,
+          "2024-06": -3800,
+          "2024-07": -53600,
+          "2024-08": -370700,
+          "2024-09": 11800,
+          "2024-10": -7300
+        },
+        "daily_close_max_drawdown_krw": 759900
+      },
+      "validation_changes_vs_market": 102,
+      "final_fit": {
+        "kind": "logistic",
+        "names": [
+          "season_strength",
+          "recent_strength",
+          "venue_net",
+          "rest",
+          "games7",
+          "season_ops_proxy",
+          "recent_ops_proxy",
+          "starter_innings",
+          "relief_kbb",
+          "dependency_load"
+        ],
+        "ridge": 0.01,
+        "train_rows": 1422,
+        "train_non_draw": 1422,
+        "train_first": "2023-04-01",
+        "train_last": "2024-10-28",
+        "scale": [
+          0.13897037951875751,
+          0.16595661605719095,
+          0.13743181461152318,
+          0.6042437011724833,
+          0.9797222935910965,
+          0.045965064609203424,
+          0.0635131179560666,
+          0.43310199006242295,
+          0.05843613692755249,
+          0.19724163848188436
+        ],
+        "beta": [
+          -0.12297359059882378,
+          0.13980078714166658,
+          -0.11687029752588443,
+          0.08436362432761191,
+          -0.0272002704990681,
+          0.16405664873999298,
+          -0.1462492496850018,
+          -0.09240082207585901,
+          -0.002137420909940394,
+          -0.011757501735684522
+        ],
+        "optimizer": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH"
+      },
+      "evaluation": {
+        "n": 198,
+        "bets": 198,
+        "coverage": 1.0,
+        "wins": 120,
+        "settled": 198,
+        "pushes": 0,
+        "accuracy": 0.6060606060606061,
+        "net_krw": -118700,
+        "roi": -0.05994949494949495,
+        "logloss": 0.6633586987617021,
+        "brier": 0.23553481296824283,
+        "monthly_net_krw": {
+          "2026-03": 5400,
+          "2026-04": -59100,
+          "2026-05": -79800,
+          "2026-06": 55900,
+          "2026-07": -41100
+        },
+        "daily_close_max_drawdown_krw": 163300
+      },
+      "evaluation_changes_vs_baseline": 21,
+      "evaluation_periods": {
+        "before_july": {
+          "n": 152,
+          "bets": 152,
+          "coverage": 1.0,
+          "wins": 93,
+          "settled": 152,
+          "pushes": 0,
+          "accuracy": 0.6118421052631579,
+          "net_krw": -77600,
+          "roi": -0.05105263157894737,
+          "logloss": 0.6542027167878952,
+          "brier": 0.2312561934088093,
+          "monthly_net_krw": {
+            "2026-03": 5400,
+            "2026-04": -59100,
+            "2026-05": -79800,
+            "2026-06": 55900
+          },
+          "daily_close_max_drawdown_krw": 163300
+        },
+        "july_onward": {
+          "n": 46,
+          "bets": 46,
+          "coverage": 1.0,
+          "wins": 27,
+          "settled": 46,
+          "pushes": 0,
+          "accuracy": 0.5869565217391305,
+          "net_krw": -41100,
+          "roi": -0.08934782608695652,
+          "logloss": 0.693613247892542,
+          "brier": 0.24967286020811014,
+          "monthly_net_krw": {
+            "2026-07": -41100
+          },
+          "daily_close_max_drawdown_krw": 59300
+        }
+      }
+    },
+    "logistic:full:ridge0.1": {
+      "specification": {
+        "kind": "logistic",
+        "names": [
+          "season_strength",
+          "recent_strength",
+          "venue_net",
+          "rest",
+          "games7",
+          "season_ops_proxy",
+          "recent_ops_proxy",
+          "starter_innings",
+          "relief_kbb",
+          "dependency_load"
+        ],
+        "ridge": 0.1
+      },
+      "selection_fit": {
+        "kind": "logistic",
+        "names": [
+          "season_strength",
+          "recent_strength",
+          "venue_net",
+          "rest",
+          "games7",
+          "season_ops_proxy",
+          "recent_ops_proxy",
+          "starter_innings",
+          "relief_kbb",
+          "dependency_load"
+        ],
+        "ridge": 0.1,
+        "train_rows": 710,
+        "train_non_draw": 710,
+        "train_first": "2023-04-01",
+        "train_last": "2023-11-13",
+        "scale": [
+          0.1472903314331648,
+          0.17969171556668143,
+          0.14164594729188063,
+          0.6474646508592403,
+          1.0477784662524814,
+          0.04858004420805369,
+          0.060952481581981875,
+          0.4501821690669169,
+          0.056758316699394525,
+          0.1927522472685813
+        ],
+        "beta": [
+          -0.01715450449818233,
+          0.07808462017618761,
+          -0.10939356606554203,
+          0.08232572470969547,
+          0.006774700007773284,
+          0.034735913023057126,
+          -0.025356086662309586,
+          -0.0671837911896756,
+          -0.01828511578529559,
+          0.000650148588550367
+        ],
+        "optimizer": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH"
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 418,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5870786516853933,
+        "net_krw": -660200,
+        "roi": -0.09272471910112359,
+        "logloss": 0.6750933503830638,
+        "brier": 0.2412764546767743,
+        "monthly_net_krw": {
+          "2024-03": -800,
+          "2024-04": -168300,
+          "2024-05": -198900,
+          "2024-06": 3900,
+          "2024-07": 21500,
+          "2024-08": -246700,
+          "2024-09": -79600,
+          "2024-10": 8700
+        },
+        "daily_close_max_drawdown_krw": 699400
+      },
+      "validation_changes_vs_market": 51,
+      "final_fit": {
+        "kind": "logistic",
+        "names": [
+          "season_strength",
+          "recent_strength",
+          "venue_net",
+          "rest",
+          "games7",
+          "season_ops_proxy",
+          "recent_ops_proxy",
+          "starter_innings",
+          "relief_kbb",
+          "dependency_load"
+        ],
+        "ridge": 0.1,
+        "train_rows": 1422,
+        "train_non_draw": 1422,
+        "train_first": "2023-04-01",
+        "train_last": "2024-10-28",
+        "scale": [
+          0.13897037951875751,
+          0.16595661605719095,
+          0.13743181461152318,
+          0.6042437011724833,
+          0.9797222935910965,
+          0.045965064609203424,
+          0.0635131179560666,
+          0.43310199006242295,
+          0.05843613692755249,
+          0.19724163848188436
+        ],
+        "beta": [
+          -0.04080772577848124,
+          0.02797176641571948,
+          -0.07283926830537761,
+          0.06023206181533587,
+          -0.027788845857615724,
+          0.03968780837415831,
+          -0.038500854352791804,
+          -0.050262510717086054,
+          0.012224637033871224,
+          -0.005040844212918272
+        ],
+        "optimizer": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH"
+      },
+      "evaluation": {
+        "n": 198,
+        "bets": 198,
+        "coverage": 1.0,
+        "wins": 119,
+        "settled": 198,
+        "pushes": 0,
+        "accuracy": 0.601010101010101,
+        "net_krw": -141300,
+        "roi": -0.07136363636363637,
+        "logloss": 0.6632616299916958,
+        "brier": 0.23550197011536927,
+        "monthly_net_krw": {
+          "2026-03": 5400,
+          "2026-04": -75900,
+          "2026-05": -95300,
+          "2026-06": 52100,
+          "2026-07": -27600
+        },
+        "daily_close_max_drawdown_krw": 210200
+      },
+      "evaluation_changes_vs_baseline": 14,
+      "evaluation_periods": {
+        "before_july": {
+          "n": 152,
+          "bets": 152,
+          "coverage": 1.0,
+          "wins": 91,
+          "settled": 152,
+          "pushes": 0,
+          "accuracy": 0.5986842105263158,
+          "net_krw": -113700,
+          "roi": -0.07480263157894737,
+          "logloss": 0.6540786668373378,
+          "brier": 0.23125961487339056,
+          "monthly_net_krw": {
+            "2026-03": 5400,
+            "2026-04": -75900,
+            "2026-05": -95300,
+            "2026-06": 52100
+          },
+          "daily_close_max_drawdown_krw": 210200
+        },
+        "july_onward": {
+          "n": 46,
+          "bets": 46,
+          "coverage": 1.0,
+          "wins": 28,
+          "settled": 46,
+          "pushes": 0,
+          "accuracy": 0.6086956521739131,
+          "net_krw": -27600,
+          "roi": -0.06,
+          "logloss": 0.6936053343278352,
+          "brier": 0.2495201874366902,
+          "monthly_net_krw": {
+            "2026-07": -27600
+          },
+          "daily_close_max_drawdown_krw": 45500
+        }
+      }
+    },
+    "logistic:full:ridge1": {
+      "specification": {
+        "kind": "logistic",
+        "names": [
+          "season_strength",
+          "recent_strength",
+          "venue_net",
+          "rest",
+          "games7",
+          "season_ops_proxy",
+          "recent_ops_proxy",
+          "starter_innings",
+          "relief_kbb",
+          "dependency_load"
+        ],
+        "ridge": 1.0
+      },
+      "selection_fit": {
+        "kind": "logistic",
+        "names": [
+          "season_strength",
+          "recent_strength",
+          "venue_net",
+          "rest",
+          "games7",
+          "season_ops_proxy",
+          "recent_ops_proxy",
+          "starter_innings",
+          "relief_kbb",
+          "dependency_load"
+        ],
+        "ridge": 1.0,
+        "train_rows": 710,
+        "train_non_draw": 710,
+        "train_first": "2023-04-01",
+        "train_last": "2023-11-13",
+        "scale": [
+          0.1472903314331648,
+          0.17969171556668143,
+          0.14164594729188063,
+          0.6474646508592403,
+          1.0477784662524814,
+          0.04858004420805369,
+          0.060952481581981875,
+          0.4501821690669169,
+          0.056758316699394525,
+          0.1927522472685813
+        ],
+        "beta": [
+          -0.008657771934286226,
+          0.0065361164896507755,
+          -0.02188244958156215,
+          0.02042348184059965,
+          -0.0037487824107204455,
+          0.0004997197309171686,
+          -0.0013464139251031554,
+          -0.015819407131069368,
+          -0.0021498763469359277,
+          0.0015440583413365034
+        ],
+        "optimizer": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH"
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 416,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5842696629213483,
+        "net_krw": -724400,
+        "roi": -0.10174157303370787,
+        "logloss": 0.6757545680718461,
+        "brier": 0.24152001889695543,
+        "monthly_net_krw": {
+          "2024-03": -800,
+          "2024-04": -227000,
+          "2024-05": -256100,
+          "2024-06": 35600,
+          "2024-07": 35400,
+          "2024-08": -183000,
+          "2024-09": -118900,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 755300
+      },
+      "validation_changes_vs_market": 15,
+      "final_fit": {
+        "kind": "logistic",
+        "names": [
+          "season_strength",
+          "recent_strength",
+          "venue_net",
+          "rest",
+          "games7",
+          "season_ops_proxy",
+          "recent_ops_proxy",
+          "starter_innings",
+          "relief_kbb",
+          "dependency_load"
+        ],
+        "ridge": 1.0,
+        "train_rows": 1422,
+        "train_non_draw": 1422,
+        "train_first": "2023-04-01",
+        "train_last": "2024-10-28",
+        "scale": [
+          0.13897037951875751,
+          0.16595661605719095,
+          0.13743181461152318,
+          0.6042437011724833,
+          0.9797222935910965,
+          0.045965064609203424,
+          0.0635131179560666,
+          0.43310199006242295,
+          0.05843613692755249,
+          0.19724163848188436
+        ],
+        "beta": [
+          -0.013017608419230617,
+          -0.0029408310471025242,
+          -0.019011201484684746,
+          0.016456384553024693,
+          -0.011008191142250138,
+          -0.00017143626869863348,
+          -0.00753675835494918,
+          -0.0136007552015781,
+          0.003427664339576822,
+          -0.0011764636074621392
+        ],
+        "optimizer": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH"
+      },
+      "evaluation": {
+        "n": 198,
+        "bets": 198,
+        "coverage": 1.0,
+        "wins": 120,
+        "settled": 198,
+        "pushes": 0,
+        "accuracy": 0.6060606060606061,
+        "net_krw": -129200,
+        "roi": -0.06525252525252526,
+        "logloss": 0.6618070293351768,
+        "brier": 0.23482750145618225,
+        "monthly_net_krw": {
+          "2026-03": -14300,
+          "2026-04": -60400,
+          "2026-05": -61900,
+          "2026-06": 52100,
+          "2026-07": -44700
+        },
+        "daily_close_max_drawdown_krw": 176800
+      },
+      "evaluation_changes_vs_baseline": 5,
+      "evaluation_periods": {
+        "before_july": {
+          "n": 152,
+          "bets": 152,
+          "coverage": 1.0,
+          "wins": 93,
+          "settled": 152,
+          "pushes": 0,
+          "accuracy": 0.6118421052631579,
+          "net_krw": -84500,
+          "roi": -0.055592105263157894,
+          "logloss": 0.6546772726477537,
+          "brier": 0.23158005135267845,
+          "monthly_net_krw": {
+            "2026-03": -14300,
+            "2026-04": -60400,
+            "2026-05": -61900,
+            "2026-06": 52100
+          },
+          "daily_close_max_drawdown_krw": 176800
+        },
+        "july_onward": {
+          "n": 46,
+          "bets": 46,
+          "coverage": 1.0,
+          "wins": 27,
+          "settled": 46,
+          "pushes": 0,
+          "accuracy": 0.5869565217391305,
+          "net_krw": -44700,
+          "roi": -0.09717391304347826,
+          "logloss": 0.6853662253457928,
+          "brier": 0.2455582061460207,
+          "monthly_net_krw": {
+            "2026-07": -44700
+          },
+          "daily_close_max_drawdown_krw": 62600
+        }
+      }
+    },
+    "nb:s20:season:w0.1": {
+      "specification": {
+        "kind": "nb",
+        "shrink": 20,
+        "window": "season",
+        "blend": 0.1
+      },
+      "selection_fit": {
+        "kind": "nb",
+        "shrink": 20,
+        "window": "season",
+        "blend": 0.1,
+        "train_rows": 710,
+        "train_non_draw": 710,
+        "train_first": "2023-04-01",
+        "train_last": "2023-11-13",
+        "home_factor": 0.01408126261236589,
+        "dispersion_r": 3.4637636600253914,
+        "score_mean": 4.624647887323944,
+        "score_variance": 10.799251636580044
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 411,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.577247191011236,
+        "net_krw": -815500,
+        "roi": -0.11453651685393258,
+        "logloss": 0.6771054589016651,
+        "brier": 0.24213138430779113,
+        "monthly_net_krw": {
+          "2024-03": -18900,
+          "2024-04": -280200,
+          "2024-05": -291700,
+          "2024-06": -200,
+          "2024-07": 35400,
+          "2024-08": -183300,
+          "2024-09": -67000,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 830600
+      },
+      "validation_changes_vs_market": 8,
+      "final_fit": {
+        "kind": "nb",
+        "shrink": 20,
+        "window": "season",
+        "blend": 0.1,
+        "train_rows": 1422,
+        "train_non_draw": 1422,
+        "train_first": "2023-04-01",
+        "train_last": "2024-10-28",
+        "home_factor": 0.005218164664984745,
+        "dispersion_r": 3.5131017180520017,
+        "score_mean": 4.9905063291139244,
+        "score_variance": 12.07972702914419
+      },
+      "evaluation": {
+        "n": 198,
+        "bets": 198,
+        "coverage": 1.0,
+        "wins": 119,
+        "settled": 198,
+        "pushes": 0,
+        "accuracy": 0.601010101010101,
+        "net_krw": -146300,
+        "roi": -0.07388888888888889,
+        "logloss": 0.6618417354218974,
+        "brier": 0.2348367299029811,
+        "monthly_net_krw": {
+          "2026-03": -14300,
+          "2026-04": -21900,
+          "2026-05": -81000,
+          "2026-06": 12600,
+          "2026-07": -41700
+        },
+        "daily_close_max_drawdown_krw": 158100
+      },
+      "evaluation_changes_vs_baseline": 2,
+      "evaluation_periods": {
+        "before_july": {
+          "n": 152,
+          "bets": 152,
+          "coverage": 1.0,
+          "wins": 92,
+          "settled": 152,
+          "pushes": 0,
+          "accuracy": 0.6052631578947368,
+          "net_krw": -104600,
+          "roi": -0.0688157894736842,
+          "logloss": 0.6567347804803901,
+          "brier": 0.2324999623548613,
+          "monthly_net_krw": {
+            "2026-03": -14300,
+            "2026-04": -21900,
+            "2026-05": -81000,
+            "2026-06": 12600
+          },
+          "daily_close_max_drawdown_krw": 158100
+        },
+        "july_onward": {
+          "n": 46,
+          "bets": 46,
+          "coverage": 1.0,
+          "wins": 27,
+          "settled": 46,
+          "pushes": 0,
+          "accuracy": 0.5869565217391305,
+          "net_krw": -41700,
+          "roi": -0.09065217391304348,
+          "logloss": 0.6787168908807907,
+          "brier": 0.24255822267068125,
+          "monthly_net_krw": {
+            "2026-07": -41700
+          },
+          "daily_close_max_drawdown_krw": 59600
+        }
+      }
+    },
+    "nb:s20:28days:w0.1": {
+      "specification": {
+        "kind": "nb",
+        "shrink": 20,
+        "window": "28days",
+        "blend": 0.1
+      },
+      "selection_fit": {
+        "kind": "nb",
+        "shrink": 20,
+        "window": "28days",
+        "blend": 0.1,
+        "train_rows": 710,
+        "train_non_draw": 710,
+        "train_first": "2023-04-01",
+        "train_last": "2023-11-13",
+        "home_factor": 0.01408126261236589,
+        "dispersion_r": 3.4637636600253914,
+        "score_mean": 4.624647887323944,
+        "score_variance": 10.799251636580044
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 413,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5800561797752809,
+        "net_krw": -778900,
+        "roi": -0.10939606741573034,
+        "logloss": 0.6771302596622683,
+        "brier": 0.24214364503730115,
+        "monthly_net_krw": {
+          "2024-03": -18900,
+          "2024-04": -280200,
+          "2024-05": -256000,
+          "2024-06": 300,
+          "2024-07": 400,
+          "2024-08": -147900,
+          "2024-09": -67000,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 794000
+      },
+      "validation_changes_vs_market": 14,
+      "final_fit": {
+        "kind": "nb",
+        "shrink": 20,
+        "window": "28days",
+        "blend": 0.1,
+        "train_rows": 1422,
+        "train_non_draw": 1422,
+        "train_first": "2023-04-01",
+        "train_last": "2024-10-28",
+        "home_factor": 0.005218164664984745,
+        "dispersion_r": 3.5131017180520017,
+        "score_mean": 4.9905063291139244,
+        "score_variance": 12.07972702914419
+      },
+      "evaluation": {
+        "n": 198,
+        "bets": 198,
+        "coverage": 1.0,
+        "wins": 119,
+        "settled": 198,
+        "pushes": 0,
+        "accuracy": 0.601010101010101,
+        "net_krw": -146300,
+        "roi": -0.07388888888888889,
+        "logloss": 0.6614372216631016,
+        "brier": 0.23464052754053674,
+        "monthly_net_krw": {
+          "2026-03": -14300,
+          "2026-04": -21900,
+          "2026-05": -81000,
+          "2026-06": 12600,
+          "2026-07": -41700
+        },
+        "daily_close_max_drawdown_krw": 158100
+      },
+      "evaluation_changes_vs_baseline": 2,
+      "evaluation_periods": {
+        "before_july": {
+          "n": 152,
+          "bets": 152,
+          "coverage": 1.0,
+          "wins": 92,
+          "settled": 152,
+          "pushes": 0,
+          "accuracy": 0.6052631578947368,
+          "net_krw": -104600,
+          "roi": -0.0688157894736842,
+          "logloss": 0.6567014794393239,
+          "brier": 0.23247072951324724,
+          "monthly_net_krw": {
+            "2026-03": -14300,
+            "2026-04": -21900,
+            "2026-05": -81000,
+            "2026-06": 12600
+          },
+          "daily_close_max_drawdown_krw": 158100
+        },
+        "july_onward": {
+          "n": 46,
+          "bets": 46,
+          "coverage": 1.0,
+          "wins": 27,
+          "settled": 46,
+          "pushes": 0,
+          "accuracy": 0.5869565217391305,
+          "net_krw": -41700,
+          "roi": -0.09065217391304348,
+          "logloss": 0.6770857611851494,
+          "brier": 0.2418102949350586,
+          "monthly_net_krw": {
+            "2026-07": -41700
+          },
+          "daily_close_max_drawdown_krw": 59600
+        }
+      }
+    },
+    "pyth:s20:e1.5:w0.1": {
+      "specification": {
+        "kind": "pyth",
+        "shrink": 20,
+        "exponent": 1.5,
+        "window": "season",
+        "blend": 0.1
+      },
+      "selection_fit": {
+        "kind": "pyth",
+        "shrink": 20,
+        "exponent": 1.5,
+        "window": "season",
+        "blend": 0.1,
+        "train_rows": 710,
+        "train_non_draw": 710,
+        "train_first": "2023-04-01",
+        "train_last": "2023-11-13",
+        "home_factor": 0.01408126261236589,
+        "dispersion_r": 3.4637636600253914,
+        "score_mean": 4.624647887323944,
+        "score_variance": 10.799251636580044
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 411,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.577247191011236,
+        "net_krw": -815500,
+        "roi": -0.11453651685393258,
+        "logloss": 0.6770142780105218,
+        "brier": 0.24208803076024732,
+        "monthly_net_krw": {
+          "2024-03": -18900,
+          "2024-04": -280200,
+          "2024-05": -291700,
+          "2024-06": -200,
+          "2024-07": 35400,
+          "2024-08": -183300,
+          "2024-09": -67000,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 830600
+      },
+      "validation_changes_vs_market": 8,
+      "final_fit": {
+        "kind": "pyth",
+        "shrink": 20,
+        "exponent": 1.5,
+        "window": "season",
+        "blend": 0.1,
+        "train_rows": 1422,
+        "train_non_draw": 1422,
+        "train_first": "2023-04-01",
+        "train_last": "2024-10-28",
+        "home_factor": 0.005218164664984745,
+        "dispersion_r": 3.5131017180520017,
+        "score_mean": 4.9905063291139244,
+        "score_variance": 12.07972702914419
+      },
+      "evaluation": {
+        "n": 198,
+        "bets": 198,
+        "coverage": 1.0,
+        "wins": 119,
+        "settled": 198,
+        "pushes": 0,
+        "accuracy": 0.601010101010101,
+        "net_krw": -146300,
+        "roi": -0.07388888888888889,
+        "logloss": 0.6618184147547568,
+        "brier": 0.23482312870804048,
+        "monthly_net_krw": {
+          "2026-03": -14300,
+          "2026-04": -21900,
+          "2026-05": -81000,
+          "2026-06": 12600,
+          "2026-07": -41700
+        },
+        "daily_close_max_drawdown_krw": 158100
+      },
+      "evaluation_changes_vs_baseline": 2,
+      "evaluation_periods": {
+        "before_july": {
+          "n": 152,
+          "bets": 152,
+          "coverage": 1.0,
+          "wins": 92,
+          "settled": 152,
+          "pushes": 0,
+          "accuracy": 0.6052631578947368,
+          "net_krw": -104600,
+          "roi": -0.0688157894736842,
+          "logloss": 0.6566877852225904,
+          "brier": 0.2324749462670245,
+          "monthly_net_krw": {
+            "2026-03": -14300,
+            "2026-04": -21900,
+            "2026-05": -81000,
+            "2026-06": 12600
+          },
+          "daily_close_max_drawdown_krw": 158100
+        },
+        "july_onward": {
+          "n": 46,
+          "bets": 46,
+          "coverage": 1.0,
+          "wins": 27,
+          "settled": 46,
+          "pushes": 0,
+          "accuracy": 0.5869565217391305,
+          "net_krw": -41700,
+          "roi": -0.09065217391304348,
+          "logloss": 0.678771799295828,
+          "brier": 0.24258234025226716,
+          "monthly_net_krw": {
+            "2026-07": -41700
+          },
+          "daily_close_max_drawdown_krw": 59600
+        }
+      }
+    },
+    "pyth:s20:e2:w0.1": {
+      "specification": {
+        "kind": "pyth",
+        "shrink": 20,
+        "exponent": 2.0,
+        "window": "season",
+        "blend": 0.1
+      },
+      "selection_fit": {
+        "kind": "pyth",
+        "shrink": 20,
+        "exponent": 2.0,
+        "window": "season",
+        "blend": 0.1,
+        "train_rows": 710,
+        "train_non_draw": 710,
+        "train_first": "2023-04-01",
+        "train_last": "2023-11-13",
+        "home_factor": 0.01408126261236589,
+        "dispersion_r": 3.4637636600253914,
+        "score_mean": 4.624647887323944,
+        "score_variance": 10.799251636580044
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 410,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5758426966292135,
+        "net_krw": -832900,
+        "roi": -0.11698033707865169,
+        "logloss": 0.6772265779142879,
+        "brier": 0.2421886480180094,
+        "monthly_net_krw": {
+          "2024-03": -18900,
+          "2024-04": -280200,
+          "2024-05": -291700,
+          "2024-06": -200,
+          "2024-07": 35400,
+          "2024-08": -200700,
+          "2024-09": -67000,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 848000
+      },
+      "validation_changes_vs_market": 9,
+      "final_fit": {
+        "kind": "pyth",
+        "shrink": 20,
+        "exponent": 2.0,
+        "window": "season",
+        "blend": 0.1,
+        "train_rows": 1422,
+        "train_non_draw": 1422,
+        "train_first": "2023-04-01",
+        "train_last": "2024-10-28",
+        "home_factor": 0.005218164664984745,
+        "dispersion_r": 3.5131017180520017,
+        "score_mean": 4.9905063291139244,
+        "score_variance": 12.07972702914419
+      },
+      "evaluation": {
+        "n": 198,
+        "bets": 198,
+        "coverage": 1.0,
+        "wins": 119,
+        "settled": 198,
+        "pushes": 0,
+        "accuracy": 0.601010101010101,
+        "net_krw": -146300,
+        "roi": -0.07388888888888889,
+        "logloss": 0.6618839741654075,
+        "brier": 0.2348610885336885,
+        "monthly_net_krw": {
+          "2026-03": -14300,
+          "2026-04": -21900,
+          "2026-05": -81000,
+          "2026-06": 12600,
+          "2026-07": -41700
+        },
+        "daily_close_max_drawdown_krw": 158100
+      },
+      "evaluation_changes_vs_baseline": 2,
+      "evaluation_periods": {
+        "before_july": {
+          "n": 152,
+          "bets": 152,
+          "coverage": 1.0,
+          "wins": 92,
+          "settled": 152,
+          "pushes": 0,
+          "accuracy": 0.6052631578947368,
+          "net_krw": -104600,
+          "roi": -0.0688157894736842,
+          "logloss": 0.6568009322801057,
+          "brier": 0.2325366480947706,
+          "monthly_net_krw": {
+            "2026-03": -14300,
+            "2026-04": -21900,
+            "2026-05": -81000,
+            "2026-06": 12600
+          },
+          "daily_close_max_drawdown_krw": 158100
+        },
+        "july_onward": {
+          "n": 46,
+          "bets": 46,
+          "coverage": 1.0,
+          "wins": 27,
+          "settled": 46,
+          "pushes": 0,
+          "accuracy": 0.5869565217391305,
+          "net_krw": -41700,
+          "roi": -0.09065217391304348,
+          "logloss": 0.6786801125690127,
+          "brier": 0.2425418482448957,
+          "monthly_net_krw": {
+            "2026-07": -41700
+          },
+          "daily_close_max_drawdown_krw": 59600
+        }
+      }
+    },
+    "nb:s20:season:w0.3": {
+      "specification": {
+        "kind": "nb",
+        "shrink": 20,
+        "window": "season",
+        "blend": 0.3
+      },
+      "selection_fit": {
+        "kind": "nb",
+        "shrink": 20,
+        "window": "season",
+        "blend": 0.3,
+        "train_rows": 710,
+        "train_non_draw": 710,
+        "train_first": "2023-04-01",
+        "train_last": "2023-11-13",
+        "home_factor": 0.01408126261236589,
+        "dispersion_r": 3.4637636600253914,
+        "score_mean": 4.624647887323944,
+        "score_variance": 10.799251636580044
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 408,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5730337078651685,
+        "net_krw": -855900,
+        "roi": -0.12021067415730337,
+        "logloss": 0.678757651897459,
+        "brier": 0.24290734144173595,
+        "monthly_net_krw": {
+          "2024-03": -18900,
+          "2024-04": -239500,
+          "2024-05": -289400,
+          "2024-06": -52600,
+          "2024-07": -16400,
+          "2024-08": -145200,
+          "2024-09": -84300,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 871000
+      },
+      "validation_changes_vs_market": 33,
+      "final_fit": {
+        "kind": "nb",
+        "shrink": 20,
+        "window": "season",
+        "blend": 0.3,
+        "train_rows": 1422,
+        "train_non_draw": 1422,
+        "train_first": "2023-04-01",
+        "train_last": "2024-10-28",
+        "home_factor": 0.005218164664984745,
+        "dispersion_r": 3.5131017180520017,
+        "score_mean": 4.9905063291139244,
+        "score_variance": 12.07972702914419
+      },
+      "evaluation": {
+        "n": 198,
+        "bets": 198,
+        "coverage": 1.0,
+        "wins": 117,
+        "settled": 198,
+        "pushes": 0,
+        "accuracy": 0.5909090909090909,
+        "net_krw": -184800,
+        "roi": -0.09333333333333334,
+        "logloss": 0.6639180315309617,
+        "brier": 0.23577366986934586,
+        "monthly_net_krw": {
+          "2026-03": -14300,
+          "2026-04": -21900,
+          "2026-05": -135900,
+          "2026-06": 29000,
+          "2026-07": -41700
+        },
+        "daily_close_max_drawdown_krw": 213000
+      },
+      "evaluation_changes_vs_baseline": 8,
+      "evaluation_periods": {
+        "before_july": {
+          "n": 152,
+          "bets": 152,
+          "coverage": 1.0,
+          "wins": 90,
+          "settled": 152,
+          "pushes": 0,
+          "accuracy": 0.5921052631578947,
+          "net_krw": -143100,
+          "roi": -0.09414473684210527,
+          "logloss": 0.6606851036734056,
+          "brier": 0.23424574203352821,
+          "monthly_net_krw": {
+            "2026-03": -14300,
+            "2026-04": -21900,
+            "2026-05": -135900,
+            "2026-06": 29000
+          },
+          "daily_close_max_drawdown_krw": 213000
+        },
+        "july_onward": {
+          "n": 46,
+          "bets": 46,
+          "coverage": 1.0,
+          "wins": 27,
+          "settled": 46,
+          "pushes": 0,
+          "accuracy": 0.5869565217391305,
+          "net_krw": -41700,
+          "roi": -0.09065217391304348,
+          "logloss": 0.6746007496689739,
+          "brier": 0.24082247489204764,
+          "monthly_net_krw": {
+            "2026-07": -41700
+          },
+          "daily_close_max_drawdown_krw": 59600
+        }
+      }
+    },
+    "nb:s20:28days:w0.3": {
+      "specification": {
+        "kind": "nb",
+        "shrink": 20,
+        "window": "28days",
+        "blend": 0.3
+      },
+      "selection_fit": {
+        "kind": "nb",
+        "shrink": 20,
+        "window": "28days",
+        "blend": 0.3,
+        "train_rows": 710,
+        "train_non_draw": 710,
+        "train_first": "2023-04-01",
+        "train_last": "2023-11-13",
+        "home_factor": 0.01408126261236589,
+        "dispersion_r": 3.4637636600253914,
+        "score_mean": 4.624647887323944,
+        "score_variance": 10.799251636580044
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 409,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.574438202247191,
+        "net_krw": -834700,
+        "roi": -0.11723314606741574,
+        "logloss": 0.679052228762544,
+        "brier": 0.2430564830979864,
+        "monthly_net_krw": {
+          "2024-03": -18900,
+          "2024-04": -239500,
+          "2024-05": -252300,
+          "2024-06": -50000,
+          "2024-07": -16400,
+          "2024-08": -146200,
+          "2024-09": -101800,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 849800
+      },
+      "validation_changes_vs_market": 36,
+      "final_fit": {
+        "kind": "nb",
+        "shrink": 20,
+        "window": "28days",
+        "blend": 0.3,
+        "train_rows": 1422,
+        "train_non_draw": 1422,
+        "train_first": "2023-04-01",
+        "train_last": "2024-10-28",
+        "home_factor": 0.005218164664984745,
+        "dispersion_r": 3.5131017180520017,
+        "score_mean": 4.9905063291139244,
+        "score_variance": 12.07972702914419
+      },
+      "evaluation": {
+        "n": 198,
+        "bets": 198,
+        "coverage": 1.0,
+        "wins": 118,
+        "settled": 198,
+        "pushes": 0,
+        "accuracy": 0.5959595959595959,
+        "net_krw": -169100,
+        "roi": -0.0854040404040404,
+        "logloss": 0.6628680166976811,
+        "brier": 0.23525608486569954,
+        "monthly_net_krw": {
+          "2026-03": -14300,
+          "2026-04": -21900,
+          "2026-05": -120200,
+          "2026-06": 29000,
+          "2026-07": -41700
+        },
+        "daily_close_max_drawdown_krw": 197300
+      },
+      "evaluation_changes_vs_baseline": 7,
+      "evaluation_periods": {
+        "before_july": {
+          "n": 152,
+          "bets": 152,
+          "coverage": 1.0,
+          "wins": 91,
+          "settled": 152,
+          "pushes": 0,
+          "accuracy": 0.5986842105263158,
+          "net_krw": -127400,
+          "roi": -0.0838157894736842,
+          "logloss": 0.660701728118581,
+          "brier": 0.23422901176233815,
+          "monthly_net_krw": {
+            "2026-03": -14300,
+            "2026-04": -21900,
+            "2026-05": -120200,
+            "2026-06": 29000
+          },
+          "daily_close_max_drawdown_krw": 197300
+        },
+        "july_onward": {
+          "n": 46,
+          "bets": 46,
+          "coverage": 1.0,
+          "wins": 27,
+          "settled": 46,
+          "pushes": 0,
+          "accuracy": 0.5869565217391305,
+          "net_krw": -41700,
+          "roi": -0.09065217391304348,
+          "logloss": 0.6700261876547081,
+          "brier": 0.23864989164202408,
+          "monthly_net_krw": {
+            "2026-07": -41700
+          },
+          "daily_close_max_drawdown_krw": 59600
+        }
+      }
+    },
+    "pyth:s20:e1.5:w0.3": {
+      "specification": {
+        "kind": "pyth",
+        "shrink": 20,
+        "exponent": 1.5,
+        "window": "season",
+        "blend": 0.3
+      },
+      "selection_fit": {
+        "kind": "pyth",
+        "shrink": 20,
+        "exponent": 1.5,
+        "window": "season",
+        "blend": 0.3,
+        "train_rows": 710,
+        "train_non_draw": 710,
+        "train_first": "2023-04-01",
+        "train_last": "2023-11-13",
+        "home_factor": 0.01408126261236589,
+        "dispersion_r": 3.4637636600253914,
+        "score_mean": 4.624647887323944,
+        "score_variance": 10.799251636580044
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 405,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5688202247191011,
+        "net_krw": -913700,
+        "roi": -0.12832865168539326,
+        "logloss": 0.6784672114124688,
+        "brier": 0.24276746954061143,
+        "monthly_net_krw": {
+          "2024-03": -18900,
+          "2024-04": -296200,
+          "2024-05": -271800,
+          "2024-06": -52600,
+          "2024-07": -16400,
+          "2024-08": -163900,
+          "2024-09": -84300,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 928800
+      },
+      "validation_changes_vs_market": 28,
+      "final_fit": {
+        "kind": "pyth",
+        "shrink": 20,
+        "exponent": 1.5,
+        "window": "season",
+        "blend": 0.3,
+        "train_rows": 1422,
+        "train_non_draw": 1422,
+        "train_first": "2023-04-01",
+        "train_last": "2024-10-28",
+        "home_factor": 0.005218164664984745,
+        "dispersion_r": 3.5131017180520017,
+        "score_mean": 4.9905063291139244,
+        "score_variance": 12.07972702914419
+      },
+      "evaluation": {
+        "n": 198,
+        "bets": 198,
+        "coverage": 1.0,
+        "wins": 116,
+        "settled": 198,
+        "pushes": 0,
+        "accuracy": 0.5858585858585859,
+        "net_krw": -201200,
+        "roi": -0.10161616161616162,
+        "logloss": 0.6638652212285117,
+        "brier": 0.23573824221524853,
+        "monthly_net_krw": {
+          "2026-03": -14300,
+          "2026-04": -21900,
+          "2026-05": -152300,
+          "2026-06": 29000,
+          "2026-07": -41700
+        },
+        "daily_close_max_drawdown_krw": 229400
+      },
+      "evaluation_changes_vs_baseline": 7,
+      "evaluation_periods": {
+        "before_july": {
+          "n": 152,
+          "bets": 152,
+          "coverage": 1.0,
+          "wins": 89,
+          "settled": 152,
+          "pushes": 0,
+          "accuracy": 0.5855263157894737,
+          "net_krw": -159500,
+          "roi": -0.10493421052631578,
+          "logloss": 0.6605618971244316,
+          "brier": 0.23417892684664762,
+          "monthly_net_krw": {
+            "2026-03": -14300,
+            "2026-04": -21900,
+            "2026-05": -152300,
+            "2026-06": 29000
+          },
+          "daily_close_max_drawdown_krw": 229400
+        },
+        "july_onward": {
+          "n": 46,
+          "bets": 46,
+          "coverage": 1.0,
+          "wins": 27,
+          "settled": 46,
+          "pushes": 0,
+          "accuracy": 0.5869565217391305,
+          "net_krw": -41700,
+          "roi": -0.09065217391304348,
+          "logloss": 0.6747805530506897,
+          "brier": 0.240890762563669,
+          "monthly_net_krw": {
+            "2026-07": -41700
+          },
+          "daily_close_max_drawdown_krw": 59600
+        }
+      }
+    },
+    "pyth:s20:e2:w0.3": {
+      "specification": {
+        "kind": "pyth",
+        "shrink": 20,
+        "exponent": 2.0,
+        "window": "season",
+        "blend": 0.3
+      },
+      "selection_fit": {
+        "kind": "pyth",
+        "shrink": 20,
+        "exponent": 2.0,
+        "window": "season",
+        "blend": 0.3,
+        "train_rows": 710,
+        "train_non_draw": 710,
+        "train_first": "2023-04-01",
+        "train_last": "2023-11-13",
+        "home_factor": 0.01408126261236589,
+        "dispersion_r": 3.4637636600253914,
+        "score_mean": 4.624647887323944,
+        "score_variance": 10.799251636580044
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 404,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5674157303370787,
+        "net_krw": -923000,
+        "roi": -0.12963483146067414,
+        "logloss": 0.6791585152609685,
+        "brier": 0.2430992448208665,
+        "monthly_net_krw": {
+          "2024-03": -36600,
+          "2024-04": -239500,
+          "2024-05": -289400,
+          "2024-06": -70100,
+          "2024-07": -33300,
+          "2024-08": -143200,
+          "2024-09": -101300,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 938100
+      },
+      "validation_changes_vs_market": 39,
+      "final_fit": {
+        "kind": "pyth",
+        "shrink": 20,
+        "exponent": 2.0,
+        "window": "season",
+        "blend": 0.3,
+        "train_rows": 1422,
+        "train_non_draw": 1422,
+        "train_first": "2023-04-01",
+        "train_last": "2024-10-28",
+        "home_factor": 0.005218164664984745,
+        "dispersion_r": 3.5131017180520017,
+        "score_mean": 4.9905063291139244,
+        "score_variance": 12.07972702914419
+      },
+      "evaluation": {
+        "n": 198,
+        "bets": 198,
+        "coverage": 1.0,
+        "wins": 119,
+        "settled": 198,
+        "pushes": 0,
+        "accuracy": 0.601010101010101,
+        "net_krw": -151600,
+        "roi": -0.07656565656565656,
+        "logloss": 0.6640557669772875,
+        "brier": 0.2358550770392299,
+        "monthly_net_krw": {
+          "2026-03": -14300,
+          "2026-04": -5200,
+          "2026-05": -119400,
+          "2026-06": 29000,
+          "2026-07": -41700
+        },
+        "daily_close_max_drawdown_krw": 196500
+      },
+      "evaluation_changes_vs_baseline": 10,
+      "evaluation_periods": {
+        "before_july": {
+          "n": 152,
+          "bets": 152,
+          "coverage": 1.0,
+          "wins": 92,
+          "settled": 152,
+          "pushes": 0,
+          "accuracy": 0.6052631578947368,
+          "net_krw": -109900,
+          "roi": -0.07230263157894737,
+          "logloss": 0.6608865019042315,
+          "brier": 0.23435583760014678,
+          "monthly_net_krw": {
+            "2026-03": -14300,
+            "2026-04": -5200,
+            "2026-05": -119400,
+            "2026-06": 29000
+          },
+          "daily_close_max_drawdown_krw": 196500
+        },
+        "july_onward": {
+          "n": 46,
+          "bets": 46,
+          "coverage": 1.0,
+          "wins": 27,
+          "settled": 46,
+          "pushes": 0,
+          "accuracy": 0.5869565217391305,
+          "net_krw": -41700,
+          "roi": -0.09065217391304348,
+          "logloss": 0.6745281211317328,
+          "brier": 0.24080908562054806,
+          "monthly_net_krw": {
+            "2026-07": -41700
+          },
+          "daily_close_max_drawdown_krw": 59600
+        }
+      }
+    },
+    "nb:s60:season:w0.1": {
+      "specification": {
+        "kind": "nb",
+        "shrink": 60,
+        "window": "season",
+        "blend": 0.1
+      },
+      "selection_fit": {
+        "kind": "nb",
+        "shrink": 60,
+        "window": "season",
+        "blend": 0.1,
+        "train_rows": 710,
+        "train_non_draw": 710,
+        "train_first": "2023-04-01",
+        "train_last": "2023-11-13",
+        "home_factor": 0.01408126261236589,
+        "dispersion_r": 3.4637636600253914,
+        "score_mean": 4.624647887323944,
+        "score_variance": 10.799251636580044
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 411,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.577247191011236,
+        "net_krw": -815700,
+        "roi": -0.11456460674157304,
+        "logloss": 0.6768789316146079,
+        "brier": 0.24202867739232192,
+        "monthly_net_krw": {
+          "2024-03": -18900,
+          "2024-04": -262600,
+          "2024-05": -291700,
+          "2024-06": -200,
+          "2024-07": 35400,
+          "2024-08": -201100,
+          "2024-09": -67000,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 830800
+      },
+      "validation_changes_vs_market": 6,
+      "final_fit": {
+        "kind": "nb",
+        "shrink": 60,
+        "window": "season",
+        "blend": 0.1,
+        "train_rows": 1422,
+        "train_non_draw": 1422,
+        "train_first": "2023-04-01",
+        "train_last": "2024-10-28",
+        "home_factor": 0.005218164664984745,
+        "dispersion_r": 3.5131017180520017,
+        "score_mean": 4.9905063291139244,
+        "score_variance": 12.07972702914419
+      },
+      "evaluation": {
+        "n": 198,
+        "bets": 198,
+        "coverage": 1.0,
+        "wins": 120,
+        "settled": 198,
+        "pushes": 0,
+        "accuracy": 0.6060606060606061,
+        "net_krw": -127200,
+        "roi": -0.06424242424242424,
+        "logloss": 0.6618131149586679,
+        "brier": 0.2348174750136658,
+        "monthly_net_krw": {
+          "2026-03": -14300,
+          "2026-04": -21900,
+          "2026-05": -61900,
+          "2026-06": 12600,
+          "2026-07": -41700
+        },
+        "daily_close_max_drawdown_krw": 139000
+      },
+      "evaluation_changes_vs_baseline": 1,
+      "evaluation_periods": {
+        "before_july": {
+          "n": 152,
+          "bets": 152,
+          "coverage": 1.0,
+          "wins": 93,
+          "settled": 152,
+          "pushes": 0,
+          "accuracy": 0.6118421052631579,
+          "net_krw": -85500,
+          "roi": -0.05625,
+          "logloss": 0.6566350917045444,
+          "brier": 0.2324459287314783,
+          "monthly_net_krw": {
+            "2026-03": -14300,
+            "2026-04": -21900,
+            "2026-05": -61900,
+            "2026-06": 12600
+          },
+          "daily_close_max_drawdown_krw": 139000
+        },
+        "july_onward": {
+          "n": 46,
+          "bets": 46,
+          "coverage": 1.0,
+          "wins": 27,
+          "settled": 46,
+          "pushes": 0,
+          "accuracy": 0.5869565217391305,
+          "net_krw": -41700,
+          "roi": -0.09065217391304348,
+          "logloss": 0.6789231048418578,
+          "brier": 0.24265388881567682,
+          "monthly_net_krw": {
+            "2026-07": -41700
+          },
+          "daily_close_max_drawdown_krw": 59600
+        }
+      }
+    },
+    "nb:s60:28days:w0.1": {
+      "specification": {
+        "kind": "nb",
+        "shrink": 60,
+        "window": "28days",
+        "blend": 0.1
+      },
+      "selection_fit": {
+        "kind": "nb",
+        "shrink": 60,
+        "window": "28days",
+        "blend": 0.1,
+        "train_rows": 710,
+        "train_non_draw": 710,
+        "train_first": "2023-04-01",
+        "train_last": "2023-11-13",
+        "home_factor": 0.01408126261236589,
+        "dispersion_r": 3.4637636600253914,
+        "score_mean": 4.624647887323944,
+        "score_variance": 10.799251636580044
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 416,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5842696629213483,
+        "net_krw": -727300,
+        "roi": -0.10214887640449438,
+        "logloss": 0.676795235241823,
+        "brier": 0.24198595880022647,
+        "monthly_net_krw": {
+          "2024-03": -18900,
+          "2024-04": -262600,
+          "2024-05": -256300,
+          "2024-06": 17600,
+          "2024-07": 17700,
+          "2024-08": -148200,
+          "2024-09": -67000,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 742400
+      },
+      "validation_changes_vs_market": 7,
+      "final_fit": {
+        "kind": "nb",
+        "shrink": 60,
+        "window": "28days",
+        "blend": 0.1,
+        "train_rows": 1422,
+        "train_non_draw": 1422,
+        "train_first": "2023-04-01",
+        "train_last": "2024-10-28",
+        "home_factor": 0.005218164664984745,
+        "dispersion_r": 3.5131017180520017,
+        "score_mean": 4.9905063291139244,
+        "score_variance": 12.07972702914419
+      },
+      "evaluation": {
+        "n": 198,
+        "bets": 198,
+        "coverage": 1.0,
+        "wins": 119,
+        "settled": 198,
+        "pushes": 0,
+        "accuracy": 0.601010101010101,
+        "net_krw": -146300,
+        "roi": -0.07388888888888889,
+        "logloss": 0.6615910695549383,
+        "brier": 0.23470550394933043,
+        "monthly_net_krw": {
+          "2026-03": -14300,
+          "2026-04": -21900,
+          "2026-05": -81000,
+          "2026-06": 12600,
+          "2026-07": -41700
+        },
+        "daily_close_max_drawdown_krw": 158100
+      },
+      "evaluation_changes_vs_baseline": 2,
+      "evaluation_periods": {
+        "before_july": {
+          "n": 152,
+          "bets": 152,
+          "coverage": 1.0,
+          "wins": 92,
+          "settled": 152,
+          "pushes": 0,
+          "accuracy": 0.6052631578947368,
+          "net_krw": -104600,
+          "roi": -0.0688157894736842,
+          "logloss": 0.6565701058704182,
+          "brier": 0.2324027953777016,
+          "monthly_net_krw": {
+            "2026-03": -14300,
+            "2026-04": -21900,
+            "2026-05": -81000,
+            "2026-06": 12600
+          },
+          "daily_close_max_drawdown_krw": 158100
+        },
+        "july_onward": {
+          "n": 46,
+          "bets": 46,
+          "coverage": 1.0,
+          "wins": 27,
+          "settled": 46,
+          "pushes": 0,
+          "accuracy": 0.5869565217391305,
+          "net_krw": -41700,
+          "roi": -0.09065217391304348,
+          "logloss": 0.6781820799907442,
+          "brier": 0.24231445401210383,
+          "monthly_net_krw": {
+            "2026-07": -41700
+          },
+          "daily_close_max_drawdown_krw": 59600
+        }
+      }
+    },
+    "pyth:s60:e1.5:w0.1": {
+      "specification": {
+        "kind": "pyth",
+        "shrink": 60,
+        "exponent": 1.5,
+        "window": "season",
+        "blend": 0.1
+      },
+      "selection_fit": {
+        "kind": "pyth",
+        "shrink": 60,
+        "exponent": 1.5,
+        "window": "season",
+        "blend": 0.1,
+        "train_rows": 710,
+        "train_non_draw": 710,
+        "train_first": "2023-04-01",
+        "train_last": "2023-11-13",
+        "home_factor": 0.01408126261236589,
+        "dispersion_r": 3.4637636600253914,
+        "score_mean": 4.624647887323944,
+        "score_variance": 10.799251636580044
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 411,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.577247191011236,
+        "net_krw": -815800,
+        "roi": -0.11457865168539326,
+        "logloss": 0.6768200751907305,
+        "brier": 0.24199996906996898,
+        "monthly_net_krw": {
+          "2024-03": -18900,
+          "2024-04": -262600,
+          "2024-05": -274100,
+          "2024-06": -200,
+          "2024-07": 17700,
+          "2024-08": -201100,
+          "2024-09": -67000,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 830900
+      },
+      "validation_changes_vs_market": 4,
+      "final_fit": {
+        "kind": "pyth",
+        "shrink": 60,
+        "exponent": 1.5,
+        "window": "season",
+        "blend": 0.1,
+        "train_rows": 1422,
+        "train_non_draw": 1422,
+        "train_first": "2023-04-01",
+        "train_last": "2024-10-28",
+        "home_factor": 0.005218164664984745,
+        "dispersion_r": 3.5131017180520017,
+        "score_mean": 4.9905063291139244,
+        "score_variance": 12.07972702914419
+      },
+      "evaluation": {
+        "n": 198,
+        "bets": 198,
+        "coverage": 1.0,
+        "wins": 120,
+        "settled": 198,
+        "pushes": 0,
+        "accuracy": 0.6060606060606061,
+        "net_krw": -127200,
+        "roi": -0.06424242424242424,
+        "logloss": 0.6617996047017959,
+        "brier": 0.23480896215282815,
+        "monthly_net_krw": {
+          "2026-03": -14300,
+          "2026-04": -21900,
+          "2026-05": -61900,
+          "2026-06": 12600,
+          "2026-07": -41700
+        },
+        "daily_close_max_drawdown_krw": 139000
+      },
+      "evaluation_changes_vs_baseline": 1,
+      "evaluation_periods": {
+        "before_july": {
+          "n": 152,
+          "bets": 152,
+          "coverage": 1.0,
+          "wins": 93,
+          "settled": 152,
+          "pushes": 0,
+          "accuracy": 0.6118421052631579,
+          "net_krw": -85500,
+          "roi": -0.05625,
+          "logloss": 0.6566070051418107,
+          "brier": 0.2324301720824089,
+          "monthly_net_krw": {
+            "2026-03": -14300,
+            "2026-04": -21900,
+            "2026-05": -61900,
+            "2026-06": 12600
+          },
+          "daily_close_max_drawdown_krw": 139000
+        },
+        "july_onward": {
+          "n": 46,
+          "bets": 46,
+          "coverage": 1.0,
+          "wins": 27,
+          "settled": 46,
+          "pushes": 0,
+          "accuracy": 0.5869565217391305,
+          "net_krw": -41700,
+          "roi": -0.09065217391304348,
+          "logloss": 0.6789577597695727,
+          "brier": 0.24266931195073513,
+          "monthly_net_krw": {
+            "2026-07": -41700
+          },
+          "daily_close_max_drawdown_krw": 59600
+        }
+      }
+    },
+    "pyth:s60:e2:w0.1": {
+      "specification": {
+        "kind": "pyth",
+        "shrink": 60,
+        "exponent": 2.0,
+        "window": "season",
+        "blend": 0.1
+      },
+      "selection_fit": {
+        "kind": "pyth",
+        "shrink": 60,
+        "exponent": 2.0,
+        "window": "season",
+        "blend": 0.1,
+        "train_rows": 710,
+        "train_non_draw": 710,
+        "train_first": "2023-04-01",
+        "train_last": "2023-11-13",
+        "home_factor": 0.01408126261236589,
+        "dispersion_r": 3.4637636600253914,
+        "score_mean": 4.624647887323944,
+        "score_variance": 10.799251636580044
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 412,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5786516853932584,
+        "net_krw": -797900,
+        "roi": -0.11206460674157304,
+        "logloss": 0.6769554862996402,
+        "brier": 0.2420659234911893,
+        "monthly_net_krw": {
+          "2024-03": -18900,
+          "2024-04": -262600,
+          "2024-05": -291700,
+          "2024-06": -200,
+          "2024-07": 35400,
+          "2024-08": -183300,
+          "2024-09": -67000,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 813000
+      },
+      "validation_changes_vs_market": 7,
+      "final_fit": {
+        "kind": "pyth",
+        "shrink": 60,
+        "exponent": 2.0,
+        "window": "season",
+        "blend": 0.1,
+        "train_rows": 1422,
+        "train_non_draw": 1422,
+        "train_first": "2023-04-01",
+        "train_last": "2024-10-28",
+        "home_factor": 0.005218164664984745,
+        "dispersion_r": 3.5131017180520017,
+        "score_mean": 4.9905063291139244,
+        "score_variance": 12.07972702914419
+      },
+      "evaluation": {
+        "n": 198,
+        "bets": 198,
+        "coverage": 1.0,
+        "wins": 120,
+        "settled": 198,
+        "pushes": 0,
+        "accuracy": 0.6060606060606061,
+        "net_krw": -127200,
+        "roi": -0.06424242424242424,
+        "logloss": 0.6618349869061776,
+        "brier": 0.23483097280267534,
+        "monthly_net_krw": {
+          "2026-03": -14300,
+          "2026-04": -21900,
+          "2026-05": -61900,
+          "2026-06": 12600,
+          "2026-07": -41700
+        },
+        "daily_close_max_drawdown_krw": 139000
+      },
+      "evaluation_changes_vs_baseline": 1,
+      "evaluation_periods": {
+        "before_july": {
+          "n": 152,
+          "bets": 152,
+          "coverage": 1.0,
+          "wins": 93,
+          "settled": 152,
+          "pushes": 0,
+          "accuracy": 0.6118421052631579,
+          "net_krw": -85500,
+          "roi": -0.05625,
+          "logloss": 0.6566722218698681,
+          "brier": 0.23246738765047947,
+          "monthly_net_krw": {
+            "2026-03": -14300,
+            "2026-04": -21900,
+            "2026-05": -61900,
+            "2026-06": 12600
+          },
+          "daily_close_max_drawdown_krw": 139000
+        },
+        "july_onward": {
+          "n": 46,
+          "bets": 46,
+          "coverage": 1.0,
+          "wins": 27,
+          "settled": 46,
+          "pushes": 0,
+          "accuracy": 0.5869565217391305,
+          "net_krw": -41700,
+          "roi": -0.09065217391304348,
+          "logloss": 0.6788945583305049,
+          "brier": 0.2426410802621053,
+          "monthly_net_krw": {
+            "2026-07": -41700
+          },
+          "daily_close_max_drawdown_krw": 59600
+        }
+      }
+    },
+    "nb:s60:season:w0.3": {
+      "specification": {
+        "kind": "nb",
+        "shrink": 60,
+        "window": "season",
+        "blend": 0.3
+      },
+      "selection_fit": {
+        "kind": "nb",
+        "shrink": 60,
+        "window": "season",
+        "blend": 0.3,
+        "train_rows": 710,
+        "train_non_draw": 710,
+        "train_first": "2023-04-01",
+        "train_last": "2023-11-13",
+        "home_factor": 0.01408126261236589,
+        "dispersion_r": 3.4637636600253914,
+        "score_mean": 4.624647887323944,
+        "score_variance": 10.799251636580044
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 406,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5702247191011236,
+        "net_krw": -898100,
+        "roi": -0.1261376404494382,
+        "logloss": 0.678052135757016,
+        "brier": 0.24257856161399824,
+        "monthly_net_krw": {
+          "2024-03": -36600,
+          "2024-04": -279000,
+          "2024-05": -272400,
+          "2024-06": -52600,
+          "2024-07": -16400,
+          "2024-08": -147200,
+          "2024-09": -84300,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 913200
+      },
+      "validation_changes_vs_market": 27,
+      "final_fit": {
+        "kind": "nb",
+        "shrink": 60,
+        "window": "season",
+        "blend": 0.3,
+        "train_rows": 1422,
+        "train_non_draw": 1422,
+        "train_first": "2023-04-01",
+        "train_last": "2024-10-28",
+        "home_factor": 0.005218164664984745,
+        "dispersion_r": 3.5131017180520017,
+        "score_mean": 4.9905063291139244,
+        "score_variance": 12.07972702914419
+      },
+      "evaluation": {
+        "n": 198,
+        "bets": 198,
+        "coverage": 1.0,
+        "wins": 118,
+        "settled": 198,
+        "pushes": 0,
+        "accuracy": 0.5959595959595959,
+        "net_krw": -167300,
+        "roi": -0.0844949494949495,
+        "logloss": 0.6639647343027025,
+        "brier": 0.23577155372710737,
+        "monthly_net_krw": {
+          "2026-03": -14300,
+          "2026-04": -21900,
+          "2026-05": -118400,
+          "2026-06": 29000,
+          "2026-07": -41700
+        },
+        "daily_close_max_drawdown_krw": 195500
+      },
+      "evaluation_changes_vs_baseline": 5,
+      "evaluation_periods": {
+        "before_july": {
+          "n": 152,
+          "bets": 152,
+          "coverage": 1.0,
+          "wins": 91,
+          "settled": 152,
+          "pushes": 0,
+          "accuracy": 0.5986842105263158,
+          "net_krw": -125600,
+          "roi": -0.08263157894736842,
+          "logloss": 0.6605310292343254,
+          "brier": 0.23415041366572462,
+          "monthly_net_krw": {
+            "2026-03": -14300,
+            "2026-04": -21900,
+            "2026-05": -118400,
+            "2026-06": 29000
+          },
+          "daily_close_max_drawdown_krw": 195500
+        },
+        "july_onward": {
+          "n": 46,
+          "bets": 46,
+          "coverage": 1.0,
+          "wins": 27,
+          "settled": 46,
+          "pushes": 0,
+          "accuracy": 0.5869565217391305,
+          "net_krw": -41700,
+          "roi": -0.09065217391304348,
+          "logloss": 0.675310890180818,
+          "brier": 0.24112836436471993,
+          "monthly_net_krw": {
+            "2026-07": -41700
+          },
+          "daily_close_max_drawdown_krw": 59600
+        }
+      }
+    },
+    "nb:s60:28days:w0.3": {
+      "specification": {
+        "kind": "nb",
+        "shrink": 60,
+        "window": "28days",
+        "blend": 0.3
+      },
+      "selection_fit": {
+        "kind": "nb",
+        "shrink": 60,
+        "window": "28days",
+        "blend": 0.3,
+        "train_rows": 710,
+        "train_non_draw": 710,
+        "train_first": "2023-04-01",
+        "train_last": "2023-11-13",
+        "home_factor": 0.01408126261236589,
+        "dispersion_r": 3.4637636600253914,
+        "score_mean": 4.624647887323944,
+        "score_variance": 10.799251636580044
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 410,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5758426966292135,
+        "net_krw": -828300,
+        "roi": -0.11633426966292135,
+        "logloss": 0.6779027079249555,
+        "brier": 0.24250052973141809,
+        "monthly_net_krw": {
+          "2024-03": -36600,
+          "2024-04": -279000,
+          "2024-05": -256000,
+          "2024-06": -15900,
+          "2024-07": 1000,
+          "2024-08": -147900,
+          "2024-09": -84300,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 843400
+      },
+      "validation_changes_vs_market": 23,
+      "final_fit": {
+        "kind": "nb",
+        "shrink": 60,
+        "window": "28days",
+        "blend": 0.3,
+        "train_rows": 1422,
+        "train_non_draw": 1422,
+        "train_first": "2023-04-01",
+        "train_last": "2024-10-28",
+        "home_factor": 0.005218164664984745,
+        "dispersion_r": 3.5131017180520017,
+        "score_mean": 4.9905063291139244,
+        "score_variance": 12.07972702914419
+      },
+      "evaluation": {
+        "n": 198,
+        "bets": 198,
+        "coverage": 1.0,
+        "wins": 119,
+        "settled": 198,
+        "pushes": 0,
+        "accuracy": 0.601010101010101,
+        "net_krw": -148500,
+        "roi": -0.075,
+        "logloss": 0.6634500059663939,
+        "brier": 0.23550137299673463,
+        "monthly_net_krw": {
+          "2026-03": -14300,
+          "2026-04": -21900,
+          "2026-05": -83200,
+          "2026-06": 12600,
+          "2026-07": -41700
+        },
+        "daily_close_max_drawdown_krw": 160300
+      },
+      "evaluation_changes_vs_baseline": 4,
+      "evaluation_periods": {
+        "before_july": {
+          "n": 152,
+          "bets": 152,
+          "coverage": 1.0,
+          "wins": 92,
+          "settled": 152,
+          "pushes": 0,
+          "accuracy": 0.6052631578947368,
+          "net_krw": -106800,
+          "roi": -0.07026315789473685,
+          "logloss": 0.6604308990463625,
+          "brier": 0.2340745952094194,
+          "monthly_net_krw": {
+            "2026-03": -14300,
+            "2026-04": -21900,
+            "2026-05": -83200,
+            "2026-06": 12600
+          },
+          "daily_close_max_drawdown_krw": 160300
+        },
+        "july_onward": {
+          "n": 46,
+          "bets": 46,
+          "coverage": 1.0,
+          "wins": 27,
+          "settled": 46,
+          "pushes": 0,
+          "accuracy": 0.5869565217391305,
+          "net_krw": -41700,
+          "roi": -0.09065217391304348,
+          "logloss": 0.6734261853543236,
+          "brier": 0.24021594307655894,
+          "monthly_net_krw": {
+            "2026-07": -41700
+          },
+          "daily_close_max_drawdown_krw": 59600
+        }
+      }
+    },
+    "pyth:s60:e1.5:w0.3": {
+      "specification": {
+        "kind": "pyth",
+        "shrink": 60,
+        "exponent": 1.5,
+        "window": "season",
+        "blend": 0.3
+      },
+      "selection_fit": {
+        "kind": "pyth",
+        "shrink": 60,
+        "exponent": 1.5,
+        "window": "season",
+        "blend": 0.3,
+        "train_rows": 710,
+        "train_non_draw": 710,
+        "train_first": "2023-04-01",
+        "train_last": "2023-11-13",
+        "home_factor": 0.01408126261236589,
+        "dispersion_r": 3.4637636600253914,
+        "score_mean": 4.624647887323944,
+        "score_variance": 10.799251636580044
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 406,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5702247191011236,
+        "net_krw": -898200,
+        "roi": -0.12615168539325844,
+        "logloss": 0.6778866647363261,
+        "brier": 0.2424964901124608,
+        "monthly_net_krw": {
+          "2024-03": -36600,
+          "2024-04": -279000,
+          "2024-05": -254800,
+          "2024-06": -52600,
+          "2024-07": -16400,
+          "2024-08": -164900,
+          "2024-09": -84300,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 913300
+      },
+      "validation_changes_vs_market": 25,
+      "final_fit": {
+        "kind": "pyth",
+        "shrink": 60,
+        "exponent": 1.5,
+        "window": "season",
+        "blend": 0.3,
+        "train_rows": 1422,
+        "train_non_draw": 1422,
+        "train_first": "2023-04-01",
+        "train_last": "2024-10-28",
+        "home_factor": 0.005218164664984745,
+        "dispersion_r": 3.5131017180520017,
+        "score_mean": 4.9905063291139244,
+        "score_variance": 12.07972702914419
+      },
+      "evaluation": {
+        "n": 198,
+        "bets": 198,
+        "coverage": 1.0,
+        "wins": 118,
+        "settled": 198,
+        "pushes": 0,
+        "accuracy": 0.5959595959595959,
+        "net_krw": -167300,
+        "roi": -0.0844949494949495,
+        "logloss": 0.6639710332605031,
+        "brier": 0.2357669308001125,
+        "monthly_net_krw": {
+          "2026-03": -14300,
+          "2026-04": -21900,
+          "2026-05": -118400,
+          "2026-06": 29000,
+          "2026-07": -41700
+        },
+        "daily_close_max_drawdown_krw": 195500
+      },
+      "evaluation_changes_vs_baseline": 5,
+      "evaluation_periods": {
+        "before_july": {
+          "n": 152,
+          "bets": 152,
+          "coverage": 1.0,
+          "wins": 91,
+          "settled": 152,
+          "pushes": 0,
+          "accuracy": 0.5986842105263158,
+          "net_krw": -125600,
+          "roi": -0.08263157894736842,
+          "logloss": 0.6604873689425804,
+          "brier": 0.23412258677252729,
+          "monthly_net_krw": {
+            "2026-03": -14300,
+            "2026-04": -21900,
+            "2026-05": -118400,
+            "2026-06": 29000
+          },
+          "daily_close_max_drawdown_krw": 195500
+        },
+        "july_onward": {
+          "n": 46,
+          "bets": 46,
+          "coverage": 1.0,
+          "wins": 27,
+          "settled": 46,
+          "pushes": 0,
+          "accuracy": 0.5869565217391305,
+          "net_krw": -41700,
+          "roi": -0.09065217391304348,
+          "logloss": 0.6754822718762474,
+          "brier": 0.24120041541300277,
+          "monthly_net_krw": {
+            "2026-07": -41700
+          },
+          "daily_close_max_drawdown_krw": 59600
+        }
+      }
+    },
+    "pyth:s60:e2:w0.3": {
+      "specification": {
+        "kind": "pyth",
+        "shrink": 60,
+        "exponent": 2.0,
+        "window": "season",
+        "blend": 0.3
+      },
+      "selection_fit": {
+        "kind": "pyth",
+        "shrink": 60,
+        "exponent": 2.0,
+        "window": "season",
+        "blend": 0.3,
+        "train_rows": 710,
+        "train_non_draw": 710,
+        "train_first": "2023-04-01",
+        "train_last": "2023-11-13",
+        "home_factor": 0.01408126261236589,
+        "dispersion_r": 3.4637636600253914,
+        "score_mean": 4.624647887323944,
+        "score_variance": 10.799251636580044
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 406,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5702247191011236,
+        "net_krw": -896100,
+        "roi": -0.1258567415730337,
+        "logloss": 0.6782739705781616,
+        "brier": 0.24268822657553157,
+        "monthly_net_krw": {
+          "2024-03": -36600,
+          "2024-04": -279000,
+          "2024-05": -272400,
+          "2024-06": -52600,
+          "2024-07": -16400,
+          "2024-08": -145200,
+          "2024-09": -84300,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 911200
+      },
+      "validation_changes_vs_market": 29,
+      "final_fit": {
+        "kind": "pyth",
+        "shrink": 60,
+        "exponent": 2.0,
+        "window": "season",
+        "blend": 0.3,
+        "train_rows": 1422,
+        "train_non_draw": 1422,
+        "train_first": "2023-04-01",
+        "train_last": "2024-10-28",
+        "home_factor": 0.005218164664984745,
+        "dispersion_r": 3.5131017180520017,
+        "score_mean": 4.9905063291139244,
+        "score_variance": 12.07972702914419
+      },
+      "evaluation": {
+        "n": 198,
+        "bets": 198,
+        "coverage": 1.0,
+        "wins": 117,
+        "settled": 198,
+        "pushes": 0,
+        "accuracy": 0.5909090909090909,
+        "net_krw": -185600,
+        "roi": -0.09373737373737374,
+        "logloss": 0.6639790524545828,
+        "brier": 0.2357896296120055,
+        "monthly_net_krw": {
+          "2026-03": -14300,
+          "2026-04": -21900,
+          "2026-05": -136700,
+          "2026-06": 29000,
+          "2026-07": -41700
+        },
+        "daily_close_max_drawdown_krw": 213800
+      },
+      "evaluation_changes_vs_baseline": 6,
+      "evaluation_periods": {
+        "before_july": {
+          "n": 152,
+          "bets": 152,
+          "coverage": 1.0,
+          "wins": 90,
+          "settled": 152,
+          "pushes": 0,
+          "accuracy": 0.5921052631578947,
+          "net_krw": -143900,
+          "roi": -0.09467105263157895,
+          "logloss": 0.6605953525982727,
+          "brier": 0.23419182084329476,
+          "monthly_net_krw": {
+            "2026-03": -14300,
+            "2026-04": -21900,
+            "2026-05": -136700,
+            "2026-06": 29000
+          },
+          "daily_close_max_drawdown_krw": 213800
+        },
+        "july_onward": {
+          "n": 46,
+          "bets": 46,
+          "coverage": 1.0,
+          "wins": 27,
+          "settled": 46,
+          "pushes": 0,
+          "accuracy": 0.5869565217391305,
+          "net_krw": -41700,
+          "roi": -0.09065217391304348,
+          "logloss": 0.6751599737189118,
+          "brier": 0.24106934554339746,
+          "monthly_net_krw": {
+            "2026-07": -41700
+          },
+          "daily_close_max_drawdown_krw": 59600
+        }
+      }
+    }
+  },
+  "periods": {
+    "all": {
+      "baseline": {
+        "n": 198,
+        "bets": 198,
+        "coverage": 1.0,
+        "wins": 119,
+        "settled": 198,
+        "pushes": 0,
+        "accuracy": 0.601010101010101,
+        "net_krw": -146600,
+        "roi": -0.07404040404040405,
+        "logloss": 0.6612822091761741,
+        "brier": 0.23460470849197526,
+        "monthly_net_krw": {
+          "2026-03": -14300,
+          "2026-04": -41300,
+          "2026-05": -61900,
+          "2026-06": 12600,
+          "2026-07": -41700
+        },
+        "daily_close_max_drawdown_krw": 157700
+      },
+      "heads": {
+        "primary": {
+          "name": "logistic:full:ridge0.1",
+          "metrics": {
+            "n": 198,
+            "bets": 198,
+            "coverage": 1.0,
+            "wins": 119,
+            "settled": 198,
+            "pushes": 0,
+            "accuracy": 0.601010101010101,
+            "net_krw": -141300,
+            "roi": -0.07136363636363637,
+            "logloss": 0.6632616299916958,
+            "brier": 0.23550197011536927,
+            "monthly_net_krw": {
+              "2026-03": 5400,
+              "2026-04": -75900,
+              "2026-05": -95300,
+              "2026-06": 52100,
+              "2026-07": -27600
+            },
+            "daily_close_max_drawdown_krw": 210200
+          },
+          "changes_vs_baseline": 14,
+          "paired_week_bootstrap": {
+            "weeks": 16,
+            "replicates": 5000,
+            "seed": 20261029,
+            "accuracy_delta95": [
+              -0.03482587064676617,
+              0.03763694461351183
+            ],
+            "roi_delta95": [
+              -0.061885963661811226,
+              0.07312476933150779
+            ]
+          }
+        },
+        "hit_leader": {
+          "name": "logistic:strength:ridge0.01",
+          "metrics": {
+            "n": 198,
+            "bets": 198,
+            "coverage": 1.0,
+            "wins": 118,
+            "settled": 198,
+            "pushes": 0,
+            "accuracy": 0.5959595959595959,
+            "net_krw": -155500,
+            "roi": -0.07853535353535354,
+            "logloss": 0.6641160540470354,
+            "brier": 0.235974115407913,
+            "monthly_net_krw": {
+              "2026-03": -14300,
+              "2026-04": -40000,
+              "2026-05": -114300,
+              "2026-06": 36300,
+              "2026-07": -23200
+            },
+            "daily_close_max_drawdown_krw": 208800
+          },
+          "changes_vs_baseline": 19,
+          "paired_week_bootstrap": {
+            "weeks": 16,
+            "replicates": 5000,
+            "seed": 20261029,
+            "accuracy_delta95": [
+              -0.032260965421211416,
+              0.025906735751295335
+            ],
+            "roi_delta95": [
+              -0.054224154090166295,
+              0.051896231986770604
+            ]
+          }
+        },
+        "profit_leader": {
+          "name": "logistic:strength:ridge0.01",
+          "metrics": {
+            "n": 198,
+            "bets": 198,
+            "coverage": 1.0,
+            "wins": 118,
+            "settled": 198,
+            "pushes": 0,
+            "accuracy": 0.5959595959595959,
+            "net_krw": -155500,
+            "roi": -0.07853535353535354,
+            "logloss": 0.6641160540470354,
+            "brier": 0.235974115407913,
+            "monthly_net_krw": {
+              "2026-03": -14300,
+              "2026-04": -40000,
+              "2026-05": -114300,
+              "2026-06": 36300,
+              "2026-07": -23200
+            },
+            "daily_close_max_drawdown_krw": 208800
+          },
+          "changes_vs_baseline": 19,
+          "paired_week_bootstrap": {
+            "weeks": 16,
+            "replicates": 5000,
+            "seed": 20261029,
+            "accuracy_delta95": [
+              -0.032260965421211416,
+              0.025906735751295335
+            ],
+            "roi_delta95": [
+              -0.054224154090166295,
+              0.051896231986770604
+            ]
+          }
+        }
+      }
+    },
+    "before_july": {
+      "baseline": {
+        "n": 152,
+        "bets": 152,
+        "coverage": 1.0,
+        "wins": 92,
+        "settled": 152,
+        "pushes": 0,
+        "accuracy": 0.6052631578947368,
+        "net_krw": -104900,
+        "roi": -0.06901315789473685,
+        "logloss": 0.655264220030794,
+        "brier": 0.2318891313689326,
+        "monthly_net_krw": {
+          "2026-03": -14300,
+          "2026-04": -41300,
+          "2026-05": -61900,
+          "2026-06": 12600
+        },
+        "daily_close_max_drawdown_krw": 157700
+      },
+      "heads": {
+        "primary": {
+          "name": "logistic:full:ridge0.1",
+          "metrics": {
+            "n": 152,
+            "bets": 152,
+            "coverage": 1.0,
+            "wins": 91,
+            "settled": 152,
+            "pushes": 0,
+            "accuracy": 0.5986842105263158,
+            "net_krw": -113700,
+            "roi": -0.07480263157894737,
+            "logloss": 0.6540786668373378,
+            "brier": 0.23125961487339056,
+            "monthly_net_krw": {
+              "2026-03": 5400,
+              "2026-04": -75900,
+              "2026-05": -95300,
+              "2026-06": 52100
+            },
+            "daily_close_max_drawdown_krw": 210200
+          },
+          "changes_vs_baseline": 11,
+          "paired_week_bootstrap": {
+            "weeks": 12,
+            "replicates": 5000,
+            "seed": 20261029,
+            "accuracy_delta95": [
+              -0.05000786163522013,
+              0.04081632653061224
+            ],
+            "roi_delta95": [
+              -0.08620552007299272,
+              0.08398511773767604
+            ]
+          }
+        },
+        "hit_leader": {
+          "name": "logistic:strength:ridge0.01",
+          "metrics": {
+            "n": 152,
+            "bets": 152,
+            "coverage": 1.0,
+            "wins": 90,
+            "settled": 152,
+            "pushes": 0,
+            "accuracy": 0.5921052631578947,
+            "net_krw": -132300,
+            "roi": -0.08703947368421053,
+            "logloss": 0.6549245500879115,
+            "brier": 0.23170240290315927,
+            "monthly_net_krw": {
+              "2026-03": -14300,
+              "2026-04": -40000,
+              "2026-05": -114300,
+              "2026-06": 36300
+            },
+            "daily_close_max_drawdown_krw": 208800
+          },
+          "changes_vs_baseline": 14,
+          "paired_week_bootstrap": {
+            "weeks": 12,
+            "replicates": 5000,
+            "seed": 20261029,
+            "accuracy_delta95": [
+              -0.041884816753926704,
+              0.015464916486853659
+            ],
+            "roi_delta95": [
+              -0.07345178601730869,
+              0.04024881206937511
+            ]
+          }
+        },
+        "profit_leader": {
+          "name": "logistic:strength:ridge0.01",
+          "metrics": {
+            "n": 152,
+            "bets": 152,
+            "coverage": 1.0,
+            "wins": 90,
+            "settled": 152,
+            "pushes": 0,
+            "accuracy": 0.5921052631578947,
+            "net_krw": -132300,
+            "roi": -0.08703947368421053,
+            "logloss": 0.6549245500879115,
+            "brier": 0.23170240290315927,
+            "monthly_net_krw": {
+              "2026-03": -14300,
+              "2026-04": -40000,
+              "2026-05": -114300,
+              "2026-06": 36300
+            },
+            "daily_close_max_drawdown_krw": 208800
+          },
+          "changes_vs_baseline": 14,
+          "paired_week_bootstrap": {
+            "weeks": 12,
+            "replicates": 5000,
+            "seed": 20261029,
+            "accuracy_delta95": [
+              -0.041884816753926704,
+              0.015464916486853659
+            ],
+            "roi_delta95": [
+              -0.07345178601730869,
+              0.04024881206937511
+            ]
+          }
+        }
+      }
+    },
+    "july_onward": {
+      "baseline": {
+        "n": 46,
+        "bets": 46,
+        "coverage": 1.0,
+        "wins": 27,
+        "settled": 46,
+        "pushes": 0,
+        "accuracy": 0.5869565217391305,
+        "net_krw": -41700,
+        "roi": -0.09065217391304348,
+        "logloss": 0.6811677385261257,
+        "brier": 0.24357791985507257,
+        "monthly_net_krw": {
+          "2026-07": -41700
+        },
+        "daily_close_max_drawdown_krw": 59600
+      },
+      "heads": {
+        "primary": {
+          "name": "logistic:full:ridge0.1",
+          "metrics": {
+            "n": 46,
+            "bets": 46,
+            "coverage": 1.0,
+            "wins": 28,
+            "settled": 46,
+            "pushes": 0,
+            "accuracy": 0.6086956521739131,
+            "net_krw": -27600,
+            "roi": -0.06,
+            "logloss": 0.6936053343278352,
+            "brier": 0.2495201874366902,
+            "monthly_net_krw": {
+              "2026-07": -27600
+            },
+            "daily_close_max_drawdown_krw": 45500
+          },
+          "changes_vs_baseline": 3,
+          "paired_week_bootstrap": {
+            "weeks": 4,
+            "replicates": 5000,
+            "seed": 20261029,
+            "accuracy_delta95": [
+              0.0,
+              0.08333333333333333
+            ],
+            "roi_delta95": [
+              -0.012499999999999997,
+              0.13416666666666668
+            ]
+          }
+        },
+        "hit_leader": {
+          "name": "logistic:strength:ridge0.01",
+          "metrics": {
+            "n": 46,
+            "bets": 46,
+            "coverage": 1.0,
+            "wins": 28,
+            "settled": 46,
+            "pushes": 0,
+            "accuracy": 0.6086956521739131,
+            "net_krw": -23200,
+            "roi": -0.050434782608695654,
+            "logloss": 0.694487980172836,
+            "brier": 0.25008933933666444,
+            "monthly_net_krw": {
+              "2026-07": -23200
+            },
+            "daily_close_max_drawdown_krw": 41100
+          },
+          "changes_vs_baseline": 5,
+          "paired_week_bootstrap": {
+            "weeks": 4,
+            "replicates": 5000,
+            "seed": 20261029,
+            "accuracy_delta95": [
+              -0.038461538461538464,
+              0.10714285714285714
+            ],
+            "roi_delta95": [
+              -0.05730769230769231,
+              0.1955555555555556
+            ]
+          }
+        },
+        "profit_leader": {
+          "name": "logistic:strength:ridge0.01",
+          "metrics": {
+            "n": 46,
+            "bets": 46,
+            "coverage": 1.0,
+            "wins": 28,
+            "settled": 46,
+            "pushes": 0,
+            "accuracy": 0.6086956521739131,
+            "net_krw": -23200,
+            "roi": -0.050434782608695654,
+            "logloss": 0.694487980172836,
+            "brier": 0.25008933933666444,
+            "monthly_net_krw": {
+              "2026-07": -23200
+            },
+            "daily_close_max_drawdown_krw": 41100
+          },
+          "changes_vs_baseline": 5,
+          "paired_week_bootstrap": {
+            "weeks": 4,
+            "replicates": 5000,
+            "seed": 20261029,
+            "accuracy_delta95": [
+              -0.038461538461538464,
+              0.10714285714285714
+            ],
+            "roi_delta95": [
+              -0.05730769230769231,
+              0.1955555555555556
+            ]
+          }
+        }
+      }
+    }
+  },
+  "input_sha256": {
+    "PROTOCOL.md": "26ee03b9a6bea00c87c6acddb4817145bab5496d36c5ee5e0babe0794e0028ce",
+    "input-manifest.json": "4dfe6250865f43d8bd7f469c59968c95619804554d7371eb8df2988f14ae0ea7",
+    "sources/batters.jsonl.gz": "f2bb9c3f7834dd2c2c778c500ef1c858828014492c9777886f5e0433ac585858",
+    "sources/cohort.jsonl.gz": "e75c5ea74769afe7917c7339ecd082518cfa36ee095ef54eb6343d74110608c4",
+    "sources/pitching.jsonl.gz": "c3f4fd478ace40e9e5ff92da71e1222ff04b9360e1a764a6a333288979d3ff77",
+    "sources/scores.jsonl.gz": "58407d1d47d2e3970644bb13bc2c3a6b0c7f2a2ab301eb197f5c28d727d0ef34"
+  },
+  "frozen_selection_sha256": "1616399dba6ed63b82c36462e70d48c072ffa5e6d8af2d3e29f07f705a2b63c1",
+  "executable_sha256": "3410e54321be66078545a171785379d88a6ba48957a1e41e2ea1fe141eebf78c",
+  "source_audit": {
+    "cohort_counts": {
+      "train": 710,
+      "validation": 712,
+      "evaluation": 198
+    },
+    "pitching_games": 2656,
+    "score_anchors": 2879,
+    "merged_score_games": 2913,
+    "batter_games_used": 2656,
+    "raw_batter_games": 2896,
+    "doubleheader_extra_games": 14,
+    "non_club_allstar_games_not_in_league_environment": 4,
+    "naver_synthetic_year_ids": 50,
+    "pitching_by_year": {
+      "2023": 724,
+      "2024": 728,
+      "2025": 733,
+      "2026": 471
+    },
+    "score_by_year": {
+      "2023": 723,
+      "2024": 728,
+      "2025": 736,
+      "2026": 726
+    },
+    "excluded_original_eval": 5,
+    "original_eval": 203,
+    "source_guard": "all fixed cohort rows passed, missing pitching is never rest zero",
+    "team_mapping": "raw batter gameId -> normalized pitching id, with date and scores checked"
+  },
+  "versions": {
+    "python": "3.14.3",
+    "numpy": "2.5.1",
+    "scipy": "1.18.0"
+  },
+  "limitations": [
+    "previously seen retrospective evaluation set",
+    "calendar-date causal, purchase-time unverified",
+    "validation has market only; evaluation uses frozen research market90/vote10 reference",
+    "no current announced starters or lineup",
+    "OPS proxy omits HBP/SF",
+    "NB independent final-score approximation, not inning/extra-inning simulation",
+    "multiple candidate selection, no multiplicity correction; not proof of future profit"
+  ]
+}
