@@ -1,0 +1,112 @@
+{
+  "audited_at": "2026-10-28T08:52:19.550135+00:00",
+  "base_commit": "ea2559c031c4a2ee2bc82e09bed9c1bdd19ffe20",
+  "priority": [
+    "K리그",
+    "KBO",
+    "NPB",
+    "MLB",
+    "KBL",
+    "NBA"
+  ],
+  "local_inventory": [
+    {
+      "file": "data/raw/detail/kleague_soccer_2023_2026.json",
+      "sha256": "23380355d10e7a9b078a2c170611e89796b95549be19d1d783b2c7d480ac2daa",
+      "records": 816,
+      "seasons": {
+        "2023": 232,
+        "2024": 232,
+        "2025": 232,
+        "2026": 120
+      },
+      "first_match_date": "2023-02-25",
+      "last_match_date": "2026-07-26",
+      "records_with_observed_at": 0,
+      "records_with_published_at": 0,
+      "records_with_source_url": 0,
+      "records_with_scores": 816,
+      "scope": "local historical detail; not production freshness or pregame availability proof",
+      "sides_with_exactly_11_starters": 1632
+    },
+    {
+      "file": "data/raw/detail/kleague_shots_2023_2026.json",
+      "sha256": "eae45623ea74c6bc15c75dbcd510cd7a1bb6d0949774ea84b0e583e71e025672",
+      "records": 816,
+      "seasons": {
+        "2023": 232,
+        "2024": 232,
+        "2025": 232,
+        "2026": 120
+      },
+      "first_match_date": "2023-02-25",
+      "last_match_date": "2026-07-26",
+      "records_with_observed_at": 0,
+      "records_with_published_at": 0,
+      "records_with_source_url": 0,
+      "records_with_scores": 816,
+      "scope": "local historical detail; not production freshness or pregame availability proof"
+    },
+    {
+      "file": "data/raw/detail/kbo_baseball_2023_2026.json",
+      "sha256": "c87faa6a43140dad067860086b00140fe8f05883a9e42121fd2e8f7233775a66",
+      "records": 2884,
+      "seasons": {
+        "2023": 802,
+        "2024": 783,
+        "2025": 768,
+        "2026": 531
+      },
+      "first_match_date": "2023-03-13",
+      "last_match_date": "2026-07-26",
+      "records_with_observed_at": 0,
+      "records_with_published_at": 0,
+      "records_with_source_url": 0,
+      "records_with_scores": 2884,
+      "scope": "local historical detail; not production freshness or pregame availability proof"
+    },
+    {
+      "file": "data/raw/detail/kbo_batters_2023_2026.json",
+      "sha256": "9f33a70a5b406b98e8adfc265f55737cdaad27a5941db86746b0646c0e4a9c8e",
+      "records": 2896,
+      "seasons": {
+        "2023": 802,
+        "2024": 784,
+        "2025": 779,
+        "2026": 531
+      },
+      "first_match_date": "2023-03-13",
+      "last_match_date": "2026-07-26",
+      "records_with_observed_at": 0,
+      "records_with_published_at": 0,
+      "records_with_source_url": 0,
+      "records_with_scores": 2896,
+      "scope": "local historical detail; not production freshness or pregame availability proof"
+    },
+    {
+      "file": "data/raw/detail/kbo_batters_indiv_2023_2026.json",
+      "sha256": "24bdea9094046bdab4967d314c043d548a252599b652009d5ffdabd341cc84e8",
+      "records": 2896,
+      "seasons": {
+        "2023": 802,
+        "2024": 784,
+        "2025": 779,
+        "2026": 531
+      },
+      "first_match_date": "2023-03-13",
+      "last_match_date": "2026-07-26",
+      "records_with_observed_at": 0,
+      "records_with_published_at": 0,
+      "records_with_source_url": 0,
+      "records_with_scores": 2896,
+      "scope": "local historical detail; not production freshness or pregame availability proof"
+    }
+  ],
+  "roi_comparison_executed": false,
+  "production_changes": false,
+  "notes": [
+    "Existing data is not a new holdout.",
+    "Current-game lineup retrieved after the match is not pregame evidence.",
+    "Prior-match results may form lagged research features, with observation/latency limitations disclosed."
+  ]
+}

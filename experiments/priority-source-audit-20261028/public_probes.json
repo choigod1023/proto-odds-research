@@ -1,0 +1,231 @@
+{
+  "audited_at": "2026-10-28T08:53:45.811036+00:00",
+  "location": "local Windows client; not collector Tokyo network",
+  "requests": [
+    {
+      "id": "K_LEAGUE_TERMS",
+      "url": "https://portal.kleague.com/",
+      "observed_at": "2026-10-28T08:53:26.089771+00:00",
+      "historical_pregame_proven": false,
+      "eligible_model_input": false,
+      "status": 200,
+      "content_type": "text/html;charset=UTF-8",
+      "bytes": 8740,
+      "sha256": "e6a0e2c11fd9b6ba9af41d950243893a03376436a164616b83fb6059d7cd0971",
+      "seconds": 0.367,
+      "kind": "terms_only",
+      "permission_requirement_found": true,
+      "data_rows_extracted": 0
+    },
+    {
+      "id": "KBO_REGISTER",
+      "url": "https://www.koreabaseball.com/Player/Register.aspx",
+      "observed_at": "2026-10-28T08:53:26.459303+00:00",
+      "historical_pregame_proven": false,
+      "eligible_model_input": false,
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 65066,
+      "sha256": "9dc84d41124df26e7dee2bcb51e207b9ec7387de84681e34b17d23204a084cf2",
+      "seconds": 0.49,
+      "kind": "registration_snapshot",
+      "displayed_dates": [
+        "2026.10.12"
+      ],
+      "table_count": 8,
+      "note": "Default selected team/date only; registration is not confirmed starting lineup or injury diagnosis."
+    },
+    {
+      "id": "NPB_ROSTER",
+      "url": "https://npb.jp/announcement/roster/",
+      "observed_at": "2026-10-28T08:53:26.963415+00:00",
+      "historical_pregame_proven": false,
+      "eligible_model_input": false,
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 134742,
+      "sha256": "21bbf13397f830c4e64b3e7940619e7f58f8301e3b328f6c0976a52ef5beceb4",
+      "seconds": 1.036,
+      "kind": "registration_snapshot",
+      "title": "出場選手登録および登録抹消 | 公示 | NPB.jp 日本野球機構",
+      "table_count": 15,
+      "dated_archive_links": [
+        "https://npb.jp/announcement/roster/roster_1016.html",
+        "https://npb.jp/announcement/roster/roster_1018.html"
+      ]
+    },
+    {
+      "id": "NPB_DAILY",
+      "url": "https://npb.jp/bis/2026/games/gm20261027.html",
+      "observed_at": "2026-10-28T08:53:28.042705+00:00",
+      "historical_pregame_proven": false,
+      "eligible_model_input": false,
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 27283,
+      "sha256": "c94b6b221e2db2783098525d6561c49b8c6f71d5fc27934496538dd495b9009b",
+      "seconds": 0.698,
+      "kind": "completed_game_index",
+      "boxscore_links": [
+        "https://npb.jp/scores/2026/1027/h-db-03/box.html"
+      ]
+    },
+    {
+      "id": "NPB_BOXSCORE",
+      "url": "https://npb.jp/scores/2026/1027/h-db-03/box.html",
+      "observed_at": "2026-10-28T08:53:28.747654+00:00",
+      "historical_pregame_proven": false,
+      "eligible_model_input": false,
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 89269,
+      "sha256": "69a05a56de8cdd0d1e36ce73bf6f958f7931dcadb642f6c0599dfefde4f501f0",
+      "seconds": 1.12,
+      "kind": "postgame_boxscore",
+      "lineup_sizes": {
+        "横浜DeNAベイスターズ": 9,
+        "福岡ソフトバンクホークス": 9
+      },
+      "lineup_orders": {
+        "横浜DeNAベイスターズ": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "福岡ソフトバンクホークス": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ]
+      },
+      "note": "Retrospective starters from completed game. Not a pregame lineup snapshot."
+    },
+    {
+      "id": "MLB_SCHEDULE",
+      "url": "https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=2026-10-27&hydrate=probablePitcher",
+      "observed_at": "2026-10-28T08:53:29.908016+00:00",
+      "historical_pregame_proven": false,
+      "eligible_model_input": false,
+      "status": 200,
+      "content_type": "application/json;charset=UTF-8",
+      "bytes": 1876,
+      "sha256": "2fab618409c18747e30ec750367920f546d9e5a469787ab0bbd845b46172652a",
+      "seconds": 0.904,
+      "kind": "schedule_snapshot",
+      "game_count": 1,
+      "games": [
+        {
+          "game_id": 849803,
+          "game_datetime": "2026-10-28T00:00:00Z",
+          "status": "Final",
+          "home": "Tampa Bay Rays",
+          "away": "Milwaukee Brewers",
+          "home_score": 4,
+          "away_score": 3
+        }
+      ]
+    },
+    {
+      "id": "MLB_BOXSCORE",
+      "url": "https://statsapi.mlb.com/api/v1/game/849803/boxscore",
+      "observed_at": "2026-10-28T08:53:30.813349+00:00",
+      "historical_pregame_proven": false,
+      "eligible_model_input": false,
+      "status": 200,
+      "content_type": "application/json;charset=UTF-8",
+      "bytes": 181385,
+      "sha256": "2fe3ec612db947695066ce441257e4f2ea5ddfddc88503536e12ec84870c29c0",
+      "seconds": 0.87,
+      "kind": "postgame_boxscore",
+      "batting_order_sizes": {
+        "home": 9,
+        "away": 9
+      },
+      "pitcher_counts": {
+        "home": 7,
+        "away": 8
+      },
+      "note": "Official final-game facts, not historical pregame proof."
+    },
+    {
+      "id": "KBL_HOME",
+      "url": "https://www.kbl.or.kr/",
+      "observed_at": "2026-10-28T08:53:31.686014+00:00",
+      "historical_pregame_proven": false,
+      "eligible_model_input": false,
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 5241,
+      "sha256": "7c446983a0567d8e2cd5f4c7bee60fd735a86f6274e1efb1e1bce1db70d1056d",
+      "seconds": 0.352,
+      "kind": "javascript_shell_only",
+      "visible_characters": 11,
+      "game_records": 0,
+      "note": "HTTP 200 alone does not verify usable match data."
+    },
+    {
+      "id": "KBL_NAVER_SCHEDULE",
+      "url": "https://api-gw.sports.naver.com/schedule/games?fields=all&superCategoryId=basketball&categoryId=kbl&fromDate=2026-10-27&toDate=2026-10-28&size=10",
+      "observed_at": "2026-10-28T08:53:32.039077+00:00",
+      "historical_pregame_proven": false,
+      "eligible_model_input": false,
+      "error": "ReadTimeout",
+      "seconds": 12.303
+    },
+    {
+      "id": "NBA_INJURY_INDEX",
+      "url": "https://official.nba.com/nba-injury-report-2026-27-season/",
+      "observed_at": "2026-10-28T08:53:44.342037+00:00",
+      "historical_pregame_proven": false,
+      "eligible_model_input": false,
+      "status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 119831,
+      "sha256": "3e7756c5d32649b03bdd6b710135d7a01860a86320e4c775ff86233357db51c5",
+      "seconds": 0.503,
+      "kind": "injury_report_index",
+      "version_count": 20,
+      "latest_report": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-10-28_04_45AM.pdf"
+    },
+    {
+      "id": "NBA_INJURY_PDF",
+      "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-10-28_04_45AM.pdf",
+      "observed_at": "2026-10-28T08:53:44.855390+00:00",
+      "historical_pregame_proven": false,
+      "eligible_model_input": false,
+      "status": 200,
+      "content_type": "application/pdf",
+      "bytes": 99563,
+      "sha256": "9d617be8af1083fb29620edccfd8fef3aa510960786e021a7de95cb899ab5d70",
+      "seconds": 0.687,
+      "kind": "versioned_injury_report",
+      "pages": 7,
+      "status_token_counts": {
+        "Out": 62,
+        "Doubtful": 6,
+        "Questionable": 18,
+        "Probable": 8,
+        "Available": 1
+      },
+      "note": "Token counts are not player counts. Current live observation only; no historical simulation yet."
+    }
+  ],
+  "request_count": 11,
+  "production_changes": false,
+  "roi_comparison_executed": false,
+  "raw_bodies_persisted": false,
+  "body_reproducibility": "Response hashes retained; exact bodies not retained, so hashes alone cannot replay parser results.",
+  "observed_at_semantics": "Request start timestamp; not a certified response receipt or pregame journal."
+}
