@@ -1,0 +1,41 @@
+{
+  "input_hashes": {
+    "experiments/dynamic-score-state-model-20261030/results/predictions.jsonl.gz": "41fca09ed45b3be5a5c06bb369143233b85198e0d3d43aacd67225b9d8fc12bd",
+    "experiments/dynamic-score-state-model-20261030/inputs/targets.jsonl.gz": "71af2473a3969c80af386af8d2ebe13d7585f200ea243a2ad8dac2469e6778d0",
+    "experiments/dynamic-score-state-model-20261030/inputs/history.jsonl.gz": "13c72c41daa915c6fccbc7750f909777474e20864fb03499c891bc948061204a"
+  },
+  "source_model_lf_sha256": "97658e8e16b758ff867baf73bdad1daae6c27de2e8d0e4bbe3c58e0f807d31e1",
+  "older_year_states": [
+    {
+      "year": 2024,
+      "league": "MLB",
+      "training_rows": 2392,
+      "max_training_date": "2023-11-02",
+      "freeze": "2024-01-05T00:00:00+00:00",
+      "state_sha256": "1d0e25c95e2aed378a51d5a7936bb7f9d2abeebf220d017ac535dd4918dedfc0",
+      "excluded_before_freeze": [],
+      "frozen_state_preserved": true
+    },
+    {
+      "year": 2025,
+      "league": "MLB",
+      "training_rows": 4803,
+      "max_training_date": "2024-10-31",
+      "freeze": "2025-01-05T00:00:00+00:00",
+      "state_sha256": "44ef0068a170ec5f54d8c954d95927cb95533ca210f745aa74ba1c55397e665e",
+      "excluded_before_freeze": [],
+      "frozen_state_preserved": true
+    }
+  ],
+  "ledger_rows": 1403,
+  "cohort_counts_mode_frozen": {
+    "actual_saved_quote/2025": 1,
+    "actual_saved_quote/2026": 445,
+    "archive_price_proxy/2024": 9,
+    "archive_price_proxy/2025": 7,
+    "archive_price_proxy/2026": 248
+  },
+  "exact_fixture_cross_cohort_overlap": 133,
+  "new_independent_pregame_certified_events": 0,
+  "warning": "All retrospective; never sum modes or all-period aggregates with their constituent rows. Older samples tiny, proxy quotes not execution-certified. Outcome-time is a historical proxy."
+}
