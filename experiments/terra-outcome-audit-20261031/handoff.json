@@ -1,0 +1,386 @@
+{
+  "role": "independent_outcome_audit",
+  "status": "draft_pr_open",
+  "repo": "https://github.com/choigod1023/proto-odds-research",
+  "branch": "codex/terra-outcome-audit-20261031",
+  "base_sha": "7000e0f0bcffa50bfed38d6b3ff4fea525d48547",
+  "protocol_sha": null,
+  "commit": "ee9e852 (audit implementation; handoff metadata follows)",
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/449",
+  "changed_paths": [
+    "experiments/terra-outcome-audit-20261031/**",
+    "tests/test_accuracy_outcome_audit.py",
+    "docs/research/2026-10-31-terra-outcome-audit.md"
+  ],
+  "inputs_and_sha": {
+    "targets.jsonl.gz": "71af2473a3969c80af386af8d2ebe13d7585f200ea243a2ad8dac2469e6778d0",
+    "predictions.jsonl.gz": "41fca09ed45b3be5a5c06bb369143233b85198e0d3d43aacd67225b9d8fc12bd",
+    "results.json": "fc780df6f4fede73f81948dfd1bafe3325acf95803da6573ddd02975603f6d07"
+  },
+  "tests": {
+    "independent_settlement": "17800 selections, 0 summary differences",
+    "targeted": "1 passed; altered target outcome rejected",
+    "full": "2016 passed, 6 skipped, 93 subtests passed"
+  },
+  "metrics": {
+    "actual_vote_2026": 445,
+    "eligible_leagues_games": 436,
+    "selected": {
+      "K리그1": {
+        "frozen": {
+          "candidate": {
+            "n": 15,
+            "bets": 15,
+            "wins": 7,
+            "coverage": 1.0,
+            "accuracy": 0.4666666666666667,
+            "roi": 0.048
+          },
+          "market": {
+            "n": 15,
+            "bets": 15,
+            "wins": 7,
+            "coverage": 1.0,
+            "accuracy": 0.4666666666666667,
+            "roi": -0.06733333333333333
+          },
+          "fixed9": {
+            "n": 15,
+            "bets": 15,
+            "wins": 6,
+            "coverage": 1.0,
+            "accuracy": 0.4,
+            "roi": -0.18733333333333332
+          },
+          "vote": {
+            "n": 15,
+            "bets": 15,
+            "wins": 4,
+            "coverage": 1.0,
+            "accuracy": 0.26666666666666666,
+            "roi": -0.4226666666666667
+          },
+          "home_constant": {
+            "n": 15,
+            "bets": 15,
+            "wins": 7,
+            "coverage": 1.0,
+            "accuracy": 0.4666666666666667,
+            "roi": 0.048
+          }
+        },
+        "prequential": {
+          "candidate": {
+            "n": 15,
+            "bets": 15,
+            "wins": 6,
+            "coverage": 1.0,
+            "accuracy": 0.4,
+            "roi": -0.22533333333333333
+          },
+          "market": {
+            "n": 15,
+            "bets": 15,
+            "wins": 7,
+            "coverage": 1.0,
+            "accuracy": 0.4666666666666667,
+            "roi": -0.06733333333333333
+          },
+          "fixed9": {
+            "n": 15,
+            "bets": 15,
+            "wins": 6,
+            "coverage": 1.0,
+            "accuracy": 0.4,
+            "roi": -0.18733333333333332
+          },
+          "vote": {
+            "n": 15,
+            "bets": 15,
+            "wins": 4,
+            "coverage": 1.0,
+            "accuracy": 0.26666666666666666,
+            "roi": -0.4226666666666667
+          },
+          "home_constant": {
+            "n": 15,
+            "bets": 15,
+            "wins": 7,
+            "coverage": 1.0,
+            "accuracy": 0.4666666666666667,
+            "roi": 0.048
+          }
+        }
+      },
+      "KBO": {
+        "frozen": {
+          "candidate": {
+            "n": 199,
+            "bets": 199,
+            "wins": 108,
+            "coverage": 1.0,
+            "accuracy": 0.542713567839196,
+            "roi": -0.12170854271356783
+          },
+          "market": {
+            "n": 199,
+            "bets": 199,
+            "wins": 116,
+            "coverage": 1.0,
+            "accuracy": 0.5829145728643216,
+            "roi": -0.11603015075376884
+          },
+          "fixed9": {
+            "n": 199,
+            "bets": 199,
+            "wins": 118,
+            "coverage": 1.0,
+            "accuracy": 0.592964824120603,
+            "roi": -0.08442211055276382
+          },
+          "vote": {
+            "n": 199,
+            "bets": 199,
+            "wins": 112,
+            "coverage": 1.0,
+            "accuracy": 0.5628140703517588,
+            "roi": -0.09396984924623115
+          },
+          "home_constant": {
+            "n": 199,
+            "bets": 199,
+            "wins": 96,
+            "coverage": 1.0,
+            "accuracy": 0.4824120603015075,
+            "roi": -0.18120603015075376
+          }
+        },
+        "prequential": {
+          "candidate": {
+            "n": 199,
+            "bets": 199,
+            "wins": 112,
+            "coverage": 1.0,
+            "accuracy": 0.5628140703517588,
+            "roi": -0.11879396984924623
+          },
+          "market": {
+            "n": 199,
+            "bets": 199,
+            "wins": 116,
+            "coverage": 1.0,
+            "accuracy": 0.5829145728643216,
+            "roi": -0.11603015075376884
+          },
+          "fixed9": {
+            "n": 199,
+            "bets": 199,
+            "wins": 118,
+            "coverage": 1.0,
+            "accuracy": 0.592964824120603,
+            "roi": -0.08442211055276382
+          },
+          "vote": {
+            "n": 199,
+            "bets": 199,
+            "wins": 112,
+            "coverage": 1.0,
+            "accuracy": 0.5628140703517588,
+            "roi": -0.09396984924623115
+          },
+          "home_constant": {
+            "n": 199,
+            "bets": 199,
+            "wins": 96,
+            "coverage": 1.0,
+            "accuracy": 0.4824120603015075,
+            "roi": -0.18120603015075376
+          }
+        }
+      },
+      "NPB": {
+        "frozen": {
+          "candidate": {
+            "n": 110,
+            "bets": 110,
+            "wins": 66,
+            "coverage": 1.0,
+            "accuracy": 0.6,
+            "roi": -0.03418181818181818
+          },
+          "market": {
+            "n": 110,
+            "bets": 110,
+            "wins": 66,
+            "coverage": 1.0,
+            "accuracy": 0.6,
+            "roi": -0.08163636363636363
+          },
+          "fixed9": {
+            "n": 110,
+            "bets": 110,
+            "wins": 64,
+            "coverage": 1.0,
+            "accuracy": 0.5818181818181818,
+            "roi": -0.10163636363636364
+          },
+          "vote": {
+            "n": 110,
+            "bets": 110,
+            "wins": 58,
+            "coverage": 1.0,
+            "accuracy": 0.5272727272727272,
+            "roi": -0.13345454545454546
+          },
+          "home_constant": {
+            "n": 110,
+            "bets": 110,
+            "wins": 60,
+            "coverage": 1.0,
+            "accuracy": 0.5454545454545454,
+            "roi": -0.08045454545454546
+          }
+        },
+        "prequential": {
+          "candidate": {
+            "n": 110,
+            "bets": 110,
+            "wins": 57,
+            "coverage": 1.0,
+            "accuracy": 0.5181818181818182,
+            "roi": -0.15227272727272728
+          },
+          "market": {
+            "n": 110,
+            "bets": 110,
+            "wins": 66,
+            "coverage": 1.0,
+            "accuracy": 0.6,
+            "roi": -0.08163636363636363
+          },
+          "fixed9": {
+            "n": 110,
+            "bets": 110,
+            "wins": 64,
+            "coverage": 1.0,
+            "accuracy": 0.5818181818181818,
+            "roi": -0.10163636363636364
+          },
+          "vote": {
+            "n": 110,
+            "bets": 110,
+            "wins": 58,
+            "coverage": 1.0,
+            "accuracy": 0.5272727272727272,
+            "roi": -0.13345454545454546
+          },
+          "home_constant": {
+            "n": 110,
+            "bets": 110,
+            "wins": 60,
+            "coverage": 1.0,
+            "accuracy": 0.5454545454545454,
+            "roi": -0.08045454545454546
+          }
+        }
+      },
+      "MLB": {
+        "frozen": {
+          "candidate": {
+            "n": 112,
+            "bets": 112,
+            "wins": 52,
+            "coverage": 1.0,
+            "accuracy": 0.4642857142857143,
+            "roi": -0.2330357142857143
+          },
+          "market": {
+            "n": 112,
+            "bets": 112,
+            "wins": 60,
+            "coverage": 1.0,
+            "accuracy": 0.5357142857142857,
+            "roi": -0.1549107142857143
+          },
+          "fixed9": {
+            "n": 112,
+            "bets": 112,
+            "wins": 60,
+            "coverage": 1.0,
+            "accuracy": 0.5357142857142857,
+            "roi": -0.14366071428571428
+          },
+          "vote": {
+            "n": 112,
+            "bets": 112,
+            "wins": 59,
+            "coverage": 1.0,
+            "accuracy": 0.5267857142857143,
+            "roi": -0.09785714285714285
+          },
+          "home_constant": {
+            "n": 112,
+            "bets": 112,
+            "wins": 50,
+            "coverage": 1.0,
+            "accuracy": 0.44642857142857145,
+            "roi": -0.24473214285714287
+          }
+        },
+        "prequential": {
+          "candidate": {
+            "n": 112,
+            "bets": 112,
+            "wins": 49,
+            "coverage": 1.0,
+            "accuracy": 0.4375,
+            "roi": -0.2749107142857143
+          },
+          "market": {
+            "n": 112,
+            "bets": 112,
+            "wins": 60,
+            "coverage": 1.0,
+            "accuracy": 0.5357142857142857,
+            "roi": -0.1549107142857143
+          },
+          "fixed9": {
+            "n": 112,
+            "bets": 112,
+            "wins": 60,
+            "coverage": 1.0,
+            "accuracy": 0.5357142857142857,
+            "roi": -0.14366071428571428
+          },
+          "vote": {
+            "n": 112,
+            "bets": 112,
+            "wins": 59,
+            "coverage": 1.0,
+            "accuracy": 0.5267857142857143,
+            "roi": -0.09785714285714285
+          },
+          "home_constant": {
+            "n": 112,
+            "bets": 112,
+            "wins": 50,
+            "coverage": 1.0,
+            "accuracy": 0.44642857142857145,
+            "roi": -0.24473214285714287
+          }
+        }
+      }
+    },
+    "new_accuracy_or_roi": "not measured; cannot determine improvement"
+  },
+  "limitations": [
+    "same retrospectively inspected 2026 sample; no blind holdout",
+    "no verified pregame receipt, execution prices or independent settlement",
+    "runtime/deployment and frozen production ledger not inspected",
+    "parent preparation replay reported but not rerun"
+  ],
+  "blockers": [
+    "future verified independent receipt, same-fixture same-product executable odds, trusted identities and precommitted evaluation protocol"
+  ],
+  "next_dependency": "coordinator precommits candidates, selection, time splits, causal availability, matched market and frozen policy comparisons before prospective evaluation"
+}
