@@ -1,0 +1,50 @@
+{
+  "scope": "read-only production observation; no manual collector execution",
+  "observed_at_utc_range": [
+    "2026-10-31T04:38:26.076860+00:00",
+    "2026-10-31T04:40:03.780904+00:00"
+  ],
+  "machine_count_started": 1,
+  "odds": {
+    "api_http_status": 200,
+    "samples": [
+      {
+        "received_at": "2026-10-31T04:38:26.076860+00:00",
+        "generated_at": "2026-10-31T04:37:59+00:00",
+        "age_seconds": 27.1
+      },
+      {
+        "received_at": "2026-10-31T04:39:25.673307+00:00",
+        "generated_at": "2026-10-31T04:37:59+00:00",
+        "age_seconds": 86.7
+      },
+      {
+        "received_at": "2026-10-31T04:40:03.780904+00:00",
+        "generated_at": "2026-10-31T04:37:59+00:00",
+        "age_seconds": 124.8
+      }
+    ],
+    "rows": 947,
+    "rounds": [
+      128,
+      129,
+      130,
+      131
+    ],
+    "source_price_latency": "unknown",
+    "carry_forward_state": "unknown"
+  },
+  "picks": {
+    "api_http_status": 200,
+    "api_received_at": "2026-10-31T04:38:46.968613+00:00",
+    "api_generated_at": "2026-10-30T09:18:08+00:00",
+    "health_generated_at": "2026-10-30T10:13:55+00:00",
+    "health_stored_at": "2026-10-30T10:17:23.995637+00:00",
+    "scheduled_market_count": 520,
+    "same_round_game_no_in_live_picks": 453,
+    "no_same_round_game_no_in_live_picks": 67,
+    "mapping_quality": "round_and_game_number_only"
+  },
+  "watchdog_issue": "https://github.com/choigod1023/proto-odds-research/issues/447",
+  "root_cause": "unconfirmed"
+}
