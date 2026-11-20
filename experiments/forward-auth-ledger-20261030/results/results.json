@@ -1,0 +1,2020 @@
+{
+  "conclusion": "아니오. 시장 단독 대비 통계적 적중률 개선을 입증하지 못함. 인증 표본 0, 원장 자체는 예측 모형이 아님.",
+  "metrics": {
+    "authenticated_performance": {
+      "accuracy": null,
+      "ci": null,
+      "coverage": 0,
+      "n": 0,
+      "reason": "no trusted external checkpoint evidence",
+      "roi": null
+    },
+    "chronology": {
+      "dated_fixtures": 156,
+      "missing_kickoff_excluded": 336,
+      "split": {
+        "test": {
+          "first": "2026-09-09",
+          "fixture_ids": [
+            "kleague:2026:1:178",
+            "kleague:2026:1:179",
+            "kleague:2026:1:180",
+            "kleague:2026:2:213",
+            "kleague:2026:2:216",
+            "MLB:822765",
+            "MLB:822767",
+            "MLB:822847",
+            "MLB:823092",
+            "MLB:823659",
+            "MLB:824629",
+            "MLB:849805",
+            "MLB:849818",
+            "MLB:849819",
+            "MLB:849833",
+            "MLB:849834",
+            "MLB:849838",
+            "MLB:849839",
+            "nba:0022600087",
+            "nba:0022600096",
+            "nba:0022600099",
+            "nba:0022600100",
+            "nba:0022600107",
+            "nba:0022600115"
+          ],
+          "last": "2026-10-25",
+          "n": 24
+        },
+        "train": {
+          "first": "2025-11-01",
+          "fixture_ids": [
+            "kleague:2026:1:32",
+            "kleague:2026:1:33",
+            "kleague:2026:1:34",
+            "kleague:2026:1:35",
+            "kleague:2026:1:49",
+            "kleague:2026:1:51",
+            "kleague:2026:1:54",
+            "kleague:2026:1:59",
+            "kleague:2026:1:9",
+            "kleague:2026:1:91",
+            "kleague:2026:1:93",
+            "kleague:2026:2:122",
+            "kleague:2026:2:42",
+            "kleague:2026:2:43",
+            "kleague:2026:2:44",
+            "kleague:2026:2:48",
+            "kleague:2026:2:69",
+            "kleague:2026:2:70",
+            "kleague:2026:2:9",
+            "MLB:813025",
+            "MLB:822743",
+            "MLB:822744",
+            "MLB:822789",
+            "MLB:822818",
+            "MLB:822822",
+            "MLB:822825",
+            "MLB:822827",
+            "MLB:822889",
+            "MLB:822958",
+            "MLB:822983",
+            "MLB:822984",
+            "MLB:822990",
+            "MLB:822992",
+            "MLB:823061",
+            "MLB:823063",
+            "MLB:823069",
+            "MLB:823120",
+            "MLB:823140",
+            "MLB:823143",
+            "MLB:823146",
+            "MLB:823159",
+            "MLB:823228",
+            "MLB:823232",
+            "MLB:823306",
+            "MLB:823309",
+            "MLB:823311",
+            "MLB:823370",
+            "MLB:823384",
+            "MLB:823389",
+            "MLB:823395",
+            "MLB:823524",
+            "MLB:823538",
+            "MLB:823553",
+            "MLB:823636",
+            "MLB:823638",
+            "MLB:823712",
+            "MLB:823714",
+            "MLB:823719",
+            "MLB:823794",
+            "MLB:823800",
+            "MLB:823845",
+            "MLB:823873",
+            "MLB:823877",
+            "MLB:824039",
+            "MLB:824041",
+            "MLB:824116",
+            "MLB:824120",
+            "MLB:824124",
+            "MLB:824194",
+            "MLB:824199",
+            "MLB:824204",
+            "MLB:824280",
+            "MLB:824283",
+            "MLB:824287",
+            "MLB:824361",
+            "MLB:824366",
+            "MLB:824439",
+            "MLB:824441",
+            "MLB:824443",
+            "MLB:824446",
+            "MLB:824458",
+            "MLB:824521",
+            "MLB:824522",
+            "MLB:824526",
+            "MLB:824529",
+            "MLB:824539",
+            "MLB:824541",
+            "MLB:824591",
+            "MLB:824601",
+            "MLB:824604",
+            "MLB:824609",
+            "MLB:824686",
+            "MLB:824764",
+            "MLB:824765",
+            "MLB:824767",
+            "MLB:824768",
+            "MLB:824772",
+            "MLB:824849",
+            "MLB:824854",
+            "MLB:824925",
+            "MLB:824927",
+            "MLB:824931",
+            "MLB:824932",
+            "MLB:825012",
+            "MLB:825017",
+            "MLB:825088",
+            "MLB:825092",
+            "MLB:825093",
+            "nba:0022500880",
+            "nba:0022500989",
+            "nba:0022501157",
+            "nba:0042500317"
+          ],
+          "last": "2026-07-17",
+          "n": 112
+        },
+        "validation": {
+          "first": "2026-07-18",
+          "fixture_ids": [
+            "kleague:2026:1:122",
+            "kleague:2026:1:123",
+            "kleague:2026:1:124",
+            "kleague:2026:1:125",
+            "kleague:2026:1:126",
+            "kleague:2026:2:153",
+            "MLB:822697",
+            "MLB:822780",
+            "MLB:822788",
+            "MLB:822874",
+            "MLB:823175",
+            "MLB:823185",
+            "MLB:823441",
+            "MLB:823749",
+            "MLB:823820",
+            "MLB:824090",
+            "MLB:824403",
+            "MLB:824471",
+            "MLB:824566",
+            "MLB:824641"
+          ],
+          "last": "2026-09-08",
+          "n": 20
+        }
+      },
+      "status": "exposed retrospective, not blind"
+    },
+    "heldout_label_flip_invariant": true,
+    "ledger_rules_tried": 1,
+    "paired_test_market_control_vs_fixed91": {
+      "accuracy_ci95": [
+        -0.21428571428571427,
+        0.13333333333333333
+      ],
+      "accuracy_difference": -0.08333333333333333,
+      "adjustment": "sole preregistered ledger rule; descriptive controls, no new predictor",
+      "bonferroni_family_size": 1,
+      "bootstrap_repetitions": 2000,
+      "changed_picks": 4,
+      "independent_bootstrap_exact_agreement": true,
+      "n": 24,
+      "observed_weeks": 5,
+      "roi_ci95": [
+        -0.603125,
+        0.228
+      ],
+      "roi_difference": -0.24541666666666667
+    },
+    "paired_test_market_control_vs_market": {
+      "accuracy_ci95": [
+        0.0,
+        0.0
+      ],
+      "accuracy_difference": 0.0,
+      "adjustment": "sole preregistered ledger rule; descriptive controls, no new predictor",
+      "bonferroni_family_size": 1,
+      "bootstrap_repetitions": 2000,
+      "changed_picks": 0,
+      "independent_bootstrap_exact_agreement": true,
+      "n": 24,
+      "observed_weeks": 5,
+      "roi_ci95": [
+        0.0,
+        0.0
+      ],
+      "roi_difference": 0.0
+    },
+    "predictive_candidates": 0,
+    "test": {
+      "market": {
+        "accuracy": 0.4166666666666667,
+        "coverage": 1.0,
+        "independent_integer_agreement": true,
+        "n": 24,
+        "profit_krw": -76300,
+        "roi": -0.3179166666666667,
+        "stake_krw": 10000,
+        "wins": 10
+      },
+      "market90_vote10": {
+        "accuracy": 0.5,
+        "coverage": 1.0,
+        "independent_integer_agreement": true,
+        "n": 24,
+        "profit_krw": -17400,
+        "roi": -0.0725,
+        "stake_krw": 10000,
+        "wins": 12
+      }
+    },
+    "total_strict492": {
+      "market": {
+        "accuracy": 0.5752032520325203,
+        "coverage": 1.0,
+        "independent_integer_agreement": true,
+        "n": 492,
+        "profit_krw": -497300,
+        "roi": -0.10107723577235772,
+        "stake_krw": 10000,
+        "wins": 283
+      },
+      "market90_vote10": {
+        "accuracy": 0.5752032520325203,
+        "coverage": 1.0,
+        "independent_integer_agreement": true,
+        "n": 492,
+        "profit_krw": -441400,
+        "roi": -0.08971544715447155,
+        "stake_krw": 10000,
+        "wins": 283
+      }
+    }
+  },
+  "power": {
+    "alpha": 0.05,
+    "alternative": "two-sided",
+    "assumptions": "paired normal approximation, independent fixtures, prospective discordance unknown; cluster dependence can inflate n",
+    "effect": 0.03,
+    "family_size": 1,
+    "power": 0.8,
+    "rows": [
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "ACL2",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "ACLE",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "AG남농",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "AG남배",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "AG남축",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "AG야구",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "AG여농",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "AG여배",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "AG여축",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "A리그",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "CSL",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "C네이션",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "EFL챔",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "EPL",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "FIFA아세",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "J1리그",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "J2리그",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": 4199,
+        "league": "KBL",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 18,
+        "retrospective_market_accuracy": 0.3888888888888889,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": 4181,
+        "league": "KBO",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 203,
+        "retrospective_market_accuracy": 0.5862068965517241,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "KOVO컵남",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "KOVO컵여",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": 4330,
+        "league": "K리그1",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 19,
+        "retrospective_market_accuracy": 0.5263157894736842,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": 3336,
+        "league": "K리그2",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 11,
+        "retrospective_market_accuracy": 0.7272727272727273,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": 4301,
+        "league": "MLB",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 116,
+        "retrospective_market_accuracy": 0.5431034482758621,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "MLS",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": 3554,
+        "league": "NBA",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 10,
+        "retrospective_market_accuracy": 0.7,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": 4129,
+        "league": "NPB",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 115,
+        "retrospective_market_accuracy": 0.6,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "UCL",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "UECL",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "UEL",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "UNKNOWN",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "U네이션",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "걸프컵",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "남농EASL",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "남농월예",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "남배아선",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "남축INTL",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "네덜FA컵",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "독일FA컵",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "라리가",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "리그스컵",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "미국FA컵",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "박신자컵",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "분데스리",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "세리에A",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "아세안컵",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "에레디비",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "여농월드",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": null,
+        "independent_two_arm_n_per_arm": null,
+        "league": "이탈FA컵",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": null,
+        "independent_two_arm_n_per_arm": null,
+        "league": "인터컨컵",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "일리그컵",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "일본FA컵",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "잉리그컵",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "축걸프컵",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": null,
+        "independent_two_arm_n_per_arm": null,
+        "league": "캄페오컵",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "코파리베",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "프리그1",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      },
+      {
+        "certified_rate_per_week": 0,
+        "independent_two_arm_n_per_arm": null,
+        "league": "호주FA컵",
+        "paired_n_q1": 8719,
+        "paired_n_scenarios": {
+          "0.2": 1742,
+          "0.5": 4359,
+          "1.0": 8719
+        },
+        "reason": "No proven authenticated collection rate; cannot estimate duration",
+        "reference_n": 0,
+        "retrospective_market_accuracy": null,
+        "weeks_needed": null
+      }
+    ]
+  },
+  "synthetic_integrity": {
+    "real_authenticated_samples_added": 0,
+    "records": 3,
+    "rewritten_checkpoint_signature_rejected": true,
+    "synthetic_only": true,
+    "tamper_rejected": true,
+    "whole_file_rewrite_passes_chain_only": true,
+    "whole_file_rewrite_rejected_by_pinned_checkpoint": true
+  },
+  "timed_audit": {
+    "by_league": {
+      "ACL2": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 6.356825336527778,
+        "fixtures": 39,
+        "internal_t30": 140,
+        "internal_t30_fixtures": 39,
+        "observation_end": "2026-10-29T11:14:54.260469+00:00",
+        "observation_start": "2026-09-14T23:18:06.296937+00:00",
+        "revisions": 140,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "ACLE": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 6.3445572569328705,
+        "fixtures": 47,
+        "internal_t30": 154,
+        "internal_t30_fixtures": 47,
+        "observation_end": "2026-10-28T09:01:36.081461+00:00",
+        "observation_start": "2026-09-13T23:08:27.852468+00:00",
+        "revisions": 156,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "AG남농": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 1.433994798422619,
+        "fixtures": 26,
+        "internal_t30": 26,
+        "internal_t30_fixtures": 26,
+        "observation_end": "2026-09-20T00:02:24.863460+00:00",
+        "observation_start": "2026-09-09T23:07:44.809374+00:00",
+        "revisions": 26,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "AG남배": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 0.916567845244709,
+        "fixtures": 38,
+        "internal_t30": 94,
+        "internal_t30_fixtures": 38,
+        "observation_end": "2026-10-03T09:03:36.702242+00:00",
+        "observation_start": "2026-09-26T23:04:36.469438+00:00",
+        "revisions": 94,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "AG남축": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 2.762830891283069,
+        "fixtures": 29,
+        "internal_t30": 64,
+        "internal_t30_fixtures": 29,
+        "observation_end": "2026-10-03T09:03:36.054806+00:00",
+        "observation_start": "2026-09-14T00:54:15.931758+00:00",
+        "revisions": 64,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "AG야구": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 0.8696477509507275,
+        "fixtures": 7,
+        "internal_t30": 7,
+        "internal_t30_fixtures": 7,
+        "observation_end": "2026-09-27T02:44:31.254253+00:00",
+        "observation_start": "2026-09-21T00:38:28.294478+00:00",
+        "revisions": 7,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "AG여농": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 1.2840203581580687,
+        "fixtures": 22,
+        "internal_t30": 22,
+        "internal_t30_fixtures": 22,
+        "observation_end": "2026-09-25T22:36:10.043170+00:00",
+        "observation_start": "2026-09-16T22:53:14.530556+00:00",
+        "revisions": 22,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "AG여배": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 0.8737885446610449,
+        "fixtures": 36,
+        "internal_t30": 36,
+        "internal_t30_fixtures": 36,
+        "observation_end": "2026-09-22T02:23:42.590157+00:00",
+        "observation_start": "2026-09-15T23:35:55.278346+00:00",
+        "revisions": 36,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "AG여축": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 2.568418895400132,
+        "fixtures": 26,
+        "internal_t30": 44,
+        "internal_t30_fixtures": 26,
+        "observation_end": "2026-10-01T23:08:39.120221+00:00",
+        "observation_start": "2026-09-13T23:38:59.372283+00:00",
+        "revisions": 44,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "A리그": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 2.084176026836971,
+        "fixtures": 12,
+        "internal_t30": 29,
+        "internal_t30_fixtures": 12,
+        "observation_end": "2026-10-28T13:48:24.127727+00:00",
+        "observation_start": "2026-10-13T23:39:54.466696+00:00",
+        "revisions": 29,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "CSL": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 2.451572871889881,
+        "fixtures": 24,
+        "internal_t30": 71,
+        "internal_t30_fixtures": 24,
+        "observation_end": "2026-10-24T06:36:23.102699+00:00",
+        "observation_start": "2026-10-07T02:44:31.829780+00:00",
+        "revisions": 71,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "C네이션": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 1.7877889411276455,
+        "fixtures": 22,
+        "internal_t30": 57,
+        "internal_t30_fixtures": 22,
+        "observation_end": "2026-10-06T01:24:16.990864+00:00",
+        "observation_start": "2026-09-23T13:03:22.239270+00:00",
+        "revisions": 57,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "EFL챔": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 8.142865440436509,
+        "fixtures": 110,
+        "internal_t30": 352,
+        "internal_t30_fixtures": 110,
+        "observation_end": "2026-10-24T12:13:05.339716+00:00",
+        "observation_start": "2026-08-28T12:13:00.321340+00:00",
+        "revisions": 355,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "EPL": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 8.287372983530092,
+        "fixtures": 69,
+        "internal_t30": 196,
+        "internal_t30_fixtures": 69,
+        "observation_end": "2026-10-25T12:29:44.060810+00:00",
+        "observation_start": "2026-08-28T12:13:00.880371+00:00",
+        "revisions": 198,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "FIFA아세": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 0.5649277341021826,
+        "fixtures": 4,
+        "internal_t30": 16,
+        "internal_t30_fixtures": 4,
+        "observation_end": "2026-10-05T03:48:48.918625+00:00",
+        "observation_start": "2026-10-01T04:54:20.625040+00:00",
+        "revisions": 16,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "J1리그": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 8.244324566676587,
+        "fixtures": 80,
+        "internal_t30": 318,
+        "internal_t30_fixtures": 80,
+        "observation_end": "2026-10-25T05:16:00.142204+00:00",
+        "observation_start": "2026-08-28T12:13:12.644278+00:00",
+        "revisions": 318,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "J2리그": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 8.256552081893188,
+        "fixtures": 95,
+        "internal_t30": 278,
+        "internal_t30_fixtures": 95,
+        "observation_end": "2026-10-25T07:19:17.504227+00:00",
+        "observation_start": "2026-08-28T12:13:14.805098+00:00",
+        "revisions": 278,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "KBL": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 3.773945962038691,
+        "fixtures": 30,
+        "internal_t30": 88,
+        "internal_t30_fixtures": 30,
+        "observation_end": "2026-10-29T09:22:37.300795+00:00",
+        "observation_start": "2026-10-02T23:21:14.782954+00:00",
+        "revisions": 88,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "KBO": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 8.837484462696759,
+        "fixtures": 136,
+        "internal_t30": 621,
+        "internal_t30_fixtures": 136,
+        "observation_end": "2026-10-29T08:55:04.449142+00:00",
+        "observation_start": "2026-08-28T12:13:13.846103+00:00",
+        "revisions": 622,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "KOVO컵남": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 0.8801428534540344,
+        "fixtures": 11,
+        "internal_t30": 52,
+        "internal_t30_fixtures": 11,
+        "observation_end": "2026-10-25T02:58:15.263097+00:00",
+        "observation_start": "2026-10-18T23:06:24.865328+00:00",
+        "revisions": 52,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "KOVO컵여": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 0.7031865850446428,
+        "fixtures": 7,
+        "internal_t30": 32,
+        "internal_t30_fixtures": 7,
+        "observation_end": "2026-10-17T00:56:53.038233+00:00",
+        "observation_start": "2026-10-12T02:48:45.791598+00:00",
+        "revisions": 32,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "K리그1": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 8.094893479277447,
+        "fixtures": 49,
+        "internal_t30": 106,
+        "internal_t30_fixtures": 49,
+        "observation_end": "2026-10-24T04:10:26.221829+00:00",
+        "observation_start": "2026-08-28T12:13:54.645562+00:00",
+        "revisions": 106,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "K리그2": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 8.251981862347883,
+        "fixtures": 54,
+        "internal_t30": 147,
+        "internal_t30_fixtures": 54,
+        "observation_end": "2026-10-25T06:33:48.388964+00:00",
+        "observation_start": "2026-08-28T12:13:49.758616+00:00",
+        "revisions": 147,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "MLB": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 8.758531162675265,
+        "fixtures": 369,
+        "internal_t30": 631,
+        "internal_t30_fixtures": 369,
+        "observation_end": "2026-10-28T19:38:59.327735+00:00",
+        "observation_start": "2026-08-28T12:12:59.680549+00:00",
+        "revisions": 641,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "MLS": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 8.774762248725198,
+        "fixtures": 168,
+        "internal_t30": 479,
+        "internal_t30_fixtures": 168,
+        "observation_end": "2026-10-28T22:25:52.365707+00:00",
+        "observation_start": "2026-08-28T12:16:16.157678+00:00",
+        "revisions": 480,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "NBA": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 1.326309771875,
+        "fixtures": 71,
+        "internal_t30": 160,
+        "internal_t30_fixtures": 71,
+        "observation_end": "2026-10-29T05:26:09.726179+00:00",
+        "observation_start": "2026-10-19T22:36:57.576149+00:00",
+        "revisions": 160,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "NPB": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 8.684578617423941,
+        "fixtures": 156,
+        "internal_t30": 340,
+        "internal_t30_fixtures": 156,
+        "observation_end": "2026-10-28T07:13:43.627033+00:00",
+        "observation_start": "2026-08-28T12:13:10.479215+00:00",
+        "revisions": 342,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "UCL": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 6.374087716165675,
+        "fixtures": 54,
+        "internal_t30": 238,
+        "internal_t30_fixtures": 54,
+        "observation_end": "2026-10-21T14:02:00.541683+00:00",
+        "observation_start": "2026-09-06T23:11:12.290946+00:00",
+        "revisions": 238,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "UECL": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 1.2280420484771826,
+        "fixtures": 36,
+        "internal_t30": 298,
+        "internal_t30_fixtures": 36,
+        "observation_end": "2026-10-22T13:58:11.896397+00:00",
+        "observation_start": "2026-10-13T23:39:32.065478+00:00",
+        "revisions": 298,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "UEL": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 5.227205647397487,
+        "fixtures": 54,
+        "internal_t30": 314,
+        "internal_t30_fixtures": 54,
+        "observation_end": "2026-10-22T13:25:18.050949+00:00",
+        "observation_start": "2026-09-15T23:15:04.075403+00:00",
+        "revisions": 314,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "UNKNOWN": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 6.71838011109623,
+        "fixtures": 117,
+        "internal_t30": 304,
+        "internal_t30_fixtures": 117,
+        "observation_end": "2026-10-14T12:56:34.854331+00:00",
+        "observation_start": "2026-08-28T12:15:18.563140+00:00",
+        "revisions": 313,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "U네이션": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 1.9672599773181219,
+        "fixtures": 103,
+        "internal_t30": 279,
+        "internal_t30_fixtures": 103,
+        "observation_end": "2026-10-06T17:33:20.417526+00:00",
+        "observation_start": "2026-09-22T23:03:21.583244+00:00",
+        "revisions": 279,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "걸프컵": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 1.0091260955191799,
+        "fixtures": 12,
+        "internal_t30": 26,
+        "internal_t30_fixtures": 12,
+        "observation_end": "2026-09-30T00:35:19.283619+00:00",
+        "observation_start": "2026-09-22T23:03:19.821049+00:00",
+        "revisions": 26,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "남농EASL": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 3.610466448958334,
+        "fixtures": 5,
+        "internal_t30": 12,
+        "internal_t30_fixtures": 5,
+        "observation_end": "2026-10-28T10:38:11.686743+00:00",
+        "observation_start": "2026-10-03T04:04:41.578413+00:00",
+        "revisions": 12,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "남농월예": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 0.22131713893022487,
+        "fixtures": 8,
+        "internal_t30": 24,
+        "internal_t30_fixtures": 7,
+        "observation_end": "2026-08-30T01:23:51.569628+00:00",
+        "observation_start": "2026-08-28T12:12:58.964003+00:00",
+        "revisions": 30,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "남배아선": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 0.884437238832672,
+        "fixtures": 6,
+        "internal_t30": 6,
+        "internal_t30_fixtures": 6,
+        "observation_end": "2026-09-13T03:46:19.376194+00:00",
+        "observation_start": "2026-09-06T23:11:11.734148+00:00",
+        "revisions": 6,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "남축INTL": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 1.9426290929679233,
+        "fixtures": 38,
+        "internal_t30": 133,
+        "internal_t30_fixtures": 38,
+        "observation_end": "2026-10-06T13:25:02.136526+00:00",
+        "observation_start": "2026-09-22T23:03:20.061099+00:00",
+        "revisions": 133,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "네덜FA컵": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 0.0869065077744709,
+        "fixtures": 1,
+        "internal_t30": 3,
+        "internal_t30_fixtures": 1,
+        "observation_end": "2026-10-28T13:48:23.728029+00:00",
+        "observation_start": "2026-10-27T23:12:22.672127+00:00",
+        "revisions": 3,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "독일FA컵": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 0.3730933651322751,
+        "fixtures": 4,
+        "internal_t30": 11,
+        "internal_t30_fixtures": 4,
+        "observation_end": "2026-10-28T13:48:23.651756+00:00",
+        "observation_start": "2026-10-25T23:07:36.784524+00:00",
+        "revisions": 11,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "라리가": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 8.427364004323744,
+        "fixtures": 77,
+        "internal_t30": 172,
+        "internal_t30_fixtures": 77,
+        "observation_end": "2026-10-26T12:00:48.873973+00:00",
+        "observation_start": "2026-08-28T12:12:59.124158+00:00",
+        "revisions": 174,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "리그스컵": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 0.6253122388062169,
+        "fixtures": 4,
+        "internal_t30": 5,
+        "internal_t30_fixtures": 4,
+        "observation_end": "2026-09-06T23:11:11.656614+00:00",
+        "observation_start": "2026-09-02T14:08:02.814584+00:00",
+        "revisions": 5,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "미국FA컵": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 4.999193337705027,
+        "fixtures": 3,
+        "internal_t30": 3,
+        "internal_t30_fixtures": 3,
+        "observation_end": "2026-10-20T23:07:04.131032+00:00",
+        "observation_start": "2026-09-15T23:15:12.000388+00:00",
+        "revisions": 3,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "박신자컵": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 0.997191909118717,
+        "fixtures": 8,
+        "internal_t30": 32,
+        "internal_t30_fixtures": 8,
+        "observation_end": "2026-10-10T03:36:23.249122+00:00",
+        "observation_start": "2026-10-03T04:04:41.582487+00:00",
+        "revisions": 32,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "분데스리": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 8.280309230451389,
+        "fixtures": 61,
+        "internal_t30": 197,
+        "internal_t30_fixtures": 61,
+        "observation_end": "2026-10-25T11:18:30.944878+00:00",
+        "observation_start": "2026-08-28T12:12:59.922301+00:00",
+        "revisions": 198,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "세리에A": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 8.867110445059524,
+        "fixtures": 77,
+        "internal_t30": 213,
+        "internal_t30_fixtures": 77,
+        "observation_end": "2026-10-29T13:53:28.476484+00:00",
+        "observation_start": "2026-08-28T12:13:00.079312+00:00",
+        "revisions": 213,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "아세안컵": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 0.8705216006564154,
+        "fixtures": 10,
+        "internal_t30": 22,
+        "internal_t30_fixtures": 10,
+        "observation_end": "2026-09-30T00:35:19.687337+00:00",
+        "observation_start": "2026-09-23T22:20:28.223260+00:00",
+        "revisions": 22,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "에레디비": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 8.0949885935582,
+        "fixtures": 64,
+        "internal_t30": 143,
+        "internal_t30_fixtures": 64,
+        "observation_end": "2026-10-24T04:10:28.542575+00:00",
+        "observation_start": "2026-08-28T12:12:59.441191+00:00",
+        "revisions": 144,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "여농월드": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 1.2453528375975529,
+        "fixtures": 34,
+        "internal_t30": 53,
+        "internal_t30_fixtures": 34,
+        "observation_end": "2026-09-13T01:33:31.056421+00:00",
+        "observation_start": "2026-09-04T08:20:21.660242+00:00",
+        "revisions": 53,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "이탈FA컵": {
+        "authenticated_fixtures_per_week": null,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 0.0,
+        "fixtures": 1,
+        "internal_t30": 1,
+        "internal_t30_fixtures": 1,
+        "observation_end": "2026-09-02T14:07:58.817120+00:00",
+        "observation_start": "2026-09-02T14:07:58.817120+00:00",
+        "revisions": 1,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "인터컨컵": {
+        "authenticated_fixtures_per_week": null,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 0.0,
+        "fixtures": 1,
+        "internal_t30": 1,
+        "internal_t30_fixtures": 1,
+        "observation_end": "2026-09-18T06:57:34.699219+00:00",
+        "observation_start": "2026-09-18T06:57:34.699219+00:00",
+        "revisions": 1,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "일리그컵": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 4.208608037602513,
+        "fixtures": 13,
+        "internal_t30": 77,
+        "internal_t30_fixtures": 13,
+        "observation_end": "2026-10-28T09:11:28.641213+00:00",
+        "observation_start": "2026-09-28T22:08:42.500071+00:00",
+        "revisions": 77,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "일본FA컵": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 2.0494358614351853,
+        "fixtures": 13,
+        "internal_t30": 28,
+        "internal_t30_fixtures": 13,
+        "observation_end": "2026-10-07T07:21:35.271585+00:00",
+        "observation_start": "2026-09-22T23:03:16.462589+00:00",
+        "revisions": 28,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "잉리그컵": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 7.516097394971891,
+        "fixtures": 18,
+        "internal_t30": 35,
+        "internal_t30_fixtures": 18,
+        "observation_end": "2026-10-29T13:53:28.477990+00:00",
+        "observation_start": "2026-09-06T23:11:12.773511+00:00",
+        "revisions": 35,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "축걸프컵": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 0.5313304198809524,
+        "fixtures": 3,
+        "internal_t30": 13,
+        "internal_t30_fixtures": 3,
+        "observation_end": "2026-10-06T15:29:05.738191+00:00",
+        "observation_start": "2026-10-02T22:13:17.100247+00:00",
+        "revisions": 13,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "캄페오컵": {
+        "authenticated_fixtures_per_week": null,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 0.0,
+        "fixtures": 1,
+        "internal_t30": 1,
+        "internal_t30_fixtures": 1,
+        "observation_end": "2026-09-15T23:15:12.318450+00:00",
+        "observation_start": "2026-09-15T23:15:12.318450+00:00",
+        "revisions": 1,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "코파리베": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 6.57124364853836,
+        "fixtures": 12,
+        "internal_t30": 45,
+        "internal_t30_fixtures": 12,
+        "observation_end": "2026-10-22T23:09:21.650607+00:00",
+        "observation_start": "2026-09-06T23:11:13.491971+00:00",
+        "revisions": 45,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "프리그1": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 8.414381550767194,
+        "fixtures": 62,
+        "internal_t30": 160,
+        "internal_t30_fixtures": 62,
+        "observation_end": "2026-10-26T09:49:58.125629+00:00",
+        "observation_start": "2026-08-28T12:13:00.163725+00:00",
+        "revisions": 160,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      },
+      "호주FA컵": {
+        "authenticated_fixtures_per_week": 0,
+        "certified_fixtures": 0,
+        "certified_revisions": 0,
+        "elapsed_weeks": 4.7405915484143515,
+        "fixtures": 3,
+        "internal_t30": 9,
+        "internal_t30_fixtures": 3,
+        "observation_end": "2026-10-10T03:36:23.263507+00:00",
+        "observation_start": "2026-09-06T23:11:13.495026+00:00",
+        "revisions": 9,
+        "weeks_for_3pp80": null,
+        "weeks_reason": "zero authenticated collection; unestimable"
+      }
+    },
+    "chronological_revision_splits": {
+      "test": {
+        "first": "2026-10-18",
+        "fixtures": 448,
+        "last": "2026-10-30",
+        "revisions": 1393
+      },
+      "train": {
+        "first": "2026-08-28",
+        "fixtures": 1746,
+        "last": "2026-10-04",
+        "revisions": 3529
+      },
+      "validation": {
+        "first": "2026-10-05",
+        "fixtures": 446,
+        "last": "2026-10-17",
+        "revisions": 2536
+      }
+    },
+    "exclusions": {
+      "missing_original_raw_response_sha256": 7458,
+      "missing_signed_external_checkpoint": 7458,
+      "not_all_internal_clocks_at_or_before_T30": 40
+    },
+    "independent_exact_agreement": true,
+    "totals": {
+      "external_certified": 0,
+      "fixtures": 2640,
+      "internal_t30": 7418,
+      "internal_t30_fixtures": 2639,
+      "revisions": 7458
+    }
+  }
+}

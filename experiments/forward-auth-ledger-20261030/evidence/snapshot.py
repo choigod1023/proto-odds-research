@@ -1,0 +1,356 @@
+"""Q2 — 발매 중 배당 변동 스냅샷 수집기.
+
+프로젝트 전체가 "배당이 발매 시점에 굳고 경기까지 안 변한다"는 가정 위에 있는데,
+프로토 규정은 "발매 중 변경 가능"이라고 적혀 있다. 그 충돌을 실측으로 푼다.
+
+동작
+----
+1. 아직 정산되지 않은('경기전'이 남아 있는) 회차를 자동 탐지
+2. 각 회차의 전 게임행 배당을 타임스탬프와 함께 DB에 누적
+3. 직전 스냅샷과 배당이 달라진 행만 골라 변동 로그에 기록
+
+개발 환경 산출물 (운영에서는 DB만 사용)
+------
+    data/raw/snapshots/odds_timeseries.csv   모든 스냅샷 (append)
+    data/raw/snapshots/changes.csv           변동이 감지된 건만
+
+사용:
+    python src/snapshot.py            # 1회 실행
+    python src/snapshot.py --loop 900 # 900초(15분)마다 반복
+"""
+from __future__ import annotations
+
+import csv
+import json
+import sys
+import time
+from datetime import datetime, timedelta, timezone
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from wisetoto import (BASE, _session, get_current_round, get_master_seq,  # noqa: E402
+                      _decode, latest_archived_round, parse_rows,
+                      record_archive_matches, store_archive)
+from runtime_db import RuntimeDatabase, database_enabled  # noqa: E402
+
+OUT = Path(__file__).resolve().parent.parent / "data" / "raw" / "snapshots"
+CH_FILE = OUT / "changes.csv"
+
+# ⚠️ 예전엔 단일 파일(odds_timeseries.csv)에 계속 append 했다. 그게 두 번 터졌다.
+#
+#   1. **GitHub 100MB 파일 한도** — 2026-08-13 에 138MB 가 되어 pre-receive 훅이
+#      push 를 거부했다. 수집은 되는데 밖으로 못 나가는 상태로 3일이 갔다.
+#   2. **git 비대화** — 30분마다 커밋하는데 그때마다 100MB 넘는 blob 이 통째로
+#      새로 생긴다. 2026-08-06 에 loose object 2.67GiB 가 3GB 볼륨을 다 먹고
+#      모든 쓰기가 ENOSPC 로 실패했다.
+#
+# 쪼개면 둘 다 풀린다. 지난 샤드는 더 이상 안 바뀌므로 git 이 한 번만 저장하고,
+# 커밋마다 움직이는 건 오늘 것뿐이다.
+# ⚠️ **일별**이다. 월별로 했더니 2026-08 한 달만 868,787행 ≈ 106MB 로 여전히
+#    한도를 넘었다(하루 약 67,000행). 일 단위면 약 8MB 로 안전하게 묶인다.
+LEGACY_TS = OUT / "odds_timeseries.csv"      # 쪼개기 전 단일 파일(남아 있으면 같이 읽는다)
+
+
+def ts_file(when: datetime | None = None) -> Path:
+    """그날의 스냅샷 샤드 경로."""
+    d = when or datetime.now(timezone.utc)
+    return OUT / f"odds_timeseries_{d:%Y%m%d}.csv"
+
+
+def ts_files() -> list[Path]:
+    """읽을 때 쓰는 전체 목록 — 일별 샤드 + (남아 있다면) 옛 단일 파일."""
+    files = sorted(OUT.glob("odds_timeseries_*.csv"))
+    if LEGACY_TS.exists():
+        files.insert(0, LEGACY_TS)
+    return files
+
+
+def load_timeseries():
+    """모든 샤드를 이어 붙인다. 읽는 쪽은 파일 경로를 직접 알 필요가 없다."""
+    import pandas as pd                      # 수집 루프에는 필요 없는 무거운 의존이다
+    if database_enabled():
+        connection = RuntimeDatabase().connect()
+        try:
+            frame = pd.read_sql_query(
+                """SELECT observed_at AS ts,season AS year,round,game_no,sport,
+                   league,market_family,n_way,market_label,home,away,date_text,
+                   odds_json AS odds,result FROM odds_snapshots
+                   ORDER BY observed_at,season,round,game_no""", connection)
+            frame["odds"] = frame["odds"].map(
+                lambda value: ",".join(f"{float(o):.2f}" for o in json.loads(value)))
+            return frame
+        finally:
+            connection.close()
+    fs = ts_files()
+    if not fs:
+        return pd.DataFrame()
+    return pd.concat([pd.read_csv(f) for f in fs], ignore_index=True)
+
+UNPLAYED = {"경기전", "", "-"}
+SCAN_RANGE = 12          # 최신 회차 기준 앞뒤로 훑을 범위
+REQUEST_GAP = 2.5
+
+FIELDS = ["ts", "year", "round", "game_no", "sport", "league", "market_family",
+          "n_way", "market_label", "home", "away", "date_text", "odds", "result"]
+
+
+def _now() -> str:
+    return datetime.now(timezone.utc).isoformat(timespec="seconds")
+
+
+def probe_latest_round(sess, year: int) -> int:
+    """캐시 없이 그 해의 최신 회차를 찾는다 — 성큼 건너뛰고 이분 탐색으로 좁힌다.
+
+    회차를 1부터 하나씩 세면 요청이 수십 번 나간다. 존재 여부만 보면 되므로
+    2배씩 뛰어 상한을 잡은 뒤(≈8회) 이분 탐색으로 좁힌다(≈7회).
+    캐시가 빈 첫 부팅에만 드는 비용이다.
+    """
+    lo = 1
+    if not get_master_seq(year, lo, sess):
+        return 1
+    time.sleep(REQUEST_GAP)
+
+    hi = 2
+    while hi < 400 and get_master_seq(year, hi, sess):
+        time.sleep(REQUEST_GAP)
+        lo, hi = hi, hi * 2
+    # lo = 존재 확인됨, hi = 없음(또는 상한)
+    while hi - lo > 1:
+        mid = (lo + hi) // 2
+        if get_master_seq(year, mid, sess):
+            lo = mid
+        else:
+            hi = mid
+        time.sleep(REQUEST_GAP)
+    print(f"  캐시 없음 — 최신 회차 탐색 결과 {year}-{lo}회차", flush=True)
+    return lo
+
+
+def _seq_with_retry(year: int, rnd: int, sess) -> str | None:
+    """회차 페이지의 master_seq. wisetoto 가 순간적으로 빈 페이지(봇 차단 등)를
+    돌려줄 때 '회차가 없다'로 오인하지 않도록 몇 번 재시도한다."""
+    for attempt in range(3):
+        seq = get_master_seq(year, rnd, sess)
+        time.sleep(REQUEST_GAP)
+        if seq:
+            return seq
+        if attempt < 2:
+            time.sleep(6)
+    return None
+
+
+def _fetch_with_retry(sess, year: int, rnd: int, seq: str):
+    for attempt in range(3):
+        try:
+            rows = _fetch(sess, year, rnd, seq)
+        except Exception:                       # noqa: BLE001 — 429·타임아웃 등
+            rows = None
+        if rows is not None:
+            return rows
+        if attempt < 2:
+            time.sleep(6)
+    return None
+
+
+def find_live_rounds(sess, year: int, start_hint: int) -> list[int]:
+    """미정산 게임행이 남아 있는 회차를 찾는다.
+
+    ⚠️ 예전에는 한 회차에서 seq/목록을 못 받으면 즉시 스캔을 중단해, wisetoto 가
+       fly 머신을 순간 제한하면 발매 중인 회차를 통째로 놓쳤다(2026-09-04 장애로
+       picks_v2 가 24시간 정지). 이제는 회차마다 재시도하고, 재시도 후에도 빈
+       응답이면 그때서야 '더 이상 회차 없음'으로 본다.
+    """
+    live = []
+    for rnd in range(max(1, start_hint), start_hint + SCAN_RANGE):
+        seq = _seq_with_retry(year, rnd, sess)
+        if not seq:
+            break
+        rows = _fetch_with_retry(sess, year, rnd, seq)
+        if rows is None:
+            break
+        pending = sum(1 for r in rows if r.result in UNPLAYED)
+        if pending:
+            live.append(rnd)
+            print(f"  발매중: {year}-{rnd}회차 (미정산 {pending}/{len(rows)})", flush=True)
+        time.sleep(REQUEST_GAP)
+    return live
+
+
+def _fetch(sess, year: int, rnd: int, seq: str | None = None):
+    seq = seq or get_master_seq(year, rnd, sess)
+    if not seq:
+        return None
+    r = sess.get(f"{BASE}/util/gameinfo/get_proto_list.htm", params={
+        "game_category": "pt1", "game_year": year, "game_round": rnd,
+        "game_month": "", "game_day": "", "game_info_master_seq": seq,
+        "sports": "", "sort": "", "tab_type": "proto",
+    }, timeout=40)
+    r.raise_for_status()
+    html = _decode(r)
+    rows = parse_rows(html, year, rnd)
+    if database_enabled():
+        record_archive_matches(rows)
+        store_archive(year, rnd, html)
+    return rows
+
+
+def _load_last(year: int | None = None, rnd: int | None = None) -> dict[tuple, str]:
+    """직전 스냅샷의 (회차,경기번호) → 배당문자열"""
+    last: dict[tuple, str] = {}
+    if database_enabled():
+        connection = RuntimeDatabase().connect()
+        try:
+            where = "WHERE season=? AND round=?" if year is not None and rnd is not None else ""
+            params = (year, rnd) if where else ()
+            rows = connection.execute(
+                f"""SELECT o.season,o.round,o.game_no,o.odds_json FROM odds_snapshots o
+                    JOIN (SELECT season,round,game_no,MAX(observed_at) observed_at
+                          FROM odds_snapshots {where} GROUP BY season,round,game_no) latest
+                    USING (season,round,game_no,observed_at)""", params)
+            for row in rows:
+                odds = ",".join(f"{float(value):.2f}" for value in json.loads(row["odds_json"]))
+                last[(str(row["season"]), str(row["round"]), str(row["game_no"]))] = odds
+        finally:
+            connection.close()
+        return last
+    # ⚠️ 오늘·어제 샤드만 읽는다. 배당 변동은 **직전 스냅샷과의 비교**라서
+    #    최신 값만 있으면 되고, 전 기간을 읽으면 15분마다 130MB 를 훑게 된다.
+    #    자정 직후에도 값이 안 끊기도록 어제 것을 함께 본다.
+    now = datetime.now(timezone.utc)
+    files = [ts_file(now - timedelta(days=1)), ts_file(now)]
+    for p in files:
+        if not p.exists():
+            continue
+        with p.open(newline="", encoding="utf-8") as f:
+            for row in csv.DictReader(f):
+                last[(row["year"], row["round"], row["game_no"])] = row["odds"]
+    return last
+
+
+def snap(year: int, rounds: list[int]) -> int:
+    production = database_enabled()
+    if not production:
+        OUT.mkdir(parents=True, exist_ok=True)
+    sess = _session()
+    ts = _now()
+    database = RuntimeDatabase() if production else None
+
+    n_rows = n_changes = 0
+    preview = []
+    for rnd in rounds:
+        last = _load_last(year, rnd)
+        try:
+            rows = _fetch(sess, year, rnd)
+        except Exception as e:                       # noqa: BLE001
+            print(f"  [{year}-{rnd}] 오류 {type(e).__name__}: {e}", flush=True)
+            continue
+        if rows is None:
+            continue
+        # ⚠️ 배당이 아직 공개되지 않은 행(odds=[])이 섞여 있다.
+        #    2026-88·89회차처럼 경기 목록만 먼저 뜨고 배당은 나중에 붙는다.
+        #    이걸 세면 '변동 0건'이 실제보다 안정적으로 보인다.
+        priced = [r for r in rows if r.odds]
+        unpriced = len(rows) - len(priced)
+        if unpriced:
+            print(f"  [{year}-{rnd}] 배당 미공개 {unpriced}행 제외 "
+                  f"(배당 있는 행 {len(priced)})", flush=True)
+
+        new_rows, changes = [], []
+        for r in priced:
+            odds_s = ",".join(f"{o:.2f}" for o in r.odds)
+            key = (str(year), str(rnd), r.game_no)
+            rec = {"ts": ts, "year": year, "round": rnd, "game_no": r.game_no,
+                   "sport": r.sport, "league": r.league,
+                   "market_family": r.market_family, "n_way": r.n_way,
+                   "market_label": r.market_label, "home": r.home, "away": r.away,
+                   "date_text": r.date_text, "odds": odds_s, "result": r.result}
+            new_rows.append(rec)
+            prev = last.get(key)
+            if prev is not None and prev != odds_s:
+                changes.append({**rec, "prev_odds": prev})
+        if database is not None:
+            database.insert_odds(new_rows)
+            if changes:
+                database.append_events("odds_changes", changes, observed_at_key="ts")
+        else:
+            _append(ts_file(), FIELDS, new_rows)
+            _append(CH_FILE, FIELDS + ["prev_odds"], changes)
+        n_rows += len(new_rows)
+        n_changes += len(changes)
+        preview.extend(changes[:max(0, 15 - len(preview))])
+        time.sleep(REQUEST_GAP)
+
+    print(f"[{ts}] 스냅샷 {n_rows}행 · 배당변동 {n_changes}건", flush=True)
+    for c in preview:
+        print(f"    변동 {c['round']}-{c['game_no']} {c['league']} "
+              f"{c['home']}/{c['away']} {c['market_family']}: "
+              f"{c['prev_odds']} → {c['odds']}", flush=True)
+    return n_changes
+
+
+def _append(path: Path, fields: list[str], rows: list[dict]) -> None:
+    if not rows:
+        return
+    new = not path.exists()
+    with path.open("a", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=fields)
+        if new:
+            w.writeheader()
+        w.writerows(rows)
+
+
+def main(argv: list[str]) -> int:
+    loop = 0
+    if "--loop" in argv:
+        loop = int(argv[argv.index("--loop") + 1])
+
+    year = datetime.now().year
+    sess = _session()
+    print(f"발매 중인 회차 탐지 ({year}년)...", flush=True)
+    # 캐시에 있는 최신 회차 다음부터 훑는다
+    latest = latest_archived_round(year)
+    # 캐시 최신 회차보다 조금 앞에서부터 훑는다.
+    # 캐시에 있어도 그 시점엔 미정산이었을 수 있으므로(수집 당시 '경기전') 뒤로 물러선다.
+    # 캐시가 비어 있으면(새 서버 첫 부팅 등) 1회차부터 훑게 되는데, SCAN_RANGE 가
+    # 12 라 7월의 60번대 회차엔 영영 못 닿는다. fly.io 로 옮기고 나서 실제로
+    # "발매 중인 회차를 찾지 못했습니다" 로 죽었다(캐시 *.html.gz 는 gitignore).
+    # → 회차를 지정하지 않은 기본 페이지가 현재 발매 회차를 직접 알려 준다.
+    #   요청 한 번이라 이분 탐색(probe_latest_round)보다 레이트리밋에 덜 노출된다.
+    #   기본 페이지가 회차를 안 줄 때만 캐시·이분 탐색으로 되돌아간다.
+    current = get_current_round(year, sess)
+    if current:
+        print(f"  기본 페이지가 알려 준 현재 회차: {year}-{current[0]}회차", flush=True)
+        hint = max(1, current[0] - 3)
+    else:
+        hint = max(1, (latest or probe_latest_round(sess, year)) - 3)
+    rounds = find_live_rounds(sess, year, hint)
+    if not rounds and current:
+        # find_live_rounds 는 회차별 get_master_seq 가 한 번이라도 비면 스캔을 멈춘다
+        # (레이트리밋·일시 오류). 기본 페이지가 현재 회차를 확정해 줬으면 그 회차와
+        # 직전 회차만이라도 직접 받아 본다. odds_live.py 가 쓰는 것과 같은 보강이다.
+        for probe in (current[0] - 1, current[0]):
+            if probe < 1:
+                continue
+            try:
+                rows = _fetch(sess, year, probe)
+            except Exception as e:                    # noqa: BLE001
+                print(f"  [{year}-{probe}] 직접 확인 오류 {type(e).__name__}: {e}", flush=True)
+                continue
+            if rows and any(r.result in UNPLAYED for r in rows):
+                rounds.append(probe)
+                print(f"  직접 확인: {year}-{probe}회차", flush=True)
+        rounds = sorted(set(rounds))
+    if not rounds:
+        print("발매 중인 회차를 찾지 못했습니다.")
+        return 1
+    print(f"대상: {year}년 {rounds}회차", flush=True)
+
+    while True:
+        snap(year, rounds)
+        if not loop:
+            return 0
+        time.sleep(loop)
+
+
+if __name__ == "__main__":
+    raise SystemExit(main(sys.argv))

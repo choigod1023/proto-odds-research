@@ -1,0 +1,195 @@
+[
+  {
+    "number": 398,
+    "title": "research: 여러 작성자 과거 1년 범위 픽·동일 배당 ROI 검증",
+    "state": "open",
+    "reports": 2,
+    "body_preview": "세 날짜 20경기로 장기 수익을 판단할 수 없어, 2025-10-28~2026-10-27을 목표로 여러 작성자의 간헐적인 과거 추천을 수집하고 같은 경기·같은 가격에서 비교했습니다. 8개 출처·작성자 표기 44개·추천 후보 2,770건을 보존했습니다. 종목별 누락과 기존 표본 중복 25건도 공개합니다. 주 분석은 공식 결과·정산 범위를 확인한 912픽/742경기이며, 같은 프로토 배당 비교는 492경기입니다. 시장 ROI -10.11%, 픽스터 투표 -8.10%"
+  },
+  {
+    "number": 399,
+    "title": "feat: 실제 추천과 모의 운용을 픽스터 투표 단폴로 전환",
+    "state": "closed",
+    "reports": 0,
+    "body_preview": "실제 경기별 추천을 `market90-tipster10-v2`에서 `tipster-vote-v1`으로 전환합니다. 작성자별 경기 전 최초 관측 한 표를 모아 유일한 최다 득표 방향을 고르고, 투표 없음·동률은 보류합니다. 투표가 시장의 약세 방향을 골라도 그대로 선택하되 지지율을 적중확률로 바꾸지 않습니다. 확률·EV 입력은 동일 선택의 시장값을 유지하며 수익성 미검증 표시를 보존합니다. T-30 동결·과거 혼합 버전·배당·공식 정산 원장을 소급 변경하지 않습니"
+  },
+  {
+    "number": 400,
+    "title": "perf: KBO 표시 갱신 때 기존 경기 응답 재사용",
+    "state": "open",
+    "reports": 0,
+    "body_preview": "KBO 수집 시각이 바뀔 때 예측 산출물이 동일해도 전체 2,841경기를 다시 읽고 상세를 직렬화·압축해 공통 메모리 슬롯을 오래 점유했습니다. 예측 revision·KST 날짜·요청 scope가 유지되는 경우 압축 상세를 재사용하고 KBO의 현재 선발·타순 표시만 갱신합니다. 새 예측·자정·새 scope·손상 캐시는 전체 준비로 돌아가며 작업 중 revision 변경은 게시를 거부합니다. 사전 판정·확률·배당·정산과 원천 시각은 보존합니다. 운영 캐시를 로컬 "
+  },
+  {
+    "number": 401,
+    "title": "feat: 최근 경기와 다양한 픽스터 원문 수집 확대",
+    "state": "open",
+    "reports": 1,
+    "body_preview": "최근 픽을 놓치던 수집과 원문 출처의 편중을 개선합니다. 픽천국의 오래된 글 우선 HTML에서 앞 12개만 고르던 방식을 최근/예정 날짜와 현재 대진 우선으로 바꾸고, Q-EDGE의 단일 경기·명시적 최종 승패 어댑터를 추가했습니다. 축구는 정규시간 90분 표기, 고유 대진/일정, 실제 수신 완료 ≤ T-30을 요구합니다. 서술상의 우세·진출·핸디·복수 선택은 승패 투표로 바꾸지 않습니다. K리그·NPB·NBA의 확인된 팀 별칭과 골리의 MLS/EFL 리그명도 "
+  },
+  {
+    "number": 402,
+    "title": "research: compare yearly hit rates across market, hybrids, and tipster votes",
+    "state": "open",
+    "reports": 1,
+    "body_preview": "Compare five fixed selection rules on the same archived fixtures in the requested 2025-10-29–2026-10-28 window: market reference, market/vote 90:10, 75:25, 50:50, and tipster plurality. Preserve compact source facts, hashes, fixture-level picks, independent se"
+  },
+  {
+    "number": 403,
+    "title": "research: audit model inputs and prioritize accuracy improvements",
+    "state": "open",
+    "reports": 1,
+    "body_preview": "Investigate which model components and inputs are worth testing to improve hit rate beyond fixed market/tipster blends. The Korean roadmap combines primary research with the current main selection path and explicitly distinguishes previously failed features fr"
+  },
+  {
+    "number": 404,
+    "title": "research: test K-league player-proxy Dixon-Coles and recency weighting",
+    "state": "open",
+    "reports": 1,
+    "body_preview": "Implement and run a retrospective K-league Dixon-Coles goal model, with and without a past-only projected-XI G+A proxy, against the fixed market90:tipster10 rule. Evaluate all common fixtures with equal flat stakes and no monthly loss/profit cap, frequency lim"
+  },
+  {
+    "number": 405,
+    "title": "research: 야구 리그별 모형 비교와 낮은 적중률 원인 감사",
+    "state": "open",
+    "reports": 1,
+    "body_preview": "KBO·NPB·MLB의 과거 팀 성적, 일정, 추정 선발 및 KBO 개인·타순 대용치를 리그별 득점 모형으로 비교합니다. 같은 434경기에서 과거 검증으로 선택한 새 단독 모형의 적중률/ROI는 KBO 52.22%/−18.17%, NPB 53.04%/−17.23%, MLB 46.55%/−23.54%로 기존 시장90:픽스터10보다 낮았습니다. 운영 모형을 교체하지 않고 실패 원인과 재현 자료를 보존합니다. - 15,722경기 이력, 후보120개(학습 선발 결측으로"
+  },
+  {
+    "number": 406,
+    "title": "research: 실제 발표 MLB 재검증과 NPB 투수 이력 복원",
+    "state": "open",
+    "reports": 1,
+    "body_preview": "MLB의 실제 경기 전 선발·9인 타순을 공식 과거 timecode로 확보하고, 개인 투구·타격 지표와 이전 완료 시즌 Statcast를 추가해 고정9:1과 같은116경기에서 비교했습니다. 과거 검증으로 선택한 모형은44.83%/ROI−24.40%로 기존54.31%/−13.34%보다 낮았고, 혼합도 최종 선택이 바뀌지 않았습니다. 운영 모델을 교체하지 않습니다. - 716개 조회 중712개를 시각·상태·실제 투구 없음·양 팀9인 조건으로 채택했습니다. 2024학"
+  },
+  {
+    "number": 407,
+    "title": "research: 야구 변수 변형·분할 73개 후보와 다른 기간 ROI 검증",
+    "state": "open",
+    "reports": 1,
+    "body_preview": "## 결과 보유 야구 칼럼의 비율화·타순 분해·투타 상호작용·시즌 간 차이·그룹별 계수·비선형화를 로컬에서 비교한다. 운영 변경 없이 재현 가능한 입력 사실, 73개 후보의 계수와 경기별 확률, 다른 기간 진단 및 한국어 보고서를 저장한다. 2024년 가격 연결 MLB 274경기를 날짜 순 190/84로 나눠 후보를 선택하고 기존 반복 평가 116경기에서 비교했다. 비교용 9:1은 적중률 54.31%·ROI -13.34%, 검증 적중률 선택 후보는 50.86%·"
+  },
+  {
+    "number": 408,
+    "title": "research: 실제 최근 성적·불펜 기록과 사전 타순 변경의 9:1 비교",
+    "state": "open",
+    "reports": 1,
+    "body_preview": "## 결과 선발·타순 변경, 실제 최근 성적과 불펜 사용량을 보존 가격·픽스터 입력·결과에 연결해 로컬에서 비교한다. MLB 2024~2026년 90개 구단·시즌의 선수별 경기 로그와 390경기의 세 시점 사전 상태를 새로 수집했다. 단순 예상 선발만 쓰지 않도록 T-10 공식 박스 등록도 별도로 확인한다. 공식 득실점과 선수 로그 합계가 다른 83경기를 발견해 공식 박스스코어로 복구했다. 원본·시점 제외 사유·가격 연결 진단·계수·경기별 확률·정산과 한국어 보"
+  },
+  {
+    "number": 409,
+    "title": "fix: 공개 픽스터 글의 경기 매칭과 승패 형식 누락 수정",
+    "state": "closed",
+    "reports": 0,
+    "body_preview": "## 문제와 변경 공개 분석 글에 전체 경기 승패 픽이 있어도 표시 형식, 리그·팀 이름 차이 또는 수집 순서 때문에 경기와 연결되지 않아 픽스터 투표가 0표로 남는다. 골리의 대괄호 없는 승무패, 명시적 야구 예상 승리팀, 농구 승부 예측, 요약 첫 줄의 팀 승패를 읽고 실제 확인한 ACL2·KBL·잉리그컵·세리에A 별칭을 추가했다. 목록에서 유일하게 식별된 시작 전 경기를 최대 4개 우선하되 기존 16건 상한과 최신 글 확인·순환 예산을 유지한다. 10월 2"
+  },
+  {
+    "number": 410,
+    "title": "research: 새 MLB 230경기와 KBO·NPB 불펜 후보의 기간별 검증",
+    "state": "open",
+    "reports": 1,
+    "body_preview": "## 결과 기존 116경기에서 1건 개선된 MLB 불펜 후보를 동결해 새로운 230경기에 적용하고, KBO·NPB에는 확보 가능한 공통 불펜 입력으로 별도 후보를 학습·비교한다. 연구 자료·계수·경기별 확률·정산·원천 누락 진단을 보존하며 운영 변경은 하지 않는다. - MLB 새 230경기: 시장 대비 적중률 53.91%→53.48%, ROI -16.85%→-17.57%. 기존116경기를 전부 제외했으며 새 픽스터가 없어 시장 단독 대비 검사라고 구분한다. 기존"
+  },
+  {
+    "number": 411,
+    "title": "research: MLB·KBO 별도 모형 55개와 기간별 ROI 재검증",
+    "state": "open",
+    "reports": 4,
+    "body_preview": "MLB와 KBO에서 다른 변수·분포·산정식을 적용하되 기존 기준보다 개선되는지 확인할 수 있도록, 리그별 독립 에이전트 실험과 정산 검사를 보존합니다. 운영 교체 근거를 얻지 못했으며 추천 정책·서버·DB 변경은 없습니다. - MLB: 득점 환경·공격/수비·일정 부담·45/180일 감쇠, Poisson/음이항/Pythagorean 및 시장 혼합·잔차보정 24개와 기준1개. 2023 학습→2024 선택→2023+24 재학습→별도230/기존116 평가. - KBO:"
+  },
+  {
+    "number": 412,
+    "title": "fix: 픽스터 대기에 따른 배당 수집 무기한 양보 방지",
+    "state": "open",
+    "reports": 0,
+    "body_preview": "픽스터 작업이 메모리 제한으로 실행되지 못하는 동안 배당 수집이 반복 양보하는 문제를 수정합니다. 대기 작업마다 한 번만 양보하며 기존 메모리 제한과 저장 배당 재판정은 유지합니다. 관련 테스트 57개 통과. 저메모리 상태에서 픽스터 실행 자체는 보장하지 않습니다."
+  },
+  {
+    "number": 413,
+    "title": "research: 선수·동적전력 모형과 9:1 가격 제약·상수선택 진단",
+    "state": "open",
+    "reports": 4,
+    "body_preview": "기존의 작은 변수·가중치 탐색만으로 개선이 재현되지 않아, MLB의 실제 사전 발표 선수입력, KBO의 상대강도 동적 전력, 배당에 따른 선택 목적을 분리해 연구합니다. 큰 개선의 운영 교체 후보는 찾지 못했으며, 모델이 실제로 무엇을 구별했는지와 가격 제약을 함께 보존합니다. - MLB: 공식 historical feed230요청/194시점검증·36기준선 fallback, 전시즌 공식선수표6개 추가. 선형/matchup/hinge12후보,2024학습296→20"
+  },
+  {
+    "number": 414,
+    "title": "fix: 실제 운영 ROI 비교와 동일 스냅샷 모델 비교 기록 연결",
+    "state": "closed",
+    "reports": 3,
+    "body_preview": "현재 서비스는 픽스터 투표 정책인데 과거 9:1 연구나 종료된 shadow 실험의 ROI를 현행 성적으로 비교할 수 없었습니다. 전체 운영 원장 8,674건의 해시 연결을 검증하고, 최신 T-30 이전 revision과 당시 배당·별도 공식 결과로 실제 운영 비교를 재현합니다. - 현행 55개 입력 적격 기회(선택 9/보류 46), 공식 연결 45개 중 세 모델 공통 정산은 4경기입니다. 운영 투표 −27,800원/−69.50%, 시장 및 동일 저장 투표 9:1"
+  },
+  {
+    "number": 415,
+    "title": "feat: bounded frozen KBO candidate inference bridge",
+    "state": "closed",
+    "reports": 1,
+    "body_preview": "동결된 KBO e0:residual:0.03을 재학습 없이 실행하는 독립 추론 모듈과 slim 계수·종료 seed를 추가합니다. 공식 결과 revision과 명시적 일별 공식 일정의 완전성을 대조해 날짜별 prior를 캐시하고, runtime은 같은 snapshot의 offer·유효 투표에 final_fit을 적용합니다. 추천·운영 확률·부모 runtime·MLB 파일은 변경하지 않습니다. - API: normalize_proto_history, verify_i"
+  },
+  {
+    "number": 416,
+    "title": "feat: 동결 야구 후보의 사전 수집·모의 비교·공식 정산 연결",
+    "state": "closed",
+    "reports": 3,
+    "body_preview": "#414를 병합·배포하고 다음 자동 판정에서 비교 기록 3건(원장 8676~8678)이 실제 저장된 것을 확인했습니다. 이 PR은 동결 MLB/KBO 학습 후보까지 기존 선수 수집→사전 추론→원장→공식 결과 연구 정산 경로에 연결합니다. - MLB `linear:l2=10`, KBO `e0:residual:0.03`의 기존 계수/스케일을 재학습 없이 작은 artifact와 순수 추론으로 분리했습니다. 운영 선택은 `tipster-vote-v1` 그대로입니다. -"
+  },
+  {
+    "number": 417,
+    "title": "fix: 후보 원천 수집을 전체 선수 작업의 메모리 대기에서 분리",
+    "state": "closed",
+    "reports": 1,
+    "body_preview": "#416 배포 후 운영을 읽어보니 player_info가 10:38:48 UTC에서 약 4시간 멈춰 있었고 새 후보 상태 문서도 없었습니다. 512MB 메모리 입장을 기다리는 전체 선수 작업에만 원천 수집을 붙이면 경기 전 입력을 놓칠 수 있어, 소량 원천 확인을 기존 5분 경량 선발 작업에서도 실행합니다. - 새 프로세스·증설 없이 기존 작업을 재사용합니다. MLB는 SQLite에서 미래 경기 ID/시각/홈/원정 네 필드만 투영해 전체 선수 JSON을 Pyth"
+  },
+  {
+    "number": 418,
+    "title": "docs: 야구 후보 자동 원천 수집과 배포 검증 근거 보존",
+    "state": "closed",
+    "reports": 1,
+    "body_preview": "#414/#416/#417 병합·배포 후 실제 운영 관측을 저장합니다. 코드 변경은 없습니다. - #414 다음 자동 판정의 비교 원장 3건 저장·전체 8,678건 hash 연결 검증은 이전 실행 근거에 보존했습니다. - #416/#417 운영 checkout a39ba845, Python3.11 모듈 로드와 HTTP200을 확인했습니다. - 14:51:02 UTC 새 경량 자동 작업이 KBO 29/30일 상태를 DB에 저장했습니다. 그 순간에도 전체 playe"
+  },
+  {
+    "number": 419,
+    "title": "research: 리그별 월 손실 한도 유무와 수익 선별 규칙 비교",
+    "state": "open",
+    "reports": 1,
+    "body_preview": "기존 ROI 대부분이 이미 무제한 단폴 결과인데 월 손실 제한 때문에 낮았던 것으로 해석할 수 있어, 같은 저장 예측·가격·결과에서 한도만 달리하는 로컬 비교를 추가합니다. 리그별 독립 모의 지갑에 전체 미정산 원금을 예약하고, 정확한 정산 시각이 없어 다음 날/이틀 뒤 정산을 따로 계산합니다. 미열람 자료나 실제 운영 지갑의 정확한 반사실 수익이라고 주장하지 않습니다. 4개 에이전트의 원본·검산 근거와 정규화 모델×경기 40,495행을 보존했습니다. 동일 경기"
+  },
+  {
+    "number": 420,
+    "error": "CalledProcessError"
+  },
+  {
+    "number": 421,
+    "title": "research: Proto 전체 선택지의 사전 확률·배당·정산 수익성 검증",
+    "state": "open",
+    "reports": 1,
+    "body_preview": "추천으로 선택한 픽만 검사하던 범위를 보유 Proto 상품의 모든 선택지로 넓힙니다. 2023~2024 fixture와 읽기 전용 역사 DB, 29개 최신 회차 캐시를 합성하고, 최신의 비어 있지 않은 24회차로 오래된 회차 전체를 교체했습니다. 로컬에서 174,633개 상품 행을 검사해 166,463개 물리 상품·389,203개 선택지의 배당/결과/손익을 보존합니다. 각 결과를 운영사 원 발표와 독립 대조했다고 주장하지 않습니다. 별도로 사전 원장 7,458개"
+  },
+  {
+    "number": 422,
+    "title": "research: 고배당 단폴과 저배당 조합의 모델·리그별 손익 비교",
+    "state": "open",
+    "reports": 2,
+    "body_preview": "## 비교 대상과 결과 같은 리그·경기일·발매 회차·사전 관측 시각에서 같은 총액 12,000원으로 고배당 단폴과 저배당 2·3·4폴을 비교합니다. 동일한 조합 구성 픽을 단폴로 분산한 대조군도 계산합니다. 결과를 보지 않는 선정 규칙을 먼저 커밋했습니다. - 장기 시장 회고 44,396경기, 실제 픽스터 회고 597경기, 사전 저장 7,458개 전체 수정본을 분리합니다. 시장 배당 역수 모델을 서비스 모델의 실적으로 부르지 않습니다. - 장기 시장 공통 표본에"
+  },
+  {
+    "number": 423,
+    "title": "research: 논문 근거로 조건부 2폴·보정·픽스터 혼합 모델 검증",
+    "state": "open",
+    "reports": 2,
+    "body_preview": "## 결과와 범위 조건에 맞는 두 경기만 묶는 연구용 2폴을 구현하고, 실제 저장 시장/점수 예측과 실제 픽스터를 이용한 고정9:1·보정·학습 혼합·리그 축소·최근90일 가중을 시간순으로 비교했습니다. 적중률과 ROI를 함께 안정적으로 개선한 교체 후보는 확인하지 못했습니다. 운영 추천/서버/월 손실 설정은 변경하지 않습니다. 세 에이전트가 확률 보정, 픽스터 결합, 리그별 변수를 나눠 1차 자료 23건(정정문 포함)을 조사했습니다. Walsh/Joshi 논문의"
+  },
+  {
+    "number": 424,
+    "title": "research: 선수·라인업 부하 특성의 실제 9:1 비교와 시간 근거 검증",
+    "state": "open",
+    "reports": 5,
+    "body_preview": "기존 가중치만 바꾸는 비교를 넘어서, 과거 선발 구성·구원투수 투구 부하·선수 출전시간을 실제 원문에서 추출하고 시장/실제 픽스터/고정 9:1과 같은 경기에서 비교합니다. 연구 자료와 검증 코드만 추가하며 운영 예측·DB·스케줄·서버는 변경하지 않습니다. - K리그 과거 XI/로테이션, MLB 정확한 48·72시간 투구 부하 및 별도 날짜 지연 변수, NBA·KBL 선수별 출전시간/연장 부하를 세 에이전트로 구현했습니다. - 사전 고정 프로토콜, 날짜 순 두 분"
+  },
+  {
+    "number": 425,
+    "title": "research: 공식 선수·투구·픽스터 자료 추가 연결과 KBO 후속 기간 검증",
+    "state": "open",
+    "reports": 5,
+    "body_preview": "기존 자료에 연결하지 못했던 공식 선수·투구 기록과 추가 픽스터를 실제로 수집·연결하고, 개선 신호가 있었던 KBO 모델을 계수 고정 후 다른 기간에서 검증합니다. 새 자료가 많아진 것과 운영 추천 성능이 좋아진 것을 구분합니다. 이 PR은 **#424 위에 쌓은 후속 연구 PR**입니다. base는 codex/pregame-feature-rd-20261030이며 #424 병합 후 main으로 이어갈 수 있습니다. 연구 코드·자료 보존만 포함하며 운영·DB·스케"
+  }
+]

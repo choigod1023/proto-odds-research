@@ -1,0 +1,3 @@
+* -text whitespace=cr-at-eol
+# Verbatim API bodies include doubled CR in the upstream export; retain source bytes.
+evidence/PR*-body.md -whitespace
