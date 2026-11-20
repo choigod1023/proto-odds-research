@@ -1,0 +1,200 @@
+{
+  "production_selection": {
+    "synthetic": true,
+    "records": [
+      {
+        "scenario": "missing_context",
+        "selected": "원정",
+        "probability": 0.48,
+        "evidence": [
+          {
+            "id": "lineup",
+            "available": false,
+            "usage": {
+              "market_baseline": "ignored",
+              "ai_residual": "missing",
+              "decision_gate": "ignored",
+              "explainer": "missing"
+            }
+          },
+          {
+            "id": "availability",
+            "available": false,
+            "usage": {
+              "market_baseline": "ignored",
+              "ai_residual": "missing",
+              "decision_gate": "ignored",
+              "explainer": "missing"
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "home_absences",
+        "selected": "원정",
+        "probability": 0.48,
+        "evidence": [
+          {
+            "id": "lineup",
+            "available": true,
+            "usage": {
+              "market_baseline": "ignored",
+              "ai_residual": "context_only",
+              "decision_gate": "ignored",
+              "explainer": "context_only"
+            }
+          },
+          {
+            "id": "availability",
+            "available": true,
+            "usage": {
+              "market_baseline": "ignored",
+              "ai_residual": "context_only",
+              "decision_gate": "ignored",
+              "explainer": "context_only"
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "away_absences",
+        "selected": "원정",
+        "probability": 0.48,
+        "evidence": [
+          {
+            "id": "lineup",
+            "available": true,
+            "usage": {
+              "market_baseline": "ignored",
+              "ai_residual": "context_only",
+              "decision_gate": "ignored",
+              "explainer": "context_only"
+            }
+          },
+          {
+            "id": "availability",
+            "available": true,
+            "usage": {
+              "market_baseline": "ignored",
+              "ai_residual": "context_only",
+              "decision_gate": "ignored",
+              "explainer": "context_only"
+            }
+          }
+        ]
+      }
+    ],
+    "distinct_selections": 1,
+    "explanation": "Recognized context changes do not alter the current author-plurality selection."
+  },
+  "temperature": {
+    "synthetic": true,
+    "seed": 20261029,
+    "trials": [
+      {
+        "classes": 2,
+        "temperature": 0.5,
+        "rows": 10000,
+        "changed_selections": 0
+      },
+      {
+        "classes": 2,
+        "temperature": 1.0,
+        "rows": 10000,
+        "changed_selections": 0
+      },
+      {
+        "classes": 2,
+        "temperature": 2.0,
+        "rows": 10000,
+        "changed_selections": 0
+      },
+      {
+        "classes": 3,
+        "temperature": 0.5,
+        "rows": 10000,
+        "changed_selections": 0
+      },
+      {
+        "classes": 3,
+        "temperature": 1.0,
+        "rows": 10000,
+        "changed_selections": 0
+      },
+      {
+        "classes": 3,
+        "temperature": 2.0,
+        "rows": 10000,
+        "changed_selections": 0
+      }
+    ],
+    "explanation": "Does not apply to class-specific or intercept-shifting calibration; not a sports backtest."
+  },
+  "cohorts": {
+    "strict-results.json": {
+      "input_sha256_lf": "5d433838cf654ff6227bc617efbe43907a572850f6a883f6969967f414b23e76",
+      "requested_window": [
+        "2025-10-29",
+        "2026-10-28"
+      ],
+      "common_games": 492,
+      "groups": {
+        "agreement": {
+          "games": 312,
+          "pushes": 0,
+          "wins": {
+            "market": 185,
+            "tipster_vote": 185,
+            "market90_vote10": 185
+          }
+        },
+        "disagreement": {
+          "games": 180,
+          "pushes": 0,
+          "wins": {
+            "market": 98,
+            "tipster_vote": 82,
+            "market90_vote10": 98
+          }
+        }
+      },
+      "multi_author_games": 17,
+      "future_independent_validation": false,
+      "new_predictive_model_tested": false
+    },
+    "standard-ot-results.json": {
+      "input_sha256_lf": "c275db598200b3a9cb2ef774bc8667bf2692ed2874aaac75e6ffac06067c47b4",
+      "requested_window": [
+        "2025-10-29",
+        "2026-10-28"
+      ],
+      "common_games": 580,
+      "groups": {
+        "agreement": {
+          "games": 339,
+          "pushes": 0,
+          "wins": {
+            "market": 203,
+            "tipster_vote": 203,
+            "market90_vote10": 203
+          }
+        },
+        "disagreement": {
+          "games": 241,
+          "pushes": 0,
+          "wins": {
+            "market": 132,
+            "tipster_vote": 109,
+            "market90_vote10": 139
+          }
+        }
+      },
+      "multi_author_games": 21,
+      "future_independent_validation": false,
+      "new_predictive_model_tested": false
+    }
+  },
+  "production_changes": false,
+  "new_accuracy_or_roi_improvement_claimed": false,
+  "scope": "Existing-code mechanism probes and retrospective error decomposition only."
+}
