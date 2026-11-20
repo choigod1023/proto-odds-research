@@ -1,0 +1,421 @@
+{
+  "schema_version": "1.0",
+  "league": "KLEAGUE1",
+  "base_sha": "e7494e594a1d2b2fe63c67949db8e09b219e51c3",
+  "input_hashes": {
+    "games.csv.tmp": "9ffddb2dcbc4297c32e6ad3826f392e1842e52e10b509e4cbe47eed1f84b9da4",
+    "domestic.jsonl.gz": "4bf3abf8bb82838ee72975e1ef486a471b357a03ee4d8627808780f046dae51a"
+  },
+  "source_hashes": {
+    "schedule.html": "5226764c1434ded9d90c4bacf053d4bd1b310ed8c260c14d34f1427185f2376e",
+    "match-96.html": "ac2db03766f411e63dd96388864dfdb8fa482b83b2e33ca7055b5e7a54b3e2bb",
+    "match-110.html": "d53a9d5d93d101ef56a677618332e377a975a65ea7ed51c46fb32a3aa103c07c",
+    "match-140.html": "4bb82221a5197cd5c78800d717709b2475adb9c3d7315c9d6c41aa2669c18f89",
+    "news-93724.html": "4c2a69422404056f3d14777faa359216090750e216c719c0d7d9725f33e9038e",
+    "schedule-2025-02.json": "c030a1c2b2ec9dcc3a020d028223373f76bf7120a6abda3e402e206ddf439ca4",
+    "schedule-2025-03.json": "f4844126bf6a4bfd0fe5fa51b2054e2eab9c5d9c91bdc9d9570cdb3134db01de",
+    "schedule-2025-04.json": "676fca8938d45cde9320a3b000f8d846835fc895b05ba703b4a1e44a00ad1dbe",
+    "schedule-2025-05.json": "b846aa1d82774f6fbd4053aaaf8a172a817811927dfde433577de25964e600a1",
+    "schedule-2025-06.json": "e6c36cff5eb6e181cc7edc8d79fabbba2bcd97afa1d319f31743b1197e6c9e72",
+    "schedule-2025-07.json": "f5260dd9fcf18e53b6a5e5719d4d40e0766918eb5956319e7e8216bacc6cd187",
+    "schedule-2025-08.json": "0140019b0aafa48b50e0c8ba49a2281d456a5d81233d7e67a8a4e41ac2de60dd",
+    "schedule-2025-09.json": "00f5a6c0b55410fd7046f89463a8ddc95cb6cee08ff143f1e8f8a733188b75d8",
+    "schedule-2025-10.json": "831323a1c3dd251ba009f7dd8bac93fa259cc0b0aac4f31b77e8dd84b7b05bfc",
+    "schedule-2025-11.json": "fcb08f414018ee3692eec5b64dae60d24a3843a092fc4e91fc3169d96b4cca85"
+  },
+  "urls": [
+    {
+      "file": "schedule.html",
+      "url": "https://www.kleague.com/schedule.do?leagueId=1&year=2025",
+      "requested_at": "2026-11-01T00:57:54.249598+00:00",
+      "retrieved_at": "2026-11-01T00:57:54.636606+00:00",
+      "http_status": 200
+    },
+    {
+      "file": "match-96.html",
+      "url": "https://www.kleague.com/match.do?year=2025&leagueId=1&gameId=96&meetSeq=1&startTabNum=0",
+      "requested_at": "2026-11-01T00:58:14.033309+00:00",
+      "retrieved_at": "2026-11-01T00:58:14.508472+00:00",
+      "http_status": 200
+    },
+    {
+      "file": "match-110.html",
+      "url": "https://www.kleague.com/match.do?year=2025&leagueId=1&gameId=110&meetSeq=1&startTabNum=0",
+      "requested_at": "2026-11-01T00:58:14.508808+00:00",
+      "retrieved_at": "2026-11-01T00:58:14.925101+00:00",
+      "http_status": 200
+    },
+    {
+      "file": "match-140.html",
+      "url": "https://www.kleague.com/match.do?year=2025&leagueId=1&gameId=140&meetSeq=1&startTabNum=0",
+      "requested_at": "2026-11-01T00:58:14.925431+00:00",
+      "retrieved_at": "2026-11-01T00:58:15.374358+00:00",
+      "http_status": 200
+    },
+    {
+      "file": "news-93724.html",
+      "url": "https://www.kleague.com/news_view.do?orderBy=seq&page=3&seq=93724&viewOption=album",
+      "requested_at": "2026-11-01T00:58:33.236382+00:00",
+      "retrieved_at": "2026-11-01T00:58:33.612346+00:00",
+      "http_status": 200
+    },
+    {
+      "file": "schedule-2025-02.json",
+      "url": "https://www.kleague.com/getScheduleList.do",
+      "method": "POST",
+      "payload": {
+        "leagueId": 1,
+        "teamId": "",
+        "year": "2025",
+        "month": "02",
+        "ticketYn": ""
+      },
+      "requested_at": "2026-11-01T01:03:09.954421+00:00",
+      "retrieved_at": "2026-11-01T01:03:10.325136+00:00",
+      "http_status": 200,
+      "max_bytes": 3000000,
+      "timeout_seconds": 15
+    },
+    {
+      "file": "schedule-2025-03.json",
+      "url": "https://www.kleague.com/getScheduleList.do",
+      "method": "POST",
+      "payload": {
+        "leagueId": 1,
+        "teamId": "",
+        "year": "2025",
+        "month": "03",
+        "ticketYn": ""
+      },
+      "requested_at": "2026-11-01T01:03:18.487853+00:00",
+      "retrieved_at": "2026-11-01T01:03:18.860153+00:00",
+      "http_status": 200,
+      "max_bytes": 3000000,
+      "timeout_seconds": 15
+    },
+    {
+      "file": "schedule-2025-04.json",
+      "url": "https://www.kleague.com/getScheduleList.do",
+      "method": "POST",
+      "payload": {
+        "leagueId": 1,
+        "teamId": "",
+        "year": "2025",
+        "month": "04",
+        "ticketYn": ""
+      },
+      "requested_at": "2026-11-01T01:03:18.862152+00:00",
+      "retrieved_at": "2026-11-01T01:03:19.229656+00:00",
+      "http_status": 200,
+      "max_bytes": 3000000,
+      "timeout_seconds": 15
+    },
+    {
+      "file": "schedule-2025-05.json",
+      "url": "https://www.kleague.com/getScheduleList.do",
+      "method": "POST",
+      "payload": {
+        "leagueId": 1,
+        "teamId": "",
+        "year": "2025",
+        "month": "05",
+        "ticketYn": ""
+      },
+      "requested_at": "2026-11-01T01:03:19.231294+00:00",
+      "retrieved_at": "2026-11-01T01:03:19.640747+00:00",
+      "http_status": 200,
+      "max_bytes": 3000000,
+      "timeout_seconds": 15
+    },
+    {
+      "file": "schedule-2025-06.json",
+      "url": "https://www.kleague.com/getScheduleList.do",
+      "method": "POST",
+      "payload": {
+        "leagueId": 1,
+        "teamId": "",
+        "year": "2025",
+        "month": "06",
+        "ticketYn": ""
+      },
+      "requested_at": "2026-11-01T01:03:19.642168+00:00",
+      "retrieved_at": "2026-11-01T01:03:20.039167+00:00",
+      "http_status": 200,
+      "max_bytes": 3000000,
+      "timeout_seconds": 15
+    },
+    {
+      "file": "schedule-2025-07.json",
+      "url": "https://www.kleague.com/getScheduleList.do",
+      "method": "POST",
+      "payload": {
+        "leagueId": 1,
+        "teamId": "",
+        "year": "2025",
+        "month": "07",
+        "ticketYn": ""
+      },
+      "requested_at": "2026-11-01T01:03:20.040632+00:00",
+      "retrieved_at": "2026-11-01T01:03:20.389888+00:00",
+      "http_status": 200,
+      "max_bytes": 3000000,
+      "timeout_seconds": 15
+    },
+    {
+      "file": "schedule-2025-08.json",
+      "url": "https://www.kleague.com/getScheduleList.do",
+      "method": "POST",
+      "payload": {
+        "leagueId": 1,
+        "teamId": "",
+        "year": "2025",
+        "month": "08",
+        "ticketYn": ""
+      },
+      "requested_at": "2026-11-01T01:03:20.391600+00:00",
+      "retrieved_at": "2026-11-01T01:03:20.779981+00:00",
+      "http_status": 200,
+      "max_bytes": 3000000,
+      "timeout_seconds": 15
+    },
+    {
+      "file": "schedule-2025-09.json",
+      "url": "https://www.kleague.com/getScheduleList.do",
+      "method": "POST",
+      "payload": {
+        "leagueId": 1,
+        "teamId": "",
+        "year": "2025",
+        "month": "09",
+        "ticketYn": ""
+      },
+      "requested_at": "2026-11-01T01:03:20.781560+00:00",
+      "retrieved_at": "2026-11-01T01:03:21.162262+00:00",
+      "http_status": 200,
+      "max_bytes": 3000000,
+      "timeout_seconds": 15
+    },
+    {
+      "file": "schedule-2025-10.json",
+      "url": "https://www.kleague.com/getScheduleList.do",
+      "method": "POST",
+      "payload": {
+        "leagueId": 1,
+        "teamId": "",
+        "year": "2025",
+        "month": "10",
+        "ticketYn": ""
+      },
+      "requested_at": "2026-11-01T01:03:21.163630+00:00",
+      "retrieved_at": "2026-11-01T01:03:21.546956+00:00",
+      "http_status": 200,
+      "max_bytes": 3000000,
+      "timeout_seconds": 15
+    },
+    {
+      "file": "schedule-2025-11.json",
+      "url": "https://www.kleague.com/getScheduleList.do",
+      "method": "POST",
+      "payload": {
+        "leagueId": 1,
+        "teamId": "",
+        "year": "2025",
+        "month": "11",
+        "ticketYn": ""
+      },
+      "requested_at": "2026-11-01T01:03:21.550456+00:00",
+      "retrieved_at": "2026-11-01T01:03:21.942172+00:00",
+      "http_status": 200,
+      "max_bytes": 3000000,
+      "timeout_seconds": 15
+    }
+  ],
+  "observation_method": "Official public page explicitly defines read-only schedule POST; direct HTTP response bytes, fetched by month and verified with SHA256. Earlier match pages were GETs.",
+  "retrieved_at": "2026-11-01T00:57:54.636606+00:00 through 2026-11-01T01:03:21.942172+00:00",
+  "scope": "2025 K League 1 February-November official schedule, 228 unique finished fixtures, compared with 227 domestic full-game 3-way fixtures",
+  "counts": {
+    "official_rows": 228,
+    "official_unique_ids": 228,
+    "official_final_scores": 228,
+    "official_status": {
+      "FE": 228
+    },
+    "official_by_month": [
+      {
+        "month": 2,
+        "rows": 12
+      },
+      {
+        "month": 3,
+        "rows": 24
+      },
+      {
+        "month": 4,
+        "rows": 26
+      },
+      {
+        "month": 5,
+        "rows": 39
+      },
+      {
+        "month": 6,
+        "rows": 23
+      },
+      {
+        "month": 7,
+        "rows": 19
+      },
+      {
+        "month": 8,
+        "rows": 25
+      },
+      {
+        "month": 9,
+        "rows": 18
+      },
+      {
+        "month": 10,
+        "rows": 18
+      },
+      {
+        "month": 11,
+        "rows": 24
+      }
+    ],
+    "round_counts": {
+      "1": 6,
+      "2": 6,
+      "3": 6,
+      "4": 6,
+      "5": 6,
+      "6": 6,
+      "18": 6,
+      "7": 6,
+      "10": 6,
+      "8": 6,
+      "9": 6,
+      "19": 6,
+      "11": 6,
+      "12": 6,
+      "13": 6,
+      "14": 6,
+      "15": 6,
+      "16": 6,
+      "17": 6,
+      "20": 6,
+      "21": 6,
+      "22": 6,
+      "23": 6,
+      "24": 6,
+      "25": 6,
+      "26": 6,
+      "27": 6,
+      "28": 6,
+      "29": 6,
+      "30": 6,
+      "31": 6,
+      "32": 6,
+      "33": 6,
+      "34": 6,
+      "35": 6,
+      "36": 6,
+      "37": 6,
+      "38": 6
+    },
+    "team_game_counts": {
+      "K03": 38,
+      "K10": 38,
+      "K04": 38,
+      "K09": 38,
+      "K22": 38,
+      "K29": 38,
+      "K01": 38,
+      "K27": 38,
+      "K05": 38,
+      "K35": 38,
+      "K17": 38,
+      "K21": 38
+    },
+    "domestic_raw_full3": 227,
+    "domestic_normalized": 227,
+    "link_counts": {
+      "unique": 227
+    },
+    "official_unlinked": 1,
+    "official_unlinked_ids": [
+      "kleague:2025:1:126"
+    ],
+    "fields": {
+      "date_match": {
+        "match": 227,
+        "mismatch": 0,
+        "unknown": 0
+      },
+      "home_away_match": {
+        "match": 227,
+        "mismatch": 0,
+        "unknown": 0
+      },
+      "clock_raw_match": {
+        "match": 227,
+        "mismatch": 0,
+        "unknown": 0
+      },
+      "clock_normalized_match": {
+        "match": 227,
+        "mismatch": 0,
+        "unknown": 0
+      },
+      "score_raw_match": {
+        "match": 227,
+        "mismatch": 0,
+        "unknown": 0
+      },
+      "outcome_normalized_match": {
+        "match": 227,
+        "mismatch": 0,
+        "unknown": 0
+      },
+      "official_final": {
+        "match": 227,
+        "mismatch": 0,
+        "unknown": 0
+      },
+      "raw_not_void": {
+        "match": 227,
+        "mismatch": 0,
+        "unknown": 0
+      }
+    },
+    "utc_instant": {
+      "match": 0,
+      "mismatch": 0,
+      "unknown": 227
+    },
+    "same_market_price_receipt": {
+      "match": 0,
+      "mismatch": 0,
+      "unknown": 227
+    },
+    "limitations": [
+      "matching requires the same date; date discrepancies cannot be counted as zero across unlinked cases",
+      "2025 season-specific manual team ID mapping, not a general alias resolver",
+      "UTC and pregame receipts are not certified"
+    ]
+  },
+  "files": {
+    "fixtures.jsonl": "863d6b698dccbb528f5b17c182855b9eb8619164ce414e5e183a4a0202ce4f4b",
+    "comparison.json": "5a867fb0311c048a24385bfc41594446ab2a91a280a097fc840b39d0580c81d4",
+    "team-map.json": "c6da33611e2a93645c68f7f2170bd592bf7635e6fa980e3e9bb6433e1f27ab04",
+    "post-requests.json": "76f324a4831d2f5b6e876f83c322e1342152c14aabf2f78736aa9dc89b1c4616",
+    "pilot-fixtures.jsonl": "6a7b9e7563f2b4b46045355952e33a0726de3206bb1a667a7973446630da27cf",
+    "pilot-comparison.json": "3de99cdd7988980ac896f392574561b6175ea1aed2377d0e3f7cd5c468b0010e"
+  },
+  "limitations": [
+    "Five direct GETs and ten read-only POSTs; prior web search eight queries and three web opens. Search/open exact timestamps were not separately instrumented.",
+    "Official monthly requests cover February through November 2025, with 228 unique completed fixture IDs; months January and December were not queried.",
+    "Identity mapping is explicitly reviewed for 2025 club IDs and does not generalize automatically; same date and oriented teams required for joining.",
+    "UTC offsets, pregame receipt and executable same-market prices remain unverified.",
+    "The older local 2026 ledger snapshot does not establish current policy performance; no operating replay or historical counterfactual was run."
+  ]
+}
