@@ -1,0 +1,1931 @@
+{
+  "parent_protocol_commit": "396a12e0a477418c8fee66562e36dba4bb274525",
+  "copied_protocol_commit": "a1ed59f8849a29b753fa9a45df482ad294ed5862",
+  "negative_control_parent_commit": "f962647e41015be807c9570591f763c5b98889d0",
+  "negative_control_copied_commit": "4e59f5d8c47ab169ca2a159e0a65f68a89bbe856",
+  "code_sha256": {
+    "run.py": "039d42d1fb1ef5b6e452e2fda8bead4bf1765b3b5edbc98b91a49b7c79bfc36c",
+    "verify.py": "0ed4e2866318fed8b9a56723c6b68dcb954edb098b46477496109bc6114e2d7d"
+  },
+  "hash_convention": "SHA256 of raw bytes; textual .py/.json/.jsonl normalized CRLF to LF",
+  "inputs": {
+    "cases.jsonl.gz": "20ccf01c6071463ad68054a2c1bf53194af7255ccd06a3c1e6b56aa5bb2aeb7d",
+    "provenance.json": "18edb70085add0fbad2245c8bbf8d4e5efa021927cf9c865617f656df8b79f76",
+    "targets.jsonl.gz": "71af2473a3969c80af386af8d2ebe13d7585f200ea243a2ad8dac2469e6778d0",
+    "votes.jsonl.gz": "cae323dd093c7ff9d257d7eb3dc9f296703dd07b592e63b1b59a3dc414fae965"
+  },
+  "eligible": 446,
+  "split_by_decision": {
+    "train": 273,
+    "validation": 51,
+    "test": 122
+  },
+  "rejected": {},
+  "vote_audit": {
+    "raw_votes": 460,
+    "groups": 460,
+    "kept_authors": 460
+  },
+  "fit": {
+    "validation_n": 50,
+    "validation_excluded_not_settled_by_july1": 1,
+    "validation_logloss": {
+      "market": 0.6431963296874535,
+      "expert_global": 0.6405144031483216,
+      "expert_hierarchical": 0.6421916267974523
+    },
+    "selected": "expert_global",
+    "train_n_before_june": 262,
+    "frozen_n_before_july": 323,
+    "prequential_utc_days": 45,
+    "selection_note": "selected by validation before test; no per-league reselection; sham is selected architecture only"
+  },
+  "metrics": [
+    {
+      "split": "test",
+      "league": "ALL",
+      "mode": "comparison",
+      "model": "author_plurality",
+      "n": 122,
+      "hits": 61,
+      "accuracy": 0.5,
+      "roi": -0.1771311475409836,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 122,
+      "logloss": null,
+      "brier": null,
+      "monthly_unit_pnl": {
+        "2026-07": "-14.90",
+        "2026-08": "-1.81",
+        "2026-09": "-2.86",
+        "2026-10": "-2.04"
+      },
+      "daily_close_max_drawdown_units": "24.68",
+      "descriptive_n_under_30": false,
+      "pick_changes_vs_market": 26,
+      "observed_calendar_weeks": 15,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        -0.08571428571428572,
+        0.015157342657342573
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        -0.12675586854460094,
+        0.10717894021739124
+      ]
+    },
+    {
+      "split": "test",
+      "league": "ALL",
+      "mode": "comparison",
+      "model": "fixed91_recomputed",
+      "n": 122,
+      "hits": 64,
+      "accuracy": 0.5245901639344263,
+      "roi": -0.15180327868852458,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 122,
+      "logloss": 0.7392626930548665,
+      "brier": 0.520058543477557,
+      "monthly_unit_pnl": {
+        "2026-07": "-13.30",
+        "2026-08": "-0.31",
+        "2026-09": "-0.91",
+        "2026-10": "-4.00"
+      },
+      "daily_close_max_drawdown_units": "21.59",
+      "descriptive_n_under_30": false,
+      "pick_changes_vs_market": 17,
+      "observed_calendar_weeks": 15,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        -0.06474986677324807,
+        0.042105263157894736
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        -0.10461602870813398,
+        0.14732394366197185
+      ]
+    },
+    {
+      "split": "test",
+      "league": "ALL",
+      "mode": "comparison",
+      "model": "fixed91_recomputed_rounded4",
+      "n": 122,
+      "hits": 64,
+      "accuracy": 0.5245901639344263,
+      "roi": -0.15180327868852458,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 122,
+      "logloss": 0.7392714976607668,
+      "brier": 0.5200675822950821,
+      "monthly_unit_pnl": {
+        "2026-07": "-13.30",
+        "2026-08": "-0.31",
+        "2026-09": "-0.91",
+        "2026-10": "-4.00"
+      },
+      "daily_close_max_drawdown_units": "21.59",
+      "descriptive_n_under_30": false,
+      "pick_changes_vs_market": 17,
+      "observed_calendar_weeks": 15,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        -0.06474986677324807,
+        0.042105263157894736
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        -0.10461602870813398,
+        0.14732394366197185
+      ]
+    },
+    {
+      "split": "test",
+      "league": "ALL",
+      "mode": "comparison",
+      "model": "prior_research_fixed91_pick",
+      "n": 122,
+      "hits": 64,
+      "accuracy": 0.5245901639344263,
+      "roi": -0.15180327868852458,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 122,
+      "logloss": null,
+      "brier": null,
+      "monthly_unit_pnl": {
+        "2026-07": "-13.30",
+        "2026-08": "-0.31",
+        "2026-09": "-0.91",
+        "2026-10": "-4.00"
+      },
+      "daily_close_max_drawdown_units": "21.59",
+      "descriptive_n_under_30": false,
+      "pick_changes_vs_market": 17,
+      "observed_calendar_weeks": 15,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        -0.06474986677324807,
+        0.042105263157894736
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        -0.10461602870813398,
+        0.14732394366197185
+      ]
+    },
+    {
+      "split": "test",
+      "league": "ALL",
+      "mode": "frozen",
+      "model": "market",
+      "n": 122,
+      "hits": 67,
+      "accuracy": 0.5491803278688525,
+      "roi": -0.13065573770491803,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 122,
+      "logloss": 0.7271223105824836,
+      "brier": 0.5082014924458245,
+      "monthly_unit_pnl": {
+        "2026-07": "-6.47",
+        "2026-08": "-0.42",
+        "2026-09": "-6.76",
+        "2026-10": "-2.29"
+      },
+      "daily_close_max_drawdown_units": "19.41",
+      "descriptive_n_under_30": false,
+      "pick_changes_vs_market": 0,
+      "observed_calendar_weeks": 15,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        0.0,
+        0.0
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "split": "test",
+      "league": "ALL",
+      "mode": "frozen",
+      "model": "selected",
+      "n": 122,
+      "hits": 63,
+      "accuracy": 0.5163934426229508,
+      "roi": -0.184672131147541,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 122,
+      "logloss": 0.7328663044213428,
+      "brier": 0.513865880550605,
+      "monthly_unit_pnl": {
+        "2026-07": "-11.46",
+        "2026-08": "-0.31",
+        "2026-09": "-6.76",
+        "2026-10": "-4.00"
+      },
+      "daily_close_max_drawdown_units": "26.20",
+      "descriptive_n_under_30": false,
+      "pick_changes_vs_market": 10,
+      "observed_calendar_weeks": 15,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        -0.07142857142857142,
+        0.0
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        -0.12071442857142856,
+        0.0014428742038216493
+      ]
+    },
+    {
+      "split": "test",
+      "league": "ALL",
+      "mode": "frozen",
+      "model": "sham",
+      "n": 122,
+      "hits": 67,
+      "accuracy": 0.5491803278688525,
+      "roi": -0.13065573770491803,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 122,
+      "logloss": 0.7282010757391147,
+      "brier": 0.5091252232605359,
+      "monthly_unit_pnl": {
+        "2026-07": "-6.47",
+        "2026-08": "-0.42",
+        "2026-09": "-6.76",
+        "2026-10": "-2.29"
+      },
+      "daily_close_max_drawdown_units": "19.41",
+      "descriptive_n_under_30": false,
+      "pick_changes_vs_market": 0,
+      "observed_calendar_weeks": 15,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        0.0,
+        0.0
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "split": "test",
+      "league": "ALL",
+      "mode": "prequential",
+      "model": "market",
+      "n": 122,
+      "hits": 67,
+      "accuracy": 0.5491803278688525,
+      "roi": -0.13065573770491803,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 122,
+      "logloss": 0.7271223105824836,
+      "brier": 0.5082014924458245,
+      "monthly_unit_pnl": {
+        "2026-07": "-6.47",
+        "2026-08": "-0.42",
+        "2026-09": "-6.76",
+        "2026-10": "-2.29"
+      },
+      "daily_close_max_drawdown_units": "19.41",
+      "descriptive_n_under_30": false,
+      "pick_changes_vs_market": 0,
+      "observed_calendar_weeks": 15,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        0.0,
+        0.0
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "split": "test",
+      "league": "ALL",
+      "mode": "prequential",
+      "model": "selected",
+      "n": 122,
+      "hits": 65,
+      "accuracy": 0.5327868852459017,
+      "roi": -0.1569672131147541,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 122,
+      "logloss": 0.7312471254660348,
+      "brier": 0.5121907585826555,
+      "monthly_unit_pnl": {
+        "2026-07": "-11.46",
+        "2026-08": "1.36",
+        "2026-09": "-6.76",
+        "2026-10": "-2.29"
+      },
+      "daily_close_max_drawdown_units": "22.82",
+      "descriptive_n_under_30": false,
+      "pick_changes_vs_market": 8,
+      "observed_calendar_weeks": 15,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        -0.05333333333333334,
+        0.023529411764705882
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        -0.0890408849557522,
+        0.04238095238095238
+      ]
+    },
+    {
+      "split": "test",
+      "league": "ALL",
+      "mode": "prequential",
+      "model": "sham",
+      "n": 122,
+      "hits": 67,
+      "accuracy": 0.5491803278688525,
+      "roi": -0.13065573770491803,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 122,
+      "logloss": 0.7290559011717602,
+      "brier": 0.5099451465361823,
+      "monthly_unit_pnl": {
+        "2026-07": "-6.47",
+        "2026-08": "-0.42",
+        "2026-09": "-6.76",
+        "2026-10": "-2.29"
+      },
+      "daily_close_max_drawdown_units": "19.41",
+      "descriptive_n_under_30": false,
+      "pick_changes_vs_market": 0,
+      "observed_calendar_weeks": 15,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        0.0,
+        0.0
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "split": "test",
+      "league": "KBO",
+      "mode": "comparison",
+      "model": "author_plurality",
+      "n": 51,
+      "hits": 28,
+      "accuracy": 0.5490196078431373,
+      "roi": -0.126078431372549,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 51,
+      "logloss": null,
+      "brier": null,
+      "monthly_unit_pnl": {
+        "2026-07": "-4.80",
+        "2026-08": "-0.22",
+        "2026-09": "-1.41"
+      },
+      "daily_close_max_drawdown_units": "8.22",
+      "descriptive_n_under_30": false,
+      "pick_changes_vs_market": 12,
+      "observed_calendar_weeks": 6,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        -0.13793103448275862,
+        0.08
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        -0.21657534246575344,
+        0.19375
+      ]
+    },
+    {
+      "split": "test",
+      "league": "KBO",
+      "mode": "comparison",
+      "model": "fixed91_recomputed",
+      "n": 51,
+      "hits": 29,
+      "accuracy": 0.5686274509803921,
+      "roi": -0.11372549019607843,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 51,
+      "logloss": 0.6919378166399864,
+      "brier": 0.49755055349763233,
+      "monthly_unit_pnl": {
+        "2026-07": "-4.17",
+        "2026-08": "-0.22",
+        "2026-09": "-1.41"
+      },
+      "daily_close_max_drawdown_units": "7.59",
+      "descriptive_n_under_30": false,
+      "pick_changes_vs_market": 9,
+      "observed_calendar_weeks": 6,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        -0.13157894736842105,
+        0.05003205128205082
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        -0.21043478260869564,
+        0.10391304347826086
+      ]
+    },
+    {
+      "split": "test",
+      "league": "KBO",
+      "mode": "comparison",
+      "model": "fixed91_recomputed_rounded4",
+      "n": 51,
+      "hits": 29,
+      "accuracy": 0.5686274509803921,
+      "roi": -0.11372549019607843,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 51,
+      "logloss": 0.6919488296719022,
+      "brier": 0.4975615337254901,
+      "monthly_unit_pnl": {
+        "2026-07": "-4.17",
+        "2026-08": "-0.22",
+        "2026-09": "-1.41"
+      },
+      "daily_close_max_drawdown_units": "7.59",
+      "descriptive_n_under_30": false,
+      "pick_changes_vs_market": 9,
+      "observed_calendar_weeks": 6,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        -0.13157894736842105,
+        0.05003205128205082
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        -0.21043478260869564,
+        0.10391304347826086
+      ]
+    },
+    {
+      "split": "test",
+      "league": "KBO",
+      "mode": "comparison",
+      "model": "prior_research_fixed91_pick",
+      "n": 51,
+      "hits": 29,
+      "accuracy": 0.5686274509803921,
+      "roi": -0.11372549019607843,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 51,
+      "logloss": null,
+      "brier": null,
+      "monthly_unit_pnl": {
+        "2026-07": "-4.17",
+        "2026-08": "-0.22",
+        "2026-09": "-1.41"
+      },
+      "daily_close_max_drawdown_units": "7.59",
+      "descriptive_n_under_30": false,
+      "pick_changes_vs_market": 9,
+      "observed_calendar_weeks": 6,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        -0.13157894736842105,
+        0.05003205128205082
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        -0.21043478260869564,
+        0.10391304347826086
+      ]
+    },
+    {
+      "split": "test",
+      "league": "KBO",
+      "mode": "frozen",
+      "model": "market",
+      "n": 51,
+      "hits": 32,
+      "accuracy": 0.6274509803921569,
+      "roi": -0.02411764705882353,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 51,
+      "logloss": 0.6859988032718743,
+      "brier": 0.49215820290638107,
+      "monthly_unit_pnl": {
+        "2026-07": "0.51",
+        "2026-08": "-0.33",
+        "2026-09": "-1.41"
+      },
+      "daily_close_max_drawdown_units": "6.00",
+      "descriptive_n_under_30": false,
+      "pick_changes_vs_market": 0,
+      "observed_calendar_weeks": 6,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        0.0,
+        0.0
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "split": "test",
+      "league": "KBO",
+      "mode": "frozen",
+      "model": "selected",
+      "n": 51,
+      "hits": 28,
+      "accuracy": 0.5490196078431373,
+      "roi": -0.15666666666666668,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 51,
+      "logloss": 0.688106554201001,
+      "brier": 0.4940745867598273,
+      "monthly_unit_pnl": {
+        "2026-07": "-6.36",
+        "2026-08": "-0.22",
+        "2026-09": "-1.41"
+      },
+      "daily_close_max_drawdown_units": "9.78",
+      "descriptive_n_under_30": false,
+      "pick_changes_vs_market": 6,
+      "observed_calendar_weeks": 6,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        -0.18,
+        0.0
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        -0.30619999999999997,
+        0.009565217391304356
+      ]
+    },
+    {
+      "split": "test",
+      "league": "KBO",
+      "mode": "frozen",
+      "model": "sham",
+      "n": 51,
+      "hits": 32,
+      "accuracy": 0.6274509803921569,
+      "roi": -0.02411764705882353,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 51,
+      "logloss": 0.68313577775942,
+      "brier": 0.4891451078503377,
+      "monthly_unit_pnl": {
+        "2026-07": "0.51",
+        "2026-08": "-0.33",
+        "2026-09": "-1.41"
+      },
+      "daily_close_max_drawdown_units": "6.00",
+      "descriptive_n_under_30": false,
+      "pick_changes_vs_market": 0,
+      "observed_calendar_weeks": 6,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        0.0,
+        0.0
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "split": "test",
+      "league": "KBO",
+      "mode": "prequential",
+      "model": "market",
+      "n": 51,
+      "hits": 32,
+      "accuracy": 0.6274509803921569,
+      "roi": -0.02411764705882353,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 51,
+      "logloss": 0.6859988032718743,
+      "brier": 0.49215820290638107,
+      "monthly_unit_pnl": {
+        "2026-07": "0.51",
+        "2026-08": "-0.33",
+        "2026-09": "-1.41"
+      },
+      "daily_close_max_drawdown_units": "6.00",
+      "descriptive_n_under_30": false,
+      "pick_changes_vs_market": 0,
+      "observed_calendar_weeks": 6,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        0.0,
+        0.0
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "split": "test",
+      "league": "KBO",
+      "mode": "prequential",
+      "model": "selected",
+      "n": 51,
+      "hits": 29,
+      "accuracy": 0.5686274509803921,
+      "roi": -0.12392156862745098,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 51,
+      "logloss": 0.6870954125772143,
+      "brier": 0.493137846384421,
+      "monthly_unit_pnl": {
+        "2026-07": "-6.36",
+        "2026-08": "1.45",
+        "2026-09": "-1.41"
+      },
+      "daily_close_max_drawdown_units": "8.15",
+      "descriptive_n_under_30": false,
+      "pick_changes_vs_market": 5,
+      "observed_calendar_weeks": 6,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        -0.16326530612244897,
+        0.08823529411764706
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        -0.2783673469387755,
+        0.1585294117647059
+      ]
+    },
+    {
+      "split": "test",
+      "league": "KBO",
+      "mode": "prequential",
+      "model": "sham",
+      "n": 51,
+      "hits": 32,
+      "accuracy": 0.6274509803921569,
+      "roi": -0.02411764705882353,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 51,
+      "logloss": 0.6842531401990685,
+      "brier": 0.4901628001752461,
+      "monthly_unit_pnl": {
+        "2026-07": "0.51",
+        "2026-08": "-0.33",
+        "2026-09": "-1.41"
+      },
+      "daily_close_max_drawdown_units": "6.00",
+      "descriptive_n_under_30": false,
+      "pick_changes_vs_market": 0,
+      "observed_calendar_weeks": 6,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        0.0,
+        0.0
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "split": "test",
+      "league": "K리그1",
+      "mode": "comparison",
+      "model": "author_plurality",
+      "n": 10,
+      "hits": 3,
+      "accuracy": 0.3,
+      "roi": -0.364,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 10,
+      "logloss": null,
+      "brier": null,
+      "monthly_unit_pnl": {
+        "2026-07": "-2",
+        "2026-08": "-1.64",
+        "2026-09": "0.0"
+      },
+      "daily_close_max_drawdown_units": "4",
+      "descriptive_n_under_30": true,
+      "pick_changes_vs_market": 2,
+      "observed_calendar_weeks": 3,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        -0.5,
+        0.3333333333333333
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        -1.185,
+        1.0
+      ]
+    },
+    {
+      "split": "test",
+      "league": "K리그1",
+      "mode": "comparison",
+      "model": "fixed91_recomputed",
+      "n": 10,
+      "hits": 3,
+      "accuracy": 0.3,
+      "roi": -0.364,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 10,
+      "logloss": 1.1729171912378358,
+      "brier": 0.723752141318,
+      "monthly_unit_pnl": {
+        "2026-07": "-2",
+        "2026-08": "-1.64",
+        "2026-09": "0.0"
+      },
+      "daily_close_max_drawdown_units": "4",
+      "descriptive_n_under_30": true,
+      "pick_changes_vs_market": 2,
+      "observed_calendar_weeks": 3,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        -0.5,
+        0.3333333333333333
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        -1.185,
+        1.0
+      ]
+    },
+    {
+      "split": "test",
+      "league": "K리그1",
+      "mode": "comparison",
+      "model": "fixed91_recomputed_rounded4",
+      "n": 10,
+      "hits": 3,
+      "accuracy": 0.3,
+      "roi": -0.364,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 10,
+      "logloss": 1.1729229293419359,
+      "brier": 0.723749758,
+      "monthly_unit_pnl": {
+        "2026-07": "-2",
+        "2026-08": "-1.64",
+        "2026-09": "0.0"
+      },
+      "daily_close_max_drawdown_units": "4",
+      "descriptive_n_under_30": true,
+      "pick_changes_vs_market": 2,
+      "observed_calendar_weeks": 3,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        -0.5,
+        0.3333333333333333
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        -1.185,
+        1.0
+      ]
+    },
+    {
+      "split": "test",
+      "league": "K리그1",
+      "mode": "comparison",
+      "model": "prior_research_fixed91_pick",
+      "n": 10,
+      "hits": 3,
+      "accuracy": 0.3,
+      "roi": -0.364,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 10,
+      "logloss": null,
+      "brier": null,
+      "monthly_unit_pnl": {
+        "2026-07": "-2",
+        "2026-08": "-1.64",
+        "2026-09": "0.0"
+      },
+      "daily_close_max_drawdown_units": "4",
+      "descriptive_n_under_30": true,
+      "pick_changes_vs_market": 2,
+      "observed_calendar_weeks": 3,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        -0.5,
+        0.3333333333333333
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        -1.185,
+        1.0
+      ]
+    },
+    {
+      "split": "test",
+      "league": "K리그1",
+      "mode": "frozen",
+      "model": "market",
+      "n": 10,
+      "hits": 3,
+      "accuracy": 0.3,
+      "roi": -0.427,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 10,
+      "logloss": 1.1372012456693623,
+      "brier": 0.6977250183353834,
+      "monthly_unit_pnl": {
+        "2026-07": "0.37",
+        "2026-08": "-1.64",
+        "2026-09": "-3"
+      },
+      "daily_close_max_drawdown_units": "4.64",
+      "descriptive_n_under_30": true,
+      "pick_changes_vs_market": 0,
+      "observed_calendar_weeks": 3,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        0.0,
+        0.0
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "split": "test",
+      "league": "K리그1",
+      "mode": "frozen",
+      "model": "selected",
+      "n": 10,
+      "hits": 3,
+      "accuracy": 0.3,
+      "roi": -0.427,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 10,
+      "logloss": 1.1505463079831468,
+      "brier": 0.7074058990656186,
+      "monthly_unit_pnl": {
+        "2026-07": "0.37",
+        "2026-08": "-1.64",
+        "2026-09": "-3"
+      },
+      "daily_close_max_drawdown_units": "4.64",
+      "descriptive_n_under_30": true,
+      "pick_changes_vs_market": 0,
+      "observed_calendar_weeks": 3,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        0.0,
+        0.0
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "split": "test",
+      "league": "K리그1",
+      "mode": "frozen",
+      "model": "sham",
+      "n": 10,
+      "hits": 3,
+      "accuracy": 0.3,
+      "roi": -0.427,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 10,
+      "logloss": 1.1455033510226906,
+      "brier": 0.703304982613488,
+      "monthly_unit_pnl": {
+        "2026-07": "0.37",
+        "2026-08": "-1.64",
+        "2026-09": "-3"
+      },
+      "daily_close_max_drawdown_units": "4.64",
+      "descriptive_n_under_30": true,
+      "pick_changes_vs_market": 0,
+      "observed_calendar_weeks": 3,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        0.0,
+        0.0
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "split": "test",
+      "league": "K리그1",
+      "mode": "prequential",
+      "model": "market",
+      "n": 10,
+      "hits": 3,
+      "accuracy": 0.3,
+      "roi": -0.427,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 10,
+      "logloss": 1.1372012456693623,
+      "brier": 0.6977250183353834,
+      "monthly_unit_pnl": {
+        "2026-07": "0.37",
+        "2026-08": "-1.64",
+        "2026-09": "-3"
+      },
+      "daily_close_max_drawdown_units": "4.64",
+      "descriptive_n_under_30": true,
+      "pick_changes_vs_market": 0,
+      "observed_calendar_weeks": 3,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        0.0,
+        0.0
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "split": "test",
+      "league": "K리그1",
+      "mode": "prequential",
+      "model": "selected",
+      "n": 10,
+      "hits": 3,
+      "accuracy": 0.3,
+      "roi": -0.427,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 10,
+      "logloss": 1.147230875148388,
+      "brier": 0.7049115834340263,
+      "monthly_unit_pnl": {
+        "2026-07": "0.37",
+        "2026-08": "-1.64",
+        "2026-09": "-3"
+      },
+      "daily_close_max_drawdown_units": "4.64",
+      "descriptive_n_under_30": true,
+      "pick_changes_vs_market": 0,
+      "observed_calendar_weeks": 3,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        0.0,
+        0.0
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "split": "test",
+      "league": "K리그1",
+      "mode": "prequential",
+      "model": "sham",
+      "n": 10,
+      "hits": 3,
+      "accuracy": 0.3,
+      "roi": -0.427,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 10,
+      "logloss": 1.143665287013831,
+      "brier": 0.7020424761899686,
+      "monthly_unit_pnl": {
+        "2026-07": "0.37",
+        "2026-08": "-1.64",
+        "2026-09": "-3"
+      },
+      "daily_close_max_drawdown_units": "4.64",
+      "descriptive_n_under_30": true,
+      "pick_changes_vs_market": 0,
+      "observed_calendar_weeks": 3,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        0.0,
+        0.0
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "split": "test",
+      "league": "K리그2",
+      "mode": "comparison",
+      "model": "author_plurality",
+      "n": 4,
+      "hits": 3,
+      "accuracy": 0.75,
+      "roi": 0.6625,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 4,
+      "logloss": null,
+      "brier": null,
+      "monthly_unit_pnl": {
+        "2026-07": "0.44",
+        "2026-08": "1.36",
+        "2026-09": "0.85"
+      },
+      "daily_close_max_drawdown_units": "0",
+      "descriptive_n_under_30": true,
+      "pick_changes_vs_market": 2,
+      "observed_calendar_weeks": 3,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        0.0,
+        0.0
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        0.0,
+        0.45
+      ]
+    },
+    {
+      "split": "test",
+      "league": "K리그2",
+      "mode": "comparison",
+      "model": "fixed91_recomputed",
+      "n": 4,
+      "hits": 4,
+      "accuracy": 1.0,
+      "roi": 1.15,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 4,
+      "logloss": 0.7765733274234005,
+      "brier": 0.44034100193182535,
+      "monthly_unit_pnl": {
+        "2026-07": "0.44",
+        "2026-08": "1.36",
+        "2026-09": "2.80"
+      },
+      "daily_close_max_drawdown_units": "0",
+      "descriptive_n_under_30": true,
+      "pick_changes_vs_market": 1,
+      "observed_calendar_weeks": 3,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        0.0,
+        0.5
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        0.0,
+        1.425
+      ]
+    },
+    {
+      "split": "test",
+      "league": "K리그2",
+      "mode": "comparison",
+      "model": "fixed91_recomputed_rounded4",
+      "n": 4,
+      "hits": 4,
+      "accuracy": 1.0,
+      "roi": 1.15,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 4,
+      "logloss": 0.7765458204901261,
+      "brier": 0.44034719499999997,
+      "monthly_unit_pnl": {
+        "2026-07": "0.44",
+        "2026-08": "1.36",
+        "2026-09": "2.80"
+      },
+      "daily_close_max_drawdown_units": "0",
+      "descriptive_n_under_30": true,
+      "pick_changes_vs_market": 1,
+      "observed_calendar_weeks": 3,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        0.0,
+        0.5
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        0.0,
+        1.425
+      ]
+    },
+    {
+      "split": "test",
+      "league": "K리그2",
+      "mode": "comparison",
+      "model": "prior_research_fixed91_pick",
+      "n": 4,
+      "hits": 4,
+      "accuracy": 1.0,
+      "roi": 1.15,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 4,
+      "logloss": null,
+      "brier": null,
+      "monthly_unit_pnl": {
+        "2026-07": "0.44",
+        "2026-08": "1.36",
+        "2026-09": "2.80"
+      },
+      "daily_close_max_drawdown_units": "0",
+      "descriptive_n_under_30": true,
+      "pick_changes_vs_market": 1,
+      "observed_calendar_weeks": 3,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        0.0,
+        0.5
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        0.0,
+        1.425
+      ]
+    },
+    {
+      "split": "test",
+      "league": "K리그2",
+      "mode": "frozen",
+      "model": "market",
+      "n": 4,
+      "hits": 3,
+      "accuracy": 0.75,
+      "roi": 0.4375,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 4,
+      "logloss": 0.8551811153162729,
+      "brier": 0.49152479692780804,
+      "monthly_unit_pnl": {
+        "2026-07": "0.44",
+        "2026-08": "1.36",
+        "2026-09": "-0.05"
+      },
+      "daily_close_max_drawdown_units": "0.05",
+      "descriptive_n_under_30": true,
+      "pick_changes_vs_market": 0,
+      "observed_calendar_weeks": 3,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        0.0,
+        0.0
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "split": "test",
+      "league": "K리그2",
+      "mode": "frozen",
+      "model": "selected",
+      "n": 4,
+      "hits": 3,
+      "accuracy": 0.75,
+      "roi": 0.4375,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 4,
+      "logloss": 0.8235555735684537,
+      "brier": 0.4711085091321865,
+      "monthly_unit_pnl": {
+        "2026-07": "0.44",
+        "2026-08": "1.36",
+        "2026-09": "-0.05"
+      },
+      "daily_close_max_drawdown_units": "0.05",
+      "descriptive_n_under_30": true,
+      "pick_changes_vs_market": 0,
+      "observed_calendar_weeks": 3,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        0.0,
+        0.0
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "split": "test",
+      "league": "K리그2",
+      "mode": "frozen",
+      "model": "sham",
+      "n": 4,
+      "hits": 3,
+      "accuracy": 0.75,
+      "roi": 0.4375,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 4,
+      "logloss": 0.8406502991822424,
+      "brier": 0.4808222302660848,
+      "monthly_unit_pnl": {
+        "2026-07": "0.44",
+        "2026-08": "1.36",
+        "2026-09": "-0.05"
+      },
+      "daily_close_max_drawdown_units": "0.05",
+      "descriptive_n_under_30": true,
+      "pick_changes_vs_market": 0,
+      "observed_calendar_weeks": 3,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        0.0,
+        0.0
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "split": "test",
+      "league": "K리그2",
+      "mode": "prequential",
+      "model": "market",
+      "n": 4,
+      "hits": 3,
+      "accuracy": 0.75,
+      "roi": 0.4375,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 4,
+      "logloss": 0.8551811153162729,
+      "brier": 0.49152479692780804,
+      "monthly_unit_pnl": {
+        "2026-07": "0.44",
+        "2026-08": "1.36",
+        "2026-09": "-0.05"
+      },
+      "daily_close_max_drawdown_units": "0.05",
+      "descriptive_n_under_30": true,
+      "pick_changes_vs_market": 0,
+      "observed_calendar_weeks": 3,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        0.0,
+        0.0
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "split": "test",
+      "league": "K리그2",
+      "mode": "prequential",
+      "model": "selected",
+      "n": 4,
+      "hits": 3,
+      "accuracy": 0.75,
+      "roi": 0.4375,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 4,
+      "logloss": 0.8387089789289958,
+      "brier": 0.4806479520631974,
+      "monthly_unit_pnl": {
+        "2026-07": "0.44",
+        "2026-08": "1.36",
+        "2026-09": "-0.05"
+      },
+      "daily_close_max_drawdown_units": "0.05",
+      "descriptive_n_under_30": true,
+      "pick_changes_vs_market": 0,
+      "observed_calendar_weeks": 3,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        0.0,
+        0.0
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "split": "test",
+      "league": "K리그2",
+      "mode": "prequential",
+      "model": "sham",
+      "n": 4,
+      "hits": 3,
+      "accuracy": 0.75,
+      "roi": 0.4375,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 4,
+      "logloss": 0.8424891311206484,
+      "brier": 0.4822228782784046,
+      "monthly_unit_pnl": {
+        "2026-07": "0.44",
+        "2026-08": "1.36",
+        "2026-09": "-0.05"
+      },
+      "daily_close_max_drawdown_units": "0.05",
+      "descriptive_n_under_30": true,
+      "pick_changes_vs_market": 0,
+      "observed_calendar_weeks": 3,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        0.0,
+        0.0
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "split": "test",
+      "league": "MLB",
+      "mode": "comparison",
+      "model": "author_plurality",
+      "n": 32,
+      "hits": 14,
+      "accuracy": 0.4375,
+      "roi": -0.2996875,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 32,
+      "logloss": null,
+      "brier": null,
+      "monthly_unit_pnl": {
+        "2026-07": "-4.06",
+        "2026-08": "-0.91",
+        "2026-09": "-2.58",
+        "2026-10": "-2.04"
+      },
+      "daily_close_max_drawdown_units": "12.07",
+      "descriptive_n_under_30": false,
+      "pick_changes_vs_market": 4,
+      "observed_calendar_weeks": 13,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        -0.07894736842105263,
+        0.0967741935483871
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        -0.12861111111111112,
+        0.18205483870967662
+      ]
+    },
+    {
+      "split": "test",
+      "league": "MLB",
+      "mode": "comparison",
+      "model": "fixed91_recomputed",
+      "n": 32,
+      "hits": 13,
+      "accuracy": 0.40625,
+      "roi": -0.3609375,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 32,
+      "logloss": 0.7335622689601743,
+      "brier": 0.5398911447682029,
+      "monthly_unit_pnl": {
+        "2026-07": "-4.06",
+        "2026-08": "-0.91",
+        "2026-09": "-2.58",
+        "2026-10": "-4.00"
+      },
+      "daily_close_max_drawdown_units": "14.03",
+      "descriptive_n_under_30": false,
+      "pick_changes_vs_market": 3,
+      "observed_calendar_weeks": 13,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        -0.11764705882352941,
+        0.08333333333333333
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        -0.2011764705882353,
+        0.15166666666666667
+      ]
+    },
+    {
+      "split": "test",
+      "league": "MLB",
+      "mode": "comparison",
+      "model": "fixed91_recomputed_rounded4",
+      "n": 32,
+      "hits": 13,
+      "accuracy": 0.40625,
+      "roi": -0.3609375,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 32,
+      "logloss": 0.7335820436054367,
+      "brier": 0.53991000625,
+      "monthly_unit_pnl": {
+        "2026-07": "-4.06",
+        "2026-08": "-0.91",
+        "2026-09": "-2.58",
+        "2026-10": "-4.00"
+      },
+      "daily_close_max_drawdown_units": "14.03",
+      "descriptive_n_under_30": false,
+      "pick_changes_vs_market": 3,
+      "observed_calendar_weeks": 13,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        -0.11764705882352941,
+        0.08333333333333333
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        -0.2011764705882353,
+        0.15166666666666667
+      ]
+    },
+    {
+      "split": "test",
+      "league": "MLB",
+      "mode": "comparison",
+      "model": "prior_research_fixed91_pick",
+      "n": 32,
+      "hits": 13,
+      "accuracy": 0.40625,
+      "roi": -0.3609375,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 32,
+      "logloss": null,
+      "brier": null,
+      "monthly_unit_pnl": {
+        "2026-07": "-4.06",
+        "2026-08": "-0.91",
+        "2026-09": "-2.58",
+        "2026-10": "-4.00"
+      },
+      "daily_close_max_drawdown_units": "14.03",
+      "descriptive_n_under_30": false,
+      "pick_changes_vs_market": 3,
+      "observed_calendar_weeks": 13,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        -0.11764705882352941,
+        0.08333333333333333
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        -0.2011764705882353,
+        0.15166666666666667
+      ]
+    },
+    {
+      "split": "test",
+      "league": "MLB",
+      "mode": "frozen",
+      "model": "market",
+      "n": 32,
+      "hits": 14,
+      "accuracy": 0.4375,
+      "roi": -0.3109375,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 32,
+      "logloss": 0.7078956620997089,
+      "brier": 0.5148096492926857,
+      "monthly_unit_pnl": {
+        "2026-07": "-4.17",
+        "2026-08": "-0.91",
+        "2026-09": "-2.58",
+        "2026-10": "-2.29"
+      },
+      "daily_close_max_drawdown_units": "11.61",
+      "descriptive_n_under_30": false,
+      "pick_changes_vs_market": 0,
+      "observed_calendar_weeks": 13,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        0.0,
+        0.0
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "split": "test",
+      "league": "MLB",
+      "mode": "frozen",
+      "model": "selected",
+      "n": 32,
+      "hits": 13,
+      "accuracy": 0.40625,
+      "roi": -0.3609375,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 32,
+      "logloss": 0.7213878057837806,
+      "brier": 0.5280915237762529,
+      "monthly_unit_pnl": {
+        "2026-07": "-4.06",
+        "2026-08": "-0.91",
+        "2026-09": "-2.58",
+        "2026-10": "-4.00"
+      },
+      "daily_close_max_drawdown_units": "14.03",
+      "descriptive_n_under_30": false,
+      "pick_changes_vs_market": 3,
+      "observed_calendar_weeks": 13,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        -0.11764705882352941,
+        0.08333333333333333
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        -0.2011764705882353,
+        0.15166666666666667
+      ]
+    },
+    {
+      "split": "test",
+      "league": "MLB",
+      "mode": "frozen",
+      "model": "sham",
+      "n": 32,
+      "hits": 14,
+      "accuracy": 0.4375,
+      "roi": -0.3109375,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 32,
+      "logloss": 0.7157611106913238,
+      "brier": 0.5225574931497395,
+      "monthly_unit_pnl": {
+        "2026-07": "-4.17",
+        "2026-08": "-0.91",
+        "2026-09": "-2.58",
+        "2026-10": "-2.29"
+      },
+      "daily_close_max_drawdown_units": "11.61",
+      "descriptive_n_under_30": false,
+      "pick_changes_vs_market": 0,
+      "observed_calendar_weeks": 13,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        0.0,
+        0.0
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "split": "test",
+      "league": "MLB",
+      "mode": "prequential",
+      "model": "market",
+      "n": 32,
+      "hits": 14,
+      "accuracy": 0.4375,
+      "roi": -0.3109375,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 32,
+      "logloss": 0.7078956620997089,
+      "brier": 0.5148096492926857,
+      "monthly_unit_pnl": {
+        "2026-07": "-4.17",
+        "2026-08": "-0.91",
+        "2026-09": "-2.58",
+        "2026-10": "-2.29"
+      },
+      "daily_close_max_drawdown_units": "11.61",
+      "descriptive_n_under_30": false,
+      "pick_changes_vs_market": 0,
+      "observed_calendar_weeks": 13,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        0.0,
+        0.0
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "split": "test",
+      "league": "MLB",
+      "mode": "prequential",
+      "model": "selected",
+      "n": 32,
+      "hits": 14,
+      "accuracy": 0.4375,
+      "roi": -0.3075,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 32,
+      "logloss": 0.7147893547462438,
+      "brier": 0.5215992522442665,
+      "monthly_unit_pnl": {
+        "2026-07": "-4.06",
+        "2026-08": "-0.91",
+        "2026-09": "-2.58",
+        "2026-10": "-2.29"
+      },
+      "daily_close_max_drawdown_units": "12.32",
+      "descriptive_n_under_30": false,
+      "pick_changes_vs_market": 2,
+      "observed_calendar_weeks": 13,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        -0.07894736842105263,
+        0.0967741935483871
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        -0.13246499999999997,
+        0.1761290322580645
+      ]
+    },
+    {
+      "split": "test",
+      "league": "MLB",
+      "mode": "prequential",
+      "model": "sham",
+      "n": 32,
+      "hits": 14,
+      "accuracy": 0.4375,
+      "roi": -0.3109375,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 32,
+      "logloss": 0.7166265816443217,
+      "brier": 0.5233784946439951,
+      "monthly_unit_pnl": {
+        "2026-07": "-4.17",
+        "2026-08": "-0.91",
+        "2026-09": "-2.58",
+        "2026-10": "-2.29"
+      },
+      "daily_close_max_drawdown_units": "11.61",
+      "descriptive_n_under_30": false,
+      "pick_changes_vs_market": 0,
+      "observed_calendar_weeks": 13,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        0.0,
+        0.0
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "split": "test",
+      "league": "NPB",
+      "mode": "comparison",
+      "model": "author_plurality",
+      "n": 25,
+      "hits": 13,
+      "accuracy": 0.52,
+      "roi": -0.184,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 25,
+      "logloss": null,
+      "brier": null,
+      "monthly_unit_pnl": {
+        "2026-07": "-4.48",
+        "2026-08": "-0.4",
+        "2026-09": "0.28"
+      },
+      "daily_close_max_drawdown_units": "7.93",
+      "descriptive_n_under_30": true,
+      "pick_changes_vs_market": 6,
+      "observed_calendar_weeks": 7,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        -0.2777777777777778,
+        0.08695652173913043
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        -0.42388888888888887,
+        0.1973913043478261
+      ]
+    },
+    {
+      "split": "test",
+      "league": "NPB",
+      "mode": "comparison",
+      "model": "fixed91_recomputed",
+      "n": 25,
+      "hits": 15,
+      "accuracy": 0.6,
+      "roi": -0.0852,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 25,
+      "logloss": 0.6636704830102745,
+      "brier": 0.47186648089571603,
+      "monthly_unit_pnl": {
+        "2026-07": "-3.51",
+        "2026-08": "1.1",
+        "2026-09": "0.28"
+      },
+      "daily_close_max_drawdown_units": "4.50",
+      "descriptive_n_under_30": true,
+      "pick_changes_vs_market": 2,
+      "observed_calendar_weeks": 7,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        -0.08333333333333333,
+        0.1
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        -0.1383333333333333,
+        0.17700000000000002
+      ]
+    },
+    {
+      "split": "test",
+      "league": "NPB",
+      "mode": "comparison",
+      "model": "fixed91_recomputed_rounded4",
+      "n": 25,
+      "hits": 15,
+      "accuracy": 0.6,
+      "roi": -0.0852,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 25,
+      "logloss": 0.6636677772237083,
+      "brier": 0.4718640104,
+      "monthly_unit_pnl": {
+        "2026-07": "-3.51",
+        "2026-08": "1.1",
+        "2026-09": "0.28"
+      },
+      "daily_close_max_drawdown_units": "4.50",
+      "descriptive_n_under_30": true,
+      "pick_changes_vs_market": 2,
+      "observed_calendar_weeks": 7,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        -0.08333333333333333,
+        0.1
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        -0.1383333333333333,
+        0.17700000000000002
+      ]
+    },
+    {
+      "split": "test",
+      "league": "NPB",
+      "mode": "comparison",
+      "model": "prior_research_fixed91_pick",
+      "n": 25,
+      "hits": 15,
+      "accuracy": 0.6,
+      "roi": -0.0852,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 25,
+      "logloss": null,
+      "brier": null,
+      "monthly_unit_pnl": {
+        "2026-07": "-3.51",
+        "2026-08": "1.1",
+        "2026-09": "0.28"
+      },
+      "daily_close_max_drawdown_units": "4.50",
+      "descriptive_n_under_30": true,
+      "pick_changes_vs_market": 2,
+      "observed_calendar_weeks": 7,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        -0.08333333333333333,
+        0.1
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        -0.1383333333333333,
+        0.17700000000000002
+      ]
+    },
+    {
+      "split": "test",
+      "league": "NPB",
+      "mode": "frozen",
+      "model": "market",
+      "n": 25,
+      "hits": 15,
+      "accuracy": 0.6,
+      "roi": -0.0896,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 25,
+      "logloss": 0.6511033927619201,
+      "brier": 0.45933022326936557,
+      "monthly_unit_pnl": {
+        "2026-07": "-3.62",
+        "2026-08": "1.1",
+        "2026-09": "0.28"
+      },
+      "daily_close_max_drawdown_units": "4.61",
+      "descriptive_n_under_30": true,
+      "pick_changes_vs_market": 0,
+      "observed_calendar_weeks": 7,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        0.0,
+        0.0
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "split": "test",
+      "league": "NPB",
+      "mode": "frozen",
+      "model": "selected",
+      "n": 25,
+      "hits": 16,
+      "accuracy": 0.64,
+      "roi": -0.0188,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 25,
+      "logloss": 0.6572863886386608,
+      "brier": 0.46545646857590384,
+      "monthly_unit_pnl": {
+        "2026-07": "-1.85",
+        "2026-08": "1.1",
+        "2026-09": "0.28"
+      },
+      "daily_close_max_drawdown_units": "2.84",
+      "descriptive_n_under_30": true,
+      "pick_changes_vs_market": 1,
+      "observed_calendar_weeks": 7,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        0.0,
+        0.1
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        0.0,
+        0.17700000000000002
+      ]
+    },
+    {
+      "split": "test",
+      "league": "NPB",
+      "mode": "frozen",
+      "model": "sham",
+      "n": 25,
+      "hits": 15,
+      "accuracy": 0.6,
+      "roi": -0.0896,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 25,
+      "logloss": 0.6511446530145338,
+      "brier": 0.4595479283770908,
+      "monthly_unit_pnl": {
+        "2026-07": "-3.62",
+        "2026-08": "1.1",
+        "2026-09": "0.28"
+      },
+      "daily_close_max_drawdown_units": "4.61",
+      "descriptive_n_under_30": true,
+      "pick_changes_vs_market": 0,
+      "observed_calendar_weeks": 7,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        0.0,
+        0.0
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "split": "test",
+      "league": "NPB",
+      "mode": "prequential",
+      "model": "market",
+      "n": 25,
+      "hits": 15,
+      "accuracy": 0.6,
+      "roi": -0.0896,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 25,
+      "logloss": 0.6511033927619201,
+      "brier": 0.45933022326936557,
+      "monthly_unit_pnl": {
+        "2026-07": "-3.62",
+        "2026-08": "1.1",
+        "2026-09": "0.28"
+      },
+      "daily_close_max_drawdown_units": "4.61",
+      "descriptive_n_under_30": true,
+      "pick_changes_vs_market": 0,
+      "observed_calendar_weeks": 7,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        0.0,
+        0.0
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "split": "test",
+      "league": "NPB",
+      "mode": "prequential",
+      "model": "selected",
+      "n": 25,
+      "hits": 16,
+      "accuracy": 0.64,
+      "roi": -0.0188,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 25,
+      "logloss": 0.6587951698535467,
+      "brier": 0.4669743466827569,
+      "monthly_unit_pnl": {
+        "2026-07": "-1.85",
+        "2026-08": "1.1",
+        "2026-09": "0.28"
+      },
+      "daily_close_max_drawdown_units": "2.84",
+      "descriptive_n_under_30": true,
+      "pick_changes_vs_market": 1,
+      "observed_calendar_weeks": 7,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        0.0,
+        0.1
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        0.0,
+        0.17700000000000002
+      ]
+    },
+    {
+      "split": "test",
+      "league": "NPB",
+      "mode": "prequential",
+      "model": "sham",
+      "n": 25,
+      "hits": 15,
+      "accuracy": 0.6,
+      "roi": -0.0896,
+      "coverage_on_eligible": 1.0,
+      "eligible_denominator": 25,
+      "logloss": 0.6523699914225226,
+      "brier": 0.46070307859422144,
+      "monthly_unit_pnl": {
+        "2026-07": "-3.62",
+        "2026-08": "1.1",
+        "2026-09": "0.28"
+      },
+      "daily_close_max_drawdown_units": "4.61",
+      "descriptive_n_under_30": true,
+      "pick_changes_vs_market": 0,
+      "observed_calendar_weeks": 7,
+      "paired_weekly_95ci_accuracy_vs_market": [
+        0.0,
+        0.0
+      ],
+      "paired_weekly_95ci_roi_vs_market": [
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "limitations": [
+    "retrospective publication claims only; certified receipt and executable prices zero",
+    "fixed91 is recomputed from grouped directional frequencies, not frozen operating predictions",
+    "96h result availability is a research assumption",
+    "previously inspected data; not blind or prospective"
+  ]
+}
