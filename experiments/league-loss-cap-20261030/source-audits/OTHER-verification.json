@@ -1,0 +1,1132 @@
+{
+  "schema_valid": true,
+  "dataset_prefixed_cohorts": true,
+  "uncalibrated_tipster_probability_omitted": true,
+  "no_settlement_or_availability_guesses": true,
+  "yearly_checks": [
+    {
+      "dataset": "year_strict",
+      "scope": "model_specific",
+      "model": "market",
+      "n": 508,
+      "recomputed_roi": -0.09793307086614174,
+      "saved_roi": -0.09793307086614174,
+      "passed": true
+    },
+    {
+      "dataset": "year_strict",
+      "scope": "model_specific",
+      "model": "market90_vote10",
+      "n": 508,
+      "recomputed_roi": -0.08692913385826771,
+      "saved_roi": -0.08692913385826773,
+      "passed": true
+    },
+    {
+      "dataset": "year_strict",
+      "scope": "model_specific",
+      "model": "market75_vote25",
+      "n": 508,
+      "recomputed_roi": -0.11171259842519685,
+      "saved_roi": -0.11171259842519685,
+      "passed": true
+    },
+    {
+      "dataset": "year_strict",
+      "scope": "model_specific",
+      "model": "market50_vote50",
+      "n": 508,
+      "recomputed_roi": -0.07848425196850393,
+      "saved_roi": -0.07848425196850395,
+      "passed": true
+    },
+    {
+      "dataset": "year_strict",
+      "scope": "model_specific",
+      "model": "tipster_vote",
+      "n": 492,
+      "recomputed_roi": -0.08099593495934959,
+      "saved_roi": -0.08099593495934959,
+      "passed": true
+    },
+    {
+      "dataset": "year_strict",
+      "scope": "common",
+      "model": "market",
+      "n": 492,
+      "recomputed_roi": -0.10107723577235772,
+      "saved_roi": -0.10107723577235773,
+      "passed": true
+    },
+    {
+      "dataset": "year_strict",
+      "scope": "common",
+      "model": "market90_vote10",
+      "n": 492,
+      "recomputed_roi": -0.08971544715447155,
+      "saved_roi": -0.08971544715447155,
+      "passed": true
+    },
+    {
+      "dataset": "year_strict",
+      "scope": "common",
+      "model": "market75_vote25",
+      "n": 492,
+      "recomputed_roi": -0.11530487804878048,
+      "saved_roi": -0.1153048780487805,
+      "passed": true
+    },
+    {
+      "dataset": "year_strict",
+      "scope": "common",
+      "model": "market50_vote50",
+      "n": 492,
+      "recomputed_roi": -0.08099593495934959,
+      "saved_roi": -0.08099593495934959,
+      "passed": true
+    },
+    {
+      "dataset": "year_strict",
+      "scope": "common",
+      "model": "tipster_vote",
+      "n": 492,
+      "recomputed_roi": -0.08099593495934959,
+      "saved_roi": -0.08099593495934959,
+      "passed": true
+    },
+    {
+      "dataset": "year_standard-ot",
+      "scope": "model_specific",
+      "model": "market",
+      "n": 597,
+      "recomputed_roi": -0.10425460636515914,
+      "saved_roi": -0.10425460636515914,
+      "passed": true
+    },
+    {
+      "dataset": "year_standard-ot",
+      "scope": "model_specific",
+      "model": "market90_vote10",
+      "n": 597,
+      "recomputed_roi": -0.07102177554438861,
+      "saved_roi": -0.07102177554438861,
+      "passed": true
+    },
+    {
+      "dataset": "year_standard-ot",
+      "scope": "model_specific",
+      "model": "market75_vote25",
+      "n": 597,
+      "recomputed_roi": -0.11159128978224456,
+      "saved_roi": -0.11159128978224456,
+      "passed": true
+    },
+    {
+      "dataset": "year_standard-ot",
+      "scope": "model_specific",
+      "model": "market50_vote50",
+      "n": 597,
+      "recomputed_roi": -0.07134003350083752,
+      "saved_roi": -0.07134003350083752,
+      "passed": true
+    },
+    {
+      "dataset": "year_standard-ot",
+      "scope": "model_specific",
+      "model": "tipster_vote",
+      "n": 580,
+      "recomputed_roi": -0.07167241379310345,
+      "saved_roi": -0.07167241379310346,
+      "passed": true
+    },
+    {
+      "dataset": "year_standard-ot",
+      "scope": "common",
+      "model": "market",
+      "n": 580,
+      "recomputed_roi": -0.10555172413793103,
+      "saved_roi": -0.10555172413793104,
+      "passed": true
+    },
+    {
+      "dataset": "year_standard-ot",
+      "scope": "common",
+      "model": "market90_vote10",
+      "n": 580,
+      "recomputed_roi": -0.07134482758620689,
+      "saved_roi": -0.0713448275862069,
+      "passed": true
+    },
+    {
+      "dataset": "year_standard-ot",
+      "scope": "common",
+      "model": "market75_vote25",
+      "n": 580,
+      "recomputed_roi": -0.11310344827586206,
+      "saved_roi": -0.11310344827586208,
+      "passed": true
+    },
+    {
+      "dataset": "year_standard-ot",
+      "scope": "common",
+      "model": "market50_vote50",
+      "n": 580,
+      "recomputed_roi": -0.07167241379310345,
+      "saved_roi": -0.07167241379310346,
+      "passed": true
+    },
+    {
+      "dataset": "year_standard-ot",
+      "scope": "common",
+      "model": "tipster_vote",
+      "n": 580,
+      "recomputed_roi": -0.07167241379310345,
+      "saved_roi": -0.07167241379310346,
+      "passed": true
+    }
+  ],
+  "additional_uncapped_checks": [
+    {
+      "label": "DC/K리그1/market",
+      "n": 19,
+      "roi": 0.028947368421052635,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그1/market90_tipster10",
+      "n": 19,
+      "roi": -0.17842105263157892,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그1/team_dc_uniform",
+      "n": 19,
+      "roi": -0.308421052631579,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그1/market90_team_dc_uniform10",
+      "n": 19,
+      "roi": 0.028947368421052635,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그1/team_dc_h90",
+      "n": 19,
+      "roi": -0.43,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그1/market90_team_dc_h9010",
+      "n": 19,
+      "roi": 0.028947368421052635,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그1/team_dc_h180",
+      "n": 19,
+      "roi": -0.53,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그1/market90_team_dc_h18010",
+      "n": 19,
+      "roi": 0.028947368421052635,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그1/team_dc_h365",
+      "n": 19,
+      "roi": -0.308421052631579,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그1/market90_team_dc_h36510",
+      "n": 19,
+      "roi": 0.028947368421052635,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그1/projected_xi_dc_uniform",
+      "n": 19,
+      "roi": -0.308421052631579,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그1/market90_projected_xi_dc_uniform10",
+      "n": 19,
+      "roi": 0.028947368421052635,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그1/projected_xi_dc_h90",
+      "n": 19,
+      "roi": -0.43,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그1/market90_projected_xi_dc_h9010",
+      "n": 19,
+      "roi": 0.028947368421052635,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그1/projected_xi_dc_h180",
+      "n": 19,
+      "roi": -0.53,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그1/market90_projected_xi_dc_h18010",
+      "n": 19,
+      "roi": 0.028947368421052635,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그1/projected_xi_dc_h365",
+      "n": 19,
+      "roi": -0.308421052631579,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그1/market90_projected_xi_dc_h36510",
+      "n": 19,
+      "roi": 0.028947368421052635,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그1/validation_selected_team_dc",
+      "n": 19,
+      "roi": -0.43,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그1/market90_validation_selected_team_dc10",
+      "n": 19,
+      "roi": 0.028947368421052635,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그1/validation_selected_projected_xi_dc",
+      "n": 19,
+      "roi": -0.43,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그1/market90_validation_selected_projected_xi_dc10",
+      "n": 19,
+      "roi": 0.028947368421052635,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그2/market",
+      "n": 11,
+      "roi": 0.41363636363636364,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그2/market90_tipster10",
+      "n": 11,
+      "roi": 0.4554545454545455,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그2/team_dc_uniform",
+      "n": 11,
+      "roi": -0.019090909090909082,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그2/market90_team_dc_uniform10",
+      "n": 11,
+      "roi": 0.19636363636363638,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그2/team_dc_h90",
+      "n": 11,
+      "roi": 0.41363636363636364,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그2/market90_team_dc_h9010",
+      "n": 11,
+      "roi": 0.41363636363636364,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그2/team_dc_h180",
+      "n": 11,
+      "roi": 0.19636363636363638,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그2/market90_team_dc_h18010",
+      "n": 11,
+      "roi": 0.41363636363636364,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그2/team_dc_h365",
+      "n": 11,
+      "roi": 0.19636363636363638,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그2/market90_team_dc_h36510",
+      "n": 11,
+      "roi": 0.19636363636363638,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그2/projected_xi_dc_uniform",
+      "n": 11,
+      "roi": -0.019090909090909082,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그2/market90_projected_xi_dc_uniform10",
+      "n": 11,
+      "roi": 0.19636363636363638,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그2/projected_xi_dc_h90",
+      "n": 11,
+      "roi": 0.41363636363636364,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그2/market90_projected_xi_dc_h9010",
+      "n": 11,
+      "roi": 0.41363636363636364,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그2/projected_xi_dc_h180",
+      "n": 11,
+      "roi": 0.19636363636363638,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그2/market90_projected_xi_dc_h18010",
+      "n": 11,
+      "roi": 0.41363636363636364,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그2/projected_xi_dc_h365",
+      "n": 11,
+      "roi": 0.19636363636363638,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그2/market90_projected_xi_dc_h36510",
+      "n": 11,
+      "roi": 0.19636363636363638,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그2/validation_selected_team_dc",
+      "n": 11,
+      "roi": -0.019090909090909082,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그2/market90_validation_selected_team_dc10",
+      "n": 11,
+      "roi": 0.19636363636363638,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그2/validation_selected_projected_xi_dc",
+      "n": 11,
+      "roi": -0.019090909090909082,
+      "passed": true
+    },
+    {
+      "label": "DC/K리그2/market90_validation_selected_projected_xi_dc10",
+      "n": 11,
+      "roi": 0.19636363636363638,
+      "passed": true
+    },
+    {
+      "label": "KBO selection/baseline",
+      "n": 712,
+      "roi": -0.11457865168539326,
+      "passed": true
+    },
+    {
+      "label": "KBO selection/market_null",
+      "n": 712,
+      "roi": -0.11457865168539326,
+      "passed": true
+    },
+    {
+      "label": "KBO selection/logistic:strength:ridge0.01",
+      "n": 712,
+      "roi": -0.07473314606741573,
+      "passed": true
+    },
+    {
+      "label": "KBO selection/logistic:strength:ridge0.1",
+      "n": 712,
+      "roi": -0.09369382022471909,
+      "passed": true
+    },
+    {
+      "label": "KBO selection/logistic:strength:ridge1",
+      "n": 712,
+      "roi": -0.10929775280898875,
+      "passed": true
+    },
+    {
+      "label": "KBO selection/logistic:batting:ridge0.01",
+      "n": 712,
+      "roi": -0.09911516853932584,
+      "passed": true
+    },
+    {
+      "label": "KBO selection/logistic:batting:ridge0.1",
+      "n": 712,
+      "roi": -0.08928370786516854,
+      "passed": true
+    },
+    {
+      "label": "KBO selection/logistic:batting:ridge1",
+      "n": 712,
+      "roi": -0.10929775280898875,
+      "passed": true
+    },
+    {
+      "label": "KBO selection/logistic:bullpen:ridge0.01",
+      "n": 712,
+      "roi": -0.11226123595505617,
+      "passed": true
+    },
+    {
+      "label": "KBO selection/logistic:bullpen:ridge0.1",
+      "n": 712,
+      "roi": -0.09813202247191012,
+      "passed": true
+    },
+    {
+      "label": "KBO selection/logistic:bullpen:ridge1",
+      "n": 712,
+      "roi": -0.10174157303370786,
+      "passed": true
+    },
+    {
+      "label": "KBO selection/logistic:full:ridge0.01",
+      "n": 712,
+      "roi": -0.09695224719101124,
+      "passed": true
+    },
+    {
+      "label": "KBO selection/logistic:full:ridge0.1",
+      "n": 712,
+      "roi": -0.09272471910112359,
+      "passed": true
+    },
+    {
+      "label": "KBO selection/logistic:full:ridge1",
+      "n": 712,
+      "roi": -0.10174157303370786,
+      "passed": true
+    },
+    {
+      "label": "KBO selection/nb:s20:season:w0.1",
+      "n": 712,
+      "roi": -0.11453651685393258,
+      "passed": true
+    },
+    {
+      "label": "KBO selection/nb:s20:28days:w0.1",
+      "n": 712,
+      "roi": -0.10939606741573034,
+      "passed": true
+    },
+    {
+      "label": "KBO selection/pyth:s20:e1.5:w0.1",
+      "n": 712,
+      "roi": -0.11453651685393258,
+      "passed": true
+    },
+    {
+      "label": "KBO selection/pyth:s20:e2:w0.1",
+      "n": 712,
+      "roi": -0.1169803370786517,
+      "passed": true
+    },
+    {
+      "label": "KBO selection/nb:s20:season:w0.3",
+      "n": 712,
+      "roi": -0.12021067415730338,
+      "passed": true
+    },
+    {
+      "label": "KBO selection/nb:s20:28days:w0.3",
+      "n": 712,
+      "roi": -0.11723314606741572,
+      "passed": true
+    },
+    {
+      "label": "KBO selection/pyth:s20:e1.5:w0.3",
+      "n": 712,
+      "roi": -0.12832865168539326,
+      "passed": true
+    },
+    {
+      "label": "KBO selection/pyth:s20:e2:w0.3",
+      "n": 712,
+      "roi": -0.12963483146067414,
+      "passed": true
+    },
+    {
+      "label": "KBO selection/nb:s60:season:w0.1",
+      "n": 712,
+      "roi": -0.11456460674157302,
+      "passed": true
+    },
+    {
+      "label": "KBO selection/nb:s60:28days:w0.1",
+      "n": 712,
+      "roi": -0.10214887640449438,
+      "passed": true
+    },
+    {
+      "label": "KBO selection/pyth:s60:e1.5:w0.1",
+      "n": 712,
+      "roi": -0.11457865168539326,
+      "passed": true
+    },
+    {
+      "label": "KBO selection/pyth:s60:e2:w0.1",
+      "n": 712,
+      "roi": -0.11206460674157304,
+      "passed": true
+    },
+    {
+      "label": "KBO selection/nb:s60:season:w0.3",
+      "n": 712,
+      "roi": -0.1261376404494382,
+      "passed": true
+    },
+    {
+      "label": "KBO selection/nb:s60:28days:w0.3",
+      "n": 712,
+      "roi": -0.11633426966292135,
+      "passed": true
+    },
+    {
+      "label": "KBO selection/pyth:s60:e1.5:w0.3",
+      "n": 712,
+      "roi": -0.1261516853932584,
+      "passed": true
+    },
+    {
+      "label": "KBO selection/pyth:s60:e2:w0.3",
+      "n": 712,
+      "roi": -0.1258567415730337,
+      "passed": true
+    },
+    {
+      "label": "KBO evaluation baseline",
+      "n": 198,
+      "roi": -0.07404040404040405,
+      "passed": true
+    },
+    {
+      "label": "KBO selected/primary",
+      "n": 198,
+      "roi": -0.07136363636363637,
+      "passed": true
+    },
+    {
+      "label": "KBO selected/hit_leader",
+      "n": 198,
+      "roi": -0.07853535353535353,
+      "passed": true
+    },
+    {
+      "label": "KBO selected/profit_leader",
+      "n": 198,
+      "roi": -0.07853535353535353,
+      "passed": true
+    },
+    {
+      "label": "MLB selection/poisson:h45:pure",
+      "n": 2251,
+      "roi": -0.09320302087960906,
+      "passed": true
+    },
+    {
+      "label": "MLB selection/poisson:h45:market75_score25",
+      "n": 2251,
+      "roi": -0.12527321190581964,
+      "passed": true
+    },
+    {
+      "label": "MLB selection/poisson:h45:market50_score50",
+      "n": 2251,
+      "roi": -0.11937361172812083,
+      "passed": true
+    },
+    {
+      "label": "MLB selection/poisson:h45:residual",
+      "n": 2251,
+      "roi": -0.12125277654375832,
+      "passed": true
+    },
+    {
+      "label": "MLB selection/negbin:h45:pure",
+      "n": 2251,
+      "roi": -0.09320302087960906,
+      "passed": true
+    },
+    {
+      "label": "MLB selection/negbin:h45:market75_score25",
+      "n": 2251,
+      "roi": -0.12659262549977787,
+      "passed": true
+    },
+    {
+      "label": "MLB selection/negbin:h45:market50_score50",
+      "n": 2251,
+      "roi": -0.11840071079520212,
+      "passed": true
+    },
+    {
+      "label": "MLB selection/negbin:h45:residual",
+      "n": 2251,
+      "roi": -0.12384273656152821,
+      "passed": true
+    },
+    {
+      "label": "MLB selection/pyth:h45:pure",
+      "n": 2251,
+      "roi": -0.09320302087960906,
+      "passed": true
+    },
+    {
+      "label": "MLB selection/pyth:h45:market75_score25",
+      "n": 2251,
+      "roi": -0.12728565082185694,
+      "passed": true
+    },
+    {
+      "label": "MLB selection/pyth:h45:market50_score50",
+      "n": 2251,
+      "roi": -0.11379831186139494,
+      "passed": true
+    },
+    {
+      "label": "MLB selection/pyth:h45:residual",
+      "n": 2251,
+      "roi": -0.1221723678365171,
+      "passed": true
+    },
+    {
+      "label": "MLB selection/poisson:h180:pure",
+      "n": 2251,
+      "roi": -0.10061750333185251,
+      "passed": true
+    },
+    {
+      "label": "MLB selection/poisson:h180:market75_score25",
+      "n": 2251,
+      "roi": -0.1270501999111506,
+      "passed": true
+    },
+    {
+      "label": "MLB selection/poisson:h180:market50_score50",
+      "n": 2251,
+      "roi": -0.12484229231452687,
+      "passed": true
+    },
+    {
+      "label": "MLB selection/poisson:h180:residual",
+      "n": 2251,
+      "roi": -0.12374944469124834,
+      "passed": true
+    },
+    {
+      "label": "MLB selection/negbin:h180:pure",
+      "n": 2251,
+      "roi": -0.10061750333185251,
+      "passed": true
+    },
+    {
+      "label": "MLB selection/negbin:h180:market75_score25",
+      "n": 2251,
+      "roi": -0.12039982230119946,
+      "passed": true
+    },
+    {
+      "label": "MLB selection/negbin:h180:market50_score50",
+      "n": 2251,
+      "roi": -0.12483340737450022,
+      "passed": true
+    },
+    {
+      "label": "MLB selection/negbin:h180:residual",
+      "n": 2251,
+      "roi": -0.12792092403376276,
+      "passed": true
+    },
+    {
+      "label": "MLB selection/pyth:h180:pure",
+      "n": 2251,
+      "roi": -0.10061750333185251,
+      "passed": true
+    },
+    {
+      "label": "MLB selection/pyth:h180:market75_score25",
+      "n": 2251,
+      "roi": -0.12191914704575744,
+      "passed": true
+    },
+    {
+      "label": "MLB selection/pyth:h180:market50_score50",
+      "n": 2251,
+      "roi": -0.1266148378498445,
+      "passed": true
+    },
+    {
+      "label": "MLB selection/pyth:h180:residual",
+      "n": 2251,
+      "roi": -0.12469124833407375,
+      "passed": true
+    },
+    {
+      "label": "MLB selection/market_null",
+      "n": 2251,
+      "roi": -0.12326521545979563,
+      "passed": true
+    },
+    {
+      "label": "MLB/external230/poisson:h45:pure",
+      "n": 230,
+      "roi": -0.1625217391304348,
+      "passed": true
+    },
+    {
+      "label": "MLB/external230/poisson:h45:market75_score25",
+      "n": 230,
+      "roi": -0.17495652173913046,
+      "passed": true
+    },
+    {
+      "label": "MLB/external230/poisson:h45:market50_score50",
+      "n": 230,
+      "roi": -0.13052173913043477,
+      "passed": true
+    },
+    {
+      "label": "MLB/external230/poisson:h45:residual",
+      "n": 230,
+      "roi": -0.18334782608695652,
+      "passed": true
+    },
+    {
+      "label": "MLB/external230/negbin:h45:pure",
+      "n": 230,
+      "roi": -0.1625217391304348,
+      "passed": true
+    },
+    {
+      "label": "MLB/external230/negbin:h45:market75_score25",
+      "n": 230,
+      "roi": -0.17552173913043478,
+      "passed": true
+    },
+    {
+      "label": "MLB/external230/negbin:h45:market50_score50",
+      "n": 230,
+      "roi": -0.16360869565217392,
+      "passed": true
+    },
+    {
+      "label": "MLB/external230/negbin:h45:residual",
+      "n": 230,
+      "roi": -0.18334782608695652,
+      "passed": true
+    },
+    {
+      "label": "MLB/external230/pyth:h45:pure",
+      "n": 230,
+      "roi": -0.1625217391304348,
+      "passed": true
+    },
+    {
+      "label": "MLB/external230/pyth:h45:market75_score25",
+      "n": 230,
+      "roi": -0.17552173913043478,
+      "passed": true
+    },
+    {
+      "label": "MLB/external230/pyth:h45:market50_score50",
+      "n": 230,
+      "roi": -0.14678260869565216,
+      "passed": true
+    },
+    {
+      "label": "MLB/external230/pyth:h45:residual",
+      "n": 230,
+      "roi": -0.18334782608695652,
+      "passed": true
+    },
+    {
+      "label": "MLB/external230/poisson:h180:pure",
+      "n": 230,
+      "roi": -0.18713043478260868,
+      "passed": true
+    },
+    {
+      "label": "MLB/external230/poisson:h180:market75_score25",
+      "n": 230,
+      "roi": -0.1978695652173913,
+      "passed": true
+    },
+    {
+      "label": "MLB/external230/poisson:h180:market50_score50",
+      "n": 230,
+      "roi": -0.14708695652173912,
+      "passed": true
+    },
+    {
+      "label": "MLB/external230/poisson:h180:residual",
+      "n": 230,
+      "roi": -0.1983478260869565,
+      "passed": true
+    },
+    {
+      "label": "MLB/external230/negbin:h180:pure",
+      "n": 230,
+      "roi": -0.18713043478260868,
+      "passed": true
+    },
+    {
+      "label": "MLB/external230/negbin:h180:market75_score25",
+      "n": 230,
+      "roi": -0.18343478260869564,
+      "passed": true
+    },
+    {
+      "label": "MLB/external230/negbin:h180:market50_score50",
+      "n": 230,
+      "roi": -0.16491304347826086,
+      "passed": true
+    },
+    {
+      "label": "MLB/external230/negbin:h180:residual",
+      "n": 230,
+      "roi": -0.1908695652173913,
+      "passed": true
+    },
+    {
+      "label": "MLB/external230/pyth:h180:pure",
+      "n": 230,
+      "roi": -0.18713043478260868,
+      "passed": true
+    },
+    {
+      "label": "MLB/external230/pyth:h180:market75_score25",
+      "n": 230,
+      "roi": -0.18343478260869564,
+      "passed": true
+    },
+    {
+      "label": "MLB/external230/pyth:h180:market50_score50",
+      "n": 230,
+      "roi": -0.1488695652173913,
+      "passed": true
+    },
+    {
+      "label": "MLB/external230/pyth:h180:residual",
+      "n": 230,
+      "roi": -0.1908695652173913,
+      "passed": true
+    },
+    {
+      "label": "MLB/external230/market_null",
+      "n": 230,
+      "roi": -0.16852173913043478,
+      "passed": true
+    },
+    {
+      "label": "MLB/secondary116/poisson:h45:pure",
+      "n": 116,
+      "roi": -0.05603448275862069,
+      "passed": true
+    },
+    {
+      "label": "MLB/secondary116/poisson:h45:market75_score25",
+      "n": 116,
+      "roi": -0.09922413793103448,
+      "passed": true
+    },
+    {
+      "label": "MLB/secondary116/poisson:h45:market50_score50",
+      "n": 116,
+      "roi": -0.09629310344827587,
+      "passed": true
+    },
+    {
+      "label": "MLB/secondary116/poisson:h45:residual",
+      "n": 116,
+      "roi": -0.10172413793103449,
+      "passed": true
+    },
+    {
+      "label": "MLB/secondary116/negbin:h45:pure",
+      "n": 116,
+      "roi": -0.05603448275862069,
+      "passed": true
+    },
+    {
+      "label": "MLB/secondary116/negbin:h45:market75_score25",
+      "n": 116,
+      "roi": -0.11620689655172414,
+      "passed": true
+    },
+    {
+      "label": "MLB/secondary116/negbin:h45:market50_score50",
+      "n": 116,
+      "roi": -0.11456896551724137,
+      "passed": true
+    },
+    {
+      "label": "MLB/secondary116/negbin:h45:residual",
+      "n": 116,
+      "roi": -0.10172413793103449,
+      "passed": true
+    },
+    {
+      "label": "MLB/secondary116/pyth:h45:pure",
+      "n": 116,
+      "roi": -0.05603448275862069,
+      "passed": true
+    },
+    {
+      "label": "MLB/secondary116/pyth:h45:market75_score25",
+      "n": 116,
+      "roi": -0.09922413793103448,
+      "passed": true
+    },
+    {
+      "label": "MLB/secondary116/pyth:h45:market50_score50",
+      "n": 116,
+      "roi": -0.11456896551724137,
+      "passed": true
+    },
+    {
+      "label": "MLB/secondary116/pyth:h45:residual",
+      "n": 116,
+      "roi": -0.10172413793103449,
+      "passed": true
+    },
+    {
+      "label": "MLB/secondary116/poisson:h180:pure",
+      "n": 116,
+      "roi": -0.10267241379310345,
+      "passed": true
+    },
+    {
+      "label": "MLB/secondary116/poisson:h180:market75_score25",
+      "n": 116,
+      "roi": -0.11301724137931034,
+      "passed": true
+    },
+    {
+      "label": "MLB/secondary116/poisson:h180:market50_score50",
+      "n": 116,
+      "roi": -0.09439655172413793,
+      "passed": true
+    },
+    {
+      "label": "MLB/secondary116/poisson:h180:residual",
+      "n": 116,
+      "roi": -0.10172413793103449,
+      "passed": true
+    },
+    {
+      "label": "MLB/secondary116/negbin:h180:pure",
+      "n": 116,
+      "roi": -0.10267241379310345,
+      "passed": true
+    },
+    {
+      "label": "MLB/secondary116/negbin:h180:market75_score25",
+      "n": 116,
+      "roi": -0.11301724137931034,
+      "passed": true
+    },
+    {
+      "label": "MLB/secondary116/negbin:h180:market50_score50",
+      "n": 116,
+      "roi": -0.14215517241379308,
+      "passed": true
+    },
+    {
+      "label": "MLB/secondary116/negbin:h180:residual",
+      "n": 116,
+      "roi": -0.10172413793103449,
+      "passed": true
+    },
+    {
+      "label": "MLB/secondary116/pyth:h180:pure",
+      "n": 116,
+      "roi": -0.10267241379310345,
+      "passed": true
+    },
+    {
+      "label": "MLB/secondary116/pyth:h180:market75_score25",
+      "n": 116,
+      "roi": -0.11301724137931034,
+      "passed": true
+    },
+    {
+      "label": "MLB/secondary116/pyth:h180:market50_score50",
+      "n": 116,
+      "roi": -0.14215517241379308,
+      "passed": true
+    },
+    {
+      "label": "MLB/secondary116/pyth:h180:residual",
+      "n": 116,
+      "roi": -0.10172413793103449,
+      "passed": true
+    },
+    {
+      "label": "MLB/secondary116/market_null",
+      "n": 116,
+      "roi": -0.13344827586206898,
+      "passed": true
+    },
+    {
+      "label": "archive 2025/sc",
+      "n": 6499,
+      "roi": -0.10697799661486382,
+      "passed": true
+    },
+    {
+      "label": "archive 2025/bs",
+      "n": 3890,
+      "roi": -0.14920308483290487,
+      "passed": true
+    },
+    {
+      "label": "archive 2025/bk",
+      "n": 1921,
+      "roi": -0.12774596564289434,
+      "passed": true
+    },
+    {
+      "label": "archive 2025/vl",
+      "n": 546,
+      "roi": -0.14164835164835166,
+      "passed": true
+    }
+  ]
+}

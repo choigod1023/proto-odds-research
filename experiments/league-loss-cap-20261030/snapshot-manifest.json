@@ -1,0 +1,31 @@
+{
+  "source_normalized_sha256": {
+    "MLB": {
+      "path": ".local-test\\MLB\\records.json",
+      "sha256": "d04d3d324653a652f59c299aee45184a5e9f776684d311851a2b777cde5a8e9a"
+    },
+    "KBO": {
+      "path": ".local-test\\KBO\\records.json",
+      "sha256": "34df8ff5cdaccfccb98cc1bc069ff39cb04d8d2fd858d914e083ec3154672976"
+    },
+    "NPB": {
+      "path": ".local-test\\NPB\\records.json",
+      "sha256": "e1b75f82a647439e79592b18065a9516b259f5dc32bd7dd4afef9cc4d5780600"
+    },
+    "OTHER": {
+      "path": ".local-test\\OTHER\\records.json",
+      "sha256": "b6f85bff9169b7bf847a81465e138eb00942360b55e4700778b7d69b78378ca1"
+    }
+  },
+  "kept_by_group": {
+    "MLB": 4572,
+    "KBO": 2936,
+    "NPB": 363,
+    "OTHER": 32624
+  },
+  "record_count": 40495,
+  "bytes": 1898412,
+  "normalized_sha256": "2e7fceb7e52bbe3ec1b92576e72734b0d954bdd25531548a911bf938338a450b",
+  "unique_league_event_identifiers": 26429,
+  "description": "Model/event rows, not new independent matches. IDs may differ between sources; cohorts overlap and must not be pooled. NPB122 and yearly common-model cohorts are continuous paths, with original phases retained. OTHER MLB/KBO and training omitted. Unsupported NPB rotation heads excluded from policy selection."
+}

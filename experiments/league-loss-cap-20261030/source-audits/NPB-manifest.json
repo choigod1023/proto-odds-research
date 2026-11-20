@@ -1,0 +1,78 @@
+{
+  "sources": [
+    {
+      "path": "C:/Users/user/Documents/ChatGPT/sportstoto-worktrees/tipster-year-validation-20261028/experiments/tipster-year-20261028/results.json",
+      "bytes": 3660289,
+      "sha256": "9723ccb17e59727b501622b2782894cde89e21fdbc4feeeef2f559d7d65bbd3c"
+    },
+    {
+      "path": "C:/Users/user/Documents/ChatGPT/sportstoto-worktrees/tipster-roi-expansion-20261028/experiments/tipster-roi-expansion-20261028/results.json",
+      "bytes": 687232,
+      "sha256": "1296cc049eb5f77c2a0f7f9c259822f5645bf369ca33c80c20504e04284dcb2e"
+    },
+    {
+      "path": "C:/Users/user/Documents/ChatGPT/sportstoto-worktrees/year-model-hit-comparison-20261029/experiments/year-model-hit-20261029/strict-results.json",
+      "bytes": 552004,
+      "sha256": "5d433838cf654ff6227bc617efbe43907a572850f6a883f6969967f414b23e76"
+    },
+    {
+      "path": "C:/Users/user/Documents/ChatGPT/sportstoto-worktrees/year-model-hit-comparison-20261029/src/devig.py",
+      "bytes": 7338,
+      "sha256": "2a102be60e3e07c03644afff1480f72e07d2fe1d08165f98cfed5bc5b29f31c9"
+    },
+    {
+      "path": "C:/Users/user/Documents/ChatGPT/sportstoto-worktrees/year-model-hit-comparison-20261029/experiments/year-model-hit-20261029/strict.jsonl",
+      "bytes": 604280,
+      "sha256": "702c4f830218b695c12d79acf42c30ce624f40237137a4c3d7f549a4d887b650"
+    },
+    {
+      "path": "C:/Users/user/Documents/ChatGPT/sportstoto-worktrees/year-model-hit-comparison-20261029/scripts/compare_year_model_accuracy.py",
+      "bytes": 11500,
+      "sha256": "00e6cdbf8442aac5e991bb00260b1abfd354e97aaef3051eedac3a8b59399c86"
+    },
+    {
+      "path": "C:/Users/user/Documents/ChatGPT/sportstoto-worktrees/tipster-year-validation-20261028/scripts/evaluate_tipster_year.py",
+      "bytes": 10499,
+      "sha256": "d598b9b246503799dbc6aa5db5e85c57460d15a1a03d91703bf1db5e8b1e0176"
+    },
+    {
+      "path": "C:/Users/user/Documents/ChatGPT/sportstoto-worktrees/tipster-year-validation-20261028/experiments/tipster-year-20261028/joined.json",
+      "bytes": 7212757,
+      "sha256": "483ad3debbc6ce82ee28a2828b8126cc18ce6c2082493a45682846b6df5472b5"
+    },
+    {
+      "path": "C:/Users/user/Documents/ChatGPT/sportstoto-worktrees/tipster-year-validation-20261028/experiments/tipster-year-20261028/prices/offers.jsonl",
+      "bytes": 6376992,
+      "sha256": "54c626a9160c7c7547af6ac1c3e8d6776797eed1aa9929c9d332bd2200cbdb44"
+    },
+    {
+      "path": "C:/Users/user/Documents/ChatGPT/sportstoto-worktrees/tipster-year-validation-20261028/experiments/tipster-year-20261028/korean/official_results.json",
+      "bytes": 332922,
+      "sha256": "4109af9b30b51b45e9e3f39430b295f22138d578444c7e718cb073ce8cf9f0c5"
+    }
+  ],
+  "outputs": [
+    "records.json",
+    "events.json",
+    "abstentions.json",
+    "summary.json",
+    "verification.json",
+    "manifest.json",
+    "REPORT.md"
+  ],
+  "definition": {
+    "market": "argmax Shin devig of same archived two-way Proto odds",
+    "tipster_vote": "Equal one vote per (publisher, author), reject internally conflicting author; plurality tie abstains",
+    "market90_vote10": "argmax round(0.9 * Shin_market_probability + 0.1 * equal_author_vote_share, 4); home wins numeric tie",
+    "9_to_1_direction": "MARKET 90%, TIPSTER 10%; not tipster 90%",
+    "settlement": "same unit stake per selected event; win odds-1; loss -1; two-way official draw refund 0",
+    "ROI": "sum(net_per_unit)/count(selected rows), refunds included in stake denominator"
+  },
+  "provenance_limits": [
+    "Retrospective posts first collected after games; no independent pregame availability proof.",
+    "Archived exact-fixture Proto prices; quote observation time and actual purchasability unverified.",
+    "No saved outcome probability vector; probability intentionally omitted. Market and hybrid choices deterministically reconstructed using archived odds and equal-author votes.",
+    "NPB game date only; true kickoff clock time and actual settlement time unverified. settled_at and available_at omitted.",
+    "Previously inspected historical sample, including evaluation cohort; zero genuinely unseen games. Not frozen operating-model replay."
+  ]
+}
