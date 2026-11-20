@@ -1,0 +1,605 @@
+{
+  "status": "complete",
+  "research_monthly_cap": "OFF",
+  "research_stake_krw": 10000,
+  "research_bet_type": "single",
+  "actual_cap": "unchanged",
+  "outputs": {
+    "prediction_snapshots": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\.local-test\\SAVED_MODELS\\prediction-snapshots.jsonl.gz",
+      "rows": 7458,
+      "bytes": 1855606,
+      "sha256": "ac17b2f3d3e4f5e0a653f1c4f0423fb82be21ddef2933a189d6bef6b2eb66c3a"
+    },
+    "all_offer_outcomes": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\.local-test\\SAVED_MODELS\\all-offer-outcomes.jsonl.gz",
+      "rows": 86806,
+      "bytes": 8090127,
+      "sha256": "77823c04458550c02b07977a52f3e8f3493680e0eb574b8f9e9e205aaac00d1f"
+    },
+    "identity_bridge": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\.local-test\\SAVED_MODELS\\fixture-identity-bridge.jsonl.gz",
+      "rows": 2868,
+      "bytes": 193212,
+      "sha256": "fadd531c49659971a6de81bc505d2cef5fb3dedee219c59eab874a19f531265a"
+    },
+    "recommendation_history": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\.local-test\\SAVED_MODELS\\recommendation-history.jsonl.gz",
+      "rows": 2334,
+      "bytes": 378854,
+      "sha256": "444b30fe8d4634d69fffc91bfef0d01a11bf4a7e9af6f5ce9e77681612fe4c0f"
+    },
+    "saved_candidate_rosters": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\.local-test\\SAVED_MODELS\\saved-candidate-rosters.jsonl.gz",
+      "rows": 251,
+      "bytes": 24667,
+      "sha256": "f5515629e21ee3a1d0b3bf216129671bb8e6967c3bf647d74ea70df8f9c92c83"
+    },
+    "shadow_decisions": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\.local-test\\SAVED_MODELS\\shadow-decisions.jsonl.gz",
+      "rows": 858,
+      "bytes": 90950,
+      "sha256": "043a49a85ea1d80a81cda86b2a5998ec041897d2436855f004e185d8e579ff6e"
+    },
+    "current_candidates_withholds": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\.local-test\\SAVED_MODELS\\saved-candidates-and-withholds.jsonl.gz",
+      "rows": 848,
+      "bytes": 119714,
+      "sha256": "46d2c804b2adc5003fc128d4f1bb36c62597003f2714501fd1f459f94db9c738"
+    },
+    "offer_identity_bridge": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\.local-test\\SAVED_MODELS\\offer-identity-bridge.jsonl.gz",
+      "rows": 39250,
+      "bytes": 1756693,
+      "sha256": "f4393ca9b77e734822db616778c4104dba22535c511667857176ab98852a5d50"
+    },
+    "earliest_pregame_offer_outcomes": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\.local-test\\SAVED_MODELS\\earliest-pregame-offer-outcomes.jsonl.gz",
+      "rows": 31620,
+      "bytes": 3005006,
+      "sha256": "533b1f3193b5418540351c6e4d3e7a3df00bfeccb53adfbfe43c08840db2a907"
+    },
+    "earliest_saved_score_outcomes": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\.local-test\\SAVED_MODELS\\earliest-saved-score-outcomes.jsonl.gz",
+      "rows": 1532,
+      "bytes": 160185,
+      "sha256": "5fca982feec5eb67fd9914aa6a22367a30d4062071a84001c0773ba44f4601b4"
+    },
+    "latest_pregame_offer_outcomes": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\.local-test\\SAVED_MODELS\\latest-pregame-offer-outcomes.jsonl.gz",
+      "rows": 31620,
+      "bytes": 3045681,
+      "sha256": "551ba91fbca4222831a16342e03d7bfb495637290667c2f9bc561db75ba1abfc"
+    },
+    "t30_snapshot_catalog": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\.local-test\\SAVED_MODELS\\t30-eligible-snapshot-catalog.jsonl.gz",
+      "rows": 7418,
+      "bytes": 1843776,
+      "sha256": "7791c9016ec6629f784f16c22d5acb9fa83a1bfac2622c2fc8f4164342a2530c"
+    },
+    "issued_product_results_post0909": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\.local-test\\SAVED_MODELS\\issued-product-result-labels-post-20260909.jsonl.gz",
+      "rows": 1220,
+      "bytes": 316499,
+      "sha256": "047afd9106200e38cdafe35767b840e579c586c5e0abb77b1dc08c8a2a812eff"
+    },
+    "confirmed_scoreboards_post0909": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\.local-test\\SAVED_MODELS\\confirmed-scoreboards-post-20260909.jsonl.gz",
+      "rows": 939,
+      "bytes": 35391,
+      "sha256": "c797345b245cd807c1356e2cd2212f651e4e76680bb6abc9cd0c3547d5fca235"
+    },
+    "tipster_event_records": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\.local-test\\SAVED_MODELS\\tipster-event-records.jsonl.gz",
+      "rows": 58995,
+      "bytes": 7547494,
+      "sha256": "476b00bc59cb243b0803d40cc87be2988462420136b84fc498d649fa2df68ebf"
+    },
+    "tipster_forecasts": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\.local-test\\SAVED_MODELS\\tipster-forecast-records.jsonl.gz",
+      "rows": 9565,
+      "bytes": 2051398,
+      "sha256": "d29a93ed2e20b330a7a52175a88d58372d7f91fc8f10044b19af338f3bcd493b"
+    },
+    "local_public_votes": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\.local-test\\SAVED_MODELS\\local-public-votes.jsonl.gz",
+      "rows": 4,
+      "bytes": 1782,
+      "sha256": "4d5a5195adddef545378eb73b64d3e2b92f6eaf031c43d4d7d6b697cfc4bea88"
+    },
+    "tipster_semantic_forecasts": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\.local-test\\SAVED_MODELS\\tipster-semantic-forecasts.jsonl.gz",
+      "rows": 6640,
+      "bytes": 896121,
+      "sha256": "f58f8a081e140dcca46bdb9326eff900fee7f54bd9a09fa8128b05a0ddba69d3"
+    },
+    "tipster_plain_fullgame_pregame": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\.local-test\\SAVED_MODELS\\tipster-plain-fullgame-pregame.jsonl.gz",
+      "rows": 4081,
+      "bytes": 496438,
+      "sha256": "cb1260df453fc9cff597ef2ce7ea29887a6d725b4fa14e3c7b1a60ce38e54646"
+    }
+  },
+  "options_by_market": {
+    "moneyline_2way": 4420,
+    "handicap": 25397,
+    "total": 14412,
+    "odd_even": 14412,
+    "moneyline_3way": 14688,
+    "other": 13477
+  },
+  "model_coverage": {
+    "prediction_snapshots": 7458,
+    "unique_events": 2596,
+    "snapshots_no_options": 252,
+    "snapshot_option_rows": 86806,
+    "unique_offer_ids": 31620,
+    "unique_selection_ids": 30229,
+    "selection_status_rows": {
+      "available_nonselected": 77735,
+      "selected": 7063,
+      "available_under_withheld_decision": 2008
+    },
+    "score_present_rows": 9594,
+    "score_present_unique_offers": 1882,
+    "earliest_saved_score_usable_offers": 1532,
+    "score_vector_inconsistent_present_rows": 0,
+    "residual_model_probability_rows": 0,
+    "all_rows_time_audit_pass": true,
+    "captured_from": "2026-08-28T12:12:58.964003Z",
+    "captured_to": "2026-10-29T13:53:28.477990Z",
+    "saved_score_captured_from": "2026-08-28T12:12:58.964003Z",
+    "saved_score_captured_to": "2026-09-06T01:35:59.245823Z",
+    "identity_sources_rows": {
+      "verified_offer_identity_bridge": 81343,
+      "opaque_ledger_ids_only": 4588,
+      "enclosing_ledger_fixture_without_saved_game_no": 875
+    },
+    "bridge_joinable_unique_offers": 28876,
+    "market_coverage": [
+      {
+        "market_family": "moneyline_2way",
+        "snapshot_option_rows": 4420,
+        "unique_offers": 1972,
+        "unique_events": 951,
+        "selected_rows": 902,
+        "nonselected_rows": 3338,
+        "withheld_decision_rows": 180,
+        "score_present_rows": 570,
+        "unique_score_present_offers": 130,
+        "usable_saved_score_offers": 130,
+        "bridge_joinable_offers": 1792
+      },
+      {
+        "market_family": "moneyline_3way",
+        "snapshot_option_rows": 14688,
+        "unique_offers": 4932,
+        "unique_events": 1560,
+        "selected_rows": 851,
+        "nonselected_rows": 13678,
+        "withheld_decision_rows": 159,
+        "score_present_rows": 1791,
+        "unique_score_present_offers": 324,
+        "usable_saved_score_offers": 324,
+        "bridge_joinable_offers": 4629
+      },
+      {
+        "market_family": "handicap",
+        "snapshot_option_rows": 25397,
+        "unique_offers": 9026,
+        "unique_events": 2595,
+        "selected_rows": 1921,
+        "nonselected_rows": 23105,
+        "withheld_decision_rows": 371,
+        "score_present_rows": 2973,
+        "unique_score_present_offers": 577,
+        "usable_saved_score_offers": 577,
+        "bridge_joinable_offers": 8242
+      },
+      {
+        "market_family": "total",
+        "snapshot_option_rows": 14412,
+        "unique_offers": 5504,
+        "unique_events": 2596,
+        "selected_rows": 2868,
+        "nonselected_rows": 11258,
+        "withheld_decision_rows": 286,
+        "score_present_rows": 1720,
+        "unique_score_present_offers": 336,
+        "usable_saved_score_offers": 336,
+        "bridge_joinable_offers": 4948
+      },
+      {
+        "market_family": "odd_even",
+        "snapshot_option_rows": 14412,
+        "unique_offers": 5424,
+        "unique_events": 2596,
+        "selected_rows": 0,
+        "nonselected_rows": 14126,
+        "withheld_decision_rows": 286,
+        "score_present_rows": 1778,
+        "unique_score_present_offers": 350,
+        "usable_saved_score_offers": 0,
+        "bridge_joinable_offers": 5032
+      },
+      {
+        "market_family": "winning_margin_1",
+        "snapshot_option_rows": 4785,
+        "unique_offers": 2175,
+        "unique_events": 696,
+        "selected_rows": 53,
+        "nonselected_rows": 4516,
+        "withheld_decision_rows": 216,
+        "score_present_rows": 762,
+        "unique_score_present_offers": 165,
+        "usable_saved_score_offers": 165,
+        "bridge_joinable_offers": 1983
+      },
+      {
+        "market_family": "winning_margin_5",
+        "snapshot_option_rows": 306,
+        "unique_offers": 102,
+        "unique_events": 34,
+        "selected_rows": 31,
+        "nonselected_rows": 269,
+        "withheld_decision_rows": 6,
+        "score_present_rows": 0,
+        "unique_score_present_offers": 0,
+        "usable_saved_score_offers": 0,
+        "bridge_joinable_offers": 87
+      },
+      {
+        "market_family": "first_half_1x2",
+        "snapshot_option_rows": 3429,
+        "unique_offers": 996,
+        "unique_events": 312,
+        "selected_rows": 100,
+        "nonselected_rows": 3113,
+        "withheld_decision_rows": 216,
+        "score_present_rows": 0,
+        "unique_score_present_offers": 0,
+        "usable_saved_score_offers": 0,
+        "bridge_joinable_offers": 897
+      },
+      {
+        "market_family": "first_half_handicap",
+        "snapshot_option_rows": 2671,
+        "unique_offers": 809,
+        "unique_events": 312,
+        "selected_rows": 60,
+        "nonselected_rows": 2467,
+        "withheld_decision_rows": 144,
+        "score_present_rows": 0,
+        "unique_score_present_offers": 0,
+        "usable_saved_score_offers": 0,
+        "bridge_joinable_offers": 688
+      },
+      {
+        "market_family": "first_half_total",
+        "snapshot_option_rows": 2286,
+        "unique_offers": 680,
+        "unique_events": 312,
+        "selected_rows": 277,
+        "nonselected_rows": 1865,
+        "withheld_decision_rows": 144,
+        "score_present_rows": 0,
+        "unique_score_present_offers": 0,
+        "usable_saved_score_offers": 0,
+        "bridge_joinable_offers": 578
+      }
+    ]
+  },
+  "recommendation_coverage": {
+    "recommendation_history": {
+      "rows": 2334,
+      "offer_join_status": {
+        "unique_exact_saved_identity": 2112,
+        "unresolved": 222
+      },
+      "pregame_timing_pass": 2334,
+      "unique_history_ids": 2188,
+      "unique_exact_joined_offers": 1973,
+      "unique_not_recommended_ids": 1379
+    },
+    "saved_candidate_rosters": {
+      "rows": 251,
+      "offer_join_status": {
+        "unique_exact_saved_identity": 251
+      },
+      "pregame_timing_pass": 251
+    },
+    "current_candidates_withholds": {
+      "rows": 848,
+      "offer_join_status": {
+        "unique_exact_saved_identity": 568,
+        "unresolved": 278,
+        "ambiguous": 2
+      },
+      "pregame_timing_pass": 764
+    }
+  },
+  "post0909_result_coverage": {
+    "issued_product_labels": 1220,
+    "unique_issued_products": 1220,
+    "complete_identity_labels": 1220,
+    "market_counts": {
+      "언더오버": 501,
+      "승무패": 159,
+      "전반핸디캡": 15,
+      "전반언더오버": 23,
+      "핸디캡": 356,
+      "전반승무패": 20,
+      "승패": 132,
+      "승①패": 6,
+      "승⑤패": 8
+    },
+    "confirmed_scoreboard_rows": 939,
+    "scoreboard_export_source": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\operating-ledger-comparison-20261029\\experiments\\operating-ledger-comparison-20261029\\official-results.json.gz",
+      "sha256": "1533a888d5ecc2c0d8ae6ab51c7520a7984ca42487d3428566f580818335e7ba",
+      "rows": 2051,
+      "confirmed": 939,
+      "unconfirmed_excluded": 1112
+    },
+    "findings_checked": {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\findings\\pick-performance-audit-20260906",
+      "games_json_gz_present": false,
+      "known_live_odds_generated_at": "2026-09-06T02:48:24+00:00",
+      "post0909_supplement": false
+    },
+    "limitations": [
+      "The 1220-ledger settlements label only their own issued product; they do not supply every market result after September 9.",
+      "Repeated settlement revisions and snapshot references remain present. Parent must apply its correction and identity policy.",
+      "Official scoreboard rows lack family/line/label and have naive kickoff timestamps; no handicap/UO winners calculated here.",
+      "No new production, HTTP or external query.",
+      "Saved prices remain the original snapshot odds; no closing prices joined."
+    ]
+  },
+  "t30_coverage": {
+    "eligible_snapshots": 7418,
+    "eligible_with_saved_options": 7166,
+    "ineligible_snapshots": 40,
+    "selection_rule": "Parent chooses latest full saved roster with captured_at, as_of and market_observed_at <= kickoff minus 30 minutes; never substitute older scorep when selected snapshot is missing it."
+  },
+  "tipster_coverage": {
+    "event_records": 58995,
+    "source_schedule_pregame": 12399,
+    "events_market_counts": {
+      "moneyline": 21201,
+      "total": 17141,
+      "spread": 11286,
+      "player_prop": 4983,
+      "other": 4384
+    },
+    "pregame_event_market_counts": {
+      "moneyline": 1907,
+      "total": 4496,
+      "spread": 3071,
+      "other": 1402,
+      "player_prop": 1523
+    },
+    "research_forecasts": 9565,
+    "research_market_counts": {
+      "full_game_winner": 24,
+      "total": 1937,
+      "moneyline": 3896,
+      "spread": 3203,
+      "player_prop": 263,
+      "team_total": 14,
+      "period_total": 6,
+      "H/A, OT": 38,
+      "O/U 211.5, OT": 4,
+      "O/U 209, OT": 4,
+      "O/U 205, OT": 6,
+      "O/U 201.5, OT": 8,
+      "O/U 200.5, OT": 6,
+      "O/U 209.5, OT": 4,
+      "O/U 210.5, OT": 6,
+      "O/U 211, OT": 4,
+      "O/U 204, OT": 6,
+      "O/U 205.5, OT": 6,
+      "O/U 207, OT": 4,
+      "O/U 202, OT": 6,
+      "O/U 208.5, OT": 4,
+      "O/U 212, OT": 4,
+      "O/U 203, OT": 6,
+      "O/U 204.5, OT": 6,
+      "O/U 199.5, OT": 4,
+      "O/U 207.5, OT": 4,
+      "O/U 201, OT": 4,
+      "O/U 208, OT": 4,
+      "O/U 199, OT": 4,
+      "O/U 202.5, OT": 6,
+      "O/U 212.5, OT": 4,
+      "O/U 206.5, OT": 4,
+      "O/U 203.5, OT": 6,
+      "O/U 197, OT": 2,
+      "O/U 197.5, OT": 2,
+      "O/U 198.5, OT": 2,
+      "O/U 206, OT": 4,
+      "O/U 198, OT": 2,
+      "O/U 195.5, OT": 2,
+      "O/U 196.5, OT": 2,
+      "O/U 218.5, OT": 4,
+      "O/U 214, OT": 2,
+      "O/U 215, OT": 4,
+      "O/U 214.5, OT": 4,
+      "O/U 213, OT": 2,
+      "O/U 213.5, OT": 2,
+      "O/U 218, OT": 2,
+      "O/U 221.5, OT": 2,
+      "O/U 220.5, OT": 2,
+      "O/U 217, OT": 2,
+      "O/U 219, OT": 2,
+      "O/U 217.5, OT": 2,
+      "O/U 215.5, OT": 2,
+      "O/U 216.5, OT": 2,
+      "O/U 222.5, OT": 2,
+      "O/U 221, OT": 2,
+      "O/U 222, OT": 2,
+      "O/U 216, OT": 2,
+      "O/U 219.5, OT": 2
+    },
+    "research_evidence_classes": {
+      "observed_before_source_kickoff_only": 23,
+      "retrospective_or_clock_unverified": 9542
+    },
+    "local_public_votes": 4,
+    "semantic_forecasts": 6640,
+    "normalized_plain_text_family_counts": {
+      "moneyline": 14282,
+      "unverified_source_classification": 34095,
+      "total": 6601,
+      "spread": 4017
+    },
+    "plain_fullgame_singles_source_schedule_pregame": {
+      "moneyline": 1277,
+      "total": 1685,
+      "spread": 1119
+    },
+    "plain_fullgame_singles_source_schedule_t30": {
+      "moneyline": 1246,
+      "total": 1565,
+      "spread": 1043
+    }
+  },
+  "completed_at": "2026-10-30T00:53:33.385493+00:00",
+  "scope": {
+    "read_only_sources": true,
+    "no_production_queries": true,
+    "no_tracked_edits": true,
+    "no_pr": true,
+    "no_merge": true,
+    "no_deploy": true,
+    "parent_owns": "historical market/prices/results/ROI; latest complete saved T30 roster selection",
+    "production_cap_unchanged": true,
+    "rawarchive_not_redone": true
+  },
+  "notes": [
+    "Counts describe observed saved records only, not coverage of all historical Proto offers. Total 2640 prediction events; 2596 have nonempty saved options.",
+    "All-offer rows flatten every original features.options entry, including nonselected and options under withheld decisions. The enclosing snapshot metadata and option count preserve exact roster membership.",
+    "T30 uses captured_at, as_of and market_observed_at <= saved kickoff minus 30 minutes. A pregame-only row can fail T30; 40 snapshot records fail T30.",
+    "Parent must choose the entire latest T30-eligible saved roster. Per-offer earliest/latest files are diagnostics, not a selection strategy. NEVER backfill scorep from an older snapshot when the selected latest roster has no scorep.",
+    "Saved score_model_probability exists only through 2026-09-06T01:35:59.245823Z: no post-September-9 independent score model probabilities recovered from this ledger. Null probabilities remain null.",
+    "The 350 odd/even offer probabilities are constant 0.5 reference values; excluded from the 1532 informative saved-score offer count. All saved score probabilities are unvalidated shadow references, not certified calibrated probabilities.",
+    "Final and market probabilities often coincide. Market references and author vote shares are never promoted to independently estimated modelp.",
+    "Fixed91_same_electorate means market90+vote10 over the saved electorate; it is not the exact historical deployed policy. Retrospective comparisons and label-only ledgers do not prove a pregame model.",
+    "Timestamp proof is internal saved-clock plus verified hash-chain consistency, not an independent trusted-time attestation.",
+    "Original per-snapshot option odds are preserved verbatim in odds and original_saved_odds. Offer IDs do not include price; use snapshot/timing for price alignment, never a closing quote replacement.",
+    "Availability of an alternative is not proof a rule explicitly rejected that individual option. Saved recommendation_history recommended=False is explicit nonrecommendation; snapshot withhold is a decision-level rejection.",
+    "Raw Tailslips market labels misclassify some props, partial games and parlay text. Use the audited anchored plain-fullgame subset and require parent official fixture/period/line mapping.",
+    "939 confirmed saved scoreboards lack market/line identities and naive kickoff zones remain unverified. 1112 unconfirmed records excluded. 1220 direct issued-product official labels exported separately.",
+    "No hypothesis optimization, model refitting, adopted model, parent ROI computation, production query or production modification was performed."
+  ],
+  "reusable_joins": [
+    {
+      "files": [
+        "all-offer-outcomes.jsonl.gz",
+        "prediction-snapshots.jsonl.gz"
+      ],
+      "keys": [
+        "record_hash"
+      ],
+      "rule": "group all rows of a snapshot; choose latest eligible roster once; option_index_0based reconstructs source order"
+    },
+    {
+      "files": [
+        "all-offer-outcomes.jsonl.gz",
+        "offer-identity-bridge.jsonl.gz"
+      ],
+      "keys": [
+        "offer_id"
+      ],
+      "rule": "28876 of 31620 offer IDs join to validated round/game_no/market/label/line/side fixture metadata; mapping source can be postgame and certifies identity only"
+    },
+    {
+      "files": [
+        "recommendation-history.jsonl.gz",
+        "all-offer-outcomes.jsonl.gz"
+      ],
+      "keys": [
+        "exact_offer_join.offer_id",
+        "decision_id or snapshot_id when present"
+      ],
+      "rule": "2112 of 2334 history variants have a unique exact offer bridge; retain recorded_at/published_at and original odds"
+    },
+    {
+      "files": [
+        "issued-product-result-labels-post-20260909.jsonl.gz"
+      ],
+      "keys": [
+        "year",
+        "round",
+        "game_no",
+        "market",
+        "label",
+        "line"
+      ],
+      "rule": "1220 distinct product labels; corrections retain source_record_hash/settlement_id; no winner propagation across markets or lines"
+    },
+    {
+      "files": [
+        "tipster-plain-fullgame-pregame.jsonl.gz",
+        "tipster-semantic-forecasts.jsonl.gz"
+      ],
+      "keys": [
+        "source_url or pick_id",
+        "author or slug",
+        "teams",
+        "scheduled kickoff",
+        "market",
+        "period",
+        "line",
+        "side"
+      ],
+      "rule": "No automatic official/Proto offer match certified. Source schedule and historical publication claims remain separate proof levels."
+    }
+  ],
+  "audit_files": [
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\.local-test\\SAVED_MODELS\\artifact-source-audit.json",
+      "sha256": "a2157c9a6a92aff54a5d3eddfb48c655524441ea4c8dbd2893889eefb71b4256",
+      "bytes": 236864
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\.local-test\\SAVED_MODELS\\identity-join-audit.json",
+      "sha256": "1254de2421a99d1ca943162f3f520a4a459714a74e470bf1a880a92db303477b",
+      "bytes": 1228
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\.local-test\\SAVED_MODELS\\ledger-source-audit.json",
+      "sha256": "d57093ea5190d623c8976fee5849cc10569cde8b01ef39090ccb1b61dd8e5b74",
+      "bytes": 62705
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\.local-test\\SAVED_MODELS\\model-coverage-audit.json",
+      "sha256": "0a731e4201b75987f837f046e97db1ba19cad1c97ce3f0d2648320600e461ace",
+      "bytes": 5108
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\.local-test\\SAVED_MODELS\\recommendation-join-audit.json",
+      "sha256": "37828a9c7a730f2c2c6302dc989236d6dbcde2d563bc3c9b92bba081130171e3",
+      "bytes": 585
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\.local-test\\SAVED_MODELS\\result-source-audit.json",
+      "sha256": "3c9903e793232d72bca375364d23621f6337f961c0fbfc75b12f54f0f60eedba",
+      "bytes": 1659
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\.local-test\\SAVED_MODELS\\source-inventory.json",
+      "sha256": "a14a60fcd85e0b78cb76c4d3d31165e007ef05522792fbf1416bb5a263c70d63",
+      "bytes": 1152362
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\.local-test\\SAVED_MODELS\\tipster-source-audit.json",
+      "sha256": "5c4d8408151c1433e7c451b91e33611d4a3d623ab03b8d5a80d2e4043cfa3eb6",
+      "bytes": 81274
+    },
+    {
+      "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\proto-all-pick-profitability-20261030\\.local-test\\SAVED_MODELS\\verification.json",
+      "sha256": "41589bc23a0fea4e500fe6ec0f395b88741ba2ce04b569480d56c5477f21f76e",
+      "bytes": 3035
+    }
+  ]
+}
