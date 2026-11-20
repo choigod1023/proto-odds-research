@@ -1,0 +1,399 @@
+{
+  "games_sha256": "dfe95c2ace14ee42142ea0c86912b68359bc8ebee9ad3cb566812815bdec0eb0",
+  "claims_sha256": "04d9a9b12714c2a64068468d2a7aceeb295ccad9808150c23d1a67ae41ed64d0",
+  "quality": {
+    "input_rows": 184473,
+    "valid_unique_market_rows": 174620,
+    "invalid_rows": 3448,
+    "conflicting_reissues_excluded": 584,
+    "score_conflicts": 0,
+    "joined_primary_events": 45184
+  },
+  "claims": [
+    {
+      "id": "claim-1",
+      "kind": "starter",
+      "overlap": [],
+      "status": "missing_or_naive_observation_time"
+    },
+    {
+      "id": "claim-2",
+      "kind": "bullpen_workload",
+      "overlap": [],
+      "status": "missing_or_naive_observation_time"
+    },
+    {
+      "id": "claim-3",
+      "kind": "pitcher_form",
+      "overlap": [],
+      "status": "missing_or_naive_observation_time"
+    },
+    {
+      "id": "claim-4",
+      "kind": "starter",
+      "overlap": [],
+      "status": "missing_or_naive_observation_time"
+    },
+    {
+      "id": "claim-5",
+      "kind": "pitcher_form",
+      "overlap": [],
+      "status": "missing_or_naive_observation_time"
+    },
+    {
+      "id": "claim-6",
+      "kind": "injury",
+      "overlap": [],
+      "status": "missing_or_naive_observation_time"
+    },
+    {
+      "id": "claim-7",
+      "kind": "injury",
+      "overlap": [],
+      "status": "missing_or_naive_observation_time"
+    },
+    {
+      "id": "claim-8",
+      "kind": "recent_form",
+      "overlap": [
+        "form_diff",
+        "margin_diff",
+        "trend_diff",
+        "streak_diff"
+      ],
+      "status": "missing_or_naive_observation_time"
+    },
+    {
+      "id": "claim-9",
+      "kind": "rest",
+      "overlap": [
+        "rest_diff",
+        "b2b_home",
+        "b2b_away"
+      ],
+      "status": "missing_or_naive_observation_time"
+    },
+    {
+      "id": "claim-10",
+      "kind": "injury",
+      "overlap": [],
+      "status": "missing_or_naive_observation_time"
+    },
+    {
+      "id": "claim-11",
+      "kind": "recent_form",
+      "overlap": [
+        "form_diff",
+        "margin_diff",
+        "trend_diff",
+        "streak_diff"
+      ],
+      "status": "missing_or_naive_observation_time"
+    }
+  ],
+  "eligible_claims": 0,
+  "tipster_incremental_roi": null,
+  "scope": "reconstructed context control, NOT text-source efficacy or production replay",
+  "sports": {
+    "bk": {
+      "baseline_columns": [
+        "elo_diff",
+        "pi_diff",
+        "margin_diff",
+        "b2b_home"
+      ],
+      "added_existing_columns": [
+        "form_diff",
+        "trend_diff",
+        "streak_diff",
+        "rest_diff",
+        "b2b_away"
+      ],
+      "folds": [
+        {
+          "year": 2025,
+          "train_n": 3679,
+          "test_n": 1921,
+          "start": "2025-01-01 00:00:00",
+          "end": "2025-12-31 00:00:00",
+          "scores": {
+            "baseline": {
+              "accuracy": 0.674648620510151,
+              "unit_roi": -0.11679854242581988,
+              "brier": 0.4177150433684314
+            },
+            "context": {
+              "accuracy": 0.6699635606454971,
+              "unit_roi": -0.12338365434669443,
+              "brier": 0.41901416885075504
+            }
+          },
+          "paired_delta_ci": {
+            "accuracy": [
+              -0.01067113898715323,
+              0.0010932899567445745
+            ],
+            "roi": [
+              -0.01713568652091904,
+              0.003833406282183317
+            ]
+          }
+        },
+        {
+          "year": 2026,
+          "train_n": 5600,
+          "test_n": 1148,
+          "start": "2026-01-01 00:00:00",
+          "end": "2026-08-15 00:00:00",
+          "scores": {
+            "baseline": {
+              "accuracy": 0.710801393728223,
+              "unit_roi": -0.09395470383275262,
+              "brier": 0.38510547727906985
+            },
+            "context": {
+              "accuracy": 0.7090592334494773,
+              "unit_roi": -0.09599303135888503,
+              "brier": 0.38382199148013707
+            }
+          },
+          "paired_delta_ci": {
+            "accuracy": [
+              -0.009168909138148615,
+              0.005968714923453043
+            ],
+            "roi": [
+              -0.014895632656569199,
+              0.011577318836278827
+            ]
+          }
+        }
+      ]
+    },
+    "bs": {
+      "baseline_columns": [
+        "elo_diff",
+        "pi_diff"
+      ],
+      "added_existing_columns": [
+        "form_diff",
+        "margin_diff",
+        "trend_diff",
+        "streak_diff",
+        "rest_diff",
+        "b2b_home",
+        "b2b_away"
+      ],
+      "folds": [
+        {
+          "year": 2025,
+          "train_n": 8093,
+          "test_n": 3890,
+          "start": "2025-03-18 00:00:00",
+          "end": "2025-11-15 00:00:00",
+          "scores": {
+            "baseline": {
+              "accuracy": 0.5624678663239074,
+              "unit_roi": -0.14652956298200515,
+              "brier": 0.48245207971192994
+            },
+            "context": {
+              "accuracy": 0.5637532133676093,
+              "unit_roi": -0.14403084832904883,
+              "brier": 0.48206692585943683
+            }
+          },
+          "paired_delta_ci": {
+            "accuracy": [
+              -0.0026295864153001074,
+              0.0054098313426396314
+            ],
+            "roi": [
+              -0.004375560852547537,
+              0.009694249556509986
+            ]
+          }
+        },
+        {
+          "year": 2026,
+          "train_n": 11983,
+          "test_n": 2993,
+          "start": "2026-03-05 00:00:00",
+          "end": "2026-08-25 00:00:00",
+          "scores": {
+            "baseline": {
+              "accuracy": 0.5696625459405279,
+              "unit_roi": -0.1231105913798864,
+              "brier": 0.4853994403023648
+            },
+            "context": {
+              "accuracy": 0.5770130304042767,
+              "unit_roi": -0.10898763782158372,
+              "brier": 0.48830215464921256
+            }
+          },
+          "paired_delta_ci": {
+            "accuracy": [
+              0.001248429422436842,
+              0.012783446515531502
+            ],
+            "roi": [
+              0.00411657414660927,
+              0.02327893143847146
+            ]
+          }
+        }
+      ]
+    },
+    "sc": {
+      "baseline_columns": [
+        "elo_diff",
+        "pi_diff",
+        "margin_diff",
+        "form_diff"
+      ],
+      "added_existing_columns": [
+        "trend_diff",
+        "streak_diff",
+        "rest_diff",
+        "b2b_home",
+        "b2b_away"
+      ],
+      "folds": [
+        {
+          "year": 2025,
+          "train_n": 11688,
+          "test_n": 6499,
+          "start": "2025-01-01 00:00:00",
+          "end": "2025-12-31 00:00:00",
+          "scores": {
+            "baseline": {
+              "accuracy": 0.528081243268195,
+              "unit_roi": -0.104934605323896,
+              "brier": 0.5785829704787905
+            },
+            "context": {
+              "accuracy": 0.5300815510078474,
+              "unit_roi": -0.09892291121711033,
+              "brier": 0.5792580099121486
+            }
+          },
+          "paired_delta_ci": {
+            "accuracy": [
+              -0.0015001611033493925,
+              0.005275272034534551
+            ],
+            "roi": [
+              -0.0023507608390963253,
+              0.013965552529597268
+            ]
+          }
+        },
+        {
+          "year": 2026,
+          "train_n": 18187,
+          "test_n": 3268,
+          "start": "2026-01-01 00:00:00",
+          "end": "2026-08-26 00:00:00",
+          "scores": {
+            "baseline": {
+              "accuracy": 0.5122399020807834,
+              "unit_roi": -0.12762545899632805,
+              "brier": 0.5946144727404834
+            },
+            "context": {
+              "accuracy": 0.5119339045287638,
+              "unit_roi": -0.128093635250918,
+              "brier": 0.5944646540341877
+            }
+          },
+          "paired_delta_ci": {
+            "accuracy": [
+              -0.0031081420300285993,
+              0.0026516091352385093
+            ],
+            "roi": [
+              -0.007324171548589764,
+              0.006797897196261678
+            ]
+          }
+        }
+      ]
+    },
+    "vl": {
+      "baseline_columns": [
+        "elo_diff",
+        "pi_diff",
+        "margin_diff",
+        "form_diff"
+      ],
+      "added_existing_columns": [
+        "trend_diff",
+        "streak_diff",
+        "rest_diff",
+        "b2b_home",
+        "b2b_away"
+      ],
+      "folds": [
+        {
+          "year": 2025,
+          "train_n": 1103,
+          "test_n": 546,
+          "start": "2025-01-07 00:00:00",
+          "end": "2025-12-31 00:00:00",
+          "scores": {
+            "baseline": {
+              "accuracy": 0.6684981684981685,
+              "unit_roi": -0.12776556776556774,
+              "brier": 0.4140697737350135
+            },
+            "context": {
+              "accuracy": 0.6868131868131868,
+              "unit_roi": -0.0926190476190476,
+              "brier": 0.4148063614081778
+            }
+          },
+          "paired_delta_ci": {
+            "accuracy": [
+              0.0036814129285757027,
+              0.032016828302969876
+            ],
+            "roi": [
+              0.008132840722495894,
+              0.060923630557602554
+            ]
+          }
+        },
+        {
+          "year": 2026,
+          "train_n": 1649,
+          "test_n": 356,
+          "start": "2026-01-01 00:00:00",
+          "end": "2026-08-22 00:00:00",
+          "scores": {
+            "baseline": {
+              "accuracy": 0.702247191011236,
+              "unit_roi": -0.09188202247191013,
+              "brier": 0.3979147492333395
+            },
+            "context": {
+              "accuracy": 0.6966292134831461,
+              "unit_roi": -0.1003370786516854,
+              "brier": 0.39846248326084577
+            }
+          },
+          "paired_delta_ci": {
+            "accuracy": [
+              -0.017417172379858948,
+              0.008065332375604022
+            ],
+            "roi": [
+              -0.02861612903225806,
+              0.014518610421836227
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
