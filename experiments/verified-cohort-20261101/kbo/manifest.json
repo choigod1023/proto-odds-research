@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.0",
+  "league": "KBO",
+  "status": "blocked_data",
+  "selection": "One 2025-03-22 season opener featuring KT selected from provided boxscore IDs, using the public KT retrospective watchPoint endpoint. No claim this is representative or a pregame original.",
+  "source_hashes": {
+    "kt_watchpoint_response": "256d47673d487beddf62322170a00a10648ca6bc74db17dc041e52fb10e7cc69",
+    "kt_app_html": "9cf82948e0d1991d94df5def66221f5a729c926833569ff33c19766ac6b5027f",
+    "kt_public_js_discovery_only_not_preserved": "3410e0904bb4b58a6df46d2cf1d14ea7d304e5d676be592555c57a59ab747cb8",
+    "games_csv": "9ffddb2dcbc4297c32e6ad3826f392e1842e52e10b509e4cbe47eed1f84b9da4",
+    "postgame_boxscore_ids_only": "24bdea9094046bdab4967d314c043d548a252599b652009d5ffdabd341cc84e8"
+  },
+  "urls": [
+    "https://www.ktwiz.co.kr/api/v2/game/watchPoint?gameSearch.gmkey=20250322HHKT0&gameSearch.gameDate=20250322",
+    "https://www.ktwiz.co.kr/game/regular/watchPoint",
+    "https://www.ktwiz.co.kr/static/js/main.2f5c0859.chunk.js"
+  ],
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://www.ktwiz.co.kr/game/regular/watchPoint",
+      "status": 200,
+      "received_at": "2026-11-01T00:57:09.952115+00:00"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.ktwiz.co.kr/static/js/main.2f5c0859.chunk.js",
+      "status": 200,
+      "received_at": "2026-11-01T00:57:19.181628+00:00"
+    },
+    {
+      "method": "GET",
+      "url": "https://www.ktwiz.co.kr/api/v2/game/watchPoint?gameSearch.gmkey=20250322HHKT0&gameSearch.gameDate=20250322",
+      "status": 200,
+      "received_at": "2026-11-01T00:57:42.966293+00:00"
+    }
+  ],
+  "search": {
+    "queries": 8,
+    "query_timestamp": "not recorded",
+    "method": "two batches of four public search queries for 2025 KBO/KBO clubs pregame lineup; search result snippets are discovery only, not source bytes"
+  },
+  "actual_counts": {
+    "candidate_games": 1,
+    "official_team_dynamic_game_response": 1,
+    "historical_pregame_claim": 0,
+    "independent_archive": 0,
+    "prospective_received_before": 0,
+    "postgame_only": 1,
+    "matched_full_game_two_way_market": 1,
+    "team_official_result_score_match": 1,
+    "league_official_result_independently_matched": 0,
+    "known_price_receipt_before": 0,
+    "pregame_confirmed_lineup_linked": 0,
+    "eligible_intersection": 0
+  },
+  "files": [
+    "spec.json",
+    "fixtures.jsonl",
+    "evidence.jsonl",
+    "raw/kt-watchpoint.html",
+    "raw/kt-watchpoint-20250322.json",
+    "article-get-log.json",
+    "raw/kbo-photo-485205.html.gz",
+    "raw/kbo-photo-490380.html.gz",
+    "raw/kbo-photo-512458.html.gz",
+    "raw/osen-list-20250606.html.gz",
+    "raw/chosun-485205.html.gz",
+    "raw/osen-G1112586000.html.gz"
+  ],
+  "observation_method": "GET with Python requests timeout 15s, UTC receipt recorded after response, SHA256 raw bytes; offline CLI uniquely matches supplied game and market key. Assumed T-30 is a hypothetical cutoff, not an operating prediction timestamp.",
+  "limitations": [
+    "No preserved official/team pregame announcement found in this limited search; no retrospective absence conclusion for all KBO.",
+    "Dynamic source contains postgame data and season-end or later profile information, which must not be treated as pregame features.",
+    "Team official score match is not independently cross-checked with league official result.",
+    "Odds receipt time, archive witness, player-confirmation provenance and true decision are unavailable.",
+    "CSV and boxscore sources have no proven historical receipt. No model ROI computed.",
+    "Exact search-query time not recorded; GET receipt times are recorded.",
+    "Offline adapter does not authenticate independent archive witnesses or promote any lineup to eligible.",
+    "No present-policy frozen pick requirement for 2025; historical counterfactual must be distinguished from an actual operating replay. Parent reports main snapshot 1326 rows, 2026-08-28..09-01, SHA 77c224f03c28217f552cb98b96a02e350a1e0e79d12a7145a81a3296a693d4e0, old policy with no canonical fixture; not independently inspected here and not a current server audit.",
+    "Follow-up found two historical time claims, not independent archival or actual pregame receipt evidence; historical candidates are not ROI-eligible."
+  ],
+  "article_followup": {
+    "additional_search_queries": 2,
+    "search_time_utc": "not recorded",
+    "additional_gets": 6,
+    "get_log": "article-get-log.json",
+    "original_kbo_article_candidates": 3,
+    "matching_publication_time_claim_before_game": 2,
+    "before_game_content_but_publication_time_unknown": 1,
+    "historical_claimed_before": 2,
+    "independent_archive_before": 0,
+    "actual_pregame_receipt_before": 0,
+    "team_official_pregame_source": 0,
+    "postgame_source_player_code_name_order_matches": 18,
+    "official_player_identity_or_affiliation_independently_verified": 0,
+    "official_result_independently_verified": 0,
+    "matched_same_game_two_way_csv_and_postgame_scores": 2,
+    "partially_matched_market_id_with_no_official_game_id": 1,
+    "eligible_intersection": 0,
+    "notes": [
+      "The 3 KBO pages repeat OSEN content, not three independent sources.",
+      "The 05/11 date claims are from Chosun Biz syndication, which gives visible 11:25/11:26 and internally inconsistent published/modified metadata.",
+      "OSEN 06/06 original claims 14:16 publication, modification unknown.",
+      "Postgame player codes and game IDs are external archive crosswalk candidates, not independent official identity proofs.",
+      "Scores and odds are not proven pregame receipt or independently confirmed official result.",
+      "Each search timestamp was not recorded.",
+      "Raw GET bytes are losslessly stored as gzip files; hashes refer to decompressed response bytes."
+    ]
+  }
+}
