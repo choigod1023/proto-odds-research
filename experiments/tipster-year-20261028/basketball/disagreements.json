@@ -1,0 +1,84 @@
+[
+  {
+    "source": "Miky938 Tips",
+    "author": "Miky938",
+    "author_id": "miky938",
+    "author_identity_status": "publisher_handle_person_unknown",
+    "league": "KBL",
+    "match_date": "2026-04-26",
+    "match_date_basis": "source_daily_url_WAT_UTC+01",
+    "teams": {
+      "home": "Anyang JungKwanJang",
+      "away": "KCC Egis"
+    },
+    "source_url": "https://miky938-oddsparser.com/tips/2026-04-26/",
+    "observed_at": "2026-10-28T09:50:03.151606+00:00",
+    "published_at_claim": null,
+    "source_reported_published_at": null,
+    "cutoff_proven": false,
+    "raw_fixture_text": "Anyang JungKwanJang - KCC Egis",
+    "market": "moneyline",
+    "market_raw": "H/A, OT",
+    "side": "home",
+    "side_raw": "Home",
+    "line": null,
+    "market_scope": "full_game_including_overtime",
+    "reported_decimal_odds": 2.0,
+    "reported_bookmaker": "Unibet",
+    "source_reported_result": "Won",
+    "source_reported_result_raw": "Won 84:67",
+    "source_reported_score": {
+      "home": 84,
+      "away": 67
+    },
+    "source_reported_profit": "+1.00",
+    "evidence": [
+      {
+        "url": "https://miky938-oddsparser.com/league/south-korea-kbl/",
+        "observed_at": "2026-10-28T09:50:03.151606+00:00",
+        "raw_path": "experiments/tipster-year-20261028/basketball/raw/probe-2.html.gz",
+        "sha256": "12733928b07bc8b7e051d507cb108aa2725477773aa13c9f467920c64d8c1af0",
+        "row_ordinal": 6
+      },
+      {
+        "url": "https://miky938-oddsparser.com/results/2026-04/",
+        "observed_at": "2026-10-28T09:52:56.520502+00:00",
+        "raw_path": "experiments/tipster-year-20261028/basketball/raw/3148318146dacf74ada9.gz",
+        "sha256": "ee87fefb4244a11be59625214e3abef8f4f7b29c31793eb698f17c8c7139e904",
+        "row_ordinal": 55
+      }
+    ],
+    "candidate_id": "bd215313a931e855c4d77ac5",
+    "official_result": {
+      "home_score": 91,
+      "away_score": 83,
+      "pick_result": "Won"
+    },
+    "official_result_provenance": {
+      "official_id": "S47G03N14",
+      "source_url": "https://api.kbl.or.kr/match/list?fromDate=20251028&toDate=20261027&tcodeList=all",
+      "observed_at": "2026-10-28T09:53:54.959525+00:00",
+      "evidence": {
+        "url": "https://api.kbl.or.kr/match/list?fromDate=20251028&toDate=20261027&tcodeList=all",
+        "observed_at": "2026-10-28T09:53:54.959525+00:00",
+        "raw_path": "experiments/tipster-year-20261028/basketball/raw/683b624694b077265bd6.gz",
+        "sha256": "0997a4ebe2d81a201c67cb4edfb334f11058982e0ef36b29ce94b81c6995091b",
+        "row_ordinal": null
+      },
+      "join_rule": "exact_date_and_explicit_home_away_codes_no_score_matching"
+    },
+    "publisher_official_score_matches": false,
+    "publisher_official_outcome_matches": true,
+    "official_validation_status": "official_score_and_pick_settled",
+    "canonical_teams": {
+      "home": "70",
+      "away": "60"
+    },
+    "team_side": "home",
+    "team_identity_status": "explicit_alias_mapping",
+    "fixture_group_key": [
+      "KBL",
+      "S47G03N14"
+    ]
+  }
+]

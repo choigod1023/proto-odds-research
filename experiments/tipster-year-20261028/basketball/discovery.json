@@ -1,0 +1,38 @@
+{
+  "miky_indexed_month_urls": [
+    "https://miky938-oddsparser.com/results/2026-02/",
+    "https://miky938-oddsparser.com/results/2026-03/",
+    "https://miky938-oddsparser.com/results/2026-04/",
+    "https://miky938-oddsparser.com/results/2026-05/",
+    "https://miky938-oddsparser.com/results/2026-06/",
+    "https://miky938-oddsparser.com/results/2026-07/",
+    "https://miky938-oddsparser.com/results/2026-08/",
+    "https://miky938-oddsparser.com/results/2026-09/",
+    "https://miky938-oddsparser.com/results/2026-10/"
+  ],
+  "betblog_author_league_roots": [
+    "https://www.betblog.com/tipster/cashking/basketball/nba/",
+    "https://www.betblog.com/tipster/cashking/basketball/south-korea-kbl/",
+    "https://www.betblog.com/tipster/grynakraujis/basketball/nba/",
+    "https://www.betblog.com/tipster/guro/basketball/nba/",
+    "https://www.betblog.com/tipster/kentukyo/basketball/nba/",
+    "https://www.betblog.com/tipster/lukas2824/basketball/nba/",
+    "https://www.betblog.com/tipster/martisqt/basketball/nba/",
+    "https://www.betblog.com/tipster/olbg/basketball/nba/",
+    "https://www.betblog.com/tipster/palaima/basketball/nba/",
+    "https://www.betblog.com/tipster/valueistas/basketball/nba/",
+    "https://www.betblog.com/tipster/zedtea/basketball/nba/"
+  ],
+  "selection_rule": "all authors present on captured NBA/KBL league cards; no leaderboard filtering; Kentukyo search seed",
+  "limits": "160 requests total; stop author branch when page has no in-window single fixtures",
+  "additional_discovered_author_seeds": {
+    "/tipster/kentukyo/basketball/nba/": "initial search seed",
+    "/tipster/kentukyo/basketball/south-korea-kbl/": "initial search seed; old-only records retained in audit",
+    "/tipster/faster/basketball/south-korea-kbl/": "initial search seed; old-only records retained in audit",
+    "/tipster/nelaime/basketball/south-korea-kbl/": "KBL all-time listing; old-only records retained in audit",
+    "/tipster/str1ke/basketball/south-korea-kbl/": "all remaining handles in KBL current-year listing, including negative records",
+    "/tipster/thunder/basketball/south-korea-kbl/": "all remaining handles in KBL current-year listing, including negative records",
+    "/tipster/haris333/basketball/south-korea-kbl/": "all remaining handles in KBL current-year listing, including negative records"
+  },
+  "selection_bias": "KBL current-year listing and one all-time profile seed are not a random sample"
+}
