@@ -1,0 +1,4761 @@
+{
+  "frozen": {
+    "mlb": {
+      "calibrator": {
+        "beta": [
+          0.07292853773640043,
+          1.0068552616146698
+        ],
+        "n": 1134,
+        "first": "2024-03-20",
+        "last": "2024-06-30",
+        "penalty": 0.01
+      },
+      "validation_n": 1117,
+      "validation": {
+        "market:hit": {
+          "opportunities": 1117,
+          "bets": 1117,
+          "coverage": 1.0,
+          "wins": 638,
+          "pushes": 0,
+          "accuracy": 0.5711727842435094,
+          "net_krw": -1440300,
+          "roi": -0.12894359892569382,
+          "opportunity_roi": -0.12894359892569382,
+          "brier": 0.24201252390962633,
+          "logloss": 0.6768699214604009,
+          "monthly_net_krw": {
+            "2024-07": -543800,
+            "2024-08": -447700,
+            "2024-09": -376300,
+            "2024-10": -72500
+          },
+          "daily_close_max_drawdown_krw": 1458900
+        },
+        "market:value": {
+          "opportunities": 1117,
+          "bets": 1117,
+          "coverage": 1.0,
+          "wins": 638,
+          "pushes": 0,
+          "accuracy": 0.5711727842435094,
+          "net_krw": -1440300,
+          "roi": -0.12894359892569382,
+          "opportunity_roi": -0.12894359892569382,
+          "brier": 0.24201252390962633,
+          "logloss": 0.6768699214604009,
+          "monthly_net_krw": {
+            "2024-07": -543800,
+            "2024-08": -447700,
+            "2024-09": -376300,
+            "2024-10": -72500
+          },
+          "daily_close_max_drawdown_krw": 1458900
+        },
+        "market:edge0": {
+          "opportunities": 1117,
+          "bets": 0,
+          "coverage": 0.0,
+          "wins": 0,
+          "pushes": 0,
+          "accuracy": null,
+          "net_krw": 0,
+          "roi": null,
+          "opportunity_roi": 0.0,
+          "brier": null,
+          "logloss": null,
+          "monthly_net_krw": {
+            "2024-07": 0,
+            "2024-08": 0,
+            "2024-09": 0,
+            "2024-10": 0
+          },
+          "daily_close_max_drawdown_krw": 0
+        },
+        "market:edge3": {
+          "opportunities": 1117,
+          "bets": 0,
+          "coverage": 0.0,
+          "wins": 0,
+          "pushes": 0,
+          "accuracy": null,
+          "net_krw": 0,
+          "roi": null,
+          "opportunity_roi": 0.0,
+          "brier": null,
+          "logloss": null,
+          "monthly_net_krw": {
+            "2024-07": 0,
+            "2024-08": 0,
+            "2024-09": 0,
+            "2024-10": 0
+          },
+          "daily_close_max_drawdown_krw": 0
+        },
+        "market:edge6": {
+          "opportunities": 1117,
+          "bets": 0,
+          "coverage": 0.0,
+          "wins": 0,
+          "pushes": 0,
+          "accuracy": null,
+          "net_krw": 0,
+          "roi": null,
+          "opportunity_roi": 0.0,
+          "brier": null,
+          "logloss": null,
+          "monthly_net_krw": {
+            "2024-07": 0,
+            "2024-08": 0,
+            "2024-09": 0,
+            "2024-10": 0
+          },
+          "daily_close_max_drawdown_krw": 0
+        },
+        "market:edge10": {
+          "opportunities": 1117,
+          "bets": 0,
+          "coverage": 0.0,
+          "wins": 0,
+          "pushes": 0,
+          "accuracy": null,
+          "net_krw": 0,
+          "roi": null,
+          "opportunity_roi": 0.0,
+          "brier": null,
+          "logloss": null,
+          "monthly_net_krw": {
+            "2024-07": 0,
+            "2024-08": 0,
+            "2024-09": 0,
+            "2024-10": 0
+          },
+          "daily_close_max_drawdown_krw": 0
+        },
+        "primary:hit": {
+          "opportunities": 1117,
+          "bets": 1117,
+          "coverage": 1.0,
+          "wins": 644,
+          "pushes": 0,
+          "accuracy": 0.576544315129812,
+          "net_krw": -1323200,
+          "roi": -0.11846016114592658,
+          "opportunity_roi": -0.11846016114592658,
+          "brier": 0.24152644398104908,
+          "logloss": 0.6758425299949661,
+          "monthly_net_krw": {
+            "2024-07": -523200,
+            "2024-08": -355700,
+            "2024-09": -371800,
+            "2024-10": -72500
+          },
+          "daily_close_max_drawdown_krw": 1341800
+        },
+        "primary:value": {
+          "opportunities": 1117,
+          "bets": 1117,
+          "coverage": 1.0,
+          "wins": 560,
+          "pushes": 0,
+          "accuracy": 0.5013428827215757,
+          "net_krw": -1008300,
+          "roi": -0.09026857654431512,
+          "opportunity_roi": -0.09026857654431512,
+          "brier": 0.24152644398104908,
+          "logloss": 0.6758425299949661,
+          "monthly_net_krw": {
+            "2024-07": -95800,
+            "2024-08": -364800,
+            "2024-09": -513700,
+            "2024-10": -34000
+          },
+          "daily_close_max_drawdown_krw": 1137000
+        },
+        "primary:edge0": {
+          "opportunities": 1117,
+          "bets": 0,
+          "coverage": 0.0,
+          "wins": 0,
+          "pushes": 0,
+          "accuracy": null,
+          "net_krw": 0,
+          "roi": null,
+          "opportunity_roi": 0.0,
+          "brier": null,
+          "logloss": null,
+          "monthly_net_krw": {
+            "2024-07": 0,
+            "2024-08": 0,
+            "2024-09": 0,
+            "2024-10": 0
+          },
+          "daily_close_max_drawdown_krw": 0
+        },
+        "primary:edge3": {
+          "opportunities": 1117,
+          "bets": 0,
+          "coverage": 0.0,
+          "wins": 0,
+          "pushes": 0,
+          "accuracy": null,
+          "net_krw": 0,
+          "roi": null,
+          "opportunity_roi": 0.0,
+          "brier": null,
+          "logloss": null,
+          "monthly_net_krw": {
+            "2024-07": 0,
+            "2024-08": 0,
+            "2024-09": 0,
+            "2024-10": 0
+          },
+          "daily_close_max_drawdown_krw": 0
+        },
+        "primary:edge6": {
+          "opportunities": 1117,
+          "bets": 0,
+          "coverage": 0.0,
+          "wins": 0,
+          "pushes": 0,
+          "accuracy": null,
+          "net_krw": 0,
+          "roi": null,
+          "opportunity_roi": 0.0,
+          "brier": null,
+          "logloss": null,
+          "monthly_net_krw": {
+            "2024-07": 0,
+            "2024-08": 0,
+            "2024-09": 0,
+            "2024-10": 0
+          },
+          "daily_close_max_drawdown_krw": 0
+        },
+        "primary:edge10": {
+          "opportunities": 1117,
+          "bets": 0,
+          "coverage": 0.0,
+          "wins": 0,
+          "pushes": 0,
+          "accuracy": null,
+          "net_krw": 0,
+          "roi": null,
+          "opportunity_roi": 0.0,
+          "brier": null,
+          "logloss": null,
+          "monthly_net_krw": {
+            "2024-07": 0,
+            "2024-08": 0,
+            "2024-09": 0,
+            "2024-10": 0
+          },
+          "daily_close_max_drawdown_krw": 0
+        },
+        "calibrated:hit": {
+          "opportunities": 1117,
+          "bets": 1117,
+          "coverage": 1.0,
+          "wins": 641,
+          "pushes": 0,
+          "accuracy": 0.5738585496866607,
+          "net_krw": -1379800,
+          "roi": -0.12352730528200537,
+          "opportunity_roi": -0.12352730528200537,
+          "brier": 0.24221163179038083,
+          "logloss": 0.6772737895329293,
+          "monthly_net_krw": {
+            "2024-07": -524000,
+            "2024-08": -409900,
+            "2024-09": -391100,
+            "2024-10": -54800
+          },
+          "daily_close_max_drawdown_krw": 1398400
+        },
+        "calibrated:value": {
+          "opportunities": 1117,
+          "bets": 1117,
+          "coverage": 1.0,
+          "wins": 592,
+          "pushes": 0,
+          "accuracy": 0.5299910474485229,
+          "net_krw": -1482900,
+          "roi": -0.13275738585496866,
+          "opportunity_roi": -0.13275738585496866,
+          "brier": 0.24221163179038083,
+          "logloss": 0.6772737895329293,
+          "monthly_net_krw": {
+            "2024-07": -501200,
+            "2024-08": -453100,
+            "2024-09": -457000,
+            "2024-10": -71600
+          },
+          "daily_close_max_drawdown_krw": 1485700
+        },
+        "calibrated:edge0": {
+          "opportunities": 1117,
+          "bets": 0,
+          "coverage": 0.0,
+          "wins": 0,
+          "pushes": 0,
+          "accuracy": null,
+          "net_krw": 0,
+          "roi": null,
+          "opportunity_roi": 0.0,
+          "brier": null,
+          "logloss": null,
+          "monthly_net_krw": {
+            "2024-07": 0,
+            "2024-08": 0,
+            "2024-09": 0,
+            "2024-10": 0
+          },
+          "daily_close_max_drawdown_krw": 0
+        },
+        "calibrated:edge3": {
+          "opportunities": 1117,
+          "bets": 0,
+          "coverage": 0.0,
+          "wins": 0,
+          "pushes": 0,
+          "accuracy": null,
+          "net_krw": 0,
+          "roi": null,
+          "opportunity_roi": 0.0,
+          "brier": null,
+          "logloss": null,
+          "monthly_net_krw": {
+            "2024-07": 0,
+            "2024-08": 0,
+            "2024-09": 0,
+            "2024-10": 0
+          },
+          "daily_close_max_drawdown_krw": 0
+        },
+        "calibrated:edge6": {
+          "opportunities": 1117,
+          "bets": 0,
+          "coverage": 0.0,
+          "wins": 0,
+          "pushes": 0,
+          "accuracy": null,
+          "net_krw": 0,
+          "roi": null,
+          "opportunity_roi": 0.0,
+          "brier": null,
+          "logloss": null,
+          "monthly_net_krw": {
+            "2024-07": 0,
+            "2024-08": 0,
+            "2024-09": 0,
+            "2024-10": 0
+          },
+          "daily_close_max_drawdown_krw": 0
+        },
+        "calibrated:edge10": {
+          "opportunities": 1117,
+          "bets": 0,
+          "coverage": 0.0,
+          "wins": 0,
+          "pushes": 0,
+          "accuracy": null,
+          "net_krw": 0,
+          "roi": null,
+          "opportunity_roi": 0.0,
+          "brier": null,
+          "logloss": null,
+          "monthly_net_krw": {
+            "2024-07": 0,
+            "2024-08": 0,
+            "2024-09": 0,
+            "2024-10": 0
+          },
+          "daily_close_max_drawdown_krw": 0
+        }
+      },
+      "selection": {
+        "selected": null,
+        "minimum_bets": 112,
+        "eligible": [],
+        "reason": "no policy met validation profitability and coverage gate"
+      }
+    },
+    "kbo": {
+      "calibrator": {
+        "beta": [
+          0.0663220535272423,
+          0.7776892040718344
+        ],
+        "n": 386,
+        "first": "2024-03-23",
+        "last": "2024-06-30",
+        "penalty": 0.01
+      },
+      "validation_n": 326,
+      "validation": {
+        "market:hit": {
+          "opportunities": 326,
+          "bets": 326,
+          "coverage": 1.0,
+          "wins": 196,
+          "pushes": 0,
+          "accuracy": 0.6012269938650306,
+          "net_krw": -277800,
+          "roi": -0.08521472392638037,
+          "opportunity_roi": -0.08521472392638037,
+          "brier": 0.23534677051510716,
+          "logloss": 0.6626867032094194,
+          "monthly_net_krw": {
+            "2024-07": 0,
+            "2024-08": -201200,
+            "2024-09": -67000,
+            "2024-10": -9600
+          },
+          "daily_close_max_drawdown_krw": 329500
+        },
+        "market:value": {
+          "opportunities": 326,
+          "bets": 326,
+          "coverage": 1.0,
+          "wins": 196,
+          "pushes": 0,
+          "accuracy": 0.6012269938650306,
+          "net_krw": -277800,
+          "roi": -0.08521472392638037,
+          "opportunity_roi": -0.08521472392638037,
+          "brier": 0.23534677051510716,
+          "logloss": 0.6626867032094194,
+          "monthly_net_krw": {
+            "2024-07": 0,
+            "2024-08": -201200,
+            "2024-09": -67000,
+            "2024-10": -9600
+          },
+          "daily_close_max_drawdown_krw": 329500
+        },
+        "market:edge0": {
+          "opportunities": 326,
+          "bets": 0,
+          "coverage": 0.0,
+          "wins": 0,
+          "pushes": 0,
+          "accuracy": null,
+          "net_krw": 0,
+          "roi": null,
+          "opportunity_roi": 0.0,
+          "brier": null,
+          "logloss": null,
+          "monthly_net_krw": {
+            "2024-07": 0,
+            "2024-08": 0,
+            "2024-09": 0,
+            "2024-10": 0
+          },
+          "daily_close_max_drawdown_krw": 0
+        },
+        "market:edge3": {
+          "opportunities": 326,
+          "bets": 0,
+          "coverage": 0.0,
+          "wins": 0,
+          "pushes": 0,
+          "accuracy": null,
+          "net_krw": 0,
+          "roi": null,
+          "opportunity_roi": 0.0,
+          "brier": null,
+          "logloss": null,
+          "monthly_net_krw": {
+            "2024-07": 0,
+            "2024-08": 0,
+            "2024-09": 0,
+            "2024-10": 0
+          },
+          "daily_close_max_drawdown_krw": 0
+        },
+        "market:edge6": {
+          "opportunities": 326,
+          "bets": 0,
+          "coverage": 0.0,
+          "wins": 0,
+          "pushes": 0,
+          "accuracy": null,
+          "net_krw": 0,
+          "roi": null,
+          "opportunity_roi": 0.0,
+          "brier": null,
+          "logloss": null,
+          "monthly_net_krw": {
+            "2024-07": 0,
+            "2024-08": 0,
+            "2024-09": 0,
+            "2024-10": 0
+          },
+          "daily_close_max_drawdown_krw": 0
+        },
+        "market:edge10": {
+          "opportunities": 326,
+          "bets": 0,
+          "coverage": 0.0,
+          "wins": 0,
+          "pushes": 0,
+          "accuracy": null,
+          "net_krw": 0,
+          "roi": null,
+          "opportunity_roi": 0.0,
+          "brier": null,
+          "logloss": null,
+          "monthly_net_krw": {
+            "2024-07": 0,
+            "2024-08": 0,
+            "2024-09": 0,
+            "2024-10": 0
+          },
+          "daily_close_max_drawdown_krw": 0
+        },
+        "primary:hit": {
+          "opportunities": 326,
+          "bets": 326,
+          "coverage": 1.0,
+          "wins": 194,
+          "pushes": 0,
+          "accuracy": 0.5950920245398773,
+          "net_krw": -296100,
+          "roi": -0.0908282208588957,
+          "opportunity_roi": -0.0908282208588957,
+          "brier": 0.23662874034624823,
+          "logloss": 0.66482708966586,
+          "monthly_net_krw": {
+            "2024-07": 21500,
+            "2024-08": -246700,
+            "2024-09": -79600,
+            "2024-10": 8700
+          },
+          "daily_close_max_drawdown_krw": 367500
+        },
+        "primary:value": {
+          "opportunities": 326,
+          "bets": 326,
+          "coverage": 1.0,
+          "wins": 162,
+          "pushes": 0,
+          "accuracy": 0.49693251533742333,
+          "net_krw": -578600,
+          "roi": -0.17748466257668713,
+          "opportunity_roi": -0.17748466257668713,
+          "brier": 0.23662874034624823,
+          "logloss": 0.66482708966586,
+          "monthly_net_krw": {
+            "2024-07": -158200,
+            "2024-08": -400400,
+            "2024-09": 17800,
+            "2024-10": -37800
+          },
+          "daily_close_max_drawdown_krw": 633800
+        },
+        "primary:edge0": {
+          "opportunities": 326,
+          "bets": 18,
+          "coverage": 0.05521472392638037,
+          "wins": 10,
+          "pushes": 0,
+          "accuracy": 0.5555555555555556,
+          "net_krw": -17800,
+          "roi": -0.09888888888888889,
+          "opportunity_roi": -0.005460122699386503,
+          "brier": 0.23288536955037495,
+          "logloss": 0.6563997811110366,
+          "monthly_net_krw": {
+            "2024-07": -700,
+            "2024-08": 6600,
+            "2024-09": -13500,
+            "2024-10": -10200
+          },
+          "daily_close_max_drawdown_krw": 36900
+        },
+        "primary:edge3": {
+          "opportunities": 326,
+          "bets": 8,
+          "coverage": 0.024539877300613498,
+          "wins": 2,
+          "pushes": 0,
+          "accuracy": 0.25,
+          "net_krw": -50200,
+          "roi": -0.6275,
+          "opportunity_roi": -0.015398773006134969,
+          "brier": 0.28388284956819454,
+          "logloss": 0.7618814013506673,
+          "monthly_net_krw": {
+            "2024-07": -10000,
+            "2024-08": 0,
+            "2024-09": -30000,
+            "2024-10": -10200
+          },
+          "daily_close_max_drawdown_krw": 60000
+        },
+        "primary:edge6": {
+          "opportunities": 326,
+          "bets": 5,
+          "coverage": 0.015337423312883436,
+          "wins": 1,
+          "pushes": 0,
+          "accuracy": 0.2,
+          "net_krw": -36200,
+          "roi": -0.724,
+          "opportunity_roi": -0.011104294478527607,
+          "brier": 0.24646725797573393,
+          "logloss": 0.6795408806945188,
+          "monthly_net_krw": {
+            "2024-07": -10000,
+            "2024-08": 0,
+            "2024-09": -30000,
+            "2024-10": 3800
+          },
+          "daily_close_max_drawdown_krw": 40000
+        },
+        "primary:edge10": {
+          "opportunities": 326,
+          "bets": 0,
+          "coverage": 0.0,
+          "wins": 0,
+          "pushes": 0,
+          "accuracy": null,
+          "net_krw": 0,
+          "roi": null,
+          "opportunity_roi": 0.0,
+          "brier": null,
+          "logloss": null,
+          "monthly_net_krw": {
+            "2024-07": 0,
+            "2024-08": 0,
+            "2024-09": 0,
+            "2024-10": 0
+          },
+          "daily_close_max_drawdown_krw": 0
+        },
+        "calibrated:hit": {
+          "opportunities": 326,
+          "bets": 326,
+          "coverage": 1.0,
+          "wins": 191,
+          "pushes": 0,
+          "accuracy": 0.5858895705521472,
+          "net_krw": -346300,
+          "roi": -0.10622699386503068,
+          "opportunity_roi": -0.10622699386503068,
+          "brier": 0.23839252829785607,
+          "logloss": 0.6688836639522427,
+          "monthly_net_krw": {
+            "2024-07": -13200,
+            "2024-08": -245200,
+            "2024-09": -114300,
+            "2024-10": 26400
+          },
+          "daily_close_max_drawdown_krw": 416400
+        },
+        "calibrated:value": {
+          "opportunities": 326,
+          "bets": 326,
+          "coverage": 1.0,
+          "wins": 148,
+          "pushes": 0,
+          "accuracy": 0.4539877300613497,
+          "net_krw": -612700,
+          "roi": -0.1879447852760736,
+          "opportunity_roi": -0.1879447852760736,
+          "brier": 0.23839252829785607,
+          "logloss": 0.6688836639522427,
+          "monthly_net_krw": {
+            "2024-07": -217400,
+            "2024-08": -311900,
+            "2024-09": -47100,
+            "2024-10": -36300
+          },
+          "daily_close_max_drawdown_krw": 621600
+        },
+        "calibrated:edge0": {
+          "opportunities": 326,
+          "bets": 21,
+          "coverage": 0.06441717791411043,
+          "wins": 7,
+          "pushes": 0,
+          "accuracy": 0.3333333333333333,
+          "net_krw": -70300,
+          "roi": -0.33476190476190476,
+          "opportunity_roi": -0.02156441717791411,
+          "brier": 0.23787808759327647,
+          "logloss": 0.6689277827958792,
+          "monthly_net_krw": {
+            "2024-07": 1600,
+            "2024-08": -43400,
+            "2024-09": -18300,
+            "2024-10": -10200
+          },
+          "daily_close_max_drawdown_krw": 90400
+        },
+        "calibrated:edge3": {
+          "opportunities": 326,
+          "bets": 5,
+          "coverage": 0.015337423312883436,
+          "wins": 1,
+          "pushes": 0,
+          "accuracy": 0.2,
+          "net_krw": -30700,
+          "roi": -0.614,
+          "opportunity_roi": -0.00941717791411043,
+          "brier": 0.23116098107395397,
+          "logloss": 0.6549970651430351,
+          "monthly_net_krw": {
+            "2024-07": -700,
+            "2024-08": -10000,
+            "2024-09": -10000,
+            "2024-10": -10000
+          },
+          "daily_close_max_drawdown_krw": 40000
+        },
+        "calibrated:edge6": {
+          "opportunities": 326,
+          "bets": 2,
+          "coverage": 0.006134969325153374,
+          "wins": 0,
+          "pushes": 0,
+          "accuracy": 0.0,
+          "net_krw": -20000,
+          "roi": -1.0,
+          "opportunity_roi": -0.006134969325153374,
+          "brier": 0.15510147836945937,
+          "logloss": 0.49924764016206824,
+          "monthly_net_krw": {
+            "2024-07": 0,
+            "2024-08": -10000,
+            "2024-09": -10000,
+            "2024-10": 0
+          },
+          "daily_close_max_drawdown_krw": 20000
+        },
+        "calibrated:edge10": {
+          "opportunities": 326,
+          "bets": 0,
+          "coverage": 0.0,
+          "wins": 0,
+          "pushes": 0,
+          "accuracy": null,
+          "net_krw": 0,
+          "roi": null,
+          "opportunity_roi": 0.0,
+          "brier": null,
+          "logloss": null,
+          "monthly_net_krw": {
+            "2024-07": 0,
+            "2024-08": 0,
+            "2024-09": 0,
+            "2024-10": 0
+          },
+          "daily_close_max_drawdown_krw": 0
+        }
+      },
+      "selection": {
+        "selected": null,
+        "minimum_bets": 33,
+        "eligible": [],
+        "reason": "no policy met validation profitability and coverage gate"
+      }
+    }
+  },
+  "evaluation": {
+    "mlb": {
+      "external230": {
+        "all": {
+          "economic_audit": {
+            "baseline": {
+              "opportunities": 230,
+              "bets": 230,
+              "coverage": 1.0,
+              "wins": 124,
+              "pushes": 0,
+              "accuracy": 0.5391304347826087,
+              "net_krw": -387600,
+              "roi": -0.16852173913043478,
+              "opportunity_roi": -0.16852173913043478,
+              "brier": 0.24666303945888143,
+              "logloss": 0.6862337100979342,
+              "monthly_net_krw": {
+                "2026-07": -36200,
+                "2026-08": -351400
+              },
+              "daily_close_max_drawdown_krw": 446200
+            },
+            "mean_overround": 0.1363873409452065,
+            "mean_market_assumed_ev": -0.10605183629788976,
+            "mean_market_probability_to_chosen_odds_break_even_gap": 0.06819367047260326,
+            "fixed_9to1_even_unanimous_cannot_clear_price_n": 221,
+            "minimum_unanimous_vote_weight_any_side_quantiles": [
+              0.11021849183574078,
+              0.1180801745295883,
+              0.1257477971296379
+            ],
+            "fixed_weight_note": "representational upper bound under market probabilities; increasing vote weight does not prove calibration or profit",
+            "oracle_min_wrong_pick_flips_to_break_even": 17,
+            "oracle_note": "optimistic hindsight lower bound: choose highest-paying missed actual winners first; not attainable prediction claim"
+          },
+          "policies": {
+            "market:hit": {
+              "opportunities": 230,
+              "bets": 230,
+              "coverage": 1.0,
+              "wins": 124,
+              "pushes": 0,
+              "accuracy": 0.5391304347826087,
+              "net_krw": -387600,
+              "roi": -0.16852173913043478,
+              "opportunity_roi": -0.16852173913043478,
+              "brier": 0.24666303945888143,
+              "logloss": 0.6862337100979342,
+              "monthly_net_krw": {
+                "2026-07": -36200,
+                "2026-08": -351400
+              },
+              "daily_close_max_drawdown_krw": 446200
+            },
+            "market:value": {
+              "opportunities": 230,
+              "bets": 230,
+              "coverage": 1.0,
+              "wins": 124,
+              "pushes": 0,
+              "accuracy": 0.5391304347826087,
+              "net_krw": -387600,
+              "roi": -0.16852173913043478,
+              "opportunity_roi": -0.16852173913043478,
+              "brier": 0.24666303945888143,
+              "logloss": 0.6862337100979342,
+              "monthly_net_krw": {
+                "2026-07": -36200,
+                "2026-08": -351400
+              },
+              "daily_close_max_drawdown_krw": 446200
+            },
+            "market:edge0": {
+              "opportunities": 230,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0,
+                "2026-08": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "market:edge3": {
+              "opportunities": 230,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0,
+                "2026-08": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "market:edge6": {
+              "opportunities": 230,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0,
+                "2026-08": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "market:edge10": {
+              "opportunities": 230,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0,
+                "2026-08": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "primary:hit": {
+              "opportunities": 230,
+              "bets": 230,
+              "coverage": 1.0,
+              "wins": 122,
+              "pushes": 0,
+              "accuracy": 0.5304347826086957,
+              "net_krw": -421700,
+              "roi": -0.18334782608695652,
+              "opportunity_roi": -0.18334782608695652,
+              "brier": 0.2467654051067179,
+              "logloss": 0.686519121146492,
+              "monthly_net_krw": {
+                "2026-07": -36200,
+                "2026-08": -385500
+              },
+              "daily_close_max_drawdown_krw": 445600
+            },
+            "primary:value": {
+              "opportunities": 230,
+              "bets": 230,
+              "coverage": 1.0,
+              "wins": 107,
+              "pushes": 0,
+              "accuracy": 0.4652173913043478,
+              "net_krw": -328900,
+              "roi": -0.143,
+              "opportunity_roi": -0.143,
+              "brier": 0.2467654051067179,
+              "logloss": 0.686519121146492,
+              "monthly_net_krw": {
+                "2026-07": -76800,
+                "2026-08": -252100
+              },
+              "daily_close_max_drawdown_krw": 334200
+            },
+            "primary:edge0": {
+              "opportunities": 230,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0,
+                "2026-08": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "primary:edge3": {
+              "opportunities": 230,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0,
+                "2026-08": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "primary:edge6": {
+              "opportunities": 230,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0,
+                "2026-08": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "primary:edge10": {
+              "opportunities": 230,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0,
+                "2026-08": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "calibrated:hit": {
+              "opportunities": 230,
+              "bets": 230,
+              "coverage": 1.0,
+              "wins": 127,
+              "pushes": 0,
+              "accuracy": 0.5521739130434783,
+              "net_krw": -333200,
+              "roi": -0.1448695652173913,
+              "opportunity_roi": -0.1448695652173913,
+              "brier": 0.24586570220781842,
+              "logloss": 0.6845774983826105,
+              "monthly_net_krw": {
+                "2026-07": -18300,
+                "2026-08": -314900
+              },
+              "daily_close_max_drawdown_krw": 391800
+            },
+            "calibrated:value": {
+              "opportunities": 230,
+              "bets": 230,
+              "coverage": 1.0,
+              "wins": 129,
+              "pushes": 0,
+              "accuracy": 0.5608695652173913,
+              "net_krw": -162000,
+              "roi": -0.07043478260869565,
+              "opportunity_roi": -0.07043478260869565,
+              "brier": 0.24586570220781842,
+              "logloss": 0.6845774983826105,
+              "monthly_net_krw": {
+                "2026-07": 31400,
+                "2026-08": -193400
+              },
+              "daily_close_max_drawdown_krw": 251000
+            },
+            "calibrated:edge0": {
+              "opportunities": 230,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0,
+                "2026-08": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "calibrated:edge3": {
+              "opportunities": 230,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0,
+                "2026-08": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "calibrated:edge6": {
+              "opportunities": 230,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0,
+                "2026-08": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "calibrated:edge10": {
+              "opportunities": 230,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0,
+                "2026-08": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            }
+          },
+          "selected": null,
+          "selected_metrics": null,
+          "diagnostic_intervals": {
+            "primary:hit": {
+              "weeks": 4,
+              "repetitions": 3000,
+              "selected_roi95": [
+                -0.2461986301369863,
+                -0.08202020202020202
+              ],
+              "opportunity_roi_delta95": [
+                -0.052575757575757574,
+                0.0006122448979591836
+              ],
+              "note": "descriptive paired weekly resampling; no correction for repeated research or policy selection"
+            },
+            "primary:value": {
+              "weeks": 4,
+              "repetitions": 3000,
+              "selected_roi95": [
+                -0.191359649122807,
+                -0.10635964912280702
+              ],
+              "opportunity_roi_delta95": [
+                -0.08510204081632652,
+                0.10765151515151515
+              ],
+              "note": "descriptive paired weekly resampling; no correction for repeated research or policy selection"
+            },
+            "primary:edge0": {
+              "weeks": 4,
+              "repetitions": 3000,
+              "selected_roi95": null,
+              "opportunity_roi_delta95": [
+                0.029444444444444447,
+                0.24681506849315069
+              ],
+              "note": "descriptive paired weekly resampling; no correction for repeated research or policy selection"
+            },
+            "primary:edge3": {
+              "weeks": 4,
+              "repetitions": 3000,
+              "selected_roi95": null,
+              "opportunity_roi_delta95": [
+                0.029444444444444447,
+                0.24681506849315069
+              ],
+              "note": "descriptive paired weekly resampling; no correction for repeated research or policy selection"
+            },
+            "primary:edge6": {
+              "weeks": 4,
+              "repetitions": 3000,
+              "selected_roi95": null,
+              "opportunity_roi_delta95": [
+                0.029444444444444447,
+                0.24681506849315069
+              ],
+              "note": "descriptive paired weekly resampling; no correction for repeated research or policy selection"
+            },
+            "primary:edge10": {
+              "weeks": 4,
+              "repetitions": 3000,
+              "selected_roi95": null,
+              "opportunity_roi_delta95": [
+                0.029444444444444447,
+                0.24681506849315069
+              ],
+              "note": "descriptive paired weekly resampling; no correction for repeated research or policy selection"
+            },
+            "calibrated:hit": {
+              "weeks": 4,
+              "repetitions": 3000,
+              "selected_roi95": [
+                -0.22863636363636364,
+                -0.02893939393939394
+              ],
+              "opportunity_roi_delta95": [
+                0.0006,
+                0.05459183673469388
+              ],
+              "note": "descriptive paired weekly resampling; no correction for repeated research or policy selection"
+            },
+            "calibrated:value": {
+              "weeks": 4,
+              "repetitions": 3000,
+              "selected_roi95": [
+                -0.1229,
+                -0.030076923076923077
+              ],
+              "opportunity_roi_delta95": [
+                -0.07678571428571429,
+                0.1976923076923077
+              ],
+              "note": "descriptive paired weekly resampling; no correction for repeated research or policy selection"
+            },
+            "calibrated:edge0": {
+              "weeks": 4,
+              "repetitions": 3000,
+              "selected_roi95": null,
+              "opportunity_roi_delta95": [
+                0.029444444444444447,
+                0.24681506849315069
+              ],
+              "note": "descriptive paired weekly resampling; no correction for repeated research or policy selection"
+            },
+            "calibrated:edge3": {
+              "weeks": 4,
+              "repetitions": 3000,
+              "selected_roi95": null,
+              "opportunity_roi_delta95": [
+                0.029444444444444447,
+                0.24681506849315069
+              ],
+              "note": "descriptive paired weekly resampling; no correction for repeated research or policy selection"
+            },
+            "calibrated:edge6": {
+              "weeks": 4,
+              "repetitions": 3000,
+              "selected_roi95": null,
+              "opportunity_roi_delta95": [
+                0.029444444444444447,
+                0.24681506849315069
+              ],
+              "note": "descriptive paired weekly resampling; no correction for repeated research or policy selection"
+            },
+            "calibrated:edge10": {
+              "weeks": 4,
+              "repetitions": 3000,
+              "selected_roi95": null,
+              "opportunity_roi_delta95": [
+                0.029444444444444447,
+                0.24681506849315069
+              ],
+              "note": "descriptive paired weekly resampling; no correction for repeated research or policy selection"
+            }
+          }
+        },
+        "before_split": {
+          "economic_audit": {
+            "baseline": {
+              "opportunities": 100,
+              "bets": 100,
+              "coverage": 1.0,
+              "wins": 52,
+              "pushes": 0,
+              "accuracy": 0.52,
+              "net_krw": -191900,
+              "roi": -0.1919,
+              "opportunity_roi": -0.1919,
+              "brier": 0.25131091550387635,
+              "logloss": 0.6962848196373046,
+              "monthly_net_krw": {
+                "2026-07": -36200,
+                "2026-08": -155700
+              },
+              "daily_close_max_drawdown_krw": 191900
+            },
+            "mean_overround": 0.1363253523795856,
+            "mean_market_assumed_ev": -0.1065831231841103,
+            "mean_market_probability_to_chosen_odds_break_even_gap": 0.06816267618979284,
+            "fixed_9to1_even_unanimous_cannot_clear_price_n": 97,
+            "minimum_unanimous_vote_weight_any_side_quantiles": [
+              0.11372549019607825,
+              0.12012505187770894,
+              0.1257477971296379
+            ],
+            "fixed_weight_note": "representational upper bound under market probabilities; increasing vote weight does not prove calibration or profit",
+            "oracle_min_wrong_pick_flips_to_break_even": 8,
+            "oracle_note": "optimistic hindsight lower bound: choose highest-paying missed actual winners first; not attainable prediction claim"
+          },
+          "policies": {
+            "market:hit": {
+              "opportunities": 100,
+              "bets": 100,
+              "coverage": 1.0,
+              "wins": 52,
+              "pushes": 0,
+              "accuracy": 0.52,
+              "net_krw": -191900,
+              "roi": -0.1919,
+              "opportunity_roi": -0.1919,
+              "brier": 0.25131091550387635,
+              "logloss": 0.6962848196373046,
+              "monthly_net_krw": {
+                "2026-07": -36200,
+                "2026-08": -155700
+              },
+              "daily_close_max_drawdown_krw": 191900
+            },
+            "market:value": {
+              "opportunities": 100,
+              "bets": 100,
+              "coverage": 1.0,
+              "wins": 52,
+              "pushes": 0,
+              "accuracy": 0.52,
+              "net_krw": -191900,
+              "roi": -0.1919,
+              "opportunity_roi": -0.1919,
+              "brier": 0.25131091550387635,
+              "logloss": 0.6962848196373046,
+              "monthly_net_krw": {
+                "2026-07": -36200,
+                "2026-08": -155700
+              },
+              "daily_close_max_drawdown_krw": 191900
+            },
+            "market:edge0": {
+              "opportunities": 100,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0,
+                "2026-08": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "market:edge3": {
+              "opportunities": 100,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0,
+                "2026-08": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "market:edge6": {
+              "opportunities": 100,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0,
+                "2026-08": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "market:edge10": {
+              "opportunities": 100,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0,
+                "2026-08": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "primary:hit": {
+              "opportunities": 100,
+              "bets": 100,
+              "coverage": 1.0,
+              "wins": 52,
+              "pushes": 0,
+              "accuracy": 0.52,
+              "net_krw": -191900,
+              "roi": -0.1919,
+              "opportunity_roi": -0.1919,
+              "brier": 0.251042301796545,
+              "logloss": 0.6956123947862765,
+              "monthly_net_krw": {
+                "2026-07": -36200,
+                "2026-08": -155700
+              },
+              "daily_close_max_drawdown_krw": 191900
+            },
+            "primary:value": {
+              "opportunities": 100,
+              "bets": 100,
+              "coverage": 1.0,
+              "wins": 44,
+              "pushes": 0,
+              "accuracy": 0.44,
+              "net_krw": -172400,
+              "roi": -0.1724,
+              "opportunity_roi": -0.1724,
+              "brier": 0.251042301796545,
+              "logloss": 0.6956123947862765,
+              "monthly_net_krw": {
+                "2026-07": -76800,
+                "2026-08": -95600
+              },
+              "daily_close_max_drawdown_krw": 172400
+            },
+            "primary:edge0": {
+              "opportunities": 100,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0,
+                "2026-08": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "primary:edge3": {
+              "opportunities": 100,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0,
+                "2026-08": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "primary:edge6": {
+              "opportunities": 100,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0,
+                "2026-08": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "primary:edge10": {
+              "opportunities": 100,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0,
+                "2026-08": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "calibrated:hit": {
+              "opportunities": 100,
+              "bets": 100,
+              "coverage": 1.0,
+              "wins": 54,
+              "pushes": 0,
+              "accuracy": 0.54,
+              "net_krw": -155900,
+              "roi": -0.1559,
+              "opportunity_roi": -0.1559,
+              "brier": 0.24981424122469137,
+              "logloss": 0.6931144074450004,
+              "monthly_net_krw": {
+                "2026-07": -18300,
+                "2026-08": -137600
+              },
+              "daily_close_max_drawdown_krw": 155900
+            },
+            "calibrated:value": {
+              "opportunities": 100,
+              "bets": 100,
+              "coverage": 1.0,
+              "wins": 56,
+              "pushes": 0,
+              "accuracy": 0.56,
+              "net_krw": -67800,
+              "roi": -0.0678,
+              "opportunity_roi": -0.0678,
+              "brier": 0.24981424122469137,
+              "logloss": 0.6931144074450004,
+              "monthly_net_krw": {
+                "2026-07": 31400,
+                "2026-08": -99200
+              },
+              "daily_close_max_drawdown_krw": 116100
+            },
+            "calibrated:edge0": {
+              "opportunities": 100,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0,
+                "2026-08": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "calibrated:edge3": {
+              "opportunities": 100,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0,
+                "2026-08": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "calibrated:edge6": {
+              "opportunities": 100,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0,
+                "2026-08": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "calibrated:edge10": {
+              "opportunities": 100,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0,
+                "2026-08": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            }
+          },
+          "selected": null,
+          "selected_metrics": null
+        },
+        "split_onward": {
+          "economic_audit": {
+            "baseline": {
+              "opportunities": 130,
+              "bets": 130,
+              "coverage": 1.0,
+              "wins": 72,
+              "pushes": 0,
+              "accuracy": 0.5538461538461539,
+              "net_krw": -195700,
+              "roi": -0.15053846153846154,
+              "opportunity_roi": -0.15053846153846154,
+              "brier": 0.24308775019350082,
+              "logloss": 0.6785020873753418,
+              "monthly_net_krw": {
+                "2026-08": -195700
+              },
+              "daily_close_max_drawdown_krw": 254300
+            },
+            "mean_overround": 0.13643502445722253,
+            "mean_market_assumed_ev": -0.10564315407772015,
+            "mean_market_probability_to_chosen_odds_break_even_gap": 0.06821751222861128,
+            "fixed_9to1_even_unanimous_cannot_clear_price_n": 124,
+            "minimum_unanimous_vote_weight_any_side_quantiles": [
+              0.10946012877662209,
+              0.1180801745295883,
+              0.12779504475039571
+            ],
+            "fixed_weight_note": "representational upper bound under market probabilities; increasing vote weight does not prove calibration or profit",
+            "oracle_min_wrong_pick_flips_to_break_even": 9,
+            "oracle_note": "optimistic hindsight lower bound: choose highest-paying missed actual winners first; not attainable prediction claim"
+          },
+          "policies": {
+            "market:hit": {
+              "opportunities": 130,
+              "bets": 130,
+              "coverage": 1.0,
+              "wins": 72,
+              "pushes": 0,
+              "accuracy": 0.5538461538461539,
+              "net_krw": -195700,
+              "roi": -0.15053846153846154,
+              "opportunity_roi": -0.15053846153846154,
+              "brier": 0.24308775019350082,
+              "logloss": 0.6785020873753418,
+              "monthly_net_krw": {
+                "2026-08": -195700
+              },
+              "daily_close_max_drawdown_krw": 254300
+            },
+            "market:value": {
+              "opportunities": 130,
+              "bets": 130,
+              "coverage": 1.0,
+              "wins": 72,
+              "pushes": 0,
+              "accuracy": 0.5538461538461539,
+              "net_krw": -195700,
+              "roi": -0.15053846153846154,
+              "opportunity_roi": -0.15053846153846154,
+              "brier": 0.24308775019350082,
+              "logloss": 0.6785020873753418,
+              "monthly_net_krw": {
+                "2026-08": -195700
+              },
+              "daily_close_max_drawdown_krw": 254300
+            },
+            "market:edge0": {
+              "opportunities": 130,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-08": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "market:edge3": {
+              "opportunities": 130,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-08": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "market:edge6": {
+              "opportunities": 130,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-08": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "market:edge10": {
+              "opportunities": 130,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-08": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "primary:hit": {
+              "opportunities": 130,
+              "bets": 130,
+              "coverage": 1.0,
+              "wins": 70,
+              "pushes": 0,
+              "accuracy": 0.5384615384615384,
+              "net_krw": -229800,
+              "roi": -0.17676923076923076,
+              "opportunity_roi": -0.17676923076923076,
+              "brier": 0.2434754845760815,
+              "logloss": 0.6795242952697347,
+              "monthly_net_krw": {
+                "2026-08": -229800
+              },
+              "daily_close_max_drawdown_krw": 253700
+            },
+            "primary:value": {
+              "opportunities": 130,
+              "bets": 130,
+              "coverage": 1.0,
+              "wins": 63,
+              "pushes": 0,
+              "accuracy": 0.4846153846153846,
+              "net_krw": -156500,
+              "roi": -0.12038461538461538,
+              "opportunity_roi": -0.12038461538461538,
+              "brier": 0.2434754845760815,
+              "logloss": 0.6795242952697347,
+              "monthly_net_krw": {
+                "2026-08": -156500
+              },
+              "daily_close_max_drawdown_krw": 161800
+            },
+            "primary:edge0": {
+              "opportunities": 130,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-08": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "primary:edge3": {
+              "opportunities": 130,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-08": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "primary:edge6": {
+              "opportunities": 130,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-08": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "primary:edge10": {
+              "opportunities": 130,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-08": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "calibrated:hit": {
+              "opportunities": 130,
+              "bets": 130,
+              "coverage": 1.0,
+              "wins": 73,
+              "pushes": 0,
+              "accuracy": 0.5615384615384615,
+              "net_krw": -177300,
+              "roi": -0.13638461538461538,
+              "opportunity_roi": -0.13638461538461538,
+              "brier": 0.24282836450253148,
+              "logloss": 0.6780106452576953,
+              "monthly_net_krw": {
+                "2026-08": -177300
+              },
+              "daily_close_max_drawdown_krw": 235900
+            },
+            "calibrated:value": {
+              "opportunities": 130,
+              "bets": 130,
+              "coverage": 1.0,
+              "wins": 73,
+              "pushes": 0,
+              "accuracy": 0.5615384615384615,
+              "net_krw": -94200,
+              "roi": -0.07246153846153847,
+              "opportunity_roi": -0.07246153846153847,
+              "brier": 0.24282836450253148,
+              "logloss": 0.6780106452576953,
+              "monthly_net_krw": {
+                "2026-08": -94200
+              },
+              "daily_close_max_drawdown_krw": 202900
+            },
+            "calibrated:edge0": {
+              "opportunities": 130,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-08": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "calibrated:edge3": {
+              "opportunities": 130,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-08": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "calibrated:edge6": {
+              "opportunities": 130,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-08": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "calibrated:edge10": {
+              "opportunities": 130,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-08": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            }
+          },
+          "selected": null,
+          "selected_metrics": null
+        }
+      },
+      "secondary116": {
+        "all": {
+          "economic_audit": {
+            "baseline": {
+              "opportunities": 116,
+              "bets": 116,
+              "coverage": 1.0,
+              "wins": 63,
+              "pushes": 0,
+              "accuracy": 0.5431034482758621,
+              "net_krw": -154800,
+              "roi": -0.13344827586206898,
+              "opportunity_roi": -0.13344827586206898,
+              "brier": 0.2507875045179849,
+              "logloss": 0.6949799014399356,
+              "monthly_net_krw": {
+                "2025-11": 5000,
+                "2026-03": 1300,
+                "2026-04": -87200,
+                "2026-05": 65000,
+                "2026-06": -23400,
+                "2026-07": -40600,
+                "2026-08": -9100,
+                "2026-09": -25800,
+                "2026-10": -40000
+              },
+              "daily_close_max_drawdown_krw": 174800
+            },
+            "mean_overround": 0.14547507672684848,
+            "mean_market_assumed_ev": -0.11636358048770563,
+            "mean_market_probability_to_chosen_odds_break_even_gap": 0.07273753836342424,
+            "fixed_9to1_even_unanimous_cannot_clear_price_n": 116,
+            "minimum_unanimous_vote_weight_any_side_quantiles": [
+              0.12269947837754704,
+              0.1295506812155221,
+              0.14056720098643657
+            ],
+            "fixed_weight_note": "representational upper bound under market probabilities; increasing vote weight does not prove calibration or profit",
+            "oracle_min_wrong_pick_flips_to_break_even": 7,
+            "oracle_note": "optimistic hindsight lower bound: choose highest-paying missed actual winners first; not attainable prediction claim"
+          },
+          "policies": {
+            "market:hit": {
+              "opportunities": 116,
+              "bets": 116,
+              "coverage": 1.0,
+              "wins": 63,
+              "pushes": 0,
+              "accuracy": 0.5431034482758621,
+              "net_krw": -167400,
+              "roi": -0.1443103448275862,
+              "opportunity_roi": -0.1443103448275862,
+              "brier": 0.25001098450937964,
+              "logloss": 0.6934704310647402,
+              "monthly_net_krw": {
+                "2025-11": 5000,
+                "2026-03": 18600,
+                "2026-04": -5500,
+                "2026-05": -62600,
+                "2026-06": -23400,
+                "2026-07": -41700,
+                "2026-08": -9100,
+                "2026-09": -25800,
+                "2026-10": -22900
+              },
+              "daily_close_max_drawdown_krw": 239800
+            },
+            "market:value": {
+              "opportunities": 116,
+              "bets": 116,
+              "coverage": 1.0,
+              "wins": 63,
+              "pushes": 0,
+              "accuracy": 0.5431034482758621,
+              "net_krw": -167400,
+              "roi": -0.1443103448275862,
+              "opportunity_roi": -0.1443103448275862,
+              "brier": 0.25001098450937964,
+              "logloss": 0.6934704310647402,
+              "monthly_net_krw": {
+                "2025-11": 5000,
+                "2026-03": 18600,
+                "2026-04": -5500,
+                "2026-05": -62600,
+                "2026-06": -23400,
+                "2026-07": -41700,
+                "2026-08": -9100,
+                "2026-09": -25800,
+                "2026-10": -22900
+              },
+              "daily_close_max_drawdown_krw": 239800
+            },
+            "market:edge0": {
+              "opportunities": 116,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2025-11": 0,
+                "2026-03": 0,
+                "2026-04": 0,
+                "2026-05": 0,
+                "2026-06": 0,
+                "2026-07": 0,
+                "2026-08": 0,
+                "2026-09": 0,
+                "2026-10": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "market:edge3": {
+              "opportunities": 116,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2025-11": 0,
+                "2026-03": 0,
+                "2026-04": 0,
+                "2026-05": 0,
+                "2026-06": 0,
+                "2026-07": 0,
+                "2026-08": 0,
+                "2026-09": 0,
+                "2026-10": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "market:edge6": {
+              "opportunities": 116,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2025-11": 0,
+                "2026-03": 0,
+                "2026-04": 0,
+                "2026-05": 0,
+                "2026-06": 0,
+                "2026-07": 0,
+                "2026-08": 0,
+                "2026-09": 0,
+                "2026-10": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "market:edge10": {
+              "opportunities": 116,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2025-11": 0,
+                "2026-03": 0,
+                "2026-04": 0,
+                "2026-05": 0,
+                "2026-06": 0,
+                "2026-07": 0,
+                "2026-08": 0,
+                "2026-09": 0,
+                "2026-10": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "primary:hit": {
+              "opportunities": 116,
+              "bets": 116,
+              "coverage": 1.0,
+              "wins": 65,
+              "pushes": 0,
+              "accuracy": 0.5603448275862069,
+              "net_krw": -118000,
+              "roi": -0.10172413793103448,
+              "opportunity_roi": -0.10172413793103448,
+              "brier": 0.24859074103684625,
+              "logloss": 0.6904169504027556,
+              "monthly_net_krw": {
+                "2025-11": 5000,
+                "2026-03": 1300,
+                "2026-04": -35500,
+                "2026-05": 30500,
+                "2026-06": -23400,
+                "2026-07": -40600,
+                "2026-08": -9100,
+                "2026-09": -25800,
+                "2026-10": -20400
+              },
+              "daily_close_max_drawdown_krw": 138000
+            },
+            "primary:value": {
+              "opportunities": 116,
+              "bets": 116,
+              "coverage": 1.0,
+              "wins": 61,
+              "pushes": 0,
+              "accuracy": 0.5258620689655172,
+              "net_krw": -113200,
+              "roi": -0.09758620689655173,
+              "opportunity_roi": -0.09758620689655173,
+              "brier": 0.24859074103684625,
+              "logloss": 0.6904169504027556,
+              "monthly_net_krw": {
+                "2025-11": -10000,
+                "2026-03": 1300,
+                "2026-04": -42000,
+                "2026-05": 35900,
+                "2026-06": -2500,
+                "2026-07": -40600,
+                "2026-08": -9100,
+                "2026-09": -25800,
+                "2026-10": -20400
+              },
+              "daily_close_max_drawdown_krw": 123200
+            },
+            "primary:edge0": {
+              "opportunities": 116,
+              "bets": 6,
+              "coverage": 0.05172413793103448,
+              "wins": 3,
+              "pushes": 0,
+              "accuracy": 0.5,
+              "net_krw": 16900,
+              "roi": 0.2816666666666667,
+              "opportunity_roi": 0.01456896551724138,
+              "brier": 0.2757242158824697,
+              "logloss": 0.7458577764897121,
+              "monthly_net_krw": {
+                "2025-11": 0,
+                "2026-03": 0,
+                "2026-04": -2400,
+                "2026-05": 19300,
+                "2026-06": 0,
+                "2026-07": 0,
+                "2026-08": 0,
+                "2026-09": 0,
+                "2026-10": 0
+              },
+              "daily_close_max_drawdown_krw": 20000
+            },
+            "primary:edge3": {
+              "opportunities": 116,
+              "bets": 2,
+              "coverage": 0.017241379310344827,
+              "wins": 2,
+              "pushes": 0,
+              "accuracy": 1.0,
+              "net_krw": 33900,
+              "roi": 1.695,
+              "opportunity_roi": 0.029224137931034483,
+              "brier": 0.375069777248733,
+              "logloss": 0.9478998565744179,
+              "monthly_net_krw": {
+                "2025-11": 0,
+                "2026-03": 0,
+                "2026-04": 17600,
+                "2026-05": 16300,
+                "2026-06": 0,
+                "2026-07": 0,
+                "2026-08": 0,
+                "2026-09": 0,
+                "2026-10": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "primary:edge6": {
+              "opportunities": 116,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2025-11": 0,
+                "2026-03": 0,
+                "2026-04": 0,
+                "2026-05": 0,
+                "2026-06": 0,
+                "2026-07": 0,
+                "2026-08": 0,
+                "2026-09": 0,
+                "2026-10": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "primary:edge10": {
+              "opportunities": 116,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2025-11": 0,
+                "2026-03": 0,
+                "2026-04": 0,
+                "2026-05": 0,
+                "2026-06": 0,
+                "2026-07": 0,
+                "2026-08": 0,
+                "2026-09": 0,
+                "2026-10": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "calibrated:hit": {
+              "opportunities": 116,
+              "bets": 116,
+              "coverage": 1.0,
+              "wins": 62,
+              "pushes": 0,
+              "accuracy": 0.5344827586206896,
+              "net_krw": -170400,
+              "roi": -0.14689655172413793,
+              "opportunity_roi": -0.14689655172413793,
+              "brier": 0.2515413898189859,
+              "logloss": 0.69637271359293,
+              "monthly_net_krw": {
+                "2025-11": 5000,
+                "2026-03": 1300,
+                "2026-04": -87200,
+                "2026-05": 49400,
+                "2026-06": -23400,
+                "2026-07": -40600,
+                "2026-08": -9100,
+                "2026-09": -25800,
+                "2026-10": -40000
+              },
+              "daily_close_max_drawdown_krw": 190400
+            },
+            "calibrated:value": {
+              "opportunities": 116,
+              "bets": 116,
+              "coverage": 1.0,
+              "wins": 61,
+              "pushes": 0,
+              "accuracy": 0.5258620689655172,
+              "net_krw": -113200,
+              "roi": -0.09758620689655173,
+              "opportunity_roi": -0.09758620689655173,
+              "brier": 0.2515413898189859,
+              "logloss": 0.69637271359293,
+              "monthly_net_krw": {
+                "2025-11": -10000,
+                "2026-03": 1300,
+                "2026-04": -42000,
+                "2026-05": 35900,
+                "2026-06": -2500,
+                "2026-07": -40600,
+                "2026-08": -9100,
+                "2026-09": -25800,
+                "2026-10": -20400
+              },
+              "daily_close_max_drawdown_krw": 123200
+            },
+            "calibrated:edge0": {
+              "opportunities": 116,
+              "bets": 5,
+              "coverage": 0.04310344827586207,
+              "wins": 1,
+              "pushes": 0,
+              "accuracy": 0.2,
+              "net_krw": -22400,
+              "roi": -0.448,
+              "opportunity_roi": -0.019310344827586208,
+              "brier": 0.2500303278519551,
+              "logloss": 0.6946214652723145,
+              "monthly_net_krw": {
+                "2025-11": -10000,
+                "2026-03": 0,
+                "2026-04": 7600,
+                "2026-05": -20000,
+                "2026-06": 0,
+                "2026-07": 0,
+                "2026-08": 0,
+                "2026-09": 0,
+                "2026-10": 0
+              },
+              "daily_close_max_drawdown_krw": 22400
+            },
+            "calibrated:edge3": {
+              "opportunities": 116,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2025-11": 0,
+                "2026-03": 0,
+                "2026-04": 0,
+                "2026-05": 0,
+                "2026-06": 0,
+                "2026-07": 0,
+                "2026-08": 0,
+                "2026-09": 0,
+                "2026-10": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "calibrated:edge6": {
+              "opportunities": 116,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2025-11": 0,
+                "2026-03": 0,
+                "2026-04": 0,
+                "2026-05": 0,
+                "2026-06": 0,
+                "2026-07": 0,
+                "2026-08": 0,
+                "2026-09": 0,
+                "2026-10": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "calibrated:edge10": {
+              "opportunities": 116,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2025-11": 0,
+                "2026-03": 0,
+                "2026-04": 0,
+                "2026-05": 0,
+                "2026-06": 0,
+                "2026-07": 0,
+                "2026-08": 0,
+                "2026-09": 0,
+                "2026-10": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            }
+          },
+          "selected": null,
+          "selected_metrics": null,
+          "diagnostic_intervals": {
+            "primary:hit": {
+              "weeks": 23,
+              "repetitions": 3000,
+              "selected_roi95": [
+                -0.2727395136778116,
+                0.018879824498822865
+              ],
+              "opportunity_roi_delta95": [
+                -0.049747845831392634,
+                0.15907749999999998
+              ],
+              "note": "descriptive paired weekly resampling; no correction for repeated research or policy selection"
+            },
+            "primary:value": {
+              "weeks": 23,
+              "repetitions": 3000,
+              "selected_roi95": [
+                -0.2803920652518213,
+                0.045702083333333365
+              ],
+              "opportunity_roi_delta95": [
+                -0.09340569938870909,
+                0.20130003419972647
+              ],
+              "note": "descriptive paired weekly resampling; no correction for repeated research or policy selection"
+            },
+            "primary:edge0": {
+              "weeks": 23,
+              "repetitions": 3000,
+              "selected_roi95": [
+                -1.0,
+                1.76
+              ],
+              "opportunity_roi_delta95": [
+                -0.028343145125323335,
+                0.3984766522988507
+              ],
+              "note": "descriptive paired weekly resampling; no correction for repeated research or policy selection"
+            },
+            "primary:edge3": {
+              "weeks": 23,
+              "repetitions": 3000,
+              "selected_roi95": [
+                1.63,
+                1.76
+              ],
+              "opportunity_roi_delta95": [
+                -0.014872751487477512,
+                0.40790854371201496
+              ],
+              "note": "descriptive paired weekly resampling; no correction for repeated research or policy selection"
+            },
+            "primary:edge6": {
+              "weeks": 23,
+              "repetitions": 3000,
+              "selected_roi95": null,
+              "opportunity_roi_delta95": [
+                -0.02638339755402915,
+                0.373134586395327
+              ],
+              "note": "descriptive paired weekly resampling; no correction for repeated research or policy selection"
+            },
+            "primary:edge10": {
+              "weeks": 23,
+              "repetitions": 3000,
+              "selected_roi95": null,
+              "opportunity_roi_delta95": [
+                -0.02638339755402915,
+                0.373134586395327
+              ],
+              "note": "descriptive paired weekly resampling; no correction for repeated research or policy selection"
+            },
+            "calibrated:hit": {
+              "weeks": 23,
+              "repetitions": 3000,
+              "selected_roi95": [
+                -0.3746452157598499,
+                0.02009507943802527
+              ],
+              "opportunity_roi_delta95": [
+                -0.03804878048780488,
+                0.0
+              ],
+              "note": "descriptive paired weekly resampling; no correction for repeated research or policy selection"
+            },
+            "calibrated:value": {
+              "weeks": 23,
+              "repetitions": 3000,
+              "selected_roi95": [
+                -0.2803920652518213,
+                0.045702083333333365
+              ],
+              "opportunity_roi_delta95": [
+                -0.09340569938870909,
+                0.20130003419972647
+              ],
+              "note": "descriptive paired weekly resampling; no correction for repeated research or policy selection"
+            },
+            "calibrated:edge0": {
+              "weeks": 23,
+              "repetitions": 3000,
+              "selected_roi95": [
+                -1.0,
+                0.38
+              ],
+              "opportunity_roi_delta95": [
+                -0.04967238095238095,
+                0.3701444088319089
+              ],
+              "note": "descriptive paired weekly resampling; no correction for repeated research or policy selection"
+            },
+            "calibrated:edge3": {
+              "weeks": 23,
+              "repetitions": 3000,
+              "selected_roi95": null,
+              "opportunity_roi_delta95": [
+                -0.02638339755402915,
+                0.373134586395327
+              ],
+              "note": "descriptive paired weekly resampling; no correction for repeated research or policy selection"
+            },
+            "calibrated:edge6": {
+              "weeks": 23,
+              "repetitions": 3000,
+              "selected_roi95": null,
+              "opportunity_roi_delta95": [
+                -0.02638339755402915,
+                0.373134586395327
+              ],
+              "note": "descriptive paired weekly resampling; no correction for repeated research or policy selection"
+            },
+            "calibrated:edge10": {
+              "weeks": 23,
+              "repetitions": 3000,
+              "selected_roi95": null,
+              "opportunity_roi_delta95": [
+                -0.02638339755402915,
+                0.373134586395327
+              ],
+              "note": "descriptive paired weekly resampling; no correction for repeated research or policy selection"
+            }
+          }
+        },
+        "before_split": {
+          "economic_audit": {
+            "baseline": {
+              "opportunities": 84,
+              "bets": 84,
+              "coverage": 1.0,
+              "wins": 50,
+              "pushes": 0,
+              "accuracy": 0.5952380952380952,
+              "net_krw": -39300,
+              "roi": -0.046785714285714285,
+              "opportunity_roi": -0.046785714285714285,
+              "brier": 0.24348919294993954,
+              "logloss": 0.6802818566703193,
+              "monthly_net_krw": {
+                "2025-11": 5000,
+                "2026-03": 1300,
+                "2026-04": -87200,
+                "2026-05": 65000,
+                "2026-06": -23400
+              },
+              "daily_close_max_drawdown_krw": 100900
+            },
+            "mean_overround": 0.14879686435175343,
+            "mean_market_assumed_ev": -0.11900582104865455,
+            "mean_market_probability_to_chosen_odds_break_even_gap": 0.07439843217587672,
+            "fixed_9to1_even_unanimous_cannot_clear_price_n": 84,
+            "minimum_unanimous_vote_weight_any_side_quantiles": [
+              0.12653061224489806,
+              0.1317519291226063,
+              0.1409688883346841
+            ],
+            "fixed_weight_note": "representational upper bound under market probabilities; increasing vote weight does not prove calibration or profit",
+            "oracle_min_wrong_pick_flips_to_break_even": 2,
+            "oracle_note": "optimistic hindsight lower bound: choose highest-paying missed actual winners first; not attainable prediction claim"
+          },
+          "policies": {
+            "market:hit": {
+              "opportunities": 84,
+              "bets": 84,
+              "coverage": 1.0,
+              "wins": 49,
+              "pushes": 0,
+              "accuracy": 0.5833333333333334,
+              "net_krw": -67900,
+              "roi": -0.08083333333333333,
+              "opportunity_roi": -0.08083333333333333,
+              "brier": 0.24719428350482078,
+              "logloss": 0.6879751049561776,
+              "monthly_net_krw": {
+                "2025-11": 5000,
+                "2026-03": 18600,
+                "2026-04": -5500,
+                "2026-05": -62600,
+                "2026-06": -23400
+              },
+              "daily_close_max_drawdown_krw": 136900
+            },
+            "market:value": {
+              "opportunities": 84,
+              "bets": 84,
+              "coverage": 1.0,
+              "wins": 49,
+              "pushes": 0,
+              "accuracy": 0.5833333333333334,
+              "net_krw": -67900,
+              "roi": -0.08083333333333333,
+              "opportunity_roi": -0.08083333333333333,
+              "brier": 0.24719428350482078,
+              "logloss": 0.6879751049561776,
+              "monthly_net_krw": {
+                "2025-11": 5000,
+                "2026-03": 18600,
+                "2026-04": -5500,
+                "2026-05": -62600,
+                "2026-06": -23400
+              },
+              "daily_close_max_drawdown_krw": 136900
+            },
+            "market:edge0": {
+              "opportunities": 84,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2025-11": 0,
+                "2026-03": 0,
+                "2026-04": 0,
+                "2026-05": 0,
+                "2026-06": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "market:edge3": {
+              "opportunities": 84,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2025-11": 0,
+                "2026-03": 0,
+                "2026-04": 0,
+                "2026-05": 0,
+                "2026-06": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "market:edge6": {
+              "opportunities": 84,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2025-11": 0,
+                "2026-03": 0,
+                "2026-04": 0,
+                "2026-05": 0,
+                "2026-06": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "market:edge10": {
+              "opportunities": 84,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2025-11": 0,
+                "2026-03": 0,
+                "2026-04": 0,
+                "2026-05": 0,
+                "2026-06": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "primary:hit": {
+              "opportunities": 84,
+              "bets": 84,
+              "coverage": 1.0,
+              "wins": 51,
+              "pushes": 0,
+              "accuracy": 0.6071428571428571,
+              "net_krw": -22100,
+              "roi": -0.02630952380952381,
+              "opportunity_roi": -0.02630952380952381,
+              "brier": 0.2430273861451509,
+              "logloss": 0.6792428830878808,
+              "monthly_net_krw": {
+                "2025-11": 5000,
+                "2026-03": 1300,
+                "2026-04": -35500,
+                "2026-05": 30500,
+                "2026-06": -23400
+              },
+              "daily_close_max_drawdown_krw": 49200
+            },
+            "primary:value": {
+              "opportunities": 84,
+              "bets": 84,
+              "coverage": 1.0,
+              "wins": 47,
+              "pushes": 0,
+              "accuracy": 0.5595238095238095,
+              "net_krw": -17300,
+              "roi": -0.020595238095238094,
+              "opportunity_roi": -0.020595238095238094,
+              "brier": 0.2430273861451509,
+              "logloss": 0.6792428830878808,
+              "monthly_net_krw": {
+                "2025-11": -10000,
+                "2026-03": 1300,
+                "2026-04": -42000,
+                "2026-05": 35900,
+                "2026-06": -2500
+              },
+              "daily_close_max_drawdown_krw": 65200
+            },
+            "primary:edge0": {
+              "opportunities": 84,
+              "bets": 6,
+              "coverage": 0.07142857142857142,
+              "wins": 3,
+              "pushes": 0,
+              "accuracy": 0.5,
+              "net_krw": 16900,
+              "roi": 0.2816666666666667,
+              "opportunity_roi": 0.02011904761904762,
+              "brier": 0.2757242158824697,
+              "logloss": 0.7458577764897121,
+              "monthly_net_krw": {
+                "2025-11": 0,
+                "2026-03": 0,
+                "2026-04": -2400,
+                "2026-05": 19300,
+                "2026-06": 0
+              },
+              "daily_close_max_drawdown_krw": 20000
+            },
+            "primary:edge3": {
+              "opportunities": 84,
+              "bets": 2,
+              "coverage": 0.023809523809523808,
+              "wins": 2,
+              "pushes": 0,
+              "accuracy": 1.0,
+              "net_krw": 33900,
+              "roi": 1.695,
+              "opportunity_roi": 0.040357142857142855,
+              "brier": 0.375069777248733,
+              "logloss": 0.9478998565744179,
+              "monthly_net_krw": {
+                "2025-11": 0,
+                "2026-03": 0,
+                "2026-04": 17600,
+                "2026-05": 16300,
+                "2026-06": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "primary:edge6": {
+              "opportunities": 84,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2025-11": 0,
+                "2026-03": 0,
+                "2026-04": 0,
+                "2026-05": 0,
+                "2026-06": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "primary:edge10": {
+              "opportunities": 84,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2025-11": 0,
+                "2026-03": 0,
+                "2026-04": 0,
+                "2026-05": 0,
+                "2026-06": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "calibrated:hit": {
+              "opportunities": 84,
+              "bets": 84,
+              "coverage": 1.0,
+              "wins": 49,
+              "pushes": 0,
+              "accuracy": 0.5833333333333334,
+              "net_krw": -54900,
+              "roi": -0.06535714285714286,
+              "opportunity_roi": -0.06535714285714286,
+              "brier": 0.24443321988295175,
+              "logloss": 0.6821140231176944,
+              "monthly_net_krw": {
+                "2025-11": 5000,
+                "2026-03": 1300,
+                "2026-04": -87200,
+                "2026-05": 49400,
+                "2026-06": -23400
+              },
+              "daily_close_max_drawdown_krw": 100900
+            },
+            "calibrated:value": {
+              "opportunities": 84,
+              "bets": 84,
+              "coverage": 1.0,
+              "wins": 47,
+              "pushes": 0,
+              "accuracy": 0.5595238095238095,
+              "net_krw": -17300,
+              "roi": -0.020595238095238094,
+              "opportunity_roi": -0.020595238095238094,
+              "brier": 0.24443321988295175,
+              "logloss": 0.6821140231176944,
+              "monthly_net_krw": {
+                "2025-11": -10000,
+                "2026-03": 1300,
+                "2026-04": -42000,
+                "2026-05": 35900,
+                "2026-06": -2500
+              },
+              "daily_close_max_drawdown_krw": 65200
+            },
+            "calibrated:edge0": {
+              "opportunities": 84,
+              "bets": 5,
+              "coverage": 0.05952380952380952,
+              "wins": 1,
+              "pushes": 0,
+              "accuracy": 0.2,
+              "net_krw": -22400,
+              "roi": -0.448,
+              "opportunity_roi": -0.02666666666666667,
+              "brier": 0.2500303278519551,
+              "logloss": 0.6946214652723145,
+              "monthly_net_krw": {
+                "2025-11": -10000,
+                "2026-03": 0,
+                "2026-04": 7600,
+                "2026-05": -20000,
+                "2026-06": 0
+              },
+              "daily_close_max_drawdown_krw": 22400
+            },
+            "calibrated:edge3": {
+              "opportunities": 84,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2025-11": 0,
+                "2026-03": 0,
+                "2026-04": 0,
+                "2026-05": 0,
+                "2026-06": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "calibrated:edge6": {
+              "opportunities": 84,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2025-11": 0,
+                "2026-03": 0,
+                "2026-04": 0,
+                "2026-05": 0,
+                "2026-06": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "calibrated:edge10": {
+              "opportunities": 84,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2025-11": 0,
+                "2026-03": 0,
+                "2026-04": 0,
+                "2026-05": 0,
+                "2026-06": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            }
+          },
+          "selected": null,
+          "selected_metrics": null
+        },
+        "split_onward": {
+          "economic_audit": {
+            "baseline": {
+              "opportunities": 32,
+              "bets": 32,
+              "coverage": 1.0,
+              "wins": 13,
+              "pushes": 0,
+              "accuracy": 0.40625,
+              "net_krw": -115500,
+              "roi": -0.3609375,
+              "opportunity_roi": -0.3609375,
+              "brier": 0.2699455723841038,
+              "logloss": 0.7335622689601786,
+              "monthly_net_krw": {
+                "2026-07": -40600,
+                "2026-08": -9100,
+                "2026-09": -25800,
+                "2026-10": -40000
+              },
+              "daily_close_max_drawdown_krw": 140300
+            },
+            "mean_overround": 0.13675538421147287,
+            "mean_market_assumed_ev": -0.10942769901521474,
+            "mean_market_probability_to_chosen_odds_break_even_gap": 0.06837769210573647,
+            "fixed_9to1_even_unanimous_cannot_clear_price_n": 32,
+            "minimum_unanimous_vote_weight_any_side_quantiles": [
+              0.11654789715756533,
+              0.1236372573246291,
+              0.12850116931059286
+            ],
+            "fixed_weight_note": "representational upper bound under market probabilities; increasing vote weight does not prove calibration or profit",
+            "oracle_min_wrong_pick_flips_to_break_even": 6,
+            "oracle_note": "optimistic hindsight lower bound: choose highest-paying missed actual winners first; not attainable prediction claim"
+          },
+          "policies": {
+            "market:hit": {
+              "opportunities": 32,
+              "bets": 32,
+              "coverage": 1.0,
+              "wins": 14,
+              "pushes": 0,
+              "accuracy": 0.4375,
+              "net_krw": -99500,
+              "roi": -0.3109375,
+              "opportunity_roi": -0.3109375,
+              "brier": 0.2574048246463466,
+              "logloss": 0.7078956620997157,
+              "monthly_net_krw": {
+                "2026-07": -41700,
+                "2026-08": -9100,
+                "2026-09": -25800,
+                "2026-10": -22900
+              },
+              "daily_close_max_drawdown_krw": 116100
+            },
+            "market:value": {
+              "opportunities": 32,
+              "bets": 32,
+              "coverage": 1.0,
+              "wins": 14,
+              "pushes": 0,
+              "accuracy": 0.4375,
+              "net_krw": -99500,
+              "roi": -0.3109375,
+              "opportunity_roi": -0.3109375,
+              "brier": 0.2574048246463466,
+              "logloss": 0.7078956620997157,
+              "monthly_net_krw": {
+                "2026-07": -41700,
+                "2026-08": -9100,
+                "2026-09": -25800,
+                "2026-10": -22900
+              },
+              "daily_close_max_drawdown_krw": 116100
+            },
+            "market:edge0": {
+              "opportunities": 32,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0,
+                "2026-08": 0,
+                "2026-09": 0,
+                "2026-10": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "market:edge3": {
+              "opportunities": 32,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0,
+                "2026-08": 0,
+                "2026-09": 0,
+                "2026-10": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "market:edge6": {
+              "opportunities": 32,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0,
+                "2026-08": 0,
+                "2026-09": 0,
+                "2026-10": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "market:edge10": {
+              "opportunities": 32,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0,
+                "2026-08": 0,
+                "2026-09": 0,
+                "2026-10": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "primary:hit": {
+              "opportunities": 32,
+              "bets": 32,
+              "coverage": 1.0,
+              "wins": 14,
+              "pushes": 0,
+              "accuracy": 0.4375,
+              "net_krw": -95900,
+              "roi": -0.2996875,
+              "opportunity_roi": -0.2996875,
+              "brier": 0.26319454762754657,
+              "logloss": 0.7197488771043021,
+              "monthly_net_krw": {
+                "2026-07": -40600,
+                "2026-08": -9100,
+                "2026-09": -25800,
+                "2026-10": -20400
+              },
+              "daily_close_max_drawdown_krw": 120700
+            },
+            "primary:value": {
+              "opportunities": 32,
+              "bets": 32,
+              "coverage": 1.0,
+              "wins": 14,
+              "pushes": 0,
+              "accuracy": 0.4375,
+              "net_krw": -95900,
+              "roi": -0.2996875,
+              "opportunity_roi": -0.2996875,
+              "brier": 0.26319454762754657,
+              "logloss": 0.7197488771043021,
+              "monthly_net_krw": {
+                "2026-07": -40600,
+                "2026-08": -9100,
+                "2026-09": -25800,
+                "2026-10": -20400
+              },
+              "daily_close_max_drawdown_krw": 120700
+            },
+            "primary:edge0": {
+              "opportunities": 32,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0,
+                "2026-08": 0,
+                "2026-09": 0,
+                "2026-10": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "primary:edge3": {
+              "opportunities": 32,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0,
+                "2026-08": 0,
+                "2026-09": 0,
+                "2026-10": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "primary:edge6": {
+              "opportunities": 32,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0,
+                "2026-08": 0,
+                "2026-09": 0,
+                "2026-10": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "primary:edge10": {
+              "opportunities": 32,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0,
+                "2026-08": 0,
+                "2026-09": 0,
+                "2026-10": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "calibrated:hit": {
+              "opportunities": 32,
+              "bets": 32,
+              "coverage": 1.0,
+              "wins": 13,
+              "pushes": 0,
+              "accuracy": 0.40625,
+              "net_krw": -115500,
+              "roi": -0.3609375,
+              "opportunity_roi": -0.3609375,
+              "brier": 0.27020033590107523,
+              "logloss": 0.7338017760904229,
+              "monthly_net_krw": {
+                "2026-07": -40600,
+                "2026-08": -9100,
+                "2026-09": -25800,
+                "2026-10": -40000
+              },
+              "daily_close_max_drawdown_krw": 140300
+            },
+            "calibrated:value": {
+              "opportunities": 32,
+              "bets": 32,
+              "coverage": 1.0,
+              "wins": 14,
+              "pushes": 0,
+              "accuracy": 0.4375,
+              "net_krw": -95900,
+              "roi": -0.2996875,
+              "opportunity_roi": -0.2996875,
+              "brier": 0.27020033590107523,
+              "logloss": 0.7338017760904229,
+              "monthly_net_krw": {
+                "2026-07": -40600,
+                "2026-08": -9100,
+                "2026-09": -25800,
+                "2026-10": -20400
+              },
+              "daily_close_max_drawdown_krw": 120700
+            },
+            "calibrated:edge0": {
+              "opportunities": 32,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0,
+                "2026-08": 0,
+                "2026-09": 0,
+                "2026-10": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "calibrated:edge3": {
+              "opportunities": 32,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0,
+                "2026-08": 0,
+                "2026-09": 0,
+                "2026-10": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "calibrated:edge6": {
+              "opportunities": 32,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0,
+                "2026-08": 0,
+                "2026-09": 0,
+                "2026-10": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "calibrated:edge10": {
+              "opportunities": 32,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0,
+                "2026-08": 0,
+                "2026-09": 0,
+                "2026-10": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            }
+          },
+          "selected": null,
+          "selected_metrics": null
+        }
+      }
+    },
+    "kbo": {
+      "kbo198": {
+        "all": {
+          "economic_audit": {
+            "baseline": {
+              "opportunities": 198,
+              "bets": 198,
+              "coverage": 1.0,
+              "wins": 119,
+              "pushes": 0,
+              "accuracy": 0.601010101010101,
+              "net_krw": -146600,
+              "roi": -0.07404040404040405,
+              "opportunity_roi": -0.07404040404040405,
+              "brier": 0.23460470849197543,
+              "logloss": 0.661282209176174,
+              "monthly_net_krw": {
+                "2026-03": -14300,
+                "2026-04": -41300,
+                "2026-05": -61900,
+                "2026-06": 12600,
+                "2026-07": -41700
+              },
+              "daily_close_max_drawdown_krw": 157700
+            },
+            "mean_overround": 0.1443886643840649,
+            "mean_market_assumed_ev": -0.11274202366467795,
+            "mean_market_probability_to_chosen_odds_break_even_gap": 0.07219433219204792,
+            "fixed_9to1_even_unanimous_cannot_clear_price_n": 194,
+            "minimum_unanimous_vote_weight_any_side_quantiles": [
+              0.1152831685468564,
+              0.12554743675772456,
+              0.13343264224522758
+            ],
+            "fixed_weight_note": "representational upper bound under market probabilities; increasing vote weight does not prove calibration or profit",
+            "oracle_min_wrong_pick_flips_to_break_even": 6,
+            "oracle_note": "optimistic hindsight lower bound: choose highest-paying missed actual winners first; not attainable prediction claim"
+          },
+          "policies": {
+            "market:hit": {
+              "opportunities": 198,
+              "bets": 198,
+              "coverage": 1.0,
+              "wins": 117,
+              "pushes": 0,
+              "accuracy": 0.5909090909090909,
+              "net_krw": -208400,
+              "roi": -0.10525252525252525,
+              "opportunity_roi": -0.10525252525252525,
+              "brier": 0.2338701454899075,
+              "logloss": 0.6600275141234041,
+              "monthly_net_krw": {
+                "2026-03": -32300,
+                "2026-04": -27700,
+                "2026-05": -125700,
+                "2026-06": -27800,
+                "2026-07": 5100
+              },
+              "daily_close_max_drawdown_krw": 247500
+            },
+            "market:value": {
+              "opportunities": 198,
+              "bets": 198,
+              "coverage": 1.0,
+              "wins": 117,
+              "pushes": 0,
+              "accuracy": 0.5909090909090909,
+              "net_krw": -208400,
+              "roi": -0.10525252525252525,
+              "opportunity_roi": -0.10525252525252525,
+              "brier": 0.2338701454899075,
+              "logloss": 0.6600275141234041,
+              "monthly_net_krw": {
+                "2026-03": -32300,
+                "2026-04": -27700,
+                "2026-05": -125700,
+                "2026-06": -27800,
+                "2026-07": 5100
+              },
+              "daily_close_max_drawdown_krw": 247500
+            },
+            "market:edge0": {
+              "opportunities": 198,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-03": 0,
+                "2026-04": 0,
+                "2026-05": 0,
+                "2026-06": 0,
+                "2026-07": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "market:edge3": {
+              "opportunities": 198,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-03": 0,
+                "2026-04": 0,
+                "2026-05": 0,
+                "2026-06": 0,
+                "2026-07": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "market:edge6": {
+              "opportunities": 198,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-03": 0,
+                "2026-04": 0,
+                "2026-05": 0,
+                "2026-06": 0,
+                "2026-07": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "market:edge10": {
+              "opportunities": 198,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-03": 0,
+                "2026-04": 0,
+                "2026-05": 0,
+                "2026-06": 0,
+                "2026-07": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "primary:hit": {
+              "opportunities": 198,
+              "bets": 198,
+              "coverage": 1.0,
+              "wins": 119,
+              "pushes": 0,
+              "accuracy": 0.601010101010101,
+              "net_krw": -141300,
+              "roi": -0.07136363636363637,
+              "opportunity_roi": -0.07136363636363637,
+              "brier": 0.23550197011536939,
+              "logloss": 0.6632616299916956,
+              "monthly_net_krw": {
+                "2026-03": 5400,
+                "2026-04": -75900,
+                "2026-05": -95300,
+                "2026-06": 52100,
+                "2026-07": -27600
+              },
+              "daily_close_max_drawdown_krw": 210200
+            },
+            "primary:value": {
+              "opportunities": 198,
+              "bets": 198,
+              "coverage": 1.0,
+              "wins": 109,
+              "pushes": 0,
+              "accuracy": 0.5505050505050505,
+              "net_krw": -211400,
+              "roi": -0.10676767676767676,
+              "opportunity_roi": -0.10676767676767676,
+              "brier": 0.23550197011536939,
+              "logloss": 0.6632616299916956,
+              "monthly_net_krw": {
+                "2026-03": 25200,
+                "2026-04": -36500,
+                "2026-05": -128000,
+                "2026-06": 48600,
+                "2026-07": -120700
+              },
+              "daily_close_max_drawdown_krw": 241600
+            },
+            "primary:edge0": {
+              "opportunities": 198,
+              "bets": 21,
+              "coverage": 0.10606060606060606,
+              "wins": 13,
+              "pushes": 0,
+              "accuracy": 0.6190476190476191,
+              "net_krw": 38400,
+              "roi": 0.18285714285714286,
+              "opportunity_roi": 0.019393939393939394,
+              "brier": 0.23133883391189528,
+              "logloss": 0.6555199617033713,
+              "monthly_net_krw": {
+                "2026-03": 0,
+                "2026-04": 15500,
+                "2026-05": -15100,
+                "2026-06": 34300,
+                "2026-07": 3700
+              },
+              "daily_close_max_drawdown_krw": 23400
+            },
+            "primary:edge3": {
+              "opportunities": 198,
+              "bets": 10,
+              "coverage": 0.050505050505050504,
+              "wins": 6,
+              "pushes": 0,
+              "accuracy": 0.6,
+              "net_krw": 20000,
+              "roi": 0.2,
+              "opportunity_roi": 0.010101010101010102,
+              "brier": 0.23025569498372792,
+              "logloss": 0.652637126012797,
+              "monthly_net_krw": {
+                "2026-03": 0,
+                "2026-04": 15500,
+                "2026-05": -10900,
+                "2026-06": 25400,
+                "2026-07": -10000
+              },
+              "daily_close_max_drawdown_krw": 10900
+            },
+            "primary:edge6": {
+              "opportunities": 198,
+              "bets": 4,
+              "coverage": 0.020202020202020204,
+              "wins": 2,
+              "pushes": 0,
+              "accuracy": 0.5,
+              "net_krw": -2400,
+              "roi": -0.06,
+              "opportunity_roi": -0.0012121212121212121,
+              "brier": 0.21469940316695804,
+              "logloss": 0.621818770891983,
+              "monthly_net_krw": {
+                "2026-03": 0,
+                "2026-04": 0,
+                "2026-05": -10000,
+                "2026-06": 17600,
+                "2026-07": -10000
+              },
+              "daily_close_max_drawdown_krw": 10000
+            },
+            "primary:edge10": {
+              "opportunities": 198,
+              "bets": 1,
+              "coverage": 0.005050505050505051,
+              "wins": 1,
+              "pushes": 0,
+              "accuracy": 1.0,
+              "net_krw": 9900,
+              "roi": 0.99,
+              "opportunity_roi": 0.005,
+              "brier": 0.19377044374814695,
+              "logloss": 0.5801643469568778,
+              "monthly_net_krw": {
+                "2026-03": 0,
+                "2026-04": 0,
+                "2026-05": 0,
+                "2026-06": 9900,
+                "2026-07": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "calibrated:hit": {
+              "opportunities": 198,
+              "bets": 198,
+              "coverage": 1.0,
+              "wins": 117,
+              "pushes": 0,
+              "accuracy": 0.5909090909090909,
+              "net_krw": -174100,
+              "roi": -0.08792929292929293,
+              "opportunity_roi": -0.08792929292929293,
+              "brier": 0.23741983953876009,
+              "logloss": 0.6674569073565418,
+              "monthly_net_krw": {
+                "2026-03": -14300,
+                "2026-04": -74600,
+                "2026-05": -80300,
+                "2026-06": 55100,
+                "2026-07": -60000
+              },
+              "daily_close_max_drawdown_krw": 222600
+            },
+            "calibrated:value": {
+              "opportunities": 198,
+              "bets": 198,
+              "coverage": 1.0,
+              "wins": 95,
+              "pushes": 0,
+              "accuracy": 0.4797979797979798,
+              "net_krw": -313200,
+              "roi": -0.15818181818181817,
+              "opportunity_roi": -0.15818181818181817,
+              "brier": 0.23741983953876009,
+              "logloss": 0.6674569073565418,
+              "monthly_net_krw": {
+                "2026-03": 25200,
+                "2026-04": -34500,
+                "2026-05": -172300,
+                "2026-06": -12000,
+                "2026-07": -119600
+              },
+              "daily_close_max_drawdown_krw": 346200
+            },
+            "calibrated:edge0": {
+              "opportunities": 198,
+              "bets": 19,
+              "coverage": 0.09595959595959595,
+              "wins": 9,
+              "pushes": 0,
+              "accuracy": 0.47368421052631576,
+              "net_krw": -15400,
+              "roi": -0.08105263157894736,
+              "opportunity_roi": -0.0077777777777777776,
+              "brier": 0.22771770334295668,
+              "logloss": 0.6479629061793616,
+              "monthly_net_krw": {
+                "2026-03": 0,
+                "2026-04": -4500,
+                "2026-05": -32800,
+                "2026-06": 34700,
+                "2026-07": -12800
+              },
+              "daily_close_max_drawdown_krw": 47000
+            },
+            "calibrated:edge3": {
+              "opportunities": 198,
+              "bets": 10,
+              "coverage": 0.050505050505050504,
+              "wins": 5,
+              "pushes": 0,
+              "accuracy": 0.5,
+              "net_krw": 4300,
+              "roi": 0.043,
+              "opportunity_roi": 0.002171717171717172,
+              "brier": 0.24589501479936143,
+              "logloss": 0.684894687116631,
+              "monthly_net_krw": {
+                "2026-03": 0,
+                "2026-04": 5500,
+                "2026-05": -20000,
+                "2026-06": 28800,
+                "2026-07": -10000
+              },
+              "daily_close_max_drawdown_krw": 20000
+            },
+            "calibrated:edge6": {
+              "opportunities": 198,
+              "bets": 5,
+              "coverage": 0.025252525252525252,
+              "wins": 2,
+              "pushes": 0,
+              "accuracy": 0.4,
+              "net_krw": -8200,
+              "roi": -0.164,
+              "opportunity_roi": -0.004141414141414141,
+              "brier": 0.23623410891909974,
+              "logloss": 0.6654464474383945,
+              "monthly_net_krw": {
+                "2026-03": 0,
+                "2026-04": 0,
+                "2026-05": -20000,
+                "2026-06": 21800,
+                "2026-07": -10000
+              },
+              "daily_close_max_drawdown_krw": 20000
+            },
+            "calibrated:edge10": {
+              "opportunities": 198,
+              "bets": 4,
+              "coverage": 0.020202020202020204,
+              "wins": 2,
+              "pushes": 0,
+              "accuracy": 0.5,
+              "net_krw": 1800,
+              "roi": 0.045,
+              "opportunity_roi": 0.0009090909090909091,
+              "brier": 0.24422648277737585,
+              "logloss": 0.6814579378955967,
+              "monthly_net_krw": {
+                "2026-03": 0,
+                "2026-04": 0,
+                "2026-05": -10000,
+                "2026-06": 21800,
+                "2026-07": -10000
+              },
+              "daily_close_max_drawdown_krw": 10000
+            }
+          },
+          "selected": null,
+          "selected_metrics": null,
+          "diagnostic_intervals": {
+            "primary:hit": {
+              "weeks": 16,
+              "repetitions": 3000,
+              "selected_roi95": [
+                -0.13677729636705482,
+                0.012177419354838806
+              ],
+              "opportunity_roi_delta95": [
+                -0.06142547161044513,
+                0.07176161616161618
+              ],
+              "note": "descriptive paired weekly resampling; no correction for repeated research or policy selection"
+            },
+            "primary:value": {
+              "weeks": 16,
+              "repetitions": 3000,
+              "selected_roi95": [
+                -0.22671302306817767,
+                0.030734663865546297
+              ],
+              "opportunity_roi_delta95": [
+                -0.17265266599597584,
+                0.109562062937063
+              ],
+              "note": "descriptive paired weekly resampling; no correction for repeated research or policy selection"
+            },
+            "primary:edge0": {
+              "weeks": 16,
+              "repetitions": 3000,
+              "selected_roi95": [
+                -0.12394276094276095,
+                0.5738928571428572
+              ],
+              "opportunity_roi_delta95": [
+                -0.011473012718600952,
+                0.18990471085700678
+              ],
+              "note": "descriptive paired weekly resampling; no correction for repeated research or policy selection"
+            },
+            "primary:edge3": {
+              "weeks": 16,
+              "repetitions": 3000,
+              "selected_roi95": [
+                -0.39278409090909094,
+                0.71
+              ],
+              "opportunity_roi_delta95": [
+                -0.010627604166666667,
+                0.16741165521191298
+              ],
+              "note": "descriptive paired weekly resampling; no correction for repeated research or policy selection"
+            },
+            "primary:edge6": {
+              "weeks": 16,
+              "repetitions": 3000,
+              "selected_roi95": [
+                -1.0,
+                0.946
+              ],
+              "opportunity_roi_delta95": [
+                -0.023150098143002073,
+                0.16268492216868752
+              ],
+              "note": "descriptive paired weekly resampling; no correction for repeated research or policy selection"
+            },
+            "primary:edge10": {
+              "weeks": 16,
+              "repetitions": 3000,
+              "selected_roi95": [
+                0.99,
+                0.99
+              ],
+              "opportunity_roi_delta95": [
+                -0.016166836734693876,
+                0.1629875886524823
+              ],
+              "note": "descriptive paired weekly resampling; no correction for repeated research or policy selection"
+            },
+            "calibrated:hit": {
+              "weeks": 16,
+              "repetitions": 3000,
+              "selected_roi95": [
+                -0.18191090185841258,
+                0.013827749404153926
+              ],
+              "opportunity_roi_delta95": [
+                -0.09072057291666666,
+                0.08590618800388333
+              ],
+              "note": "descriptive paired weekly resampling; no correction for repeated research or policy selection"
+            },
+            "calibrated:value": {
+              "weeks": 16,
+              "repetitions": 3000,
+              "selected_roi95": [
+                -0.26584801785714285,
+                -0.03585532766791957
+              ],
+              "opportunity_roi_delta95": [
+                -0.2352480285592498,
+                0.06206509625126647
+              ],
+              "note": "descriptive paired weekly resampling; no correction for repeated research or policy selection"
+            },
+            "calibrated:edge0": {
+              "weeks": 16,
+              "repetitions": 3000,
+              "selected_roi95": [
+                -0.5400108695652174,
+                0.3000138888888889
+              ],
+              "opportunity_roi_delta95": [
+                -0.030003521126760562,
+                0.15518734503147052
+              ],
+              "note": "descriptive paired weekly resampling; no correction for repeated research or policy selection"
+            },
+            "calibrated:edge3": {
+              "weeks": 16,
+              "repetitions": 3000,
+              "selected_roi95": [
+                -1.0,
+                0.4684615384615385
+              ],
+              "opportunity_roi_delta95": [
+                -0.02940607165504121,
+                0.17118054216867476
+              ],
+              "note": "descriptive paired weekly resampling; no correction for repeated research or policy selection"
+            },
+            "calibrated:edge6": {
+              "weeks": 16,
+              "repetitions": 3000,
+              "selected_roi95": [
+                -1.0,
+                1.09
+              ],
+              "opportunity_roi_delta95": [
+                -0.0357512695911041,
+                0.1659860547667343
+              ],
+              "note": "descriptive paired weekly resampling; no correction for repeated research or policy selection"
+            },
+            "calibrated:edge10": {
+              "weeks": 16,
+              "repetitions": 3000,
+              "selected_roi95": [
+                -1.0,
+                1.09
+              ],
+              "opportunity_roi_delta95": [
+                -0.026213310258023915,
+                0.1694996392496393
+              ],
+              "note": "descriptive paired weekly resampling; no correction for repeated research or policy selection"
+            }
+          }
+        },
+        "before_split": {
+          "economic_audit": {
+            "baseline": {
+              "opportunities": 152,
+              "bets": 152,
+              "coverage": 1.0,
+              "wins": 92,
+              "pushes": 0,
+              "accuracy": 0.6052631578947368,
+              "net_krw": -104900,
+              "roi": -0.06901315789473685,
+              "opportunity_roi": -0.06901315789473685,
+              "brier": 0.23188913136893277,
+              "logloss": 0.655264220030794,
+              "monthly_net_krw": {
+                "2026-03": -14300,
+                "2026-04": -41300,
+                "2026-05": -61900,
+                "2026-06": 12600
+              },
+              "daily_close_max_drawdown_krw": 157700
+            },
+            "mean_overround": 0.1468187695734896,
+            "mean_market_assumed_ev": -0.11462444212474904,
+            "mean_market_probability_to_chosen_odds_break_even_gap": 0.0734093847867696,
+            "fixed_9to1_even_unanimous_cannot_clear_price_n": 149,
+            "minimum_unanimous_vote_weight_any_side_quantiles": [
+              0.11980192448386588,
+              0.1283025191308579,
+              0.13515431003907952
+            ],
+            "fixed_weight_note": "representational upper bound under market probabilities; increasing vote weight does not prove calibration or profit",
+            "oracle_min_wrong_pick_flips_to_break_even": 5,
+            "oracle_note": "optimistic hindsight lower bound: choose highest-paying missed actual winners first; not attainable prediction claim"
+          },
+          "policies": {
+            "market:hit": {
+              "opportunities": 152,
+              "bets": 152,
+              "coverage": 1.0,
+              "wins": 87,
+              "pushes": 0,
+              "accuracy": 0.5723684210526315,
+              "net_krw": -213500,
+              "roi": -0.14046052631578948,
+              "opportunity_roi": -0.14046052631578948,
+              "brier": 0.23140934701186916,
+              "logloss": 0.6546820341897704,
+              "monthly_net_krw": {
+                "2026-03": -32300,
+                "2026-04": -27700,
+                "2026-05": -125700,
+                "2026-06": -27800
+              },
+              "daily_close_max_drawdown_krw": 237900
+            },
+            "market:value": {
+              "opportunities": 152,
+              "bets": 152,
+              "coverage": 1.0,
+              "wins": 87,
+              "pushes": 0,
+              "accuracy": 0.5723684210526315,
+              "net_krw": -213500,
+              "roi": -0.14046052631578948,
+              "opportunity_roi": -0.14046052631578948,
+              "brier": 0.23140934701186916,
+              "logloss": 0.6546820341897704,
+              "monthly_net_krw": {
+                "2026-03": -32300,
+                "2026-04": -27700,
+                "2026-05": -125700,
+                "2026-06": -27800
+              },
+              "daily_close_max_drawdown_krw": 237900
+            },
+            "market:edge0": {
+              "opportunities": 152,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-03": 0,
+                "2026-04": 0,
+                "2026-05": 0,
+                "2026-06": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "market:edge3": {
+              "opportunities": 152,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-03": 0,
+                "2026-04": 0,
+                "2026-05": 0,
+                "2026-06": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "market:edge6": {
+              "opportunities": 152,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-03": 0,
+                "2026-04": 0,
+                "2026-05": 0,
+                "2026-06": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "market:edge10": {
+              "opportunities": 152,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-03": 0,
+                "2026-04": 0,
+                "2026-05": 0,
+                "2026-06": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "primary:hit": {
+              "opportunities": 152,
+              "bets": 152,
+              "coverage": 1.0,
+              "wins": 91,
+              "pushes": 0,
+              "accuracy": 0.5986842105263158,
+              "net_krw": -113700,
+              "roi": -0.07480263157894737,
+              "opportunity_roi": -0.07480263157894737,
+              "brier": 0.23125961487339064,
+              "logloss": 0.6540786668373377,
+              "monthly_net_krw": {
+                "2026-03": 5400,
+                "2026-04": -75900,
+                "2026-05": -95300,
+                "2026-06": 52100
+              },
+              "daily_close_max_drawdown_krw": 210200
+            },
+            "primary:value": {
+              "opportunities": 152,
+              "bets": 152,
+              "coverage": 1.0,
+              "wins": 88,
+              "pushes": 0,
+              "accuracy": 0.5789473684210527,
+              "net_krw": -90700,
+              "roi": -0.059671052631578944,
+              "opportunity_roi": -0.059671052631578944,
+              "brier": 0.23125961487339064,
+              "logloss": 0.6540786668373377,
+              "monthly_net_krw": {
+                "2026-03": 25200,
+                "2026-04": -36500,
+                "2026-05": -128000,
+                "2026-06": 48600
+              },
+              "daily_close_max_drawdown_krw": 181800
+            },
+            "primary:edge0": {
+              "opportunities": 152,
+              "bets": 18,
+              "coverage": 0.11842105263157894,
+              "wins": 11,
+              "pushes": 0,
+              "accuracy": 0.6111111111111112,
+              "net_krw": 34700,
+              "roi": 0.19277777777777777,
+              "opportunity_roi": 0.022828947368421053,
+              "brier": 0.23843454200205633,
+              "logloss": 0.6699323889474997,
+              "monthly_net_krw": {
+                "2026-03": 0,
+                "2026-04": 15500,
+                "2026-05": -15100,
+                "2026-06": 34300
+              },
+              "daily_close_max_drawdown_krw": 23400
+            },
+            "primary:edge3": {
+              "opportunities": 152,
+              "bets": 9,
+              "coverage": 0.05921052631578947,
+              "wins": 6,
+              "pushes": 0,
+              "accuracy": 0.6666666666666666,
+              "net_krw": 30000,
+              "roi": 0.3333333333333333,
+              "opportunity_roi": 0.019736842105263157,
+              "brier": 0.2282267648567941,
+              "logloss": 0.6484657728943507,
+              "monthly_net_krw": {
+                "2026-03": 0,
+                "2026-04": 15500,
+                "2026-05": -10900,
+                "2026-06": 25400
+              },
+              "daily_close_max_drawdown_krw": 10900
+            },
+            "primary:edge6": {
+              "opportunities": 152,
+              "bets": 3,
+              "coverage": 0.019736842105263157,
+              "wins": 2,
+              "pushes": 0,
+              "accuracy": 0.6666666666666666,
+              "net_krw": 7600,
+              "roi": 0.25333333333333335,
+              "opportunity_roi": 0.005,
+              "brier": 0.20342718218056674,
+              "logloss": 0.599031926496373,
+              "monthly_net_krw": {
+                "2026-03": 0,
+                "2026-04": 0,
+                "2026-05": -10000,
+                "2026-06": 17600
+              },
+              "daily_close_max_drawdown_krw": 10000
+            },
+            "primary:edge10": {
+              "opportunities": 152,
+              "bets": 1,
+              "coverage": 0.006578947368421052,
+              "wins": 1,
+              "pushes": 0,
+              "accuracy": 1.0,
+              "net_krw": 9900,
+              "roi": 0.99,
+              "opportunity_roi": 0.006513157894736842,
+              "brier": 0.19377044374814695,
+              "logloss": 0.5801643469568778,
+              "monthly_net_krw": {
+                "2026-03": 0,
+                "2026-04": 0,
+                "2026-05": 0,
+                "2026-06": 9900
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "calibrated:hit": {
+              "opportunities": 152,
+              "bets": 152,
+              "coverage": 1.0,
+              "wins": 91,
+              "pushes": 0,
+              "accuracy": 0.5986842105263158,
+              "net_krw": -114100,
+              "roi": -0.07506578947368421,
+              "opportunity_roi": -0.07506578947368421,
+              "brier": 0.2329079091349835,
+              "logloss": 0.6580194994921715,
+              "monthly_net_krw": {
+                "2026-03": -14300,
+                "2026-04": -74600,
+                "2026-05": -80300,
+                "2026-06": 55100
+              },
+              "daily_close_max_drawdown_krw": 222600
+            },
+            "calibrated:value": {
+              "opportunities": 152,
+              "bets": 152,
+              "coverage": 1.0,
+              "wins": 77,
+              "pushes": 0,
+              "accuracy": 0.506578947368421,
+              "net_krw": -193600,
+              "roi": -0.12736842105263158,
+              "opportunity_roi": -0.12736842105263158,
+              "brier": 0.2329079091349835,
+              "logloss": 0.6580194994921715,
+              "monthly_net_krw": {
+                "2026-03": 25200,
+                "2026-04": -34500,
+                "2026-05": -172300,
+                "2026-06": -12000
+              },
+              "daily_close_max_drawdown_krw": 225800
+            },
+            "calibrated:edge0": {
+              "opportunities": 152,
+              "bets": 16,
+              "coverage": 0.10526315789473684,
+              "wins": 8,
+              "pushes": 0,
+              "accuracy": 0.5,
+              "net_krw": -2600,
+              "roi": -0.01625,
+              "opportunity_roi": -0.0017105263157894738,
+              "brier": 0.2327896934446175,
+              "logloss": 0.658203782426819,
+              "monthly_net_krw": {
+                "2026-03": 0,
+                "2026-04": -4500,
+                "2026-05": -32800,
+                "2026-06": 34700
+              },
+              "daily_close_max_drawdown_krw": 47000
+            },
+            "calibrated:edge3": {
+              "opportunities": 152,
+              "bets": 9,
+              "coverage": 0.05921052631578947,
+              "wins": 5,
+              "pushes": 0,
+              "accuracy": 0.5555555555555556,
+              "net_krw": 14300,
+              "roi": 0.15888888888888889,
+              "opportunity_roi": 0.009407894736842105,
+              "brier": 0.2436991682441352,
+              "logloss": 0.6804971571157976,
+              "monthly_net_krw": {
+                "2026-03": 0,
+                "2026-04": 5500,
+                "2026-05": -20000,
+                "2026-06": 28800
+              },
+              "daily_close_max_drawdown_krw": 20000
+            },
+            "calibrated:edge6": {
+              "opportunities": 152,
+              "bets": 4,
+              "coverage": 0.02631578947368421,
+              "wins": 2,
+              "pushes": 0,
+              "accuracy": 0.5,
+              "net_krw": 1800,
+              "roi": 0.045,
+              "opportunity_roi": 0.0011842105263157896,
+              "brier": 0.22887822769977523,
+              "logloss": 0.6506899450169602,
+              "monthly_net_krw": {
+                "2026-03": 0,
+                "2026-04": 0,
+                "2026-05": -20000,
+                "2026-06": 21800
+              },
+              "daily_close_max_drawdown_krw": 20000
+            },
+            "calibrated:edge10": {
+              "opportunities": 152,
+              "bets": 3,
+              "coverage": 0.019736842105263157,
+              "wins": 2,
+              "pushes": 0,
+              "accuracy": 0.6666666666666666,
+              "net_krw": 11800,
+              "roi": 0.3933333333333333,
+              "opportunity_roi": 0.0077631578947368425,
+              "brier": 0.23708276577103518,
+              "logloss": 0.6671197648194184,
+              "monthly_net_krw": {
+                "2026-03": 0,
+                "2026-04": 0,
+                "2026-05": -10000,
+                "2026-06": 21800
+              },
+              "daily_close_max_drawdown_krw": 10000
+            }
+          },
+          "selected": null,
+          "selected_metrics": null
+        },
+        "split_onward": {
+          "economic_audit": {
+            "baseline": {
+              "opportunities": 46,
+              "bets": 46,
+              "coverage": 1.0,
+              "wins": 27,
+              "pushes": 0,
+              "accuracy": 0.5869565217391305,
+              "net_krw": -41700,
+              "roi": -0.09065217391304348,
+              "opportunity_roi": -0.09065217391304348,
+              "brier": 0.24357791985507263,
+              "logloss": 0.6811677385261258,
+              "monthly_net_krw": {
+                "2026-07": -41700
+              },
+              "daily_close_max_drawdown_krw": 59600
+            },
+            "mean_overround": 0.13635875158422667,
+            "mean_market_assumed_ev": -0.10652185831835614,
+            "mean_market_probability_to_chosen_odds_break_even_gap": 0.06817937579209801,
+            "fixed_9to1_even_unanimous_cannot_clear_price_n": 45,
+            "minimum_unanimous_vote_weight_any_side_quantiles": [
+              0.10724640010469517,
+              0.11677591648444721,
+              0.1257477971296131
+            ],
+            "fixed_weight_note": "representational upper bound under market probabilities; increasing vote weight does not prove calibration or profit",
+            "oracle_min_wrong_pick_flips_to_break_even": 2,
+            "oracle_note": "optimistic hindsight lower bound: choose highest-paying missed actual winners first; not attainable prediction claim"
+          },
+          "policies": {
+            "market:hit": {
+              "opportunities": 46,
+              "bets": 46,
+              "coverage": 1.0,
+              "wins": 30,
+              "pushes": 0,
+              "accuracy": 0.6521739130434783,
+              "net_krw": 5100,
+              "roi": 0.01108695652173913,
+              "opportunity_roi": 0.01108695652173913,
+              "brier": 0.24200147959125132,
+              "logloss": 0.6776908391214972,
+              "monthly_net_krw": {
+                "2026-07": 5100
+              },
+              "daily_close_max_drawdown_krw": 42600
+            },
+            "market:value": {
+              "opportunities": 46,
+              "bets": 46,
+              "coverage": 1.0,
+              "wins": 30,
+              "pushes": 0,
+              "accuracy": 0.6521739130434783,
+              "net_krw": 5100,
+              "roi": 0.01108695652173913,
+              "opportunity_roi": 0.01108695652173913,
+              "brier": 0.24200147959125132,
+              "logloss": 0.6776908391214972,
+              "monthly_net_krw": {
+                "2026-07": 5100
+              },
+              "daily_close_max_drawdown_krw": 42600
+            },
+            "market:edge0": {
+              "opportunities": 46,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "market:edge3": {
+              "opportunities": 46,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "market:edge6": {
+              "opportunities": 46,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "market:edge10": {
+              "opportunities": 46,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "primary:hit": {
+              "opportunities": 46,
+              "bets": 46,
+              "coverage": 1.0,
+              "wins": 28,
+              "pushes": 0,
+              "accuracy": 0.6086956521739131,
+              "net_krw": -27600,
+              "roi": -0.06,
+              "opportunity_roi": -0.06,
+              "brier": 0.2495201874366902,
+              "logloss": 0.6936053343278353,
+              "monthly_net_krw": {
+                "2026-07": -27600
+              },
+              "daily_close_max_drawdown_krw": 45500
+            },
+            "primary:value": {
+              "opportunities": 46,
+              "bets": 46,
+              "coverage": 1.0,
+              "wins": 21,
+              "pushes": 0,
+              "accuracy": 0.45652173913043476,
+              "net_krw": -120700,
+              "roi": -0.2623913043478261,
+              "opportunity_roi": -0.2623913043478261,
+              "brier": 0.2495201874366902,
+              "logloss": 0.6936053343278353,
+              "monthly_net_krw": {
+                "2026-07": -120700
+              },
+              "daily_close_max_drawdown_krw": 125000
+            },
+            "primary:edge0": {
+              "opportunities": 46,
+              "bets": 3,
+              "coverage": 0.06521739130434782,
+              "wins": 2,
+              "pushes": 0,
+              "accuracy": 0.6666666666666666,
+              "net_krw": 3700,
+              "roi": 0.12333333333333334,
+              "opportunity_roi": 0.008043478260869565,
+              "brier": 0.18876458537092886,
+              "logloss": 0.5690453982386008,
+              "monthly_net_krw": {
+                "2026-07": 3700
+              },
+              "daily_close_max_drawdown_krw": 10000
+            },
+            "primary:edge3": {
+              "opportunities": 46,
+              "bets": 1,
+              "coverage": 0.021739130434782608,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": 0.0,
+              "net_krw": -10000,
+              "roi": -1.0,
+              "opportunity_roi": -0.021739130434782608,
+              "brier": 0.24851606612613197,
+              "logloss": 0.6901793040788129,
+              "monthly_net_krw": {
+                "2026-07": -10000
+              },
+              "daily_close_max_drawdown_krw": 10000
+            },
+            "primary:edge6": {
+              "opportunities": 46,
+              "bets": 1,
+              "coverage": 0.021739130434782608,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": 0.0,
+              "net_krw": -10000,
+              "roi": -1.0,
+              "opportunity_roi": -0.021739130434782608,
+              "brier": 0.24851606612613197,
+              "logloss": 0.6901793040788129,
+              "monthly_net_krw": {
+                "2026-07": -10000
+              },
+              "daily_close_max_drawdown_krw": 10000
+            },
+            "primary:edge10": {
+              "opportunities": 46,
+              "bets": 0,
+              "coverage": 0.0,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": null,
+              "net_krw": 0,
+              "roi": null,
+              "opportunity_roi": 0.0,
+              "brier": null,
+              "logloss": null,
+              "monthly_net_krw": {
+                "2026-07": 0
+              },
+              "daily_close_max_drawdown_krw": 0
+            },
+            "calibrated:hit": {
+              "opportunities": 46,
+              "bets": 46,
+              "coverage": 1.0,
+              "wins": 26,
+              "pushes": 0,
+              "accuracy": 0.5652173913043478,
+              "net_krw": -60000,
+              "roi": -0.13043478260869565,
+              "opportunity_roi": -0.13043478260869565,
+              "brier": 0.2523288269599346,
+              "logloss": 0.6986413855170691,
+              "monthly_net_krw": {
+                "2026-07": -60000
+              },
+              "daily_close_max_drawdown_krw": 78200
+            },
+            "calibrated:value": {
+              "opportunities": 46,
+              "bets": 46,
+              "coverage": 1.0,
+              "wins": 18,
+              "pushes": 0,
+              "accuracy": 0.391304347826087,
+              "net_krw": -119600,
+              "roi": -0.26,
+              "opportunity_roi": -0.26,
+              "brier": 0.2523288269599346,
+              "logloss": 0.6986413855170691,
+              "monthly_net_krw": {
+                "2026-07": -119600
+              },
+              "daily_close_max_drawdown_krw": 120400
+            },
+            "calibrated:edge0": {
+              "opportunities": 46,
+              "bets": 3,
+              "coverage": 0.06521739130434782,
+              "wins": 1,
+              "pushes": 0,
+              "accuracy": 0.3333333333333333,
+              "net_krw": -12800,
+              "roi": -0.4266666666666667,
+              "opportunity_roi": -0.02782608695652174,
+              "brier": 0.2006670894674322,
+              "logloss": 0.5933448995262562,
+              "monthly_net_krw": {
+                "2026-07": -12800
+              },
+              "daily_close_max_drawdown_krw": 20000
+            },
+            "calibrated:edge3": {
+              "opportunities": 46,
+              "bets": 1,
+              "coverage": 0.021739130434782608,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": 0.0,
+              "net_krw": -10000,
+              "roi": -1.0,
+              "opportunity_roi": -0.021739130434782608,
+              "brier": 0.2656576337963978,
+              "logloss": 0.7244724571241318,
+              "monthly_net_krw": {
+                "2026-07": -10000
+              },
+              "daily_close_max_drawdown_krw": 10000
+            },
+            "calibrated:edge6": {
+              "opportunities": 46,
+              "bets": 1,
+              "coverage": 0.021739130434782608,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": 0.0,
+              "net_krw": -10000,
+              "roi": -1.0,
+              "opportunity_roi": -0.021739130434782608,
+              "brier": 0.2656576337963978,
+              "logloss": 0.7244724571241318,
+              "monthly_net_krw": {
+                "2026-07": -10000
+              },
+              "daily_close_max_drawdown_krw": 10000
+            },
+            "calibrated:edge10": {
+              "opportunities": 46,
+              "bets": 1,
+              "coverage": 0.021739130434782608,
+              "wins": 0,
+              "pushes": 0,
+              "accuracy": 0.0,
+              "net_krw": -10000,
+              "roi": -1.0,
+              "opportunity_roi": -0.021739130434782608,
+              "brier": 0.2656576337963978,
+              "logloss": 0.7244724571241318,
+              "monthly_net_krw": {
+                "2026-07": -10000
+              },
+              "daily_close_max_drawdown_krw": 10000
+            }
+          },
+          "selected": null,
+          "selected_metrics": null
+        }
+      }
+    }
+  },
+  "input_sha256": {
+    "mlb-inputs.jsonl": "bbc82c2a36d92290e027f70fc8fceb30678eba93c54d1ec70353a2d2cb624f12",
+    "kbo-inputs.jsonl": "0f666ab6fa6637797729d18ed68f918c95a5d4ceb8cf67392ca116b285994884"
+  },
+  "note": "previous frozen primary; retrospective policy study; no monthly cap; not a new independently fitted forecast"
+}

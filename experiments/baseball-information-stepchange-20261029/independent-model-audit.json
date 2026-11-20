@@ -1,0 +1,2149 @@
+{
+  "ok": true,
+  "fixed_stake": 10000,
+  "monthly_cap": false,
+  "independent_of_worker_code": true,
+  "reference_and_cohort_unchanged": true,
+  "evaluation": {
+    "mlb": {
+      "old116/verified/all": {
+        "baseline": {
+          "n": 116,
+          "wins": 63,
+          "pushes": 0,
+          "accuracy": 0.5431034482758621,
+          "net_krw": -154800,
+          "roi": -0.13344827586206898,
+          "logloss": 0.6949799014399399,
+          "brier": 0.25078750451798665,
+          "pick_changes": 0,
+          "prediction_variation": {
+            "home_picks": 77,
+            "away_picks": 39,
+            "minimum_home_probability": 0.3184448462928501,
+            "maximum_home_probability": 0.7043692826190605,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 174800,
+          "decomposition": {
+            "gained_wins": 0,
+            "lost_wins": 0,
+            "gained_payout_krw": 0,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 0
+          }
+        },
+        "market_only": {
+          "n": 116,
+          "wins": 63,
+          "pushes": 0,
+          "accuracy": 0.5431034482758621,
+          "net_krw": -167400,
+          "roi": -0.1443103448275862,
+          "logloss": 0.6934704310647405,
+          "brier": 0.2500109845093805,
+          "pick_changes": 18,
+          "prediction_variation": {
+            "home_picks": 77,
+            "away_picks": 39,
+            "minimum_home_probability": 0.3398218208445245,
+            "maximum_home_probability": 0.7125413671114538,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 239800,
+          "decomposition": {
+            "gained_wins": 9,
+            "lost_wins": 9,
+            "gained_payout_krw": 150700,
+            "lost_payout_krw": 163300,
+            "net_improvement_krw": -12600
+          }
+        },
+        "primary": {
+          "n": 116,
+          "wins": 52,
+          "pushes": 0,
+          "accuracy": 0.4482758620689655,
+          "net_krw": -283000,
+          "roi": -0.2439655172413793,
+          "logloss": 0.7066468349498168,
+          "brier": 0.25672722269072956,
+          "pick_changes": 39,
+          "prediction_variation": {
+            "home_picks": 116,
+            "away_picks": 0,
+            "minimum_home_probability": 0.5200437722488396,
+            "maximum_home_probability": 0.5549834618138303,
+            "identical_directions_to_all_home": true
+          },
+          "daily_close_max_drawdown_krw": 293600,
+          "decomposition": {
+            "gained_wins": 14,
+            "lost_wins": 25,
+            "gained_payout_krw": 273400,
+            "lost_payout_krw": 401600,
+            "net_improvement_krw": -128200
+          }
+        },
+        "hit": {
+          "n": 116,
+          "wins": 52,
+          "pushes": 0,
+          "accuracy": 0.4482758620689655,
+          "net_krw": -283000,
+          "roi": -0.2439655172413793,
+          "logloss": 0.7066468349498168,
+          "brier": 0.25672722269072956,
+          "pick_changes": 39,
+          "prediction_variation": {
+            "home_picks": 116,
+            "away_picks": 0,
+            "minimum_home_probability": 0.5200437722488396,
+            "maximum_home_probability": 0.5549834618138303,
+            "identical_directions_to_all_home": true
+          },
+          "daily_close_max_drawdown_krw": 293600,
+          "decomposition": {
+            "gained_wins": 14,
+            "lost_wins": 25,
+            "gained_payout_krw": 273400,
+            "lost_payout_krw": 401600,
+            "net_improvement_krw": -128200
+          }
+        },
+        "primary_blend10": {
+          "n": 116,
+          "wins": 63,
+          "pushes": 0,
+          "accuracy": 0.5431034482758621,
+          "net_krw": -154800,
+          "roi": -0.13344827586206898,
+          "logloss": 0.6946928649924161,
+          "brier": 0.2506926191007585,
+          "pick_changes": 0,
+          "prediction_variation": {
+            "home_picks": 77,
+            "away_picks": 39,
+            "minimum_home_probability": 0.34133987927334947,
+            "maximum_home_probability": 0.6887199516711175,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 174800,
+          "decomposition": {
+            "gained_wins": 0,
+            "lost_wins": 0,
+            "gained_payout_krw": 0,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 0
+          }
+        },
+        "hit_blend10": {
+          "n": 116,
+          "wins": 63,
+          "pushes": 0,
+          "accuracy": 0.5431034482758621,
+          "net_krw": -154800,
+          "roi": -0.13344827586206898,
+          "logloss": 0.6946928649924161,
+          "brier": 0.2506926191007585,
+          "pick_changes": 0,
+          "prediction_variation": {
+            "home_picks": 77,
+            "away_picks": 39,
+            "minimum_home_probability": 0.34133987927334947,
+            "maximum_home_probability": 0.6887199516711175,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 174800,
+          "decomposition": {
+            "gained_wins": 0,
+            "lost_wins": 0,
+            "gained_payout_krw": 0,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 0
+          }
+        }
+      },
+      "old116/verified/before_split": {
+        "baseline": {
+          "n": 84,
+          "wins": 50,
+          "pushes": 0,
+          "accuracy": 0.5952380952380952,
+          "net_krw": -39300,
+          "roi": -0.046785714285714285,
+          "logloss": 0.6802818566703271,
+          "brier": 0.24348919294994295,
+          "pick_changes": 0,
+          "prediction_variation": {
+            "home_picks": 55,
+            "away_picks": 29,
+            "minimum_home_probability": 0.3632975819657724,
+            "maximum_home_probability": 0.670911050707453,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 100900,
+          "decomposition": {
+            "gained_wins": 0,
+            "lost_wins": 0,
+            "gained_payout_krw": 0,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 0
+          }
+        },
+        "market_only": {
+          "n": 84,
+          "wins": 49,
+          "pushes": 0,
+          "accuracy": 0.5833333333333334,
+          "net_krw": -67900,
+          "roi": -0.08083333333333333,
+          "logloss": 0.687975104956181,
+          "brier": 0.24719428350482336,
+          "pick_changes": 15,
+          "prediction_variation": {
+            "home_picks": 56,
+            "away_picks": 28,
+            "minimum_home_probability": 0.3398218208445245,
+            "maximum_home_probability": 0.7125413671114538,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 136900,
+          "decomposition": {
+            "gained_wins": 7,
+            "lost_wins": 8,
+            "gained_payout_krw": 116500,
+            "lost_payout_krw": 145100,
+            "net_improvement_krw": -28600
+          }
+        },
+        "primary": {
+          "n": 84,
+          "wins": 41,
+          "pushes": 0,
+          "accuracy": 0.4880952380952381,
+          "net_krw": -152500,
+          "roi": -0.18154761904761904,
+          "logloss": 0.699087192125362,
+          "brier": 0.2529586078363371,
+          "pick_changes": 29,
+          "prediction_variation": {
+            "home_picks": 84,
+            "away_picks": 0,
+            "minimum_home_probability": 0.5200437722488396,
+            "maximum_home_probability": 0.5533342827894281,
+            "identical_directions_to_all_home": true
+          },
+          "daily_close_max_drawdown_krw": 153100,
+          "decomposition": {
+            "gained_wins": 10,
+            "lost_wins": 19,
+            "gained_payout_krw": 190400,
+            "lost_payout_krw": 303600,
+            "net_improvement_krw": -113200
+          }
+        },
+        "hit": {
+          "n": 84,
+          "wins": 41,
+          "pushes": 0,
+          "accuracy": 0.4880952380952381,
+          "net_krw": -152500,
+          "roi": -0.18154761904761904,
+          "logloss": 0.699087192125362,
+          "brier": 0.2529586078363371,
+          "pick_changes": 29,
+          "prediction_variation": {
+            "home_picks": 84,
+            "away_picks": 0,
+            "minimum_home_probability": 0.5200437722488396,
+            "maximum_home_probability": 0.5533342827894281,
+            "identical_directions_to_all_home": true
+          },
+          "daily_close_max_drawdown_krw": 153100,
+          "decomposition": {
+            "gained_wins": 10,
+            "lost_wins": 19,
+            "gained_payout_krw": 190400,
+            "lost_payout_krw": 303600,
+            "net_improvement_krw": -113200
+          }
+        },
+        "primary_blend10": {
+          "n": 84,
+          "wins": 50,
+          "pushes": 0,
+          "accuracy": 0.5952380952380952,
+          "net_krw": -39300,
+          "roi": -0.046785714285714285,
+          "logloss": 0.6809521127779173,
+          "brier": 0.24385287136790712,
+          "pick_changes": 0,
+          "prediction_variation": {
+            "home_picks": 55,
+            "away_picks": 29,
+            "minimum_home_probability": 0.3807218635690394,
+            "maximum_home_probability": 0.6589278407853452,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 100900,
+          "decomposition": {
+            "gained_wins": 0,
+            "lost_wins": 0,
+            "gained_payout_krw": 0,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 0
+          }
+        },
+        "hit_blend10": {
+          "n": 84,
+          "wins": 50,
+          "pushes": 0,
+          "accuracy": 0.5952380952380952,
+          "net_krw": -39300,
+          "roi": -0.046785714285714285,
+          "logloss": 0.6809521127779173,
+          "brier": 0.24385287136790712,
+          "pick_changes": 0,
+          "prediction_variation": {
+            "home_picks": 55,
+            "away_picks": 29,
+            "minimum_home_probability": 0.3807218635690394,
+            "maximum_home_probability": 0.6589278407853452,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 100900,
+          "decomposition": {
+            "gained_wins": 0,
+            "lost_wins": 0,
+            "gained_payout_krw": 0,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 0
+          }
+        }
+      },
+      "old116/verified/split_onward": {
+        "baseline": {
+          "n": 32,
+          "wins": 13,
+          "pushes": 0,
+          "accuracy": 0.40625,
+          "net_krw": -115500,
+          "roi": -0.3609375,
+          "logloss": 0.7335622689601745,
+          "brier": 0.2699455723841014,
+          "pick_changes": 0,
+          "prediction_variation": {
+            "home_picks": 22,
+            "away_picks": 10,
+            "minimum_home_probability": 0.3184448462928501,
+            "maximum_home_probability": 0.7043692826190605,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 140300,
+          "decomposition": {
+            "gained_wins": 0,
+            "lost_wins": 0,
+            "gained_payout_krw": 0,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 0
+          }
+        },
+        "market_only": {
+          "n": 32,
+          "wins": 14,
+          "pushes": 0,
+          "accuracy": 0.4375,
+          "net_krw": -99500,
+          "roi": -0.3109375,
+          "logloss": 0.7078956620997088,
+          "brier": 0.25740482464634284,
+          "pick_changes": 3,
+          "prediction_variation": {
+            "home_picks": 21,
+            "away_picks": 11,
+            "minimum_home_probability": 0.3538276069920556,
+            "maximum_home_probability": 0.6715214251322895,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 116100,
+          "decomposition": {
+            "gained_wins": 2,
+            "lost_wins": 1,
+            "gained_payout_krw": 34200,
+            "lost_payout_krw": 18200,
+            "net_improvement_krw": 16000
+          }
+        },
+        "primary": {
+          "n": 32,
+          "wins": 11,
+          "pushes": 0,
+          "accuracy": 0.34375,
+          "net_krw": -130500,
+          "roi": -0.4078125,
+          "logloss": 0.7264908973640105,
+          "brier": 0.26661983668350997,
+          "pick_changes": 10,
+          "prediction_variation": {
+            "home_picks": 32,
+            "away_picks": 0,
+            "minimum_home_probability": 0.5367613542046723,
+            "maximum_home_probability": 0.5549834618138303,
+            "identical_directions_to_all_home": true
+          },
+          "daily_close_max_drawdown_krw": 140500,
+          "decomposition": {
+            "gained_wins": 4,
+            "lost_wins": 6,
+            "gained_payout_krw": 83000,
+            "lost_payout_krw": 98000,
+            "net_improvement_krw": -15000
+          }
+        },
+        "hit": {
+          "n": 32,
+          "wins": 11,
+          "pushes": 0,
+          "accuracy": 0.34375,
+          "net_krw": -130500,
+          "roi": -0.4078125,
+          "logloss": 0.7264908973640105,
+          "brier": 0.26661983668350997,
+          "pick_changes": 10,
+          "prediction_variation": {
+            "home_picks": 32,
+            "away_picks": 0,
+            "minimum_home_probability": 0.5367613542046723,
+            "maximum_home_probability": 0.5549834618138303,
+            "identical_directions_to_all_home": true
+          },
+          "daily_close_max_drawdown_krw": 140500,
+          "decomposition": {
+            "gained_wins": 4,
+            "lost_wins": 6,
+            "gained_payout_krw": 83000,
+            "lost_payout_krw": 98000,
+            "net_improvement_krw": -15000
+          }
+        },
+        "primary_blend10": {
+          "n": 32,
+          "wins": 13,
+          "pushes": 0,
+          "accuracy": 0.40625,
+          "net_krw": -115500,
+          "roi": -0.3609375,
+          "logloss": 0.7307623395554744,
+          "brier": 0.26864695689949325,
+          "pick_changes": 0,
+          "prediction_variation": {
+            "home_picks": 22,
+            "away_picks": 10,
+            "minimum_home_probability": 0.34133987927334947,
+            "maximum_home_probability": 0.6887199516711175,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 140300,
+          "decomposition": {
+            "gained_wins": 0,
+            "lost_wins": 0,
+            "gained_payout_krw": 0,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 0
+          }
+        },
+        "hit_blend10": {
+          "n": 32,
+          "wins": 13,
+          "pushes": 0,
+          "accuracy": 0.40625,
+          "net_krw": -115500,
+          "roi": -0.3609375,
+          "logloss": 0.7307623395554744,
+          "brier": 0.26864695689949325,
+          "pick_changes": 0,
+          "prediction_variation": {
+            "home_picks": 22,
+            "away_picks": 10,
+            "minimum_home_probability": 0.34133987927334947,
+            "maximum_home_probability": 0.6887199516711175,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 140300,
+          "decomposition": {
+            "gained_wins": 0,
+            "lost_wins": 0,
+            "gained_payout_krw": 0,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 0
+          }
+        }
+      },
+      "old116/full_fallback/all": {
+        "baseline": {
+          "n": 116,
+          "wins": 63,
+          "pushes": 0,
+          "accuracy": 0.5431034482758621,
+          "net_krw": -154800,
+          "roi": -0.13344827586206898,
+          "logloss": 0.6949799014399399,
+          "brier": 0.25078750451798665,
+          "pick_changes": 0,
+          "prediction_variation": {
+            "home_picks": 77,
+            "away_picks": 39,
+            "minimum_home_probability": 0.3184448462928501,
+            "maximum_home_probability": 0.7043692826190605,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 174800,
+          "decomposition": {
+            "gained_wins": 0,
+            "lost_wins": 0,
+            "gained_payout_krw": 0,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 0
+          }
+        },
+        "market_only": {
+          "n": 116,
+          "wins": 63,
+          "pushes": 0,
+          "accuracy": 0.5431034482758621,
+          "net_krw": -167400,
+          "roi": -0.1443103448275862,
+          "logloss": 0.6934704310647405,
+          "brier": 0.2500109845093805,
+          "pick_changes": 18,
+          "prediction_variation": {
+            "home_picks": 77,
+            "away_picks": 39,
+            "minimum_home_probability": 0.3398218208445245,
+            "maximum_home_probability": 0.7125413671114538,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 239800,
+          "decomposition": {
+            "gained_wins": 9,
+            "lost_wins": 9,
+            "gained_payout_krw": 150700,
+            "lost_payout_krw": 163300,
+            "net_improvement_krw": -12600
+          }
+        },
+        "primary": {
+          "n": 116,
+          "wins": 52,
+          "pushes": 0,
+          "accuracy": 0.4482758620689655,
+          "net_krw": -283000,
+          "roi": -0.2439655172413793,
+          "logloss": 0.7066468349498168,
+          "brier": 0.25672722269072956,
+          "pick_changes": 39,
+          "prediction_variation": {
+            "home_picks": 116,
+            "away_picks": 0,
+            "minimum_home_probability": 0.5200437722488396,
+            "maximum_home_probability": 0.5549834618138303,
+            "identical_directions_to_all_home": true
+          },
+          "daily_close_max_drawdown_krw": 293600,
+          "decomposition": {
+            "gained_wins": 14,
+            "lost_wins": 25,
+            "gained_payout_krw": 273400,
+            "lost_payout_krw": 401600,
+            "net_improvement_krw": -128200
+          }
+        },
+        "hit": {
+          "n": 116,
+          "wins": 52,
+          "pushes": 0,
+          "accuracy": 0.4482758620689655,
+          "net_krw": -283000,
+          "roi": -0.2439655172413793,
+          "logloss": 0.7066468349498168,
+          "brier": 0.25672722269072956,
+          "pick_changes": 39,
+          "prediction_variation": {
+            "home_picks": 116,
+            "away_picks": 0,
+            "minimum_home_probability": 0.5200437722488396,
+            "maximum_home_probability": 0.5549834618138303,
+            "identical_directions_to_all_home": true
+          },
+          "daily_close_max_drawdown_krw": 293600,
+          "decomposition": {
+            "gained_wins": 14,
+            "lost_wins": 25,
+            "gained_payout_krw": 273400,
+            "lost_payout_krw": 401600,
+            "net_improvement_krw": -128200
+          }
+        },
+        "primary_blend10": {
+          "n": 116,
+          "wins": 63,
+          "pushes": 0,
+          "accuracy": 0.5431034482758621,
+          "net_krw": -154800,
+          "roi": -0.13344827586206898,
+          "logloss": 0.6946928649924161,
+          "brier": 0.2506926191007585,
+          "pick_changes": 0,
+          "prediction_variation": {
+            "home_picks": 77,
+            "away_picks": 39,
+            "minimum_home_probability": 0.34133987927334947,
+            "maximum_home_probability": 0.6887199516711175,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 174800,
+          "decomposition": {
+            "gained_wins": 0,
+            "lost_wins": 0,
+            "gained_payout_krw": 0,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 0
+          }
+        },
+        "hit_blend10": {
+          "n": 116,
+          "wins": 63,
+          "pushes": 0,
+          "accuracy": 0.5431034482758621,
+          "net_krw": -154800,
+          "roi": -0.13344827586206898,
+          "logloss": 0.6946928649924161,
+          "brier": 0.2506926191007585,
+          "pick_changes": 0,
+          "prediction_variation": {
+            "home_picks": 77,
+            "away_picks": 39,
+            "minimum_home_probability": 0.34133987927334947,
+            "maximum_home_probability": 0.6887199516711175,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 174800,
+          "decomposition": {
+            "gained_wins": 0,
+            "lost_wins": 0,
+            "gained_payout_krw": 0,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 0
+          }
+        }
+      },
+      "old116/full_fallback/before_split": {
+        "baseline": {
+          "n": 84,
+          "wins": 50,
+          "pushes": 0,
+          "accuracy": 0.5952380952380952,
+          "net_krw": -39300,
+          "roi": -0.046785714285714285,
+          "logloss": 0.6802818566703271,
+          "brier": 0.24348919294994295,
+          "pick_changes": 0,
+          "prediction_variation": {
+            "home_picks": 55,
+            "away_picks": 29,
+            "minimum_home_probability": 0.3632975819657724,
+            "maximum_home_probability": 0.670911050707453,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 100900,
+          "decomposition": {
+            "gained_wins": 0,
+            "lost_wins": 0,
+            "gained_payout_krw": 0,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 0
+          }
+        },
+        "market_only": {
+          "n": 84,
+          "wins": 49,
+          "pushes": 0,
+          "accuracy": 0.5833333333333334,
+          "net_krw": -67900,
+          "roi": -0.08083333333333333,
+          "logloss": 0.687975104956181,
+          "brier": 0.24719428350482336,
+          "pick_changes": 15,
+          "prediction_variation": {
+            "home_picks": 56,
+            "away_picks": 28,
+            "minimum_home_probability": 0.3398218208445245,
+            "maximum_home_probability": 0.7125413671114538,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 136900,
+          "decomposition": {
+            "gained_wins": 7,
+            "lost_wins": 8,
+            "gained_payout_krw": 116500,
+            "lost_payout_krw": 145100,
+            "net_improvement_krw": -28600
+          }
+        },
+        "primary": {
+          "n": 84,
+          "wins": 41,
+          "pushes": 0,
+          "accuracy": 0.4880952380952381,
+          "net_krw": -152500,
+          "roi": -0.18154761904761904,
+          "logloss": 0.699087192125362,
+          "brier": 0.2529586078363371,
+          "pick_changes": 29,
+          "prediction_variation": {
+            "home_picks": 84,
+            "away_picks": 0,
+            "minimum_home_probability": 0.5200437722488396,
+            "maximum_home_probability": 0.5533342827894281,
+            "identical_directions_to_all_home": true
+          },
+          "daily_close_max_drawdown_krw": 153100,
+          "decomposition": {
+            "gained_wins": 10,
+            "lost_wins": 19,
+            "gained_payout_krw": 190400,
+            "lost_payout_krw": 303600,
+            "net_improvement_krw": -113200
+          }
+        },
+        "hit": {
+          "n": 84,
+          "wins": 41,
+          "pushes": 0,
+          "accuracy": 0.4880952380952381,
+          "net_krw": -152500,
+          "roi": -0.18154761904761904,
+          "logloss": 0.699087192125362,
+          "brier": 0.2529586078363371,
+          "pick_changes": 29,
+          "prediction_variation": {
+            "home_picks": 84,
+            "away_picks": 0,
+            "minimum_home_probability": 0.5200437722488396,
+            "maximum_home_probability": 0.5533342827894281,
+            "identical_directions_to_all_home": true
+          },
+          "daily_close_max_drawdown_krw": 153100,
+          "decomposition": {
+            "gained_wins": 10,
+            "lost_wins": 19,
+            "gained_payout_krw": 190400,
+            "lost_payout_krw": 303600,
+            "net_improvement_krw": -113200
+          }
+        },
+        "primary_blend10": {
+          "n": 84,
+          "wins": 50,
+          "pushes": 0,
+          "accuracy": 0.5952380952380952,
+          "net_krw": -39300,
+          "roi": -0.046785714285714285,
+          "logloss": 0.6809521127779173,
+          "brier": 0.24385287136790712,
+          "pick_changes": 0,
+          "prediction_variation": {
+            "home_picks": 55,
+            "away_picks": 29,
+            "minimum_home_probability": 0.3807218635690394,
+            "maximum_home_probability": 0.6589278407853452,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 100900,
+          "decomposition": {
+            "gained_wins": 0,
+            "lost_wins": 0,
+            "gained_payout_krw": 0,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 0
+          }
+        },
+        "hit_blend10": {
+          "n": 84,
+          "wins": 50,
+          "pushes": 0,
+          "accuracy": 0.5952380952380952,
+          "net_krw": -39300,
+          "roi": -0.046785714285714285,
+          "logloss": 0.6809521127779173,
+          "brier": 0.24385287136790712,
+          "pick_changes": 0,
+          "prediction_variation": {
+            "home_picks": 55,
+            "away_picks": 29,
+            "minimum_home_probability": 0.3807218635690394,
+            "maximum_home_probability": 0.6589278407853452,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 100900,
+          "decomposition": {
+            "gained_wins": 0,
+            "lost_wins": 0,
+            "gained_payout_krw": 0,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 0
+          }
+        }
+      },
+      "old116/full_fallback/split_onward": {
+        "baseline": {
+          "n": 32,
+          "wins": 13,
+          "pushes": 0,
+          "accuracy": 0.40625,
+          "net_krw": -115500,
+          "roi": -0.3609375,
+          "logloss": 0.7335622689601745,
+          "brier": 0.2699455723841014,
+          "pick_changes": 0,
+          "prediction_variation": {
+            "home_picks": 22,
+            "away_picks": 10,
+            "minimum_home_probability": 0.3184448462928501,
+            "maximum_home_probability": 0.7043692826190605,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 140300,
+          "decomposition": {
+            "gained_wins": 0,
+            "lost_wins": 0,
+            "gained_payout_krw": 0,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 0
+          }
+        },
+        "market_only": {
+          "n": 32,
+          "wins": 14,
+          "pushes": 0,
+          "accuracy": 0.4375,
+          "net_krw": -99500,
+          "roi": -0.3109375,
+          "logloss": 0.7078956620997088,
+          "brier": 0.25740482464634284,
+          "pick_changes": 3,
+          "prediction_variation": {
+            "home_picks": 21,
+            "away_picks": 11,
+            "minimum_home_probability": 0.3538276069920556,
+            "maximum_home_probability": 0.6715214251322895,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 116100,
+          "decomposition": {
+            "gained_wins": 2,
+            "lost_wins": 1,
+            "gained_payout_krw": 34200,
+            "lost_payout_krw": 18200,
+            "net_improvement_krw": 16000
+          }
+        },
+        "primary": {
+          "n": 32,
+          "wins": 11,
+          "pushes": 0,
+          "accuracy": 0.34375,
+          "net_krw": -130500,
+          "roi": -0.4078125,
+          "logloss": 0.7264908973640105,
+          "brier": 0.26661983668350997,
+          "pick_changes": 10,
+          "prediction_variation": {
+            "home_picks": 32,
+            "away_picks": 0,
+            "minimum_home_probability": 0.5367613542046723,
+            "maximum_home_probability": 0.5549834618138303,
+            "identical_directions_to_all_home": true
+          },
+          "daily_close_max_drawdown_krw": 140500,
+          "decomposition": {
+            "gained_wins": 4,
+            "lost_wins": 6,
+            "gained_payout_krw": 83000,
+            "lost_payout_krw": 98000,
+            "net_improvement_krw": -15000
+          }
+        },
+        "hit": {
+          "n": 32,
+          "wins": 11,
+          "pushes": 0,
+          "accuracy": 0.34375,
+          "net_krw": -130500,
+          "roi": -0.4078125,
+          "logloss": 0.7264908973640105,
+          "brier": 0.26661983668350997,
+          "pick_changes": 10,
+          "prediction_variation": {
+            "home_picks": 32,
+            "away_picks": 0,
+            "minimum_home_probability": 0.5367613542046723,
+            "maximum_home_probability": 0.5549834618138303,
+            "identical_directions_to_all_home": true
+          },
+          "daily_close_max_drawdown_krw": 140500,
+          "decomposition": {
+            "gained_wins": 4,
+            "lost_wins": 6,
+            "gained_payout_krw": 83000,
+            "lost_payout_krw": 98000,
+            "net_improvement_krw": -15000
+          }
+        },
+        "primary_blend10": {
+          "n": 32,
+          "wins": 13,
+          "pushes": 0,
+          "accuracy": 0.40625,
+          "net_krw": -115500,
+          "roi": -0.3609375,
+          "logloss": 0.7307623395554744,
+          "brier": 0.26864695689949325,
+          "pick_changes": 0,
+          "prediction_variation": {
+            "home_picks": 22,
+            "away_picks": 10,
+            "minimum_home_probability": 0.34133987927334947,
+            "maximum_home_probability": 0.6887199516711175,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 140300,
+          "decomposition": {
+            "gained_wins": 0,
+            "lost_wins": 0,
+            "gained_payout_krw": 0,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 0
+          }
+        },
+        "hit_blend10": {
+          "n": 32,
+          "wins": 13,
+          "pushes": 0,
+          "accuracy": 0.40625,
+          "net_krw": -115500,
+          "roi": -0.3609375,
+          "logloss": 0.7307623395554744,
+          "brier": 0.26864695689949325,
+          "pick_changes": 0,
+          "prediction_variation": {
+            "home_picks": 22,
+            "away_picks": 10,
+            "minimum_home_probability": 0.34133987927334947,
+            "maximum_home_probability": 0.6887199516711175,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 140300,
+          "decomposition": {
+            "gained_wins": 0,
+            "lost_wins": 0,
+            "gained_payout_krw": 0,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 0
+          }
+        }
+      },
+      "external230/verified/all": {
+        "baseline": {
+          "n": 194,
+          "wins": 109,
+          "pushes": 0,
+          "accuracy": 0.5618556701030928,
+          "net_krw": -254700,
+          "roi": -0.13128865979381443,
+          "logloss": 0.6777923422892326,
+          "brier": 0.24253072617607563,
+          "pick_changes": 0,
+          "prediction_variation": {
+            "home_picks": 132,
+            "away_picks": 62,
+            "minimum_home_probability": 0.28667996453896744,
+            "maximum_home_probability": 0.7584243788856811,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 313300,
+          "decomposition": {
+            "gained_wins": 0,
+            "lost_wins": 0,
+            "gained_payout_krw": 0,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 0
+          }
+        },
+        "market_only": {
+          "n": 194,
+          "wins": 109,
+          "pushes": 0,
+          "accuracy": 0.5618556701030928,
+          "net_krw": -254700,
+          "roi": -0.13128865979381443,
+          "logloss": 0.6777923422892326,
+          "brier": 0.24253072617607563,
+          "pick_changes": 0,
+          "prediction_variation": {
+            "home_picks": 132,
+            "away_picks": 62,
+            "minimum_home_probability": 0.28667996453896744,
+            "maximum_home_probability": 0.7584243788856811,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 313300,
+          "decomposition": {
+            "gained_wins": 0,
+            "lost_wins": 0,
+            "gained_payout_krw": 0,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 0
+          }
+        },
+        "primary": {
+          "n": 194,
+          "wins": 109,
+          "pushes": 0,
+          "accuracy": 0.5618556701030928,
+          "net_krw": -136000,
+          "roi": -0.07010309278350516,
+          "logloss": 0.6852882033009391,
+          "brier": 0.24608058187165274,
+          "pick_changes": 62,
+          "prediction_variation": {
+            "home_picks": 194,
+            "away_picks": 0,
+            "minimum_home_probability": 0.5356894973673615,
+            "maximum_home_probability": 0.5596495842423808,
+            "identical_directions_to_all_home": true
+          },
+          "daily_close_max_drawdown_krw": 225000,
+          "decomposition": {
+            "gained_wins": 31,
+            "lost_wins": 31,
+            "gained_payout_krw": 614300,
+            "lost_payout_krw": 495600,
+            "net_improvement_krw": 118700
+          }
+        },
+        "hit": {
+          "n": 194,
+          "wins": 109,
+          "pushes": 0,
+          "accuracy": 0.5618556701030928,
+          "net_krw": -136000,
+          "roi": -0.07010309278350516,
+          "logloss": 0.6852882033009391,
+          "brier": 0.24608058187165274,
+          "pick_changes": 62,
+          "prediction_variation": {
+            "home_picks": 194,
+            "away_picks": 0,
+            "minimum_home_probability": 0.5356894973673615,
+            "maximum_home_probability": 0.5596495842423808,
+            "identical_directions_to_all_home": true
+          },
+          "daily_close_max_drawdown_krw": 225000,
+          "decomposition": {
+            "gained_wins": 31,
+            "lost_wins": 31,
+            "gained_payout_krw": 614300,
+            "lost_payout_krw": 495600,
+            "net_improvement_krw": 118700
+          }
+        },
+        "primary_blend10": {
+          "n": 194,
+          "wins": 111,
+          "pushes": 0,
+          "accuracy": 0.5721649484536082,
+          "net_krw": -219100,
+          "roi": -0.1129381443298969,
+          "logloss": 0.6773278572201051,
+          "brier": 0.24228951834875834,
+          "pick_changes": 4,
+          "prediction_variation": {
+            "home_picks": 136,
+            "away_picks": 58,
+            "minimum_home_probability": 0.31216251767246345,
+            "maximum_home_probability": 0.7381525879267352,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 277700,
+          "decomposition": {
+            "gained_wins": 3,
+            "lost_wins": 1,
+            "gained_payout_krw": 53100,
+            "lost_payout_krw": 17500,
+            "net_improvement_krw": 35600
+          }
+        },
+        "hit_blend10": {
+          "n": 194,
+          "wins": 111,
+          "pushes": 0,
+          "accuracy": 0.5721649484536082,
+          "net_krw": -219100,
+          "roi": -0.1129381443298969,
+          "logloss": 0.6773278572201051,
+          "brier": 0.24228951834875834,
+          "pick_changes": 4,
+          "prediction_variation": {
+            "home_picks": 136,
+            "away_picks": 58,
+            "minimum_home_probability": 0.31216251767246345,
+            "maximum_home_probability": 0.7381525879267352,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 277700,
+          "decomposition": {
+            "gained_wins": 3,
+            "lost_wins": 1,
+            "gained_payout_krw": 53100,
+            "lost_payout_krw": 17500,
+            "net_improvement_krw": 35600
+          }
+        }
+      },
+      "external230/verified/before_split": {
+        "baseline": {
+          "n": 77,
+          "wins": 42,
+          "pushes": 0,
+          "accuracy": 0.5454545454545454,
+          "net_krw": -112300,
+          "roi": -0.14584415584415583,
+          "logloss": 0.6907476152302799,
+          "brier": 0.24851372735012145,
+          "pick_changes": 0,
+          "prediction_variation": {
+            "home_picks": 49,
+            "away_picks": 28,
+            "minimum_home_probability": 0.28667996453896744,
+            "maximum_home_probability": 0.6617114711293156,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 112300,
+          "decomposition": {
+            "gained_wins": 0,
+            "lost_wins": 0,
+            "gained_payout_krw": 0,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 0
+          }
+        },
+        "market_only": {
+          "n": 77,
+          "wins": 42,
+          "pushes": 0,
+          "accuracy": 0.5454545454545454,
+          "net_krw": -112300,
+          "roi": -0.14584415584415583,
+          "logloss": 0.6907476152302799,
+          "brier": 0.24851372735012145,
+          "pick_changes": 0,
+          "prediction_variation": {
+            "home_picks": 49,
+            "away_picks": 28,
+            "minimum_home_probability": 0.28667996453896744,
+            "maximum_home_probability": 0.6617114711293156,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 112300,
+          "decomposition": {
+            "gained_wins": 0,
+            "lost_wins": 0,
+            "gained_payout_krw": 0,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 0
+          }
+        },
+        "primary": {
+          "n": 77,
+          "wins": 46,
+          "pushes": 0,
+          "accuracy": 0.5974025974025974,
+          "net_krw": 11700,
+          "roi": 0.015194805194805195,
+          "logloss": 0.6793002368101118,
+          "brier": 0.24309288929382403,
+          "pick_changes": 28,
+          "prediction_variation": {
+            "home_picks": 77,
+            "away_picks": 0,
+            "minimum_home_probability": 0.5395172844585482,
+            "maximum_home_probability": 0.5596495842423808,
+            "identical_directions_to_all_home": true
+          },
+          "daily_close_max_drawdown_krw": 36600,
+          "decomposition": {
+            "gained_wins": 16,
+            "lost_wins": 12,
+            "gained_payout_krw": 316700,
+            "lost_payout_krw": 192700,
+            "net_improvement_krw": 124000
+          }
+        },
+        "hit": {
+          "n": 77,
+          "wins": 46,
+          "pushes": 0,
+          "accuracy": 0.5974025974025974,
+          "net_krw": 11700,
+          "roi": 0.015194805194805195,
+          "logloss": 0.6793002368101118,
+          "brier": 0.24309288929382403,
+          "pick_changes": 28,
+          "prediction_variation": {
+            "home_picks": 77,
+            "away_picks": 0,
+            "minimum_home_probability": 0.5395172844585482,
+            "maximum_home_probability": 0.5596495842423808,
+            "identical_directions_to_all_home": true
+          },
+          "daily_close_max_drawdown_krw": 36600,
+          "decomposition": {
+            "gained_wins": 16,
+            "lost_wins": 12,
+            "gained_payout_krw": 316700,
+            "lost_payout_krw": 192700,
+            "net_improvement_krw": 124000
+          }
+        },
+        "primary_blend10": {
+          "n": 77,
+          "wins": 44,
+          "pushes": 0,
+          "accuracy": 0.5714285714285714,
+          "net_krw": -76900,
+          "roi": -0.09987012987012987,
+          "logloss": 0.6883556430989534,
+          "brier": 0.24743130137682956,
+          "pick_changes": 2,
+          "prediction_variation": {
+            "home_picks": 51,
+            "away_picks": 26,
+            "minimum_home_probability": 0.31216251767246345,
+            "maximum_home_probability": 0.6507514665181541,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 76900,
+          "decomposition": {
+            "gained_wins": 2,
+            "lost_wins": 0,
+            "gained_payout_krw": 35400,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 35400
+          }
+        },
+        "hit_blend10": {
+          "n": 77,
+          "wins": 44,
+          "pushes": 0,
+          "accuracy": 0.5714285714285714,
+          "net_krw": -76900,
+          "roi": -0.09987012987012987,
+          "logloss": 0.6883556430989534,
+          "brier": 0.24743130137682956,
+          "pick_changes": 2,
+          "prediction_variation": {
+            "home_picks": 51,
+            "away_picks": 26,
+            "minimum_home_probability": 0.31216251767246345,
+            "maximum_home_probability": 0.6507514665181541,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 76900,
+          "decomposition": {
+            "gained_wins": 2,
+            "lost_wins": 0,
+            "gained_payout_krw": 35400,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 35400
+          }
+        }
+      },
+      "external230/verified/split_onward": {
+        "baseline": {
+          "n": 117,
+          "wins": 67,
+          "pushes": 0,
+          "accuracy": 0.5726495726495726,
+          "net_krw": -142400,
+          "roi": -0.12170940170940171,
+          "logloss": 0.669266222490424,
+          "brier": 0.2385931954888833,
+          "pick_changes": 0,
+          "prediction_variation": {
+            "home_picks": 83,
+            "away_picks": 34,
+            "minimum_home_probability": 0.3686902617035892,
+            "maximum_home_probability": 0.7584243788856811,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 201000,
+          "decomposition": {
+            "gained_wins": 0,
+            "lost_wins": 0,
+            "gained_payout_krw": 0,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 0
+          }
+        },
+        "market_only": {
+          "n": 117,
+          "wins": 67,
+          "pushes": 0,
+          "accuracy": 0.5726495726495726,
+          "net_krw": -142400,
+          "roi": -0.12170940170940171,
+          "logloss": 0.669266222490424,
+          "brier": 0.2385931954888833,
+          "pick_changes": 0,
+          "prediction_variation": {
+            "home_picks": 83,
+            "away_picks": 34,
+            "minimum_home_probability": 0.3686902617035892,
+            "maximum_home_probability": 0.7584243788856811,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 201000,
+          "decomposition": {
+            "gained_wins": 0,
+            "lost_wins": 0,
+            "gained_payout_krw": 0,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 0
+          }
+        },
+        "primary": {
+          "n": 117,
+          "wins": 63,
+          "pushes": 0,
+          "accuracy": 0.5384615384615384,
+          "net_krw": -147700,
+          "roi": -0.12623931623931625,
+          "logloss": 0.6892290017607147,
+          "brier": 0.2480468410895404,
+          "pick_changes": 34,
+          "prediction_variation": {
+            "home_picks": 117,
+            "away_picks": 0,
+            "minimum_home_probability": 0.5356894973673615,
+            "maximum_home_probability": 0.5582900152907039,
+            "identical_directions_to_all_home": true
+          },
+          "daily_close_max_drawdown_krw": 205300,
+          "decomposition": {
+            "gained_wins": 15,
+            "lost_wins": 19,
+            "gained_payout_krw": 297600,
+            "lost_payout_krw": 302900,
+            "net_improvement_krw": -5300
+          }
+        },
+        "hit": {
+          "n": 117,
+          "wins": 63,
+          "pushes": 0,
+          "accuracy": 0.5384615384615384,
+          "net_krw": -147700,
+          "roi": -0.12623931623931625,
+          "logloss": 0.6892290017607147,
+          "brier": 0.2480468410895404,
+          "pick_changes": 34,
+          "prediction_variation": {
+            "home_picks": 117,
+            "away_picks": 0,
+            "minimum_home_probability": 0.5356894973673615,
+            "maximum_home_probability": 0.5582900152907039,
+            "identical_directions_to_all_home": true
+          },
+          "daily_close_max_drawdown_krw": 205300,
+          "decomposition": {
+            "gained_wins": 15,
+            "lost_wins": 19,
+            "gained_payout_krw": 297600,
+            "lost_payout_krw": 302900,
+            "net_improvement_krw": -5300
+          }
+        },
+        "primary_blend10": {
+          "n": 117,
+          "wins": 67,
+          "pushes": 0,
+          "accuracy": 0.5726495726495726,
+          "net_krw": -142200,
+          "roi": -0.12153846153846154,
+          "logloss": 0.670070254547701,
+          "brier": 0.23890560986019876,
+          "pick_changes": 2,
+          "prediction_variation": {
+            "home_picks": 85,
+            "away_picks": 32,
+            "minimum_home_probability": 0.38593952164952294,
+            "maximum_home_probability": 0.7381525879267352,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 200800,
+          "decomposition": {
+            "gained_wins": 1,
+            "lost_wins": 1,
+            "gained_payout_krw": 17700,
+            "lost_payout_krw": 17500,
+            "net_improvement_krw": 200
+          }
+        },
+        "hit_blend10": {
+          "n": 117,
+          "wins": 67,
+          "pushes": 0,
+          "accuracy": 0.5726495726495726,
+          "net_krw": -142200,
+          "roi": -0.12153846153846154,
+          "logloss": 0.670070254547701,
+          "brier": 0.23890560986019876,
+          "pick_changes": 2,
+          "prediction_variation": {
+            "home_picks": 85,
+            "away_picks": 32,
+            "minimum_home_probability": 0.38593952164952294,
+            "maximum_home_probability": 0.7381525879267352,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 200800,
+          "decomposition": {
+            "gained_wins": 1,
+            "lost_wins": 1,
+            "gained_payout_krw": 17700,
+            "lost_payout_krw": 17500,
+            "net_improvement_krw": 200
+          }
+        }
+      },
+      "external230/full_fallback/all": {
+        "baseline": {
+          "n": 230,
+          "wins": 124,
+          "pushes": 0,
+          "accuracy": 0.5391304347826087,
+          "net_krw": -387600,
+          "roi": -0.16852173913043478,
+          "logloss": 0.6862337100979345,
+          "brier": 0.24666303945888107,
+          "pick_changes": 0,
+          "prediction_variation": {
+            "home_picks": 158,
+            "away_picks": 72,
+            "minimum_home_probability": 0.28667996453896744,
+            "maximum_home_probability": 0.7584243788856811,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 446200,
+          "decomposition": {
+            "gained_wins": 0,
+            "lost_wins": 0,
+            "gained_payout_krw": 0,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 0
+          }
+        },
+        "market_only": {
+          "n": 230,
+          "wins": 124,
+          "pushes": 0,
+          "accuracy": 0.5391304347826087,
+          "net_krw": -387600,
+          "roi": -0.16852173913043478,
+          "logloss": 0.6862337100979345,
+          "brier": 0.24666303945888107,
+          "pick_changes": 0,
+          "prediction_variation": {
+            "home_picks": 158,
+            "away_picks": 72,
+            "minimum_home_probability": 0.28667996453896744,
+            "maximum_home_probability": 0.7584243788856811,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 446200,
+          "decomposition": {
+            "gained_wins": 0,
+            "lost_wins": 0,
+            "gained_payout_krw": 0,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 0
+          }
+        },
+        "primary": {
+          "n": 230,
+          "wins": 124,
+          "pushes": 0,
+          "accuracy": 0.5391304347826087,
+          "net_krw": -268900,
+          "roi": -0.11691304347826087,
+          "logloss": 0.6925563059078088,
+          "brier": 0.2496572655673245,
+          "pick_changes": 62,
+          "prediction_variation": {
+            "home_picks": 220,
+            "away_picks": 10,
+            "minimum_home_probability": 0.32725808812773527,
+            "maximum_home_probability": 0.7584243788856811,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 357900,
+          "decomposition": {
+            "gained_wins": 31,
+            "lost_wins": 31,
+            "gained_payout_krw": 614300,
+            "lost_payout_krw": 495600,
+            "net_improvement_krw": 118700
+          }
+        },
+        "hit": {
+          "n": 230,
+          "wins": 124,
+          "pushes": 0,
+          "accuracy": 0.5391304347826087,
+          "net_krw": -268900,
+          "roi": -0.11691304347826087,
+          "logloss": 0.6925563059078088,
+          "brier": 0.2496572655673245,
+          "pick_changes": 62,
+          "prediction_variation": {
+            "home_picks": 220,
+            "away_picks": 10,
+            "minimum_home_probability": 0.32725808812773527,
+            "maximum_home_probability": 0.7584243788856811,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 357900,
+          "decomposition": {
+            "gained_wins": 31,
+            "lost_wins": 31,
+            "gained_payout_krw": 614300,
+            "lost_payout_krw": 495600,
+            "net_improvement_krw": 118700
+          }
+        },
+        "primary_blend10": {
+          "n": 230,
+          "wins": 126,
+          "pushes": 0,
+          "accuracy": 0.5478260869565217,
+          "net_krw": -352000,
+          "roi": -0.15304347826086956,
+          "logloss": 0.6858419270396274,
+          "brier": 0.2464595859001876,
+          "pick_changes": 4,
+          "prediction_variation": {
+            "home_picks": 162,
+            "away_picks": 68,
+            "minimum_home_probability": 0.31216251767246345,
+            "maximum_home_probability": 0.7584243788856811,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 410600,
+          "decomposition": {
+            "gained_wins": 3,
+            "lost_wins": 1,
+            "gained_payout_krw": 53100,
+            "lost_payout_krw": 17500,
+            "net_improvement_krw": 35600
+          }
+        },
+        "hit_blend10": {
+          "n": 230,
+          "wins": 126,
+          "pushes": 0,
+          "accuracy": 0.5478260869565217,
+          "net_krw": -352000,
+          "roi": -0.15304347826086956,
+          "logloss": 0.6858419270396274,
+          "brier": 0.2464595859001876,
+          "pick_changes": 4,
+          "prediction_variation": {
+            "home_picks": 162,
+            "away_picks": 68,
+            "minimum_home_probability": 0.31216251767246345,
+            "maximum_home_probability": 0.7584243788856811,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 410600,
+          "decomposition": {
+            "gained_wins": 3,
+            "lost_wins": 1,
+            "gained_payout_krw": 53100,
+            "lost_payout_krw": 17500,
+            "net_improvement_krw": 35600
+          }
+        }
+      },
+      "external230/full_fallback/before_split": {
+        "baseline": {
+          "n": 100,
+          "wins": 52,
+          "pushes": 0,
+          "accuracy": 0.52,
+          "net_krw": -191900,
+          "roi": -0.1919,
+          "logloss": 0.6962848196373114,
+          "brier": 0.251310915503879,
+          "pick_changes": 0,
+          "prediction_variation": {
+            "home_picks": 67,
+            "away_picks": 33,
+            "minimum_home_probability": 0.28667996453896744,
+            "maximum_home_probability": 0.7584243788856811,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 191900,
+          "decomposition": {
+            "gained_wins": 0,
+            "lost_wins": 0,
+            "gained_payout_krw": 0,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 0
+          }
+        },
+        "market_only": {
+          "n": 100,
+          "wins": 52,
+          "pushes": 0,
+          "accuracy": 0.52,
+          "net_krw": -191900,
+          "roi": -0.1919,
+          "logloss": 0.6962848196373114,
+          "brier": 0.251310915503879,
+          "pick_changes": 0,
+          "prediction_variation": {
+            "home_picks": 67,
+            "away_picks": 33,
+            "minimum_home_probability": 0.28667996453896744,
+            "maximum_home_probability": 0.7584243788856811,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 191900,
+          "decomposition": {
+            "gained_wins": 0,
+            "lost_wins": 0,
+            "gained_payout_krw": 0,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 0
+          }
+        },
+        "primary": {
+          "n": 100,
+          "wins": 56,
+          "pushes": 0,
+          "accuracy": 0.56,
+          "net_krw": -67900,
+          "roi": -0.0679,
+          "logloss": 0.6874703382537817,
+          "brier": 0.24713687020053005,
+          "pick_changes": 28,
+          "prediction_variation": {
+            "home_picks": 95,
+            "away_picks": 5,
+            "minimum_home_probability": 0.3783866995072687,
+            "maximum_home_probability": 0.7584243788856811,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 116200,
+          "decomposition": {
+            "gained_wins": 16,
+            "lost_wins": 12,
+            "gained_payout_krw": 316700,
+            "lost_payout_krw": 192700,
+            "net_improvement_krw": 124000
+          }
+        },
+        "hit": {
+          "n": 100,
+          "wins": 56,
+          "pushes": 0,
+          "accuracy": 0.56,
+          "net_krw": -67900,
+          "roi": -0.0679,
+          "logloss": 0.6874703382537817,
+          "brier": 0.24713687020053005,
+          "pick_changes": 28,
+          "prediction_variation": {
+            "home_picks": 95,
+            "away_picks": 5,
+            "minimum_home_probability": 0.3783866995072687,
+            "maximum_home_probability": 0.7584243788856811,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 116200,
+          "decomposition": {
+            "gained_wins": 16,
+            "lost_wins": 12,
+            "gained_payout_krw": 316700,
+            "lost_payout_krw": 192700,
+            "net_improvement_krw": 124000
+          }
+        },
+        "primary_blend10": {
+          "n": 100,
+          "wins": 54,
+          "pushes": 0,
+          "accuracy": 0.54,
+          "net_krw": -156500,
+          "roi": -0.1565,
+          "logloss": 0.6944430010961898,
+          "brier": 0.2504774475044443,
+          "pick_changes": 2,
+          "prediction_variation": {
+            "home_picks": 69,
+            "away_picks": 31,
+            "minimum_home_probability": 0.31216251767246345,
+            "maximum_home_probability": 0.7584243788856811,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 156500,
+          "decomposition": {
+            "gained_wins": 2,
+            "lost_wins": 0,
+            "gained_payout_krw": 35400,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 35400
+          }
+        },
+        "hit_blend10": {
+          "n": 100,
+          "wins": 54,
+          "pushes": 0,
+          "accuracy": 0.54,
+          "net_krw": -156500,
+          "roi": -0.1565,
+          "logloss": 0.6944430010961898,
+          "brier": 0.2504774475044443,
+          "pick_changes": 2,
+          "prediction_variation": {
+            "home_picks": 69,
+            "away_picks": 31,
+            "minimum_home_probability": 0.31216251767246345,
+            "maximum_home_probability": 0.7584243788856811,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 156500,
+          "decomposition": {
+            "gained_wins": 2,
+            "lost_wins": 0,
+            "gained_payout_krw": 35400,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 35400
+          }
+        }
+      },
+      "external230/full_fallback/split_onward": {
+        "baseline": {
+          "n": 130,
+          "wins": 72,
+          "pushes": 0,
+          "accuracy": 0.5538461538461539,
+          "net_krw": -195700,
+          "roi": -0.15053846153846154,
+          "logloss": 0.6785020873753375,
+          "brier": 0.2430877501934985,
+          "pick_changes": 0,
+          "prediction_variation": {
+            "home_picks": 91,
+            "away_picks": 39,
+            "minimum_home_probability": 0.32725808812773527,
+            "maximum_home_probability": 0.7584243788856811,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 254300,
+          "decomposition": {
+            "gained_wins": 0,
+            "lost_wins": 0,
+            "gained_payout_krw": 0,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 0
+          }
+        },
+        "market_only": {
+          "n": 130,
+          "wins": 72,
+          "pushes": 0,
+          "accuracy": 0.5538461538461539,
+          "net_krw": -195700,
+          "roi": -0.15053846153846154,
+          "logloss": 0.6785020873753375,
+          "brier": 0.2430877501934985,
+          "pick_changes": 0,
+          "prediction_variation": {
+            "home_picks": 91,
+            "away_picks": 39,
+            "minimum_home_probability": 0.32725808812773527,
+            "maximum_home_probability": 0.7584243788856811,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 254300,
+          "decomposition": {
+            "gained_wins": 0,
+            "lost_wins": 0,
+            "gained_payout_krw": 0,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 0
+          }
+        },
+        "primary": {
+          "n": 130,
+          "wins": 68,
+          "pushes": 0,
+          "accuracy": 0.5230769230769231,
+          "net_krw": -201000,
+          "roi": -0.15461538461538463,
+          "logloss": 0.6964685887185991,
+          "brier": 0.25159603123408986,
+          "pick_changes": 34,
+          "prediction_variation": {
+            "home_picks": 125,
+            "away_picks": 5,
+            "minimum_home_probability": 0.32725808812773527,
+            "maximum_home_probability": 0.7133200354610325,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 258600,
+          "decomposition": {
+            "gained_wins": 15,
+            "lost_wins": 19,
+            "gained_payout_krw": 297600,
+            "lost_payout_krw": 302900,
+            "net_improvement_krw": -5300
+          }
+        },
+        "hit": {
+          "n": 130,
+          "wins": 68,
+          "pushes": 0,
+          "accuracy": 0.5230769230769231,
+          "net_krw": -201000,
+          "roi": -0.15461538461538463,
+          "logloss": 0.6964685887185991,
+          "brier": 0.25159603123408986,
+          "pick_changes": 34,
+          "prediction_variation": {
+            "home_picks": 125,
+            "away_picks": 5,
+            "minimum_home_probability": 0.32725808812773527,
+            "maximum_home_probability": 0.7133200354610325,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 258600,
+          "decomposition": {
+            "gained_wins": 15,
+            "lost_wins": 19,
+            "gained_payout_krw": 297600,
+            "lost_payout_krw": 302900,
+            "net_improvement_krw": -5300
+          }
+        },
+        "primary_blend10": {
+          "n": 130,
+          "wins": 72,
+          "pushes": 0,
+          "accuracy": 0.5538461538461539,
+          "net_krw": -195500,
+          "roi": -0.1503846153846154,
+          "logloss": 0.6792257162268869,
+          "brier": 0.24336892312768238,
+          "pick_changes": 2,
+          "prediction_variation": {
+            "home_picks": 93,
+            "away_picks": 37,
+            "minimum_home_probability": 0.32725808812773527,
+            "maximum_home_probability": 0.7381525879267352,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 254100,
+          "decomposition": {
+            "gained_wins": 1,
+            "lost_wins": 1,
+            "gained_payout_krw": 17700,
+            "lost_payout_krw": 17500,
+            "net_improvement_krw": 200
+          }
+        },
+        "hit_blend10": {
+          "n": 130,
+          "wins": 72,
+          "pushes": 0,
+          "accuracy": 0.5538461538461539,
+          "net_krw": -195500,
+          "roi": -0.1503846153846154,
+          "logloss": 0.6792257162268869,
+          "brier": 0.24336892312768238,
+          "pick_changes": 2,
+          "prediction_variation": {
+            "home_picks": 93,
+            "away_picks": 37,
+            "minimum_home_probability": 0.32725808812773527,
+            "maximum_home_probability": 0.7381525879267352,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 254100,
+          "decomposition": {
+            "gained_wins": 1,
+            "lost_wins": 1,
+            "gained_payout_krw": 17700,
+            "lost_payout_krw": 17500,
+            "net_improvement_krw": 200
+          }
+        }
+      }
+    },
+    "kbo": {
+      "all": {
+        "baseline": {
+          "n": 198,
+          "wins": 119,
+          "pushes": 0,
+          "accuracy": 0.601010101010101,
+          "net_krw": -146600,
+          "roi": -0.07404040404040405,
+          "logloss": 0.661282209176174,
+          "brier": 0.23460470849197543,
+          "pick_changes": 0,
+          "prediction_variation": {
+            "home_picks": 99,
+            "away_picks": 99,
+            "minimum_home_probability": 0.24120636323471076,
+            "maximum_home_probability": 0.7703376075313475,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 157700,
+          "decomposition": {
+            "gained_wins": 0,
+            "lost_wins": 0,
+            "gained_payout_krw": 0,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 0
+          }
+        },
+        "e0:residual:0.03": {
+          "n": 198,
+          "wins": 119,
+          "pushes": 0,
+          "accuracy": 0.601010101010101,
+          "net_krw": -144500,
+          "roi": -0.07297979797979798,
+          "logloss": 0.6616308153332481,
+          "brier": 0.23473514702161635,
+          "pick_changes": 6,
+          "prediction_variation": {
+            "home_picks": 99,
+            "away_picks": 99,
+            "minimum_home_probability": 0.24641713187159797,
+            "maximum_home_probability": 0.7543739349229416,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 166700,
+          "decomposition": {
+            "gained_wins": 3,
+            "lost_wins": 3,
+            "gained_payout_krw": 55600,
+            "lost_payout_krw": 53500,
+            "net_improvement_krw": 2100
+          }
+        },
+        "market_null": {
+          "n": 198,
+          "wins": 117,
+          "pushes": 0,
+          "accuracy": 0.5909090909090909,
+          "net_krw": -208400,
+          "roi": -0.10525252525252525,
+          "logloss": 0.6600275141234041,
+          "brier": 0.2338701454899075,
+          "pick_changes": 34,
+          "prediction_variation": {
+            "home_picks": 105,
+            "away_picks": 93,
+            "minimum_home_probability": 0.26800707026078974,
+            "maximum_home_probability": 0.7448195639237195,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 247500,
+          "decomposition": {
+            "gained_wins": 16,
+            "lost_wins": 18,
+            "gained_payout_krw": 268500,
+            "lost_payout_krw": 330300,
+            "net_improvement_krw": -61800
+          }
+        }
+      },
+      "pre_july": {
+        "baseline": {
+          "n": 152,
+          "wins": 92,
+          "pushes": 0,
+          "accuracy": 0.6052631578947368,
+          "net_krw": -104900,
+          "roi": -0.06901315789473685,
+          "logloss": 0.655264220030794,
+          "brier": 0.23188913136893277,
+          "pick_changes": 0,
+          "prediction_variation": {
+            "home_picks": 75,
+            "away_picks": 77,
+            "minimum_home_probability": 0.24120636323471076,
+            "maximum_home_probability": 0.7703376075313475,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 157700,
+          "decomposition": {
+            "gained_wins": 0,
+            "lost_wins": 0,
+            "gained_payout_krw": 0,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 0
+          }
+        },
+        "e0:residual:0.03": {
+          "n": 152,
+          "wins": 92,
+          "pushes": 0,
+          "accuracy": 0.6052631578947368,
+          "net_krw": -99800,
+          "roi": -0.06565789473684211,
+          "logloss": 0.6546582801236441,
+          "brier": 0.2315375240025591,
+          "pick_changes": 4,
+          "prediction_variation": {
+            "home_picks": 77,
+            "away_picks": 75,
+            "minimum_home_probability": 0.24641713187159797,
+            "maximum_home_probability": 0.7543739349229416,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 166700,
+          "decomposition": {
+            "gained_wins": 2,
+            "lost_wins": 2,
+            "gained_payout_krw": 39500,
+            "lost_payout_krw": 34400,
+            "net_improvement_krw": 5100
+          }
+        },
+        "market_null": {
+          "n": 152,
+          "wins": 87,
+          "pushes": 0,
+          "accuracy": 0.5723684210526315,
+          "net_krw": -213500,
+          "roi": -0.14046052631578948,
+          "logloss": 0.6546820341897704,
+          "brier": 0.23140934701186916,
+          "pick_changes": 27,
+          "prediction_variation": {
+            "home_picks": 82,
+            "away_picks": 70,
+            "minimum_home_probability": 0.26800707026078974,
+            "maximum_home_probability": 0.7448195639237195,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 237900,
+          "decomposition": {
+            "gained_wins": 11,
+            "lost_wins": 16,
+            "gained_payout_krw": 183700,
+            "lost_payout_krw": 292300,
+            "net_improvement_krw": -108600
+          }
+        }
+      },
+      "post_july": {
+        "baseline": {
+          "n": 46,
+          "wins": 27,
+          "pushes": 0,
+          "accuracy": 0.5869565217391305,
+          "net_krw": -41700,
+          "roi": -0.09065217391304348,
+          "logloss": 0.6811677385261258,
+          "brier": 0.24357791985507263,
+          "pick_changes": 0,
+          "prediction_variation": {
+            "home_picks": 24,
+            "away_picks": 22,
+            "minimum_home_probability": 0.28996035447742863,
+            "maximum_home_probability": 0.7256010026204008,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 59600,
+          "decomposition": {
+            "gained_wins": 0,
+            "lost_wins": 0,
+            "gained_payout_krw": 0,
+            "lost_payout_krw": 0,
+            "net_improvement_krw": 0
+          }
+        },
+        "e0:residual:0.03": {
+          "n": 46,
+          "wins": 27,
+          "pushes": 0,
+          "accuracy": 0.5869565217391305,
+          "net_krw": -44700,
+          "roi": -0.09717391304347826,
+          "logloss": 0.6846704968954163,
+          "brier": 0.24530120569328348,
+          "pick_changes": 2,
+          "prediction_variation": {
+            "home_picks": 22,
+            "away_picks": 24,
+            "minimum_home_probability": 0.3157815459970299,
+            "maximum_home_probability": 0.7006837765251624,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 62600,
+          "decomposition": {
+            "gained_wins": 1,
+            "lost_wins": 1,
+            "gained_payout_krw": 16100,
+            "lost_payout_krw": 19100,
+            "net_improvement_krw": -3000
+          }
+        },
+        "market_null": {
+          "n": 46,
+          "wins": 30,
+          "pushes": 0,
+          "accuracy": 0.6521739130434783,
+          "net_krw": 5100,
+          "roi": 0.01108695652173913,
+          "logloss": 0.6776908391214972,
+          "brier": 0.24200147959125132,
+          "pick_changes": 7,
+          "prediction_variation": {
+            "home_picks": 23,
+            "away_picks": 23,
+            "minimum_home_probability": 0.32217817164158735,
+            "maximum_home_probability": 0.6951122251337787,
+            "identical_directions_to_all_home": false
+          },
+          "daily_close_max_drawdown_krw": 42600,
+          "decomposition": {
+            "gained_wins": 5,
+            "lost_wins": 2,
+            "gained_payout_krw": 84800,
+            "lost_payout_krw": 38000,
+            "net_improvement_krw": 46800
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,1664 @@
+{
+  "heads": {
+    "primary": "e0:residual:0.03",
+    "hit_head": "e0:residual:0.03",
+    "profit_head": "e0:residual:0.03",
+    "eligible": [
+      "a0:residual:0.03",
+      "a0:residual:0.3",
+      "a1:blend:0.15",
+      "a1:residual:0.03",
+      "a1:residual:0.3",
+      "a2:blend:0.15",
+      "a2:residual:0.03",
+      "a2:residual:0.3",
+      "baseline",
+      "e0:residual:0.03",
+      "e0:residual:0.3",
+      "e1:blend:0.15",
+      "e1:residual:0.03",
+      "e1:residual:0.3",
+      "e2:blend:0.15",
+      "e2:residual:0.03",
+      "e2:residual:0.3",
+      "market_null"
+    ]
+  },
+  "candidates": {
+    "baseline": {
+      "specification": {
+        "kind": "baseline"
+      },
+      "selection_fit": {
+        "kind": "baseline",
+        "training_n": 710,
+        "training_years": [
+          "2023"
+        ]
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 411,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.577247191011236,
+        "net_krw": -815800,
+        "roi": -0.11457865168539326,
+        "logloss": 0.6768239566036995,
+        "brier": 0.24200357606747847,
+        "monthly_net_krw": {
+          "2024-03": -18900,
+          "2024-04": -244800,
+          "2024-05": -274100,
+          "2024-06": -200,
+          "2024-07": 0,
+          "2024-08": -201200,
+          "2024-09": -67000,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 830900
+      },
+      "validation_changes_vs_market": 0,
+      "final_fit": {
+        "kind": "baseline",
+        "training_n": 1422,
+        "training_years": [
+          "2023",
+          "2024"
+        ]
+      }
+    },
+    "market_null": {
+      "specification": {
+        "kind": "market_null"
+      },
+      "selection_fit": {
+        "kind": "market_null",
+        "training_n": 710,
+        "training_years": [
+          "2023"
+        ]
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 411,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.577247191011236,
+        "net_krw": -815800,
+        "roi": -0.11457865168539326,
+        "logloss": 0.6768239566036995,
+        "brier": 0.24200357606747847,
+        "monthly_net_krw": {
+          "2024-03": -18900,
+          "2024-04": -244800,
+          "2024-05": -274100,
+          "2024-06": -200,
+          "2024-07": 0,
+          "2024-08": -201200,
+          "2024-09": -67000,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 830900
+      },
+      "validation_changes_vs_market": 0,
+      "final_fit": {
+        "kind": "market_null",
+        "training_n": 1422,
+        "training_years": [
+          "2023",
+          "2024"
+        ]
+      }
+    },
+    "e0:residual:0.03": {
+      "specification": {
+        "kind": "residual",
+        "state": "e0",
+        "ridge": 0.03
+      },
+      "selection_fit": {
+        "kind": "residual",
+        "state": "e0",
+        "ridge": 0.03,
+        "training_n": 710,
+        "training_years": [
+          "2023"
+        ],
+        "scale": [
+          0.3034738474034072
+        ],
+        "beta": [
+          -0.04499373652751718
+        ],
+        "gradient_max": 3.2380782083452075e-15,
+        "objective": 0.6768056462577333,
+        "settled_training_n": 710
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 417,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5856741573033708,
+        "net_krw": -708100,
+        "roi": -0.09945224719101124,
+        "logloss": 0.6760560003062656,
+        "brier": 0.24164375307677116,
+        "monthly_net_krw": {
+          "2024-03": -18900,
+          "2024-04": -244200,
+          "2024-05": -273800,
+          "2024-06": 17600,
+          "2024-07": 35400,
+          "2024-08": -165500,
+          "2024-09": -49100,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 727000
+      },
+      "validation_changes_vs_market": 14,
+      "final_fit": {
+        "kind": "residual",
+        "state": "e0",
+        "ridge": 0.03,
+        "training_n": 1422,
+        "training_years": [
+          "2023",
+          "2024"
+        ],
+        "scale": [
+          0.28102288647783685
+        ],
+        "beta": [
+          -0.06637396467535583
+        ],
+        "gradient_max": 7.790209449742846e-15,
+        "objective": 0.6763590765669387,
+        "settled_training_n": 1422
+      }
+    },
+    "e0:residual:0.3": {
+      "specification": {
+        "kind": "residual",
+        "state": "e0",
+        "ridge": 0.3
+      },
+      "selection_fit": {
+        "kind": "residual",
+        "state": "e0",
+        "ridge": 0.3,
+        "training_n": 710,
+        "training_years": [
+          "2023"
+        ],
+        "scale": [
+          0.3034738474034072
+        ],
+        "beta": [
+          -0.022398864020398215
+        ],
+        "gradient_max": 3.836340967122709e-15,
+        "objective": 0.6769417574603942,
+        "settled_training_n": 710
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 415,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5828651685393258,
+        "net_krw": -744300,
+        "roi": -0.10453651685393259,
+        "logloss": 0.6763987177580394,
+        "brier": 0.24180457274358483,
+        "monthly_net_krw": {
+          "2024-03": -18900,
+          "2024-04": -244700,
+          "2024-05": -291800,
+          "2024-06": 17600,
+          "2024-07": 35400,
+          "2024-08": -183200,
+          "2024-09": -49100,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 763200
+      },
+      "validation_changes_vs_market": 10,
+      "final_fit": {
+        "kind": "residual",
+        "state": "e0",
+        "ridge": 0.3,
+        "training_n": 1422,
+        "training_years": [
+          "2023",
+          "2024"
+        ],
+        "scale": [
+          0.28102288647783685
+        ],
+        "beta": [
+          -0.03309704685395593
+        ],
+        "gradient_max": 1.466361754243195e-14,
+        "objective": 0.6766557884030419,
+        "settled_training_n": 1422
+      }
+    },
+    "e0:blend:0.15": {
+      "specification": {
+        "kind": "blend",
+        "state": "e0",
+        "weight": 0.15
+      },
+      "selection_fit": {
+        "kind": "blend",
+        "state": "e0",
+        "weight": 0.15,
+        "training_n": 710,
+        "training_years": [
+          "2023"
+        ]
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 409,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.574438202247191,
+        "net_krw": -847800,
+        "roi": -0.11907303370786516,
+        "logloss": 0.6774821301492159,
+        "brier": 0.2423134610887438,
+        "monthly_net_krw": {
+          "2024-03": -36600,
+          "2024-04": -297800,
+          "2024-05": -255200,
+          "2024-06": -34700,
+          "2024-07": 18100,
+          "2024-08": -147700,
+          "2024-09": -84300,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 862900
+      },
+      "validation_changes_vs_market": 20,
+      "final_fit": {
+        "kind": "blend",
+        "state": "e0",
+        "weight": 0.15,
+        "training_n": 1422,
+        "training_years": [
+          "2023",
+          "2024"
+        ]
+      }
+    },
+    "e0:blend:0.35": {
+      "specification": {
+        "kind": "blend",
+        "state": "e0",
+        "weight": 0.35
+      },
+      "selection_fit": {
+        "kind": "blend",
+        "state": "e0",
+        "weight": 0.35,
+        "training_n": 710,
+        "training_years": [
+          "2023"
+        ]
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 403,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5660112359550562,
+        "net_krw": -925400,
+        "roi": -0.12997191011235956,
+        "logloss": 0.6796816772328546,
+        "brier": 0.2433641728208084,
+        "monthly_net_krw": {
+          "2024-03": -54200,
+          "2024-04": -184900,
+          "2024-05": -232500,
+          "2024-06": -99800,
+          "2024-07": -31500,
+          "2024-08": -195700,
+          "2024-09": -117200,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 940500
+      },
+      "validation_changes_vs_market": 52,
+      "final_fit": {
+        "kind": "blend",
+        "state": "e0",
+        "weight": 0.35,
+        "training_n": 1422,
+        "training_years": [
+          "2023",
+          "2024"
+        ]
+      }
+    },
+    "e1:residual:0.03": {
+      "specification": {
+        "kind": "residual",
+        "state": "e1",
+        "ridge": 0.03
+      },
+      "selection_fit": {
+        "kind": "residual",
+        "state": "e1",
+        "ridge": 0.03,
+        "training_n": 710,
+        "training_years": [
+          "2023"
+        ],
+        "scale": [
+          0.4493384412156782
+        ],
+        "beta": [
+          -0.029065538083269157
+        ],
+        "gradient_max": 4.680790442745941e-10,
+        "objective": 0.6769632199768816,
+        "settled_training_n": 710
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 416,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5842696629213483,
+        "net_krw": -726300,
+        "roi": -0.10200842696629213,
+        "logloss": 0.6763720809461686,
+        "brier": 0.2418025182084184,
+        "monthly_net_krw": {
+          "2024-03": -18900,
+          "2024-04": -226700,
+          "2024-05": -291800,
+          "2024-06": 17600,
+          "2024-07": 35400,
+          "2024-08": -183200,
+          "2024-09": -49100,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 745200
+      },
+      "validation_changes_vs_market": 11,
+      "final_fit": {
+        "kind": "residual",
+        "state": "e1",
+        "ridge": 0.03,
+        "training_n": 1422,
+        "training_years": [
+          "2023",
+          "2024"
+        ],
+        "scale": [
+          0.4230115980268296
+        ],
+        "beta": [
+          -0.051493326336304636
+        ],
+        "gradient_max": 1.339206523454095e-15,
+        "objective": 0.67659380486842,
+        "settled_training_n": 1422
+      }
+    },
+    "e1:residual:0.3": {
+      "specification": {
+        "kind": "residual",
+        "state": "e1",
+        "ridge": 0.3
+      },
+      "selection_fit": {
+        "kind": "residual",
+        "state": "e1",
+        "ridge": 0.3,
+        "training_n": 710,
+        "training_years": [
+          "2023"
+        ],
+        "scale": [
+          0.4493384412156782
+        ],
+        "beta": [
+          -0.014477232481458957
+        ],
+        "gradient_max": 3.3306690738754696e-16,
+        "objective": 0.6770200412098938,
+        "settled_training_n": 710
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 414,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5814606741573034,
+        "net_krw": -762600,
+        "roi": -0.10710674157303371,
+        "logloss": 0.6765794658434698,
+        "brier": 0.2418944685805189,
+        "monthly_net_krw": {
+          "2024-03": -18900,
+          "2024-04": -227000,
+          "2024-05": -291800,
+          "2024-06": 17600,
+          "2024-07": 17700,
+          "2024-08": -183600,
+          "2024-09": -67000,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 777700
+      },
+      "validation_changes_vs_market": 5,
+      "final_fit": {
+        "kind": "residual",
+        "state": "e1",
+        "ridge": 0.3,
+        "training_n": 1422,
+        "training_years": [
+          "2023",
+          "2024"
+        ],
+        "scale": [
+          0.4230115980268296
+        ],
+        "beta": [
+          -0.025691436199922615
+        ],
+        "gradient_max": 1.3097154602167982e-09,
+        "objective": 0.676772462587652,
+        "settled_training_n": 1422
+      }
+    },
+    "e1:blend:0.15": {
+      "specification": {
+        "kind": "blend",
+        "state": "e1",
+        "weight": 0.15
+      },
+      "selection_fit": {
+        "kind": "blend",
+        "state": "e1",
+        "weight": 0.15,
+        "training_n": 710,
+        "training_years": [
+          "2023"
+        ]
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 413,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5800561797752809,
+        "net_krw": -771600,
+        "roi": -0.10837078651685393,
+        "logloss": 0.6779469334373052,
+        "brier": 0.24251351697677986,
+        "monthly_net_krw": {
+          "2024-03": -36600,
+          "2024-04": -261100,
+          "2024-05": -182600,
+          "2024-06": -33700,
+          "2024-07": 1000,
+          "2024-08": -164700,
+          "2024-09": -84300,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 786700
+      },
+      "validation_changes_vs_market": 32,
+      "final_fit": {
+        "kind": "blend",
+        "state": "e1",
+        "weight": 0.15,
+        "training_n": 1422,
+        "training_years": [
+          "2023",
+          "2024"
+        ]
+      }
+    },
+    "e1:blend:0.35": {
+      "specification": {
+        "kind": "blend",
+        "state": "e1",
+        "weight": 0.35
+      },
+      "selection_fit": {
+        "kind": "blend",
+        "state": "e1",
+        "weight": 0.35,
+        "training_n": 710,
+        "training_years": [
+          "2023"
+        ]
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 409,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.574438202247191,
+        "net_krw": -786300,
+        "roi": -0.11043539325842697,
+        "logloss": 0.6813538959896487,
+        "brier": 0.24412681906902087,
+        "monthly_net_krw": {
+          "2024-03": -16400,
+          "2024-04": -120400,
+          "2024-05": -194100,
+          "2024-06": -89200,
+          "2024-07": -65800,
+          "2024-08": -142300,
+          "2024-09": -148500,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 801400
+      },
+      "validation_changes_vs_market": 76,
+      "final_fit": {
+        "kind": "blend",
+        "state": "e1",
+        "weight": 0.35,
+        "training_n": 1422,
+        "training_years": [
+          "2023",
+          "2024"
+        ]
+      }
+    },
+    "e2:residual:0.03": {
+      "specification": {
+        "kind": "residual",
+        "state": "e2",
+        "ridge": 0.03
+      },
+      "selection_fit": {
+        "kind": "residual",
+        "state": "e2",
+        "ridge": 0.03,
+        "training_n": 710,
+        "training_years": [
+          "2023"
+        ],
+        "scale": [
+          0.5991409671679873
+        ],
+        "beta": [
+          -0.009921602759360451
+        ],
+        "gradient_max": 1.6108580506817016e-11,
+        "objective": 0.677063140395253,
+        "settled_training_n": 710
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 414,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5814606741573034,
+        "net_krw": -762600,
+        "roi": -0.10710674157303371,
+        "logloss": 0.6767149180402127,
+        "brier": 0.24195995407961218,
+        "monthly_net_krw": {
+          "2024-03": -18900,
+          "2024-04": -227000,
+          "2024-05": -291800,
+          "2024-06": 17600,
+          "2024-07": 17700,
+          "2024-08": -183600,
+          "2024-09": -67000,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 777700
+      },
+      "validation_changes_vs_market": 5,
+      "final_fit": {
+        "kind": "residual",
+        "state": "e2",
+        "ridge": 0.03,
+        "training_n": 1422,
+        "training_years": [
+          "2023",
+          "2024"
+        ],
+        "scale": [
+          0.5778741176090332
+        ],
+        "beta": [
+          -0.02833366699146133
+        ],
+        "gradient_max": 4.705437428587089e-17,
+        "objective": 0.6768420778510786,
+        "settled_training_n": 1422
+      }
+    },
+    "e2:residual:0.3": {
+      "specification": {
+        "kind": "residual",
+        "state": "e2",
+        "ridge": 0.3
+      },
+      "selection_fit": {
+        "kind": "residual",
+        "state": "e2",
+        "ridge": 0.3,
+        "training_n": 710,
+        "training_years": [
+          "2023"
+        ],
+        "scale": [
+          0.5991409671679873
+        ],
+        "beta": [
+          -0.0049445610764507755
+        ],
+        "gradient_max": 3.6646387530439584e-11,
+        "objective": 0.6770697637778452,
+        "settled_training_n": 710
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 414,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5814606741573034,
+        "net_krw": -762600,
+        "roi": -0.10710674157303371,
+        "logloss": 0.6767670913131285,
+        "brier": 0.24198066683429986,
+        "monthly_net_krw": {
+          "2024-03": -18900,
+          "2024-04": -227000,
+          "2024-05": -274100,
+          "2024-06": 17600,
+          "2024-07": 0,
+          "2024-08": -183600,
+          "2024-09": -67000,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 777700
+      },
+      "validation_changes_vs_market": 3,
+      "final_fit": {
+        "kind": "residual",
+        "state": "e2",
+        "ridge": 0.3,
+        "training_n": 1422,
+        "training_years": [
+          "2023",
+          "2024"
+        ],
+        "scale": [
+          0.5778741176090332
+        ],
+        "beta": [
+          -0.014137597028574063
+        ],
+        "gradient_max": 4.820528681087621e-10,
+        "objective": 0.6768961639103175,
+        "settled_training_n": 1422
+      }
+    },
+    "e2:blend:0.15": {
+      "specification": {
+        "kind": "blend",
+        "state": "e2",
+        "weight": 0.15
+      },
+      "selection_fit": {
+        "kind": "blend",
+        "state": "e2",
+        "weight": 0.15,
+        "training_n": 710,
+        "training_years": [
+          "2023"
+        ]
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 412,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5786516853932584,
+        "net_krw": -780300,
+        "roi": -0.10959269662921348,
+        "logloss": 0.6781871651733844,
+        "brier": 0.2425931866259378,
+        "monthly_net_krw": {
+          "2024-03": -36600,
+          "2024-04": -222400,
+          "2024-05": -180400,
+          "2024-06": -85400,
+          "2024-07": -15400,
+          "2024-08": -128700,
+          "2024-09": -101800,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 795400
+      },
+      "validation_changes_vs_market": 43,
+      "final_fit": {
+        "kind": "blend",
+        "state": "e2",
+        "weight": 0.15,
+        "training_n": 1422,
+        "training_years": [
+          "2023",
+          "2024"
+        ]
+      }
+    },
+    "e2:blend:0.35": {
+      "specification": {
+        "kind": "blend",
+        "state": "e2",
+        "weight": 0.35
+      },
+      "selection_fit": {
+        "kind": "blend",
+        "state": "e2",
+        "weight": 0.35,
+        "training_n": 710,
+        "training_years": [
+          "2023"
+        ]
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 407,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5716292134831461,
+        "net_krw": -756200,
+        "roi": -0.10620786516853932,
+        "logloss": 0.6831324458754725,
+        "brier": 0.24490598394423613,
+        "monthly_net_krw": {
+          "2024-03": -33400,
+          "2024-04": -108200,
+          "2024-05": -146600,
+          "2024-06": -98000,
+          "2024-07": -89700,
+          "2024-08": -97800,
+          "2024-09": -156900,
+          "2024-10": -25600
+        },
+        "daily_close_max_drawdown_krw": 765700
+      },
+      "validation_changes_vs_market": 110,
+      "final_fit": {
+        "kind": "blend",
+        "state": "e2",
+        "weight": 0.35,
+        "training_n": 1422,
+        "training_years": [
+          "2023",
+          "2024"
+        ]
+      }
+    },
+    "a0:residual:0.03": {
+      "specification": {
+        "kind": "residual",
+        "state": "a0",
+        "ridge": 0.03
+      },
+      "selection_fit": {
+        "kind": "residual",
+        "state": "a0",
+        "ridge": 0.03,
+        "training_n": 710,
+        "training_years": [
+          "2023"
+        ],
+        "scale": [
+          0.1362468740535798,
+          0.14921695007685404
+        ],
+        "beta": [
+          -0.028577181429444,
+          -0.00482851430050043
+        ],
+        "gradient_max": 2.207500057315598e-11,
+        "objective": 0.6769602916508778,
+        "settled_training_n": 710
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 413,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5800561797752809,
+        "net_krw": -780100,
+        "roi": -0.10956460674157303,
+        "logloss": 0.6763571968792493,
+        "brier": 0.24179161553451214,
+        "monthly_net_krw": {
+          "2024-03": -18900,
+          "2024-04": -244700,
+          "2024-05": -291800,
+          "2024-06": 17600,
+          "2024-07": 17700,
+          "2024-08": -166000,
+          "2024-09": -84400,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 795200
+      },
+      "validation_changes_vs_market": 8,
+      "final_fit": {
+        "kind": "residual",
+        "state": "a0",
+        "ridge": 0.03,
+        "training_n": 1422,
+        "training_years": [
+          "2023",
+          "2024"
+        ],
+        "scale": [
+          0.13527354449030898,
+          0.14427270115360846
+        ],
+        "beta": [
+          -0.04735156189952516,
+          -0.021928765738236957
+        ],
+        "gradient_max": 2.023031265077635e-13,
+        "objective": 0.6765721925572894,
+        "settled_training_n": 1422
+      }
+    },
+    "a0:residual:0.3": {
+      "specification": {
+        "kind": "residual",
+        "state": "a0",
+        "ridge": 0.3
+      },
+      "selection_fit": {
+        "kind": "residual",
+        "state": "a0",
+        "ridge": 0.3,
+        "training_n": 710,
+        "training_years": [
+          "2023"
+        ],
+        "scale": [
+          0.1362468740535798,
+          0.14921695007685404
+        ],
+        "beta": [
+          -0.014366437649327475,
+          -0.0028925353211799536
+        ],
+        "gradient_max": 4.479923376710104e-15,
+        "objective": 0.6770176127440077,
+        "settled_training_n": 710
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 416,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5842696629213483,
+        "net_krw": -727300,
+        "roi": -0.10214887640449438,
+        "logloss": 0.6765605171780844,
+        "brier": 0.2418840933104416,
+        "monthly_net_krw": {
+          "2024-03": -18900,
+          "2024-04": -227000,
+          "2024-05": -274100,
+          "2024-06": 17600,
+          "2024-07": 17700,
+          "2024-08": -166000,
+          "2024-09": -67000,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 742400
+      },
+      "validation_changes_vs_market": 5,
+      "final_fit": {
+        "kind": "residual",
+        "state": "a0",
+        "ridge": 0.3,
+        "training_n": 1422,
+        "training_years": [
+          "2023",
+          "2024"
+        ],
+        "scale": [
+          0.13527354449030898,
+          0.14427270115360846
+        ],
+        "beta": [
+          -0.023861028895756177,
+          -0.011424384147230363
+        ],
+        "gradient_max": 2.7109824801696547e-14,
+        "objective": 0.6767586028034605,
+        "settled_training_n": 1422
+      }
+    },
+    "a0:blend:0.15": {
+      "specification": {
+        "kind": "blend",
+        "state": "a0",
+        "weight": 0.15
+      },
+      "selection_fit": {
+        "kind": "blend",
+        "state": "a0",
+        "weight": 0.15,
+        "training_n": 710,
+        "training_years": [
+          "2023"
+        ]
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 409,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.574438202247191,
+        "net_krw": -844600,
+        "roi": -0.11862359550561798,
+        "logloss": 0.6779211997973799,
+        "brier": 0.24249141921677722,
+        "monthly_net_krw": {
+          "2024-03": -36600,
+          "2024-04": -261400,
+          "2024-05": -255200,
+          "2024-06": -51700,
+          "2024-07": 1000,
+          "2024-08": -146800,
+          "2024-09": -84300,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 859700
+      },
+      "validation_changes_vs_market": 24,
+      "final_fit": {
+        "kind": "blend",
+        "state": "a0",
+        "weight": 0.15,
+        "training_n": 1422,
+        "training_years": [
+          "2023",
+          "2024"
+        ]
+      }
+    },
+    "a0:blend:0.35": {
+      "specification": {
+        "kind": "blend",
+        "state": "a0",
+        "weight": 0.35
+      },
+      "selection_fit": {
+        "kind": "blend",
+        "state": "a0",
+        "weight": 0.35,
+        "training_n": 710,
+        "training_years": [
+          "2023"
+        ]
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 407,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5716292134831461,
+        "net_krw": -815100,
+        "roi": -0.11448033707865168,
+        "logloss": 0.6812151690154651,
+        "brier": 0.24403420335897152,
+        "monthly_net_krw": {
+          "2024-03": -13800,
+          "2024-04": -137500,
+          "2024-05": -260500,
+          "2024-06": -94600,
+          "2024-07": -10800,
+          "2024-08": -187700,
+          "2024-09": -118300,
+          "2024-10": 8100
+        },
+        "daily_close_max_drawdown_krw": 852100
+      },
+      "validation_changes_vs_market": 74,
+      "final_fit": {
+        "kind": "blend",
+        "state": "a0",
+        "weight": 0.35,
+        "training_n": 1422,
+        "training_years": [
+          "2023",
+          "2024"
+        ]
+      }
+    },
+    "a1:residual:0.03": {
+      "specification": {
+        "kind": "residual",
+        "state": "a1",
+        "ridge": 0.03
+      },
+      "selection_fit": {
+        "kind": "residual",
+        "state": "a1",
+        "ridge": 0.03,
+        "training_n": 710,
+        "training_years": [
+          "2023"
+        ],
+        "scale": [
+          0.16271695064722766,
+          0.19293040406160175
+        ],
+        "beta": [
+          -0.018929829830853895,
+          0.032645560943219
+        ],
+        "gradient_max": 2.1554718405113193e-11,
+        "objective": 0.676900782734213,
+        "settled_training_n": 710
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 415,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5828651685393258,
+        "net_krw": -742700,
+        "roi": -0.104311797752809,
+        "logloss": 0.676835348601563,
+        "brier": 0.241989802158234,
+        "monthly_net_krw": {
+          "2024-03": -18900,
+          "2024-04": -262600,
+          "2024-05": -238300,
+          "2024-06": 35600,
+          "2024-07": 700,
+          "2024-08": -165200,
+          "2024-09": -84400,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 757800
+      },
+      "validation_changes_vs_market": 14,
+      "final_fit": {
+        "kind": "residual",
+        "state": "a1",
+        "ridge": 0.03,
+        "training_n": 1422,
+        "training_years": [
+          "2023",
+          "2024"
+        ],
+        "scale": [
+          0.17034640991201275,
+          0.18559711209094684
+        ],
+        "beta": [
+          -0.03214697347709007,
+          0.011023555496223253
+        ],
+        "gradient_max": 7.298452787225448e-10,
+        "objective": 0.6767989065888378,
+        "settled_training_n": 1422
+      }
+    },
+    "a1:residual:0.3": {
+      "specification": {
+        "kind": "residual",
+        "state": "a1",
+        "ridge": 0.3
+      },
+      "selection_fit": {
+        "kind": "residual",
+        "state": "a1",
+        "ridge": 0.3,
+        "training_n": 710,
+        "training_years": [
+          "2023"
+        ],
+        "scale": [
+          0.16271695064722766,
+          0.19293040406160175
+        ],
+        "beta": [
+          -0.008685796850330283,
+          0.01577199132562554
+        ],
+        "gradient_max": 2.939811415136884e-11,
+        "objective": 0.676992474494404,
+        "settled_training_n": 710
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 417,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5856741573033708,
+        "net_krw": -709700,
+        "roi": -0.09967696629213484,
+        "logloss": 0.67679470600486,
+        "brier": 0.24198052623217856,
+        "monthly_net_krw": {
+          "2024-03": -18900,
+          "2024-04": -262600,
+          "2024-05": -256300,
+          "2024-06": 17600,
+          "2024-07": 17700,
+          "2024-08": -130600,
+          "2024-09": -67000,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 724800
+      },
+      "validation_changes_vs_market": 8,
+      "final_fit": {
+        "kind": "residual",
+        "state": "a1",
+        "ridge": 0.3,
+        "training_n": 1422,
+        "training_years": [
+          "2023",
+          "2024"
+        ],
+        "scale": [
+          0.17034640991201275,
+          0.18559711209094684
+        ],
+        "beta": [
+          -0.01591539440838471,
+          0.005133159626780202
+        ],
+        "gradient_max": 2.413867716821727e-15,
+        "objective": 0.6768756234216172,
+        "settled_training_n": 1422
+      }
+    },
+    "a1:blend:0.15": {
+      "specification": {
+        "kind": "blend",
+        "state": "a1",
+        "weight": 0.15
+      },
+      "selection_fit": {
+        "kind": "blend",
+        "state": "a1",
+        "weight": 0.15,
+        "training_n": 710,
+        "training_years": [
+          "2023"
+        ]
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 411,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.577247191011236,
+        "net_krw": -804700,
+        "roi": -0.11301966292134831,
+        "logloss": 0.6778219842918582,
+        "brier": 0.24242371598050466,
+        "monthly_net_krw": {
+          "2024-03": -36600,
+          "2024-04": -243500,
+          "2024-05": -217900,
+          "2024-06": -51700,
+          "2024-07": 2800,
+          "2024-08": -163900,
+          "2024-09": -84300,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 819800
+      },
+      "validation_changes_vs_market": 32,
+      "final_fit": {
+        "kind": "blend",
+        "state": "a1",
+        "weight": 0.15,
+        "training_n": 1422,
+        "training_years": [
+          "2023",
+          "2024"
+        ]
+      }
+    },
+    "a1:blend:0.35": {
+      "specification": {
+        "kind": "blend",
+        "state": "a1",
+        "weight": 0.35
+      },
+      "selection_fit": {
+        "kind": "blend",
+        "state": "a1",
+        "weight": 0.35,
+        "training_n": 710,
+        "training_years": [
+          "2023"
+        ]
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 405,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5688202247191011,
+        "net_krw": -808100,
+        "roi": -0.11349719101123595,
+        "logloss": 0.6816977056470818,
+        "brier": 0.2442270644076065,
+        "monthly_net_krw": {
+          "2024-03": 7500,
+          "2024-04": -114900,
+          "2024-05": -197900,
+          "2024-06": -89700,
+          "2024-07": -58600,
+          "2024-08": -197400,
+          "2024-09": -131500,
+          "2024-10": -25600
+        },
+        "daily_close_max_drawdown_krw": 843100
+      },
+      "validation_changes_vs_market": 98,
+      "final_fit": {
+        "kind": "blend",
+        "state": "a1",
+        "weight": 0.35,
+        "training_n": 1422,
+        "training_years": [
+          "2023",
+          "2024"
+        ]
+      }
+    },
+    "a2:residual:0.03": {
+      "specification": {
+        "kind": "residual",
+        "state": "a2",
+        "ridge": 0.03
+      },
+      "selection_fit": {
+        "kind": "residual",
+        "state": "a2",
+        "ridge": 0.03,
+        "training_n": 710,
+        "training_years": [
+          "2023"
+        ],
+        "scale": [
+          0.19577227759926477,
+          0.2253470212615214
+        ],
+        "beta": [
+          0.006205724580868534,
+          0.04344872620449501
+        ],
+        "gradient_max": 9.84761479392443e-10,
+        "objective": 0.6768113421234586,
+        "settled_training_n": 710
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 413,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5800561797752809,
+        "net_krw": -776300,
+        "roi": -0.10903089887640449,
+        "logloss": 0.6769774187300157,
+        "brier": 0.24203587453430747,
+        "monthly_net_krw": {
+          "2024-03": -18900,
+          "2024-04": -262600,
+          "2024-05": -184100,
+          "2024-06": -16300,
+          "2024-07": 0,
+          "2024-08": -200300,
+          "2024-09": -84500,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 791400
+      },
+      "validation_changes_vs_market": 18,
+      "final_fit": {
+        "kind": "residual",
+        "state": "a2",
+        "ridge": 0.03,
+        "training_n": 1422,
+        "training_years": [
+          "2023",
+          "2024"
+        ],
+        "scale": [
+          0.20609054379905709,
+          0.21920014319052383
+        ],
+        "beta": [
+          -0.006852455288640598,
+          0.026974755739185275
+        ],
+        "gradient_max": 7.637770624291385e-13,
+        "objective": 0.6768488539536478,
+        "settled_training_n": 1422
+      }
+    },
+    "a2:residual:0.3": {
+      "specification": {
+        "kind": "residual",
+        "state": "a2",
+        "ridge": 0.3
+      },
+      "selection_fit": {
+        "kind": "residual",
+        "state": "a2",
+        "ridge": 0.3,
+        "training_n": 710,
+        "training_years": [
+          "2023"
+        ],
+        "scale": [
+          0.19577227759926477,
+          0.2253470212615214
+        ],
+        "beta": [
+          0.004176431227882514,
+          0.02172127967520959
+        ],
+        "gradient_max": 1.370995288650645e-09,
+        "objective": 0.676942204781654,
+        "settled_training_n": 710
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 413,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5800561797752809,
+        "net_krw": -779900,
+        "roi": -0.10953651685393258,
+        "logloss": 0.6768560644103453,
+        "brier": 0.24199833569118392,
+        "monthly_net_krw": {
+          "2024-03": -18900,
+          "2024-04": -262600,
+          "2024-05": -256300,
+          "2024-06": 0,
+          "2024-07": 0,
+          "2024-08": -165500,
+          "2024-09": -67000,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 795000
+      },
+      "validation_changes_vs_market": 8,
+      "final_fit": {
+        "kind": "residual",
+        "state": "a2",
+        "ridge": 0.3,
+        "training_n": 1422,
+        "training_years": [
+          "2023",
+          "2024"
+        ],
+        "scale": [
+          0.20609054379905709,
+          0.21920014319052383
+        ],
+        "beta": [
+          -0.003018384417592267,
+          0.013338905093219812
+        ],
+        "gradient_max": 2.5409550331867425e-11,
+        "objective": 0.6769002155146563,
+        "settled_training_n": 1422
+      }
+    },
+    "a2:blend:0.15": {
+      "specification": {
+        "kind": "blend",
+        "state": "a2",
+        "weight": 0.15
+      },
+      "selection_fit": {
+        "kind": "blend",
+        "state": "a2",
+        "weight": 0.15,
+        "training_n": 710,
+        "training_years": [
+          "2023"
+        ]
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 415,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5828651685393258,
+        "net_krw": -723500,
+        "roi": -0.10161516853932584,
+        "logloss": 0.677527157790827,
+        "brier": 0.24226861877722164,
+        "monthly_net_krw": {
+          "2024-03": -18900,
+          "2024-04": -202400,
+          "2024-05": -198600,
+          "2024-06": -69300,
+          "2024-07": 2800,
+          "2024-08": -109000,
+          "2024-09": -118500,
+          "2024-10": -9600
+        },
+        "daily_close_max_drawdown_krw": 738600
+      },
+      "validation_changes_vs_market": 42,
+      "final_fit": {
+        "kind": "blend",
+        "state": "a2",
+        "weight": 0.15,
+        "training_n": 1422,
+        "training_years": [
+          "2023",
+          "2024"
+        ]
+      }
+    },
+    "a2:blend:0.35": {
+      "specification": {
+        "kind": "blend",
+        "state": "a2",
+        "weight": 0.35
+      },
+      "selection_fit": {
+        "kind": "blend",
+        "state": "a2",
+        "weight": 0.35,
+        "training_n": 710,
+        "training_years": [
+          "2023"
+        ]
+      },
+      "validation": {
+        "n": 712,
+        "bets": 712,
+        "coverage": 1.0,
+        "wins": 404,
+        "settled": 712,
+        "pushes": 0,
+        "accuracy": 0.5674157303370787,
+        "net_krw": -782500,
+        "roi": -0.10990168539325842,
+        "logloss": 0.6819595458399349,
+        "brier": 0.24433203697722844,
+        "monthly_net_krw": {
+          "2024-03": 7500,
+          "2024-04": -184200,
+          "2024-05": -229800,
+          "2024-06": -124400,
+          "2024-07": -27900,
+          "2024-08": -115700,
+          "2024-09": -82400,
+          "2024-10": -25600
+        },
+        "daily_close_max_drawdown_krw": 817500
+      },
+      "validation_changes_vs_market": 119,
+      "final_fit": {
+        "kind": "blend",
+        "state": "a2",
+        "weight": 0.35,
+        "training_n": 1422,
+        "training_years": [
+          "2023",
+          "2024"
+        ]
+      }
+    }
+  },
+  "input_sha256": {
+    "PROTOCOL.md": "ed66504ab1fce912ad7a20dfe60767f885d745860f2fac5b408716fd51acc319",
+    "input-manifest.json": "3afbfe91c778a55be1ad305dec5819bf35b91c9c2bfa2902094259c6a7d0a3e1",
+    "sources/cohort.jsonl.gz": "e75c5ea74769afe7917c7339ecd082518cfa36ee095ef54eb6343d74110608c4",
+    "sources/pitching.jsonl.gz": "c3f4fd478ace40e9e5ff92da71e1222ff04b9360e1a764a6a333288979d3ff77",
+    "sources/prior-input-manifest.json": "4dfe6250865f43d8bd7f469c59968c95619804554d7371eb8df2988f14ae0ea7",
+    "sources/prior-predictions.jsonl": "b8cfb34fec207d862cffb6e828594b5b8db8a58c20e9f38e8325718f16bfcbeb",
+    "sources/prior-PROTOCOL.md": "26ee03b9a6bea00c87c6acddb4817145bab5496d36c5ee5e0babe0794e0028ce",
+    "sources/prior-results.json": "3aa49a6a2dfdb7d5a9b2ab3435ac9b54d71dcd814c630fdf04e8e3537eced8c4",
+    "sources/prior-source-audit.json": "46dd8c216f891473c29ea0a51b70aa6c72501f43a8b53bce654437c7e00f6fb6",
+    "sources/prior-validation_predictions.jsonl": "c1a3ad476c4dbfcdb53a0897cf0f4b763670f44bcec1c026b25ee294b7071343",
+    "sources/scores.jsonl.gz": "58407d1d47d2e3970644bb13bc2c3a6b0c7f2a2ab301eb197f5c28d727d0ef34",
+    "code/kbo_opponent_dynamic_research.py": "8f6e528ab495cceb7c57299020a8de4720527724faf351e7be2c0edef6274495"
+  },
+  "source_audit": {
+    "cohort_counts": {
+      "train": 710,
+      "validation": 712,
+      "evaluation": 198
+    },
+    "pitching_games": 2656,
+    "score_anchors": 2879,
+    "merged_score_games": 2913,
+    "allstar_excluded": 4,
+    "doubleheader_extra_games": 14,
+    "synthetic_year_ids": 50,
+    "games_by_year": {
+      "2023": 723,
+      "2024": 728,
+      "2025": 736,
+      "2026": 726
+    },
+    "original_evaluation": 203,
+    "existing_excluded": 5,
+    "used_inputs": "historical final scores; no same-day pitching/batting"
+  },
+  "training_features_hash": "ceaaa23dd25bf07ffb469e22ff0cfd7b48d7de7938e96a84fc8a2f8b6084d61d",
+  "versions": {
+    "python": "3.14.3",
+    "numpy": "2.5.1",
+    "scipy": "1.18.0"
+  },
+  "protocol_commit": "dd342d11",
+  "state_specifications": {
+    "e0": {
+      "family": "elo",
+      "k": 0.08,
+      "half_life": 120,
+      "season_keep": 0.35
+    },
+    "e1": {
+      "family": "elo",
+      "k": 0.16,
+      "half_life": 90,
+      "season_keep": 0.5
+    },
+    "e2": {
+      "family": "elo",
+      "k": 0.28,
+      "half_life": 60,
+      "season_keep": 0.65
+    },
+    "a0": {
+      "family": "attack_defence",
+      "process": 0.0005,
+      "half_life": 180,
+      "season_keep": 0.35
+    },
+    "a1": {
+      "family": "attack_defence",
+      "process": 0.002,
+      "half_life": 120,
+      "season_keep": 0.5
+    },
+    "a2": {
+      "family": "attack_defence",
+      "process": 0.006,
+      "half_life": 60,
+      "season_keep": 0.65
+    }
+  }
+}
