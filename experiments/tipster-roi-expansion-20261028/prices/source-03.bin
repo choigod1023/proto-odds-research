@@ -1,0 +1,2716 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta id="description" name="description" content="와이즈토토, 현직 해설위원 전문기자의 프로토 토토 분석 정보 제공"/>
+<meta id="keywords" name="keywords" content="와이즈토토, 프로토 분석, 토토 분석, 프로토, 토토, 게임 상세정보, 해외 배당률, 축구/농구/야구/배구/골프/하키/풋볼 경기 정보 제공"/>
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="와이즈토토">
+<meta property="og:title" content="와이즈토토: 프로토 토토 분석의 현명한 가이드">
+<meta property="og:description" content="현직 해설위원, 전문기자의 프로토 토토 게임 상세정보 분석 제공">
+<meta property="og:url" content="http://www.wisetoto.com">
+<meta property="og:image" content="https://storage.wisetoto.com/images/common/logo/opengraph_wisetoto.png">
+
+
+<title>와이즈토토</title>
+<link rel="shortcut icon" href="https://storage.wisetoto.com/images/common/icon/favicon.ico" type="image/x-icon"/>
+<link rel="canonical" href="https://www.wisetoto.com/index.htm?tab_type=proto&game_type=pt&game_category=pt1&game_year=2026&game_round=104">
+<link rel="alternate" media="only screen and (max-width: 640px)" href="https://mw.wisetoto.com/index.htm?tab_type=proto&game_type=pt&game_category=pt1&game_year=2026&game_round=104">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400&display=swap"><link rel="stylesheet" href="/css/new_style.css?t=20261008170000" type="text/css" title="style"/><link rel="stylesheet" href="/css/new_main.css?t=202307180900" type="text/css" title="style"/><link rel="stylesheet" href="/css/new_gameinfo.css?t=20260520103700" type="text/css" title="style"/>
+<script type="text/javascript" src="/js/util.js?t=202001131728"></script>
+<script type="text/javascript">var menuCode="";</script>
+<script type="text/javascript" src="/js/navi.js?35"></script>
+<script type="text/javascript" src="/js/jquery.js?t=2021021713"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MSJJVKW7ZF"></script>
+<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-MSJJVKW7ZF');
+</script>
+<script>
+/*
+ * 261008 Google Charts loader.js 를 async 로 로드 (동기 로드 시 응답이 올 때까지 본문 파싱이 멈춤)
+ *        loader.js 도착 전의 google.charts.load / setOnLoadCallback 호출은 쌓아 두었다가 onload 에서 실제 함수로 다시 실행한다.
+ *        loader.js 는 기존 google.charts 객체를 유지한 채 load / setOnLoadCallback 만 덮어쓴다.
+ */
+var _gchartsQueue = [];
+window.google = window.google || {};
+google.charts = google.charts || {};
+google.charts.load = function () { return _gchartsDefer('load', arguments); };
+google.charts.setOnLoadCallback = function () { return _gchartsDefer('setOnLoadCallback', arguments); };
+function _gchartsDefer(fn, args) {
+	return new Promise(function (resolve, reject) {
+		_gchartsQueue.push({fn: fn, args: args, resolve: resolve, reject: reject});
+	});
+}
+function _gchartsReady() {
+	/*
+	 * 같은 loader 에서 load 를 두 번 부르면 버전 43 이 두 번째 호출에 돌려주는 Promise 가 패키지 로드 전에 끝나
+	 * load('current', ...).then() 안에서 google.visualization.DataTable 이 아직 없다.
+	 * 이미 받은 패키지만 요청하는 두 번째 이후 호출은 실제 load 를 다시 부르지 않고 첫 load 의 완료 Promise 를 돌려준다.
+	 */
+	var realLoad = google.charts.load;
+	var loadedPackages = null;
+	google.charts.load = function () {
+		var opt = {};
+		for (var i = 0; i < arguments.length; i++) {
+			if (arguments[i] && typeof arguments[i] === 'object') opt = arguments[i];
+		}
+		var packages = [].concat(opt.packages || ['corechart']).map(function (p) { return String(p).toLowerCase(); });
+
+		if (loadedPackages === null) {
+			loadedPackages = packages;
+			return realLoad.apply(google.charts, arguments);
+		}
+
+		var missing = packages.filter(function (p) { return loadedPackages.indexOf(p) < 0; });
+		if (missing.length) {
+			loadedPackages = loadedPackages.concat(missing);
+			return realLoad.apply(google.charts, arguments);
+		}
+
+		if (typeof opt.callback === 'function') google.charts.setOnLoadCallback(opt.callback);
+		return google.charts.setOnLoadCallback();
+	};
+
+	var queue = _gchartsQueue;
+	_gchartsQueue = [];
+	for (var i = 0; i < queue.length; i++) {
+		try {
+			Promise.resolve(google.charts[queue[i].fn].apply(google.charts, queue[i].args)).then(queue[i].resolve, queue[i].reject);
+		} catch (e) {
+			queue[i].reject(e);
+		}
+	}
+}
+</script>
+<script async src="https://www.gstatic.com/charts/loader.js" onload="_gchartsReady();"></script>
+<script type="text/javascript" src="/js/chart.js"></script>
+<script>google.charts.load('43', {'packages' : ['corechart', 'line', 'bar']});</script>
+<!-- 타블라 기사 추천형 광고 스크립트 -->
+<!-- //타블라 기사 추천형 광고 스크립트 -->
+</head>
+<body><script>
+var ad_s = document.createElement("script");
+ad_s.type = "text/javascript";
+ad_s.src = "https://compass.adop.cc/assets/js/adop/adopJ.js?v=14";
+var ad_i = document.createElement("ins");
+ad_i.className = "adsbyadop";
+ad_i.setAttribute("_adop_zon", "41bee777-e131-489e-8140-1fbe08c93203");
+ad_i.setAttribute("_adop_type", "re");
+ad_i.setAttribute("_page_url", '');
+ad_i.setAttribute("style", "display:inline-block;width:1px;height:1px;");
+
+$(document).ready(function(){
+	//Click event to scroll to top
+	$('.scrollToBottom').click(function(){
+		$(document).scrollTop($(document).height());
+		return false;
+	});
+});
+
+$(window).resize(function() {
+	var banner_right = $('.banner_right'),
+		windowWidth = $(window).width(),
+		floatingScroll = $(window).scrollTop();
+	if (windowwidth < 1200) banner_right.addClass('fixed');
+	else banner_right.removeClass('fixed');
+
+	if (windowWidth >= 1720 || floatingScroll >= 640) {
+
+		if( floatingVideo.length == 1 ){
+
+			floatingVideo.append(ad_s);
+			floatingVideo.append(ad_i);
+		}
+		if ( typeof($('.impactify-AM-player')) != "undefined" && $('.impactify-AM-player') !== null ) {
+
+			$('.impactify-AM-player').show();
+		}
+
+	} else {
+
+		if ( typeof($('.impactify-AM-player')) != "undefined" && $('.impactify-AM-player') !== null ) {
+
+			$('.impactify-AM-player').hide();
+		}
+		floatingVideo.children().remove();
+
+	}
+});
+
+// 우측 리모콘 191106 추가 우측하단 동영상광고 220927 추가
+$(window).scroll(function(){
+
+	var floatingMenu = $('.remote_control'),
+		floatingVideo = $('.video_right'),
+		windowWidth = $(window).width(),
+		floatingScroll = $(window).scrollTop();
+
+	if (floatingScroll >= 670) floatingMenu.addClass('fixed');
+	else floatingMenu.removeClass('fixed');
+
+	if (windowWidth >= 1720 && floatingScroll >= 640){
+
+		if( floatingVideo.length == 1 ){
+			floatingVideo.append(ad_s);
+			floatingVideo.append(ad_i);
+		}
+		if ( typeof($('.impactify-AM-player')) != "undefined" && $('.impactify-AM-player') !== null ) {
+
+			$('.impactify-AM-player').show();
+		}
+
+	} else {
+
+		if ( typeof($('.impactify-AM-player')) != "undefined" && $('.impactify-AM-player') !== null ) {
+
+			$('.impactify-AM-player').hide();
+		}
+		floatingVideo.removeClass('fixed');
+
+	}
+
+});
+
+// TOP 버튼 191106 추가
+var TopButton = $('.to_top');
+
+TopButton.on('click', function(e) {
+	e.preventDefault();
+	$('html, body').animate({scrollTop:0}, '1000');
+});
+
+
+function set_popup_cookie(name, value, expiredays){
+	var todayDate = new Date();
+	todayDate.setDate (todayDate.getDate() + expiredays);
+	document.cookie = name + "=" + escape(value) + "; path=/; expires=" + todayDate.toGMTString() + ";";
+}
+
+function get_popup_cookie(name){
+	var cookieName = name + "=";
+	var x = 0;
+	while(x <= document.cookie.length){
+		var y = (x+cookieName.length);
+		if(document.cookie.substring( x, y ) == cookieName){
+			if((lastChrCookie=document.cookie.indexOf(";", y)) == -1) lastChrCookie = document.cookie.length;
+			return decodeURI(document.cookie.substring(y, lastChrCookie));
+		}
+		x = document.cookie.indexOf(" ", x ) + 1;
+		if(x == 0) break;
+	}
+	return "";
+}
+function notice_close_1day_popup(){
+	if(document.getElementById('notice_pop').checked){
+		set_popup_cookie('notice_main_pop_20200110', 'done', 1);
+		document.getElementById('notice_check_div').style.display='none';
+	}
+}
+
+function notice_close_popup(){
+	document.getElementById('notice_check_div').style.display='none';
+}
+
+</script>
+<!-- // 190930 추가 -->
+<script type="text/javascript" src="js/jquery.imageScroller.js?t=202001141110"></script>
+<div id="wrap">
+
+<!-- header new 190930 추가 -->
+<div id="header">
+	<div class="header_wrap">
+			<h1><a href="/index.htm"><img src="https://storage.wisetoto.com/images/common/logo/h1_logo.png" alt="Wise toto"></a></h1>
+		<div class="global_menu">
+			<ul class="menu_list">
+				<li><a href="/app/scorecenter_info.htm">Apps</a></li>
+				<li><a href="/customer/list.htm?b_id=21">고객센터</a></li>
+			</ul>
+		</div>
+
+		<div class="gnb">
+			<ul class="nav">
+				<li class="depth01 menu01"><a href="/analysis/analysis_list.htm">전문가 분석</a>
+					<ul class="depth02">
+						<li><a href="/analysis/match_list.htm">분석글 전체</a></li>
+						<li><a href="/analysis/analysis_list.htm?sports=sc">축구 위원</a></li>
+						<li><a href="/analysis/analysis_list.htm?sports=bs">야구 위원</a></li>
+						<li><a href="/analysis/analysis_list.htm?sports=bk">농구 위원</a></li>
+						<li><a href="/analysis/analysis_list.htm?sports=vl">배구 위원</a></li>
+						<li><a href="/analysis/my_analysis_list.htm">MY 분석위원</a></li>
+					</ul>
+				</li>
+				<li class="depth01 menu02"><a href="/siteinfo/site_list.htm">현장정보</a>
+					<ul class="depth02">
+						<li><a href="/siteinfo/site_list.htm">전체</a></li>
+						<li><a href="/siteinfo/site_list.htm?sports=sc">축구</a></li>
+						<li><a href="/siteinfo/site_list.htm?sports=bs">야구</a></li>
+						<li><a href="/siteinfo/site_list.htm?sports=bk">농구</a></li>
+						<li><a href="/siteinfo/site_list.htm?sports=vl">배구</a></li>
+					</ul>
+				</li>
+				<li class="depth01 menu03"><a href="/wchannel/video_list.htm?category=n">영상센터</a>
+					<ul class="depth02">
+						<li><a href="/wchannel/video_list.htm?category=n">최신 영상</a></li>
+						<li><a href="/wchannel/video_list.htm?category=sc1">볼만찬</a></li>
+						<li><a href="/wchannel/video_list.htm?category=bs1">야구부장</a></li>
+						<li><a href="/wchannel/video_list.htm?category=bk1">이류농구</a></li>
+						<li><a href="/wchannel/video_list.htm?category=bk2">3X3</a></li>
+						<li><a href="/wchannel/video_list.htm?category=l">라이브</a></li>
+					</ul>
+				</li>
+				<li class="depth01 menu04"><a href="/community/list.htm?b_id=12">라운지</a>
+					<ul class="depth02">
+						<li><a href="/community/list.htm?b_id=12">커뮤니티</a></li>
+						<li><a href="/news/list.htm?b_id=1">스포츠뉴스</a></li>
+						<li><a href="/news/league_ranking.htm">리그순위</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>		<!-- 배너 영역 -->
+		<div class="banner_wrap">
+					<div class="slick-prev" id="bannerPrev" onclick="prevSlide();"></div>
+
+			<div class="banner_slide">
+							<div class="bannerSlideList fade" id="bannerSlideList">
+									<li class="slick-slide" onclick="setBannerClick('675');" id="675">
+						<a href="analysis/match_list.htm?sports=bk&id=moonwalker90"><img src="https://storage.wisetoto.com/images/main/new_banner/261027_6adfeb35d9b74.jpg" alt="" width="476" height="128"></a>
+					</li>
+									<li class="slick-slide" onclick="setBannerClick('676');" id="1">
+						<a href="/analysis/bettingline_list.htm?sports=sc&id=afc4288&sports_addition="><img src="https://storage.wisetoto.com/images/main/new_banner/261027_6adfeb55c8204.jpg" alt="" width="476" height="128"></a>
+					</li>
+								</div>
+							<div class="bannerSlideList fade" id="bannerSlideList">
+									<li class="slick-slide" onclick="setBannerClick('535');" id="535">
+						<a href="https://www.wisetoto.com/customer/view.htm?b_id=21&category=&sca=&seq=3505&sort=date&sf=&p=&page=1"><img src="https://storage.wisetoto.com/images/main/new_banner/260330_69ca2d100365a.jpg" alt="" width="476" height="128"></a>
+					</li>
+									<li class="slick-slide" onclick="setBannerClick('536');" id="3">
+						<a href="https://www.wisetoto.com/customer/view.htm?b_id=21&category=&sca=&seq=3505&sort=date&sf=&p=&page=1"><img src="https://storage.wisetoto.com/images/main/new_banner/260330_69ca2d2353817.jpg" alt="" width="476" height="128"></a>
+					</li>
+								</div>
+							<div class="bannerSlideList fade" id="bannerSlideList">
+									<li class="slick-slide" onclick="setBannerClick('674');" id="674">
+						<a href="/analysis/bettingline_list.htm?sports=bs&id=pbox7"><img src="https://storage.wisetoto.com/images/main/new_banner/261024_6adc169aaedb6.jpg" alt="" width="476" height="128"></a>
+					</li>
+									<li class="slick-slide" onclick="setBannerClick('658');" id="5">
+						<a href="https://hyperprism.co.kr/article/notice/1/272/?utm_source=TION&utm_medium=partner&utm_campaign=TION_promotion" target="_blank"><img src="https://storage.wisetoto.com/images/main/new_banner/260930_6abca2a8e1080.jpg" alt="" width="476" height="128"></a>
+					</li>
+								</div>
+						</div>
+			<div class="slick-next" id="bannerNext" onclick="nextSlide();"></div>
+			<ul class="banner-dots">
+							<li class="dot">
+					<button type="button" onclick="showSlides(0);"></button>
+				</li>
+							<li class="dot">
+					<button type="button" onclick="showSlides(1);"></button>
+				</li>
+							<li class="dot">
+					<button type="button" onclick="showSlides(2);"></button>
+				</li>
+						</ul>
+				</div>
+				<script>
+
+		function setBannerClick(id) {
+			var Data = { "id": id};
+			var Url = '/util/etc/banner_img_click_redis.php';
+			$.ajax({
+				url: Url, // 목적지
+				data: Data,
+				type:"POST",
+				dataType:"json",
+				success: function(result) {
+					if (result) {
+
+					} else {
+						console.log(result);
+					}
+				}
+			});
+		}
+
+		var slideIndex = 0;
+		var intervalBanner;
+
+		showSlides(slideIndex);
+
+		function nextSlide() {
+			showSlides(slideIndex += 1);
+		}
+
+		function prevSlide() {
+			showSlides(slideIndex -= 1);
+		}
+
+		function showSlides(n) {
+
+			var i;
+			var slides = document.querySelectorAll('.bannerSlideList');
+			var dots = document.querySelectorAll('.dot');
+
+			if (n >= slides.length) {n = 0}
+			if (n < 0) {n = (slides.length - 1)}
+
+			for (i = 0; i < slides.length; i++) {
+				slides[i].style.display = 'none';
+			}
+
+			for (i = 0; i < dots.length; i++) {
+				dots[i].className = dots[i].className.replace(' slick-active', '');
+			}
+
+			slideIndex = n;
+
+			slides[slideIndex].style.display = 'block';
+			dots[slideIndex].className += ' slick-active';
+
+			clearInterval(intervalBanner);
+			mainbanner_run();
+		}
+
+		function mainbanner_run() {
+			intervalBanner = setInterval("nextSlide(1);", 10000);
+		}
+		</script>
+			</div>
+</div>
+<!-- // header new 190930 추가 -->
+
+<!-- 분석위원 스크롤 영역 190930 -->
+<script>
+$(function(){
+	$('#analystSlide').imageScroller({
+		next: 'analystPrev',	// 다음 버튼 ID값
+		prev: 'analystNext',	// 이전 버튼 ID값
+		frame: 'analystSlideList',	// 스크롤러 프레임 ID값
+		width: 264,	// 이미지 가로 크기
+		child: 'li',	// 스크롤 지정 태그
+		auto: true	// 오토 롤링 (해제는 false)
+	});
+});
+</script>
+<div class="analyst_wrap">
+	<div class="slick-prev" id="analystPrev"></div>
+	<div class="analyst_slide" id="analystSlide">
+		<ul class="slide_list" id="analystSlideList">
+						<li class="item">
+				<a href="/analysis/bettingline_list.htm?sports=sc&id=win0417">
+				<div class="thumb"><img src="https://storage.wisetoto.com/data/analysis/win04171580284681_s.png" alt="분석위원 1" width="66" height="84"></div>
+				</a>
+				<div class="text-wrap">
+					<div class="anal_title">
+						<a href="/analysis/bettingline_list.htm?sports=sc&id=win0417">
+							<span class="tag small type04">축구</span> <!-- type02 -->
+							<span class="name">유상열</span>
+							<span class="belong">
+																<b style="color:#ee395f;">판매왕</b><img src="https://storage.wisetoto.com/images/common/icon/icon_analysis_heart.png" alt="">															</span>
+						</a>
+					</div>
+					<div>
+											<span>
+																						<p><img src="https://storage.wisetoto.com/images/common/icon/icon_analysis_sc.png" alt=""> 축구 J1리그 <span class="sports_color_sc"><b>60%</b></span> 적중<p><img src="https://storage.wisetoto.com/images/common/icon/icon_analysis_bs.png" alt=""> 야구 MLB <span class="sports_color_bs"><b>64%</b></span> 적중<p><img src="https://storage.wisetoto.com/images/common/icon/icon_analysis_bk.png" alt=""> 농구 픽  <span class="sports_color_bk"><b>8연속</b></span> 적중</p>						</span>
+											</div>
+				</div>
+			</li>
+						<li class="item">
+				<a href="/analysis/toto_list.htm?sports=bk&id=pridekhs">
+				<div class="thumb"><img src="https://storage.wisetoto.com/data/analysis/pridekhs1580284598_s.JPG" alt="분석위원 1" width="66" height="84"></div>
+				</a>
+				<div class="text-wrap">
+					<div class="anal_title">
+						<a href="/analysis/toto_list.htm?sports=bk&id=pridekhs">
+							<span class="tag small type02">농구</span> <!-- type02 -->
+							<span class="name">김홍석</span>
+							<span class="belong">
+																															</span>
+						</a>
+					</div>
+					<div>
+											<span>
+															<p style="font-size: 12px;"><img src="https://storage.wisetoto.com/images/common/icon/icon_analysis_proto.png" alt="">프로토 최근 회차 평균 <span class="chart_pt"><b>15.7배</b></span> 적중</p>							<p><img src="https://storage.wisetoto.com/images/common/icon/icon_analysis_sc.png" alt=""> 축구 세리에A <span class="sports_color_sc"><b>65%</b></span> 적중<p><img src="https://storage.wisetoto.com/images/common/icon/icon_analysis_bs.png" alt=""> 야구 MLB <span class="sports_color_bs"><b>63%</b></span> 적중						</span>
+											</div>
+				</div>
+			</li>
+						<li class="item">
+				<a href="/analysis/match_list.htm?sports=bk&id=spree158">
+				<div class="thumb"><img src="https://storage.wisetoto.com/data/analysis/spree1581582783017_s.JPG" alt="분석위원 1" width="66" height="84"></div>
+				</a>
+				<div class="text-wrap">
+					<div class="anal_title">
+						<a href="/analysis/match_list.htm?sports=bk&id=spree158">
+							<span class="tag small type02">농구</span> <!-- type02 -->
+							<span class="name">조현일</span>
+							<span class="belong">
+																															</span>
+						</a>
+					</div>
+					<div>
+											<span>
+															<p style="font-size: 12px;"><img src="https://storage.wisetoto.com/images/common/icon/icon_analysis_proto.png" alt="">프로토 최근 회차 최고 <span class="chart_pt"><b>10.0배</b></span> 적중</p>							<p><img src="https://storage.wisetoto.com/images/common/icon/icon_analysis_sc.png" alt=""> 축구 J1리그 <span class="sports_color_sc"><b>63%</b></span> 적중<p><img src="https://storage.wisetoto.com/images/common/icon/icon_analysis_bs.png" alt=""> 야구 NPB <span class="sports_color_bs"><b>75%</b></span> 적중						</span>
+											</div>
+				</div>
+			</li>
+						<li class="item">
+				<a href="/analysis/match_list.htm?sports=bk&id=nagalle71">
+				<div class="thumb"><img src="https://storage.wisetoto.com/data/analysis/nagalle711581646209_s.JPG" alt="분석위원 1" width="66" height="84"></div>
+				</a>
+				<div class="text-wrap">
+					<div class="anal_title">
+						<a href="/analysis/match_list.htm?sports=bk&id=nagalle71">
+							<span class="tag small type02">농구</span> <!-- type02 -->
+							<span class="name">2월30일생</span>
+							<span class="belong">
+																															</span>
+						</a>
+					</div>
+					<div>
+											<span>
+															<p style="font-size: 12px;"><img src="https://storage.wisetoto.com/images/common/icon/icon_analysis_proto.png" alt="">프로토 최근 회차 최고 <span class="chart_pt"><b>32.6배</b></span> 적중</p>							<p><img src="https://storage.wisetoto.com/images/common/icon/icon_analysis_sc.png" alt=""> 축구 픽  <span class="sports_color_sc"><b>7연속</b></span> 적중</p><p><img src="https://storage.wisetoto.com/images/common/icon/icon_analysis_bs.png" alt=""> 야구 MLB <span class="sports_color_bs"><b>79%</b></span> 적중						</span>
+											</div>
+				</div>
+			</li>
+						<li class="item">
+				<a href="/analysis/toto_list.htm?sports=sc&id=wjdtjdals41">
+				<div class="thumb"><img src="https://storage.wisetoto.com/data/analysis/wjdtjdals411709788143_s.JPG" alt="분석위원 1" width="66" height="84"></div>
+				</a>
+				<div class="text-wrap">
+					<div class="anal_title">
+						<a href="/analysis/toto_list.htm?sports=sc&id=wjdtjdals41">
+							<span class="tag small type04">축구</span> <!-- type02 -->
+							<span class="name">All-kill</span>
+							<span class="belong">
+																															</span>
+						</a>
+					</div>
+					<div>
+											<span>
+																						<p><img src="https://storage.wisetoto.com/images/common/icon/icon_analysis_sc.png" alt=""> 축구 픽  <span class="sports_color_sc"><b>6연속</b></span> 적중</p><p><img src="https://storage.wisetoto.com/images/common/icon/icon_analysis_bk.png" alt=""> 농구 픽  <span class="sports_color_bk"><b>6연속</b></span> 적중</p><p><img src="https://storage.wisetoto.com/images/common/icon/icon_analysis_vl.png" alt=""> 배구 KOVO컵남 <span class="sports_color_vl"><b>78%</b></span> 적중						</span>
+											</div>
+				</div>
+			</li>
+						<li class="item">
+				<a href="/analysis/match_list.htm?sports=sc&id=moriraul">
+				<div class="thumb"><img src="https://storage.wisetoto.com/data/analysis/moriraul1580284705_s.JPG" alt="분석위원 1" width="66" height="84"></div>
+				</a>
+				<div class="text-wrap">
+					<div class="anal_title">
+						<a href="/analysis/match_list.htm?sports=sc&id=moriraul">
+							<span class="tag small type04">축구</span> <!-- type02 -->
+							<span class="name">이형석</span>
+							<span class="belong">
+																															</span>
+						</a>
+					</div>
+					<div>
+											<span>
+															<p style="font-size: 12px;"><img src="https://storage.wisetoto.com/images/common/icon/icon_analysis_proto.png" alt="">프로토 최근 회차 최고 <span class="chart_pt"><b>11.6배</b></span> 적중</p>							<p><img src="https://storage.wisetoto.com/images/common/icon/icon_analysis_sc.png" alt=""> 축구 J2리그 <span class="sports_color_sc"><b>67%</b></span> 적중						</span>
+											</div>
+				</div>
+			</li>
+						<li class="item">
+				<a href="/analysis/match_list.htm?sports=bk&id=jollyul">
+				<div class="thumb"><img src="https://storage.wisetoto.com/data/analysis/jollyul1580284623_s.JPG" alt="분석위원 1" width="66" height="84"></div>
+				</a>
+				<div class="text-wrap">
+					<div class="anal_title">
+						<a href="/analysis/match_list.htm?sports=bk&id=jollyul">
+							<span class="tag small type02">농구</span> <!-- type02 -->
+							<span class="name">류동혁</span>
+							<span class="belong">
+																								<b style="color:#ee1c23;">승5패26회차1등</b><span style="font-size:8px;vertical-align:text-top;">👑</span> 							</span>
+						</a>
+					</div>
+					<div>
+											<span>
+															<p style="font-size: 12px;"><img src="https://storage.wisetoto.com/images/common/icon/icon_analysis_proto.png" alt="">프로토 최근 회차 최고 <span class="chart_pt"><b>9.3배</b></span> 적중</p>							<p><img src="https://storage.wisetoto.com/images/common/icon/icon_analysis_sc.png" alt=""> 축구 픽  <span class="sports_color_sc"><b>8연속</b></span> 적중</p><p><img src="https://storage.wisetoto.com/images/common/icon/icon_analysis_bs.png" alt=""> 야구 NPB <span class="sports_color_bs"><b>63%</b></span> 적중						</span>
+											</div>
+				</div>
+			</li>
+						<li class="item">
+				<a href="/analysis/bettingline_list.htm?sports=bk&id=ifun2013">
+				<div class="thumb"><img src="https://storage.wisetoto.com/data/analysis/ifun20131574660042_s.JPG" alt="분석위원 1" width="66" height="84"></div>
+				</a>
+				<div class="text-wrap">
+					<div class="anal_title">
+						<a href="/analysis/bettingline_list.htm?sports=bk&id=ifun2013">
+							<span class="tag small type02">농구</span> <!-- type02 -->
+							<span class="name">오형국</span>
+							<span class="belong">
+																															</span>
+						</a>
+					</div>
+					<div>
+											<span>
+															<p style="font-size: 12px;"><img src="https://storage.wisetoto.com/images/common/icon/icon_analysis_proto.png" alt="">프로토 최근 회차 평균 <span class="chart_pt"><b>3.3배</b></span> 적중</p>							<p><img src="https://storage.wisetoto.com/images/common/icon/icon_analysis_sc.png" alt=""> 축구 세리에A <span class="sports_color_sc"><b>71%</b></span> 적중<p><img src="https://storage.wisetoto.com/images/common/icon/icon_analysis_bs.png" alt=""> 야구 NPB <span class="sports_color_bs"><b>63%</b></span> 적중						</span>
+											</div>
+				</div>
+			</li>
+						<li class="item">
+				<a href="/analysis/toto_list.htm?sports=sc&id=jaesung5594">
+				<div class="thumb"><img src="https://storage.wisetoto.com/data/analysis/jaesung55941725265399_s.JPG" alt="분석위원 1" width="66" height="84"></div>
+				</a>
+				<div class="text-wrap">
+					<div class="anal_title">
+						<a href="/analysis/toto_list.htm?sports=sc&id=jaesung5594">
+							<span class="tag small type04">축구</span> <!-- type02 -->
+							<span class="name">김진혁</span>
+							<span class="belong">
+																								<b style="color:#cf5015;">라리가언옵왕</b><span style="font-size:8px;vertical-align:text-top;">⚽</span> 							</span>
+						</a>
+					</div>
+					<div>
+											<span>
+																						<p><img src="https://storage.wisetoto.com/images/common/icon/icon_analysis_sc.png" alt=""> 축구 픽  <span class="sports_color_sc"><b>7연속</b></span> 적중</p><p><img src="https://storage.wisetoto.com/images/common/icon/icon_analysis_bk.png" alt=""> 농구 픽  <span class="sports_color_bk"><b>8연속</b></span> 적중</p>						</span>
+											</div>
+				</div>
+			</li>
+						<li class="item">
+				<a href="/analysis/toto_list.htm?sports=sc&id=tiny999">
+				<div class="thumb"><img src="https://storage.wisetoto.com/data/analysis/tiny9991580284662_s.JPG" alt="분석위원 1" width="66" height="84"></div>
+				</a>
+				<div class="text-wrap">
+					<div class="anal_title">
+						<a href="/analysis/toto_list.htm?sports=sc&id=tiny999">
+							<span class="tag small type04">축구</span> <!-- type02 -->
+							<span class="name">베르캄프10</span>
+							<span class="belong">
+																															</span>
+						</a>
+					</div>
+					<div>
+											<span>
+															<p style="font-size: 12px;"><img src="https://storage.wisetoto.com/images/common/icon/icon_analysis_proto.png" alt="">프로토 최근 회차 최고 <span class="chart_pt"><b>14.8배</b></span> 적중</p>							<p><img src="https://storage.wisetoto.com/images/common/icon/icon_analysis_sc.png" alt=""> 축구 K리그1 <span class="sports_color_sc"><b>71%</b></span> 적중						</span>
+											</div>
+				</div>
+			</li>
+					</ul>
+	</div>
+	<div class="slick-next" id="analystNext"></div>
+</div>
+<!-- // 분석위원 스크롤 영역 190930 -->
+
+<div id="content">
+<div class="side_menu">
+			<div class="section login">
+			<fieldset>
+				<legend>로그인</legend>
+				<p class="notice_text"><strong>로그인</strong> 후 서비스를 이용해주세요</p>
+				<a href="https://www.wisetoto.com/member/login.htm?href=%2Findex.htm%3Ftab_type%3Dproto%26game_type%3Dpt%26game_category%3Dpt1%26game_year%3D2026%26game_round%3D104" class="btn log_in">로그인</a>
+				<ul class="find_info">
+					<li><a href="https://www.wisetoto.com/member/idpw_find.htm">아이디/비밀번호 찾기</a></li>
+					<li><a href="https://www.wisetoto.com/member/signup.htm?href=%2Findex.htm%3Ftab_type%3Dproto%26game_type%3Dpt%26game_category%3Dpt1%26game_year%3D2026%26game_round%3D104">회원가입</a></li>
+				</ul>
+			</fieldset>
+		</div>
+	<div class="section free_coupon">
+		<a href="/mypage/free_coupon.htm" class="btn medium type01"><img src="https://storage.wisetoto.com/images/common/icon/ico_free.png" alt="F">프리쿠폰 등록하기</a>
+	</div>
+
+	<div class="section calculate">
+		<a onclick="popupOpen_D('/gameinfo/pt1_rate_cal.htm','','980','690');" class="btn medium type02" style="cursor: pointer;">배당률 계산기</a>
+		<a onclick="popupOpen_D('/gameinfo/toto_calc.htm?game_category=sc1','','1140','760');" class="btn medium type02" style="cursor: pointer;">승무패 계산기</a>
+		<a onclick="popupOpen_D('/gameinfo/toto_calc.htm?game_category=bs1','','1140','760');" class="btn medium type02" style="cursor: pointer;">승1패 계산기</a>
+		<a onclick="popupOpen_D('/gameinfo/toto_calc.htm?game_category=bk1','','1140','760');" class="btn medium type02" style="cursor: pointer;">승5패 계산기</a>
+			</div>
+			<div style="clear: both; width: 100%; height: 4px;"></div>
+		<a href="https://scorecenter.onelink.me/2511975949/e398a5d1" target="_blank">
+			<img class="img" style="width: 240px;" src="https://storage.wisetoto.com/images/main/scorecenter_qr2.jpg"/>
+		</a>
+		<div style="text-align:center; margin-top:10px; margin-bottom:10px;">
+			<script async src="https://compass.adop.cc/assets/js/adop/adopJ.js?v=14"></script>
+<ins class='adsbyadop' _adop_zon = 'eea41eb6-8b45-4fc4-8dd1-32f4f0a88c9c' _adop_type = 're' style='display:inline-block;width:200px;height:200px;' _page_url=''></ins>
+		</div>
+				<div class="section info_wrap">
+			<div class="notice">
+				<h3>공지사항</h3>
+				<a href="/customer/list.htm?b_id=21" class="btn-more">더보기 +</a>
+				<ul class="data-list">
+									<li><a href="/customer/view.htm?b_id=21&seq=3598">승부식 129회차 대상경기 안내</a></li>
+									<li><a href="/customer/view.htm?b_id=21&seq=3597">승부식 128회차 대상경기 안내</a></li>
+								</ul>
+			</div>
+		</div>	<style>
+		.gd_time_wrap ul.gd_time_count:after { content: ''; display: block; clear: both; }
+		.gd_time_wrap .gd_time_count li {height:40px; color:#fff; float:left; font-family:'Lato'; font-size:25px; font-weight:700;  text-align:center; line-height:40px;}
+		.gd_time_wrap .gd_time_count li.day {width:23px; background-position:-278px -388px; text-indent:-9999px;}
+		.gd_time_wrap .gd_time_count li.colon {width:14px; background-position:-315px -382px; text-indent:-9999px;}
+		.bg-none {background:none !important;}
+		ul {list-style:none;}
+				#Time_d3 {margin-left:7px;}
+		#Time_h1 {margin-left:26px;}
+				#Time_m1 {margin-left:19px;}
+		#Time_s1 {margin-left:15px;}
+				#Time_h1_v {margin-left:17px;}
+		#Time_m1_v {margin-left:19px;}
+		#Time_s1_v {margin-left:19px;}
+			</style>
+						<div class="section sale">
+			<h3>전체 발매현황</h3>
+			<a onclick="popupOpen_D('/gameinfo/game_schedule.htm','','1200','800');" class="btn-more" style="cursor: pointer;">게임일정 보기 +</a>
+			<div class="game_info">
+				<h4>프로토</h4>
+				<ul class="data_list">
+										<li>
+						<span class="sort"><img src="https://storage.wisetoto.com/images/common/icon/icn_pt.png" alt="프로토"></span>
+						<span class="type">
+							<a href="/index.htm?tab_type=proto&game_type=pt&game_category=pt1&game_year=2026&game_round=127" style="color: #000000; cursor: pointer; text-decoration: none;">
+								승부식							</a>
+						</span>
+						<span class="count">127회차</span>
+						<span class="state finish">마감</span>
+					</li>
+										<li>
+						<span class="sort"><img src="https://storage.wisetoto.com/images/common/icon/icn_pt.png" alt="프로토"></span>
+						<span class="type">
+							<a href="/index.htm?tab_type=proto&game_type=pt&game_category=pt1&game_year=2026&game_round=128" style="color: #000000; cursor: pointer; text-decoration: none;">
+								승부식							</a>
+						</span>
+						<span class="count">128회차</span>
+						<span class="state ing">발매중</span>
+					</li>
+										<li>
+						<span class="sort"><img src="https://storage.wisetoto.com/images/common/icon/icn_pt.png" alt="프로토"></span>
+						<span class="type">
+							<a href="/index.htm?tab_type=proto&game_type=pt&game_category=pt2&game_year=2026&game_round=116" style="color: #000000; cursor: pointer; text-decoration: none;">
+								기록식							</a>
+						</span>
+						<span class="count">116회차</span>
+						<span class="state finish">마감</span>
+					</li>
+										<li>
+						<span class="sort"><img src="https://storage.wisetoto.com/images/common/icon/icn_pt.png" alt="프로토"></span>
+						<span class="type">
+							<a href="/index.htm?tab_type=proto&game_type=pt&game_category=pt2&game_year=2026&game_round=117" style="color: #000000; cursor: pointer; text-decoration: none;">
+								기록식							</a>
+						</span>
+						<span class="count">117회차</span>
+						<span class="state ing">발매중</span>
+					</li>
+									</ul>
+
+				<h4>토토</h4>
+				<ul class="data_list">
+										<li>
+						<span class="sort"><img src="https://storage.wisetoto.com/images/common/icon/icn_sc.png" alt="축구토토"></span>
+						<span class="type">
+							<a href="/index.htm?tab_type=toto&game_type=sc&game_category=sc1&game_year=2026&game_round=63" style="color: #000000; cursor: pointer; text-decoration: none;">
+								승무패							</a>
+						</span>
+						<span class="count">63회차</span>
+						<span class="state finish">마감</span>
+					</li>
+										<li>
+						<span class="sort"><img src="https://storage.wisetoto.com/images/common/icon/icn_sc.png" alt="축구토토"></span>
+						<span class="type">
+							<a href="/index.htm?tab_type=toto&game_type=sc&game_category=sc1&game_year=2026&game_round=64" style="color: #000000; cursor: pointer; text-decoration: none;">
+								승무패							</a>
+						</span>
+						<span class="count">64회차</span>
+						<span class="state ing">발매중</span>
+					</li>
+										<li>
+						<span class="sort"><img src="https://storage.wisetoto.com/images/common/icon/icn_sc.png" alt="축구토토"></span>
+						<span class="type">
+							<a href="/index.htm?tab_type=toto&game_type=sc&game_category=sc2&game_year=2026&game_round=66" style="color: #000000; cursor: pointer; text-decoration: none;">
+								스페셜							</a>
+						</span>
+						<span class="count">66회차</span>
+						<span class="state finish">마감</span>
+					</li>
+										<li>
+						<span class="sort"><img src="https://storage.wisetoto.com/images/common/icon/icn_sc.png" alt="축구토토"></span>
+						<span class="type">
+							<a href="/index.htm?tab_type=toto&game_type=sc&game_category=sc3&game_year=2026&game_round=28" style="color: #000000; cursor: pointer; text-decoration: none;">
+								매치							</a>
+						</span>
+						<span class="count">28회차</span>
+						<span class="state finish">마감</span>
+					</li>
+										<li>
+						<span class="sort"><img src="https://storage.wisetoto.com/images/common/icon/icn_bs.png" alt="야구토토"></span>
+						<span class="type">
+							<a href="/index.htm?tab_type=toto&game_type=bs&game_category=bs1&game_year=2026&game_round=75" style="color: #000000; cursor: pointer; text-decoration: none;">
+								승1패							</a>
+						</span>
+						<span class="count">75회차</span>
+						<span class="state finish">마감</span>
+					</li>
+										<li>
+						<span class="sort"><img src="https://storage.wisetoto.com/images/common/icon/icn_bs.png" alt="야구토토"></span>
+						<span class="type">
+							<a href="/index.htm?tab_type=toto&game_type=bs&game_category=bs2&game_year=2026&game_round=159" style="color: #000000; cursor: pointer; text-decoration: none;">
+								스페셜							</a>
+						</span>
+						<span class="count">159회차</span>
+						<span class="state finish">마감</span>
+					</li>
+										<li>
+						<span class="sort"><img src="https://storage.wisetoto.com/images/common/icon/icn_bs.png" alt="야구토토"></span>
+						<span class="type">
+							<a href="/index.htm?tab_type=toto&game_type=bs&game_category=bs3&game_year=2026&game_round=11" style="color: #000000; cursor: pointer; text-decoration: none;">
+								매치							</a>
+						</span>
+						<span class="count">11회차</span>
+						<span class="state finish">마감</span>
+					</li>
+										<li>
+						<span class="sort"><img src="https://storage.wisetoto.com/images/common/icon/icn_bs.png" alt="야구토토"></span>
+						<span class="type">
+							<a href="/index.htm?tab_type=toto&game_type=bs&game_category=bs3&game_year=2026&game_round=12" style="color: #000000; cursor: pointer; text-decoration: none;">
+								매치							</a>
+						</span>
+						<span class="count">12회차</span>
+						<span class="state ing">발매중</span>
+					</li>
+										<li>
+						<span class="sort"><img src="https://storage.wisetoto.com/images/common/icon/icn_bk.png" alt="농구토토"></span>
+						<span class="type">
+							<a href="/index.htm?tab_type=toto&game_type=bk&game_category=bk1&game_year=2026&game_round=30" style="color: #000000; cursor: pointer; text-decoration: none;">
+								승5패							</a>
+						</span>
+						<span class="count">30회차</span>
+						<span class="state finish">마감</span>
+					</li>
+										<li>
+						<span class="sort"><img src="https://storage.wisetoto.com/images/common/icon/icn_bk.png" alt="농구토토"></span>
+						<span class="type">
+							<a href="/index.htm?tab_type=toto&game_type=bk&game_category=bk2&game_year=2026&game_round=31" style="color: #000000; cursor: pointer; text-decoration: none;">
+								스페셜							</a>
+						</span>
+						<span class="count">31회차</span>
+						<span class="state finish">마감</span>
+					</li>
+										<li>
+						<span class="sort"><img src="https://storage.wisetoto.com/images/common/icon/icn_bk.png" alt="농구토토"></span>
+						<span class="type">
+							<a href="/index.htm?tab_type=toto&game_type=bk&game_category=bk6&game_year=2026&game_round=96" style="color: #000000; cursor: pointer; text-decoration: none;">
+								스페셜N							</a>
+						</span>
+						<span class="count">96회차</span>
+						<span class="state finish">마감</span>
+					</li>
+										<li>
+						<span class="sort"><img src="https://storage.wisetoto.com/images/common/icon/icn_bk.png" alt="농구토토"></span>
+						<span class="type">
+							<a href="/index.htm?tab_type=toto&game_type=bk&game_category=bk6&game_year=2026&game_round=97" style="color: #000000; cursor: pointer; text-decoration: none;">
+								스페셜N							</a>
+						</span>
+						<span class="count">97회차</span>
+						<span class="state ing">발매중</span>
+					</li>
+										<li>
+						<span class="sort"><img src="https://storage.wisetoto.com/images/common/icon/icn_bk.png" alt="농구토토"></span>
+						<span class="type">
+							<a href="/index.htm?tab_type=toto&game_type=bk&game_category=bk6&game_year=2026&game_round=98" style="color: #000000; cursor: pointer; text-decoration: none;">
+								스페셜N							</a>
+						</span>
+						<span class="count">98회차</span>
+						<span class="state ing">발매중</span>
+					</li>
+										<li>
+						<span class="sort"><img src="https://storage.wisetoto.com/images/common/icon/icn_bk.png" alt="농구토토"></span>
+						<span class="type">
+							<a href="/index.htm?tab_type=toto&game_type=bk&game_category=bk3&game_year=2026&game_round=101" style="color: #000000; cursor: pointer; text-decoration: none;">
+								매치							</a>
+						</span>
+						<span class="count">101회차</span>
+						<span class="state finish">마감</span>
+					</li>
+										<li>
+						<span class="sort"><img src="https://storage.wisetoto.com/images/common/icon/icn_bk.png" alt="농구토토"></span>
+						<span class="type">
+							<a href="/index.htm?tab_type=toto&game_type=bk&game_category=bk3&game_year=2026&game_round=102" style="color: #000000; cursor: pointer; text-decoration: none;">
+								매치							</a>
+						</span>
+						<span class="count">102회차</span>
+						<span class="state ing">발매중</span>
+					</li>
+										<li>
+						<span class="sort"><img src="https://storage.wisetoto.com/images/common/icon/icn_bk.png" alt="농구토토"></span>
+						<span class="type">
+							<a href="/index.htm?tab_type=toto&game_type=bk&game_category=bk3&game_year=2026&game_round=103" style="color: #000000; cursor: pointer; text-decoration: none;">
+								매치							</a>
+						</span>
+						<span class="count">103회차</span>
+						<span class="state ing">발매중</span>
+					</li>
+										<li>
+						<span class="sort"><img src="https://storage.wisetoto.com/images/common/icon/icn_bk.png" alt="농구토토"></span>
+						<span class="type">
+							<a href="/index.htm?tab_type=toto&game_type=bk&game_category=bk3&game_year=2026&game_round=104" style="color: #000000; cursor: pointer; text-decoration: none;">
+								매치							</a>
+						</span>
+						<span class="count">104회차</span>
+						<span class="state ing">발매중</span>
+					</li>
+										<li>
+						<span class="sort"><img src="https://storage.wisetoto.com/images/common/icon/icn_bk.png" alt="농구토토"></span>
+						<span class="type">
+							<a href="/index.htm?tab_type=toto&game_type=bk&game_category=bk4&game_year=2026&game_round=58" style="color: #000000; cursor: pointer; text-decoration: none;">
+								W매치							</a>
+						</span>
+						<span class="count">58회차</span>
+						<span class="state finish">마감</span>
+					</li>
+										<li>
+						<span class="sort"><img src="https://storage.wisetoto.com/images/common/icon/icn_vl.png" alt="배구토토"></span>
+						<span class="type">
+							<a href="/index.htm?tab_type=toto&game_type=vl&game_category=vl1&game_year=2026&game_round=9" style="color: #000000; cursor: pointer; text-decoration: none;">
+								스페셜							</a>
+						</span>
+						<span class="count">9회차</span>
+						<span class="state finish">마감</span>
+					</li>
+										<li>
+						<span class="sort"><img src="https://storage.wisetoto.com/images/common/icon/icn_vl.png" alt="배구토토"></span>
+						<span class="type">
+							<a href="/index.htm?tab_type=toto&game_type=vl&game_category=vl2&game_year=2026&game_round=26" style="color: #000000; cursor: pointer; text-decoration: none;">
+								매치							</a>
+						</span>
+						<span class="count">26회차</span>
+						<span class="state finish">마감</span>
+					</li>
+										<li>
+						<span class="sort"><img src="https://storage.wisetoto.com/images/common/icon/icn_gf.png" alt="골프토토"></span>
+						<span class="type">
+							<a href="/index.htm?tab_type=toto&game_type=gf&game_category=gf2&game_year=2026&game_round=31" style="color: #000000; cursor: pointer; text-decoration: none;">
+								스페셜							</a>
+						</span>
+						<span class="count">31회차</span>
+						<span class="state finish">마감</span>
+					</li>
+										<li>
+						<span class="sort"><img src="https://storage.wisetoto.com/images/common/icon/icn_uo.png" alt="토토U/O"></span>
+						<span class="type">
+							<a href="/index.htm?tab_type=toto&game_type=uo&game_category=uo1&game_year=2025&game_round=37" style="color: #000000; cursor: pointer; text-decoration: none;">
+								토토U/O							</a>
+						</span>
+						<span class="count">37회차</span>
+						<span class="state finish">마감</span>
+					</li>
+									</ul>
+			</div>
+		</div>	<div style="text-align:center; margin-top:10px; margin-bottom:10px;">
+			<div id="coupang_partners_lt_main"></div>
+<script type="text/javascript">
+function coupang_partners_lt_main() {
+
+	new PartnersCoupang.G({"id":502967,"template":"carousel","trackingCode":"AF2179099","width":"240","height":"1200","container":"#coupang_partners_lt_main"});
+}
+</script>
+<script async src="https://ads-partners.coupang.com/g.js" onload="coupang_partners_lt_main();"></script>
+	</div>
+	</div>
+
+<!--W 채널 라이브 카운트다운 -->
+<script type="text/javascript">
+function getTime() {
+
+	now1 = new Date();
+	later1 = new Date("".replace(/-/g, "/")); //완료시간 지정 - 월 일 년 시 분 초
+
+	days1 = (later1 - now1) / 1000 / 60 / 60 / 24;
+	daysRound1 = Math.floor(days1);
+	hours1 = (later1 - now1) / 1000 / 60 / 60 - (24 * daysRound1);
+	hoursRound1 = Math.floor(hours1);
+	minutes1 = (later1 - now1) / 1000 /60 - (24 * 60 * daysRound1) - (60 * hoursRound1);
+	minutesRound1 = Math.floor(minutes1);
+	seconds1 = (later1 - now1) / 1000 - (24 * 60 * 60 * daysRound1) - (60 * 60 * hoursRound1) - (60 * minutesRound1);
+	secondsRound1 = Math.round(seconds1);
+
+	if (now1 <= later1) {
+
+		if (secondsRound1 <= 9) {
+
+			document.getElementById('Time_s1').innerHTML = '0';
+			document.getElementById('Time_s2').innerHTML = secondsRound1;
+		} else {
+
+			document.getElementById('Time_s1').innerHTML = Math.floor(secondsRound1 / 10);
+			document.getElementById('Time_s2').innerHTML = secondsRound1 % 10;
+		}
+
+		if (minutesRound1 <= 9) {
+
+			document.getElementById('Time_m1').innerHTML = '0';
+			document.getElementById('Time_m2').innerHTML = minutesRound1;
+		} else {
+
+			document.getElementById('Time_m1').innerHTML = Math.floor(minutesRound1 / 10);
+			document.getElementById('Time_m2').innerHTML = minutesRound1 % 10;
+		}
+
+		if (hoursRound1 <= 9) {
+
+			document.getElementById('Time_h1').innerHTML = '0';
+			document.getElementById('Time_h2').innerHTML = hoursRound1;
+		} else {
+
+			document.getElementById('Time_h1').innerHTML = Math.floor(hoursRound1 / 10);
+			document.getElementById('Time_h2').innerHTML = hoursRound1 % 10;
+		}
+
+		if (daysRound1 <= 9) {
+
+			document.getElementById('Time_d1').innerHTML = '0';
+			document.getElementById('Time_d2').innerHTML = '';
+
+			if (daysRound1 == 0) {
+
+				document.getElementById('Time_d3').innerHTML = '0';
+			} else {
+
+				document.getElementById('Time_d3').innerHTML = daysRound1;
+			}
+		} else {
+
+			document.getElementById('Time_d1').innerHTML = '';
+			document.getElementById('Time_d2').innerHTML = Math.floor(daysRound1 / 10);
+			document.getElementById('Time_d3').innerHTML = daysRound1 % 10;
+		}
+
+		newtime = window.setTimeout('getTime();', 1000);
+	}
+}
+getTime();
+</script>
+<!--W 채널 라이브 카운트다운 -->
+
+
+<!--영상센터 라이브 카운트다운 -->
+<script type="text/javascript">
+function getTime_v() {
+
+	now1 = new Date();
+	later1 = new Date("2020-07-23 16:00:00".replace(/-/g, "/")); //완료시간 지정 - 월 일 년 시 분 초
+
+	days1 = (later1 - now1) / 1000 / 60 / 60 / 24;
+	daysRound1 = Math.floor(days1);
+	hours1 = (later1 - now1) / 1000 / 60 / 60 - (24 * daysRound1);
+	hoursRound1 = Math.floor(hours1);
+	minutes1 = (later1 - now1) / 1000 /60 - (24 * 60 * daysRound1) - (60 * hoursRound1);
+	minutesRound1 = Math.floor(minutes1);
+	seconds1 = (later1 - now1) / 1000 - (24 * 60 * 60 * daysRound1) - (60 * 60 * hoursRound1) - (60 * minutesRound1);
+	secondsRound1 = Math.round(seconds1);
+
+	if (now1 <= later1) {
+
+		if (secondsRound1 <= 9) {
+
+			document.getElementById('Time_s1_v').innerHTML = '0';
+			document.getElementById('Time_s2_v').innerHTML = secondsRound1;
+		} else {
+
+			document.getElementById('Time_s1_v').innerHTML = Math.floor(secondsRound1 / 10);
+			document.getElementById('Time_s2_v').innerHTML = secondsRound1 % 10;
+		}
+
+		if (minutesRound1 <= 9) {
+
+			document.getElementById('Time_m1_v').innerHTML = '0';
+			document.getElementById('Time_m2_v').innerHTML = minutesRound1;
+		} else {
+
+			document.getElementById('Time_m1_v').innerHTML = Math.floor(minutesRound1 / 10);
+			document.getElementById('Time_m2_v').innerHTML = minutesRound1 % 10;
+		}
+
+		if (hoursRound1 <= 9) {
+
+			document.getElementById('Time_h1_v').innerHTML = '0';
+			document.getElementById('Time_h2_v').innerHTML = hoursRound1;
+		} else {
+
+			document.getElementById('Time_h1_v').innerHTML = Math.floor(hoursRound1 / 10);
+			document.getElementById('Time_h2_v').innerHTML = hoursRound1 % 10;
+		}
+
+		if (daysRound1 <= 9) {
+
+			document.getElementById('Time_d1_v').innerHTML = '0';
+			document.getElementById('Time_d2_v').innerHTML = '';
+
+			if (daysRound1 == 0) {
+
+				document.getElementById('Time_d3_v').innerHTML = '0';
+			} else {
+
+				document.getElementById('Time_d3_v').innerHTML = daysRound1;
+			}
+		} else {
+
+			document.getElementById('Time_d1_v').innerHTML = '';
+			document.getElementById('Time_d2_v').innerHTML = Math.floor(daysRound1 / 10);
+			document.getElementById('Time_d3_v').innerHTML = daysRound1 % 10;
+		}
+
+		newtime = window.setTimeout('getTime_v();', 1000);
+	}
+}
+
+getTime_v();
+</script>
+<!--영상센터 라이브 카운트다운 --><script type="text/javascript">
+function msgposit_list(evt2) {
+
+	cw = document.body.clientWidth / 2;
+
+	if (navigator.appName == "Netscape") {
+
+		if (navigator.appVersion.indexOf('Chrome') > 0) {
+
+			document.getElementById('infobox').style.left = (event.pageX - cw + 190) + 'px';
+			document.getElementById('infobox').style.top = event.pageY - 415 + 'px';
+		} else {
+
+			document.getElementById('infobox').style.left = (evt2.pageX - cw + 190) + 'px';
+			document.getElementById('infobox').style.top = evt2.pageY - 415 + 'px';
+		}
+	} else {
+
+		document.getElementById('infobox').style.posLeft = (event.clientX - cw + 190) + document.documentElement.scrollLeft;
+		document.getElementById('infobox').style.posTop = event.clientY - 415 + document.documentElement.scrollTop;
+	}
+}
+
+function msgset_list(str) {
+
+	var text;
+	text = '<table width="286" cellpadding="0" cellspacing="0" border="0"><tr><td colspan="3" style="line-height:0"><img src="https://storage.wisetoto.com/images/common/bg/layer_box_t.gif" width="286" height="7" border="0" align="absmiddle" alt="" /></td></tr><tr><td width="7" background="https://storage.wisetoto.com/images/common/bg/layer_box_l.gif"></td>';
+	text += '<td bgcolor="#ffffff" width="256" align="left" style="padding-left:10px;word-break: break-all">'+str+'</td><td width="23" background="https://storage.wisetoto.com/images/common/bg/layer_box_r_bg.gif" valign="bottom"><img src="https://storage.wisetoto.com/images/common/bg/layer_box_r.gif" width="23" height="71" border="0" align="absmiddle" alt="" /></td></tr><tr><td colspan="3"><img src="https://storage.wisetoto.com/images/common/bg/layer_box_b.gif" width="286" height="9" border="0" align="absmiddle" alt="" /></td></tr></table>';
+	document.getElementById('infobox').innerHTML = text;
+}
+
+function msghide_list() {
+
+	document.getElementById('infobox').innerHTML = '';
+}
+
+if (navigator.appName == "Netscape") {
+
+	document.captureEvents(Event.MOUSEDOWN | Event.MOUSEMOVE | Event.MOUSEUP);
+	document.onmousemove = msgposit_list;
+}
+
+var before_game_no = '';
+var before_div_id = '';
+var before_detail_tab = '';
+
+var now_sports = '';
+var now_sort = '';
+
+var intervalHandle;
+var nowParams = getUrlParams();
+var focusMove = true;
+
+var page_type = "";
+
+if (typeof(nowParams['game_type']) !== 'undefined' && typeof(nowParams['game_year']) !== 'undefined') {
+
+	document.title = '프로토 승부식 2026년도 104회차 :: 와이즈토토';
+	$('#description').attr('content', '프로토 승부식 2026년도 104회차 분석글,라이브스코어,국내/해외 배당률,부상자명단,선발/정지명단,해외배당률,결과');
+}
+
+function getUrlParams() {
+	var params = {};
+	window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) { params[key] = value; });
+	return params;
+}
+
+function ChangeUrl(page, url) {
+	if (typeof (history.pushState) != "undefined") {
+		var obj = {Page: page, Url: url};
+		history.pushState(obj, obj.Page, obj.Url);
+	} else {
+		window.location.href = url;
+	}
+}
+
+function getParamChangeUrl(paramName, paramValue) {
+
+	var url = '';	// 변경할 URL
+	var params = [];	// 전체 파라미터
+	var size = 0;	// 파라미터 갯수 담을 변수
+	var href = window.location.href.split('#');	// 현재 URL
+	var queryString = href[0].split('?');	// 쿼리스트링 분리
+
+	if (queryString.length > 1)	 {
+	// 1-1 파라미터 존재할 경우
+
+		url = queryString[0];	// 현재 도메인
+		params = queryString[1].split('&');	// 파라미터 분리
+		size = params.length;	// 파라미터 갯수
+
+		var temp = [];	// 파라미터 변수와 값 분리
+		var isFocus = false;	// 원하는 파라미터 존재여부
+
+		for (i = 0; i < size; i++) {
+
+			if (i==0) url += '?';	// 쿼리스트링 시작
+
+			temp = params[i].split('=');	// 파라미터 필드와 값 분리
+			if (temp[0] == paramName) {
+			// 2-1 원하는 파라미터가 있을 경우
+
+				isFocus = true;
+
+				if (temp[1] != paramValue) {
+				// 기존 값과 다를 경우
+
+					if (i!=0) url += '&';
+					url = url + paramName + '=' + paramValue;
+				}
+
+			} else {
+			// 2-2 focus 가 없을 경우
+
+				if (i!=0) url += '&';
+				url += params[i];
+			}
+		}
+
+		if (!isFocus) {
+
+			if (size>0) url += '&';
+			url = url + paramName + '=' + paramValue;
+		}
+	} else {
+	// 1-2 파라미터 존재하지 않을 경우
+
+		url = href[0] + '?' + paramName + '=' + paramValue;
+	}
+
+	return url;
+}
+
+function change_formation(schedule_info_seq, team_info_seq, seq_sort, home_away) {
+
+	$.ajax({
+		url:'/util/gameinfo/get_detail_lineup_draw_'+home_away+'.htm?schedule_info_seq='+schedule_info_seq+'&team_info_seq='+team_info_seq+'&nowchk=n',
+		type: 'GET',
+		dataType: 'html',
+		timeout: 10000, //10초이상 응답 없을 경우 에러 처리
+		error: function(){
+		},
+		success: function(html) {
+
+			for (var i=0; i<5; i++) {
+				if (i == seq_sort) {
+					$('#'+home_away+'_seq_'+i).addClass('active');
+				} else {
+					$('#'+home_away+'_seq_'+i).removeClass('active');
+				}
+			}
+
+			$('#formation_'+home_away+'_warp_inner').remove();
+			document.getElementById('formation_'+home_away+'_warp').innerHTML = html;
+		}
+	});
+}
+
+// 라인업 일정 클릭시
+function change_record(schedule_info_seq, team_info_seq, seq_sort, home_away, sports, record_page_value, state) {
+	$.ajax({
+		url:'/util/gameinfo/get_detail_lineup_'+sports+'.htm?schedule_info_seq='+schedule_info_seq+'&team_info_seq='+team_info_seq+'&record_page_value='+record_page_value+'&home_away='+home_away+'&state='+state,
+		type: 'GET',
+		dataType: 'html',
+		timeout: 10000, //10초이상 응답 없을 경우 에러 처리
+		error: function(){
+		},
+		success: function(html) {
+			if (seq_sort != null) {
+				for (var i=0; i<5; i++) {
+					if (i == seq_sort) {
+						$('#'+home_away+'_seq_'+i).addClass('active');
+					} else {
+						$('#'+home_away+'_seq_'+i).removeClass('active');
+					}
+				}
+			}
+				$('#record_warp_inner_'+home_away+state).remove();
+				document.getElementById('record_warp_'+home_away+state).innerHTML = html;
+		}
+	});
+}
+
+// 야구 타자 전용
+function change_record_es(schedule_info_seq, team_info_seq, seq_sort, home_away, sports, record_page_value, state, set) {
+	$.ajax({
+		url:'/util/gameinfo/get_detail_lineup_es.htm?schedule_info_seq='+schedule_info_seq+'&team_info_seq='+team_info_seq+'&record_page_value='+record_page_value+'&home_away='+home_away+'&state='+state+'&set='+set,
+		type: 'GET',
+		dataType: 'html',
+		timeout: 10000, //10초이상 응답 없을 경우 에러 처리
+		error: function(){
+		},
+		success: function(html) {
+			if (seq_sort != null) {
+				for (var i=0; i<5; i++) {
+					if (i == seq_sort) {
+						$('#'+home_away+'_seq_'+i).addClass('active');
+					} else {
+						$('#'+home_away+'_seq_'+i).removeClass('active');
+					}
+				}
+			}
+				$('#record_warp_inner_es_'+set+home_away+state).remove();
+				//$('#record_warp_bs_b_record'+home_away+state).append(html);
+				document.getElementById('record_warp_es_record'+set+home_away+state).innerHTML = html;
+		}
+	});
+}
+
+// esports 전용
+function change_record_bs(schedule_info_seq, team_info_seq, seq_sort, home_away, sports, record_page_value, state) {
+	$.ajax({
+		url:'/util/gameinfo/get_detail_lineup_bs_b.htm?schedule_info_seq='+schedule_info_seq+'&team_info_seq='+team_info_seq+'&record_page_value='+record_page_value+'&home_away='+home_away+'&state='+state,
+		type: 'GET',
+		dataType: 'html',
+		timeout: 10000, //10초이상 응답 없을 경우 에러 처리
+		error: function(){
+		},
+		success: function(html) {
+			if (seq_sort != null) {
+				for (var i=0; i<5; i++) {
+					if (i == seq_sort) {
+						$('#'+home_away+'_seq_'+i).addClass('active');
+					} else {
+						$('#'+home_away+'_seq_'+i).removeClass('active');
+					}
+				}
+			}
+				$('#record_warp_inner_b_'+home_away+state).remove();
+				//$('#record_warp_bs_b_record'+home_away+state).append(html);
+				document.getElementById('record_warp_bs_b_record'+home_away+state).innerHTML = html;
+		}
+	});
+}
+
+function change_detail_tab(detail_tab, schedule_info_seq, tab_type, game_no, game_year, game_round, league_info_seq, limit, same_home_away, sports) {
+
+	schedule_info_seq = typeof schedule_info_seq !== 'undefined' ? schedule_info_seq : null;
+
+	$.ajax({
+		url:'/util/gameinfo/get_detail_' + detail_tab + '.htm?schedule_info_seq=' + schedule_info_seq + '&tab_type=' + tab_type + '&game_year=' + game_year + '&game_round=' + game_round + '&game_no=' + game_no + '&league_info_seq=' + league_info_seq + '&limit=' + limit + '&same_home_away=' + same_home_away,
+		type: 'GET',
+		dataType: 'html',
+		timeout: 10000, //10초이상 응답 없을 경우 에러 처리
+		error: function(){
+		},
+		success: function(html) {
+
+			if (detail_tab == 'statistics' || detail_tab == 'match_record' || detail_tab == 'latest_record') {
+
+				var return_temp = html;
+				var gameinfo_body_temp_arr = return_temp.split('|!|');
+
+				document.getElementById('dit_content').innerHTML = gameinfo_body_temp_arr[0];
+
+				return_temp_script = gameinfo_body_temp_arr[1];
+				eval(return_temp_script);
+
+				return_temp = null;
+				gameinfo_body_temp_arr = null;
+				return_temp_script = null;
+			} else {
+
+				document.getElementById('dit_content').innerHTML = html;
+			}
+
+			if (detail_tab == 'rate_info') {
+
+				var schedule_data = html.split('<div style="display:none;">');
+
+				var gameinfo_state = schedule_data[1].split('|!|');
+				var schedule_data_arr = gameinfo_state[0].split('||');
+
+				// 일반, 핸디 언오버 갯수 분기
+				if (schedule_data_arr.length >= 1 && (tab_type == 'proto' || tab_type == 'toto')) {
+
+					var rate_chk = new Array();
+
+					jQuery.each(schedule_data_arr, function(index, element) {
+
+						var element_arr = element.split('|');
+
+						drawWinChart(game_year, gameinfo_state[2], element_arr[0], element_arr[1], sports, gameinfo_state[1]);
+
+						rate_chk.push(element_arr[1]);
+					});
+
+					if (jQuery.inArray('n', rate_chk) < 0) {
+						drawWinChart_n(game_year,game_round,game_no, 'n');
+					}
+
+					if (jQuery.inArray('y', rate_chk) < 0) {
+						drawWinChart_n(game_year,game_round,game_no, 'y');
+					}
+
+					if (jQuery.inArray('y2', rate_chk) < 0) {
+						drawWinChart_n(game_year,game_round,game_no, 'y2');
+					}
+
+					if (jQuery.inArray('u', rate_chk) < 0) {
+						drawWinChart_n(game_year,game_round,game_no, 'u');
+					}
+
+					if (jQuery.inArray('1', rate_chk) < 0) {
+						drawWinChart_n(game_year,game_round,game_no, '1');
+					}
+
+					if (jQuery.inArray('5', rate_chk) < 0) {
+						drawWinChart_n(game_year,game_round,game_no, '5');
+					}
+
+					if (jQuery.inArray('e', rate_chk) < 0) {
+						drawWinChart_n(game_year,game_round,game_no, 'e');
+					}
+
+					if (jQuery.inArray('d', rate_chk) < 0) {
+						drawWinChart_n(game_year,game_round,game_no, 'd');
+					}
+
+					if (jQuery.inArray('f', rate_chk) < 0) {
+						drawWinChart_n(game_year,game_round,game_no, 'f');
+					}
+
+					if (jQuery.inArray('x', rate_chk) < 0) {
+						drawWinChart_n(game_year,game_round,game_no, 'x');
+					}
+				}
+			}
+
+			if (before_detail_tab != '') {
+
+				$('#dit_' + before_detail_tab).removeClass('active');
+			}
+
+			$('#dit_' + detail_tab).addClass('active');
+
+			before_detail_tab = detail_tab;
+		}
+	});
+}
+
+
+function drawWinChart(game_year, game_round, game_no, rate_kind, sports, state) {
+
+	$.ajax({
+		url:'/util/gameinfo/get_same_rate_info.htm?game_year=' + game_year + '&game_round=' + game_round + '&game_no=' + game_no + '&rate_kind=' + rate_kind,
+		type: 'GET',
+		dataType: 'json',
+		async: true,
+		timeout: 10000, //10초이상 응답 없을 경우 에러 처리
+		error: function(){
+		},
+		success: function(json) {
+
+			google.charts.setOnLoadCallback(function(){
+
+				var w_m_per = 0;
+				var w_cnt	= 0;
+				var all_cnt = 0;
+				var w_n_per = 0;
+
+				var d_m_per = 0;
+				var d_cnt	= 0;
+				var d_n_per = 0;
+
+				var l_m_per = 0;
+				var l_cnt	= 0;
+				var l_n_per = 0;
+
+				const pt1_half_game = json['rate']['pt1_half_game'];
+
+				if (json['all_cnt'] != 0) {
+
+					w_m_per = json['w_m_per'];
+					w_cnt	= json['w_cnt'] ? json['w_cnt'] : 0;
+					all_cnt = json['all_cnt'];
+					w_n_per = parseInt(json['w_m_per']);
+
+					d_m_per = json['d_m_per'];
+					d_cnt	= json['d_cnt'] ? json['d_cnt'] : 0;
+					all_cnt = json['all_cnt'];
+					d_n_per = parseInt(json['d_m_per']);
+
+					l_m_per = json['l_m_per'];
+					l_cnt	= json['l_cnt'] ? json['l_cnt'] : 0;
+					all_cnt = json['all_cnt'];
+					l_n_per = parseInt(json['l_m_per']);
+				}
+
+
+				if (all_cnt != null && json['rate']['home_w_rate'] != '1.00' && json['rate']['home_w_rate'] != null) {
+
+					var w_text = '<strong>'+w_m_per+'%</strong><span>'+w_cnt+' / '+all_cnt+'</span>';
+				} else {
+
+					var w_text = '<strong>-%</strong><span>-</span>';
+					w_m_per = 0;
+				}
+
+				if (all_cnt != null && json['rate']['home_d_rate'] != '1.00' && json['rate']['home_d_rate'] != null) {
+
+					var d_text = '<strong>'+d_m_per+'%</strong><span>'+d_cnt+' / '+all_cnt+'</span>';
+				} else {
+
+					var d_text = '<strong>-%</strong><span>-</span>';
+					d_m_per = 0;
+				}
+
+				if (all_cnt != null && json['rate']['home_l_rate'] != '1.00' && json['rate']['home_l_rate'] != null) {
+
+					var l_text = '<strong>'+l_m_per+'%</strong><span>'+l_cnt+' / '+all_cnt+'</span>';
+				} else {
+
+					var l_text = '<strong>-%</strong><span>-</span>';
+					l_m_per = 0;
+				}
+
+				drawCircleChart('circle_chart_'+rate_kind+'_1', {
+					value_color : 'darkgray', // 값유지
+					msg : w_text, // 가운데 택스트
+					msg_style : null, // 널유지
+					rowval :{
+						'0' : {value : parseInt(w_m_per), color : '#0060a3'},
+						'1' : {value : 100-w_n_per, color : '#d9d9d9'},
+					},
+					pieHole : 0.7 // 굵기
+				});
+
+				if (
+					rate_kind != 'u'
+					&& rate_kind != 'e'
+					&& rate_kind != 'x'
+				) {
+					drawCircleChart('circle_chart_'+rate_kind+'_2', {
+						value_color : 'darkgray', // 값유지
+						msg : d_text, // 가운데 택스트
+						msg_style : null, // 널유지
+						rowval :{
+							'0' : {value : parseInt(d_m_per), color : '#606060'},
+							'1' : {value : 100-d_n_per, color : '#d9d9d9'},
+						},
+						pieHole : 0.7 // 굵기
+					});
+				}
+
+				drawCircleChart('circle_chart_'+rate_kind+'_3', {
+					value_color : 'darkgray', // 값유지
+					msg : l_text, // 가운데 택스트
+					msg_style : null, // 널유지
+					rowval :{
+						'0' : {value : parseInt(l_m_per), color : '#d20000'},
+						'1' : {value : 100-l_n_per, color : '#d9d9d9'},
+					},
+					pieHole : 0.7 // 굵기
+				});
+
+				if (
+					rate_kind != 'u'
+					&& rate_kind != 'e'
+					&& rate_kind != 'x'
+				) {
+
+					if (json['rate']['home_w_rate'] == null) {
+						var home_w_rate = "<li><span>-</span></li>";
+					} else {
+						if (json['rate']['home_w_rate'] == '1.00') {
+							var home_w_rate = "<li><strike style='line-height:30px;'>"+json['rate']['home_w_rate']+"</strike></li>";
+						} else {
+							var home_w_rate = "<li><span onclick=rs('"+game_year+"','"+game_round+"','"+game_no+"','"+sports+"','w','"+state+"','"+rate_kind+"','"+pt1_half_game+"')"+" class='pt'>"+json['rate']['home_w_rate']+"</span></li>";
+						}
+					}
+
+					if (json['rate']['home_d_rate'] == null) {
+						var home_d_rate = "<li><span>-</span></li>";
+					} else {
+						if (json['rate']['home_d_rate'] == '1.00') {
+							var home_d_rate = "<li><strike style='line-height:30px;'>"+json['rate']['home_d_rate']+"</strike></li>";
+						} else {
+							var home_d_rate = "<li><span onclick=rs('"+game_year+"','"+game_round+"','"+game_no+"','"+sports+"','d','"+state+"','"+rate_kind+"','"+pt1_half_game+"')"+" class='pt'>"+json['rate']['home_d_rate']+"</span></li>";
+						}
+					}
+
+					if (json['rate']['home_l_rate'] == null) {
+						var home_l_rate = "<li><span>-</span></li>";
+					} else {
+						if (json['rate']['home_l_rate'] == '1.00') {
+							var home_l_rate = "<li><strike style='line-height:30px;'>"+json['rate']['home_l_rate']+"</strike></li>";
+						} else {
+							var home_l_rate = "<li><span onclick=rs('"+game_year+"','"+game_round+"','"+game_no+"','"+sports+"','l','"+state+"','"+rate_kind+"','"+pt1_half_game+"')"+" class='pt'>"+json['rate']['home_l_rate']+"</span></li>";
+						}
+					}
+
+				} else {
+
+					if (json['rate']['home_w_rate'] == null) {
+						var home_w_rate = "<li><span>-</span></li>";
+					} else {
+						if (json['rate']['home_w_rate'] == '1.00') {
+							var home_w_rate = "<li><strike style='line-height:30px;'>"+json['rate']['home_w_rate']+"</strike></li>";
+						} else {
+							var home_w_rate = "<li><span onclick=rs('"+game_year+"','"+game_round+"','"+game_no+"','"+sports+"','w','"+state+"','"+rate_kind+"','"+pt1_half_game+"')"+" class='pt'>"+json['rate']['home_w_rate']+"</span></li>";
+						}
+					}
+
+					if (json['rate']['home_l_rate'] == null) {
+						var home_l_rate = "<li><span>-</span></li>";
+					} else {
+						if (json['rate']['home_l_rate'] == '1.00') {
+							var home_l_rate = "<li><strike style='line-height:30px;'>"+json['rate']['home_l_rate']+"</strike></li>";
+						} else {
+							var home_l_rate = "<li><span onclick=rs('"+game_year+"','"+game_round+"','"+game_no+"','"+sports+"','l','"+state+"','"+rate_kind+"','"+pt1_half_game+"')"+" class='pt'>"+json['rate']['home_l_rate']+"</span></li>";
+						}
+					}
+				}
+				$('#chart_wrap_'+rate_kind).append("<ul class='score_list'>"+home_w_rate+home_d_rate+home_l_rate+"</ul>");
+			});
+		}
+	});
+}
+
+function drawWinChart_n(game_year, game_round, game_no, rate_kind) {
+
+	google.charts.setOnLoadCallback(function(){
+
+		var all_cnt = 0;
+
+		var w_m_per = 0;
+		var w_cnt	= 0;
+		var w_n_per = 0;
+
+		var d_m_per = 0;
+		var d_cnt	= 0;
+		var d_n_per = 0;
+
+		var l_m_per = 0;
+		var l_cnt	= 0;
+		var l_n_per = 0;
+
+
+		drawCircleChart('circle_chart_'+rate_kind+'_1', {
+			value_color : 'darkgray', // 값유지
+			msg : '<strong>-%</strong><span>-</span>', // 가운데 택스트
+			msg_style : null, // 널유지
+			rowval :{
+				'0' : {value : parseInt(w_m_per), color : '#0060a3'},
+				'1' : {value : 100-w_n_per, color : '#d9d9d9'},
+			},
+			pieHole : 0.7 // 굵기
+		});
+
+		if (
+			rate_kind != 'u'
+			&& rate_kind != 'e'
+			&& rate_kind != 'x'
+		) {
+
+			drawCircleChart('circle_chart_'+rate_kind+'_2', {
+				value_color : 'darkgray', // 값유지
+				msg : '<strong>-%</strong><span>-</span>', // 가운데 택스트
+				msg_style : null, // 널유지
+				rowval :{
+					'0' : {value : parseInt(d_m_per), color : '#606060'},
+					'1' : {value : 100-d_n_per, color : '#d9d9d9'},
+				},
+				pieHole : 0.7 // 굵기
+			});
+		}
+
+		drawCircleChart('circle_chart_'+rate_kind+'_3', {
+			value_color : 'darkgray', // 값유지
+			msg : '<strong>-%</strong><span>-</span>', // 가운데 택스트
+			msg_style : null, // 널유지
+			rowval :{
+				'0' : {value : parseInt(l_m_per), color : '#d20000'},
+				'1' : {value : 100-l_n_per, color : '#d9d9d9'},
+			},
+			pieHole : 0.7 // 굵기
+		});
+
+		var home_d_rate = '';
+
+		if (
+			rate_kind != 'u'
+			&& rate_kind != 'e'
+			&& rate_kind != 'x'
+		) {
+
+			home_d_rate ="<li><span>-</span></gili>";
+		}
+
+		$('#chart_wrap_'+rate_kind).append("<ul class='score_list'><li><span>-</span></li>"+home_d_rate+"<li><span>-</span></li></ul>");
+	});
+}
+
+function change_rate_detail_tab(schedule_info_seq, rate_kind) {
+
+	schedule_info_seq = typeof schedule_info_seq !== 'undefined' ? schedule_info_seq : null;
+	rate_kind = typeof rate_kind !== 'undefined' ? rate_kind : null;
+
+	$.ajax({
+		url:'/util/gameinfo/get_foreign_rate.htm?schedule_info_seq='+schedule_info_seq+'&rate_kind='+rate_kind,
+		type: 'GET',
+		dataType: 'html',
+		timeout: 10000, //10초이상 응답 없을 경우 에러 처리
+		error: function(){
+		},
+		success: function(html) {
+			$('#rate_inner_wrap').remove();
+			$("#dividend_rate").append(html);
+		}
+	});
+}
+
+function get_gameinfo_detail(schedule_info_seq, game_no, game_category, tab_type, game_year, game_round, evt, league_info_seq, pt1_half_game='n') {
+
+	var div_id = schedule_info_seq + '_' + game_no;
+
+	var XY=getMousePos(evt);
+	cw=document.body.clientWidth/2;
+
+	if (navigator.appName=='Netscape') {
+		document.getElementById('loading_img').style.left=evt.pageX-cw+550+'px';
+		document.getElementById('loading_img').style.top=evt.pageY+-360+'px';
+	} else {
+		document.getElementById('loading_img').style.posLeft=XY.x-cw+550;
+		document.getElementById('loading_img').style.posTop=XY.y+-360;
+	}
+	if (before_div_id != div_id) {
+
+		$.ajax({
+			url:'/util/gameinfo/get_schedule_detail.htm?schedule_info_seq='+schedule_info_seq+'&game_no='+game_no+'&div_id='+div_id+'&game_category='+game_category+'&tab_type='+tab_type+'&game_year='+game_year+'&game_round='+game_round+'&page_type='+page_type+'&league_info_seq='+league_info_seq+'&pt1_half_game='+pt1_half_game,
+			type: 'GET',
+			dataType: 'html',
+			timeout: 10000, //10초이상 응답 없을 경우 에러 처리
+			beforeSend: function(){
+				$('#loading_img').css('display', '');
+			},
+			error: function(){
+				$('#loading_img').css('display', 'none');
+			},
+			success: function(html) {
+
+				var return_gameinfo_body_temp = html;
+				var gameinfo_body_temp_arr = return_gameinfo_body_temp.split('|!|');
+
+				document.getElementById('di'+div_id).innerHTML = gameinfo_body_temp_arr[0];
+
+				before_detail_tab = gameinfo_body_temp_arr[1];
+
+				if (before_detail_tab == 'new_latest_record') {
+
+					before_detail_tab = 'latest_record';
+					change_detail_tab('latest_record', schedule_info_seq);
+				} else if (before_detail_tab == 'new_lineup') {
+
+					before_detail_tab = 'lineup';
+					change_detail_tab('lineup', schedule_info_seq);
+				}
+
+				if (before_div_id != '') {
+
+					var before_element = document.getElementById('di'+before_div_id);
+
+					if (before_element) {
+						document.getElementById('di'+before_div_id).style.display = 'none';
+						document.getElementById('di'+before_div_id).innerHTML = '';
+						if (game_category == 'pt1') {
+							$('#db'+before_div_id).attr('class', 'a14');
+						} else if (game_category == 'gl1') {
+							$('#db'+before_div_id).removeClass('active');
+						} else {
+							$('#db'+before_div_id).attr('src', "https://storage.wisetoto.com" + '/images/common/btn/btn_detail.jpg');
+						}
+					}
+				}
+
+				if (game_category == 'pt1') {
+					$('#db'+div_id).attr('class', 'a14o');
+				} else if (game_category == 'gl1') {
+					$('#db'+div_id).addClass('active');
+				} else {
+					$('#db'+div_id).attr('src', "https://storage.wisetoto.com" + '/images/common/btn/btn_detail_active.jpg');
+				}
+
+				document.getElementById('di'+div_id).style.display = '';
+				before_game_no = game_no;
+				before_div_id = div_id;
+
+				$('#loading_img').css('display', 'none');
+
+				return_gameinfo_body_temp = null;
+				gameinfo_body_temp_arr = null;
+
+				if (focusMove) {
+					focusMove = false;
+					var offset = $("#db" + nowParams.focus).offset();
+
+					if (typeof offset !== 'undefined') $('html, body').animate({scrollTop : offset.top}, 400);
+				}
+				// let addhtml = "<ins class=\"kakao_ad_area\" style=\"display:none;\" data-ad-unit = \"DAN-CgOnT8vwDm3GjfgQ\" data-ad-width = \"728\" data-ad-height = \"90\"></ins><script type=\"text/javascript\" src=\"//t1.kakaocdn.net/kas/static/ba.min.js\" async>\</script\>";
+				// $(".schedule_detail_ad").append(addhtml);
+			}
+		});
+	} else {
+
+		document.getElementById('di'+div_id).style.display = 'none';
+		document.getElementById('di'+div_id).innerHTML = '';
+		if (game_category == 'pt1') {
+			$('#db'+div_id).attr('class', 'a14');
+		} else if (game_category == 'gl1') {
+			$('#db'+div_id).removeClass('active');
+		} else {
+			$('#db'+div_id).attr('src', "https://storage.wisetoto.com" + '/images/common/btn/btn_detail.jpg');
+		}
+		before_game_no = '';
+		before_div_id = '';
+		before_detail_tab = '';
+	}
+}
+
+function get_gameinfo_body(tab_type, game_category, game_year, game_round, game_month, game_day, game_info_master_seq, sports, sort) {
+
+	var f = document.game_info;
+
+	now_sports = sports;
+	now_sort = sort;
+
+	if (
+		game_category != ''
+		&& (
+			(game_category != 'gl1' && game_year != '' && game_round != '' && game_info_master_seq != '')
+			|| (game_category == 'gl1' && game_year != '' && game_month != '' && game_day != '')
+		)
+	) {
+		const xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState == xhr.DONE) {
+				if (xhr.status == 200) {
+					const result = xhr.response;
+					if ( result.length > 0 ) {
+						requestToken(result);
+					}
+				}
+			}
+		}
+		xhr.open("GET","/util/common/generateNonce.htm", false);
+		xhr.send(null);
+
+		$.ajax({
+			url:'/util/gameinfo/get_'+tab_type+'_list.htm?game_category='+game_category+'&game_year='+game_year+'&game_round='+game_round+'&game_month='+game_month+'&game_day='+game_day+'&game_info_master_seq='+game_info_master_seq+'&sports='+sports+'&sort='+sort+'&tab_type='+tab_type,
+			type: 'GET',
+			dataType: 'html',
+			timeout: 20000,
+			beforeSend: function() {
+				$('#loading_img2').css('display', '');
+			},
+			error: function() {
+				$('#loading_img2').css('display', 'none');
+			},
+			success: function(html) {
+				if (before_div_id != '') {
+
+					var di_cache = $('#di' + before_div_id).html();
+					var _scrollTop = window.scrollY || document.documentElement.scrollTop;
+				}
+
+				document.getElementById('gameinfo_' + game_category).innerHTML = html;
+
+				if (before_div_id != '') {
+
+					if (document.getElementById('di'+before_div_id) == null) {
+
+						before_div_id = null;
+					} else {
+
+						if (game_category == 'pt1') {
+							$('#db'+before_div_id).attr('class', 'a14o');
+						} else if (game_category == 'gl1') {
+							$('#db'+before_div_id).addClass('active');
+						} else {
+							$('#db'+before_div_id).attr('src', "https://storage.wisetoto.com" + '/images/common/btn/btn_detail_active.jpg');
+						}
+
+						document.getElementById('di'+before_div_id).style.display = '';
+						$('#di' + before_div_id).html(di_cache);
+						if (_scrollTop) window.scrollTo(0, _scrollTop);
+					}
+
+					di_cache = null;
+					_scrollTop = null;
+				}
+
+				$('#loading_img2').css('display','none');
+
+				if (page_type !== 'print') {
+					clearInterval(intervalHandle);
+					livegameinfo_run();
+				} else {
+					setTimeout(function(){print();}, 300);
+				}
+			}
+		});
+	}
+}
+
+function livegameinfo_run() {
+
+	var cache_time = 60;
+
+	if (cache_time == '') {
+		cache_time = 60;
+	}
+
+	intervalHandle = setInterval("get_gameinfo_body('proto','pt1','2026','104','','','31427',now_sports,now_sort);", (cache_time * 1000));
+}
+
+function league_filter() {
+
+	if ($('.sort a').hasClass('active') === true) {
+
+			$('.sort a').removeClass('active');
+			$('.league_filter').removeClass('active');
+
+			set_league_filter();
+
+			location.reload();
+	} else {
+
+		$('.sort a').addClass('active');
+		$('.league_filter').addClass('active');
+	}
+}
+
+function set_filter_chk(chk, sports) {
+
+	var before_filter = document.getElementsByName('league_filter_' + sports + '_before')[0];
+	var chk_list = document.getElementsByName('league_filter_' + sports);
+	var chk_cnt = chk_list.length;
+
+	var tmp_filter = '';
+	var tmp_arr = before_filter.value.split('|');
+	var tmp_cnt = tmp_arr.length;
+
+	if (chk.checked === true) {
+
+		if (chk.value == 'all') {
+
+			tmp_filter = 'all';
+			$('#chk_li_' + chk.id).addClass('checked');
+
+			for (var i = 1; i < chk_cnt; i++) {
+
+				chk_list[i].checked = true;
+				$('#chk_li_' + chk_list[i].id).addClass('checked');
+			}
+		} else {
+
+			if (before_filter.value == 'all') {
+
+				tmp_filter = chk.value;
+			} else if (jQuery.inArray(chk.value, tmp_arr) < 0) {
+
+				tmp_filter = before_filter.value + '|' + chk.value;
+			} else {
+				tmp_filter = before_filter.value;
+			}
+
+			$('#chk_li_' + chk.id).addClass('checked');
+		}
+	} else {
+
+		if (chk.value == 'all') {
+
+			tmp_filter = '';
+			$('#chk_li_' + chk.id).removeClass('checked');
+
+			for (var i = 1; i < chk_cnt; i++) {
+
+				chk_list[i].checked = false;
+				$('#chk_li_' + chk_list[i].id).removeClass('checked');
+			}
+		} else {
+
+			chk_list[0].checked = false;
+			$('#chk_li_' + chk_list[0].id).removeClass('checked');
+
+			if (before_filter.value == 'all') {
+
+				for (var i = 1; i < chk_cnt; i++) {
+
+					if (chk_list[i].checked === true) tmp_filter+= '|' + chk_list[i].value;
+				}
+			} else if (jQuery.inArray(chk.value, tmp_arr) < 0) {
+
+				tmp_filter = before_filter.value;
+			} else {
+
+				for (var i = 0; i < tmp_cnt; i++) {
+
+					if (tmp_arr[i] != '' && tmp_arr[i] != chk.value) tmp_filter+= '|' + tmp_arr[i];
+				}
+			}
+
+			$('#chk_li_' + chk.id).removeClass('checked');
+		}
+	}
+
+	before_filter.value = tmp_filter;
+}
+
+function set_league_filter() {
+
+	var sc_filter = document.getElementsByName('league_filter_sc_before')[0].value;
+	var bs_filter = document.getElementsByName('league_filter_bs_before')[0].value;
+	var bk_filter = document.getElementsByName('league_filter_bk_before')[0].value;
+	var vl_filter = document.getElementsByName('league_filter_vl_before')[0].value;
+	var ft_filter = document.getElementsByName('league_filter_ft_before')[0].value;
+	var hk_filter = document.getElementsByName('league_filter_hk_before')[0].value;
+	var es_filter = document.getElementsByName('league_filter_es_before')[0].value;
+
+	var data = {
+		sc : sc_filter,
+		bs : bs_filter,
+		bk : bk_filter,
+		vl : vl_filter,
+		ft : ft_filter,
+		hk : hk_filter,
+		es : es_filter
+	}
+
+	var json_data = JSON.stringify(data);
+	document.cookie = "league_filter=" + escape(json_data) + "; path=/;";
+}
+
+function get_league_filter() {
+
+	var x, y;
+	var val = document.cookie.split(';');
+
+	var json_data = '';
+
+	for (var i = 0; i < val.length; i++) {
+		x = val[i].substr(0, val[i].indexOf('='));
+		y = val[i].substr(val[i].indexOf('=') + 1);
+		x = x.replace(/^\s+|\s+$/g, ''); // 앞과 뒤의 공백 제거하기
+
+		if (x == 'league_filter') {
+			json_data = unescape(y); // unescape로 디코딩 후 값 리턴
+			break;
+		}
+	}
+}
+
+// 리그, 선수 탭 클릭
+function rank_tab_chagne(type) {
+	if (type == 'team') {
+		$('#teams_rank').addClass('active');
+		$('#team_li').addClass('active');
+		$('#players_rank').removeClass('active');
+		$('#player_li').removeClass('active');
+	} else {
+		$('#teams_rank').removeClass('active');
+		$('#team_li').removeClass('active');
+		$('#players_rank').addClass('active');
+		$('#player_li').addClass('active');
+	}
+}
+
+// 야구 타자 기록
+function player_rank_bs_b(sector, thisclass, league_info_seq, league_rank_seq) {
+
+	if (thisclass != 'active') {
+		$('#batter_'+sector).addClass('active');
+		var active = 'y';
+
+		$.ajax({
+			url:'/util/gameinfo/get_player_rank_bs_b.htm?sector='+sector+'&active='+active+'&league_info_seq='+league_info_seq+'&league_rank_seq='+league_rank_seq,
+			type: 'GET',
+			dataType: 'html',
+			timeout: 10000, //10초이상 응답 없을 경우 에러 처리
+			error: function(){
+			},
+			success: function(html) {
+				$('#players_rank_b').remove();
+				$("#players_rank_batter").append(html);
+			}
+		});
+	}
+}
+
+// 야구 투수 기록
+function player_rank_bs_p(sector, thisclass, league_info_seq, league_rank_seq, schedule_info_seq) {
+
+	if (thisclass != 'active') {
+		$('#pitcher_'+sector).addClass('active');
+		var active = 'y';
+
+
+		$.ajax({
+			url:'/util/gameinfo/get_player_rank_bs_p.htm?sector='+sector+'&active='+active+'&league_info_seq='+league_info_seq+'&league_rank_seq='+league_rank_seq+'&schedule_info_seq='+schedule_info_seq,
+			type: 'GET',
+			dataType: 'html',
+			timeout: 10000, //10초이상 응답 없을 경우 에러 처리
+			error: function(){
+			},
+			success: function(html) {
+				$('#players_rank_p').remove();
+				$("#players_rank_pitcher").append(html);
+			}
+		});
+	}
+}
+
+// 농구 선수기록
+function player_rank_bk(sector, thisclass, league_rank_seq) {
+
+	if (thisclass != 'active') {
+		$('#bk_'+sector).addClass('active');
+		var active = 'y';
+
+		$.ajax({
+			url:'/util/gameinfo/get_player_rank_bk.htm?sector='+sector+'&active='+active+'&league_rank_seq='+league_rank_seq,
+			type: 'GET',
+			dataType: 'html',
+			timeout: 10000, //10초이상 응답 없을 경우 에러 처리
+			error: function(){
+			},
+			success: function(html) {
+				$('#players_rank_b').remove();
+				$("#players_rank").append(html);
+			}
+		});
+	}
+}
+
+
+// 배구 선수기록
+function player_rank_vl(sector, thisclass, league_rank_seq) {
+
+	if (thisclass != 'active') {
+		$('#vl_'+sector).addClass('active');
+		var active = 'y';
+
+		$.ajax({
+			url:'/util/gameinfo/get_player_rank_vl.htm?sector='+sector+'&active='+active+'&league_rank_seq='+league_rank_seq,
+			type: 'GET',
+			dataType: 'html',
+			timeout: 10000, //10초이상 응답 없을 경우 에러 처리
+			error: function(){
+			},
+			success: function(html) {
+				$('#players_rank_v').remove();
+				$("#players_rank").append(html);
+			}
+		});
+	}
+}
+
+// 하키 선수기록
+function player_rank_hk(sector, thisclass, league_rank_seq, record_page_value, orderby) {
+
+	if (thisclass != 'active') {
+
+		$('#hk_'+sector).addClass('active');
+		var active = 'y';
+		$.ajax({
+			url:'/util/gameinfo/get_player_rank_hk.htm?sector='+sector+'&active='+active+'&league_rank_seq='+league_rank_seq+'&record_page_value='+record_page_value+'&orderby='+orderby,
+			type: 'GET',
+			dataType: 'html',
+			timeout: 10000, //10초이상 응답 없을 경우 에러 처리
+			error: function(){
+			},
+			success: function(html) {
+
+				$('#players_rank_h').remove();
+				$("#players_rank_player").append(html);
+			}
+		});
+	} else if (thisclass == 't') {
+		var active = 't';
+	}
+
+}
+
+// 하키 골리 선수기록
+function player_rank_hk_gk(sector, thisclass, league_rank_seq) {
+
+	if (thisclass != 'active') {
+
+		$('#hk_'+sector).addClass('active');
+		var active = 'y';
+		$.ajax({
+			url:'/util/gameinfo/get_player_rank_hk_gk.htm?sector='+sector+'&active='+active+'&league_rank_seq='+league_rank_seq,
+			type: 'GET',
+			dataType: 'html',
+			timeout: 10000, //10초이상 응답 없을 경우 에러 처리
+			error: function(){
+			},
+			success: function(html) {
+				$('#players_rank_hk_gk').remove();
+				$("#players_rank_gk").append(html);
+			}
+		});
+	}
+}
+
+// 풋볼 선수기록
+function player_rank_ft(sector, thisclass, league_rank_seq, position) {
+
+	if (thisclass != 'active') {
+
+		$('#hk_'+sector).addClass('active');
+		var active = 'y';
+
+		$.ajax({
+			url:'/util/gameinfo/get_player_rank_ft.htm?sector='+sector+'&active='+active+'&league_rank_seq='+league_rank_seq+'&position='+position,
+			type: 'GET',
+			dataType: 'html',
+			timeout: 10000, //10초이상 응답 없을 경우 에러 처리
+			error: function(){
+			},
+			success: function(html) {
+				$('#players_rank_f').remove();
+				$("#players_rank").append(html);
+			}
+		});
+	}
+}
+
+function tr(home_team_info_seq,away_team_info_seq,game_date,target) {
+	popupOpen_D('/gameinfo/team_record.htm?game_category=pt1&home_team_info_seq='+home_team_info_seq+'&away_team_info_seq='+away_team_info_seq+'&game_date='+game_date+'&target='+target,'','1023','620','no','yes');
+}
+
+function rs(game_year,game_round,game_no,sports,rate_type,game_result, handicap_yn, pt1_half_game='n') {
+	if(pt1_half_game=='y'){
+		handicap_yn ='h/'+handicap_yn;
+	}
+	popupOpen_D('/gameinfo/pt1_rate_stats.htm?game_year='+game_year+'&game_round='+game_round+'&game_no='+game_no+'&sports='+sports+'&rate_type='+rate_type+'&game_result='+game_result+'&handicap_yn='+handicap_yn,'','1096','620','no','yes');
+}
+
+
+// 와이즈센터 팝업 함수
+function wisecenter_open(url,game_id,league_info_seq,sports) {
+
+	// 그래픽중계 제외 리그 이거나 그래픽 중계 유지 = n
+	$.post( "/util/etc/livematch_check.htm", { game_id: game_id, league_info_seq: league_info_seq }, function(data) {
+
+		var json = JSON.parse(data);
+
+		if ( json.msg.length > 0 && json.sir == 'n') {
+			alert(json.msg);
+		} else {
+			if (game_id == null || game_id =='')
+			{
+				alert('데이터 제공전 입니다.');
+			} else {
+				popupOpen_wise(url+game_id,'wisecenter'+game_id,'1100','730','760');
+			}
+		}
+
+	});
+}
+
+// 와이즈센터 리그 순위 툴팁 오버
+function tooltip_mouseover(e) {
+	e.addClass('active');
+}
+
+// 와이즈센터 리그 순위 툴팁 호버
+function tooltip_mouseleave(e) {
+	e.removeClass('active');
+}
+
+
+function requestToken(str) {
+	const xhr = new XMLHttpRequest();
+	xhr.open("GET","/util/common/requestToken.htm", false);
+	xhr.setRequestHeader("X-Requested-Token", str);
+	xhr.send(null);
+}
+
+function bettingline_chk(seq, id, sports, sports_addition, game_year, game_round, page) {
+	$.ajax({
+		url:'/util/analysis/get_bettingline_chk.htm?seq=' + seq,
+		type: 'GET',
+		dataType: 'html',
+		timeout: 10000, //10초이상 응답 없을 경우 에러 처리
+		error: function() {
+		},
+		success: function(code) {
+
+			if (code == '1') {
+
+				if ( ! confirm('발매 마감된 게임이 포함되어있습니다. 구매 시 참고하세요.')) {
+
+					return false;
+				}
+			}
+
+			popupOpen('/analysis/buy_analysis.htm?game_category=pt1&pt1_type=bettingline&seq=' + seq + '&id=' + id + '&sports=' + sports + '&sports_addition=' + sports_addition + '&game_year=' + game_year + '&game_round=' + game_round + '&page=' + page, 'buy_analysis', '490', '414');
+		}
+	});
+}
+</script>
+<style>
+	.liveChannel {position: relative; width: 40px; height: 40px; margin: 0 auto; display: block; }
+	.liveChannel > p{ font-size: 14px; white-space: nowrap;padding-top:5px;padding-bottom: 5px; background-color: #cf2b2b;color:white; padding-left: 10px; padding-right: 10px;font-weight: bold;border-radius: 16px;position: absolute;transform: translateX(-50%);left: 50%;}
+	.liveChannel > p:hover{cursor: pointer; }
+
+</style>
+	<div id="infobox" style="border-width:0px; border-style:none; width:0px; height:0px; position:absolute; bottom:0px; left:0px;  z-index:1;clear:both;overflow:visible"></div>
+	<div id='loading_img' style="display: none; position: absolute; z-index: 10000; left: 0px; top: 0px;"><img src='https://storage.wisetoto.com/images/common/icon/spinner.gif'></div>
+	<div id='loading_img2' style="display: none; position: absolute; z-index:10000; left: 50%; margin-left: 96px; top: 143px;"><img src='https://storage.wisetoto.com/images/common/icon/loading_cl.gif'></div>
+	<div id="content_r">
+				<div style="text-align:center; height:100px;">
+		<ins class='adsbyadop' _adop_zon = '2a6ceca7-3c02-45ab-9b03-f320a079fc96' _adop_type = 're' style='display:inline-block;width:728px;height:90px;' _page_url=''></ins>		</div>
+				<div class="tab_wrap">
+			<!-- 탭 -->
+			<ul class="tabs large type01">
+				<li class="tap active"><a href="?tab_type=proto">프로토</a></li>
+				<li class="tap"><a href="?tab_type=toto">토토</a></li>
+				<li class="tap"><a href="?tab_type=global">해외배당</a></li>
+			</ul>
+			<!-- // 탭 -->
+
+			<!-- 프로토 -->
+			<div class="tab_content active" id="tab01_01">
+							<!-- 승부식/기록식 -->
+				<div class="tab_inner_wrap">
+
+					<!-- 승부식/기록식 탭 -->
+					<ul class="tabs medium type01">
+						<li class="active"><a onclick="location.href='?tab_type=proto&game_type=pt&game_category=pt1';" style="cursor: pointer;">승부식</a></li>
+						<li class=""><a onclick="location.href='?tab_type=proto&game_type=pt&game_category=pt2';" style="cursor: pointer;">기록식</a></li>
+					</ul>
+					<!-- // 승부식/기록식 탭 -->
+
+					<!-- 승부식 -->
+					<div class="tab_content active" id="tab02_01">
+						<div class="sort_area">
+							<p class="info_text">
+								발매기간 : 2026-09-02 08:00 ~
+								대상경기별 개최시간 마감							</p>
+							<div class="select_wrap">
+																<a href="?tab_type=proto&game_type=pt&game_category=pt1&game_year=2026&game_round=104&pn=m" class="prev" title="이전 회차">
+									<span class="blind">이전</span>
+								</a>
+								
+								<select name="" id="" class="select01" onchange="document.location.href='?tab_type=proto&game_type=pt&game_category=pt1&game_year=' + this.value;">
+																		<option value="2026" selected>2026년도</option>
+																		<option value="2025" >2025년도</option>
+																	</select>
+
+								<select name="" id="" class="select02" onchange="document.location.href='?tab_type=proto&game_type=pt&game_category=pt1&game_year=2026&game_round=' + this.value;">
+																		<option value="129" >129회차</option>
+																		<option value="128" >128회차</option>
+																		<option value="127" >127회차</option>
+																		<option value="126" >126회차</option>
+																		<option value="125" >125회차</option>
+																		<option value="124" >124회차</option>
+																		<option value="123" >123회차</option>
+																		<option value="122" >122회차</option>
+																		<option value="121" >121회차</option>
+																		<option value="120" >120회차</option>
+																		<option value="119" >119회차</option>
+																		<option value="118" >118회차</option>
+																		<option value="117" >117회차</option>
+																		<option value="116" >116회차</option>
+																		<option value="115" >115회차</option>
+																		<option value="114" >114회차</option>
+																		<option value="113" >113회차</option>
+																		<option value="112" >112회차</option>
+																		<option value="111" >111회차</option>
+																		<option value="110" >110회차</option>
+																		<option value="109" >109회차</option>
+																		<option value="108" >108회차</option>
+																		<option value="107" >107회차</option>
+																		<option value="106" >106회차</option>
+																		<option value="105" >105회차</option>
+																		<option value="104" selected>104회차</option>
+																		<option value="103" >103회차</option>
+																		<option value="102" >102회차</option>
+																		<option value="101" >101회차</option>
+																		<option value="100" >100회차</option>
+																		<option value="99" >99회차</option>
+																		<option value="98" >98회차</option>
+																		<option value="97" >97회차</option>
+																		<option value="96" >96회차</option>
+																		<option value="95" >95회차</option>
+																		<option value="94" >94회차</option>
+																		<option value="93" >93회차</option>
+																		<option value="92" >92회차</option>
+																		<option value="91" >91회차</option>
+																		<option value="90" >90회차</option>
+																		<option value="89" >89회차</option>
+																		<option value="88" >88회차</option>
+																		<option value="87" >87회차</option>
+																		<option value="86" >86회차</option>
+																		<option value="85" >85회차</option>
+																		<option value="84" >84회차</option>
+																		<option value="83" >83회차</option>
+																		<option value="82" >82회차</option>
+																		<option value="81" >81회차</option>
+																		<option value="80" >80회차</option>
+																		<option value="79" >79회차</option>
+																		<option value="78" >78회차</option>
+																		<option value="77" >77회차</option>
+																		<option value="76" >76회차</option>
+																		<option value="75" >75회차</option>
+																		<option value="74" >74회차</option>
+																		<option value="73" >73회차</option>
+																		<option value="72" >72회차</option>
+																		<option value="71" >71회차</option>
+																		<option value="70" >70회차</option>
+																		<option value="69" >69회차</option>
+																		<option value="68" >68회차</option>
+																		<option value="67" >67회차</option>
+																		<option value="66" >66회차</option>
+																		<option value="65" >65회차</option>
+																		<option value="64" >64회차</option>
+																		<option value="63" >63회차</option>
+																		<option value="62" >62회차</option>
+																		<option value="61" >61회차</option>
+																		<option value="60" >60회차</option>
+																		<option value="59" >59회차</option>
+																		<option value="58" >58회차</option>
+																		<option value="57" >57회차</option>
+																		<option value="56" >56회차</option>
+																		<option value="55" >55회차</option>
+																		<option value="54" >54회차</option>
+																		<option value="53" >53회차</option>
+																		<option value="52" >52회차</option>
+																		<option value="51" >51회차</option>
+																		<option value="50" >50회차</option>
+																		<option value="49" >49회차</option>
+																		<option value="48" >48회차</option>
+																		<option value="47" >47회차</option>
+																		<option value="46" >46회차</option>
+																		<option value="45" >45회차</option>
+																		<option value="44" >44회차</option>
+																		<option value="43" >43회차</option>
+																		<option value="42" >42회차</option>
+																		<option value="41" >41회차</option>
+																		<option value="40" >40회차</option>
+																		<option value="39" >39회차</option>
+																		<option value="38" >38회차</option>
+																		<option value="37" >37회차</option>
+																		<option value="36" >36회차</option>
+																		<option value="35" >35회차</option>
+																		<option value="34" >34회차</option>
+																		<option value="33" >33회차</option>
+																		<option value="32" >32회차</option>
+																		<option value="31" >31회차</option>
+																		<option value="30" >30회차</option>
+																		<option value="29" >29회차</option>
+																		<option value="28" >28회차</option>
+																		<option value="27" >27회차</option>
+																		<option value="26" >26회차</option>
+																		<option value="25" >25회차</option>
+																		<option value="24" >24회차</option>
+																		<option value="23" >23회차</option>
+																		<option value="22" >22회차</option>
+																		<option value="21" >21회차</option>
+																		<option value="20" >20회차</option>
+																		<option value="19" >19회차</option>
+																		<option value="18" >18회차</option>
+																		<option value="17" >17회차</option>
+																		<option value="16" >16회차</option>
+																		<option value="15" >15회차</option>
+																		<option value="14" >14회차</option>
+																		<option value="13" >13회차</option>
+																		<option value="12" >12회차</option>
+																		<option value="11" >11회차</option>
+																		<option value="10" >10회차</option>
+																		<option value="9" >9회차</option>
+																		<option value="8" >8회차</option>
+																		<option value="7" >7회차</option>
+																		<option value="6" >6회차</option>
+																		<option value="5" >5회차</option>
+																		<option value="4" >4회차</option>
+																		<option value="3" >3회차</option>
+																		<option value="2" >2회차</option>
+																		<option value="1" >1회차</option>
+																	</select>
+
+																<a href="?tab_type=proto&game_type=pt&game_category=pt1&game_year=2026&game_round=104&pn=p" class="next" title="다음 회차">
+									<span class="blind">다음</span>
+								</a>
+															</div>
+
+														<a href="#" class="btn calculate" onclick="popupOpen_D('/gameinfo/pt1_rate_cal.htm?game_year=2026&game_round=104','','980','690');">
+								<img src="https://storage.wisetoto.com/images/common/btn/btn_calculate.jpg" alt="배당률 계산기">
+							</a>
+							
+							<div class="game_sort">
+								<a href="#" onclick="get_gameinfo_body('proto', 'pt1', 2026, '104', '', '', '31427', '', '');" class="btn all active" title="전체"><span class="blind">전체</span></a>
+								<a href="#" onclick="get_gameinfo_body('proto', 'pt1', 2026, '104', '', '', '31427', 'sc', '');" class="btn soccer " title="축구"><span class="blind">축구</span></a>
+								<a href="#" onclick="get_gameinfo_body('proto', 'pt1', 2026, '104', '', '', '31427', 'bs', '');" class="btn baseball " title="야구"><span class="blind">야구</span></a>
+								<a href="#" onclick="get_gameinfo_body('proto', 'pt1', 2026, '104', '', '', '31427', 'bk', '');" class="btn basketball " title="농구"><span class="blind">농구</span></a>
+								<a href="#" onclick="get_gameinfo_body('proto', 'pt1', 2026, '104', '', '', '31427', 'vl', '');" class="btn volleyball " title="배구"><span class="blind">배구</span></a>
+							</div>
+						</div>
+
+						<div class="game_table" id="gameinfo_pt1"></div>
+					</div>
+					<!-- // 승부식 -->
+
+
+					<!-- 기록식 -->
+					<div class="tab_content " id="tab02_02">
+						<div class="sort_area">
+							<p class="info_text">
+								발매기간 : 2026-09-02 08:00 ~
+								대상게임별 개최시간 마감							</p>
+							<div class="select_wrap">
+								<a href="?tab_type=proto&game_type=pt&game_category=pt1&game_year=2026&game_round=104&pn=m" class="prev" title="이전 회차">
+									<span class="blind">이전</span>
+								</a>
+
+								<select name="" id="" class="select01" onchange="document.location.href='?tab_type=proto&game_type=pt&game_category=pt1&game_year=' + this.value;">
+																		<option value="2026" selected>2026년도</option>
+																		<option value="2025" >2025년도</option>
+																	</select>
+
+								<select name="" id="" class="select02" onchange="document.location.href='?tab_type=proto&game_type=pt&game_category=pt1&game_year=2026&game_round=' + this.value;">
+																		<option value="129" >129회차</option>
+																		<option value="128" >128회차</option>
+																		<option value="127" >127회차</option>
+																		<option value="126" >126회차</option>
+																		<option value="125" >125회차</option>
+																		<option value="124" >124회차</option>
+																		<option value="123" >123회차</option>
+																		<option value="122" >122회차</option>
+																		<option value="121" >121회차</option>
+																		<option value="120" >120회차</option>
+																		<option value="119" >119회차</option>
+																		<option value="118" >118회차</option>
+																		<option value="117" >117회차</option>
+																		<option value="116" >116회차</option>
+																		<option value="115" >115회차</option>
+																		<option value="114" >114회차</option>
+																		<option value="113" >113회차</option>
+																		<option value="112" >112회차</option>
+																		<option value="111" >111회차</option>
+																		<option value="110" >110회차</option>
+																		<option value="109" >109회차</option>
+																		<option value="108" >108회차</option>
+																		<option value="107" >107회차</option>
+																		<option value="106" >106회차</option>
+																		<option value="105" >105회차</option>
+																		<option value="104" selected>104회차</option>
+																		<option value="103" >103회차</option>
+																		<option value="102" >102회차</option>
+																		<option value="101" >101회차</option>
+																		<option value="100" >100회차</option>
+																		<option value="99" >99회차</option>
+																		<option value="98" >98회차</option>
+																		<option value="97" >97회차</option>
+																		<option value="96" >96회차</option>
+																		<option value="95" >95회차</option>
+																		<option value="94" >94회차</option>
+																		<option value="93" >93회차</option>
+																		<option value="92" >92회차</option>
+																		<option value="91" >91회차</option>
+																		<option value="90" >90회차</option>
+																		<option value="89" >89회차</option>
+																		<option value="88" >88회차</option>
+																		<option value="87" >87회차</option>
+																		<option value="86" >86회차</option>
+																		<option value="85" >85회차</option>
+																		<option value="84" >84회차</option>
+																		<option value="83" >83회차</option>
+																		<option value="82" >82회차</option>
+																		<option value="81" >81회차</option>
+																		<option value="80" >80회차</option>
+																		<option value="79" >79회차</option>
+																		<option value="78" >78회차</option>
+																		<option value="77" >77회차</option>
+																		<option value="76" >76회차</option>
+																		<option value="75" >75회차</option>
+																		<option value="74" >74회차</option>
+																		<option value="73" >73회차</option>
+																		<option value="72" >72회차</option>
+																		<option value="71" >71회차</option>
+																		<option value="70" >70회차</option>
+																		<option value="69" >69회차</option>
+																		<option value="68" >68회차</option>
+																		<option value="67" >67회차</option>
+																		<option value="66" >66회차</option>
+																		<option value="65" >65회차</option>
+																		<option value="64" >64회차</option>
+																		<option value="63" >63회차</option>
+																		<option value="62" >62회차</option>
+																		<option value="61" >61회차</option>
+																		<option value="60" >60회차</option>
+																		<option value="59" >59회차</option>
+																		<option value="58" >58회차</option>
+																		<option value="57" >57회차</option>
+																		<option value="56" >56회차</option>
+																		<option value="55" >55회차</option>
+																		<option value="54" >54회차</option>
+																		<option value="53" >53회차</option>
+																		<option value="52" >52회차</option>
+																		<option value="51" >51회차</option>
+																		<option value="50" >50회차</option>
+																		<option value="49" >49회차</option>
+																		<option value="48" >48회차</option>
+																		<option value="47" >47회차</option>
+																		<option value="46" >46회차</option>
+																		<option value="45" >45회차</option>
+																		<option value="44" >44회차</option>
+																		<option value="43" >43회차</option>
+																		<option value="42" >42회차</option>
+																		<option value="41" >41회차</option>
+																		<option value="40" >40회차</option>
+																		<option value="39" >39회차</option>
+																		<option value="38" >38회차</option>
+																		<option value="37" >37회차</option>
+																		<option value="36" >36회차</option>
+																		<option value="35" >35회차</option>
+																		<option value="34" >34회차</option>
+																		<option value="33" >33회차</option>
+																		<option value="32" >32회차</option>
+																		<option value="31" >31회차</option>
+																		<option value="30" >30회차</option>
+																		<option value="29" >29회차</option>
+																		<option value="28" >28회차</option>
+																		<option value="27" >27회차</option>
+																		<option value="26" >26회차</option>
+																		<option value="25" >25회차</option>
+																		<option value="24" >24회차</option>
+																		<option value="23" >23회차</option>
+																		<option value="22" >22회차</option>
+																		<option value="21" >21회차</option>
+																		<option value="20" >20회차</option>
+																		<option value="19" >19회차</option>
+																		<option value="18" >18회차</option>
+																		<option value="17" >17회차</option>
+																		<option value="16" >16회차</option>
+																		<option value="15" >15회차</option>
+																		<option value="14" >14회차</option>
+																		<option value="13" >13회차</option>
+																		<option value="12" >12회차</option>
+																		<option value="11" >11회차</option>
+																		<option value="10" >10회차</option>
+																		<option value="9" >9회차</option>
+																		<option value="8" >8회차</option>
+																		<option value="7" >7회차</option>
+																		<option value="6" >6회차</option>
+																		<option value="5" >5회차</option>
+																		<option value="4" >4회차</option>
+																		<option value="3" >3회차</option>
+																		<option value="2" >2회차</option>
+																		<option value="1" >1회차</option>
+																	</select>
+
+								<a href="?tab_type=proto&game_type=pt&game_category=pt1&game_year=2026&game_round=104&pn=p" class="next" title="다음 회차">
+									<span class="blind">다음</span>
+								</a>
+							</div>
+						</div>
+						<div class="totowrap" id="gameinfo_pt2"></div>
+					</div>
+					<!-- // 기록식 -->
+				</div>
+				<!-- // 승부식/기록식 -->
+
+				<script>
+				get_gameinfo_body('proto','pt1','2026','104','','','31427','','');
+				if (nowParams.focus) {
+					setTimeout(function() {
+
+						var div_key_temp = nowParams.focus;
+						var div_key_temp_arr = div_key_temp.split('_');
+
+						get_gameinfo_detail(div_key_temp_arr[0], div_key_temp_arr[1], 'pt1', 'proto', '2026', '104', "#db"+nowParams.focus);
+					}, 300);
+				}
+				</script>			</div>
+			<!-- // 프로토 -->
+
+			<!-- 토토 -->
+			<div class="tab_content " id="tab01_02">
+						</div>
+			<!-- // 토토 -->
+
+			<!-- 해외배당 -->
+			<div class="tab_content " id="tab01_03">
+						</div>
+			<!-- // 해외배당 -->
+		</div>
+		<div class="remote_control" style="">
+	<ul class="control_list">
+				<li class="calculate"><a onclick="popupOpen_D('/gameinfo/pt1_rate_cal.htm','','980','690');">배당률<br/>계산기</a></li>
+				<li class="print"><a onclick="popupOpen('/gameinfo/gameinfo_print.htm?tab_type=proto&game_type=pt&game_category=pt1&game_year=2026&game_round=104&page_type=print','gameinfo_print','900','500','no','yes');" style="cursor: pointer;">프린트</a></li>
+				<li class="to_top"><a href="#">TOP</a></li>
+		<!-- 210512 최하단 이동버튼 추가 -->
+		<li class="to_bottom"><a href="#gotobottom" class="scrollToBottom">BOTTOM</a></li>
+		<!-- // 210512 최하단 이동버튼 추가 -->
+	</ul>
+</div>			<div style="text-align:center; margin-top:10px;">
+			<ins class='adsbyadop' _adop_zon = 'c462ec68-11c6-49d6-a574-894ed2ac3d50' _adop_type = 're' style='display:inline-block;width:728px;height:90px;' _page_url=''></ins>			</div>
+			</div>
+</div>
+<div style="position:fixed; top:251px; right:51%; width:160px; height:600px; padding:0; margin-right:508px; clear:both;">
+	<iframe src='https://compass.adop.cc/RD/2e1f8683-9e32-4878-8082-548103929e7e?type=iframe&amp;loc=&amp;size_width=160&amp;size_height=600' id='2e1f8683-9e32-4878-8082-548103929e7e'
+    frameBorder='0' marginWidth='0' marginHeight='0' paddingWidth='0' paddingHeight='0' scrolling='no' style='width: 160px; height: 600px;'></iframe></div>
+<div class="banner_right">
+	<ins class='adsbyadop' _adop_zon='65caaa5a-e5ef-4b73-8b03-ed0c50236667' _adop_type='re' style='display:inline-block;width:160px;height:600px;' _page_url=''></ins></div>
+<div class="video_right" style="width: 160px;">
+</div>
+<script>
+var banner_right = $('.banner_right'),
+	windowwidth = window.innerWidth;
+if (windowwidth < 1200) banner_right.addClass('fixed');
+else banner_right.removeClass('fixed');
+</script>
+<div id="footer">
+	<div class="footer">
+		<div class="top">
+					<img src="https://storage.wisetoto.com/images/common/btn/btn_top.gif" width="34" height="14" border="0" align="absmiddle" style="cursor:pointer" onclick="window.scroll(0,0);"/>
+				</div>
+		<li class="partner">
+			<img src="https://storage.wisetoto.com/images/common/logo/partner.png" border="0" align="absmiddle" alt="" usemap="#partner"/>
+		</li>
+		<li class="txt">
+			<img src="https://storage.wisetoto.com/images/common/260420_bottom_txt.png" border="0" align="absmiddle" alt="" width="615px" height="110px" usemap="#txt"/>
+		</li>
+		<li class="customer">
+			<img src="https://storage.wisetoto.com/images/common/customer.jpg" border="0" align="absmiddle" alt=""/>
+		</li>
+		<map name="partner">
+			<area shape="rect" coords="7,26,127,45" href="http://sports.chosun.com/" target="_blank" onfocus="this.blur();" rel="noopener">
+			<area shape="rect" coords="7,46,127,68" href="http://www.highcut.co.kr/" target="_blank" onfocus="this.blur();" rel="noopener">
+			<area shape="rect" coords="7,69,127,90" href="http://www.blueaward.co.kr/" target="_blank" onfocus="this.blur();" rel="noopener">
+		</map>
+		<map name="txt">
+			<area shape="rect" coords="0,4,53,25" href="http://www.tionnet.com/" target="_blank" onfocus="this.blur();" rel="noopener">
+			<area shape="rect" coords="63,4,122,25" href="/customer/service_info.htm" onfocus="this.blur();">
+			<area shape="rect" coords="132,4,182,25" href="/customer/agreement.htm" onfocus="this.blur();">
+			<area shape="rect" coords="189,4,278,25" href="/customer/policy.htm" onfocus="this.blur();">
+			<area shape="rect" coords="286,4,337,25" href="/customer/contactus.htm" onfocus="this.blur();">
+			<area shape="rect" coords="348,4,396,25" href="/customer/list.htm?b_id=21" onfocus="this.blur();">
+			<area shape="rect" coords="407,4,458,25" href="/customer/sitemap.htm" onfocus="this.blur();">
+			<area shape="rect" coords="467,4,547,25" onclick="window.open('http://www.ftc.go.kr/bizCommPop.do?wrkr_no=1178165426&','pop','width=750, height=700;');" style="cursor:pointer;" target="_blank" onfocus="this.blur();" rel="noopener">
+		</map>
+	</div>
+	</div>
+<div id='gotobottom' /><script type="text/javascript">
+  //타블라:플러시 코드
+  window._taboola = window._taboola || [];
+  _taboola.push({flush: true});
+</script>
+</body>
+</html>

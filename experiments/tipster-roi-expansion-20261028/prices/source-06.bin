@@ -1,0 +1,121 @@
+﻿<!--[if IE 7]><html class="ie7" lang="ko"><![endif]-->
+<!--[if IE 8]><html class="ie8" lang="ko"><![endif]-->
+<!--[if IE 9]><html class="ie9" lang="ko"><![endif]-->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <title>에러 | KBO홈페이지 </title>
+    <style type="text/css">
+        body {
+            background: #fff;
+        }
+
+        body {
+            font-size: 12px;
+            font-family: 'Nanum Gothic',sans-serif;
+            color: #333;
+        }
+
+        a {
+            color: #333;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+            a:active, a:hover {
+                text-decoration: none;
+            }
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .errorbox {
+            width: 100%;
+            margin: 0 auto;
+        }
+        /* width:1013px;*/
+        .elogo {
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            color: #058fd3;
+            padding: 10px 0;
+            border-bottom: 1px solid #e3e3e3;
+            margin: 0;
+        }
+
+        .econ {
+            padding: 35px 0;
+            text-align: center;
+            font-size: 14px;
+        }
+
+            .econ strong {
+                color: #f94646;
+                font-size: 24px;
+            }
+
+            .econ p {
+                color: #666;
+                line-height: 26px;
+                margin-top: 26px;
+            }
+
+        .errorcon {
+            width: 100%;
+            margin-top: 20px;
+            position: relative;
+            border: 1px solid #e5e5e5;
+            text-align: right;
+        }
+
+            .errorcon img {
+                vertical-align: middle;
+            }
+
+            .errorcon .btn {
+                float: left;
+                width: 100%;
+                background: #f1f1f1;
+                color: #4c4f55;
+                text-align: center;
+                margin: 0;
+                padding: 18px 0;
+            }
+
+                .errorcon .btn a {
+                    margin-left: 16px;
+                }
+
+        .btn_list {
+            display: inline-block;
+            border: 1px solid #43464b;
+            width: 100px;
+            height: 28px;
+            line-height: 28px;
+            color: #fff;
+            background: url("//6ptotvmi5753.edge.naverncp.com/KBO_IMAGE/KBOHome/resources/images/common/btn_bg03.png") repeat-x;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="errorbox">
+        <div class="errorcon">
+            <p class="elogo"><img src="<%=KBOLib.Util.StaticVariable.CDN_URL %>/resources/images/common/img_error_logo.gif" alt="" /></p>
+            <div class="econ">
+                <strong>이용에 불편을 드려 죄송합니다.</strong> <br />
+                <p>
+                    잠시 후에 다시 한번 시도해 주시길 바랍니다.  <br />
+                    동일한 문제가 지속적으로 발생할 경우 <a href="mailto:marketing@sports2i.com">marketing@sports2i.com 으로 문의하여 주십시오.</a>
+                </p>
+            </div>
+            <p class="btn"><a class="btn_list" href="javascript:history.back();">이전으로 가기</a><a class="btn_list" href="/">홈으로 가기</a></p>
+        </div>
+    </div>
+</body>
+</html>
