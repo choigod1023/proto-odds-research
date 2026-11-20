@@ -1,0 +1,21 @@
+{
+  "n": 712,
+  "by_role": {
+    "train": 296,
+    "validation": 300,
+    "evaluation": 116
+  },
+  "price_matched_by_role": {
+    "train": 274
+  },
+  "excluded": {
+    "unknown_price_team": 322,
+    "missing_or_multiple_historical_prices": 419,
+    "ambiguous_same_day_price_fixture": 19
+  },
+  "sources": {
+    "mlb-snapshots.jsonl.gz": "4b19aaf0d3f456d74c6389b9e7b6861f0fd74a98043806ae7d947a7b63e044ce",
+    "games.csv.tmp": "4d42dae9a71fb372cf001a279599741ffcf57ed08ce1105a02cce24bcc29f063",
+    "targets.jsonl": "fbc4e3de832678aba27d2ed9281a5f8db964817b33b7e33a2050b8f2a726f2f4"
+  }
+}
