@@ -1,0 +1,5557 @@
+{
+  "status": "development_only_not_independent_holdout",
+  "monthly_loss_limit_krw": 50000,
+  "parameters": {
+    "calibration_min": 20,
+    "calibration_dates": 2,
+    "identity_ridge": 10,
+    "context_min": 20,
+    "context_dates": 3,
+    "min_brier_gain": 0.005,
+    "weights": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0
+    ]
+  },
+  "coverage": {
+    "candidates": 59,
+    "settled": 51,
+    "dates": 5,
+    "calibration_active": 35,
+    "context_switches": 0
+  },
+  "weight_reasons": {
+    "insufficient_context_history": 59
+  },
+  "runs": {
+    "model": {
+      "brier_home": 0.2267977088235294,
+      "policies": {
+        "probability": {
+          "opportunities": 59,
+          "recommendations": 13,
+          "skipped": 46,
+          "settled": 10,
+          "hits": 6,
+          "hit_rate_pct": 60.0,
+          "single_roi_pct": -7.099999999999997,
+          "picks": [
+            {
+              "id": "evt_481002379f8225a1",
+              "side": 1,
+              "score": 0.5986,
+              "price": 1.5
+            },
+            {
+              "id": "evt_d549b89efd23c420",
+              "side": 0,
+              "score": 0.5775,
+              "price": 1.55
+            },
+            {
+              "id": "evt_7b3725b053793152",
+              "side": 1,
+              "score": 0.5852999999999999,
+              "price": 1.53
+            },
+            {
+              "id": "evt_d10a278eccdf298a",
+              "side": 1,
+              "score": 0.5852999999999999,
+              "price": 1.53
+            },
+            {
+              "id": "evt_ec4128744fe330c7",
+              "side": 0,
+              "score": 0.5652,
+              "price": 1.58
+            },
+            {
+              "id": "evt_fe0c5cfb420f0d67",
+              "side": 1,
+              "score": 0.5986,
+              "price": 1.5
+            },
+            {
+              "id": "evt_69d7e5d0a34e2755",
+              "side": 0,
+              "score": 0.5528,
+              "price": 1.61
+            },
+            {
+              "id": "evt_7a815556756d5425",
+              "side": 1,
+              "score": 0.573,
+              "price": 1.56
+            },
+            {
+              "id": "evt_c1a92589f740dbac",
+              "side": 0,
+              "score": 0.5574,
+              "price": 1.6
+            },
+            {
+              "id": "evt_ef727528217becfd",
+              "side": 1,
+              "score": 0.5808,
+              "price": 1.54
+            },
+            {
+              "id": "evt_1d93f817e590e990",
+              "side": 1,
+              "score": 0.5942000000000001,
+              "price": 1.51
+            },
+            {
+              "id": "evt_5b74b1ecf7c94508",
+              "side": 1,
+              "score": 0.5574,
+              "price": 1.6
+            },
+            {
+              "id": "evt_a14887bcc377ec71",
+              "side": 1,
+              "score": 0.5528,
+              "price": 1.61
+            }
+          ],
+          "paper": {
+            "2": {
+              "tickets": 2,
+              "settled": 1,
+              "pending": 1,
+              "net_krw": -10000,
+              "roi_pct": -100.0,
+              "pending_stake_krw": 10000,
+              "worst_case_net_krw": -20000,
+              "max_drawdown_krw": 10000,
+              "monthly_net": {
+                "2026-08": -10000,
+                "2026-09": 0
+              },
+              "ticket_log": [
+                {
+                  "at": "2026-08-30T12:00:00-04:00",
+                  "month": "2026-08",
+                  "ids": [
+                    "evt_481002379f8225a1",
+                    "evt_d549b89efd23c420"
+                  ],
+                  "sides": [
+                    1,
+                    0
+                  ],
+                  "price": 2.4,
+                  "hit": false,
+                  "settled_at": "2026-08-31T03:16:35+00:00",
+                  "reserved_budget_before": 50000,
+                  "net": -10000
+                },
+                {
+                  "at": "2026-08-31T12:00:00-04:00",
+                  "month": "2026-09",
+                  "ids": [
+                    "evt_7b3725b053793152",
+                    "evt_fe0c5cfb420f0d67"
+                  ],
+                  "sides": [
+                    1,
+                    1
+                  ],
+                  "price": 2.3,
+                  "hit": false,
+                  "settled_at": null,
+                  "reserved_budget_before": 50000
+                }
+              ]
+            },
+            "3": {
+              "tickets": 3,
+              "settled": 2,
+              "pending": 1,
+              "net_krw": -20000,
+              "roi_pct": -100.0,
+              "pending_stake_krw": 10000,
+              "worst_case_net_krw": -30000,
+              "max_drawdown_krw": 20000,
+              "monthly_net": {
+                "2026-08": -10000,
+                "2026-09": -10000
+              },
+              "ticket_log": [
+                {
+                  "at": "2026-08-30T12:00:00-04:00",
+                  "month": "2026-08",
+                  "ids": [
+                    "evt_481002379f8225a1",
+                    "evt_d549b89efd23c420"
+                  ],
+                  "sides": [
+                    1,
+                    0
+                  ],
+                  "price": 2.4,
+                  "hit": false,
+                  "settled_at": "2026-08-31T03:16:35+00:00",
+                  "reserved_budget_before": 50000,
+                  "net": -10000
+                },
+                {
+                  "at": "2026-08-31T12:00:00-04:00",
+                  "month": "2026-09",
+                  "ids": [
+                    "evt_7b3725b053793152",
+                    "evt_fe0c5cfb420f0d67"
+                  ],
+                  "sides": [
+                    1,
+                    1
+                  ],
+                  "price": 2.3,
+                  "hit": false,
+                  "settled_at": null,
+                  "reserved_budget_before": 50000
+                },
+                {
+                  "at": "2026-09-01T12:00:00-04:00",
+                  "month": "2026-09",
+                  "ids": [
+                    "evt_7a815556756d5425",
+                    "evt_ef727528217becfd"
+                  ],
+                  "sides": [
+                    1,
+                    1
+                  ],
+                  "price": 2.4,
+                  "hit": false,
+                  "settled_at": "2026-09-02T01:44:22+00:00",
+                  "reserved_budget_before": 40000,
+                  "net": -10000
+                }
+              ]
+            }
+          }
+        },
+        "edge": {
+          "opportunities": 59,
+          "recommendations": 0,
+          "skipped": 59,
+          "settled": 0,
+          "hits": 0,
+          "hit_rate_pct": null,
+          "single_roi_pct": null,
+          "picks": [],
+          "paper": {
+            "2": {
+              "tickets": 0,
+              "settled": 0,
+              "pending": 0,
+              "net_krw": 0,
+              "roi_pct": null,
+              "pending_stake_krw": 0,
+              "worst_case_net_krw": 0,
+              "max_drawdown_krw": 0,
+              "monthly_net": {},
+              "ticket_log": []
+            },
+            "3": {
+              "tickets": 0,
+              "settled": 0,
+              "pending": 0,
+              "net_krw": 0,
+              "roi_pct": null,
+              "pending_stake_krw": 0,
+              "worst_case_net_krw": 0,
+              "max_drawdown_krw": 0,
+              "monthly_net": {},
+              "ticket_log": []
+            }
+          }
+        },
+        "pair_edge": {
+          "opportunities": 59,
+          "recommendations": 0,
+          "skipped": 59,
+          "settled": 0,
+          "hits": 0,
+          "hit_rate_pct": null,
+          "single_roi_pct": null,
+          "picks": [],
+          "paper": {
+            "2": {
+              "tickets": 0,
+              "settled": 0,
+              "pending": 0,
+              "net_krw": 0,
+              "roi_pct": null,
+              "pending_stake_krw": 0,
+              "worst_case_net_krw": 0,
+              "max_drawdown_krw": 0,
+              "monthly_net": {},
+              "ticket_log": []
+            },
+            "3": {
+              "tickets": 0,
+              "settled": 0,
+              "pending": 0,
+              "net_krw": 0,
+              "roi_pct": null,
+              "pending_stake_krw": 0,
+              "worst_case_net_krw": 0,
+              "max_drawdown_krw": 0,
+              "monthly_net": {},
+              "ticket_log": []
+            }
+          }
+        }
+      }
+    },
+    "fixed75_25": {
+      "brier_home": 0.2518693974877451,
+      "policies": {
+        "probability": {
+          "opportunities": 59,
+          "recommendations": 23,
+          "skipped": 36,
+          "settled": 20,
+          "hits": 9,
+          "hit_rate_pct": 45.0,
+          "single_roi_pct": -24.8,
+          "picks": [
+            {
+              "id": "evt_364c382baf140f6c",
+              "side": 1,
+              "score": 0.63955,
+              "price": 1.7
+            },
+            {
+              "id": "evt_481002379f8225a1",
+              "side": 1,
+              "score": 0.57395,
+              "price": 1.5
+            },
+            {
+              "id": "evt_d549b89efd23c420",
+              "side": 0,
+              "score": 0.558125,
+              "price": 1.55
+            },
+            {
+              "id": "evt_e3688cdf418beeb3",
+              "side": 0,
+              "score": 0.553875,
+              "price": 1.65
+            },
+            {
+              "id": "evt_ff95a9d391f8e6c9",
+              "side": 1,
+              "score": 0.6250249999999999,
+              "price": 1.64
+            },
+            {
+              "id": "evt_7b3725b053793152",
+              "side": 1,
+              "score": 0.688975,
+              "price": 1.53
+            },
+            {
+              "id": "evt_d10a278eccdf298a",
+              "side": 1,
+              "score": 0.563975,
+              "price": 1.53
+            },
+            {
+              "id": "evt_fe0c5cfb420f0d67",
+              "side": 1,
+              "score": 0.6156166666666667,
+              "price": 1.5
+            },
+            {
+              "id": "evt_0db09c29fbc6ab80",
+              "side": 0,
+              "score": 0.5646166666666667,
+              "price": 1.67
+            },
+            {
+              "id": "evt_69d7e5d0a34e2755",
+              "side": 1,
+              "score": 0.5854,
+              "price": 1.94
+            },
+            {
+              "id": "evt_9e66728feee24f37",
+              "side": 1,
+              "score": 0.6274,
+              "price": 1.75
+            },
+            {
+              "id": "evt_c1a92589f740dbac",
+              "side": 0,
+              "score": 0.5847166666666667,
+              "price": 1.6
+            },
+            {
+              "id": "evt_ef727528217becfd",
+              "side": 1,
+              "score": 0.6856,
+              "price": 1.54
+            },
+            {
+              "id": "evt_6e14584db3266c79",
+              "side": 1,
+              "score": 0.6430750000000001,
+              "price": 1.69
+            },
+            {
+              "id": "evt_bf42fc7af4e3aa07",
+              "side": 0,
+              "score": 0.60205,
+              "price": 1.86
+            },
+            {
+              "id": "evt_148ab5235563b252",
+              "side": 1,
+              "score": 0.6562749999999999,
+              "price": 1.64
+            },
+            {
+              "id": "evt_1d93f817e590e990",
+              "side": 0,
+              "score": 0.55435,
+              "price": 2.11
+            },
+            {
+              "id": "evt_43a87a820cf45e93",
+              "side": 0,
+              "score": 0.61045,
+              "price": 1.82
+            },
+            {
+              "id": "evt_5b74b1ecf7c94508",
+              "side": 0,
+              "score": 0.58195,
+              "price": 1.96
+            },
+            {
+              "id": "evt_a14887bcc377ec71",
+              "side": 1,
+              "score": 0.6646000000000001,
+              "price": 1.61
+            },
+            {
+              "id": "evt_dbd22918abfb81ac",
+              "side": 0,
+              "score": 0.591375,
+              "price": 1.65
+            },
+            {
+              "id": "evt_de81630ad2cecdf5",
+              "side": 1,
+              "score": 0.604525,
+              "price": 1.85
+            },
+            {
+              "id": "evt_ea342d122e723250",
+              "side": 1,
+              "score": 0.653875,
+              "price": 1.65
+            }
+          ],
+          "paper": {
+            "2": {
+              "tickets": 2,
+              "settled": 1,
+              "pending": 1,
+              "net_krw": -10000,
+              "roi_pct": -100.0,
+              "pending_stake_krw": 10000,
+              "worst_case_net_krw": -20000,
+              "max_drawdown_krw": 10000,
+              "monthly_net": {
+                "2026-08": -10000,
+                "2026-09": 0
+              },
+              "ticket_log": [
+                {
+                  "at": "2026-08-30T12:00:00-04:00",
+                  "month": "2026-08",
+                  "ids": [
+                    "evt_364c382baf140f6c",
+                    "evt_ff95a9d391f8e6c9"
+                  ],
+                  "sides": [
+                    1,
+                    1
+                  ],
+                  "price": 2.8,
+                  "hit": false,
+                  "settled_at": "2026-08-30T20:39:31+00:00",
+                  "reserved_budget_before": 50000,
+                  "net": -10000
+                },
+                {
+                  "at": "2026-08-31T12:00:00-04:00",
+                  "month": "2026-09",
+                  "ids": [
+                    "evt_7b3725b053793152",
+                    "evt_fe0c5cfb420f0d67"
+                  ],
+                  "sides": [
+                    1,
+                    1
+                  ],
+                  "price": 2.3,
+                  "hit": false,
+                  "settled_at": null,
+                  "reserved_budget_before": 50000
+                }
+              ]
+            },
+            "3": {
+              "tickets": 3,
+              "settled": 2,
+              "pending": 1,
+              "net_krw": -20000,
+              "roi_pct": -100.0,
+              "pending_stake_krw": 10000,
+              "worst_case_net_krw": -30000,
+              "max_drawdown_krw": 20000,
+              "monthly_net": {
+                "2026-08": -10000,
+                "2026-09": -10000
+              },
+              "ticket_log": [
+                {
+                  "at": "2026-08-30T12:00:00-04:00",
+                  "month": "2026-08",
+                  "ids": [
+                    "evt_364c382baf140f6c",
+                    "evt_ff95a9d391f8e6c9"
+                  ],
+                  "sides": [
+                    1,
+                    1
+                  ],
+                  "price": 2.8,
+                  "hit": false,
+                  "settled_at": "2026-08-30T20:39:31+00:00",
+                  "reserved_budget_before": 50000,
+                  "net": -10000
+                },
+                {
+                  "at": "2026-08-31T12:00:00-04:00",
+                  "month": "2026-09",
+                  "ids": [
+                    "evt_7b3725b053793152",
+                    "evt_fe0c5cfb420f0d67"
+                  ],
+                  "sides": [
+                    1,
+                    1
+                  ],
+                  "price": 2.3,
+                  "hit": false,
+                  "settled_at": null,
+                  "reserved_budget_before": 50000
+                },
+                {
+                  "at": "2026-09-01T12:00:00-04:00",
+                  "month": "2026-09",
+                  "ids": [
+                    "evt_9e66728feee24f37",
+                    "evt_ef727528217becfd"
+                  ],
+                  "sides": [
+                    1,
+                    1
+                  ],
+                  "price": 2.7,
+                  "hit": false,
+                  "settled_at": "2026-09-02T02:36:29+00:00",
+                  "reserved_budget_before": 40000,
+                  "net": -10000
+                }
+              ]
+            }
+          }
+        },
+        "edge": {
+          "opportunities": 59,
+          "recommendations": 15,
+          "skipped": 44,
+          "settled": 13,
+          "hits": 5,
+          "hit_rate_pct": 38.46153846153846,
+          "single_roi_pct": -32.38461538461539,
+          "picks": [
+            {
+              "id": "evt_364c382baf140f6c",
+              "side": 1,
+              "score": 0.63955,
+              "price": 1.7
+            },
+            {
+              "id": "evt_ff95a9d391f8e6c9",
+              "side": 1,
+              "score": 0.6250249999999999,
+              "price": 1.64
+            },
+            {
+              "id": "evt_7b3725b053793152",
+              "side": 1,
+              "score": 0.688975,
+              "price": 1.53
+            },
+            {
+              "id": "evt_69d7e5d0a34e2755",
+              "side": 1,
+              "score": 0.5854,
+              "price": 1.94
+            },
+            {
+              "id": "evt_9e66728feee24f37",
+              "side": 1,
+              "score": 0.6274,
+              "price": 1.75
+            },
+            {
+              "id": "evt_ef727528217becfd",
+              "side": 1,
+              "score": 0.6856,
+              "price": 1.54
+            },
+            {
+              "id": "evt_6e14584db3266c79",
+              "side": 1,
+              "score": 0.6430750000000001,
+              "price": 1.69
+            },
+            {
+              "id": "evt_bf42fc7af4e3aa07",
+              "side": 0,
+              "score": 0.60205,
+              "price": 1.86
+            },
+            {
+              "id": "evt_148ab5235563b252",
+              "side": 1,
+              "score": 0.6562749999999999,
+              "price": 1.64
+            },
+            {
+              "id": "evt_1d93f817e590e990",
+              "side": 0,
+              "score": 0.55435,
+              "price": 2.11
+            },
+            {
+              "id": "evt_43a87a820cf45e93",
+              "side": 0,
+              "score": 0.61045,
+              "price": 1.82
+            },
+            {
+              "id": "evt_5b74b1ecf7c94508",
+              "side": 0,
+              "score": 0.58195,
+              "price": 1.96
+            },
+            {
+              "id": "evt_a14887bcc377ec71",
+              "side": 1,
+              "score": 0.6646000000000001,
+              "price": 1.61
+            },
+            {
+              "id": "evt_de81630ad2cecdf5",
+              "side": 1,
+              "score": 0.604525,
+              "price": 1.85
+            },
+            {
+              "id": "evt_ea342d122e723250",
+              "side": 1,
+              "score": 0.653875,
+              "price": 1.65
+            }
+          ],
+          "paper": {
+            "2": {
+              "tickets": 2,
+              "settled": 2,
+              "pending": 0,
+              "net_krw": -20000,
+              "roi_pct": -100.0,
+              "pending_stake_krw": 0,
+              "worst_case_net_krw": -20000,
+              "max_drawdown_krw": 20000,
+              "monthly_net": {
+                "2026-08": -10000,
+                "2026-09": -10000
+              },
+              "ticket_log": [
+                {
+                  "at": "2026-08-30T12:00:00-04:00",
+                  "month": "2026-08",
+                  "ids": [
+                    "evt_364c382baf140f6c",
+                    "evt_ff95a9d391f8e6c9"
+                  ],
+                  "sides": [
+                    1,
+                    1
+                  ],
+                  "price": 2.8,
+                  "hit": false,
+                  "settled_at": "2026-08-30T20:39:31+00:00",
+                  "reserved_budget_before": 50000,
+                  "net": -10000
+                },
+                {
+                  "at": "2026-09-01T12:00:00-04:00",
+                  "month": "2026-09",
+                  "ids": [
+                    "evt_69d7e5d0a34e2755",
+                    "evt_9e66728feee24f37"
+                  ],
+                  "sides": [
+                    1,
+                    1
+                  ],
+                  "price": 3.4,
+                  "hit": false,
+                  "settled_at": "2026-09-02T02:36:29+00:00",
+                  "reserved_budget_before": 50000,
+                  "net": -10000
+                }
+              ]
+            },
+            "3": {
+              "tickets": 3,
+              "settled": 3,
+              "pending": 0,
+              "net_krw": -30000,
+              "roi_pct": -100.0,
+              "pending_stake_krw": 0,
+              "worst_case_net_krw": -30000,
+              "max_drawdown_krw": 30000,
+              "monthly_net": {
+                "2026-08": -10000,
+                "2026-09": -20000
+              },
+              "ticket_log": [
+                {
+                  "at": "2026-08-30T12:00:00-04:00",
+                  "month": "2026-08",
+                  "ids": [
+                    "evt_364c382baf140f6c",
+                    "evt_ff95a9d391f8e6c9"
+                  ],
+                  "sides": [
+                    1,
+                    1
+                  ],
+                  "price": 2.8,
+                  "hit": false,
+                  "settled_at": "2026-08-30T20:39:31+00:00",
+                  "reserved_budget_before": 50000,
+                  "net": -10000
+                },
+                {
+                  "at": "2026-09-01T12:00:00-04:00",
+                  "month": "2026-09",
+                  "ids": [
+                    "evt_69d7e5d0a34e2755",
+                    "evt_9e66728feee24f37"
+                  ],
+                  "sides": [
+                    1,
+                    1
+                  ],
+                  "price": 3.4,
+                  "hit": false,
+                  "settled_at": "2026-09-02T02:36:29+00:00",
+                  "reserved_budget_before": 50000,
+                  "net": -10000
+                },
+                {
+                  "at": "2026-09-03T12:00:00-04:00",
+                  "month": "2026-09",
+                  "ids": [
+                    "evt_6e14584db3266c79",
+                    "evt_bf42fc7af4e3aa07"
+                  ],
+                  "sides": [
+                    1,
+                    0
+                  ],
+                  "price": 3.2,
+                  "hit": false,
+                  "settled_at": "2026-09-04T01:42:16+00:00",
+                  "reserved_budget_before": 40000,
+                  "net": -10000
+                }
+              ]
+            }
+          }
+        },
+        "pair_edge": {
+          "opportunities": 59,
+          "recommendations": 15,
+          "skipped": 44,
+          "settled": 13,
+          "hits": 5,
+          "hit_rate_pct": 38.46153846153846,
+          "single_roi_pct": -32.38461538461539,
+          "picks": [
+            {
+              "id": "evt_364c382baf140f6c",
+              "side": 1,
+              "score": 0.63955,
+              "price": 1.7
+            },
+            {
+              "id": "evt_ff95a9d391f8e6c9",
+              "side": 1,
+              "score": 0.6250249999999999,
+              "price": 1.64
+            },
+            {
+              "id": "evt_7b3725b053793152",
+              "side": 1,
+              "score": 0.688975,
+              "price": 1.53
+            },
+            {
+              "id": "evt_69d7e5d0a34e2755",
+              "side": 1,
+              "score": 0.5854,
+              "price": 1.94
+            },
+            {
+              "id": "evt_9e66728feee24f37",
+              "side": 1,
+              "score": 0.6274,
+              "price": 1.75
+            },
+            {
+              "id": "evt_ef727528217becfd",
+              "side": 1,
+              "score": 0.6856,
+              "price": 1.54
+            },
+            {
+              "id": "evt_6e14584db3266c79",
+              "side": 1,
+              "score": 0.6430750000000001,
+              "price": 1.69
+            },
+            {
+              "id": "evt_bf42fc7af4e3aa07",
+              "side": 0,
+              "score": 0.60205,
+              "price": 1.86
+            },
+            {
+              "id": "evt_148ab5235563b252",
+              "side": 1,
+              "score": 0.6562749999999999,
+              "price": 1.64
+            },
+            {
+              "id": "evt_1d93f817e590e990",
+              "side": 0,
+              "score": 0.55435,
+              "price": 2.11
+            },
+            {
+              "id": "evt_43a87a820cf45e93",
+              "side": 0,
+              "score": 0.61045,
+              "price": 1.82
+            },
+            {
+              "id": "evt_5b74b1ecf7c94508",
+              "side": 0,
+              "score": 0.58195,
+              "price": 1.96
+            },
+            {
+              "id": "evt_a14887bcc377ec71",
+              "side": 1,
+              "score": 0.6646000000000001,
+              "price": 1.61
+            },
+            {
+              "id": "evt_de81630ad2cecdf5",
+              "side": 1,
+              "score": 0.604525,
+              "price": 1.85
+            },
+            {
+              "id": "evt_ea342d122e723250",
+              "side": 1,
+              "score": 0.653875,
+              "price": 1.65
+            }
+          ],
+          "paper": {
+            "2": {
+              "tickets": 2,
+              "settled": 2,
+              "pending": 0,
+              "net_krw": -20000,
+              "roi_pct": -100.0,
+              "pending_stake_krw": 0,
+              "worst_case_net_krw": -20000,
+              "max_drawdown_krw": 20000,
+              "monthly_net": {
+                "2026-08": -10000,
+                "2026-09": -10000
+              },
+              "ticket_log": [
+                {
+                  "at": "2026-08-30T12:00:00-04:00",
+                  "month": "2026-08",
+                  "ids": [
+                    "evt_364c382baf140f6c",
+                    "evt_ff95a9d391f8e6c9"
+                  ],
+                  "sides": [
+                    1,
+                    1
+                  ],
+                  "price": 2.8,
+                  "hit": false,
+                  "settled_at": "2026-08-30T20:39:31+00:00",
+                  "reserved_budget_before": 50000,
+                  "net": -10000
+                },
+                {
+                  "at": "2026-09-01T12:00:00-04:00",
+                  "month": "2026-09",
+                  "ids": [
+                    "evt_69d7e5d0a34e2755",
+                    "evt_9e66728feee24f37"
+                  ],
+                  "sides": [
+                    1,
+                    1
+                  ],
+                  "price": 3.4,
+                  "hit": false,
+                  "settled_at": "2026-09-02T02:36:29+00:00",
+                  "reserved_budget_before": 50000,
+                  "net": -10000
+                }
+              ]
+            },
+            "3": {
+              "tickets": 3,
+              "settled": 3,
+              "pending": 0,
+              "net_krw": -30000,
+              "roi_pct": -100.0,
+              "pending_stake_krw": 0,
+              "worst_case_net_krw": -30000,
+              "max_drawdown_krw": 30000,
+              "monthly_net": {
+                "2026-08": -10000,
+                "2026-09": -20000
+              },
+              "ticket_log": [
+                {
+                  "at": "2026-08-30T12:00:00-04:00",
+                  "month": "2026-08",
+                  "ids": [
+                    "evt_364c382baf140f6c",
+                    "evt_ff95a9d391f8e6c9"
+                  ],
+                  "sides": [
+                    1,
+                    1
+                  ],
+                  "price": 2.8,
+                  "hit": false,
+                  "settled_at": "2026-08-30T20:39:31+00:00",
+                  "reserved_budget_before": 50000,
+                  "net": -10000
+                },
+                {
+                  "at": "2026-09-01T12:00:00-04:00",
+                  "month": "2026-09",
+                  "ids": [
+                    "evt_69d7e5d0a34e2755",
+                    "evt_9e66728feee24f37"
+                  ],
+                  "sides": [
+                    1,
+                    1
+                  ],
+                  "price": 3.4,
+                  "hit": false,
+                  "settled_at": "2026-09-02T02:36:29+00:00",
+                  "reserved_budget_before": 50000,
+                  "net": -10000
+                },
+                {
+                  "at": "2026-09-03T12:00:00-04:00",
+                  "month": "2026-09",
+                  "ids": [
+                    "evt_6e14584db3266c79",
+                    "evt_bf42fc7af4e3aa07"
+                  ],
+                  "sides": [
+                    1,
+                    0
+                  ],
+                  "price": 3.2,
+                  "hit": false,
+                  "settled_at": "2026-09-04T01:42:16+00:00",
+                  "reserved_budget_before": 40000,
+                  "net": -10000
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "calibrated75_25": {
+      "brier_home": 0.24482654634853118,
+      "policies": {
+        "probability": {
+          "opportunities": 59,
+          "recommendations": 13,
+          "skipped": 46,
+          "settled": 11,
+          "hits": 5,
+          "hit_rate_pct": 45.45454545454545,
+          "single_roi_pct": -27.727272727272727,
+          "picks": [
+            {
+              "id": "evt_364c382baf140f6c",
+              "side": 1,
+              "score": 0.63955,
+              "price": 1.7
+            },
+            {
+              "id": "evt_481002379f8225a1",
+              "side": 1,
+              "score": 0.57395,
+              "price": 1.5
+            },
+            {
+              "id": "evt_d549b89efd23c420",
+              "side": 0,
+              "score": 0.558125,
+              "price": 1.55
+            },
+            {
+              "id": "evt_e3688cdf418beeb3",
+              "side": 0,
+              "score": 0.553875,
+              "price": 1.65
+            },
+            {
+              "id": "evt_ff95a9d391f8e6c9",
+              "side": 1,
+              "score": 0.6250249999999999,
+              "price": 1.64
+            },
+            {
+              "id": "evt_7b3725b053793152",
+              "side": 1,
+              "score": 0.688975,
+              "price": 1.53
+            },
+            {
+              "id": "evt_d10a278eccdf298a",
+              "side": 1,
+              "score": 0.563975,
+              "price": 1.53
+            },
+            {
+              "id": "evt_fe0c5cfb420f0d67",
+              "side": 1,
+              "score": 0.6156166666666667,
+              "price": 1.5
+            },
+            {
+              "id": "evt_9e66728feee24f37",
+              "side": 1,
+              "score": 0.5883186544983802,
+              "price": 1.75
+            },
+            {
+              "id": "evt_c1a92589f740dbac",
+              "side": 0,
+              "score": 0.564984216279639,
+              "price": 1.6
+            },
+            {
+              "id": "evt_ef727528217becfd",
+              "side": 1,
+              "score": 0.6483590079371798,
+              "price": 1.54
+            },
+            {
+              "id": "evt_43a87a820cf45e93",
+              "side": 0,
+              "score": 0.5511389208788758,
+              "price": 1.82
+            },
+            {
+              "id": "evt_dbd22918abfb81ac",
+              "side": 0,
+              "score": 0.5696165172485198,
+              "price": 1.65
+            }
+          ],
+          "paper": {
+            "2": {
+              "tickets": 2,
+              "settled": 1,
+              "pending": 1,
+              "net_krw": -10000,
+              "roi_pct": -100.0,
+              "pending_stake_krw": 10000,
+              "worst_case_net_krw": -20000,
+              "max_drawdown_krw": 10000,
+              "monthly_net": {
+                "2026-08": -10000,
+                "2026-09": 0
+              },
+              "ticket_log": [
+                {
+                  "at": "2026-08-30T12:00:00-04:00",
+                  "month": "2026-08",
+                  "ids": [
+                    "evt_364c382baf140f6c",
+                    "evt_ff95a9d391f8e6c9"
+                  ],
+                  "sides": [
+                    1,
+                    1
+                  ],
+                  "price": 2.8,
+                  "hit": false,
+                  "settled_at": "2026-08-30T20:39:31+00:00",
+                  "reserved_budget_before": 50000,
+                  "net": -10000
+                },
+                {
+                  "at": "2026-08-31T12:00:00-04:00",
+                  "month": "2026-09",
+                  "ids": [
+                    "evt_7b3725b053793152",
+                    "evt_fe0c5cfb420f0d67"
+                  ],
+                  "sides": [
+                    1,
+                    1
+                  ],
+                  "price": 2.3,
+                  "hit": false,
+                  "settled_at": null,
+                  "reserved_budget_before": 50000
+                }
+              ]
+            },
+            "3": {
+              "tickets": 3,
+              "settled": 2,
+              "pending": 1,
+              "net_krw": -20000,
+              "roi_pct": -100.0,
+              "pending_stake_krw": 10000,
+              "worst_case_net_krw": -30000,
+              "max_drawdown_krw": 20000,
+              "monthly_net": {
+                "2026-08": -10000,
+                "2026-09": -10000
+              },
+              "ticket_log": [
+                {
+                  "at": "2026-08-30T12:00:00-04:00",
+                  "month": "2026-08",
+                  "ids": [
+                    "evt_364c382baf140f6c",
+                    "evt_ff95a9d391f8e6c9"
+                  ],
+                  "sides": [
+                    1,
+                    1
+                  ],
+                  "price": 2.8,
+                  "hit": false,
+                  "settled_at": "2026-08-30T20:39:31+00:00",
+                  "reserved_budget_before": 50000,
+                  "net": -10000
+                },
+                {
+                  "at": "2026-08-31T12:00:00-04:00",
+                  "month": "2026-09",
+                  "ids": [
+                    "evt_7b3725b053793152",
+                    "evt_fe0c5cfb420f0d67"
+                  ],
+                  "sides": [
+                    1,
+                    1
+                  ],
+                  "price": 2.3,
+                  "hit": false,
+                  "settled_at": null,
+                  "reserved_budget_before": 50000
+                },
+                {
+                  "at": "2026-09-01T12:00:00-04:00",
+                  "month": "2026-09",
+                  "ids": [
+                    "evt_9e66728feee24f37",
+                    "evt_ef727528217becfd"
+                  ],
+                  "sides": [
+                    1,
+                    1
+                  ],
+                  "price": 2.7,
+                  "hit": false,
+                  "settled_at": "2026-09-02T02:36:29+00:00",
+                  "reserved_budget_before": 40000,
+                  "net": -10000
+                }
+              ]
+            }
+          }
+        },
+        "edge": {
+          "opportunities": 59,
+          "recommendations": 5,
+          "skipped": 54,
+          "settled": 4,
+          "hits": 1,
+          "hit_rate_pct": 25.0,
+          "single_roi_pct": -57.49999999999999,
+          "picks": [
+            {
+              "id": "evt_364c382baf140f6c",
+              "side": 1,
+              "score": 0.63955,
+              "price": 1.7
+            },
+            {
+              "id": "evt_ff95a9d391f8e6c9",
+              "side": 1,
+              "score": 0.6250249999999999,
+              "price": 1.64
+            },
+            {
+              "id": "evt_7b3725b053793152",
+              "side": 1,
+              "score": 0.688975,
+              "price": 1.53
+            },
+            {
+              "id": "evt_9e66728feee24f37",
+              "side": 1,
+              "score": 0.5883186544983802,
+              "price": 1.75
+            },
+            {
+              "id": "evt_43a87a820cf45e93",
+              "side": 0,
+              "score": 0.5511389208788758,
+              "price": 1.82
+            }
+          ],
+          "paper": {
+            "2": {
+              "tickets": 1,
+              "settled": 1,
+              "pending": 0,
+              "net_krw": -10000,
+              "roi_pct": -100.0,
+              "pending_stake_krw": 0,
+              "worst_case_net_krw": -10000,
+              "max_drawdown_krw": 10000,
+              "monthly_net": {
+                "2026-08": -10000,
+                "2026-09": 0
+              },
+              "ticket_log": [
+                {
+                  "at": "2026-08-30T12:00:00-04:00",
+                  "month": "2026-08",
+                  "ids": [
+                    "evt_364c382baf140f6c",
+                    "evt_ff95a9d391f8e6c9"
+                  ],
+                  "sides": [
+                    1,
+                    1
+                  ],
+                  "price": 2.8,
+                  "hit": false,
+                  "settled_at": "2026-08-30T20:39:31+00:00",
+                  "reserved_budget_before": 50000,
+                  "net": -10000
+                }
+              ]
+            },
+            "3": {
+              "tickets": 1,
+              "settled": 1,
+              "pending": 0,
+              "net_krw": -10000,
+              "roi_pct": -100.0,
+              "pending_stake_krw": 0,
+              "worst_case_net_krw": -10000,
+              "max_drawdown_krw": 10000,
+              "monthly_net": {
+                "2026-08": -10000,
+                "2026-09": 0
+              },
+              "ticket_log": [
+                {
+                  "at": "2026-08-30T12:00:00-04:00",
+                  "month": "2026-08",
+                  "ids": [
+                    "evt_364c382baf140f6c",
+                    "evt_ff95a9d391f8e6c9"
+                  ],
+                  "sides": [
+                    1,
+                    1
+                  ],
+                  "price": 2.8,
+                  "hit": false,
+                  "settled_at": "2026-08-30T20:39:31+00:00",
+                  "reserved_budget_before": 50000,
+                  "net": -10000
+                }
+              ]
+            }
+          }
+        },
+        "pair_edge": {
+          "opportunities": 59,
+          "recommendations": 5,
+          "skipped": 54,
+          "settled": 4,
+          "hits": 1,
+          "hit_rate_pct": 25.0,
+          "single_roi_pct": -57.49999999999999,
+          "picks": [
+            {
+              "id": "evt_364c382baf140f6c",
+              "side": 1,
+              "score": 0.63955,
+              "price": 1.7
+            },
+            {
+              "id": "evt_ff95a9d391f8e6c9",
+              "side": 1,
+              "score": 0.6250249999999999,
+              "price": 1.64
+            },
+            {
+              "id": "evt_7b3725b053793152",
+              "side": 1,
+              "score": 0.688975,
+              "price": 1.53
+            },
+            {
+              "id": "evt_9e66728feee24f37",
+              "side": 1,
+              "score": 0.5883186544983802,
+              "price": 1.75
+            },
+            {
+              "id": "evt_43a87a820cf45e93",
+              "side": 0,
+              "score": 0.5511389208788758,
+              "price": 1.82
+            }
+          ],
+          "paper": {
+            "2": {
+              "tickets": 1,
+              "settled": 1,
+              "pending": 0,
+              "net_krw": -10000,
+              "roi_pct": -100.0,
+              "pending_stake_krw": 0,
+              "worst_case_net_krw": -10000,
+              "max_drawdown_krw": 10000,
+              "monthly_net": {
+                "2026-08": -10000,
+                "2026-09": 0
+              },
+              "ticket_log": [
+                {
+                  "at": "2026-08-30T12:00:00-04:00",
+                  "month": "2026-08",
+                  "ids": [
+                    "evt_364c382baf140f6c",
+                    "evt_ff95a9d391f8e6c9"
+                  ],
+                  "sides": [
+                    1,
+                    1
+                  ],
+                  "price": 2.8,
+                  "hit": false,
+                  "settled_at": "2026-08-30T20:39:31+00:00",
+                  "reserved_budget_before": 50000,
+                  "net": -10000
+                }
+              ]
+            },
+            "3": {
+              "tickets": 1,
+              "settled": 1,
+              "pending": 0,
+              "net_krw": -10000,
+              "roi_pct": -100.0,
+              "pending_stake_krw": 0,
+              "worst_case_net_krw": -10000,
+              "max_drawdown_krw": 10000,
+              "monthly_net": {
+                "2026-08": -10000,
+                "2026-09": 0
+              },
+              "ticket_log": [
+                {
+                  "at": "2026-08-30T12:00:00-04:00",
+                  "month": "2026-08",
+                  "ids": [
+                    "evt_364c382baf140f6c",
+                    "evt_ff95a9d391f8e6c9"
+                  ],
+                  "sides": [
+                    1,
+                    1
+                  ],
+                  "price": 2.8,
+                  "hit": false,
+                  "settled_at": "2026-08-30T20:39:31+00:00",
+                  "reserved_budget_before": 50000,
+                  "net": -10000
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "context_hybrid": {
+      "brier_home": 0.24482654634853118,
+      "policies": {
+        "probability": {
+          "opportunities": 59,
+          "recommendations": 13,
+          "skipped": 46,
+          "settled": 11,
+          "hits": 5,
+          "hit_rate_pct": 45.45454545454545,
+          "single_roi_pct": -27.727272727272727,
+          "picks": [
+            {
+              "id": "evt_364c382baf140f6c",
+              "side": 1,
+              "score": 0.63955,
+              "price": 1.7
+            },
+            {
+              "id": "evt_481002379f8225a1",
+              "side": 1,
+              "score": 0.57395,
+              "price": 1.5
+            },
+            {
+              "id": "evt_d549b89efd23c420",
+              "side": 0,
+              "score": 0.558125,
+              "price": 1.55
+            },
+            {
+              "id": "evt_e3688cdf418beeb3",
+              "side": 0,
+              "score": 0.553875,
+              "price": 1.65
+            },
+            {
+              "id": "evt_ff95a9d391f8e6c9",
+              "side": 1,
+              "score": 0.6250249999999999,
+              "price": 1.64
+            },
+            {
+              "id": "evt_7b3725b053793152",
+              "side": 1,
+              "score": 0.688975,
+              "price": 1.53
+            },
+            {
+              "id": "evt_d10a278eccdf298a",
+              "side": 1,
+              "score": 0.563975,
+              "price": 1.53
+            },
+            {
+              "id": "evt_fe0c5cfb420f0d67",
+              "side": 1,
+              "score": 0.6156166666666667,
+              "price": 1.5
+            },
+            {
+              "id": "evt_9e66728feee24f37",
+              "side": 1,
+              "score": 0.5883186544983802,
+              "price": 1.75
+            },
+            {
+              "id": "evt_c1a92589f740dbac",
+              "side": 0,
+              "score": 0.564984216279639,
+              "price": 1.6
+            },
+            {
+              "id": "evt_ef727528217becfd",
+              "side": 1,
+              "score": 0.6483590079371798,
+              "price": 1.54
+            },
+            {
+              "id": "evt_43a87a820cf45e93",
+              "side": 0,
+              "score": 0.5511389208788758,
+              "price": 1.82
+            },
+            {
+              "id": "evt_dbd22918abfb81ac",
+              "side": 0,
+              "score": 0.5696165172485198,
+              "price": 1.65
+            }
+          ],
+          "paper": {
+            "2": {
+              "tickets": 2,
+              "settled": 1,
+              "pending": 1,
+              "net_krw": -10000,
+              "roi_pct": -100.0,
+              "pending_stake_krw": 10000,
+              "worst_case_net_krw": -20000,
+              "max_drawdown_krw": 10000,
+              "monthly_net": {
+                "2026-08": -10000,
+                "2026-09": 0
+              },
+              "ticket_log": [
+                {
+                  "at": "2026-08-30T12:00:00-04:00",
+                  "month": "2026-08",
+                  "ids": [
+                    "evt_364c382baf140f6c",
+                    "evt_ff95a9d391f8e6c9"
+                  ],
+                  "sides": [
+                    1,
+                    1
+                  ],
+                  "price": 2.8,
+                  "hit": false,
+                  "settled_at": "2026-08-30T20:39:31+00:00",
+                  "reserved_budget_before": 50000,
+                  "net": -10000
+                },
+                {
+                  "at": "2026-08-31T12:00:00-04:00",
+                  "month": "2026-09",
+                  "ids": [
+                    "evt_7b3725b053793152",
+                    "evt_fe0c5cfb420f0d67"
+                  ],
+                  "sides": [
+                    1,
+                    1
+                  ],
+                  "price": 2.3,
+                  "hit": false,
+                  "settled_at": null,
+                  "reserved_budget_before": 50000
+                }
+              ]
+            },
+            "3": {
+              "tickets": 3,
+              "settled": 2,
+              "pending": 1,
+              "net_krw": -20000,
+              "roi_pct": -100.0,
+              "pending_stake_krw": 10000,
+              "worst_case_net_krw": -30000,
+              "max_drawdown_krw": 20000,
+              "monthly_net": {
+                "2026-08": -10000,
+                "2026-09": -10000
+              },
+              "ticket_log": [
+                {
+                  "at": "2026-08-30T12:00:00-04:00",
+                  "month": "2026-08",
+                  "ids": [
+                    "evt_364c382baf140f6c",
+                    "evt_ff95a9d391f8e6c9"
+                  ],
+                  "sides": [
+                    1,
+                    1
+                  ],
+                  "price": 2.8,
+                  "hit": false,
+                  "settled_at": "2026-08-30T20:39:31+00:00",
+                  "reserved_budget_before": 50000,
+                  "net": -10000
+                },
+                {
+                  "at": "2026-08-31T12:00:00-04:00",
+                  "month": "2026-09",
+                  "ids": [
+                    "evt_7b3725b053793152",
+                    "evt_fe0c5cfb420f0d67"
+                  ],
+                  "sides": [
+                    1,
+                    1
+                  ],
+                  "price": 2.3,
+                  "hit": false,
+                  "settled_at": null,
+                  "reserved_budget_before": 50000
+                },
+                {
+                  "at": "2026-09-01T12:00:00-04:00",
+                  "month": "2026-09",
+                  "ids": [
+                    "evt_9e66728feee24f37",
+                    "evt_ef727528217becfd"
+                  ],
+                  "sides": [
+                    1,
+                    1
+                  ],
+                  "price": 2.7,
+                  "hit": false,
+                  "settled_at": "2026-09-02T02:36:29+00:00",
+                  "reserved_budget_before": 40000,
+                  "net": -10000
+                }
+              ]
+            }
+          }
+        },
+        "edge": {
+          "opportunities": 59,
+          "recommendations": 5,
+          "skipped": 54,
+          "settled": 4,
+          "hits": 1,
+          "hit_rate_pct": 25.0,
+          "single_roi_pct": -57.49999999999999,
+          "picks": [
+            {
+              "id": "evt_364c382baf140f6c",
+              "side": 1,
+              "score": 0.63955,
+              "price": 1.7
+            },
+            {
+              "id": "evt_ff95a9d391f8e6c9",
+              "side": 1,
+              "score": 0.6250249999999999,
+              "price": 1.64
+            },
+            {
+              "id": "evt_7b3725b053793152",
+              "side": 1,
+              "score": 0.688975,
+              "price": 1.53
+            },
+            {
+              "id": "evt_9e66728feee24f37",
+              "side": 1,
+              "score": 0.5883186544983802,
+              "price": 1.75
+            },
+            {
+              "id": "evt_43a87a820cf45e93",
+              "side": 0,
+              "score": 0.5511389208788758,
+              "price": 1.82
+            }
+          ],
+          "paper": {
+            "2": {
+              "tickets": 1,
+              "settled": 1,
+              "pending": 0,
+              "net_krw": -10000,
+              "roi_pct": -100.0,
+              "pending_stake_krw": 0,
+              "worst_case_net_krw": -10000,
+              "max_drawdown_krw": 10000,
+              "monthly_net": {
+                "2026-08": -10000,
+                "2026-09": 0
+              },
+              "ticket_log": [
+                {
+                  "at": "2026-08-30T12:00:00-04:00",
+                  "month": "2026-08",
+                  "ids": [
+                    "evt_364c382baf140f6c",
+                    "evt_ff95a9d391f8e6c9"
+                  ],
+                  "sides": [
+                    1,
+                    1
+                  ],
+                  "price": 2.8,
+                  "hit": false,
+                  "settled_at": "2026-08-30T20:39:31+00:00",
+                  "reserved_budget_before": 50000,
+                  "net": -10000
+                }
+              ]
+            },
+            "3": {
+              "tickets": 1,
+              "settled": 1,
+              "pending": 0,
+              "net_krw": -10000,
+              "roi_pct": -100.0,
+              "pending_stake_krw": 0,
+              "worst_case_net_krw": -10000,
+              "max_drawdown_krw": 10000,
+              "monthly_net": {
+                "2026-08": -10000,
+                "2026-09": 0
+              },
+              "ticket_log": [
+                {
+                  "at": "2026-08-30T12:00:00-04:00",
+                  "month": "2026-08",
+                  "ids": [
+                    "evt_364c382baf140f6c",
+                    "evt_ff95a9d391f8e6c9"
+                  ],
+                  "sides": [
+                    1,
+                    1
+                  ],
+                  "price": 2.8,
+                  "hit": false,
+                  "settled_at": "2026-08-30T20:39:31+00:00",
+                  "reserved_budget_before": 50000,
+                  "net": -10000
+                }
+              ]
+            }
+          }
+        },
+        "pair_edge": {
+          "opportunities": 59,
+          "recommendations": 5,
+          "skipped": 54,
+          "settled": 4,
+          "hits": 1,
+          "hit_rate_pct": 25.0,
+          "single_roi_pct": -57.49999999999999,
+          "picks": [
+            {
+              "id": "evt_364c382baf140f6c",
+              "side": 1,
+              "score": 0.63955,
+              "price": 1.7
+            },
+            {
+              "id": "evt_ff95a9d391f8e6c9",
+              "side": 1,
+              "score": 0.6250249999999999,
+              "price": 1.64
+            },
+            {
+              "id": "evt_7b3725b053793152",
+              "side": 1,
+              "score": 0.688975,
+              "price": 1.53
+            },
+            {
+              "id": "evt_9e66728feee24f37",
+              "side": 1,
+              "score": 0.5883186544983802,
+              "price": 1.75
+            },
+            {
+              "id": "evt_43a87a820cf45e93",
+              "side": 0,
+              "score": 0.5511389208788758,
+              "price": 1.82
+            }
+          ],
+          "paper": {
+            "2": {
+              "tickets": 1,
+              "settled": 1,
+              "pending": 0,
+              "net_krw": -10000,
+              "roi_pct": -100.0,
+              "pending_stake_krw": 0,
+              "worst_case_net_krw": -10000,
+              "max_drawdown_krw": 10000,
+              "monthly_net": {
+                "2026-08": -10000,
+                "2026-09": 0
+              },
+              "ticket_log": [
+                {
+                  "at": "2026-08-30T12:00:00-04:00",
+                  "month": "2026-08",
+                  "ids": [
+                    "evt_364c382baf140f6c",
+                    "evt_ff95a9d391f8e6c9"
+                  ],
+                  "sides": [
+                    1,
+                    1
+                  ],
+                  "price": 2.8,
+                  "hit": false,
+                  "settled_at": "2026-08-30T20:39:31+00:00",
+                  "reserved_budget_before": 50000,
+                  "net": -10000
+                }
+              ]
+            },
+            "3": {
+              "tickets": 1,
+              "settled": 1,
+              "pending": 0,
+              "net_krw": -10000,
+              "roi_pct": -100.0,
+              "pending_stake_krw": 0,
+              "worst_case_net_krw": -10000,
+              "max_drawdown_krw": 10000,
+              "monthly_net": {
+                "2026-08": -10000,
+                "2026-09": 0
+              },
+              "ticket_log": [
+                {
+                  "at": "2026-08-30T12:00:00-04:00",
+                  "month": "2026-08",
+                  "ids": [
+                    "evt_364c382baf140f6c",
+                    "evt_ff95a9d391f8e6c9"
+                  ],
+                  "sides": [
+                    1,
+                    1
+                  ],
+                  "price": 2.8,
+                  "hit": false,
+                  "settled_at": "2026-08-30T20:39:31+00:00",
+                  "reserved_budget_before": 50000,
+                  "net": -10000
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "prediction_ledger": [
+    {
+      "id": "evt_0c2087594247c612",
+      "event": "2026-08-30|ATL|COL",
+      "date": "2026-08-30",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:102",
+      "at": "2026-08-30T12:00:00-04:00",
+      "kickoff": "2026-08-31T02:35:00+09:00",
+      "snapshot_at": "2026-08-31T00:43:30+09:00",
+      "snapshot_id": "85a3f1ed9f06f2cef174ca338426d97db9d55b24",
+      "home": "ATL",
+      "away": "COL",
+      "odds": [
+        1.33,
+        2.6
+      ],
+      "model": [
+        0.6836,
+        0.3164
+      ],
+      "tipster": [
+        0.0,
+        1.0
+      ],
+      "authors": 1,
+      "y": 0,
+      "settled_at": "2026-08-30T20:39:31+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "disagree",
+        "strong_favorite"
+      ],
+      "calibration_n": 0,
+      "model_calibration": [
+        1.0,
+        0.0
+      ],
+      "tipster_calibration": [
+        1.0,
+        0.0
+      ],
+      "calibration_active": false,
+      "candidates": {
+        "0.0": 0.6836,
+        "0.25": 0.5126999999999999,
+        "0.5": 0.3418,
+        "0.75": 0.1709,
+        "1.0": 0.0
+      },
+      "weight": 0.25,
+      "context_n": 0,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.6836,
+        "fixed75_25": 0.5126999999999999,
+        "calibrated75_25": 0.5126999999999999,
+        "context_hybrid": 0.5126999999999999
+      }
+    },
+    {
+      "id": "evt_28aa070820b78547",
+      "event": "2026-08-30|DET|LAD",
+      "date": "2026-08-30",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:102",
+      "at": "2026-08-30T12:00:00-04:00",
+      "kickoff": "2026-08-31T02:40:00+09:00",
+      "snapshot_at": "2026-08-31T00:43:30+09:00",
+      "snapshot_id": "85a3f1ed9f06f2cef174ca338426d97db9d55b24",
+      "home": "DET",
+      "away": "LAD",
+      "odds": [
+        2.24,
+        1.45
+      ],
+      "model": [
+        0.3784,
+        0.6216
+      ],
+      "tipster": [
+        0.16666666666666666,
+        0.8333333333333334
+      ],
+      "authors": 6,
+      "y": 1,
+      "settled_at": "2026-08-30T22:03:06+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "agree",
+        "strong_favorite"
+      ],
+      "calibration_n": 0,
+      "model_calibration": [
+        1.0,
+        0.0
+      ],
+      "tipster_calibration": [
+        1.0,
+        0.0
+      ],
+      "calibration_active": false,
+      "candidates": {
+        "0.0": 0.3784,
+        "0.25": 0.3254666666666667,
+        "0.5": 0.27253333333333335,
+        "0.75": 0.21960000000000002,
+        "1.0": 0.16666666666666666
+      },
+      "weight": 0.25,
+      "context_n": 0,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.3784,
+        "fixed75_25": 0.3254666666666667,
+        "calibrated75_25": 0.3254666666666667,
+        "context_hybrid": 0.3254666666666667
+      }
+    },
+    {
+      "id": "evt_362844338046c112",
+      "event": "2026-08-30|SD|TB",
+      "date": "2026-08-30",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:102",
+      "at": "2026-08-30T12:00:00-04:00",
+      "kickoff": "2026-08-31T02:40:00+09:00",
+      "snapshot_at": "2026-08-31T00:43:30+09:00",
+      "snapshot_id": "85a3f1ed9f06f2cef174ca338426d97db9d55b24",
+      "home": "TB",
+      "away": "SD",
+      "odds": [
+        1.42,
+        2.31
+      ],
+      "model": [
+        0.6357,
+        0.3643
+      ],
+      "tipster": [
+        0.6666666666666666,
+        0.3333333333333333
+      ],
+      "authors": 3,
+      "y": 0,
+      "settled_at": "2026-08-30T21:12:18+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "agree",
+        "strong_favorite"
+      ],
+      "calibration_n": 0,
+      "model_calibration": [
+        1.0,
+        0.0
+      ],
+      "tipster_calibration": [
+        1.0,
+        0.0
+      ],
+      "calibration_active": false,
+      "candidates": {
+        "0.0": 0.6357,
+        "0.25": 0.6434416666666667,
+        "0.5": 0.6511833333333333,
+        "0.75": 0.658925,
+        "1.0": 0.6666666666666666
+      },
+      "weight": 0.25,
+      "context_n": 0,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.6357,
+        "fixed75_25": 0.6434416666666667,
+        "calibrated75_25": 0.6434416666666667,
+        "context_hybrid": 0.6434416666666667
+      }
+    },
+    {
+      "id": "evt_364c382baf140f6c",
+      "event": "2026-08-30|PIT|STL",
+      "date": "2026-08-30",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:102",
+      "at": "2026-08-30T12:00:00-04:00",
+      "kickoff": "2026-08-31T03:15:00+09:00",
+      "snapshot_at": "2026-08-31T00:43:30+09:00",
+      "snapshot_id": "85a3f1ed9f06f2cef174ca338426d97db9d55b24",
+      "home": "STL",
+      "away": "PIT",
+      "odds": [
+        1.82,
+        1.7
+      ],
+      "model": [
+        0.4806,
+        0.5194
+      ],
+      "tipster": [
+        0.0,
+        1.0
+      ],
+      "authors": 2,
+      "y": 1,
+      "settled_at": "2026-08-30T22:03:06+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "agree",
+        "balanced_price"
+      ],
+      "calibration_n": 0,
+      "model_calibration": [
+        1.0,
+        0.0
+      ],
+      "tipster_calibration": [
+        1.0,
+        0.0
+      ],
+      "calibration_active": false,
+      "candidates": {
+        "0.0": 0.4806,
+        "0.25": 0.36045000000000005,
+        "0.5": 0.2403,
+        "0.75": 0.12015,
+        "1.0": 0.0
+      },
+      "weight": 0.25,
+      "context_n": 0,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.4806,
+        "fixed75_25": 0.36045000000000005,
+        "calibrated75_25": 0.36045000000000005,
+        "context_hybrid": 0.36045000000000005
+      }
+    },
+    {
+      "id": "evt_3a4efeed8b352b60",
+      "event": "2026-08-30|LAA|PHI",
+      "date": "2026-08-30",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:102",
+      "at": "2026-08-30T12:00:00-04:00",
+      "kickoff": "2026-08-31T05:07:00+09:00",
+      "snapshot_at": "2026-08-31T00:43:30+09:00",
+      "snapshot_id": "85a3f1ed9f06f2cef174ca338426d97db9d55b24",
+      "home": "LAA",
+      "away": "PHI",
+      "odds": [
+        2.4,
+        1.39
+      ],
+      "model": [
+        0.3486,
+        0.6514
+      ],
+      "tipster": [
+        0.5,
+        0.5
+      ],
+      "authors": 2,
+      "y": 1,
+      "settled_at": "2026-08-30T23:33:30+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "disagree",
+        "strong_favorite"
+      ],
+      "calibration_n": 0,
+      "model_calibration": [
+        1.0,
+        0.0
+      ],
+      "tipster_calibration": [
+        1.0,
+        0.0
+      ],
+      "calibration_active": false,
+      "candidates": {
+        "0.0": 0.3486,
+        "0.25": 0.38645,
+        "0.5": 0.4243,
+        "0.75": 0.46215,
+        "1.0": 0.5
+      },
+      "weight": 0.25,
+      "context_n": 0,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.3486,
+        "fixed75_25": 0.38645,
+        "calibrated75_25": 0.38645,
+        "context_hybrid": 0.38645
+      }
+    },
+    {
+      "id": "evt_481002379f8225a1",
+      "event": "2026-08-30|ATH|BAL",
+      "date": "2026-08-30",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:102",
+      "at": "2026-08-30T12:00:00-04:00",
+      "kickoff": "2026-08-31T05:05:00+09:00",
+      "snapshot_at": "2026-08-31T00:43:30+09:00",
+      "snapshot_id": "85a3f1ed9f06f2cef174ca338426d97db9d55b24",
+      "home": "ATH",
+      "away": "BAL",
+      "odds": [
+        2.13,
+        1.5
+      ],
+      "model": [
+        0.4014,
+        0.5986
+      ],
+      "tipster": [
+        0.5,
+        0.5
+      ],
+      "authors": 4,
+      "y": 1,
+      "settled_at": "2026-08-30T23:17:28+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "disagree",
+        "balanced_price"
+      ],
+      "calibration_n": 0,
+      "model_calibration": [
+        1.0,
+        0.0
+      ],
+      "tipster_calibration": [
+        1.0,
+        0.0
+      ],
+      "calibration_active": false,
+      "candidates": {
+        "0.0": 0.4014,
+        "0.25": 0.42605,
+        "0.5": 0.4507,
+        "0.75": 0.47535,
+        "1.0": 0.5
+      },
+      "weight": 0.25,
+      "context_n": 0,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.4014,
+        "fixed75_25": 0.42605,
+        "calibrated75_25": 0.42605,
+        "context_hybrid": 0.42605
+      }
+    },
+    {
+      "id": "evt_4b9a5b02b208d16f",
+      "event": "2026-08-30|MIL|TEX",
+      "date": "2026-08-30",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:102",
+      "at": "2026-08-30T12:00:00-04:00",
+      "kickoff": "2026-08-31T03:10:00+09:00",
+      "snapshot_at": "2026-08-31T00:43:30+09:00",
+      "snapshot_id": "85a3f1ed9f06f2cef174ca338426d97db9d55b24",
+      "home": "MIL",
+      "away": "TEX",
+      "odds": [
+        1.45,
+        2.24
+      ],
+      "model": [
+        0.6216,
+        0.3784
+      ],
+      "tipster": [
+        1.0,
+        0.0
+      ],
+      "authors": 1,
+      "y": 1,
+      "settled_at": "2026-08-30T22:03:06+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "agree",
+        "strong_favorite"
+      ],
+      "calibration_n": 0,
+      "model_calibration": [
+        1.0,
+        0.0
+      ],
+      "tipster_calibration": [
+        1.0,
+        0.0
+      ],
+      "calibration_active": false,
+      "candidates": {
+        "0.0": 0.6216,
+        "0.25": 0.7162000000000001,
+        "0.5": 0.8108,
+        "0.75": 0.9054,
+        "1.0": 1.0
+      },
+      "weight": 0.25,
+      "context_n": 0,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.6216,
+        "fixed75_25": 0.7162000000000001,
+        "calibrated75_25": 0.7162000000000001,
+        "context_hybrid": 0.7162000000000001
+      }
+    },
+    {
+      "id": "evt_5a5c3eae8e5a70df",
+      "event": "2026-08-30|BOS|NYY",
+      "date": "2026-08-30",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:102",
+      "at": "2026-08-30T12:00:00-04:00",
+      "kickoff": "2026-08-31T02:35:00+09:00",
+      "snapshot_at": "2026-08-31T00:43:30+09:00",
+      "snapshot_id": "85a3f1ed9f06f2cef174ca338426d97db9d55b24",
+      "home": "NYY",
+      "away": "BOS",
+      "odds": [
+        1.84,
+        1.69
+      ],
+      "model": [
+        0.4759,
+        0.5241
+      ],
+      "tipster": [
+        0.375,
+        0.625
+      ],
+      "authors": 8,
+      "y": 0,
+      "settled_at": "2026-08-30T20:39:31+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "agree",
+        "balanced_price"
+      ],
+      "calibration_n": 0,
+      "model_calibration": [
+        1.0,
+        0.0
+      ],
+      "tipster_calibration": [
+        1.0,
+        0.0
+      ],
+      "calibration_active": false,
+      "candidates": {
+        "0.0": 0.4759,
+        "0.25": 0.450675,
+        "0.5": 0.42545,
+        "0.75": 0.400225,
+        "1.0": 0.375
+      },
+      "weight": 0.25,
+      "context_n": 0,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.4759,
+        "fixed75_25": 0.450675,
+        "calibrated75_25": 0.450675,
+        "context_hybrid": 0.450675
+      }
+    },
+    {
+      "id": "evt_774ef34bf61192c3",
+      "event": "2026-08-30|CLE|KC",
+      "date": "2026-08-30",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:102",
+      "at": "2026-08-30T12:00:00-04:00",
+      "kickoff": "2026-08-31T02:40:00+09:00",
+      "snapshot_at": "2026-08-31T00:43:30+09:00",
+      "snapshot_id": "85a3f1ed9f06f2cef174ca338426d97db9d55b24",
+      "home": "CLE",
+      "away": "KC",
+      "odds": [
+        1.4,
+        2.37
+      ],
+      "model": [
+        0.6462,
+        0.3538
+      ],
+      "tipster": [
+        0.5,
+        0.5
+      ],
+      "authors": 2,
+      "y": 0,
+      "settled_at": "2026-08-30T21:12:18+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "agree",
+        "strong_favorite"
+      ],
+      "calibration_n": 0,
+      "model_calibration": [
+        1.0,
+        0.0
+      ],
+      "tipster_calibration": [
+        1.0,
+        0.0
+      ],
+      "calibration_active": false,
+      "candidates": {
+        "0.0": 0.6462,
+        "0.25": 0.60965,
+        "0.5": 0.5730999999999999,
+        "0.75": 0.53655,
+        "1.0": 0.5
+      },
+      "weight": 0.25,
+      "context_n": 0,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.6462,
+        "fixed75_25": 0.60965,
+        "calibrated75_25": 0.60965,
+        "context_hybrid": 0.60965
+      }
+    },
+    {
+      "id": "evt_b7e9c5fa8f8de31f",
+      "event": "2026-08-30|CWS|MIN",
+      "date": "2026-08-30",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:102",
+      "at": "2026-08-30T12:00:00-04:00",
+      "kickoff": "2026-08-31T03:10:00+09:00",
+      "snapshot_at": "2026-08-31T00:43:30+09:00",
+      "snapshot_id": "85a3f1ed9f06f2cef174ca338426d97db9d55b24",
+      "home": "MIN",
+      "away": "CWS",
+      "odds": [
+        1.68,
+        1.85
+      ],
+      "model": [
+        0.5273,
+        0.4727
+      ],
+      "tipster": [
+        0.3333333333333333,
+        0.6666666666666666
+      ],
+      "authors": 6,
+      "y": 0,
+      "settled_at": "2026-08-30T20:39:31+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "disagree",
+        "balanced_price"
+      ],
+      "calibration_n": 0,
+      "model_calibration": [
+        1.0,
+        0.0
+      ],
+      "tipster_calibration": [
+        1.0,
+        0.0
+      ],
+      "calibration_active": false,
+      "candidates": {
+        "0.0": 0.5273,
+        "0.25": 0.47880833333333334,
+        "0.5": 0.4303166666666667,
+        "0.75": 0.38182499999999997,
+        "1.0": 0.3333333333333333
+      },
+      "weight": 0.25,
+      "context_n": 0,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.5273,
+        "fixed75_25": 0.47880833333333334,
+        "calibrated75_25": 0.47880833333333334,
+        "context_hybrid": 0.47880833333333334
+      }
+    },
+    {
+      "id": "evt_d549b89efd23c420",
+      "event": "2026-08-30|CHC|CIN",
+      "date": "2026-08-30",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:102",
+      "at": "2026-08-30T12:00:00-04:00",
+      "kickoff": "2026-08-31T08:20:00+09:00",
+      "snapshot_at": "2026-08-31T00:43:30+09:00",
+      "snapshot_id": "85a3f1ed9f06f2cef174ca338426d97db9d55b24",
+      "home": "CHC",
+      "away": "CIN",
+      "odds": [
+        1.55,
+        2.04
+      ],
+      "model": [
+        0.5775,
+        0.4225
+      ],
+      "tipster": [
+        0.5,
+        0.5
+      ],
+      "authors": 2,
+      "y": 1,
+      "settled_at": "2026-08-31T03:16:35+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "agree",
+        "balanced_price"
+      ],
+      "calibration_n": 0,
+      "model_calibration": [
+        1.0,
+        0.0
+      ],
+      "tipster_calibration": [
+        1.0,
+        0.0
+      ],
+      "calibration_active": false,
+      "candidates": {
+        "0.0": 0.5775,
+        "0.25": 0.558125,
+        "0.5": 0.5387500000000001,
+        "0.75": 0.519375,
+        "1.0": 0.5
+      },
+      "weight": 0.25,
+      "context_n": 0,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.5775,
+        "fixed75_25": 0.558125,
+        "calibrated75_25": 0.558125,
+        "context_hybrid": 0.558125
+      }
+    },
+    {
+      "id": "evt_e3688cdf418beeb3",
+      "event": "2026-08-30|HOU|NYM",
+      "date": "2026-08-30",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:102",
+      "at": "2026-08-30T12:00:00-04:00",
+      "kickoff": "2026-08-31T04:10:00+09:00",
+      "snapshot_at": "2026-08-31T00:43:30+09:00",
+      "snapshot_id": "85a3f1ed9f06f2cef174ca338426d97db9d55b24",
+      "home": "NYM",
+      "away": "HOU",
+      "odds": [
+        1.65,
+        1.89
+      ],
+      "model": [
+        0.5385,
+        0.4615
+      ],
+      "tipster": [
+        0.6,
+        0.4
+      ],
+      "authors": 5,
+      "y": 1,
+      "settled_at": "2026-08-30T22:34:07+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "agree",
+        "balanced_price"
+      ],
+      "calibration_n": 0,
+      "model_calibration": [
+        1.0,
+        0.0
+      ],
+      "tipster_calibration": [
+        1.0,
+        0.0
+      ],
+      "calibration_active": false,
+      "candidates": {
+        "0.0": 0.5385,
+        "0.25": 0.553875,
+        "0.5": 0.56925,
+        "0.75": 0.584625,
+        "1.0": 0.6
+      },
+      "weight": 0.25,
+      "context_n": 0,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.5385,
+        "fixed75_25": 0.553875,
+        "calibrated75_25": 0.553875,
+        "context_hybrid": 0.553875
+      }
+    },
+    {
+      "id": "evt_ff95a9d391f8e6c9",
+      "event": "2026-08-30|SEA|TOR",
+      "date": "2026-08-30",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:102",
+      "at": "2026-08-30T12:00:00-04:00",
+      "kickoff": "2026-08-31T02:37:00+09:00",
+      "snapshot_at": "2026-08-31T00:43:30+09:00",
+      "snapshot_id": "85a3f1ed9f06f2cef174ca338426d97db9d55b24",
+      "home": "TOR",
+      "away": "SEA",
+      "odds": [
+        1.9,
+        1.64
+      ],
+      "model": [
+        0.4583,
+        0.5417
+      ],
+      "tipster": [
+        0.125,
+        0.875
+      ],
+      "authors": 8,
+      "y": 0,
+      "settled_at": "2026-08-30T20:39:31+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "agree",
+        "balanced_price"
+      ],
+      "calibration_n": 0,
+      "model_calibration": [
+        1.0,
+        0.0
+      ],
+      "tipster_calibration": [
+        1.0,
+        0.0
+      ],
+      "calibration_active": false,
+      "candidates": {
+        "0.0": 0.4583,
+        "0.25": 0.374975,
+        "0.5": 0.29164999999999996,
+        "0.75": 0.20832499999999998,
+        "1.0": 0.125
+      },
+      "weight": 0.25,
+      "context_n": 0,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.4583,
+        "fixed75_25": 0.374975,
+        "calibrated75_25": 0.374975,
+        "context_hybrid": 0.374975
+      }
+    },
+    {
+      "id": "evt_2f41ad8278173469",
+      "event": "2026-08-31|BOS|SEA",
+      "date": "2026-08-31",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:103",
+      "at": "2026-08-31T12:00:00-04:00",
+      "kickoff": "2026-09-01T07:45:00+09:00",
+      "snapshot_at": "2026-09-01T00:41:57+09:00",
+      "snapshot_id": "f0f1df5387e69b08a180e6dee70f1f246e1789ba",
+      "home": "BOS",
+      "away": "SEA",
+      "odds": [
+        1.45,
+        2.24
+      ],
+      "model": [
+        0.6216,
+        0.3784
+      ],
+      "tipster": [
+        0.3333333333333333,
+        0.6666666666666666
+      ],
+      "authors": 3,
+      "y": 0,
+      "settled_at": "2026-09-01T02:08:57+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "disagree",
+        "strong_favorite"
+      ],
+      "calibration_n": 13,
+      "model_calibration": [
+        1.0,
+        0.0
+      ],
+      "tipster_calibration": [
+        1.0,
+        0.0
+      ],
+      "calibration_active": false,
+      "candidates": {
+        "0.0": 0.6216,
+        "0.25": 0.5495333333333334,
+        "0.5": 0.4774666666666667,
+        "0.75": 0.4054,
+        "1.0": 0.3333333333333333
+      },
+      "weight": 0.25,
+      "context_n": 2,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.6216,
+        "fixed75_25": 0.5495333333333334,
+        "calibrated75_25": 0.5495333333333334,
+        "context_hybrid": 0.5495333333333334
+      }
+    },
+    {
+      "id": "evt_40ad3a77963d9e99",
+      "event": "2026-08-31|NYM|TB",
+      "date": "2026-08-31",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:103",
+      "at": "2026-08-31T12:00:00-04:00",
+      "kickoff": "2026-09-01T07:40:00+09:00",
+      "snapshot_at": "2026-09-01T00:41:57+09:00",
+      "snapshot_id": "f0f1df5387e69b08a180e6dee70f1f246e1789ba",
+      "home": "TB",
+      "away": "NYM",
+      "odds": [
+        1.39,
+        2.4
+      ],
+      "model": [
+        0.6514,
+        0.3486
+      ],
+      "tipster": [
+        0.5,
+        0.5
+      ],
+      "authors": 2,
+      "y": 1,
+      "settled_at": "2026-09-01T01:34:43+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "agree",
+        "strong_favorite"
+      ],
+      "calibration_n": 13,
+      "model_calibration": [
+        1.0,
+        0.0
+      ],
+      "tipster_calibration": [
+        1.0,
+        0.0
+      ],
+      "calibration_active": false,
+      "candidates": {
+        "0.0": 0.6514,
+        "0.25": 0.61355,
+        "0.5": 0.5757,
+        "0.75": 0.5378499999999999,
+        "1.0": 0.5
+      },
+      "weight": 0.25,
+      "context_n": 4,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.6514,
+        "fixed75_25": 0.61355,
+        "calibrated75_25": 0.61355,
+        "context_hybrid": 0.61355
+      }
+    },
+    {
+      "id": "evt_74e52b8e911a134d",
+      "event": "2026-08-31|MIA|WSH",
+      "date": "2026-08-31",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:103",
+      "at": "2026-08-31T12:00:00-04:00",
+      "kickoff": "2026-09-01T07:45:00+09:00",
+      "snapshot_at": "2026-09-01T00:41:57+09:00",
+      "snapshot_id": "f0f1df5387e69b08a180e6dee70f1f246e1789ba",
+      "home": "WSH",
+      "away": "MIA",
+      "odds": [
+        1.86,
+        1.67
+      ],
+      "model": [
+        0.4694,
+        0.5306
+      ],
+      "tipster": [
+        0.5,
+        0.5
+      ],
+      "authors": 2,
+      "y": 0,
+      "settled_at": "2026-09-01T02:08:57+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "disagree",
+        "balanced_price"
+      ],
+      "calibration_n": 13,
+      "model_calibration": [
+        1.0,
+        0.0
+      ],
+      "tipster_calibration": [
+        1.0,
+        0.0
+      ],
+      "calibration_active": false,
+      "candidates": {
+        "0.0": 0.4694,
+        "0.25": 0.47705,
+        "0.5": 0.4847,
+        "0.75": 0.49235,
+        "1.0": 0.5
+      },
+      "weight": 0.25,
+      "context_n": 2,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.4694,
+        "fixed75_25": 0.47705,
+        "calibrated75_25": 0.47705,
+        "context_hybrid": 0.47705
+      }
+    },
+    {
+      "id": "evt_7b3725b053793152",
+      "event": "2026-08-31|BAL|COL",
+      "date": "2026-08-31",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:103",
+      "at": "2026-08-31T12:00:00-04:00",
+      "kickoff": "2026-09-01T09:40:00+09:00",
+      "snapshot_at": "2026-09-01T00:41:57+09:00",
+      "snapshot_id": "f0f1df5387e69b08a180e6dee70f1f246e1789ba",
+      "home": "COL",
+      "away": "BAL",
+      "odds": [
+        2.07,
+        1.53
+      ],
+      "model": [
+        0.4147,
+        0.5853
+      ],
+      "tipster": [
+        0.0,
+        1.0
+      ],
+      "authors": 1,
+      "y": null,
+      "settled_at": null,
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "agree",
+        "balanced_price"
+      ],
+      "calibration_n": 13,
+      "model_calibration": [
+        1.0,
+        0.0
+      ],
+      "tipster_calibration": [
+        1.0,
+        0.0
+      ],
+      "calibration_active": false,
+      "candidates": {
+        "0.0": 0.4147,
+        "0.25": 0.311025,
+        "0.5": 0.20735,
+        "0.75": 0.103675,
+        "1.0": 0.0
+      },
+      "weight": 0.25,
+      "context_n": 5,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.4147,
+        "fixed75_25": 0.311025,
+        "calibrated75_25": 0.311025,
+        "context_hybrid": 0.311025
+      }
+    },
+    {
+      "id": "evt_cdf54d42773ef05b",
+      "event": "2026-08-31|CWS|HOU",
+      "date": "2026-08-31",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:103",
+      "at": "2026-08-31T12:00:00-04:00",
+      "kickoff": "2026-09-01T09:10:00+09:00",
+      "snapshot_at": "2026-09-01T00:41:57+09:00",
+      "snapshot_id": "f0f1df5387e69b08a180e6dee70f1f246e1789ba",
+      "home": "HOU",
+      "away": "CWS",
+      "odds": [
+        1.62,
+        1.93
+      ],
+      "model": [
+        0.5496,
+        0.4504
+      ],
+      "tipster": [
+        0.3333333333333333,
+        0.6666666666666666
+      ],
+      "authors": 3,
+      "y": 0,
+      "settled_at": "2026-09-01T03:46:11+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "disagree",
+        "balanced_price"
+      ],
+      "calibration_n": 13,
+      "model_calibration": [
+        1.0,
+        0.0
+      ],
+      "tipster_calibration": [
+        1.0,
+        0.0
+      ],
+      "calibration_active": false,
+      "candidates": {
+        "0.0": 0.5496,
+        "0.25": 0.4955333333333333,
+        "0.5": 0.4414666666666667,
+        "0.75": 0.38739999999999997,
+        "1.0": 0.3333333333333333
+      },
+      "weight": 0.25,
+      "context_n": 2,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.5496,
+        "fixed75_25": 0.4955333333333333,
+        "calibrated75_25": 0.4955333333333333,
+        "context_hybrid": 0.4955333333333333
+      }
+    },
+    {
+      "id": "evt_d10a278eccdf298a",
+      "event": "2026-08-31|LAA|NYY",
+      "date": "2026-08-31",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:103",
+      "at": "2026-08-31T12:00:00-04:00",
+      "kickoff": "2026-09-01T10:38:00+09:00",
+      "snapshot_at": "2026-09-01T00:41:57+09:00",
+      "snapshot_id": "f0f1df5387e69b08a180e6dee70f1f246e1789ba",
+      "home": "LAA",
+      "away": "NYY",
+      "odds": [
+        2.07,
+        1.53
+      ],
+      "model": [
+        0.4147,
+        0.5853
+      ],
+      "tipster": [
+        0.5,
+        0.5
+      ],
+      "authors": 2,
+      "y": null,
+      "settled_at": null,
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "disagree",
+        "balanced_price"
+      ],
+      "calibration_n": 13,
+      "model_calibration": [
+        1.0,
+        0.0
+      ],
+      "tipster_calibration": [
+        1.0,
+        0.0
+      ],
+      "calibration_active": false,
+      "candidates": {
+        "0.0": 0.4147,
+        "0.25": 0.436025,
+        "0.5": 0.45735000000000003,
+        "0.75": 0.478675,
+        "1.0": 0.5
+      },
+      "weight": 0.25,
+      "context_n": 2,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.4147,
+        "fixed75_25": 0.436025,
+        "calibrated75_25": 0.436025,
+        "context_hybrid": 0.436025
+      }
+    },
+    {
+      "id": "evt_d24b123cd4bd27ca",
+      "event": "2026-08-31|ATL|SF",
+      "date": "2026-08-31",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:103",
+      "at": "2026-08-31T12:00:00-04:00",
+      "kickoff": "2026-09-01T07:05:00+09:00",
+      "snapshot_at": "2026-09-01T00:41:57+09:00",
+      "snapshot_id": "f0f1df5387e69b08a180e6dee70f1f246e1789ba",
+      "home": "ATL",
+      "away": "SF",
+      "odds": [
+        1.48,
+        2.17
+      ],
+      "model": [
+        0.6074,
+        0.3926
+      ],
+      "tipster": [
+        1.0,
+        0.0
+      ],
+      "authors": 3,
+      "y": 1,
+      "settled_at": "2026-09-01T01:16:36+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "agree",
+        "strong_favorite"
+      ],
+      "calibration_n": 13,
+      "model_calibration": [
+        1.0,
+        0.0
+      ],
+      "tipster_calibration": [
+        1.0,
+        0.0
+      ],
+      "calibration_active": false,
+      "candidates": {
+        "0.0": 0.6074,
+        "0.25": 0.70555,
+        "0.5": 0.8037000000000001,
+        "0.75": 0.90185,
+        "1.0": 1.0
+      },
+      "weight": 0.25,
+      "context_n": 4,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.6074,
+        "fixed75_25": 0.70555,
+        "calibrated75_25": 0.70555,
+        "context_hybrid": 0.70555
+      }
+    },
+    {
+      "id": "evt_da08ed114b83713b",
+      "event": "2026-08-31|ATH|TEX",
+      "date": "2026-08-31",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:103",
+      "at": "2026-08-31T12:00:00-04:00",
+      "kickoff": "2026-09-01T09:05:00+09:00",
+      "snapshot_at": "2026-09-01T00:41:57+09:00",
+      "snapshot_id": "f0f1df5387e69b08a180e6dee70f1f246e1789ba",
+      "home": "TEX",
+      "away": "ATH",
+      "odds": [
+        1.34,
+        2.56
+      ],
+      "model": [
+        0.6778,
+        0.3222
+      ],
+      "tipster": [
+        1.0,
+        0.0
+      ],
+      "authors": 2,
+      "y": 0,
+      "settled_at": "2026-09-01T03:11:00+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "agree",
+        "strong_favorite"
+      ],
+      "calibration_n": 13,
+      "model_calibration": [
+        1.0,
+        0.0
+      ],
+      "tipster_calibration": [
+        1.0,
+        0.0
+      ],
+      "calibration_active": false,
+      "candidates": {
+        "0.0": 0.6778,
+        "0.25": 0.75835,
+        "0.5": 0.8389,
+        "0.75": 0.91945,
+        "1.0": 1.0
+      },
+      "weight": 0.25,
+      "context_n": 4,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.6778,
+        "fixed75_25": 0.75835,
+        "calibrated75_25": 0.75835,
+        "context_hybrid": 0.75835
+      }
+    },
+    {
+      "id": "evt_dc3fc48266e7e80a",
+      "event": "2026-08-31|CHC|MIL",
+      "date": "2026-08-31",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:103",
+      "at": "2026-08-31T12:00:00-04:00",
+      "kickoff": "2026-09-01T08:40:00+09:00",
+      "snapshot_at": "2026-09-01T00:41:57+09:00",
+      "snapshot_id": "f0f1df5387e69b08a180e6dee70f1f246e1789ba",
+      "home": "CHC",
+      "away": "MIL",
+      "odds": [
+        1.74,
+        1.78
+      ],
+      "model": [
+        0.5065,
+        0.4935
+      ],
+      "tipster": [
+        0.6666666666666666,
+        0.3333333333333333
+      ],
+      "authors": 3,
+      "y": 0,
+      "settled_at": "2026-09-01T02:34:57+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "agree",
+        "balanced_price"
+      ],
+      "calibration_n": 13,
+      "model_calibration": [
+        1.0,
+        0.0
+      ],
+      "tipster_calibration": [
+        1.0,
+        0.0
+      ],
+      "calibration_active": false,
+      "candidates": {
+        "0.0": 0.5065,
+        "0.25": 0.5465416666666666,
+        "0.5": 0.5865833333333332,
+        "0.75": 0.626625,
+        "1.0": 0.6666666666666666
+      },
+      "weight": 0.25,
+      "context_n": 5,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.5065,
+        "fixed75_25": 0.5465416666666666,
+        "calibrated75_25": 0.5465416666666666,
+        "context_hybrid": 0.5465416666666666
+      }
+    },
+    {
+      "id": "evt_ec4128744fe330c7",
+      "event": "2026-08-31|DET|MIN",
+      "date": "2026-08-31",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:103",
+      "at": "2026-08-31T12:00:00-04:00",
+      "kickoff": "2026-09-01T08:40:00+09:00",
+      "snapshot_at": "2026-09-01T00:41:57+09:00",
+      "snapshot_id": "f0f1df5387e69b08a180e6dee70f1f246e1789ba",
+      "home": "MIN",
+      "away": "DET",
+      "odds": [
+        1.58,
+        1.99
+      ],
+      "model": [
+        0.5652,
+        0.4348
+      ],
+      "tipster": [
+        0.3333333333333333,
+        0.6666666666666666
+      ],
+      "authors": 3,
+      "y": 0,
+      "settled_at": "2026-09-01T02:34:57+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "disagree",
+        "balanced_price"
+      ],
+      "calibration_n": 13,
+      "model_calibration": [
+        1.0,
+        0.0
+      ],
+      "tipster_calibration": [
+        1.0,
+        0.0
+      ],
+      "calibration_active": false,
+      "candidates": {
+        "0.0": 0.5652,
+        "0.25": 0.5072333333333334,
+        "0.5": 0.4492666666666667,
+        "0.75": 0.3913,
+        "1.0": 0.3333333333333333
+      },
+      "weight": 0.25,
+      "context_n": 2,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.5652,
+        "fixed75_25": 0.5072333333333334,
+        "calibrated75_25": 0.5072333333333334,
+        "context_hybrid": 0.5072333333333334
+      }
+    },
+    {
+      "id": "evt_fe0c5cfb420f0d67",
+      "event": "2026-08-31|CIN|SD",
+      "date": "2026-08-31",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:103",
+      "at": "2026-08-31T12:00:00-04:00",
+      "kickoff": "2026-09-01T07:40:00+09:00",
+      "snapshot_at": "2026-09-01T00:41:57+09:00",
+      "snapshot_id": "f0f1df5387e69b08a180e6dee70f1f246e1789ba",
+      "home": "CIN",
+      "away": "SD",
+      "odds": [
+        2.13,
+        1.5
+      ],
+      "model": [
+        0.4014,
+        0.5986
+      ],
+      "tipster": [
+        0.3333333333333333,
+        0.6666666666666666
+      ],
+      "authors": 3,
+      "y": 1,
+      "settled_at": "2026-09-01T01:34:43+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "agree",
+        "balanced_price"
+      ],
+      "calibration_n": 13,
+      "model_calibration": [
+        1.0,
+        0.0
+      ],
+      "tipster_calibration": [
+        1.0,
+        0.0
+      ],
+      "calibration_active": false,
+      "candidates": {
+        "0.0": 0.4014,
+        "0.25": 0.3843833333333333,
+        "0.5": 0.3673666666666666,
+        "0.75": 0.35035,
+        "1.0": 0.3333333333333333
+      },
+      "weight": 0.25,
+      "context_n": 5,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.4014,
+        "fixed75_25": 0.3843833333333333,
+        "calibrated75_25": 0.3843833333333333,
+        "context_hybrid": 0.3843833333333333
+      }
+    },
+    {
+      "id": "evt_0db09c29fbc6ab80",
+      "event": "2026-09-01|KC|MIA",
+      "date": "2026-09-01",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:103",
+      "at": "2026-09-01T12:00:00-04:00",
+      "kickoff": "2026-09-02T08:40:00+09:00",
+      "snapshot_at": "2026-09-02T00:50:07+09:00",
+      "snapshot_id": "09a5129225013e6fa0fcb457fa3c452d6af3c7f1",
+      "home": "KC",
+      "away": "MIA",
+      "odds": [
+        1.67,
+        1.86
+      ],
+      "model": [
+        0.5306,
+        0.4694
+      ],
+      "tipster": [
+        0.6666666666666666,
+        0.3333333333333333
+      ],
+      "authors": 3,
+      "y": 1,
+      "settled_at": "2026-09-02T02:36:29+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "agree",
+        "balanced_price"
+      ],
+      "calibration_n": 22,
+      "model_calibration": [
+        1.0316982918949826,
+        0.00601187594056812
+      ],
+      "tipster_calibration": [
+        0.38427681222943005,
+        0.04773547959696974
+      ],
+      "calibration_active": true,
+      "candidates": {
+        "0.0": 0.5330641173138638,
+        "0.25": 0.5442692629982109,
+        "0.5": 0.555474408682558,
+        "0.75": 0.5666795543669052,
+        "1.0": 0.5778847000512523
+      },
+      "weight": 0.25,
+      "context_n": 7,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.5306,
+        "fixed75_25": 0.5646166666666667,
+        "calibrated75_25": 0.5442692629982109,
+        "context_hybrid": 0.5442692629982109
+      }
+    },
+    {
+      "id": "evt_3176c92486040f41",
+      "event": "2026-09-01|CWS|HOU",
+      "date": "2026-09-01",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:103",
+      "at": "2026-09-01T12:00:00-04:00",
+      "kickoff": "2026-09-02T09:10:00+09:00",
+      "snapshot_at": "2026-09-02T00:50:07+09:00",
+      "snapshot_id": "09a5129225013e6fa0fcb457fa3c452d6af3c7f1",
+      "home": "HOU",
+      "away": "CWS",
+      "odds": [
+        1.82,
+        1.7
+      ],
+      "model": [
+        0.4806,
+        0.5194
+      ],
+      "tipster": [
+        0.5,
+        0.5
+      ],
+      "authors": 4,
+      "y": 1,
+      "settled_at": "2026-09-02T03:36:56+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "disagree",
+        "balanced_price"
+      ],
+      "calibration_n": 22,
+      "model_calibration": [
+        1.0316982918949826,
+        0.00601187594056812
+      ],
+      "tipster_calibration": [
+        0.38427681222943005,
+        0.04773547959696974
+      ],
+      "calibration_active": true,
+      "candidates": {
+        "0.0": 0.4814864369879589,
+        "0.25": 0.48909772881519636,
+        "0.5": 0.4967090206424339,
+        "0.75": 0.5043203124696714,
+        "1.0": 0.5119316042969089
+      },
+      "weight": 0.25,
+      "context_n": 5,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.4806,
+        "fixed75_25": 0.48545000000000005,
+        "calibrated75_25": 0.48909772881519636,
+        "context_hybrid": 0.48909772881519636
+      }
+    },
+    {
+      "id": "evt_370cc87a741b0fb7",
+      "event": "2026-09-01|PIT|SF",
+      "date": "2026-09-01",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:103",
+      "at": "2026-09-01T12:00:00-04:00",
+      "kickoff": "2026-09-02T07:40:00+09:00",
+      "snapshot_at": "2026-09-02T00:50:07+09:00",
+      "snapshot_id": "09a5129225013e6fa0fcb457fa3c452d6af3c7f1",
+      "home": "PIT",
+      "away": "SF",
+      "odds": [
+        1.46,
+        2.22
+      ],
+      "model": [
+        0.6172,
+        0.3828
+      ],
+      "tipster": [
+        0.0,
+        1.0
+      ],
+      "authors": 1,
+      "y": 0,
+      "settled_at": "2026-09-02T02:36:29+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "disagree",
+        "strong_favorite"
+      ],
+      "calibration_n": 22,
+      "model_calibration": [
+        1.0316982918949826,
+        0.00601187594056812
+      ],
+      "tipster_calibration": [
+        0.38427681222943005,
+        0.04773547959696974
+      ],
+      "calibration_active": true,
+      "candidates": {
+        "0.0": 0.6221852757827622,
+        "0.25": 0.5046691794903982,
+        "0.5": 0.38715308319803426,
+        "0.75": 0.2696369869056703,
+        "1.0": 0.15212089061330636
+      },
+      "weight": 0.25,
+      "context_n": 3,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.6172,
+        "fixed75_25": 0.4629,
+        "calibrated75_25": 0.5046691794903982,
+        "context_hybrid": 0.5046691794903982
+      }
+    },
+    {
+      "id": "evt_4138f642e314f43f",
+      "event": "2026-09-01|ATH|TEX",
+      "date": "2026-09-01",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:103",
+      "at": "2026-09-01T12:00:00-04:00",
+      "kickoff": "2026-09-02T09:05:00+09:00",
+      "snapshot_at": "2026-09-02T00:50:07+09:00",
+      "snapshot_id": "09a5129225013e6fa0fcb457fa3c452d6af3c7f1",
+      "home": "TEX",
+      "away": "ATH",
+      "odds": [
+        1.39,
+        2.4
+      ],
+      "model": [
+        0.6514,
+        0.3486
+      ],
+      "tipster": [
+        0.0,
+        1.0
+      ],
+      "authors": 2,
+      "y": 0,
+      "settled_at": "2026-09-02T03:36:56+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "disagree",
+        "strong_favorite"
+      ],
+      "calibration_n": 22,
+      "model_calibration": [
+        1.0316982918949826,
+        0.00601187594056812
+      ],
+      "tipster_calibration": [
+        0.38427681222943005,
+        0.04773547959696974
+      ],
+      "calibration_active": true,
+      "candidates": {
+        "0.0": 0.6572421657270613,
+        "0.25": 0.5309618469486226,
+        "0.5": 0.4046815281701838,
+        "0.75": 0.27840120939174506,
+        "1.0": 0.15212089061330636
+      },
+      "weight": 0.25,
+      "context_n": 3,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.6514,
+        "fixed75_25": 0.48855,
+        "calibrated75_25": 0.5309618469486226,
+        "context_hybrid": 0.5309618469486226
+      }
+    },
+    {
+      "id": "evt_5a1ca18f4ce03c6d",
+      "event": "2026-09-01|LAD|STL",
+      "date": "2026-09-01",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:103",
+      "at": "2026-09-01T12:00:00-04:00",
+      "kickoff": "2026-09-02T11:10:00+09:00",
+      "snapshot_at": "2026-09-02T00:50:07+09:00",
+      "snapshot_id": "09a5129225013e6fa0fcb457fa3c452d6af3c7f1",
+      "home": "LAD",
+      "away": "STL",
+      "odds": [
+        1.42,
+        2.31
+      ],
+      "model": [
+        0.6357,
+        0.3643
+      ],
+      "tipster": [
+        0.0,
+        1.0
+      ],
+      "authors": 2,
+      "y": null,
+      "settled_at": null,
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "disagree",
+        "strong_favorite"
+      ],
+      "calibration_n": 22,
+      "model_calibration": [
+        1.0316982918949826,
+        0.00601187594056812
+      ],
+      "tipster_calibration": [
+        0.38427681222943005,
+        0.04773547959696974
+      ],
+      "calibration_active": true,
+      "candidates": {
+        "0.0": 0.6411614933386954,
+        "0.25": 0.5189013426573481,
+        "0.5": 0.3966411919760009,
+        "0.75": 0.2743810412946536,
+        "1.0": 0.15212089061330636
+      },
+      "weight": 0.25,
+      "context_n": 3,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.6357,
+        "fixed75_25": 0.47677500000000006,
+        "calibrated75_25": 0.5189013426573481,
+        "context_hybrid": 0.5189013426573481
+      }
+    },
+    {
+      "id": "evt_6151e54aca878801",
+      "event": "2026-09-01|ATL|WSH",
+      "date": "2026-09-01",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:103",
+      "at": "2026-09-01T12:00:00-04:00",
+      "kickoff": "2026-09-02T07:45:00+09:00",
+      "snapshot_at": "2026-09-02T00:50:07+09:00",
+      "snapshot_id": "09a5129225013e6fa0fcb457fa3c452d6af3c7f1",
+      "home": "WSH",
+      "away": "ATL",
+      "odds": [
+        2.29,
+        1.43
+      ],
+      "model": [
+        0.3687,
+        0.6313
+      ],
+      "tipster": [
+        1.0,
+        0.0
+      ],
+      "authors": 1,
+      "y": 0,
+      "settled_at": "2026-09-02T01:44:22+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "disagree",
+        "strong_favorite"
+      ],
+      "calibration_n": 22,
+      "model_calibration": [
+        1.0316982918949826,
+        0.00601187594056812
+      ],
+      "tipster_calibration": [
+        0.38427681222943005,
+        0.04773547959696974
+      ],
+      "calibration_active": true,
+      "candidates": {
+        "0.0": 0.36613513966138456,
+        "0.25": 0.4895484512825562,
+        "0.5": 0.6129617629037278,
+        "0.75": 0.7363750745248996,
+        "1.0": 0.8597883861460712
+      },
+      "weight": 0.25,
+      "context_n": 3,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.3687,
+        "fixed75_25": 0.526525,
+        "calibrated75_25": 0.4895484512825562,
+        "context_hybrid": 0.4895484512825562
+      }
+    },
+    {
+      "id": "evt_65ae4324edfe9715",
+      "event": "2026-09-01|CLE|TOR",
+      "date": "2026-09-01",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:103",
+      "at": "2026-09-01T12:00:00-04:00",
+      "kickoff": "2026-09-02T07:40:00+09:00",
+      "snapshot_at": "2026-09-02T00:50:07+09:00",
+      "snapshot_id": "09a5129225013e6fa0fcb457fa3c452d6af3c7f1",
+      "home": "CLE",
+      "away": "TOR",
+      "odds": [
+        1.44,
+        2.26
+      ],
+      "model": [
+        0.626,
+        0.374
+      ],
+      "tipster": [
+        0.0,
+        1.0
+      ],
+      "authors": 1,
+      "y": 0,
+      "settled_at": "2026-09-02T01:44:22+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "disagree",
+        "strong_favorite"
+      ],
+      "calibration_n": 22,
+      "model_calibration": [
+        1.0316982918949826,
+        0.00601187594056812
+      ],
+      "tipster_calibration": [
+        0.38427681222943005,
+        0.04773547959696974
+      ],
+      "calibration_active": true,
+      "candidates": {
+        "0.0": 0.6312153148786179,
+        "0.25": 0.51144170881229,
+        "0.5": 0.39166810274596214,
+        "0.75": 0.2718944966796343,
+        "1.0": 0.15212089061330636
+      },
+      "weight": 0.25,
+      "context_n": 3,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.626,
+        "fixed75_25": 0.46950000000000003,
+        "calibrated75_25": 0.51144170881229,
+        "context_hybrid": 0.51144170881229
+      }
+    },
+    {
+      "id": "evt_69d7e5d0a34e2755",
+      "event": "2026-09-01|BOS|SEA",
+      "date": "2026-09-01",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:103",
+      "at": "2026-09-01T12:00:00-04:00",
+      "kickoff": "2026-09-02T07:45:00+09:00",
+      "snapshot_at": "2026-09-02T00:50:07+09:00",
+      "snapshot_id": "09a5129225013e6fa0fcb457fa3c452d6af3c7f1",
+      "home": "BOS",
+      "away": "SEA",
+      "odds": [
+        1.61,
+        1.94
+      ],
+      "model": [
+        0.5528,
+        0.4472
+      ],
+      "tipster": [
+        0.0,
+        1.0
+      ],
+      "authors": 4,
+      "y": 1,
+      "settled_at": "2026-09-02T02:36:29+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "disagree",
+        "balanced_price"
+      ],
+      "calibration_n": 22,
+      "model_calibration": [
+        1.0316982918949826,
+        0.00601187594056812
+      ],
+      "tipster_calibration": [
+        0.38427681222943005,
+        0.04773547959696974
+      ],
+      "calibration_active": true,
+      "candidates": {
+        "0.0": 0.5559452514880607,
+        "0.25": 0.45498916126937217,
+        "0.5": 0.35403307105068355,
+        "0.75": 0.2530769808319949,
+        "1.0": 0.15212089061330636
+      },
+      "weight": 0.25,
+      "context_n": 5,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.5528,
+        "fixed75_25": 0.41459999999999997,
+        "calibrated75_25": 0.45498916126937217,
+        "context_hybrid": 0.45498916126937217
+      }
+    },
+    {
+      "id": "evt_7a815556756d5425",
+      "event": "2026-09-01|CIN|SD",
+      "date": "2026-09-01",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:103",
+      "at": "2026-09-01T12:00:00-04:00",
+      "kickoff": "2026-09-02T07:40:00+09:00",
+      "snapshot_at": "2026-09-02T00:50:07+09:00",
+      "snapshot_id": "09a5129225013e6fa0fcb457fa3c452d6af3c7f1",
+      "home": "CIN",
+      "away": "SD",
+      "odds": [
+        2.02,
+        1.56
+      ],
+      "model": [
+        0.427,
+        0.573
+      ],
+      "tipster": [
+        0.75,
+        0.25
+      ],
+      "authors": 4,
+      "y": 0,
+      "settled_at": "2026-09-02T01:44:22+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "disagree",
+        "balanced_price"
+      ],
+      "calibration_n": 22,
+      "model_calibration": [
+        1.0316982918949826,
+        0.00601187594056812
+      ],
+      "tipster_calibration": [
+        0.38427681222943005,
+        0.04773547959696974
+      ],
+      "calibration_active": true,
+      "candidates": {
+        "0.0": 0.42619017746037197,
+        "0.25": 0.47348305187828843,
+        "0.5": 0.520775926296205,
+        "0.75": 0.5680688007141215,
+        "1.0": 0.615361675132038
+      },
+      "weight": 0.25,
+      "context_n": 5,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.427,
+        "fixed75_25": 0.5077499999999999,
+        "calibrated75_25": 0.47348305187828843,
+        "context_hybrid": 0.47348305187828843
+      }
+    },
+    {
+      "id": "evt_9bddc318b12aa61c",
+      "event": "2026-09-01|LAA|NYY",
+      "date": "2026-09-01",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:103",
+      "at": "2026-09-01T12:00:00-04:00",
+      "kickoff": "2026-09-02T10:38:00+09:00",
+      "snapshot_at": "2026-09-02T00:50:07+09:00",
+      "snapshot_id": "09a5129225013e6fa0fcb457fa3c452d6af3c7f1",
+      "home": "LAA",
+      "away": "NYY",
+      "odds": [
+        2.4,
+        1.39
+      ],
+      "model": [
+        0.3486,
+        0.6514
+      ],
+      "tipster": [
+        0.5,
+        0.5
+      ],
+      "authors": 4,
+      "y": null,
+      "settled_at": null,
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "disagree",
+        "strong_favorite"
+      ],
+      "calibration_n": 22,
+      "model_calibration": [
+        1.0316982918949826,
+        0.00601187594056812
+      ],
+      "tipster_calibration": [
+        0.38427681222943005,
+        0.04773547959696974
+      ],
+      "calibration_active": true,
+      "candidates": {
+        "0.0": 0.3454715818192887,
+        "0.25": 0.3870865874386938,
+        "0.5": 0.4287015930580988,
+        "0.75": 0.47031659867750386,
+        "1.0": 0.5119316042969089
+      },
+      "weight": 0.25,
+      "context_n": 3,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.3486,
+        "fixed75_25": 0.38645,
+        "calibrated75_25": 0.3870865874386938,
+        "context_hybrid": 0.3870865874386938
+      }
+    },
+    {
+      "id": "evt_9e66728feee24f37",
+      "event": "2026-09-01|DET|MIN",
+      "date": "2026-09-01",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:103",
+      "at": "2026-09-01T12:00:00-04:00",
+      "kickoff": "2026-09-02T08:40:00+09:00",
+      "snapshot_at": "2026-09-02T00:50:07+09:00",
+      "snapshot_id": "09a5129225013e6fa0fcb457fa3c452d6af3c7f1",
+      "home": "MIN",
+      "away": "DET",
+      "odds": [
+        1.77,
+        1.75
+      ],
+      "model": [
+        0.4968,
+        0.5032
+      ],
+      "tipster": [
+        0.0,
+        1.0
+      ],
+      "authors": 3,
+      "y": 0,
+      "settled_at": "2026-09-02T02:36:29+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "agree",
+        "balanced_price"
+      ],
+      "calibration_n": 22,
+      "model_calibration": [
+        1.0316982918949826,
+        0.00601187594056812
+      ],
+      "tipster_calibration": [
+        0.38427681222943005,
+        0.04773547959696974
+      ],
+      "calibration_active": true,
+      "candidates": {
+        "0.0": 0.4982014971310577,
+        "0.25": 0.41168134550161983,
+        "0.5": 0.325161193872182,
+        "0.75": 0.23864104224274418,
+        "1.0": 0.15212089061330636
+      },
+      "weight": 0.25,
+      "context_n": 7,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.4968,
+        "fixed75_25": 0.37260000000000004,
+        "calibrated75_25": 0.41168134550161983,
+        "context_hybrid": 0.41168134550161983
+      }
+    },
+    {
+      "id": "evt_c1a92589f740dbac",
+      "event": "2026-09-01|NYM|TB",
+      "date": "2026-09-01",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:103",
+      "at": "2026-09-01T12:00:00-04:00",
+      "kickoff": "2026-09-02T07:40:00+09:00",
+      "snapshot_at": "2026-09-02T00:50:07+09:00",
+      "snapshot_id": "09a5129225013e6fa0fcb457fa3c452d6af3c7f1",
+      "home": "TB",
+      "away": "NYM",
+      "odds": [
+        1.6,
+        1.96
+      ],
+      "model": [
+        0.5574,
+        0.4426
+      ],
+      "tipster": [
+        0.6666666666666666,
+        0.3333333333333333
+      ],
+      "authors": 3,
+      "y": 0,
+      "settled_at": "2026-09-02T01:44:22+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "agree",
+        "balanced_price"
+      ],
+      "calibration_n": 22,
+      "model_calibration": [
+        1.0316982918949826,
+        0.00601187594056812
+      ],
+      "tipster_calibration": [
+        0.38427681222943005,
+        0.04773547959696974
+      ],
+      "calibration_active": true,
+      "candidates": {
+        "0.0": 0.5606840550224346,
+        "0.25": 0.564984216279639,
+        "0.5": 0.5692843775368435,
+        "0.75": 0.5735845387940479,
+        "1.0": 0.5778847000512523
+      },
+      "weight": 0.25,
+      "context_n": 7,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.5574,
+        "fixed75_25": 0.5847166666666667,
+        "calibrated75_25": 0.564984216279639,
+        "context_hybrid": 0.564984216279639
+      }
+    },
+    {
+      "id": "evt_d235e124b236b4cc",
+      "event": "2026-09-01|CHC|MIL",
+      "date": "2026-09-01",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:103",
+      "at": "2026-09-01T12:00:00-04:00",
+      "kickoff": "2026-09-02T08:40:00+09:00",
+      "snapshot_at": "2026-09-02T00:50:07+09:00",
+      "snapshot_id": "09a5129225013e6fa0fcb457fa3c452d6af3c7f1",
+      "home": "CHC",
+      "away": "MIL",
+      "odds": [
+        1.67,
+        1.86
+      ],
+      "model": [
+        0.5306,
+        0.4694
+      ],
+      "tipster": [
+        0.25,
+        0.75
+      ],
+      "authors": 4,
+      "y": 1,
+      "settled_at": "2026-09-02T03:18:25+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "disagree",
+        "balanced_price"
+      ],
+      "calibration_n": 22,
+      "model_calibration": [
+        1.0316982918949826,
+        0.00601187594056812
+      ],
+      "tipster_calibration": [
+        0.38427681222943005,
+        0.04773547959696974
+      ],
+      "calibration_active": true,
+      "candidates": {
+        "0.0": 0.5330641173138638,
+        "0.25": 0.5016654941704601,
+        "0.5": 0.47026687102705655,
+        "0.75": 0.43886824788365286,
+        "1.0": 0.4074696247402492
+      },
+      "weight": 0.25,
+      "context_n": 5,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.5306,
+        "fixed75_25": 0.46044999999999997,
+        "calibrated75_25": 0.5016654941704601,
+        "context_hybrid": 0.5016654941704601
+      }
+    },
+    {
+      "id": "evt_ef727528217becfd",
+      "event": "2026-09-01|BAL|COL",
+      "date": "2026-09-01",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:103",
+      "at": "2026-09-01T12:00:00-04:00",
+      "kickoff": "2026-09-02T09:40:00+09:00",
+      "snapshot_at": "2026-09-02T00:50:07+09:00",
+      "snapshot_id": "09a5129225013e6fa0fcb457fa3c452d6af3c7f1",
+      "home": "COL",
+      "away": "BAL",
+      "odds": [
+        2.05,
+        1.54
+      ],
+      "model": [
+        0.4192,
+        0.5808
+      ],
+      "tipster": [
+        0.0,
+        1.0
+      ],
+      "authors": 4,
+      "y": 0,
+      "settled_at": "2026-09-02T03:36:56+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "agree",
+        "balanced_price"
+      ],
+      "calibration_n": 22,
+      "model_calibration": [
+        1.0316982918949826,
+        0.00601187594056812
+      ],
+      "tipster_calibration": [
+        0.38427681222943005,
+        0.04773547959696974
+      ],
+      "calibration_active": true,
+      "candidates": {
+        "0.0": 0.4181476925459915,
+        "0.25": 0.3516409920628202,
+        "0.5": 0.2851342915796489,
+        "0.75": 0.21862759109647764,
+        "1.0": 0.15212089061330636
+      },
+      "weight": 0.25,
+      "context_n": 7,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.4192,
+        "fixed75_25": 0.3144,
+        "calibrated75_25": 0.3516409920628202,
+        "context_hybrid": 0.3516409920628202
+      }
+    },
+    {
+      "id": "evt_45aecda5c02a4043",
+      "event": "2026-09-03|PIT|SF",
+      "date": "2026-09-03",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:104",
+      "at": "2026-09-03T12:00:00-04:00",
+      "kickoff": "2026-09-04T01:35:00+09:00",
+      "snapshot_at": "2026-09-04T00:59:33+09:00",
+      "snapshot_id": "cfb30625273561dd23c9e5c6e45c4ce7223ade88",
+      "home": "PIT",
+      "away": "SF",
+      "odds": [
+        1.48,
+        2.17
+      ],
+      "model": [
+        0.6074,
+        0.3926
+      ],
+      "tipster": [
+        0.5,
+        0.5
+      ],
+      "authors": 2,
+      "y": 0,
+      "settled_at": "2026-09-03T19:55:19+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "agree",
+        "strong_favorite"
+      ],
+      "calibration_n": 34,
+      "model_calibration": [
+        1.0179973066785943,
+        0.06751668193139868
+      ],
+      "tipster_calibration": [
+        0.1377902204556636,
+        0.1333356421764273
+      ],
+      "calibration_active": true,
+      "candidates": {
+        "0.0": 0.6252205880415973,
+        "0.25": 0.6022365942572133,
+        "0.5": 0.5792526004728293,
+        "0.75": 0.5562686066884454,
+        "1.0": 0.5332846129040614
+      },
+      "weight": 0.25,
+      "context_n": 7,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.6074,
+        "fixed75_25": 0.58055,
+        "calibrated75_25": 0.6022365942572133,
+        "context_hybrid": 0.6022365942572133
+      }
+    },
+    {
+      "id": "evt_578d7f4e7a07684f",
+      "event": "2026-09-03|CWS|HOU",
+      "date": "2026-09-03",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:104",
+      "at": "2026-09-03T12:00:00-04:00",
+      "kickoff": "2026-09-04T03:10:00+09:00",
+      "snapshot_at": "2026-09-04T00:59:33+09:00",
+      "snapshot_id": "cfb30625273561dd23c9e5c6e45c4ce7223ade88",
+      "home": "HOU",
+      "away": "CWS",
+      "odds": [
+        1.46,
+        2.22
+      ],
+      "model": [
+        0.6172,
+        0.3828
+      ],
+      "tipster": [
+        0.3333333333333333,
+        0.6666666666666666
+      ],
+      "authors": 3,
+      "y": 0,
+      "settled_at": "2026-09-03T21:11:15+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "disagree",
+        "strong_favorite"
+      ],
+      "calibration_n": 34,
+      "model_calibration": [
+        1.0179973066785943,
+        0.06751668193139868
+      ],
+      "tipster_calibration": [
+        0.1377902204556636,
+        0.1333356421764273
+      ],
+      "calibration_active": true,
+      "candidates": {
+        "0.0": 0.6350154034615968,
+        "0.25": 0.6036254419461857,
+        "0.5": 0.5722354804307745,
+        "0.75": 0.5408455189153634,
+        "1.0": 0.5094555573999523
+      },
+      "weight": 0.25,
+      "context_n": 7,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.6172,
+        "fixed75_25": 0.5462333333333333,
+        "calibrated75_25": 0.6036254419461857,
+        "context_hybrid": 0.6036254419461857
+      }
+    },
+    {
+      "id": "evt_6e14584db3266c79",
+      "event": "2026-09-03|CHC|MIL",
+      "date": "2026-09-03",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:104",
+      "at": "2026-09-03T12:00:00-04:00",
+      "kickoff": "2026-09-04T08:15:00+09:00",
+      "snapshot_at": "2026-09-04T00:59:33+09:00",
+      "snapshot_id": "cfb30625273561dd23c9e5c6e45c4ce7223ade88",
+      "home": "CHC",
+      "away": "MIL",
+      "odds": [
+        1.84,
+        1.69
+      ],
+      "model": [
+        0.4759,
+        0.5241
+      ],
+      "tipster": [
+        0.0,
+        1.0
+      ],
+      "authors": 3,
+      "y": 0,
+      "settled_at": "2026-09-04T01:42:16+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "agree",
+        "balanced_price"
+      ],
+      "calibration_n": 34,
+      "model_calibration": [
+        1.0179973066785943,
+        0.06751668193139868
+      ],
+      "tipster_calibration": [
+        0.1377902204556636,
+        0.1333356421764273
+      ],
+      "calibration_active": true,
+      "candidates": {
+        "0.0": 0.49232701202446805,
+        "0.25": 0.4636405941630821,
+        "0.5": 0.43495417630169614,
+        "0.75": 0.40626775844031016,
+        "1.0": 0.37758134057892423
+      },
+      "weight": 0.25,
+      "context_n": 11,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.4759,
+        "fixed75_25": 0.356925,
+        "calibrated75_25": 0.4636405941630821,
+        "context_hybrid": 0.4636405941630821
+      }
+    },
+    {
+      "id": "evt_7f63b7b511738c38",
+      "event": "2026-09-03|ATH|SEA",
+      "date": "2026-09-03",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:104",
+      "at": "2026-09-03T12:00:00-04:00",
+      "kickoff": "2026-09-04T10:40:00+09:00",
+      "snapshot_at": "2026-09-04T00:59:33+09:00",
+      "snapshot_id": "cfb30625273561dd23c9e5c6e45c4ce7223ade88",
+      "home": "SEA",
+      "away": "ATH",
+      "odds": [
+        1.34,
+        2.56
+      ],
+      "model": [
+        0.6778,
+        0.3222
+      ],
+      "tipster": [
+        0.5,
+        0.5
+      ],
+      "authors": 2,
+      "y": null,
+      "settled_at": null,
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "agree",
+        "strong_favorite"
+      ],
+      "calibration_n": 34,
+      "model_calibration": [
+        1.0179973066785943,
+        0.06751668193139868
+      ],
+      "tipster_calibration": [
+        0.1377902204556636,
+        0.1333356421764273
+      ],
+      "calibration_active": true,
+      "candidates": {
+        "0.0": 0.6952078302663504,
+        "0.25": 0.6547270259257781,
+        "0.5": 0.6142462215852058,
+        "0.75": 0.5737654172446336,
+        "1.0": 0.5332846129040614
+      },
+      "weight": 0.25,
+      "context_n": 7,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.6778,
+        "fixed75_25": 0.63335,
+        "calibrated75_25": 0.6547270259257781,
+        "context_hybrid": 0.6547270259257781
+      }
+    },
+    {
+      "id": "evt_89a376cb30dfe9b3",
+      "event": "2026-09-03|TB|TEX",
+      "date": "2026-09-03",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:104",
+      "at": "2026-09-03T12:00:00-04:00",
+      "kickoff": "2026-09-04T09:05:00+09:00",
+      "snapshot_at": "2026-09-04T00:59:33+09:00",
+      "snapshot_id": "cfb30625273561dd23c9e5c6e45c4ce7223ade88",
+      "home": "TEX",
+      "away": "TB",
+      "odds": [
+        1.93,
+        1.62
+      ],
+      "model": [
+        0.4504,
+        0.5496
+      ],
+      "tipster": [
+        0.6666666666666666,
+        0.3333333333333333
+      ],
+      "authors": 3,
+      "y": 0,
+      "settled_at": "2026-09-04T02:32:10+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "disagree",
+        "balanced_price"
+      ],
+      "calibration_n": 34,
+      "model_calibration": [
+        1.0179973066785943,
+        0.06751668193139868
+      ],
+      "tipster_calibration": [
+        0.1377902204556636,
+        0.1333356421764273
+      ],
+      "calibration_active": true,
+      "candidates": {
+        "0.0": 0.4662711939538054,
+        "0.25": 0.4889440851685092,
+        "0.5": 0.511616976383213,
+        "0.75": 0.5342898675979167,
+        "1.0": 0.5569627588126206
+      },
+      "weight": 0.25,
+      "context_n": 9,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.4504,
+        "fixed75_25": 0.5044666666666666,
+        "calibrated75_25": 0.4889440851685092,
+        "context_hybrid": 0.4889440851685092
+      }
+    },
+    {
+      "id": "evt_aab0f719a17627cd",
+      "event": "2026-09-03|BAL|BOS",
+      "date": "2026-09-03",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:104",
+      "at": "2026-09-03T12:00:00-04:00",
+      "kickoff": "2026-09-04T08:15:00+09:00",
+      "snapshot_at": "2026-09-04T00:59:33+09:00",
+      "snapshot_id": "cfb30625273561dd23c9e5c6e45c4ce7223ade88",
+      "home": "BAL",
+      "away": "BOS",
+      "odds": [
+        1.93,
+        1.62
+      ],
+      "model": [
+        0.4504,
+        0.5496
+      ],
+      "tipster": [
+        0.5,
+        0.5
+      ],
+      "authors": 6,
+      "y": 1,
+      "settled_at": "2026-09-04T02:32:10+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "disagree",
+        "balanced_price"
+      ],
+      "calibration_n": 34,
+      "model_calibration": [
+        1.0179973066785943,
+        0.06751668193139868
+      ],
+      "tipster_calibration": [
+        0.1377902204556636,
+        0.1333356421764273
+      ],
+      "calibration_active": true,
+      "candidates": {
+        "0.0": 0.4662711939538054,
+        "0.25": 0.4830245486913694,
+        "0.5": 0.49977790342893336,
+        "0.75": 0.5165312581664974,
+        "1.0": 0.5332846129040614
+      },
+      "weight": 0.25,
+      "context_n": 9,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.4504,
+        "fixed75_25": 0.4628,
+        "calibrated75_25": 0.4830245486913694,
+        "context_hybrid": 0.4830245486913694
+      }
+    },
+    {
+      "id": "evt_ae5a51426ab183d7",
+      "event": "2026-09-03|CLE|TOR",
+      "date": "2026-09-03",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:104",
+      "at": "2026-09-03T12:00:00-04:00",
+      "kickoff": "2026-09-04T02:10:00+09:00",
+      "snapshot_at": "2026-09-04T00:59:33+09:00",
+      "snapshot_id": "cfb30625273561dd23c9e5c6e45c4ce7223ade88",
+      "home": "CLE",
+      "away": "TOR",
+      "odds": [
+        1.73,
+        1.79
+      ],
+      "model": [
+        0.5097,
+        0.4903
+      ],
+      "tipster": [
+        0.4,
+        0.6
+      ],
+      "authors": 5,
+      "y": 1,
+      "settled_at": "2026-09-03T21:11:15+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "disagree",
+        "balanced_price"
+      ],
+      "calibration_n": 34,
+      "model_calibration": [
+        1.0179973066785943,
+        0.06751668193139868
+      ],
+      "tipster_calibration": [
+        0.1377902204556636,
+        0.1333356421764273
+      ],
+      "calibration_active": true,
+      "candidates": {
+        "0.0": 0.5267294766531915,
+        "0.25": 0.5248863449067618,
+        "0.5": 0.5230432131603321,
+        "0.75": 0.5212000814139024,
+        "1.0": 0.5193569496674727
+      },
+      "weight": 0.25,
+      "context_n": 9,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.5097,
+        "fixed75_25": 0.482275,
+        "calibrated75_25": 0.5248863449067618,
+        "context_hybrid": 0.5248863449067618
+      }
+    },
+    {
+      "id": "evt_bf42fc7af4e3aa07",
+      "event": "2026-09-03|KC|MIA",
+      "date": "2026-09-03",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:104",
+      "at": "2026-09-03T12:00:00-04:00",
+      "kickoff": "2026-09-04T08:40:00+09:00",
+      "snapshot_at": "2026-09-04T00:59:33+09:00",
+      "snapshot_id": "cfb30625273561dd23c9e5c6e45c4ce7223ade88",
+      "home": "KC",
+      "away": "MIA",
+      "odds": [
+        1.86,
+        1.67
+      ],
+      "model": [
+        0.4694,
+        0.5306
+      ],
+      "tipster": [
+        1.0,
+        0.0
+      ],
+      "authors": 4,
+      "y": 0,
+      "settled_at": "2026-09-04T02:32:10+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "disagree",
+        "balanced_price"
+      ],
+      "calibration_n": 34,
+      "model_calibration": [
+        1.0179973066785943,
+        0.06751668193139868
+      ],
+      "tipster_calibration": [
+        0.1377902204556636,
+        0.1333356421764273
+      ],
+      "calibration_active": true,
+      "candidates": {
+        "0.0": 0.4856933804963669,
+        "0.25": 0.5349607608500158,
+        "0.5": 0.5842281412036646,
+        "0.75": 0.6334955215573135,
+        "1.0": 0.6827629019109623
+      },
+      "weight": 0.25,
+      "context_n": 9,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.4694,
+        "fixed75_25": 0.60205,
+        "calibrated75_25": 0.5349607608500158,
+        "context_hybrid": 0.5349607608500158
+      }
+    },
+    {
+      "id": "evt_f67f176334ebe17a",
+      "event": "2026-09-03|LAD|STL",
+      "date": "2026-09-03",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:104",
+      "at": "2026-09-03T12:00:00-04:00",
+      "kickoff": "2026-09-04T11:10:00+09:00",
+      "snapshot_at": "2026-09-04T00:59:33+09:00",
+      "snapshot_id": "cfb30625273561dd23c9e5c6e45c4ce7223ade88",
+      "home": "LAD",
+      "away": "STL",
+      "odds": [
+        1.24,
+        3.03
+      ],
+      "model": [
+        0.7382,
+        0.2618
+      ],
+      "tipster": [
+        0.0,
+        1.0
+      ],
+      "authors": 3,
+      "y": null,
+      "settled_at": null,
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "disagree",
+        "strong_favorite"
+      ],
+      "calibration_n": 34,
+      "model_calibration": [
+        1.0179973066785943,
+        0.06751668193139868
+      ],
+      "tipster_calibration": [
+        0.1377902204556636,
+        0.1333356421764273
+      ],
+      "calibration_active": true,
+      "candidates": {
+        "0.0": 0.7545090589108394,
+        "0.25": 0.6602771293278606,
+        "0.5": 0.5660451997448819,
+        "0.75": 0.471813270161903,
+        "1.0": 0.37758134057892423
+      },
+      "weight": 0.25,
+      "context_n": 7,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.7382,
+        "fixed75_25": 0.55365,
+        "calibrated75_25": 0.6602771293278606,
+        "context_hybrid": 0.6602771293278606
+      }
+    },
+    {
+      "id": "evt_148ab5235563b252",
+      "event": "2026-09-04|CHC|MIA",
+      "date": "2026-09-04",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:105",
+      "at": "2026-09-04T12:00:00-04:00",
+      "kickoff": "2026-09-05T08:10:00+09:00",
+      "snapshot_at": "2026-09-05T00:41:26+09:00",
+      "snapshot_id": "dbe615f50e7fdd297ba25fb727cd11db55fe4f73",
+      "home": "MIA",
+      "away": "CHC",
+      "odds": [
+        1.9,
+        1.64
+      ],
+      "model": [
+        0.4583,
+        0.5417
+      ],
+      "tipster": [
+        0.0,
+        1.0
+      ],
+      "authors": 1,
+      "y": 1,
+      "settled_at": "2026-09-05T02:42:40+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "agree",
+        "balanced_price"
+      ],
+      "calibration_n": 41,
+      "model_calibration": [
+        1.0248929061071563,
+        0.11098359620406155
+      ],
+      "tipster_calibration": [
+        0.12712725951604809,
+        0.1741999956814969
+      ],
+      "calibration_active": true,
+      "candidates": {
+        "0.0": 0.48491294159314685,
+        "0.25": 0.4634148346951051,
+        "0.5": 0.44191672779706326,
+        "0.75": 0.42041862089902143,
+        "1.0": 0.39892051400097966
+      },
+      "weight": 0.25,
+      "context_n": 12,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.4583,
+        "fixed75_25": 0.343725,
+        "calibrated75_25": 0.4634148346951051,
+        "context_hybrid": 0.4634148346951051
+      }
+    },
+    {
+      "id": "evt_1d93f817e590e990",
+      "event": "2026-09-04|CIN|MIL",
+      "date": "2026-09-04",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:105",
+      "at": "2026-09-04T12:00:00-04:00",
+      "kickoff": "2026-09-05T07:10:00+09:00",
+      "snapshot_at": "2026-09-05T00:41:26+09:00",
+      "snapshot_id": "dbe615f50e7fdd297ba25fb727cd11db55fe4f73",
+      "home": "CIN",
+      "away": "MIL",
+      "odds": [
+        2.11,
+        1.51
+      ],
+      "model": [
+        0.4058,
+        0.5942
+      ],
+      "tipster": [
+        1.0,
+        0.0
+      ],
+      "authors": 1,
+      "y": 1,
+      "settled_at": "2026-09-05T02:42:40+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "disagree",
+        "balanced_price"
+      ],
+      "calibration_n": 41,
+      "model_calibration": [
+        1.0248929061071563,
+        0.11098359620406155
+      ],
+      "tipster_calibration": [
+        0.12712725951604809,
+        0.1741999956814969
+      ],
+      "calibration_active": true,
+      "candidates": {
+        "0.0": 0.4304868766133982,
+        "0.25": 0.4931148199795469,
+        "0.5": 0.5557427633456957,
+        "0.75": 0.6183707067118445,
+        "1.0": 0.6809986500779932
+      },
+      "weight": 0.25,
+      "context_n": 13,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.4058,
+        "fixed75_25": 0.55435,
+        "calibrated75_25": 0.4931148199795469,
+        "context_hybrid": 0.4931148199795469
+      }
+    },
+    {
+      "id": "evt_361cbdd966056a1a",
+      "event": "2026-09-04|LAA|PIT",
+      "date": "2026-09-04",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:105",
+      "at": "2026-09-04T12:00:00-04:00",
+      "kickoff": "2026-09-05T07:45:00+09:00",
+      "snapshot_at": "2026-09-05T00:41:26+09:00",
+      "snapshot_id": "dbe615f50e7fdd297ba25fb727cd11db55fe4f73",
+      "home": "PIT",
+      "away": "LAA",
+      "odds": [
+        1.41,
+        2.34
+      ],
+      "model": [
+        0.6409,
+        0.3591
+      ],
+      "tipster": [
+        0.0,
+        1.0
+      ],
+      "authors": 1,
+      "y": 0,
+      "settled_at": "2026-09-05T02:06:47+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "disagree",
+        "strong_favorite"
+      ],
+      "calibration_n": 41,
+      "model_calibration": [
+        1.0248929061071563,
+        0.11098359620406155
+      ],
+      "tipster_calibration": [
+        0.12712725951604809,
+        0.1741999956814969
+      ],
+      "calibration_active": true,
+      "candidates": {
+        "0.0": 0.6692236651443333,
+        "0.25": 0.6016478773584949,
+        "0.5": 0.5340720895726565,
+        "0.75": 0.46649630178681806,
+        "1.0": 0.39892051400097966
+      },
+      "weight": 0.25,
+      "context_n": 8,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.6409,
+        "fixed75_25": 0.480675,
+        "calibrated75_25": 0.6016478773584949,
+        "context_hybrid": 0.6016478773584949
+      }
+    },
+    {
+      "id": "evt_37f36d82a54de587",
+      "event": "2026-09-04|LAD|WSH",
+      "date": "2026-09-04",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:105",
+      "at": "2026-09-04T12:00:00-04:00",
+      "kickoff": "2026-09-05T11:10:00+09:00",
+      "snapshot_at": "2026-09-05T00:41:26+09:00",
+      "snapshot_id": "dbe615f50e7fdd297ba25fb727cd11db55fe4f73",
+      "home": "LAD",
+      "away": "WSH",
+      "odds": [
+        1.26,
+        2.92
+      ],
+      "model": [
+        0.7256,
+        0.2744
+      ],
+      "tipster": [
+        0.0,
+        1.0
+      ],
+      "authors": 1,
+      "y": null,
+      "settled_at": null,
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "disagree",
+        "strong_favorite"
+      ],
+      "calibration_n": 41,
+      "model_calibration": [
+        1.0248929061071563,
+        0.11098359620406155
+      ],
+      "tipster_calibration": [
+        0.12712725951604809,
+        0.1741999956814969
+      ],
+      "calibration_active": true,
+      "candidates": {
+        "0.0": 0.7516817350424341,
+        "0.25": 0.6634914297820704,
+        "0.5": 0.5753011245217069,
+        "0.75": 0.48711081926134325,
+        "1.0": 0.39892051400097966
+      },
+      "weight": 0.25,
+      "context_n": 8,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.7256,
+        "fixed75_25": 0.5442,
+        "calibrated75_25": 0.6634914297820704,
+        "context_hybrid": 0.6634914297820704
+      }
+    },
+    {
+      "id": "evt_43a87a820cf45e93",
+      "event": "2026-09-04|BAL|BOS",
+      "date": "2026-09-04",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:105",
+      "at": "2026-09-04T12:00:00-04:00",
+      "kickoff": "2026-09-05T08:05:00+09:00",
+      "snapshot_at": "2026-09-05T00:41:26+09:00",
+      "snapshot_id": "dbe615f50e7fdd297ba25fb727cd11db55fe4f73",
+      "home": "BAL",
+      "away": "BOS",
+      "odds": [
+        1.82,
+        1.7
+      ],
+      "model": [
+        0.4806,
+        0.5194
+      ],
+      "tipster": [
+        1.0,
+        0.0
+      ],
+      "authors": 1,
+      "y": 1,
+      "settled_at": "2026-09-05T02:06:47+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "disagree",
+        "balanced_price"
+      ],
+      "calibration_n": 41,
+      "model_calibration": [
+        1.0248929061071563,
+        0.11098359620406155
+      ],
+      "tipster_calibration": [
+        0.12712725951604809,
+        0.1741999956814969
+      ],
+      "calibration_active": true,
+      "candidates": {
+        "0.0": 0.50785234447917,
+        "0.25": 0.5511389208788758,
+        "0.5": 0.5944254972785816,
+        "0.75": 0.6377120736782875,
+        "1.0": 0.6809986500779932
+      },
+      "weight": 0.25,
+      "context_n": 13,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.4806,
+        "fixed75_25": 0.61045,
+        "calibrated75_25": 0.5511389208788758,
+        "context_hybrid": 0.5511389208788758
+      }
+    },
+    {
+      "id": "evt_5b74b1ecf7c94508",
+      "event": "2026-09-04|COL|STL",
+      "date": "2026-09-04",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:105",
+      "at": "2026-09-04T12:00:00-04:00",
+      "kickoff": "2026-09-05T09:40:00+09:00",
+      "snapshot_at": "2026-09-05T00:41:26+09:00",
+      "snapshot_id": "dbe615f50e7fdd297ba25fb727cd11db55fe4f73",
+      "home": "COL",
+      "away": "STL",
+      "odds": [
+        1.96,
+        1.6
+      ],
+      "model": [
+        0.4426,
+        0.5574
+      ],
+      "tipster": [
+        1.0,
+        0.0
+      ],
+      "authors": 1,
+      "y": 1,
+      "settled_at": "2026-09-05T03:45:27+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "disagree",
+        "balanced_price"
+      ],
+      "calibration_n": 41,
+      "model_calibration": [
+        1.0248929061071563,
+        0.11098359620406155
+      ],
+      "tipster_calibration": [
+        0.12712725951604809,
+        0.1741999956814969
+      ],
+      "calibration_active": true,
+      "candidates": {
+        "0.0": 0.4686975391209081,
+        "0.25": 0.5217728168601794,
+        "0.5": 0.5748480945994506,
+        "0.75": 0.627923372338722,
+        "1.0": 0.6809986500779932
+      },
+      "weight": 0.25,
+      "context_n": 13,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.4426,
+        "fixed75_25": 0.58195,
+        "calibrated75_25": 0.5217728168601794,
+        "context_hybrid": 0.5217728168601794
+      }
+    },
+    {
+      "id": "evt_807682e5b117b17a",
+      "event": "2026-09-04|ATL|PHI",
+      "date": "2026-09-04",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:105",
+      "at": "2026-09-04T12:00:00-04:00",
+      "kickoff": "2026-09-05T07:40:00+09:00",
+      "snapshot_at": "2026-09-05T00:41:26+09:00",
+      "snapshot_id": "dbe615f50e7fdd297ba25fb727cd11db55fe4f73",
+      "home": "PHI",
+      "away": "ATL",
+      "odds": [
+        1.71,
+        1.81
+      ],
+      "model": [
+        0.5162,
+        0.4838
+      ],
+      "tipster": [
+        0.5,
+        0.5
+      ],
+      "authors": 2,
+      "y": 1,
+      "settled_at": "2026-09-05T01:46:17+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "agree",
+        "balanced_price"
+      ],
+      "calibration_n": 41,
+      "model_calibration": [
+        1.0248929061071563,
+        0.11098359620406155
+      ],
+      "tipster_calibration": [
+        0.12712725951604809,
+        0.1741999956814969
+      ],
+      "calibration_active": true,
+      "candidates": {
+        "0.0": 0.5442389928372123,
+        "0.25": 0.5440392953066495,
+        "0.5": 0.5438395977760868,
+        "0.75": 0.5436399002455241,
+        "1.0": 0.5434402027149614
+      },
+      "weight": 0.25,
+      "context_n": 12,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.5162,
+        "fixed75_25": 0.51215,
+        "calibrated75_25": 0.5440392953066495,
+        "context_hybrid": 0.5440392953066495
+      }
+    },
+    {
+      "id": "evt_a14887bcc377ec71",
+      "event": "2026-09-04|NYY|SD",
+      "date": "2026-09-04",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:105",
+      "at": "2026-09-04T12:00:00-04:00",
+      "kickoff": "2026-09-05T10:40:00+09:00",
+      "snapshot_at": "2026-09-05T00:41:26+09:00",
+      "snapshot_id": "dbe615f50e7fdd297ba25fb727cd11db55fe4f73",
+      "home": "SD",
+      "away": "NYY",
+      "odds": [
+        1.94,
+        1.61
+      ],
+      "model": [
+        0.4472,
+        0.5528
+      ],
+      "tipster": [
+        0.0,
+        1.0
+      ],
+      "authors": 2,
+      "y": null,
+      "settled_at": null,
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "agree",
+        "balanced_price"
+      ],
+      "calibration_n": 41,
+      "model_calibration": [
+        1.0248929061071563,
+        0.11098359620406155
+      ],
+      "tipster_calibration": [
+        0.12712725951604809,
+        0.1741999956814969
+      ],
+      "calibration_active": true,
+      "candidates": {
+        "0.0": 0.47345403187506746,
+        "0.25": 0.4548206524065455,
+        "0.5": 0.43618727293802356,
+        "0.75": 0.4175538934695016,
+        "1.0": 0.39892051400097966
+      },
+      "weight": 0.25,
+      "context_n": 12,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.4472,
+        "fixed75_25": 0.3354,
+        "calibrated75_25": 0.4548206524065455,
+        "context_hybrid": 0.4548206524065455
+      }
+    },
+    {
+      "id": "evt_dbd22918abfb81ac",
+      "event": "2026-09-04|CLE|DET",
+      "date": "2026-09-04",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:105",
+      "at": "2026-09-04T12:00:00-04:00",
+      "kickoff": "2026-09-05T03:10:00+09:00",
+      "snapshot_at": "2026-09-05T00:41:26+09:00",
+      "snapshot_id": "dbe615f50e7fdd297ba25fb727cd11db55fe4f73",
+      "home": "CLE",
+      "away": "DET",
+      "odds": [
+        1.65,
+        1.89
+      ],
+      "model": [
+        0.5385,
+        0.4615
+      ],
+      "tipster": [
+        0.75,
+        0.25
+      ],
+      "authors": 4,
+      "y": 0,
+      "settled_at": "2026-09-04T22:15:47+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "agree",
+        "balanced_price"
+      ],
+      "calibration_n": 41,
+      "model_calibration": [
+        1.0248929061071563,
+        0.11098359620406155
+      ],
+      "tipster_calibration": [
+        0.12712725951604809,
+        0.1741999956814969
+      ],
+      "calibration_active": true,
+      "candidates": {
+        "0.0": 0.5668793455480362,
+        "0.25": 0.5696165172485198,
+        "0.5": 0.5723536889490033,
+        "0.75": 0.5750908606494869,
+        "1.0": 0.5778280323499705
+      },
+      "weight": 0.25,
+      "context_n": 12,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.5385,
+        "fixed75_25": 0.591375,
+        "calibrated75_25": 0.5696165172485198,
+        "context_hybrid": 0.5696165172485198
+      }
+    },
+    {
+      "id": "evt_de81630ad2cecdf5",
+      "event": "2026-09-04|CWS|MIN",
+      "date": "2026-09-04",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:105",
+      "at": "2026-09-04T12:00:00-04:00",
+      "kickoff": "2026-09-05T08:40:00+09:00",
+      "snapshot_at": "2026-09-05T00:41:26+09:00",
+      "snapshot_id": "dbe615f50e7fdd297ba25fb727cd11db55fe4f73",
+      "home": "CWS",
+      "away": "MIN",
+      "odds": [
+        1.68,
+        1.85
+      ],
+      "model": [
+        0.5273,
+        0.4727
+      ],
+      "tipster": [
+        0.0,
+        1.0
+      ],
+      "authors": 2,
+      "y": 0,
+      "settled_at": "2026-09-05T02:06:47+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "disagree",
+        "balanced_price"
+      ],
+      "calibration_n": 41,
+      "model_calibration": [
+        1.0248929061071563,
+        0.11098359620406155
+      ],
+      "tipster_calibration": [
+        0.12712725951604809,
+        0.1741999956814969
+      ],
+      "calibration_active": true,
+      "candidates": {
+        "0.0": 0.5555233985452511,
+        "0.25": 0.5163726774091832,
+        "0.5": 0.47722195627311537,
+        "0.75": 0.4380712351370475,
+        "1.0": 0.39892051400097966
+      },
+      "weight": 0.25,
+      "context_n": 13,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.5273,
+        "fixed75_25": 0.395475,
+        "calibrated75_25": 0.5163726774091832,
+        "context_hybrid": 0.5163726774091832
+      }
+    },
+    {
+      "id": "evt_ea342d122e723250",
+      "event": "2026-09-04|TB|TEX",
+      "date": "2026-09-04",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:105",
+      "at": "2026-09-04T12:00:00-04:00",
+      "kickoff": "2026-09-05T09:05:00+09:00",
+      "snapshot_at": "2026-09-05T00:41:26+09:00",
+      "snapshot_id": "dbe615f50e7fdd297ba25fb727cd11db55fe4f73",
+      "home": "TEX",
+      "away": "TB",
+      "odds": [
+        1.89,
+        1.65
+      ],
+      "model": [
+        0.4615,
+        0.5385
+      ],
+      "tipster": [
+        0.0,
+        1.0
+      ],
+      "authors": 2,
+      "y": 1,
+      "settled_at": "2026-09-05T03:45:27+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "agree",
+        "balanced_price"
+      ],
+      "calibration_n": 41,
+      "model_calibration": [
+        1.0248929061071563,
+        0.11098359620406155
+      ],
+      "tipster_calibration": [
+        0.12712725951604809,
+        0.1741999956814969
+      ],
+      "calibration_active": true,
+      "candidates": {
+        "0.0": 0.4882114457332093,
+        "0.25": 0.4658887128001519,
+        "0.5": 0.44356597986709445,
+        "0.75": 0.42124324693403703,
+        "1.0": 0.39892051400097966
+      },
+      "weight": 0.25,
+      "context_n": 12,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.4615,
+        "fixed75_25": 0.346125,
+        "calibrated75_25": 0.4658887128001519,
+        "context_hybrid": 0.4658887128001519
+      }
+    },
+    {
+      "id": "evt_f49c19cbaf45cd75",
+      "event": "2026-09-04|NYM|SF",
+      "date": "2026-09-04",
+      "sport": "bs",
+      "league": "MLB",
+      "round_key": "2026:105",
+      "at": "2026-09-04T12:00:00-04:00",
+      "kickoff": "2026-09-05T08:10:00+09:00",
+      "snapshot_at": "2026-09-05T00:41:26+09:00",
+      "snapshot_id": "dbe615f50e7fdd297ba25fb727cd11db55fe4f73",
+      "home": "NYM",
+      "away": "SF",
+      "odds": [
+        1.45,
+        2.24
+      ],
+      "model": [
+        0.6216,
+        0.3784
+      ],
+      "tipster": [
+        0.5,
+        0.5
+      ],
+      "authors": 2,
+      "y": 0,
+      "settled_at": "2026-09-05T02:06:47+00:00",
+      "result_source": "publisher_not_official",
+      "context": [
+        "bs",
+        "MLB",
+        "agree",
+        "strong_favorite"
+      ],
+      "calibration_n": 41,
+      "model_calibration": [
+        1.0248929061071563,
+        0.11098359620406155
+      ],
+      "tipster_calibration": [
+        0.12712725951604809,
+        0.1741999956814969
+      ],
+      "calibration_active": true,
+      "candidates": {
+        "0.0": 0.6501466819493688,
+        "0.25": 0.623470062140767,
+        "0.5": 0.596793442332165,
+        "0.75": 0.5701168225235632,
+        "1.0": 0.5434402027149614
+      },
+      "weight": 0.25,
+      "context_n": 8,
+      "weight_reason": "insufficient_context_history",
+      "forecasts": {
+        "model": 0.6216,
+        "fixed75_25": 0.5912000000000001,
+        "calibrated75_25": 0.623470062140767,
+        "context_hybrid": 0.623470062140767
+      }
+    }
+  ],
+  "limitations": [
+    "Five previously inspected MLB dates only; not independent new validation.",
+    "No usable multisport pregame paired evidence: daily sport composition routing not evaluated.",
+    "No lineup/injury/playoff features in input; no claims about their predictive effect.",
+    "Publisher result labels, unproven quote availability, uncalibrated original crowd shares.",
+    "Brier gain threshold is a heuristic, not statistical significance or ROI guarantee.",
+    "Pair scores assume independence; short partial-month replay, no promotion or real wagers."
+  ],
+  "hashes": {
+    "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\selection-policy-comparison-20261025\\experiments\\selection-policy-20261025\\results-round-checked.json": "668c590a0ac4f575a06034ed08dad88a638d4ad7f476221217b02a80ad0489f3",
+    "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\selection-policy-comparison-20261025\\scripts\\compare_selection_policies.py": "21b35570b5816d0a099733410c38d404765d2d4a525bf089dedf71849ea0114d",
+    "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\calibrated-context-hybrid-20261025\\data\\raw\\picksters\\tailslips_pick_events.jsonl": "68a45cce93eb7f3213c6803f2a56b1c293c181276af7f74965c8f4d66d6d717d",
+    "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\calibrated-context-hybrid-20261025\\scripts\\calibrate_context_hybrid.py": "42c2fe023e7a119445acbfb85b321be119540f97506de6afbd0287012ea1dc5d"
+  }
+}
