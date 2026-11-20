@@ -1,0 +1,24 @@
+{
+  "status": "next-hypothesis-design-only; no fitted player effect or ROI claim",
+  "question": "Does a verified change in player availability or workload add predictive value beyond the same-time market and a no-fact baseline?",
+  "identity": ["canonical_game_id", "official_game_id", "league", "home_team_id", "away_team_id", "player_id", "product_id", "market", "period", "line"],
+  "fact_kinds": ["confirmed_starter_change", "official_absence", "confirmed_lineup_change", "bullpen_workload_24h", "bullpen_workload_48h"],
+  "fact_fields": ["asserted_before_value", "verified_after_value", "units", "tipster_claim_url", "tipster_document_sha256", "official_confirmation_url", "official_document_sha256", "published_at_claim", "claim_received_at", "official_confirmation_received_at", "fact_revision", "evidence_tier"],
+  "price_fields": ["same_product_quote_before_fact", "same_product_quote_after_fact", "quote_observed_at", "quote_received_at", "full_odds_vector", "quote_revision"],
+  "decision_fields": ["decision_at", "kickoff_at", "input_content_sha256", "model_version", "freeze_hash"],
+  "policy": [
+    "Separate a tipster's directional opinion from a factual claim; an opinion is not official confirmation.",
+    "Both the claim and confirmation must have been received by the real decision at or before T-30.",
+    "Use prior completed boxscores for bullpen workload; never use target-game pitches or final score.",
+    "Missing earlier expected lineup or quote remains unknown, never zero or an invented earlier snapshot.",
+    "Match player and product identity independently of the result; distinguish probable from confirmed.",
+    "Store actual bytes and witness provenance where available; a URL, hash field or timestamp assertion is not authentication.",
+    "A before/after quote sequence alone does not establish a causal price effect or an executable edge.",
+    "Learn and freeze effect coefficients on eligible earlier data before comparing predictions; never hand-add probability bonuses.",
+    "Compare market, exact frozen operating selection, no-fact model and fact model on identical fixtures, prices, settlement and coverage.",
+    "No new model adoption, retrospective freeze rewrite, production schedule or paper-wallet change is enabled by this design."
+  ],
+  "available_certified_training_sample_measured": false,
+  "new_accuracy": null,
+  "new_roi": null
+}
