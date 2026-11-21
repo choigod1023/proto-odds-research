@@ -38,6 +38,33 @@ Linux 원장 잠금은 커널 flock을 사용해 강제 종료 시 자동 해제
 
 30분마다 `data/` 만 커밋해 GitHub 에 push → 레포에 남고 Vercel 이 자동 재배포.
 
+## 자동 복구와 상시 실행 (2026-11-21 추가)
+
+2026-11-19 13:46Z 이후 점수·배당은 계속 갱신되는데 `picks_generated_at`만 36시간 넘게
+멈췄다. 프로세스는 살아 있어 Fly 재시작 정책이 개입하지 못했고, 사람이 재시작할
+때까지 판정 게시가 멈춘 상태로 남았다. 같은 상황을 사람 없이 복구하도록 세 겹을 둔다.
+
+1. **무거운 보조 작업 제한 시간** — `선수·팀 정보`·`무료 날씨`·`무료 야구 컨텍스트`는
+   공용 판정 슬롯을 잡은 채 자식 프로세스를 실행한다. 이전에는 제한 시간이 없어서
+   응답을 끝내지 않는 원천 하나가 슬롯을 영구히 점유할 수 있었다. 지금은
+   `BACKGROUND_CHILD_TIMEOUT`(기본 1500초), 하루 1회 xG 수집은
+   `DAILY_CHILD_TIMEOUT`(기본 1800초)으로 끝낸다.
+2. **판정 정지 감시** — 배당 수집은 최근 30분 안에 성공했는데 시장 판정이
+   `MARKET_STALL_EXIT_SECONDS`(기본 3시간) 동안 한 번도 성공하지 못하면 감독자가
+   종료 코드 75로 끝난다. 원천 장애로 배당 수집 자체가 실패하는 동안은 종료하지 않는다.
+   재시작 뒤에는 기동 시각부터 다시 재므로 재시작은 3시간에 최대 1회다.
+3. **Fly 재시작 정책** — `fly.toml`의 `[[restart]] policy = "always"`가 어떤 종료 코드로
+   끝나든 머신을 다시 올린다. `min_machines_running = 1`, `auto_stop_machines = false`는
+   그대로다. `/health` HTTP 검사는 `fly checks list`에서 상태를 보는 용도다.
+
+`/health`는 `market_refresh_ok_at`·`odds_collection_ok_at`·`available_memory_mb`도 낸다.
+`picks_generated_at`은 판정 결과가 같으면 바뀌지 않으므로, 정지 여부는
+`market_refresh_ok_at`으로 판단한다.
+
+⚠️ `supervisor.py`와 `fly.toml`은 이미지·머신 설정에 들어가므로 `git push` +
+`fly machine restart`로는 반영되지 않는다. 레포 루트에서 `fly deploy -c deploy/fly.toml --ha=false`가
+필요하다.
+
 ## 코드는 이미지에 굽지 않는다
 
 Dockerfile 은 `supervisor.py` 와 의존성만 담고, 실제 코드는 머신이 볼륨

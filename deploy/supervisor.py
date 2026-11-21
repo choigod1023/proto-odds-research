@@ -247,12 +247,71 @@ BACKGROUND_MIN_AVAILABLE_MB = int(os.environ.get("BACKGROUND_MIN_AVAILABLE_MB", 
 
 PUSH_EVERY = 1800          # 30분마다 커밋·푸시
 DAILY_EVERY = 86400
+# 무거운 보조 수집기는 공용 판정 슬롯을 잡은 채 자식을 실행한다. 전체 제한 시간이
+# 없으면 응답을 끝내지 않는 소켓 하나가 슬롯을 영구히 점유해 시장 판정 게시가
+# 멈춘다. 배당 수집(ODDS_COLLECTION_TIMEOUT)과 같은 원칙으로 실행 시간을 묶는다.
+# 강제 종료된 자식의 SQLite 트랜잭션은 롤백되고 커널 flock은 자동 해제된다.
+BACKGROUND_CHILD_TIMEOUT = int(os.environ.get("BACKGROUND_CHILD_TIMEOUT", "1500"))
+DAILY_CHILD_TIMEOUT = int(os.environ.get("DAILY_CHILD_TIMEOUT", "1800"))
+# 배당 수집은 계속 성공하는데 시장 판정이 이 시간 동안 한 번도 성공하지 못하면
+# 감독자를 종료해 Fly 재시작 정책(fly.toml [[restart]] always)이 새 프로세스로
+# 올리게 한다. 원천 장애로 배당 수집 자체가 실패하는 동안은 재시작해도 낫지 않으므로
+# 종료하지 않는다. 재시작 후 다시 이 시간만큼 기다리므로 재시작은 3시간에 최대 1회다.
+MARKET_STALL_EXIT_SECONDS = int(os.environ.get("MARKET_STALL_EXIT_SECONDS", "10800"))
+MARKET_STALL_ODDS_FRESH_SECONDS = 1800
+MARKET_STALL_EXIT_CODE = 75
+MARKET_STALL_CHECK_SECONDS = 300
+_supervisor_started = time.monotonic()
+_market_refresh_ok = None              # (monotonic, UTC ISO) 마지막 시장 판정 성공
+_odds_collection_ok = None             # (monotonic, UTC ISO) 마지막 배당 수집 성공
 PUBLISH_EVERY = 1800       # 선발·최근 흐름을 반영한 전체 판정은 30분마다
 HEAVY_EVERY_N = 12         # 무거운 단계는 12번에 한 번 (= 6시간)
 
 
 def log(msg: str) -> None:
     print(f"[{datetime.now(timezone.utc):%m-%d %H:%M:%S}] {msg}", flush=True)
+
+
+def _progress_stamp():
+    return time.monotonic(), datetime.now(timezone.utc).isoformat(timespec="seconds")
+
+
+def _mark_market_refresh_ok() -> None:
+    global _market_refresh_ok
+    _market_refresh_ok = _progress_stamp()
+
+
+def _mark_odds_collection_ok() -> None:
+    global _odds_collection_ok
+    _odds_collection_ok = _progress_stamp()
+
+
+def _market_stall_seconds(now: float | None = None) -> float | None:
+    """배당은 들어오는데 판정만 멈춘 시간. 재시작으로 회복할 수 없는 경우는 None."""
+    now = time.monotonic() if now is None else now
+    if _odds_collection_ok is None or now - _odds_collection_ok[0] > MARKET_STALL_ODDS_FRESH_SECONDS:
+        return None
+    last_ok = _market_refresh_ok[0] if _market_refresh_ok is not None else _supervisor_started
+    stalled = now - max(last_ok, _supervisor_started)
+    return stalled if stalled >= MARKET_STALL_EXIT_SECONDS else None
+
+
+def run_market_stall_monitor(stop=None, exit_process=os._exit) -> None:
+    """판정 정지를 프로세스 종료로 바꿔 머신 재시작 정책이 복구하게 한다.
+
+    2026-11-19 13:46Z 이후 배당·점수는 갱신되는데 picks_v2만 36시간 넘게
+    멈췄다. 프로세스는 살아 있어 Fly 재시작 정책이 개입하지 못했다.
+    """
+    stop = stop if stop is not None else threading.Event()
+    while not stop.wait(MARKET_STALL_CHECK_SECONDS):
+        stalled = _market_stall_seconds()
+        if stalled is None:
+            continue
+        last = _market_refresh_ok[1] if _market_refresh_ok is not None else "기동 후 없음"
+        log(f"시장 판정 정지 {int(stalled)}s (마지막 성공 {last}, 여유 "
+            f"{_available_memory_mb()}MB) — 재시작 정책으로 복구하도록 감독자 종료")
+        exit_process(MARKET_STALL_EXIT_CODE)
+        return
 
 
 def _available_memory_mb() -> int | None:
@@ -680,7 +739,8 @@ def run_looper(name: str, cmd: list[str], interval: int,
                         if name in TIPSTER_LOOPERS or name == 'KBO M0 사전예측':
                             rc = _collect_tipster_and_publish(name, cmd)
                         else:
-                            rc = subprocess.run(cmd, cwd=REPO).returncode
+                            rc = subprocess.run(cmd, cwd=REPO,
+                                                timeout=BACKGROUND_CHILD_TIMEOUT).returncode
                 finally:
                     if name == "다종목 픽스터":
                         _tipster_wait_started = None
@@ -797,6 +857,7 @@ def _run_odds_cycle(cmd, market_retry=False):
                                     timeout=ODDS_COLLECTION_TIMEOUT).returncode
                 if rc != 0:
                     return rc, False
+                _mark_odds_collection_ok()
                 market_retry = True
             else:
                 log("저장된 배당 판정 우선 재시도 — 원천 재수집 생략")
@@ -848,6 +909,7 @@ def _run_market_refresh():
             try:
                 _publish_match_responses()
                 _tipster_publish_pending.clear()
+                _mark_market_refresh_ok()
                 log("판정 후 웹 응답 갱신 완료")
             except Exception as exc:
                 log(f"판정 후 웹 응답 갱신 실패: {type(exc).__name__}; 재시도")
@@ -969,8 +1031,14 @@ def run_daily() -> None:
                     # 하루 1회짜리라 서둘 이유가 없으니 사이를 넉넉히 둔다.
                     time.sleep(300)
                 log(f"{name} 실행")
-                with _background_slot(name):
-                    r = subprocess.run(cmd, cwd=REPO, capture_output=True, text=True)
+                try:
+                    with _background_slot(name):
+                        r = subprocess.run(cmd, cwd=REPO, capture_output=True, text=True,
+                                           timeout=DAILY_CHILD_TIMEOUT)
+                except subprocess.TimeoutExpired:
+                    # 예외로 이 스레드가 끝나면 하루 1회 수집이 영구히 멈춘다.
+                    log(f"{name} 타임아웃({DAILY_CHILD_TIMEOUT}s) — 다음 주기 재시도")
+                    continue
                 tail = (r.stdout or "").strip().splitlines()[-1:] or ["(출력 없음)"]
                 log(f"{name} 완료 — {tail[0][:120]}")
         time.sleep(DAILY_EVERY)
@@ -1296,6 +1364,11 @@ def serve_live() -> None:
                     "picks_stored_at": picks_meta.get("stored_at"),
                     "odds_generated_at": odds_meta.get("generated_at"),
                     "picks_generated_at": picks_meta.get("generated_at"),
+                    # 감독자 프로세스 기준 진행 시각. 판정 결과가 같아 picks를 다시
+                    # 쓰지 않은 성공과 판정 자체가 멈춘 상태를 구분한다.
+                    "market_refresh_ok_at": (_market_refresh_ok or (None, None))[1],
+                    "odds_collection_ok_at": (_odds_collection_ok or (None, None))[1],
+                    "available_memory_mb": _available_memory_mb(),
                     "database_path": os.environ.get("PROODD_DB_PATH"),
                     "database_mtime": mtime(Path(os.environ.get(
                         "PROODD_DB_PATH", "/data/proodd.sqlite3"))),
@@ -1453,6 +1526,7 @@ def main() -> int:
     threading.Thread(target=run_publish, daemon=True).start()
     threading.Thread(target=run_push, daemon=True).start()
     threading.Thread(target=run_database_migration, daemon=True).start()
+    threading.Thread(target=run_market_stall_monitor, daemon=True).start()
     while True:                # 메인 스레드는 살아만 있으면 된다
         time.sleep(3600)
         log("생존 신호")

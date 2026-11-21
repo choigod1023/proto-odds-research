@@ -33,6 +33,21 @@ primary_region = "nrt"          # 도쿄 — fly 에 한국 리전이 없어 국
   auto_start_machines = true
   min_machines_running = 1
 
+  # 라우팅·`fly checks list` 용 상태 확인이다. Fly 문서는 이 검사와 머신 재시작을
+  # 연결하지 않는다. 판정 정지는 supervisor 의 run_market_stall_monitor 가 프로세스를
+  # 종료하고 아래 재시작 정책이 다시 올린다.
+  [[http_service.checks]]
+    grace_period = "120s"
+    interval = "60s"
+    method = "GET"
+    path = "/health"
+    timeout = "15s"
+
+# 프로세스가 어떤 종료 코드로 끝나든(크래시·OOM·판정 정지 종료) 머신을 다시 올린다.
+# 정책을 비워 두면 on-failure 가 기본값이라 종료 코드 0 은 재시작하지 않는다.
+[[restart]]
+  policy = "always"
+
 [[vm]]
   size = "shared-cpu-1x"
   # ⚠️ 512mb 로는 **부족했다.** 수집만 하는 게 아니라 PUBLISH 가 산출물을 만든다.
