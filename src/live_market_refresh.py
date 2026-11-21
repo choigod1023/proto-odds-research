@@ -35,6 +35,13 @@ UNPLAYED = {"경기전", "", "-"}
 LINE = re.compile(r"[-+]?\d+(?:\.\d+)?")
 GAME_TIME = re.compile(r"(\d{1,2})\.(\d{1,2}).*?(\d{1,2}):(\d{2})")
 KST = ZoneInfo("Asia/Seoul")
+# Finished fixtures stay on the live board only this long after kickoff. Only
+# generate_v2 moves games to `past`; when it stopped completing (2026-08 → 11),
+# this incremental refresh kept appending and `live` grew to 3,396 games
+# (47.5 MB). Every refresh then decoded and re-encoded the whole document and
+# was OOM-killed at ~826 MB on a 1 GB machine. The immutable ledger keeps
+# every prediction and settlement; this only bounds the display document.
+LIVE_RETENTION_DAYS = 7
 
 
 def _key(round_no, date, home, away) -> tuple[str, str, str, str]:
@@ -607,6 +614,8 @@ def refresh_document(document: dict, live_odds: dict, *,
             game["odds_recovered_after_start"] = True
         changed += 1
 
+    expired = _drop_expired_live_games(document, decision_clock)
+    changed += expired
     removed = deduplicate_game_sections(document)
     changed += removed
     if changed:
@@ -619,8 +628,28 @@ def refresh_document(document: dict, live_odds: dict, *,
             "generated_at": observed_at, "games_changed": changed,
             "source": "current_proto_market_rows",
             "duplicate_reissues_removed": removed,
+            "expired_live_removed": expired,
         }
     return document, changed
+
+
+def _drop_expired_live_games(document: dict, clock: datetime | None) -> int:
+    """Remove live-board games whose kickoff is older than the retention window.
+
+    Games without a parseable kickoff are kept. Nothing is written to the ledger.
+    """
+    if clock is None:
+        return 0
+    cutoff = clock.astimezone(KST).replace(tzinfo=None) - timedelta(days=LIVE_RETENTION_DAYS)
+    live = document.get("live") or []
+    kept = []
+    for game in live:
+        kickoff = _game_kickoff(game, clock)
+        if kickoff is None or kickoff >= cutoff:
+            kept.append(game)
+    if len(kept) != len(live):
+        document["live"] = kept
+    return len(live) - len(kept)
 
 
 def settle_live_market_results(live_odds: dict, runtime: PredictionRuntime) -> int:
