@@ -1,0 +1,75 @@
+{
+  "status": "awaiting_independent_records",
+  "candidates_fixed": 3,
+  "weights": {
+    "production": 0.75,
+    "tipster": 0.25
+  },
+  "excluded": {
+    "development_event": 28
+  },
+  "groups": {
+    "retrospective_unseen": {
+      "production": {
+        "n": 0,
+        "wins": 0,
+        "roi_pct": null,
+        "hit_pct": null,
+        "brier": null
+      },
+      "tipster": {
+        "n": 0,
+        "wins": 0,
+        "roi_pct": null,
+        "hit_pct": null,
+        "brier": null
+      },
+      "hybrid75_25": {
+        "n": 0,
+        "wins": 0,
+        "roi_pct": null,
+        "hit_pct": null,
+        "brier": null
+      }
+    },
+    "prospective": {
+      "production": {
+        "n": 0,
+        "wins": 0,
+        "roi_pct": null,
+        "hit_pct": null,
+        "brier": null
+      },
+      "tipster": {
+        "n": 0,
+        "wins": 0,
+        "roi_pct": null,
+        "hit_pct": null,
+        "brier": null
+      },
+      "hybrid75_25": {
+        "n": 0,
+        "wins": 0,
+        "roi_pct": null,
+        "hit_pct": null,
+        "brier": null
+      }
+    }
+  },
+  "eligible_events": {
+    "retrospective_unseen": [],
+    "prospective": []
+  },
+  "monthly_loss_limit_krw": 50000,
+  "production_changed": false,
+  "two_leg_status": "not_evaluated; no claim from single-pick ROI",
+  "limitations": [
+    "No automatic promotion or tuning from holdout outcomes.",
+    "Retrospective unseen means absent from development file, not proof nobody previously viewed it.",
+    "Pregame provenance, official results and odds availability must be independently verified.",
+    "Input contract: MLB two-way full-game pairs from the audited recovery pipeline.",
+    "No monthly profit projection or full-month stability claim."
+  ],
+  "input_sha256": "fca4cc8b98d8cf6ff8aa4d5b5e7998ed659b7ed199522b2ef0ef156f155ddf3d",
+  "lock_sha256": "2e55ff19ba66998f8d62eb14a83e9e18f446ba91ea317d79c38ad98233743104"
+}
