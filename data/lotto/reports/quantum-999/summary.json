@@ -1,0 +1,52 @@
+{
+  "comparisons": {
+    "validation": {
+      "observed": -0.0025357664010134937,
+      "exceedances": 591,
+      "null_histories": 999,
+      "p_upper_plus_one": 0.592,
+      "tail_probability_ci95": [
+        0.5603774445029597,
+        0.6222643438197725
+      ],
+      "null_interval_95": [
+        -0.010827513521513803,
+        0.0058544019139940544
+      ]
+    },
+    "final": {
+      "observed": 0.00295607881356895,
+      "exceedances": 92,
+      "null_histories": 999,
+      "p_upper_plus_one": 0.093,
+      "tail_probability_ci95": [
+        0.07488399345734535,
+        0.11174630357523878
+      ],
+      "null_interval_95": [
+        -0.01089344002836923,
+        0.005211446645889629
+      ]
+    },
+    "seen_extension": {
+      "observed": 0.0014530650075181611,
+      "exceedances": 437,
+      "null_histories": 999,
+      "p_upper_plus_one": 0.438,
+      "tail_probability_ci95": [
+        0.40639858905374054,
+        0.4688460204519265
+      ],
+      "null_interval_95": [
+        -0.046389781362715495,
+        0.04627243189549656
+      ]
+    }
+  },
+  "actual_replay_exact": true,
+  "prefix_replay_exact": 99,
+  "fit_success_count": 999,
+  "wall_seconds": 69.32000310000012,
+  "cpu_seconds": 40.328125,
+  "peak_process_memory_mib": 118.6171875
+}
