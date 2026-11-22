@@ -1,0 +1,31 @@
+{
+  "executable": ".local-build\\scan-two.exe",
+  "output": "C:\\Users\\user\\Documents\\ChatGPT\\lotto-bias-null-20261015\\data\\lotto\\reports\\bias-null",
+  "bias_repeats": 1999,
+  "fake_histories": 99,
+  "candidates": 1000000,
+  "controls": 199,
+  "training": [
+    1,
+    740
+  ],
+  "validation": [
+    741,
+    990
+  ],
+  "final": [
+    991,
+    1238
+  ],
+  "ledger_hash": "da144c4335ef8ea6a8cc5b105c7dffb5b990e91a36151e2c68c5379c5c032c15",
+  "generator": "splitmix64-paired128-v1",
+  "threshold": "2+2 training hits, including two constructed anchors",
+  "bias_seed": 20261015,
+  "history_seed": "645000+index",
+  "workers": 4,
+  "caveat": "retrospective, previously inspected holdouts; reduced-budget full selection null, not a repeat of the seven-hit budget",
+  "bias_tests": "4 audit statistics plus 4 fixed prediction models x 2 splits; Holm correction over all 12",
+  "seed_tests": "matched-sharing control z compared with synthetic-history z; Bonferroni over 2 splits",
+  "source_hash": "4a822b961181ddc4b0f0b9db8a6266cd00bacde51d9b87667d84631677c2c2e6",
+  "executable_hash": "0d25bdabb735f4ebab134bb92f5a61f218fa142e79684d668f6b0995d3f853c2"
+}
