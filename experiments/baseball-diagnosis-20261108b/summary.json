@@ -1,0 +1,542 @@
+{
+  "input_sha256": {
+    "experiments\\pregame-baseball-20261104\\overlap.json": "946efb8eae1d0a766eb378b68dd3d20914f816f6bf43ce457c758b626f44fd81",
+    "experiments\\pregame-baseball-20261104\\model-predictions.jsonl.gz": "1bff119cf12e332abb8df429336666bb6954dda04b4d774bd75a3523ce7064db"
+  },
+  "counts": {
+    "2025": {
+      "overlap": 676,
+      "matched": 676
+    },
+    "2026": {
+      "overlap": 667,
+      "matched": 439
+    }
+  },
+  "validation_logloss": {
+    "0.75": 0.6869497496430814,
+    "1.0": 0.6898558818667643,
+    "1.25": 0.6950440366466814
+  },
+  "temperature": 0.75,
+  "metrics_2026": {
+    "market": {
+      "n": 439,
+      "decided": 429,
+      "refunds": 10,
+      "coverage": 1.0,
+      "hits": 250,
+      "accuracy": 0.5827505827505828,
+      "mean_odds": 1.5383143507972665,
+      "roi": -0.10667425968109338,
+      "logloss": 0.6746298821457979,
+      "brier": 0.2408514802022131,
+      "mdd_units": 47.91
+    },
+    "m0": {
+      "n": 439,
+      "decided": 429,
+      "refunds": 10,
+      "coverage": 1.0,
+      "hits": 254,
+      "accuracy": 0.5920745920745921,
+      "mean_odds": 1.5895899772209567,
+      "roi": -0.06530751708428247,
+      "logloss": 0.6786941054581006,
+      "brier": 0.2428526909827324,
+      "mdd_units": 32.28
+    },
+    "temperature": {
+      "n": 439,
+      "decided": 429,
+      "refunds": 10,
+      "coverage": 1.0,
+      "hits": 254,
+      "accuracy": 0.5920745920745921,
+      "mean_odds": 1.5895899772209567,
+      "roi": -0.06530751708428247,
+      "logloss": 0.6781348307995229,
+      "brier": 0.24260771668613054,
+      "mdd_units": 32.28
+    },
+    "equal_logit_pool": {
+      "n": 439,
+      "decided": 429,
+      "refunds": 10,
+      "coverage": 1.0,
+      "hits": 250,
+      "accuracy": 0.5827505827505828,
+      "mean_odds": 1.5514123006833713,
+      "roi": -0.10027334851936219,
+      "logloss": 0.6742419802215195,
+      "brier": 0.24071167052175108,
+      "mdd_units": 44.019999999999996
+    }
+  },
+  "paired_week_block_ci_2026": {
+    "temperature": {
+      "roi": [
+        0.0,
+        0.0
+      ],
+      "logloss": [
+        -0.0073868263413261175,
+        0.0054618125504100595
+      ]
+    },
+    "equal_logit_pool": {
+      "roi": [
+        -0.07685224839400429,
+        0.00889655172413793
+      ],
+      "logloss": [
+        -0.011080491862226581,
+        0.001597335221125839
+      ]
+    }
+  },
+  "by_month": {
+    "2026-03": {
+      "market": {
+        "n": 15,
+        "decided": 14,
+        "refunds": 1,
+        "coverage": 1.0,
+        "hits": 6,
+        "accuracy": 0.42857142857142855,
+        "mean_odds": 1.5566666666666666,
+        "roi": -0.31533333333333335,
+        "logloss": 0.7180069855095362,
+        "brier": 0.26233460057085417,
+        "mdd_units": 6.48
+      },
+      "m0": {
+        "n": 15,
+        "decided": 14,
+        "refunds": 1,
+        "coverage": 1.0,
+        "hits": 7,
+        "accuracy": 0.5,
+        "mean_odds": 1.6066666666666667,
+        "roi": -0.18200000000000002,
+        "logloss": 0.7533895295207736,
+        "brier": 0.2777075848142364,
+        "mdd_units": 4.720000000000001
+      },
+      "temperature": {
+        "n": 15,
+        "decided": 14,
+        "refunds": 1,
+        "coverage": 1.0,
+        "hits": 7,
+        "accuracy": 0.5,
+        "mean_odds": 1.6066666666666667,
+        "roi": -0.18200000000000002,
+        "logloss": 0.7324896152972163,
+        "brier": 0.26873008421961403,
+        "mdd_units": 4.720000000000001
+      },
+      "equal_logit_pool": {
+        "n": 15,
+        "decided": 14,
+        "refunds": 1,
+        "coverage": 1.0,
+        "hits": 6,
+        "accuracy": 0.42857142857142855,
+        "mean_odds": 1.5606666666666666,
+        "roi": -0.31333333333333335,
+        "logloss": 0.7338024978790564,
+        "brier": 0.269452433627088,
+        "mdd_units": 5.720000000000001
+      }
+    },
+    "2026-04": {
+      "market": {
+        "n": 95,
+        "decided": 94,
+        "refunds": 1,
+        "coverage": 1.0,
+        "hits": 54,
+        "accuracy": 0.574468085106383,
+        "mean_odds": 1.5509473684210526,
+        "roi": -0.11168421052631579,
+        "logloss": 0.6822648569558216,
+        "brier": 0.24452878761269428,
+        "mdd_units": 16.43
+      },
+      "m0": {
+        "n": 95,
+        "decided": 94,
+        "refunds": 1,
+        "coverage": 1.0,
+        "hits": 49,
+        "accuracy": 0.5212765957446809,
+        "mean_odds": 1.6167368421052632,
+        "roi": -0.17242105263157895,
+        "logloss": 0.690135843549491,
+        "brier": 0.24863102659426053,
+        "mdd_units": 23.179999999999996
+      },
+      "temperature": {
+        "n": 95,
+        "decided": 94,
+        "refunds": 1,
+        "coverage": 1.0,
+        "hits": 49,
+        "accuracy": 0.5212765957446809,
+        "mean_odds": 1.6167368421052632,
+        "roi": -0.17242105263157895,
+        "logloss": 0.6864363012473708,
+        "brier": 0.24680539779933922,
+        "mdd_units": 23.179999999999996
+      },
+      "equal_logit_pool": {
+        "n": 95,
+        "decided": 94,
+        "refunds": 1,
+        "coverage": 1.0,
+        "hits": 54,
+        "accuracy": 0.574468085106383,
+        "mean_odds": 1.568,
+        "roi": -0.10305263157894735,
+        "logloss": 0.6834575578676422,
+        "brier": 0.2452817716039346,
+        "mdd_units": 14.5
+      }
+    },
+    "2026-05": {
+      "market": {
+        "n": 128,
+        "decided": 126,
+        "refunds": 2,
+        "coverage": 1.0,
+        "hits": 72,
+        "accuracy": 0.5714285714285714,
+        "mean_odds": 1.539453125,
+        "roi": -0.13078125000000002,
+        "logloss": 0.6678372936183998,
+        "brier": 0.23757349059211455,
+        "mdd_units": 23.430000000000003
+      },
+      "m0": {
+        "n": 128,
+        "decided": 126,
+        "refunds": 2,
+        "coverage": 1.0,
+        "hits": 81,
+        "accuracy": 0.6428571428571429,
+        "mean_odds": 1.57328125,
+        "roi": 0.010156249999999999,
+        "logloss": 0.6559257892966599,
+        "brier": 0.23188375340161946,
+        "mdd_units": 6.84
+      },
+      "temperature": {
+        "n": 128,
+        "decided": 126,
+        "refunds": 2,
+        "coverage": 1.0,
+        "hits": 81,
+        "accuracy": 0.6428571428571429,
+        "mean_odds": 1.57328125,
+        "roi": 0.010156249999999999,
+        "logloss": 0.6615730320966873,
+        "brier": 0.23450124805860126,
+        "mdd_units": 6.84
+      },
+      "equal_logit_pool": {
+        "n": 128,
+        "decided": 126,
+        "refunds": 2,
+        "coverage": 1.0,
+        "hits": 75,
+        "accuracy": 0.5952380952380952,
+        "mean_odds": 1.54296875,
+        "roi": -0.08812500000000001,
+        "logloss": 0.6596354913809797,
+        "brier": 0.23359830158335548,
+        "mdd_units": 17.980000000000008
+      }
+    },
+    "2026-06": {
+      "market": {
+        "n": 122,
+        "decided": 120,
+        "refunds": 2,
+        "coverage": 1.0,
+        "hits": 76,
+        "accuracy": 0.6333333333333333,
+        "mean_odds": 1.5381147540983606,
+        "roi": -0.03565573770491803,
+        "logloss": 0.6515378886941116,
+        "brier": 0.22966232671340525,
+        "mdd_units": 11.090000000000003
+      },
+      "m0": {
+        "n": 122,
+        "decided": 120,
+        "refunds": 2,
+        "coverage": 1.0,
+        "hits": 78,
+        "accuracy": 0.65,
+        "mean_odds": 1.612295081967213,
+        "roi": 0.031147540983606555,
+        "logloss": 0.6606994829813324,
+        "brier": 0.23382216807968703,
+        "mdd_units": 8.6
+      },
+      "temperature": {
+        "n": 122,
+        "decided": 120,
+        "refunds": 2,
+        "coverage": 1.0,
+        "hits": 78,
+        "accuracy": 0.65,
+        "mean_odds": 1.612295081967213,
+        "roi": 0.031147540983606555,
+        "logloss": 0.6648693185102494,
+        "brier": 0.23593156112021624,
+        "mdd_units": 8.6
+      },
+      "equal_logit_pool": {
+        "n": 122,
+        "decided": 120,
+        "refunds": 2,
+        "coverage": 1.0,
+        "hits": 77,
+        "accuracy": 0.6416666666666667,
+        "mean_odds": 1.5572131147540984,
+        "roi": -0.01180327868852459,
+        "logloss": 0.6537195752274373,
+        "brier": 0.23061038292545818,
+        "mdd_units": 11.14
+      }
+    },
+    "2026-07": {
+      "market": {
+        "n": 79,
+        "decided": 75,
+        "refunds": 4,
+        "coverage": 1.0,
+        "hits": 42,
+        "accuracy": 0.56,
+        "mean_odds": 1.5181012658227848,
+        "roi": -0.13164556962025317,
+        "logloss": 0.7053223926713973,
+        "brier": 0.2556420739059884,
+        "mdd_units": 15.31
+      },
+      "m0": {
+        "n": 79,
+        "decided": 75,
+        "refunds": 4,
+        "coverage": 1.0,
+        "hits": 39,
+        "accuracy": 0.52,
+        "mean_odds": 1.5450632911392406,
+        "roi": -0.18556962025316456,
+        "logloss": 0.7174528150059082,
+        "brier": 0.2619809152822122,
+        "mdd_units": 15.86
+      },
+      "temperature": {
+        "n": 79,
+        "decided": 75,
+        "refunds": 4,
+        "coverage": 1.0,
+        "hits": 39,
+        "accuracy": 0.52,
+        "mean_odds": 1.5450632911392406,
+        "roi": -0.18556962025316456,
+        "logloss": 0.7066327362155855,
+        "brier": 0.25677116395103744,
+        "mdd_units": 15.86
+      },
+      "equal_logit_pool": {
+        "n": 79,
+        "decided": 75,
+        "refunds": 4,
+        "coverage": 1.0,
+        "hits": 38,
+        "accuracy": 0.5066666666666667,
+        "mean_odds": 1.5344303797468355,
+        "roi": -0.21278481012658226,
+        "logloss": 0.7089485755182774,
+        "brier": 0.2577313880229914,
+        "mdd_units": 17.88
+      }
+    }
+  },
+  "by_odds_band": {
+    "1.00-1.49": {
+      "market": {
+        "n": 151,
+        "decided": 147,
+        "refunds": 4,
+        "coverage": 1.0,
+        "hits": 95,
+        "accuracy": 0.6462585034013606,
+        "mean_odds": 1.3979470198675497,
+        "roi": -0.09344370860927154,
+        "logloss": 0.651935327661288,
+        "brier": 0.2297052455900147,
+        "mdd_units": 14.110000000000007
+      },
+      "m0": {
+        "n": 151,
+        "decided": 147,
+        "refunds": 4,
+        "coverage": 1.0,
+        "hits": 95,
+        "accuracy": 0.6462585034013606,
+        "mean_odds": 1.3979470198675497,
+        "roi": -0.09344370860927154,
+        "logloss": 0.658772898861152,
+        "brier": 0.2330913819799942,
+        "mdd_units": 14.110000000000007
+      },
+      "temperature": {
+        "n": 151,
+        "decided": 147,
+        "refunds": 4,
+        "coverage": 1.0,
+        "hits": 95,
+        "accuracy": 0.6462585034013606,
+        "mean_odds": 1.3979470198675497,
+        "roi": -0.09344370860927154,
+        "logloss": 0.6601694057473262,
+        "brier": 0.23379164423721366,
+        "mdd_units": 14.110000000000007
+      },
+      "equal_logit_pool": {
+        "n": 151,
+        "decided": 147,
+        "refunds": 4,
+        "coverage": 1.0,
+        "hits": 95,
+        "accuracy": 0.6462585034013606,
+        "mean_odds": 1.3979470198675497,
+        "roi": -0.09344370860927154,
+        "logloss": 0.6532750078596123,
+        "brier": 0.2304591366834221,
+        "mdd_units": 14.110000000000007
+      }
+    },
+    "1.50-1.79": {
+      "market": {
+        "n": 225,
+        "decided": 220,
+        "refunds": 5,
+        "coverage": 1.0,
+        "hits": 123,
+        "accuracy": 0.5590909090909091,
+        "mean_odds": 1.6148888888888888,
+        "roi": -0.09888888888888889,
+        "logloss": 0.6820331447468195,
+        "brier": 0.2444699215824787,
+        "mdd_units": 24.909999999999997
+      },
+      "m0": {
+        "n": 225,
+        "decided": 220,
+        "refunds": 5,
+        "coverage": 1.0,
+        "hits": 129,
+        "accuracy": 0.5863636363636363,
+        "mean_odds": 1.6193333333333333,
+        "roi": -0.050088888888888884,
+        "logloss": 0.6847692392965952,
+        "brier": 0.2458165324685387,
+        "mdd_units": 25.369999999999997
+      },
+      "temperature": {
+        "n": 225,
+        "decided": 220,
+        "refunds": 5,
+        "coverage": 1.0,
+        "hits": 129,
+        "accuracy": 0.5863636363636363,
+        "mean_odds": 1.6193333333333333,
+        "roi": -0.050088888888888884,
+        "logloss": 0.6838147949340796,
+        "brier": 0.24538281391204847,
+        "mdd_units": 25.369999999999997
+      },
+      "equal_logit_pool": {
+        "n": 225,
+        "decided": 220,
+        "refunds": 5,
+        "coverage": 1.0,
+        "hits": 128,
+        "accuracy": 0.5818181818181818,
+        "mean_odds": 1.617911111111111,
+        "roi": -0.05862222222222222,
+        "logloss": 0.6813581922093908,
+        "brier": 0.24416385570215252,
+        "mdd_units": 25.439999999999994
+      }
+    },
+    "1.80+": {
+      "market": {
+        "n": 63,
+        "decided": 62,
+        "refunds": 1,
+        "coverage": 1.0,
+        "hits": 32,
+        "accuracy": 0.5161290322580645,
+        "mean_odds": 1.6012698412698412,
+        "roi": -0.1661904761904762,
+        "logloss": 0.7021682972586719,
+        "brier": 0.25443921220761195,
+        "mdd_units": 15.270000000000001
+      },
+      "m0": {
+        "n": 63,
+        "decided": 62,
+        "refunds": 1,
+        "coverage": 1.0,
+        "hits": 30,
+        "accuracy": 0.4838709677419355,
+        "mean_odds": 1.9426984126984126,
+        "roi": -0.052222222222222225,
+        "logloss": 0.7043697171562071,
+        "brier": 0.2554795828621701,
+        "mdd_units": 9.15
+      },
+      "temperature": {
+        "n": 63,
+        "decided": 62,
+        "refunds": 1,
+        "coverage": 1.0,
+        "hits": 30,
+        "accuracy": 0.4838709677419355,
+        "mean_odds": 1.9426984126984126,
+        "roi": -0.052222222222222225,
+        "logloss": 0.7005755626232394,
+        "brier": 0.2536632208843377,
+        "mdd_units": 9.15
+      },
+      "equal_logit_pool": {
+        "n": 63,
+        "decided": 62,
+        "refunds": 1,
+        "coverage": 1.0,
+        "hits": 27,
+        "accuracy": 0.43548387096774194,
+        "mean_odds": 1.6817460317460318,
+        "roi": -0.26539682539682535,
+        "logloss": 0.6987029205419822,
+        "brier": 0.25277040817571944,
+        "mdd_units": 16.72
+      }
+    }
+  },
+  "limitations": [
+    "retrospective only; no verified timely lineup or price receipt",
+    "2025 source excludes all draws through outcome-dependent matching",
+    "2026 actual M0 export subset; not an independent sample or current operating model",
+    "no eligible MLB or NPB matched player and settlement evidence established",
+    "prices not confirmed executable",
+    "same-day ordering for drawdown uses fixture ID rather than settlement timestamp"
+  ]
+}
