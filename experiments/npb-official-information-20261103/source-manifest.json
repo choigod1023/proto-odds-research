@@ -1,0 +1,1991 @@
+{
+  "derived_sha256": {
+    "README.md": "3cb623719c53ef70f259d6ce23d4de1c2a4eb15af8a764e160d70ae56e41b543",
+    "attempts.jsonl": "34cedeae99d0809bee87aadf99707922058413f69fc711b4806310a9d3de6165",
+    "collect.py": "8172cc50f308ef37f0d6dcbdf2d3c33a461d9e3eb38c8d2ca042b1d00b5b7c88",
+    "fixture-census.jsonl": "1fbddba0b1903e4f554b7e3b757851f33ad7e992fc16c9b45b7d32ec140f2b68",
+    "manifest.json": "3fda2eccfe1840f52cfa821acf30d42d8d328f125721974ac69566b45cb916a1",
+    "postgame-records.jsonl": "83356ccb4db2c3088004306ddd19bb77f1b331fe188b6164eb3d2289a622423a",
+    "price-manifest.json": "6a65c403c10534075b6458cfd38b2f0faa00e8169ed48834658d20d05dd85de8",
+    "price_join.py": "2d124d08d7a7f81e4e0f710c57323cf2d26e9fcbcb306281ba5f12e76e6f4230",
+    "protocol-extension.json": "42f4e0c555066997aaeb83697ce6003765373edc8ee078d9d6650f5378a145df",
+    "protocol.json": "7558e5dcd92440bf27e78b98661fbb7ce8d73f4923084a10bc7ed2b3676d0322",
+    "retrospective-price-links.jsonl": "5557b8c378effd5d4fcdd7189d84547b807e2405b36d8f7942d9b29a04be046a"
+  },
+  "interpretation": "hash proves saved bytes only; received_at is actual current receipt, not historical availability",
+  "npb_source_count": 186,
+  "price_source_count": 11,
+  "source_count": 197,
+  "source_documents": [
+    {
+      "body_file": "raw/00e950ad28a5fbda3b788ee218bf6fb5a41dfd908735667eb3f80985744f7427.body.gz",
+      "body_sha256": "aefada4bcc1ac17466030350ff7996795c6f4737eb71c42b942177399cfaba8b",
+      "compressed_sha256": "7861e05d03d8d9eac8f11b3a4f2f1a2d04ea5f7fc336505a9fc32951dc7019f5",
+      "http_status": 200,
+      "metadata_file": "raw/00e950ad28a5fbda3b788ee218bf6fb5a41dfd908735667eb3f80985744f7427.meta.json",
+      "metadata_sha256": "3d413f5482fd4b8383ff0672578893e9f67cb124bda45c5063d17f4c5e757edc",
+      "received_at": "2026-11-03T03:07:26.505862+00:00",
+      "url": "https://npb.jp/scores/2026/0619/m-e-09/box.html"
+    },
+    {
+      "body_file": "raw/04c7356514d9f44981c8f6222c7ac6515d61642d19a06b441d4da74613a9a365.body.gz",
+      "body_sha256": "993c6b9cdced5ca6e70d233a74c4253750da384cbc36ffed53075e60196f2cae",
+      "compressed_sha256": "fcb5c22405bdb00efae5269938124529acaef5313a436edad54ace7b0ae8497f",
+      "http_status": 200,
+      "metadata_file": "raw/04c7356514d9f44981c8f6222c7ac6515d61642d19a06b441d4da74613a9a365.meta.json",
+      "metadata_sha256": "e8f396ae802d63f663031c2f9f2606329ef31d37b6593af840dd640bbfd38f37",
+      "received_at": "2026-11-03T03:07:47.351066+00:00",
+      "url": "https://npb.jp/scores/2026/0715/c-db-15/box.html"
+    },
+    {
+      "body_file": "raw/04ef562acc9c27de874dbcfb324e92823fc979015bcef23f2e072d65dee6f48d.body.gz",
+      "body_sha256": "a3e6a269288ac1e4e0a6ac06f11eb54b68003198e7de18d8b38a7016ac0bc9d0",
+      "compressed_sha256": "f52552d17a998a6ac76e9b231f2a0864bd1258ea2e2dd6dc37b292e5a1eb5a27",
+      "http_status": 200,
+      "metadata_file": "raw/04ef562acc9c27de874dbcfb324e92823fc979015bcef23f2e072d65dee6f48d.meta.json",
+      "metadata_sha256": "bda0dfffb52295facb35389624d3b83d4eb68c44da03443ab1e5cc8fe90c78ee",
+      "received_at": "2026-11-03T03:06:11.761071+00:00",
+      "url": "https://npb.jp/scores/2026/0329/c-d-03/box.html"
+    },
+    {
+      "body_file": "raw/05918465c9f6a4a76042b404bb71763c62890afcadeb2b6cfb0b9bb31ca5e3de.body.gz",
+      "body_sha256": "7d9cf02cc5297056ee3f50dd785f663979170df7a56e1d3b258a2d1ca53b71fa",
+      "compressed_sha256": "61ee191d1bdd660ae3a8052428b69328af520f5eb656d5f24e12b8227ce15894",
+      "http_status": 200,
+      "metadata_file": "raw/05918465c9f6a4a76042b404bb71763c62890afcadeb2b6cfb0b9bb31ca5e3de.meta.json",
+      "metadata_sha256": "c8d0e4cb6a9400ab3b707bfc0479939e2bc29628073fa29d1903c6fc7c411d27",
+      "received_at": "2026-11-03T03:16:53.338859+00:00",
+      "url": "https://npb.jp/scores/2026/0929/g-c-25/box.html"
+    },
+    {
+      "body_file": "raw/06059f803bd1689b3b3be027fe3d6c9a86e50609c33cba4e84af64c38961b504.body.gz",
+      "body_sha256": "7639697b978d570a77ac61946f25d0b4c86d182e8c046a009d8be9d64b3f78b5",
+      "compressed_sha256": "dbbfb6fd90c5e83d7a8e18135fbf459f293bd2cfd4f9c5b1c5f454e305db3d24",
+      "http_status": 200,
+      "metadata_file": "raw/06059f803bd1689b3b3be027fe3d6c9a86e50609c33cba4e84af64c38961b504.meta.json",
+      "metadata_sha256": "3d859296f6673d942be835c19eaf0a1a6eaae0ebb238695d87ad4d60f672b8c5",
+      "received_at": "2026-11-03T03:07:03.767154+00:00",
+      "url": "https://npb.jp/scores/2026/0513/s-t-08/box.html"
+    },
+    {
+      "body_file": "raw/06942070d3d86cccceda54df11ce7e492605e8ece31e3b6ec3350e47ab7a4025.body.gz",
+      "body_sha256": "ddc08a3537dff79ed1d7c2f66b8ccbd45a6f2763e5968e0c3399f243c3a9f870",
+      "compressed_sha256": "4ba621e28f99fe148aad69ce0d3590dc9be61c80fc0dbd1fbaff2ec0fa9e7cc5",
+      "http_status": 200,
+      "metadata_file": "raw/06942070d3d86cccceda54df11ce7e492605e8ece31e3b6ec3350e47ab7a4025.meta.json",
+      "metadata_sha256": "f626a749f7c08092a687b7abf30016b75de8fa3c14dcf9a436e83663fdcace8e",
+      "received_at": "2026-11-03T03:06:49.575728+00:00",
+      "url": "https://npb.jp/scores/2026/0512/db-d-06/box.html"
+    },
+    {
+      "body_file": "raw/08de25500984db0e6665103c7917f5490f0fc24dba5d873fb4778c766ebfe008.body.gz",
+      "body_sha256": "346295a0fe036a022f64d2877c3effda617c2f8153729ccb6ace9ee6ecbe3788",
+      "compressed_sha256": "120eb7bf9fa655d398c6fdb539b5c92c173c0bdd90923e99ef2a141d35a63541",
+      "http_status": 200,
+      "metadata_file": "raw/08de25500984db0e6665103c7917f5490f0fc24dba5d873fb4778c766ebfe008.meta.json",
+      "metadata_sha256": "a6277c9182aaef1285de4f883af7f66960c72c5367099dcbd8bf21c1f62fccd1",
+      "received_at": "2026-11-03T03:08:17.171438+00:00",
+      "url": "https://npb.jp/scores/2026/0805/d-s-15/box.html"
+    },
+    {
+      "body_file": "raw/0a23ab9b998411f4843bf1399d7aa9599b4e31313db12b29219953858c729d6c.body.gz",
+      "body_sha256": "4de6db3a0a320f9ce479c66fc4e447b25185417fb156b0db453aba1a128c2bb3",
+      "compressed_sha256": "9443d6766c99180a43b6dd63c567742b5a7befc2257e4fd7cdf242bc3a355b58",
+      "http_status": 200,
+      "metadata_file": "raw/0a23ab9b998411f4843bf1399d7aa9599b4e31313db12b29219953858c729d6c.meta.json",
+      "metadata_sha256": "3bf1621781f7ad626a293b5d7505713b422e724af48124927a5c768806ec59e2",
+      "received_at": "2026-11-03T03:06:34.040541+00:00",
+      "url": "https://npb.jp/scores/2026/0415/m-f-05/box.html"
+    },
+    {
+      "body_file": "raw/0a2a171ded12da60d25db1019a16a177fc6178018fca10bd92c5d18de850e4a8.body.gz",
+      "body_sha256": "892d64701a2ad5638006565c977b5f84be5ab3bb5ba8c1e5ece907ac64133739",
+      "compressed_sha256": "863c6326c426c7cb3c8881bc5c91b3ed1863db17f8615e92e8a5389acc46acb2",
+      "http_status": 200,
+      "metadata_file": "raw/0a2a171ded12da60d25db1019a16a177fc6178018fca10bd92c5d18de850e4a8.meta.json",
+      "metadata_sha256": "9a73c62492e2ce46dbd923451deb38fd27d86c79601645c95b96856196aa3b76",
+      "received_at": "2026-11-03T03:07:51.601645+00:00",
+      "url": "https://npb.jp/scores/2026/0715/f-h-13/box.html"
+    },
+    {
+      "body_file": "raw/0b11c0014c6e0157a28cd18207258f8bc0a08f4178bc0008215355ca0a805952.body.gz",
+      "body_sha256": "d0581cc5f9dab25edfd8bc1472ecac6209681d83c25df72992c96ee1e041c059",
+      "compressed_sha256": "364e95e41284e0f60cabcabcbdf9f45c07f4ff983c84c985cea29248c038bffb",
+      "http_status": 200,
+      "metadata_file": "raw/0b11c0014c6e0157a28cd18207258f8bc0a08f4178bc0008215355ca0a805952.meta.json",
+      "metadata_sha256": "140dcfb72ae22bfb6ba675fb0088871b0d9d8cb4885a026ba9dd4d299e17d415",
+      "received_at": "2026-11-03T03:06:02.578640+00:00",
+      "url": "https://npb.jp/scores/2026/0327/m-l-01/box.html"
+    },
+    {
+      "body_file": "raw/0c1c54fbb3e1f2414dc91ba817840aa208f8733199b7e800839beb3c0f0f77eb.body.gz",
+      "body_sha256": "62b7e2af3b702b5008636e05019cd5b40430c62de1b0edceb11ef8833e9f510f",
+      "compressed_sha256": "e724a3a44897a65759122bb50c148f8849f76928c42248cfea327816e6716b6c",
+      "http_status": 200,
+      "metadata_file": "raw/0c1c54fbb3e1f2414dc91ba817840aa208f8733199b7e800839beb3c0f0f77eb.meta.json",
+      "metadata_sha256": "d2c4d93c46f253b66a5b4795807dd67eef05e430bd6aab76cda24d829eff1a2b",
+      "received_at": "2026-11-03T03:08:22.782683+00:00",
+      "url": "https://npb.jp/scores/2026/0806/b-e-15/box.html"
+    },
+    {
+      "body_file": "raw/0d4b5121f0a829a3812c89f1391a01ee4c623d7deb35dd6de6342da12e89cc43.body.gz",
+      "body_sha256": "a219dbcccfa260daa446852f1a510f07b8d2a8f34af2a739fe36b07d4d31d491",
+      "compressed_sha256": "eff7fd6365dbf3278ea7885af0cdd55e49df4f622d0a4263829b91f8b742441b",
+      "http_status": 200,
+      "metadata_file": "raw/0d4b5121f0a829a3812c89f1391a01ee4c623d7deb35dd6de6342da12e89cc43.meta.json",
+      "metadata_sha256": "13ebd03c67e7b56e1c6b112abb1c0f061c508fb9de74b0649942898cacaeb293",
+      "received_at": "2026-11-03T03:08:32.704933+00:00",
+      "url": "https://npb.jp/scores/2026/0807/g-s-17/box.html"
+    },
+    {
+      "body_file": "raw/0e1754a7e9ff0fad39bc948a2c754dec33219b82e45cb33a8753ae082e5dcd15.body.gz",
+      "body_sha256": "9f53860198140669f00048c06b5dc6a61c57d1781e8f590171ba416d2a64cff0",
+      "compressed_sha256": "5e1c404f739be7520fe2110b8ee3947c1420078cb5629545418e9d082fd9146c",
+      "http_status": 200,
+      "metadata_file": "raw/0e1754a7e9ff0fad39bc948a2c754dec33219b82e45cb33a8753ae082e5dcd15.meta.json",
+      "metadata_sha256": "9650561036e90d7d5077d96c9f4eee89095a218fd712264b1ea32e182afb8ab9",
+      "received_at": "2026-11-03T03:16:41.863372+00:00",
+      "url": "https://npb.jp/scores/2026/0927/g-s-24/box.html"
+    },
+    {
+      "body_file": "raw/10f208f28e91fadd2e6fc2f802341b0fc1ba29a845a3d8a0d57cb8892373f01c.body.gz",
+      "body_sha256": "47c42e5261a17a922398addc45b487cee4932413275243ddffe22c3a1e562622",
+      "compressed_sha256": "63811765f75b3e17474339bc8834695f69ccc00040a4a72d7c6869dc5a771591",
+      "http_status": 200,
+      "metadata_file": "raw/10f208f28e91fadd2e6fc2f802341b0fc1ba29a845a3d8a0d57cb8892373f01c.meta.json",
+      "metadata_sha256": "b623595c4a393efb5c2f54e5860c2f5ba8c4af392a4755c830205cc9573dbec2",
+      "received_at": "2026-11-03T03:06:29.702141+00:00",
+      "url": "https://npb.jp/scores/2026/0415/b-l-05/box.html"
+    },
+    {
+      "body_file": "raw/11b687b47c7decf3cfbb3f2d30a1619dbd4becef9d40f33386dbb4e39687c436.body.gz",
+      "body_sha256": "b13a4e5234751328656735371eb78987ca6371cffbaa8dc54bff477448c1f8ac",
+      "compressed_sha256": "602403cedccaa670ae4d718f5ade8b36f2883e84b0e4a4305a104c58c4a8d3fe",
+      "http_status": 200,
+      "metadata_file": "raw/11b687b47c7decf3cfbb3f2d30a1619dbd4becef9d40f33386dbb4e39687c436.meta.json",
+      "metadata_sha256": "a2328e61eab96db4a23d2090a35c63b9189f320839e77aa04760f942587c2a5e",
+      "received_at": "2026-11-03T03:06:19.996012+00:00",
+      "url": "https://npb.jp/scores/2026/0331/e-h-01/box.html"
+    },
+    {
+      "body_file": "raw/1228880214a618380b1fdff13294299b36e735f52675323a83aa516350de53fb.body.gz",
+      "body_sha256": "0a758d9f8eafb8dd323527ffe89463faae36a33e8c7da92815b594fdaedb15ac",
+      "compressed_sha256": "ca10cef3223ff5961d141f5cc519cb1b6cdfe059eb48eb154c6ef847b5588312",
+      "http_status": 200,
+      "metadata_file": "raw/1228880214a618380b1fdff13294299b36e735f52675323a83aa516350de53fb.meta.json",
+      "metadata_sha256": "cb8c210b631cc2afda96605b775de995aca6544b4b3f1e650c5d51fb297bda9a",
+      "received_at": "2026-11-03T03:16:15.233719+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260925.html"
+    },
+    {
+      "body_file": "raw/132d2f2e5d31d8243c3fc616e905165605ab6fab7af8096af5792fef6b6a4f59.body.gz",
+      "body_sha256": "0474a888e1b2e4e0b6d0b333b94d4b60a014366c0b2f257c1a04b426c4893271",
+      "compressed_sha256": "c8fe6350f094f520cf38e5e21c7b9fe3e26deff84226024b6914f02c8e62e128",
+      "http_status": 200,
+      "metadata_file": "raw/132d2f2e5d31d8243c3fc616e905165605ab6fab7af8096af5792fef6b6a4f59.meta.json",
+      "metadata_sha256": "5359c641cf79700dd521c0bb9f3265f5b52438f326244c86143783949972e477",
+      "received_at": "2026-11-03T03:05:30.297756+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260516.html"
+    },
+    {
+      "body_file": "raw/14d310b79d220716829430510d61f496822414a76aa81ce8d4f9177c3e2e06a9.body.gz",
+      "body_sha256": "87733e58c623bc6f0f19c3809727e585ca84fdfd03395473f17907e1825514a1",
+      "compressed_sha256": "c69d1b16144b3b62533f5ea67ee7f857ff4003f5e46a5b7d1a5a58efcde4eedc",
+      "http_status": 200,
+      "metadata_file": "raw/14d310b79d220716829430510d61f496822414a76aa81ce8d4f9177c3e2e06a9.meta.json",
+      "metadata_sha256": "07fef0cf4a196b46968eef69c848926c691bd8c49312fdb9365b58747c4d485c",
+      "received_at": "2026-11-03T03:05:51.302327+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260806.html"
+    },
+    {
+      "body_file": "raw/1894cf8c881d071544bcecdaf2d7ba13365f4ae399f5a52b103cd2e917b24d7b.body.gz",
+      "body_sha256": "2dfea7605c6ac66184df8d450258d6a6ce2bb72796a02f1b2c374ae5bb986b4c",
+      "compressed_sha256": "26dace8feea95a6b46af6c6c3c8f4fe6da3f82feca9658fcbb36a820758d6115",
+      "http_status": 200,
+      "metadata_file": "raw/1894cf8c881d071544bcecdaf2d7ba13365f4ae399f5a52b103cd2e917b24d7b.meta.json",
+      "metadata_sha256": "18cf4fa06d5c20ddfd2bc3aa7c514f35ee518649db4a243700c1cef6eb3fb351",
+      "received_at": "2026-11-03T03:06:25.559725+00:00",
+      "url": "https://npb.jp/scores/2026/0414/m-f-04/box.html"
+    },
+    {
+      "body_file": "raw/18c68e4000778edab0bb910a2109514a65b6c8401fd567e22979be59669d1788.body.gz",
+      "body_sha256": "d3187d3de3c37a4433eeb400cbdfbbf3a0e78a219d18002120042b0c673874c0",
+      "compressed_sha256": "f6a4e96acd780422eb705b00cdd7d23f32d36b1c7442acd0a3ed55af8308cb96",
+      "http_status": 200,
+      "metadata_file": "raw/18c68e4000778edab0bb910a2109514a65b6c8401fd567e22979be59669d1788.meta.json",
+      "metadata_sha256": "fefa6de40c96804e3e1c1726d60c92b63a76c15f66e10e401ef1f494f9faccb8",
+      "received_at": "2026-11-03T03:05:55.724624+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260810.html"
+    },
+    {
+      "body_file": "raw/1d0d25a6a99a615865b8ff1c2a8daec18b9b8f60867b115aba5b717a5cc7f163.body.gz",
+      "body_sha256": "df61be5a6db56cfa204ac60b6f443ebb76e9678fef1c1b26584252ee51836a50",
+      "compressed_sha256": "9952316772237bcbb237da05bbbfc1f7ff9daf8e50fe909d2622c4c89ec8eca2",
+      "http_status": 200,
+      "metadata_file": "raw/1d0d25a6a99a615865b8ff1c2a8daec18b9b8f60867b115aba5b717a5cc7f163.meta.json",
+      "metadata_sha256": "6d851b41db7d87aa491a9918ebd2925ab4a912a79a9cf8f5b61455a9cf986853",
+      "received_at": "2026-11-03T03:16:18.520978+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260928.html"
+    },
+    {
+      "body_file": "raw/1d5d11d54f929fcd85b13a695b5d1e4a296d3b540c425ae3b4e2b2a2f831e29a.body.gz",
+      "body_sha256": "a3c52f9a7c8a7b9aac4f1fd77a66077225c762ee94197118e0b899ed6bfb4c85",
+      "compressed_sha256": "24c51c407a60cf6f1a223d3efdb20e4b888c55437b9a6538be579e1cfb16c7f7",
+      "http_status": 200,
+      "metadata_file": "raw/1d5d11d54f929fcd85b13a695b5d1e4a296d3b540c425ae3b4e2b2a2f831e29a.meta.json",
+      "metadata_sha256": "6672af8f72dc8ce79c47df96818a5a265d08ff7f05e4830c7c569a2afb0a64ac",
+      "received_at": "2026-11-03T03:07:09.745887+00:00",
+      "url": "https://npb.jp/scores/2026/0515/d-s-07/box.html"
+    },
+    {
+      "body_file": "raw/1d7d5c14811f6ea0370c1fb106e9d6103ded7f4b4f69b962ab4e1f8f2ed6962e.body.gz",
+      "body_sha256": "736e460d97ac75b82f4488c8bba2cc80eade1b02cce0b7065d4967ce3da8d2db",
+      "compressed_sha256": "16d186643866f01a43aa869eeddf5c92d5a84528750fb8a7336962933530eea3",
+      "http_status": 200,
+      "metadata_file": "raw/1d7d5c14811f6ea0370c1fb106e9d6103ded7f4b4f69b962ab4e1f8f2ed6962e.meta.json",
+      "metadata_sha256": "594fc4129def97564064d380e6c2def219f3bdab93553789a5ad89d259c3e1f5",
+      "received_at": "2026-11-03T03:06:52.556796+00:00",
+      "url": "https://npb.jp/scores/2026/0512/g-c-06/box.html"
+    },
+    {
+      "body_file": "raw/1dcc572d39eb26d88cc202ecefb6f790ae7019c7b5579719bdb712f3aec0b9b4.body.gz",
+      "body_sha256": "8810b29dfd448b17ab7b4687c9d0dad3eea567b2655a1ef3895f45e4e6322f10",
+      "compressed_sha256": "cc6ce13087a492cd93185ffbb28ec1b6fcb2080635a1d5f5a44c7bbbd2dcdeb6",
+      "http_status": 200,
+      "metadata_file": "raw/1dcc572d39eb26d88cc202ecefb6f790ae7019c7b5579719bdb712f3aec0b9b4.meta.json",
+      "metadata_sha256": "3e8dcc769ba9a689fc27a06b0ba135c72ecace96ef560ef5d3ebdeec25ad5e0d",
+      "received_at": "2026-11-03T03:06:59.618818+00:00",
+      "url": "https://npb.jp/scores/2026/0513/g-c-07/box.html"
+    },
+    {
+      "body_file": "raw/1ee9ce02808c515c06fbb6cb596706b64a327e8b43b9d890258e3177209dd881.body.gz",
+      "body_sha256": "949d64207e116346bfcba1f865e723baf19631276f416b75fac592fd1b34f009",
+      "compressed_sha256": "00128d6c082b760420dbc909cff99f695ede5ad7cfe555066d9dee6816e5c53a",
+      "http_status": 200,
+      "metadata_file": "raw/1ee9ce02808c515c06fbb6cb596706b64a327e8b43b9d890258e3177209dd881.meta.json",
+      "metadata_sha256": "177519fe5ba7e62b40ee4ec1bc4866534039c6d7f752a5a13fd1c92748dc4e94",
+      "received_at": "2026-11-03T03:08:15.811532+00:00",
+      "url": "https://npb.jp/scores/2026/0805/c-g-13/box.html"
+    },
+    {
+      "body_file": "raw/215629c78f49620117a5c190324c1a607247c8df52418e417683d2b525f293a6.body.gz",
+      "body_sha256": "3b8b55347429d18f315fe39940486e8e5290093fcedeaceca22a46f44ebf5841",
+      "compressed_sha256": "614644b89a51fe6d34bbd0f8c5b00f8ff69fff68e2110be89d40984af600dabc",
+      "http_status": 200,
+      "metadata_file": "raw/215629c78f49620117a5c190324c1a607247c8df52418e417683d2b525f293a6.meta.json",
+      "metadata_sha256": "fa9e0bdd30d9d9e704fba6f5a94ecb91143e7daeb1d17da0f1078c738fcdf2d1",
+      "received_at": "2026-11-03T03:06:09.190221+00:00",
+      "url": "https://npb.jp/scores/2026/0328/m-l-02/box.html"
+    },
+    {
+      "body_file": "raw/22f4b9331919f9d38d9d3455e62b44e91f819e062bc1ec4659ad58d2aa982011.body.gz",
+      "body_sha256": "7dbd7116296949d1635fb902b1e96b4ccd35cb36b3877131e6107f9203244a0a",
+      "compressed_sha256": "4549c75ab20ed8a00f3deb82b31e88760f460807be516e3c4e6bff3dea1468a6",
+      "http_status": 200,
+      "metadata_file": "raw/22f4b9331919f9d38d9d3455e62b44e91f819e062bc1ec4659ad58d2aa982011.meta.json",
+      "metadata_sha256": "84e29ab67876fd8fa71902ffe4ae09650d65c94b5b6cf5ed9c98021c3e285f14",
+      "received_at": "2026-11-03T03:07:05.456348+00:00",
+      "url": "https://npb.jp/scores/2026/0514/db-d-08/box.html"
+    },
+    {
+      "body_file": "raw/238522a5c2e8d188adf93c1c6e62e4229d79db3f84fdb4ae2b9c8baad7be7192.body.gz",
+      "body_sha256": "92e3f7d39db904d2025c97621c087ad9ebf967ad74b2383d6f42d79c45d4cfc0",
+      "compressed_sha256": "429fafc6d061c119c52d0c49b37b4a0bf9a4b80f5d454ca3a896cc0f8434d436",
+      "http_status": 200,
+      "metadata_file": "raw/238522a5c2e8d188adf93c1c6e62e4229d79db3f84fdb4ae2b9c8baad7be7192.meta.json",
+      "metadata_sha256": "698299d60c7c96a80167b1ba5634837546927671e2a34d8a2179d57be4299357",
+      "received_at": "2026-11-03T03:06:53.968408+00:00",
+      "url": "https://npb.jp/scores/2026/0512/h-l-10/box.html"
+    },
+    {
+      "body_file": "raw/26539bd13bc0891855460e2bce1481e9786686fc8639c5c5b6336f5ef321030b.body.gz",
+      "body_sha256": "ac3e75b9cbac96bd9d1f923082c09d08d716f3aa22e4abff17527f1669268bac",
+      "compressed_sha256": "b2ba9756d54789c895f4b1c81bc53d40ec4f5b01b98aec41c70afe10c76d13bb",
+      "http_status": 200,
+      "metadata_file": "raw/26539bd13bc0891855460e2bce1481e9786686fc8639c5c5b6336f5ef321030b.meta.json",
+      "metadata_sha256": "f01eeab1c2d03b735b6322f6f5dd07d71b3a3456c34bbaf30408f941f9abbaee",
+      "received_at": "2026-11-03T03:07:41.870407+00:00",
+      "url": "https://npb.jp/scores/2026/0714/d-t-14/box.html"
+    },
+    {
+      "body_file": "raw/2732d1f73e5f73503f4a8747799ffb6ceeccd09a8368ef373748bc885ec7df1d.body.gz",
+      "body_sha256": "8363653ecc32805fcb5210c913add0c34887d5e693b080ce4b746b3a71029c8e",
+      "compressed_sha256": "c4afd1c578ea815a529601e869d06c3708ad9bc2e67b2e4b8ccd3ea53ff56362",
+      "http_status": 200,
+      "metadata_file": "raw/2732d1f73e5f73503f4a8747799ffb6ceeccd09a8368ef373748bc885ec7df1d.meta.json",
+      "metadata_sha256": "d321e2161f85925400c6a828ff38496c667fddd6458d27f9ce09d6b344b645cd",
+      "received_at": "2026-11-03T03:06:10.297287+00:00",
+      "url": "https://npb.jp/scores/2026/0329/b-e-03/box.html"
+    },
+    {
+      "body_file": "raw/27b63c32e1b0efb7231281d7dcbd1cbbc161ac1c6a12d93c0c6701017abc0ac0.body.gz",
+      "body_sha256": "8ce4728687671a0a94659ca762fe65b3cd1aca91340c26a2e5cf28ea68f68541",
+      "compressed_sha256": "90e2148ee0de13b877e4f572e16c64727956c3e0a74fc8c8b32ab8decf7f437a",
+      "http_status": 200,
+      "metadata_file": "raw/27b63c32e1b0efb7231281d7dcbd1cbbc161ac1c6a12d93c0c6701017abc0ac0.meta.json",
+      "metadata_sha256": "bd5c3a40cded271bdaa4c2cd0200ed6508cfc4dc80090c248a3d60ba043a16b1",
+      "received_at": "2026-11-03T03:07:22.104785+00:00",
+      "url": "https://npb.jp/scores/2026/0619/b-l-10/box.html"
+    },
+    {
+      "body_file": "raw/281c86a32fe13606dcaad776adaff6ca7a91b8908d5008dee58007a7c2963e6c.body.gz",
+      "body_sha256": "b23226bbffcabe0658aced11e28e71a81526f340ad15be0c619e250e49469dc8",
+      "compressed_sha256": "bda69d32ed70f4080f178600820589dcd21faa81e6001bad59dc0167a5a910d4",
+      "http_status": 200,
+      "metadata_file": "raw/281c86a32fe13606dcaad776adaff6ca7a91b8908d5008dee58007a7c2963e6c.meta.json",
+      "metadata_sha256": "84a6b9fa9813391e6d1171e69c4db9259e92cfd5e430480681dda3c01d1ed986",
+      "received_at": "2026-11-03T03:16:19.613750+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260929.html"
+    },
+    {
+      "body_file": "raw/283e4e9cc350fac4c906e3d4e2922a77349d20522e4ff912da72b5e4453b7888.body.gz",
+      "body_sha256": "8a58373f028c1048d031a23ea846aeeedfcf179d178e95c6ec7a9d166591e6f2",
+      "compressed_sha256": "d4d666c6d1d06cbc170cf581f2afa0ea157e2247a427bd22a0f24a7f672b34d8",
+      "http_status": 200,
+      "metadata_file": "raw/283e4e9cc350fac4c906e3d4e2922a77349d20522e4ff912da72b5e4453b7888.meta.json",
+      "metadata_sha256": "fc2b3da9104fa4ccbf12153c8c3b64083a917a0670b63eecca20b5ae8df48359",
+      "received_at": "2026-11-03T03:07:15.218008+00:00",
+      "url": "https://npb.jp/scores/2026/0515/m-b-09/box.html"
+    },
+    {
+      "body_file": "raw/2b33914a826b247485ac3daff61f9fccd4c78b5877e41601c9eaa596d34e9fd1.body.gz",
+      "body_sha256": "c0eae9e046a4cae3e69d91dc2d0742b2cf98d1a58af52e4a5e957bd07d3bf9f7",
+      "compressed_sha256": "caff0349543d2687d6056319316012699ae471ef43aa22164978fff64f3254fc",
+      "http_status": 200,
+      "metadata_file": "raw/2b33914a826b247485ac3daff61f9fccd4c78b5877e41601c9eaa596d34e9fd1.meta.json",
+      "metadata_sha256": "c208d13a8d2e3ccd63628a2e7c1f4d038ce90c4c3c0c6d66beed9b4a6f28243e",
+      "received_at": "2026-11-03T03:17:04.634893+00:00",
+      "url": "https://npb.jp/scores/2026/0925/b-h-24/box.html"
+    },
+    {
+      "body_file": "raw/2b38e21494b8be6b8898b418587ae89586abc6112a844355a11bea4895a6d55a.body.gz",
+      "body_sha256": "4c2b959eaeaecb7725f48ef0ac66a92ea664a9a26a1997436e06735dcd7603b6",
+      "compressed_sha256": "c8b08609b49981765a32c8748c32df657db7f830da9c0ce13d83f683e3c9f565",
+      "http_status": 200,
+      "metadata_file": "raw/2b38e21494b8be6b8898b418587ae89586abc6112a844355a11bea4895a6d55a.meta.json",
+      "metadata_sha256": "34cfb4ca2ec44eb3224a9debe07e6143d332dc52c01e3e7d7637360ca158e3ad",
+      "received_at": "2026-11-03T03:16:38.910932+00:00",
+      "url": "https://npb.jp/scores/2026/0926/s-d-24/box.html"
+    },
+    {
+      "body_file": "raw/2c7d712be7593e365e1263038aba9925a07e63226eb9324430214f10626f04aa.body.gz",
+      "body_sha256": "a3e75d124703528c065dd9d983da3c8165842db0f0a8825c51d87924b04668a8",
+      "compressed_sha256": "03201a528cd66493521b8ea4cf49ca529217dab18fbc24968779bcb131c2d2bb",
+      "http_status": 200,
+      "metadata_file": "raw/2c7d712be7593e365e1263038aba9925a07e63226eb9324430214f10626f04aa.meta.json",
+      "metadata_sha256": "8f063880629103b5c5ab06b595f68ad293a1fb763bb058a1feebdff70d8061c2",
+      "received_at": "2026-11-03T03:06:14.603164+00:00",
+      "url": "https://npb.jp/scores/2026/0329/g-t-03/box.html"
+    },
+    {
+      "body_file": "raw/2e84b7684f1e4c55551f8ede6d5f876022f90ff0a1080bc6ba6644e91c6dbb6b.body.gz",
+      "body_sha256": "c7cf8c69bd6cb1eab781b6ba72604583456141e594e927c03a8f67b55254a728",
+      "compressed_sha256": "2c70d6f4ab96432be0d7f5b66d7a770dc0e533f6954faeb7163311ba1c0979ff",
+      "http_status": 200,
+      "metadata_file": "raw/2e84b7684f1e4c55551f8ede6d5f876022f90ff0a1080bc6ba6644e91c6dbb6b.meta.json",
+      "metadata_sha256": "48a795c082df7705a885d79bc1ea55ad0be75aaa15b5154e6d3ab26f5b9c1077",
+      "received_at": "2026-11-03T03:05:52.399670+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260807.html"
+    },
+    {
+      "body_file": "raw/33ad6ef8fb25cc6dc796e4bbd75ab2fb5e1e7382f5fe436570fb5b5e96d8b97b.body.gz",
+      "body_sha256": "f7ee2556967507fea8850bb8a1f8bda6b19ae35e256fa03567d4857a9b4d7aea",
+      "compressed_sha256": "6fd1348a4ddba6ef72f884cf0f646e34b20efce45039f0c18448a16a2ecbf226",
+      "http_status": 200,
+      "metadata_file": "raw/33ad6ef8fb25cc6dc796e4bbd75ab2fb5e1e7382f5fe436570fb5b5e96d8b97b.meta.json",
+      "metadata_sha256": "5887bfda0da641862dac6ea57d134b5a75992c338185009a0f22830d9a433626",
+      "received_at": "2026-11-03T03:16:20.706873+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260930.html"
+    },
+    {
+      "body_file": "raw/34ba502201ec67785fec9b119ba51da42df61c71d557030419946c7c57f5584a.body.gz",
+      "body_sha256": "2550bce03ab6e06557cd510de21440cea9a69029c9d42f0d11267477a3027872",
+      "compressed_sha256": "5122b7604f115f3f6335e64ba0e2f4f83e8b53f3617dca516af2ce388c15e41f",
+      "http_status": 200,
+      "metadata_file": "raw/34ba502201ec67785fec9b119ba51da42df61c71d557030419946c7c57f5584a.meta.json",
+      "metadata_sha256": "a6bc3cda1dd79b9e764276e0dada405bbf36977acf39d871945dbf7d371b4c75",
+      "received_at": "2026-11-03T03:05:17.112006+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260331.html"
+    },
+    {
+      "body_file": "raw/3622ae86ba9f32f25155bc556945b4dece78510536f3003330e04e8692f641a4.body.gz",
+      "body_sha256": "68116682bbbe6fe77b937916c6d66bb61918e0e1512d38d1761968fe18c3f5f5",
+      "compressed_sha256": "357a3f4ae5bf522a85d0045f0f082dc1b02ddd3e640be7237fbeb1af8db6174b",
+      "http_status": 200,
+      "metadata_file": "raw/3622ae86ba9f32f25155bc556945b4dece78510536f3003330e04e8692f641a4.meta.json",
+      "metadata_sha256": "257c535560a78af239cb01c5c830a9ee57ea766145a85526f5eba4c03def56cb",
+      "received_at": "2026-11-03T03:08:04.226872+00:00",
+      "url": "https://npb.jp/scores/2026/0717/db-s-14/box.html"
+    },
+    {
+      "body_file": "raw/364d818473813f35b4cffc60f1ded620d2d22c42c42f150e68b59e210facd4fa.body.gz",
+      "body_sha256": "fb7a62938abbb085fe038dfc989680960f5c2aefcdcd35d089665856c34cf1d4",
+      "compressed_sha256": "06eae0ffa97021e31619da3a1b1cce94d8b2ea82050560736fba7ed1f9648dc7",
+      "http_status": 200,
+      "metadata_file": "raw/364d818473813f35b4cffc60f1ded620d2d22c42c42f150e68b59e210facd4fa.meta.json",
+      "metadata_sha256": "81d0141b2c822d36e4779de06c8ced4e556592f57e451d9fe43b99891f7d9004",
+      "received_at": "2026-11-03T03:08:07.346413+00:00",
+      "url": "https://npb.jp/scores/2026/0804/c-g-12/box.html"
+    },
+    {
+      "body_file": "raw/37aa911ffef7e39ded72a32c2252643a5494eaa7ad01a16da345066ad2c328cb.body.gz",
+      "body_sha256": "a228bc097b535d03f1494bb0e88e3b8e7355efa1b5557ba0c3d01f8eb5502da9",
+      "compressed_sha256": "caff2d2d116cffc0c6ab16196b19fc603fc77d0f708805373387cb46231c9d7a",
+      "http_status": 200,
+      "metadata_file": "raw/37aa911ffef7e39ded72a32c2252643a5494eaa7ad01a16da345066ad2c328cb.meta.json",
+      "metadata_sha256": "70b29a55fbb82439d6b2a8fb8ef14b0cfede8d8c4ad0d212d1e418b0e9419c0f",
+      "received_at": "2026-11-03T03:05:33.638604+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260616.html"
+    },
+    {
+      "body_file": "raw/386b2c2c248a6fa8f0deb9abcac31794aad38038778f61a4a95f185ffce24ea4.body.gz",
+      "body_sha256": "39ffbd8bdbf5c16e34235e441b416549764d16fac94e3142d0bce4e863cf1348",
+      "compressed_sha256": "7fcae0eda78ad7936ea6cfe6d486b2afe01085342dc38bafdc6359aac2565cf6",
+      "http_status": 200,
+      "metadata_file": "raw/386b2c2c248a6fa8f0deb9abcac31794aad38038778f61a4a95f185ffce24ea4.meta.json",
+      "metadata_sha256": "b8c46bac614eeb5360ed8c35bd6987f273713cec7c5559cf9f79f0e601cd51cb",
+      "received_at": "2026-11-03T03:16:36.087636+00:00",
+      "url": "https://npb.jp/scores/2026/0926/h-e-23/box.html"
+    },
+    {
+      "body_file": "raw/3a06f626a4c75d5218d674a649e90c00348b4f53d3c0061505f19cb348f782df.body.gz",
+      "body_sha256": "4e3f531426c858f0776f53fd72c856e858126474673de75081a4b81a15018c85",
+      "compressed_sha256": "8d1b936d54c738a976fed0ca496f182126204d7fa3dde695e893450d7d03bed7",
+      "http_status": 200,
+      "metadata_file": "raw/3a06f626a4c75d5218d674a649e90c00348b4f53d3c0061505f19cb348f782df.meta.json",
+      "metadata_sha256": "6c03fb8f6c65b2179e70a8691077de8c6b2919fecd0f699b342de38c143175f0",
+      "received_at": "2026-11-03T03:05:31.410794+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260517.html"
+    },
+    {
+      "body_file": "raw/3a95d9ca5b7215850c667707cd471d6f4777a1e73b36fba43fb803f7c7a6ce5c.body.gz",
+      "body_sha256": "e32af97f95a6408f30ee722443b3203174a65a89ada5870fbe121dc65e04b978",
+      "compressed_sha256": "0dab034b8dac299d7d4dd04975f6efaa24086ba4359601391d36d510c054f0a3",
+      "http_status": 200,
+      "metadata_file": "raw/3a95d9ca5b7215850c667707cd471d6f4777a1e73b36fba43fb803f7c7a6ce5c.meta.json",
+      "metadata_sha256": "7aca75a5baa8850bc3050e57717279ca5484718dd49f4e81996a697ded239476",
+      "received_at": "2026-11-03T03:05:25.884283+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260512.html"
+    },
+    {
+      "body_file": "raw/3a99720ddfef42c97b47149289d8eb54b6ab2e42b7cffc215e77cf264a498af1.body.gz",
+      "body_sha256": "f44a0e644e0f449b36442fdd169177d8242b23c81b83bb46b6568b4409a86438",
+      "compressed_sha256": "272c863830807ee3adf47c678a6a004ddc13dc5ec26e0aaa88aa9a5e6a161086",
+      "http_status": 200,
+      "metadata_file": "raw/3a99720ddfef42c97b47149289d8eb54b6ab2e42b7cffc215e77cf264a498af1.meta.json",
+      "metadata_sha256": "09641c35331c2aeef710902845a4352f9b248fdec830506f61d4299f6390a729",
+      "received_at": "2026-11-03T03:06:18.629964+00:00",
+      "url": "https://npb.jp/scores/2026/0331/d-g-01/box.html"
+    },
+    {
+      "body_file": "raw/3c6dcd2e7a3a1731d13e0a2cd75fa4bea2ff5d08ca8f8a6264dffeb6a457ed68.body.gz",
+      "body_sha256": "1bc50ff66cb7c1717ecca3273c1b1fa6f7da057e307c69cd4ad7bebe6bc605c6",
+      "compressed_sha256": "4fef51b39fd56f6a7ac2bb101cbe88e8413b4be33156318f50e5799f1736ca11",
+      "http_status": 200,
+      "metadata_file": "raw/3c6dcd2e7a3a1731d13e0a2cd75fa4bea2ff5d08ca8f8a6264dffeb6a457ed68.meta.json",
+      "metadata_sha256": "686bbcfd068b9161d1334b4f524e03930fdc3a9e3b45e078248b88095de0e14c",
+      "received_at": "2026-11-03T03:07:27.599951+00:00",
+      "url": "https://npb.jp/scores/2026/0619/s-c-09/box.html"
+    },
+    {
+      "body_file": "raw/3d0d5907213debfc3d1e2c26e49680a3ee1417e0007089b71a93e9adca4b4564.body.gz",
+      "body_sha256": "394c829812e047f80097265d99a3adf203488a15bcf74eb7e498f4e2737c5b81",
+      "compressed_sha256": "02f133eadd5768f20002efb126562e9b1c7f766f06917d228a4c15bd49d86607",
+      "http_status": 200,
+      "metadata_file": "raw/3d0d5907213debfc3d1e2c26e49680a3ee1417e0007089b71a93e9adca4b4564.meta.json",
+      "metadata_sha256": "2c56932089881c90b887c3f35bf448b6db0e33cf019a2fd47b45c50a9b260086",
+      "received_at": "2026-11-03T03:07:52.960835+00:00",
+      "url": "https://npb.jp/scores/2026/0715/l-m-13/box.html"
+    },
+    {
+      "body_file": "raw/3e181e0b94f499a57a06d9f158ea5f1bd2aae62fba88aa5f840c2570f79c453b.body.gz",
+      "body_sha256": "ac85a1f0bfa4929f5d21d65116094518e447c0fcbd9c805f295f23f323ffcf7e",
+      "compressed_sha256": "3ef0f9fdf8f437bede7de443f3a2079e828036c1783681e3d36ee13fa3f4dab6",
+      "http_status": 200,
+      "metadata_file": "raw/3e181e0b94f499a57a06d9f158ea5f1bd2aae62fba88aa5f840c2570f79c453b.meta.json",
+      "metadata_sha256": "d9211b09f398758cbf0f8293c67559f66aca98ce3c80cb000f67c0c000bf16b8",
+      "received_at": "2026-11-03T03:07:48.754195+00:00",
+      "url": "https://npb.jp/scores/2026/0715/d-t-15/box.html"
+    },
+    {
+      "body_file": "raw/408d98f5c1e2cf5f27f646eaa7242fc095fb0dd25bbb49cd0666363d939157bc.body.gz",
+      "body_sha256": "72f6e65d84f8b9cc6260083f545ea4cefa475d3eeb9ff9b5976a7eb09b69ae24",
+      "compressed_sha256": "8c75a7a4c822189c997da1ce3271061bb6e30c0e0a36b573cbeec6a053e53749",
+      "http_status": 200,
+      "metadata_file": "raw/408d98f5c1e2cf5f27f646eaa7242fc095fb0dd25bbb49cd0666363d939157bc.meta.json",
+      "metadata_sha256": "d6ca4db48120dd0deeb01a945dbd9e529a58bd9b9d18ccf4943728883cbee618",
+      "received_at": "2026-11-03T03:06:58.163216+00:00",
+      "url": "https://npb.jp/scores/2026/0513/db-d-07/box.html"
+    },
+    {
+      "body_file": "raw/4156948e67709d6c22a2ce77ec1a3772ed1e257b647be2aee0eee89dde82740c.body.gz",
+      "body_sha256": "9b96ccd7b8b89e8f6436c49b05f09abe3544c462d7fa00a93f0e02234f13d7e3",
+      "compressed_sha256": "79fc3d88b5ffa55a2cd918036f341dd68f0a2dcb9dfa7e640ddcc2968f3ab76c",
+      "http_status": 200,
+      "metadata_file": "raw/4156948e67709d6c22a2ce77ec1a3772ed1e257b647be2aee0eee89dde82740c.meta.json",
+      "metadata_sha256": "38c1fbf89bfad5a9d6a6e234f4870183930b04a76f52e96723ffc9ca11e30d25",
+      "received_at": "2026-11-03T03:05:44.709809+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260717.html"
+    },
+    {
+      "body_file": "raw/423d1a6979cc3863b05b9548987d3ed48bbcf2ae61eaa757c07464bc802a8fcb.body.gz",
+      "body_sha256": "4302cf4614b6ecdaf9bce57dac7e852faecc95ea5c7da7b49cc2dc95b49c28e7",
+      "compressed_sha256": "a070366e936476c5e4dce7426dd56d62d62217ea32b162731dec549b8acda184",
+      "http_status": 200,
+      "metadata_file": "raw/423d1a6979cc3863b05b9548987d3ed48bbcf2ae61eaa757c07464bc802a8fcb.meta.json",
+      "metadata_sha256": "63e6d522a9d31368b260ba0100d99d7c70ebdfe7efd06447448685f1f4e1ae7f",
+      "received_at": "2026-11-03T03:07:24.313722+00:00",
+      "url": "https://npb.jp/scores/2026/0619/f-h-09/box.html"
+    },
+    {
+      "body_file": "raw/438aa796b04a94c227a622b9a3724087aba4547fab848b84aff8cbeb5cfc87df.body.gz",
+      "body_sha256": "b28e7f0cc5d134a731a0035aa53e4bf8a93046b81cefabcdcf29ba81151c5212",
+      "compressed_sha256": "95fdf8158cf9ea18b5bde46eca057e11c2058ebab358608877f7a5dcf660fbb5",
+      "http_status": 200,
+      "metadata_file": "raw/438aa796b04a94c227a622b9a3724087aba4547fab848b84aff8cbeb5cfc87df.meta.json",
+      "metadata_sha256": "1db7fc4a1621b713a21f1a5f7632d849f3a5182d16bb4d438e3a129a09a6a2c7",
+      "received_at": "2026-11-03T03:16:33.263491+00:00",
+      "url": "https://npb.jp/scores/2026/0926/b-f-25/box.html"
+    },
+    {
+      "body_file": "raw/43ac5438ca61cb3573ae06246bc80661adeacd62062b03784e02b9d48006819a.body.gz",
+      "body_sha256": "553db0229295360b5f42b8b0b700b619b6f3999972c63158f330a02c9ddb279a",
+      "compressed_sha256": "fa9c238f32697b2791e8e0722cd71195671b6ec9d5fc0e60ba286807c149b714",
+      "http_status": 200,
+      "metadata_file": "raw/43ac5438ca61cb3573ae06246bc80661adeacd62062b03784e02b9d48006819a.meta.json",
+      "metadata_sha256": "a6511cefdada13b2d4c66706a57f0293044279932e453496f84e46e48bd67494",
+      "received_at": "2026-11-03T03:16:51.923868+00:00",
+      "url": "https://npb.jp/scores/2026/0929/e-m-23/box.html"
+    },
+    {
+      "body_file": "raw/46ca140e4187cf921462e4d08e29c24e624a0ac77a840f5cf08c4134137378be.body.gz",
+      "body_sha256": "c5ad66705b00fa1589b2226032c722b4e22c6119ded413c45f66a0b5b493a2bc",
+      "compressed_sha256": "3a467a4edd54eac57f4c30ed721f9f9af65442d1f8471d2ddfff4e2a5742a149",
+      "http_status": 200,
+      "metadata_file": "raw/46ca140e4187cf921462e4d08e29c24e624a0ac77a840f5cf08c4134137378be.meta.json",
+      "metadata_sha256": "76de7b4780f17870a473ec6b2f6ddb98982cfc636aad5005aea2ca053b5edfbb",
+      "received_at": "2026-11-03T03:06:22.823292+00:00",
+      "url": "https://npb.jp/scores/2026/0414/d-c-04/box.html"
+    },
+    {
+      "body_file": "raw/46fac9202f4ad507004e70d4104552f7cafb69b7531e36d63adcdcd6abf04875.body.gz",
+      "body_sha256": "9c48c5efc74419a32c8c9d87a16d9cc4d801839c37936930b1d055f006722f44",
+      "compressed_sha256": "cabfde185089b1183b54d88a382523da1647a872f0af20ebe9c14a601783642a",
+      "http_status": 200,
+      "metadata_file": "raw/46fac9202f4ad507004e70d4104552f7cafb69b7531e36d63adcdcd6abf04875.meta.json",
+      "metadata_sha256": "ec7444fa4e28d8d27863ca03f60e4afd961fa06b7eb97bc3f646e8d052107036",
+      "received_at": "2026-11-03T03:08:21.424257+00:00",
+      "url": "https://npb.jp/scores/2026/0805/m-l-16/box.html"
+    },
+    {
+      "body_file": "raw/47fe1928dcc9a46db9d9555e846155ffa68c4cddf5199bb6add67dfaa06b0c8c.body.gz",
+      "body_sha256": "6d7806c36a9c3a3617a523d5ae1dba110c0b48818b257e69646032c5b02946df",
+      "compressed_sha256": "571d05a1053a20ae868a88ca6a17950b5be3e6eeec74f6ce8026c77053965a41",
+      "http_status": 200,
+      "metadata_file": "raw/47fe1928dcc9a46db9d9555e846155ffa68c4cddf5199bb6add67dfaa06b0c8c.meta.json",
+      "metadata_sha256": "45ac845ee247fbaf9fb39265c5a70df583919d992c072b99fa6c4da98efc2961",
+      "received_at": "2026-11-03T03:05:59.283844+00:00",
+      "url": "https://npb.jp/scores/2026/0327/db-s-01/box.html"
+    },
+    {
+      "body_file": "raw/4850eb337b0302879ee50b09f99150a5547d28ce38e9b3db718cefff56791c7e.body.gz",
+      "body_sha256": "16858e4ee02592a3342e3b70f5559cf346e61466e235bc684e5df677f25ea747",
+      "compressed_sha256": "d5ae20377af9ba255c50fb9cc1470878042c913a7694fb2369d3e424f12f4f25",
+      "http_status": 200,
+      "metadata_file": "raw/4850eb337b0302879ee50b09f99150a5547d28ce38e9b3db718cefff56791c7e.meta.json",
+      "metadata_sha256": "f71d9b44dcaeaf0ab7cb190112da9ebff95b0599af7e0310ad55b40891f4b675",
+      "received_at": "2026-11-03T03:16:50.382126+00:00",
+      "url": "https://npb.jp/scores/2026/0928/m-f-24/box.html"
+    },
+    {
+      "body_file": "raw/4bb7bb14c3056049f21b4283f77a25ab0fd31847519c14545b89c0d84ae62566.body.gz",
+      "body_sha256": "9bcfe0cd8e4a9152485ea6584ec566ce66ddf129a50c99728d3190d8b82f995a",
+      "compressed_sha256": "fc570efa06becfe34b1689f950a9188a55faaf8c9d1f9a3dc010a0b9704dbd6e",
+      "http_status": 200,
+      "metadata_file": "raw/4bb7bb14c3056049f21b4283f77a25ab0fd31847519c14545b89c0d84ae62566.meta.json",
+      "metadata_sha256": "204c6f2312494e4e25b5ca4db3da15f618a5be303e2a6e9987c53403e99ad20a",
+      "received_at": "2026-11-03T03:08:00.014948+00:00",
+      "url": "https://npb.jp/scores/2026/0716/l-m-14/box.html"
+    },
+    {
+      "body_file": "raw/4cc34cee7c79550d37269930b0f895d610a8ef344f48ca8e927e59766cf04e18.body.gz",
+      "body_sha256": "3c2d1f34c9dcb37acafab811ae22f13f26a58fdaf696c233968d9aa735b71da0",
+      "compressed_sha256": "9e3401c5bd35f654c6250bb6001df035cf2e58e4fef6538fdec05cccf0156454",
+      "http_status": 200,
+      "metadata_file": "raw/4cc34cee7c79550d37269930b0f895d610a8ef344f48ca8e927e59766cf04e18.meta.json",
+      "metadata_sha256": "f59d78fb01f7b9231cba4f866a6c1a9c27e7ce848cdb697c3eab869a14b44af8",
+      "received_at": "2026-11-03T03:08:24.230953+00:00",
+      "url": "https://npb.jp/scores/2026/0806/c-g-14/box.html"
+    },
+    {
+      "body_file": "raw/4e3f2c4865847198d88b5e5b314f6d2d4d479eb242457b2c4044da270e28085d.body.gz",
+      "body_sha256": "3cd59b0b50e27da95430cd09cd8094a96de12525e1551e18634a023503fb988a",
+      "compressed_sha256": "18364de7a41e8fc1af9394e015ba2bd257fac5e6bc4e7275310390bfbef9bb78",
+      "http_status": 200,
+      "metadata_file": "raw/4e3f2c4865847198d88b5e5b314f6d2d4d479eb242457b2c4044da270e28085d.meta.json",
+      "metadata_sha256": "5b6e02288c11581af1e33a75d3911adf4f6e6f64056fce4be4ca6a364c4b4f6a",
+      "received_at": "2026-11-03T03:16:43.227351+00:00",
+      "url": "https://npb.jp/scores/2026/0927/h-b-25/box.html"
+    },
+    {
+      "body_file": "raw/50ef4051edb6bdfda01bf59ffa88d837cf88b7d502f1a1ad17263e26061c3b88.body.gz",
+      "body_sha256": "890caf7de43e13fe5dbe0eb1492d31da1737e720cdcd10dc9e62556367562418",
+      "compressed_sha256": "8f3e0bb1eb733468989fe8e1acee487ea09226d5b7db9da5b10124cd3baceb6d",
+      "http_status": 200,
+      "metadata_file": "raw/50ef4051edb6bdfda01bf59ffa88d837cf88b7d502f1a1ad17263e26061c3b88.meta.json",
+      "metadata_sha256": "2fd9c08fa921e0355ea54de99a1c42bf390c290e60a0c72d22d871a5b04ba254",
+      "received_at": "2026-11-03T03:07:57.152570+00:00",
+      "url": "https://npb.jp/scores/2026/0716/e-b-12/box.html"
+    },
+    {
+      "body_file": "raw/52732adf4930c10d031e79b7daf1b2e80fe1b6327d81df160aa78a0d3ff716fc.body.gz",
+      "body_sha256": "6060e048fe20141c4411dc12eb3f4c8a451996da1ebf77f57fd08b951e93f0c9",
+      "compressed_sha256": "c16103b990691da82e4bfb50afc0916d79b4557ca11779381704146bc82f4d70",
+      "http_status": 200,
+      "metadata_file": "raw/52732adf4930c10d031e79b7daf1b2e80fe1b6327d81df160aa78a0d3ff716fc.meta.json",
+      "metadata_sha256": "58c75d4f1a573289cf0eb448602fe6a32b639b46612fe6ce1e5b590cffd09b97",
+      "received_at": "2026-11-03T03:06:45.194597+00:00",
+      "url": "https://npb.jp/scores/2026/0417/e-m-01/box.html"
+    },
+    {
+      "body_file": "raw/53f212f72b99cbc3fde1348078bd9f45cee5f27588e4f50d8a99f9692368bc5a.body.gz",
+      "body_sha256": "39403f64ef59153ba1eb25e9f1e0801e6fa10b201a1c39ef5718bb09cf76b23d",
+      "compressed_sha256": "0408cafb47cb8d9af86bf15e6d0b64c44479106ba1157512baf4654f54a652fe",
+      "http_status": 200,
+      "metadata_file": "raw/53f212f72b99cbc3fde1348078bd9f45cee5f27588e4f50d8a99f9692368bc5a.meta.json",
+      "metadata_sha256": "879a8bebf03b6b7174cd1a693edebd8b1cd4e0f1f591a28fe10d1f28c9145ad2",
+      "received_at": "2026-11-03T03:06:06.990074+00:00",
+      "url": "https://npb.jp/scores/2026/0328/g-t-02/box.html"
+    },
+    {
+      "body_file": "raw/5596ad7b853929b8b2399968d9a50b1a0c7030cf33ed2e5fea67e856b0123fab.body.gz",
+      "body_sha256": "092da7bba95ccc1b9bbfa087f81388e199e336c7abb9b87ceefca2bac672979f",
+      "compressed_sha256": "fd595fdce0938edfb18727bfc6c15556eb971a152325297c066bb9c8eccbedda",
+      "http_status": 200,
+      "metadata_file": "raw/5596ad7b853929b8b2399968d9a50b1a0c7030cf33ed2e5fea67e856b0123fab.meta.json",
+      "metadata_sha256": "59ce8ec7583ba8eac04df1914adcf79dcbaea2df8b49901ce537cf50888e8b37",
+      "received_at": "2026-11-03T03:07:36.359408+00:00",
+      "url": "https://npb.jp/scores/2026/0621/db-t-10/box.html"
+    },
+    {
+      "body_file": "raw/55ea517c14ec5425a0c55f1c567a55086a8c3a5d52aaef5d2b07584cc89b54b4.body.gz",
+      "body_sha256": "b72fcf7b261ce80234216e368148f33d00a194d7737dc8597f0461e0e9472048",
+      "compressed_sha256": "704f6d81b9fb91ba0b2c726f716ac279bd12a6aa8aa3ae3dc3a8cc6c956bb044",
+      "http_status": 200,
+      "metadata_file": "raw/55ea517c14ec5425a0c55f1c567a55086a8c3a5d52aaef5d2b07584cc89b54b4.meta.json",
+      "metadata_sha256": "83f7277736eec363567fc0a5657d96817821564f3e2048246f9c51d26d03e2c8",
+      "received_at": "2026-11-03T03:16:44.503426+00:00",
+      "url": "https://npb.jp/scores/2026/0927/l-e-24/box.html"
+    },
+    {
+      "body_file": "raw/561aa5898e29bb5c0b87596b3fc29313c6e6385454555b78224db6867cb4f637.body.gz",
+      "body_sha256": "792583255522c0d1d629c4249a4a10bc5122a26c7b2a393aa29e7b408502e41a",
+      "compressed_sha256": "d0d206e750b386d280ddd4699f4775d6c24725eb246fef3e133c461fa4151440",
+      "http_status": 200,
+      "metadata_file": "raw/561aa5898e29bb5c0b87596b3fc29313c6e6385454555b78224db6867cb4f637.meta.json",
+      "metadata_sha256": "40446b67f27535d4058484859f5199a639b0c0050efb1930ebd2c3a5465fa7a6",
+      "received_at": "2026-11-03T03:08:29.932729+00:00",
+      "url": "https://npb.jp/scores/2026/0807/db-c-16/box.html"
+    },
+    {
+      "body_file": "raw/57fe75d78a1dd33133f9d592f418c3518a734fa5fecbf3fdf5ac769c0864f5c9.body.gz",
+      "body_sha256": "aba0247641e8758712af11ee786d13d3a5d1f2cc98c9d15dc00d2646658632a7",
+      "compressed_sha256": "5a34ed2d75c6f77a19e8c78b1be42cbe0255e82323919c4feb926eecc3220a4c",
+      "http_status": 200,
+      "metadata_file": "raw/57fe75d78a1dd33133f9d592f418c3518a734fa5fecbf3fdf5ac769c0864f5c9.meta.json",
+      "metadata_sha256": "3264703a08e1381be26b507e7bd55b6cfb98c7cfe2debfd2ca672bae68d16a1b",
+      "received_at": "2026-11-03T03:06:48.118356+00:00",
+      "url": "https://npb.jp/scores/2026/0417/h-b-01/box.html"
+    },
+    {
+      "body_file": "raw/5823fe94bf159788c70742592c42bfe174790256f4ee7cf3d0e6f5837028d502.body.gz",
+      "body_sha256": "3e3c24194ad350f996da087885607b42be26ca335fd4c948299f8e37bd01bf8f",
+      "compressed_sha256": "b20b6adfb1b51f5fad8510cea54d16d73f40668f0c288f71fcd095e9aec04787",
+      "http_status": 200,
+      "metadata_file": "raw/5823fe94bf159788c70742592c42bfe174790256f4ee7cf3d0e6f5837028d502.meta.json",
+      "metadata_sha256": "ef81c84a01a8e7af1da25ccaee04aade63ad6b4fffbdab03eefa2e3d3c3ddbde",
+      "received_at": "2026-11-03T03:07:18.646007+00:00",
+      "url": "https://npb.jp/scores/2026/0616/c-f-03/box.html"
+    },
+    {
+      "body_file": "raw/5ae5dffde8159570cf77491882732dc198354a2ad47407026ae855e95bf85c95.body.gz",
+      "body_sha256": "1db5da1c5a0cb1456104ad2d7c35e8cb13d2e81ff927a7324034fca1b462ead2",
+      "compressed_sha256": "85e2a4be78c5e9bb1d19aeb989d9c7e923c94e84ca81350ace2e7f51294a5e64",
+      "http_status": 200,
+      "metadata_file": "raw/5ae5dffde8159570cf77491882732dc198354a2ad47407026ae855e95bf85c95.meta.json",
+      "metadata_sha256": "66b73fa6387f2e718029d6822086ec5d19411a2291e363d139817590c02ee911",
+      "received_at": "2026-11-03T03:06:43.862303+00:00",
+      "url": "https://npb.jp/scores/2026/0417/c-db-03/box.html"
+    },
+    {
+      "body_file": "raw/5bdda650e7687bcfdb2fedd4d278c2665b29c7536fd29f2f3d06f792cb0368db.body.gz",
+      "body_sha256": "84b2e2a12071336350ec5eb3a2abd0f63c50407774bc8db4510576a1e1f21745",
+      "compressed_sha256": "917442c132f6d310476a9ecec6ab01728066a5ac21152bf9d4ffbf1b4563157a",
+      "http_status": 200,
+      "metadata_file": "raw/5bdda650e7687bcfdb2fedd4d278c2665b29c7536fd29f2f3d06f792cb0368db.meta.json",
+      "metadata_sha256": "3d6494b0bd17b9dc1c16725a8abe4eac324902f8ee43dc763b9e7fff1d5b2c0d",
+      "received_at": "2026-11-03T03:06:13.127221+00:00",
+      "url": "https://npb.jp/scores/2026/0329/db-s-03/box.html"
+    },
+    {
+      "body_file": "raw/5c7aea2ff2c050818f02e916e351ec25695307a0bd3d0e79112d40e5e979663e.body.gz",
+      "body_sha256": "507b6cd339f8e26acb98cb0619136455df920ed259fd8377981797c0e4fc4cb9",
+      "compressed_sha256": "8b92d55f07a21b57f7067f0b7c7833fa0998ba014082c18ac631ce6c9ab4bfd4",
+      "http_status": 200,
+      "metadata_file": "raw/5c7aea2ff2c050818f02e916e351ec25695307a0bd3d0e79112d40e5e979663e.meta.json",
+      "metadata_sha256": "f7f7624fed4c184621d7f5f6371a4bed238d9ab756e1f059f68a1e1895eaa62a",
+      "received_at": "2026-11-03T03:07:39.677205+00:00",
+      "url": "https://npb.jp/scores/2026/0621/m-e-10/box.html"
+    },
+    {
+      "body_file": "raw/6051fc70d060f1f6bc25ea7ca8b1d51c751dd4003a062934d4dd5da5e893308c.body.gz",
+      "body_sha256": "14e0961e8f76b8eb94e26a18f81c8c7a0c79684ddfc4bf8a578f3d56eb7f0513",
+      "compressed_sha256": "ba7276613a58921b7a16cb5476bb465bcc5dbe78730e7e743cda339d95c9d493",
+      "http_status": 200,
+      "metadata_file": "raw/6051fc70d060f1f6bc25ea7ca8b1d51c751dd4003a062934d4dd5da5e893308c.meta.json",
+      "metadata_sha256": "0d03486e2428dcbadedb0b07a0ab2b53eacf46c0a104a2d97e7244e4044a553d",
+      "received_at": "2026-11-03T03:06:56.702836+00:00",
+      "url": "https://npb.jp/scores/2026/0512/s-t-07/box.html"
+    },
+    {
+      "body_file": "raw/63f5201037ca5516db500a9a25af2d8d587360cbb5a04bcf3dabc6c7d4e4ba94.body.gz",
+      "body_sha256": "a96d2e9338ce202fddd9eb2a2a00f5fbf542b594dcec426cd054ad76a564ba92",
+      "compressed_sha256": "c0ad0d977a39d21d4c9eb62dea71db0cb1c5ed05afc01b05d243de32aa1b1d1a",
+      "http_status": 200,
+      "metadata_file": "raw/63f5201037ca5516db500a9a25af2d8d587360cbb5a04bcf3dabc6c7d4e4ba94.meta.json",
+      "metadata_sha256": "5ec31a5a2e61a48ac40e50799f8ca7dbe8853336e82d53aad5cfc85c647d169e",
+      "received_at": "2026-11-03T03:05:32.530381+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260518.html"
+    },
+    {
+      "body_file": "raw/63fe76b3140712a7b2525fea631642185f1cfce8dc20a8e015a507aa4126add1.body.gz",
+      "body_sha256": "2d7be9dea3a060f924d9032d7590593f05d8f8e02485c364b124efcb71837381",
+      "compressed_sha256": "1d94ef663e6d9326a1ef7453f871df348757b74741ac2ad4fcc2427748e91361",
+      "http_status": 200,
+      "metadata_file": "raw/63fe76b3140712a7b2525fea631642185f1cfce8dc20a8e015a507aa4126add1.meta.json",
+      "metadata_sha256": "70cd04d60b0cb069ef899fc5f445e0b4d356f98d056bde8fb0bbdd2f78f2e1e7",
+      "received_at": "2026-11-03T03:07:33.073878+00:00",
+      "url": "https://npb.jp/scores/2026/0620/m-e-10/box.html"
+    },
+    {
+      "body_file": "raw/66b0924ef3cafe4effddfed605bee9ce5f7d8045b25b57acb5a537ecd94c05d7.body.gz",
+      "body_sha256": "6a81b3f086261059209ab4da6f00d08662adf9f3b028a6097cf57b55e0d44ead",
+      "compressed_sha256": "f2b847f0c175f6507468e620301f56303c22c87024d4e9f73c1a432faa396c86",
+      "http_status": 200,
+      "metadata_file": "raw/66b0924ef3cafe4effddfed605bee9ce5f7d8045b25b57acb5a537ecd94c05d7.meta.json",
+      "metadata_sha256": "bcb2adbca1cd5f06c7ef075a922148fa8549abad10893fb56cab80e6597228ce",
+      "received_at": "2026-11-03T03:16:29.073780+00:00",
+      "url": "https://npb.jp/scores/2026/0925/db-t-23/box.html"
+    },
+    {
+      "body_file": "raw/66f78fb2a144b3759ccf21c98dc430ce35b1cd9f8153477da140f6ea15166dc1.body.gz",
+      "body_sha256": "049dca17c27d9e614feb4b53eb9fedc5ce6a34c15b375da974368404b4bc27e4",
+      "compressed_sha256": "161fbe126ad55461217b50d7584088c87f9bdc3b84d335218473a25a30844a67",
+      "http_status": 200,
+      "metadata_file": "raw/66f78fb2a144b3759ccf21c98dc430ce35b1cd9f8153477da140f6ea15166dc1.meta.json",
+      "metadata_sha256": "8470e58503809ffd3070666ebf48abc31687da6ea3efc16126ac66b13f0f4d6f",
+      "received_at": "2026-11-03T03:05:49.109975+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260804.html"
+    },
+    {
+      "body_file": "raw/6746e62763eb89c8efe21281f4ef68abf0e33a2e525ca0c0faf97534d8fc2c52.body.gz",
+      "body_sha256": "61cd2e48967829f51871a7f634d4b32966db49615898cbe5ee9c8411c81dee84",
+      "compressed_sha256": "43c98a12e5e2590e39b2c48ba60f530f8ab93d8b276f988646390562f37e6d5a",
+      "http_status": 200,
+      "metadata_file": "raw/6746e62763eb89c8efe21281f4ef68abf0e33a2e525ca0c0faf97534d8fc2c52.meta.json",
+      "metadata_sha256": "fa46dc7c78c589f080c1436ff8d109349f572afd37387648de5e119f50489b7d",
+      "received_at": "2026-11-03T03:06:46.569990+00:00",
+      "url": "https://npb.jp/scores/2026/0417/f-l-01/box.html"
+    },
+    {
+      "body_file": "raw/6790ee82741ea4d1a14cef9bb0b79db57e8b5e74954d1b06abd246a2df408ff6.body.gz",
+      "body_sha256": "cd02bd35ece1bfdfa7c8369c5487736a7c6a989aa77d9726db10f6970dc289f0",
+      "compressed_sha256": "a8682379a0338412463fc8e369bfcf2151a80af23b5f04b200941ac4be6dbb28",
+      "http_status": 200,
+      "metadata_file": "raw/6790ee82741ea4d1a14cef9bb0b79db57e8b5e74954d1b06abd246a2df408ff6.meta.json",
+      "metadata_sha256": "21420db60e705e3e4941a920a34c1d58f2768da80206e47982468fa6f204f2e1",
+      "received_at": "2026-11-03T03:06:31.170345+00:00",
+      "url": "https://npb.jp/scores/2026/0415/d-c-05/box.html"
+    },
+    {
+      "body_file": "raw/67ac77d3ab122d76c51c56052207d2fcf5de37eff9a350bfd419f28d556215af.body.gz",
+      "body_sha256": "362391b1ee94dbdc0ccc8ecc6409af435e57eae76589cf9d88768a04b882c1db",
+      "compressed_sha256": "d492f4c1aaa28fa9d9211144b71e412f1c9b4d4fd7ad5b9a7a55b4097ccc3cf2",
+      "http_status": 200,
+      "metadata_file": "raw/67ac77d3ab122d76c51c56052207d2fcf5de37eff9a350bfd419f28d556215af.meta.json",
+      "metadata_sha256": "5baf5592e5e7bb51893849b0691696e766e52da0c914d024c92bb4b143cc9fd5",
+      "received_at": "2026-11-03T03:08:14.368001+00:00",
+      "url": "https://npb.jp/scores/2026/0805/b-e-14/box.html"
+    },
+    {
+      "body_file": "raw/68448677697f397f802bccbbaee50f0199d0434104d4454df7c62cfa1deec0f8.body.gz",
+      "body_sha256": "99a6e72c307e00a325470957c3278caa06490c58c2a71a4ece0b44ee19c0ca51",
+      "compressed_sha256": "d589628b4295256abed00f13bc8fd998cc3c52dd73387b8731b1ffc4eb00e53d",
+      "http_status": 200,
+      "metadata_file": "raw/68448677697f397f802bccbbaee50f0199d0434104d4454df7c62cfa1deec0f8.meta.json",
+      "metadata_sha256": "6af6b7ef4a3f8825704cc35b00e64c87187dd6e8d12cb5073f06bf204ab9f3e9",
+      "received_at": "2026-11-03T03:05:38.125660+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260620.html"
+    },
+    {
+      "body_file": "raw/6ae16758a9aa23ffe64c264fc6eebafb5d5e613a6501e6283de7fbad97730889.body.gz",
+      "body_sha256": "1c6c0ba748531bc8466eeb816af36ce61b19faaaaa31bf43d7b762037ca09f00",
+      "compressed_sha256": "34e8ea044058f0f19b4a65e40dbb0398e4a3ed19480409bfd4ca237f61f1efdf",
+      "http_status": 200,
+      "metadata_file": "raw/6ae16758a9aa23ffe64c264fc6eebafb5d5e613a6501e6283de7fbad97730889.meta.json",
+      "metadata_sha256": "722e56caddd5c46e1aa621731e19b2665bd255320f127c938dbc0a3b583bf21b",
+      "received_at": "2026-11-03T03:07:37.485941+00:00",
+      "url": "https://npb.jp/scores/2026/0621/f-h-11/box.html"
+    },
+    {
+      "body_file": "raw/6b8f7d56c82950f65a96a6abf933e8e510f572fbb5d8017274cd1c3de5a2ea2e.body.gz",
+      "body_sha256": "7f24808287b67da5c819a1206fe685d3c683b7d1368ba8f89d21f19341e534c0",
+      "compressed_sha256": "2519ec96018cf2b4766de7a8d393f738bd662e9eab43cba7b4cb7d43a8fe8356",
+      "http_status": 200,
+      "metadata_file": "raw/6b8f7d56c82950f65a96a6abf933e8e510f572fbb5d8017274cd1c3de5a2ea2e.meta.json",
+      "metadata_sha256": "2f6b7cec9defca07b07d1ab75b396f7cdb2b559476282567619d3ab29b738593",
+      "received_at": "2026-11-03T03:08:11.601758+00:00",
+      "url": "https://npb.jp/scores/2026/0804/h-f-15/box.html"
+    },
+    {
+      "body_file": "raw/6c69c0e399934f16f798d8c7893897b7d24754df7dffb03da2c4803558d12e93.body.gz",
+      "body_sha256": "f232f9f1cd77e595a4debf7650a87a385417aaf763c47fd41698b76de6c6fd7e",
+      "compressed_sha256": "b778906af33f6da6f6c82ff8c55277bb15e1d1158e027c8992c7908a5606ba85",
+      "http_status": 200,
+      "metadata_file": "raw/6c69c0e399934f16f798d8c7893897b7d24754df7dffb03da2c4803558d12e93.meta.json",
+      "metadata_sha256": "d839b9dfa69dbcff898ead1df1be946f17bd24631379e808a9254efb08a45f61",
+      "received_at": "2026-11-03T03:07:34.168109+00:00",
+      "url": "https://npb.jp/scores/2026/0620/s-c-10/box.html"
+    },
+    {
+      "body_file": "raw/6cfb2d49841453369c8a415a697a2ed248bd10093bf6d50049a74638534e1d30.body.gz",
+      "body_sha256": "934172fde5078505e6e07950cbbc53a971efc1ac408abad1d580ae45b8ad1362",
+      "compressed_sha256": "7c6e13c2797b37c32f6f80542c6d58f0385e5681fde12c9c784dde7300d21469",
+      "http_status": 200,
+      "metadata_file": "raw/6cfb2d49841453369c8a415a697a2ed248bd10093bf6d50049a74638534e1d30.meta.json",
+      "metadata_sha256": "e5ec1199df982a065c6a9e2140c2b04d95f9ca10b5979fde4caac70ef19b7959",
+      "received_at": "2026-11-03T03:06:40.930488+00:00",
+      "url": "https://npb.jp/scores/2026/0416/s-db-05/box.html"
+    },
+    {
+      "body_file": "raw/6de322a5cf95c177e9f37d6895de010946d29800e2cb07741f36bd5477928aeb.body.gz",
+      "body_sha256": "dc51b7956b7ed720dd7b023d109a19ac56224e6f6a51de3227b6a13f6689ca79",
+      "compressed_sha256": "ca0945b3cd88bf51c3f95066eb969d83d006e1ccf94b15f5bb3205a5bb6070cd",
+      "http_status": 200,
+      "metadata_file": "raw/6de322a5cf95c177e9f37d6895de010946d29800e2cb07741f36bd5477928aeb.meta.json",
+      "metadata_sha256": "0469c8d2ff6c9defee8a07f173a5472d11dc7cc9e92754f163a608b50cfe80f5",
+      "received_at": "2026-11-03T03:07:16.583012+00:00",
+      "url": "https://npb.jp/scores/2026/0515/t-c-06/box.html"
+    },
+    {
+      "body_file": "raw/6f421169bfec932fb78f8bd33d673ec7e97f47567f8138f3d6edffd6a7cd3b8e.body.gz",
+      "body_sha256": "71561b03dd6d3fcf3475757ac734b4f75c4665e1ee0213517b03843229ce1b16",
+      "compressed_sha256": "7b8a073f623993abf40febde095a01dcc3a43f6e07db924c19715fcdcea124fe",
+      "http_status": 200,
+      "metadata_file": "raw/6f421169bfec932fb78f8bd33d673ec7e97f47567f8138f3d6edffd6a7cd3b8e.meta.json",
+      "metadata_sha256": "d0276a729505cfe6b9bbd29a13bd4e16194975bfe23cb1c1dac6c728bc00ab9c",
+      "received_at": "2026-11-03T03:07:54.322169+00:00",
+      "url": "https://npb.jp/scores/2026/0715/s-g-15/box.html"
+    },
+    {
+      "body_file": "raw/6f9ae36b4a7ce57234a705f269707099a710ffd549ad27e1410ea55c94bc67b5.body.gz",
+      "body_sha256": "8b97bab4ddd012595a7fa12008fe8d0b17dbce083f4436ad518348d5e626a6df",
+      "compressed_sha256": "f1e982d43849b6e281360d20e9273297045a6829b0b89b2fac8c493e954ffe26",
+      "http_status": 200,
+      "metadata_file": "raw/6f9ae36b4a7ce57234a705f269707099a710ffd549ad27e1410ea55c94bc67b5.meta.json",
+      "metadata_sha256": "1db52287221136a27a602bdf0f2138da135dab7969a8d7a112ed1f61582ea73f",
+      "received_at": "2026-11-03T03:07:28.694312+00:00",
+      "url": "https://npb.jp/scores/2026/0620/b-l-11/box.html"
+    },
+    {
+      "body_file": "raw/73da709d5962bfcdc4d68e4ede0061bde89acd6c1537345ebdbe1fab8218b117.body.gz",
+      "body_sha256": "73034c880bdee57a7932ff0e96d21dfab821109ab16a065e992f68930c377d9f",
+      "compressed_sha256": "3c33f41b9b3c47b86f71d7c5983ee316e5a83b629e6e8011616ef2d71af7799d",
+      "http_status": 200,
+      "metadata_file": "raw/73da709d5962bfcdc4d68e4ede0061bde89acd6c1537345ebdbe1fab8218b117.meta.json",
+      "metadata_sha256": "dd09df176adeb4fc9c58646abd92369d227add09874ce16bd70d4981de7190e8",
+      "received_at": "2026-11-03T03:05:37.007660+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260619.html"
+    },
+    {
+      "body_file": "raw/73fa30dc014782fe68a5a94b223c6bbdf86adc754978ecd04bae5962ed3bbe31.body.gz",
+      "body_sha256": "82c7d6555049910e20284f3d0a5bde057460dab3c2bff3a39fda9df23c2ea9b3",
+      "compressed_sha256": "9a9404cb305c36e2ddcaf277d313adef7c7d21c181d38434e2afa72bdfa21111",
+      "http_status": 200,
+      "metadata_file": "raw/73fa30dc014782fe68a5a94b223c6bbdf86adc754978ecd04bae5962ed3bbe31.meta.json",
+      "metadata_sha256": "d739e01fb4d0cf4e4905d8b52618e9e3bed86a13719e6e9e1581e84ccf441185",
+      "received_at": "2026-11-03T03:07:30.880989+00:00",
+      "url": "https://npb.jp/scores/2026/0620/f-h-10/box.html"
+    },
+    {
+      "body_file": "raw/7532fee96e29ca0ae3821d8ec1a6565ab2df366544f1611c2fd33b62ec44588a.body.gz",
+      "body_sha256": "77688a21e91bcf19dc1f7c44ddbf26ca1a2b770e81f3b839d66b9d46f2de7698",
+      "compressed_sha256": "75d68aa566b7803df528af7b364cd7a58ea6f1bdb157d05b90d97705fbe04149",
+      "http_status": 200,
+      "metadata_file": "raw/7532fee96e29ca0ae3821d8ec1a6565ab2df366544f1611c2fd33b62ec44588a.meta.json",
+      "metadata_sha256": "d8500d984e5dc72fa594c2cb300be6c0049d42e704381ea8b47099f345dc2f6d",
+      "received_at": "2026-11-03T03:07:01.030767+00:00",
+      "url": "https://npb.jp/scores/2026/0513/h-l-11/box.html"
+    },
+    {
+      "body_file": "raw/75a14104578205f62e2f4f54fc4768f504b6372757b57b334a1a7cdf47a69f5f.body.gz",
+      "body_sha256": "20b73a19d3db66d711396c9582a047ba28669f91457891934042b585a1267541",
+      "compressed_sha256": "e07d9c11f190122c7ff67e7dc0f8a92d7bcf23c03667a22456cbefb93e90e3fb",
+      "http_status": 200,
+      "metadata_file": "raw/75a14104578205f62e2f4f54fc4768f504b6372757b57b334a1a7cdf47a69f5f.meta.json",
+      "metadata_sha256": "ac85f8002f284311ef24512a161e2b061f64dc7fe1399b538bbb17a663bbba3d",
+      "received_at": "2026-11-03T03:05:43.611493+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260716.html"
+    },
+    {
+      "body_file": "raw/75eaa551576300696dfc1b397d409f39d46ffbc6b6ab343edfdc0c57fc9d791b.body.gz",
+      "body_sha256": "01e272ba311d9a4f6c53f5f383d58d01f1e94b2a2efc10fedc9df61e5e76a99d",
+      "compressed_sha256": "7e60ffcd0ca0d1ce1ddfc709942db518e3c61af4a7f1364026a2a7f6b9c36cc4",
+      "http_status": 200,
+      "metadata_file": "raw/75eaa551576300696dfc1b397d409f39d46ffbc6b6ab343edfdc0c57fc9d791b.meta.json",
+      "metadata_sha256": "c5b117c7cdecdc89667481668b91f3c45990f4fadbfe9ced270e947c5ada4bbc",
+      "received_at": "2026-11-03T03:07:06.826343+00:00",
+      "url": "https://npb.jp/scores/2026/0514/e-b-07/box.html"
+    },
+    {
+      "body_file": "raw/777804989eb4f86b23c5e529703219df16a0e3d79a3f0fc5b9379074a8b1e477.body.gz",
+      "body_sha256": "7debbc30f18f52b9afc2bed3c8960374428cf49340b02443e74c9e0a2d9a3524",
+      "compressed_sha256": "b3c27cdec77f1da9e24c2a978273f0e0f3815883d3b018dcb14bb8d83ffe7a6f",
+      "http_status": 200,
+      "metadata_file": "raw/777804989eb4f86b23c5e529703219df16a0e3d79a3f0fc5b9379074a8b1e477.meta.json",
+      "metadata_sha256": "b79279c00067ce383310b8e6bf6cc3cf82c9c922641e8d82db896673252e0de1",
+      "received_at": "2026-11-03T03:05:48.013950+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260720.html"
+    },
+    {
+      "body_file": "raw/77a069e7bf976412ae4dca30f2a409dafcc71fabf6147e73194ed46849f9fd33.body.gz",
+      "body_sha256": "c20f548ad092028e9501c5c04b7a0cf69badeb8976a856af0bed23d10eea708c",
+      "compressed_sha256": "72f28de3eb7f1a25037e249bd083ca104103148487d8cfb55a4f01b00f1ee2ca",
+      "http_status": 200,
+      "metadata_file": "raw/77a069e7bf976412ae4dca30f2a409dafcc71fabf6147e73194ed46849f9fd33.meta.json",
+      "metadata_sha256": "3caa6b384d7cc99df5713b9e7c202883c33f3ec9ee07e00c8f7199663a303124",
+      "received_at": "2026-11-03T03:05:56.912335+00:00",
+      "url": "https://npb.jp/scores/2026/0327/b-e-01/box.html"
+    },
+    {
+      "body_file": "raw/788d546e844db43ee2a411c6af9b5f08e17c85aaa8cc85b26bc7a3bc3686453e.body.gz",
+      "body_sha256": "76a71f99a2e8a9ca97340a8e70d56746bb7f31332fd66e0b9fdefe3bcb907301",
+      "compressed_sha256": "02b4829f9ed7905ba7c2e9d5fe22c6a462537368e49b3927a283b9898ad49ee3",
+      "http_status": 200,
+      "metadata_file": "raw/788d546e844db43ee2a411c6af9b5f08e17c85aaa8cc85b26bc7a3bc3686453e.meta.json",
+      "metadata_sha256": "6f05b41a0629b4df5e9d15bacd10d43a2dda7f50019a5d218360cb650df52144",
+      "received_at": "2026-11-03T03:06:28.383122+00:00",
+      "url": "https://npb.jp/scores/2026/0414/t-g-04/box.html"
+    },
+    {
+      "body_file": "raw/7b23d529d0ce529b6b37cede40e92fb1272d4c2165b5ff1478d548bd55c42546.body.gz",
+      "body_sha256": "853b15c5cc612a2e136364ba7b4a9cfc5a8eb9453087c47dbbed0921dae5e11a",
+      "compressed_sha256": "d77f919de23813932288590c5478325aac92d8b6a5afcc0fde14ff434c1d6076",
+      "http_status": 200,
+      "metadata_file": "raw/7b23d529d0ce529b6b37cede40e92fb1272d4c2165b5ff1478d548bd55c42546.meta.json",
+      "metadata_sha256": "472ad92e82a0eb75749ff6cc7729f5639c0b8bb7e363c028f629c50fcacaaffd",
+      "received_at": "2026-11-03T03:05:24.787597+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260420.html"
+    },
+    {
+      "body_file": "raw/7c9749ac17d43081719f344cf18f95c5641f8e017688369b243cc81d0ad634c8.body.gz",
+      "body_sha256": "53b4ec297d99be603b80cf216222e3e4fa6687a302722558bb2aeb8cfa46aa84",
+      "compressed_sha256": "871b3e0d465931c763da962c20c813532de196a0cfe94d38dd459442fdcf5fc6",
+      "http_status": 200,
+      "metadata_file": "raw/7c9749ac17d43081719f344cf18f95c5641f8e017688369b243cc81d0ad634c8.meta.json",
+      "metadata_sha256": "a7417e685eb16495ce927172efb0d4fae7205b3311c262d3847ad63c5710f8ec",
+      "received_at": "2026-11-03T03:05:46.903741+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260719.html"
+    },
+    {
+      "body_file": "raw/7ca7be99293d440ca566fcffa0e323b8cc930524bc67617ac62051a0af2d3b47.body.gz",
+      "body_sha256": "5d47dd5331b5f75272a4850f61937bff1a5c93e61f155781f0ed20cba5402dbc",
+      "compressed_sha256": "1f594dccc82e8827980ef02bad30b959bb26bf17e913e6abe6b047a7b2b048e6",
+      "http_status": 200,
+      "metadata_file": "raw/7ca7be99293d440ca566fcffa0e323b8cc930524bc67617ac62051a0af2d3b47.meta.json",
+      "metadata_sha256": "96f9df7df027878905747d65426dd5556da3bbbc0bcc5d287afc5fc125d6756c",
+      "received_at": "2026-11-03T03:05:34.759118+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260617.html"
+    },
+    {
+      "body_file": "raw/7d8af43039a6c02b99182a978ad6466ce3a7aab2a1e113f8227f6c65251a65f0.body.gz",
+      "body_sha256": "a42d17d3465fd0fcd090ae2386567071df45219832837f7716ac78e7b64e9f68",
+      "compressed_sha256": "894d489e5c1d0b5dbe663062a9698561f7ee9b0da691aadd3c62c1e49a59a279",
+      "http_status": 200,
+      "metadata_file": "raw/7d8af43039a6c02b99182a978ad6466ce3a7aab2a1e113f8227f6c65251a65f0.meta.json",
+      "metadata_sha256": "0d6bbac697bed981387146228f889ba488d09c7dc48574de302e5552f1e6a00f",
+      "received_at": "2026-11-03T03:05:26.980046+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260513.html"
+    },
+    {
+      "body_file": "raw/82c0b478155bf1905c1efd8b5a9dbf8a923685b9385f31c44c3207b4eeacea56.body.gz",
+      "body_sha256": "77b445d2b29633df4e9281f0341e448271866ed2f1fde56b6d713970d0823987",
+      "compressed_sha256": "de814be86d9da9de683efa352046faca33dd05aef5d2999bf45bd08b587716b4",
+      "http_status": 200,
+      "metadata_file": "raw/82c0b478155bf1905c1efd8b5a9dbf8a923685b9385f31c44c3207b4eeacea56.meta.json",
+      "metadata_sha256": "d205a2484f9e834f9b6470ae91c1aca97168c1672d58ea6961ff0354c1d2c449",
+      "received_at": "2026-11-03T03:07:21.009026+00:00",
+      "url": "https://npb.jp/scores/2026/0617/t-e-03/box.html"
+    },
+    {
+      "body_file": "raw/83ec411a6aa99c58fb8bb7233d1ccbae612af26465b2334ab0cd07e7f3b67951.body.gz",
+      "body_sha256": "56847f3be3c6d9f7b4c13066a1680ed562c57ec15686dfee01a609c68d18ef4b",
+      "compressed_sha256": "60ed22fddd98b92ac731c8e1a0a96fd3cdcedae8068e110613421111f34da690",
+      "http_status": 200,
+      "metadata_file": "raw/83ec411a6aa99c58fb8bb7233d1ccbae612af26465b2334ab0cd07e7f3b67951.meta.json",
+      "metadata_sha256": "f739888e1c793421c7329a17cf77f30a022aa120788b98bd2f460471d3f90602",
+      "received_at": "2026-11-03T03:16:45.961577+00:00",
+      "url": "https://npb.jp/scores/2026/0927/m-f-23/box.html"
+    },
+    {
+      "body_file": "raw/84e69eb4e5f6e57a27f9bf68427aeb9df2a97008a9a36daadfc765d8d1e05420.body.gz",
+      "body_sha256": "b11594a148f6985b6e611ffdca2577a486fddee9641797a59feef3faa3c3e857",
+      "compressed_sha256": "83ba3789ea9debff7428f199c18df5a00ea69f5bc61b9eda0a0cf91abb4b9bf4",
+      "http_status": 200,
+      "metadata_file": "raw/84e69eb4e5f6e57a27f9bf68427aeb9df2a97008a9a36daadfc765d8d1e05420.meta.json",
+      "metadata_sha256": "deb282134e19c24cfc65851c49248494a1b1180ebb965a6a29d5b2d6c39b37e2",
+      "received_at": "2026-11-03T03:06:00.379759+00:00",
+      "url": "https://npb.jp/scores/2026/0327/g-t-01/box.html"
+    },
+    {
+      "body_file": "raw/84f08597e6e42b7f880dc5562030f9623b346a5a4f857a3b96d931ff4f69e8fe.body.gz",
+      "body_sha256": "09730bcb1e893f78b85b2189f73d303cd05b4cfe815ae4d7e7eb16435ed5a44b",
+      "compressed_sha256": "76832bc2bf88ca566667f9ec39a147daf9ff2a961a02a2fcab07a1b03caa5346",
+      "http_status": 200,
+      "metadata_file": "raw/84f08597e6e42b7f880dc5562030f9623b346a5a4f857a3b96d931ff4f69e8fe.meta.json",
+      "metadata_sha256": "bdc1cbf2ded478a5dc2bff639af2b346a203ca8bd9cde7b3b5541487e5748342",
+      "received_at": "2026-11-03T03:08:02.867102+00:00",
+      "url": "https://npb.jp/scores/2026/0717/c-t-13/box.html"
+    },
+    {
+      "body_file": "raw/8538c39f49f72e8df61e7cc4ac5c2431ab7e3d3a483365538732b1da8c6714d4.body.gz",
+      "body_sha256": "1b4bcbd216b8069d306f758f3a37e55b864417defb926701f64be6905046be5b",
+      "compressed_sha256": "15b82a29827f932215fcee2ec7ed7ee57431dd50d0b040313eeef04fecff36cf",
+      "http_status": 200,
+      "metadata_file": "raw/8538c39f49f72e8df61e7cc4ac5c2431ab7e3d3a483365538732b1da8c6714d4.meta.json",
+      "metadata_sha256": "bee7c21224a5664089deb559142e2874c48585af527381f17c234192f1c7997e",
+      "received_at": "2026-11-03T03:05:14.916299+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260329.html"
+    },
+    {
+      "body_file": "raw/8622ebec02cc521b1e466643fc80740a74a2e780e719658b3f8c835ce3860f2d.body.gz",
+      "body_sha256": "a6634e36aa0a5d4236b35e7024bac785fce3ff6e428061c15006ad39d0f8caa6",
+      "compressed_sha256": "c8fda9c014ad1d0417d4e46531a75c23b25745b6800bdf79ca2279c704210999",
+      "http_status": 200,
+      "metadata_file": "raw/8622ebec02cc521b1e466643fc80740a74a2e780e719658b3f8c835ce3860f2d.meta.json",
+      "metadata_sha256": "8794f5984b842541640e6921b48bc3027caa3f861da366bddfb75bc9e5a9a994",
+      "received_at": "2026-11-03T03:05:21.499835+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260417.html"
+    },
+    {
+      "body_file": "raw/86e4cbd81b083a64efdc3d343fba1c29cfc208aca5402b40c06afa347062fb43.body.gz",
+      "body_sha256": "300975c3704610f6d5528075d4cedab9306a904b5b1f030590e56df0b9bbbc7f",
+      "compressed_sha256": "2fdbd5bcc8755cb15e7dbafe1dbfb033c57765f60bf828b3e8d58f15e1153e20",
+      "http_status": 200,
+      "metadata_file": "raw/86e4cbd81b083a64efdc3d343fba1c29cfc208aca5402b40c06afa347062fb43.meta.json",
+      "metadata_sha256": "bfce54eb1766a80c72039c005d99f5037e45041e269886d28ba7fb83af41f210",
+      "received_at": "2026-11-03T03:06:35.229373+00:00",
+      "url": "https://npb.jp/scores/2026/0415/t-g-05/box.html"
+    },
+    {
+      "body_file": "raw/88d6a89c57c0ad5c7fd3a9f11868b13231f35cbb5fc72f60b4df0718d3fe7a96.body.gz",
+      "body_sha256": "d6c1b3fcdb12242d837382985e136ce4dfb3bab3fa959a819dfc76d2e6dfeb16",
+      "compressed_sha256": "962d8b1be2b8944c80f1e1d7081e2876ceff12ab9c4c58fa6040f5be784172ce",
+      "http_status": 200,
+      "metadata_file": "raw/88d6a89c57c0ad5c7fd3a9f11868b13231f35cbb5fc72f60b4df0718d3fe7a96.meta.json",
+      "metadata_sha256": "8f4eaea70004899ff456ed5f6ae7983807c5fc0d176b01aac91f717b21bf9cc7",
+      "received_at": "2026-11-03T03:08:12.919696+00:00",
+      "url": "https://npb.jp/scores/2026/0804/m-l-15/box.html"
+    },
+    {
+      "body_file": "raw/8dbc975092c9fb26ed4df4036a02513935c5139af90202739c5b7c3b925f77c5.body.gz",
+      "body_sha256": "d779c6b8f74d6a1d428c4bd2e92a14b4a0d3055355adbf6291f2d247abe3943c",
+      "compressed_sha256": "3e7a6c71ff73596cfb978d6d8d9ae382b8c0a47b9c840bbe3997789c3941d745",
+      "http_status": 200,
+      "metadata_file": "raw/8dbc975092c9fb26ed4df4036a02513935c5139af90202739c5b7c3b925f77c5.meta.json",
+      "metadata_sha256": "259fe8610fe371fa45560e1046d3250ccc94bc4fee2bac3fff2e20802f6bbcb0",
+      "received_at": "2026-11-03T03:07:08.194373+00:00",
+      "url": "https://npb.jp/scores/2026/0514/m-f-09/box.html"
+    },
+    {
+      "body_file": "raw/8ee9e76c61990abb370318f9edaba6bc867c54b86f0347e057bf2e267a6c00d4.body.gz",
+      "body_sha256": "c5fb6693ffdb5acea8e1e1c3c634b1431804a9707be2d091fcd0859c6ec25b7a",
+      "compressed_sha256": "249cf217f097fdd139dad8417cfb9cacaaf732e8084ca4138e8af9473a6092b5",
+      "http_status": 200,
+      "metadata_file": "raw/8ee9e76c61990abb370318f9edaba6bc867c54b86f0347e057bf2e267a6c00d4.meta.json",
+      "metadata_sha256": "295b45a412cb2e4ab5d55d47db193adf12cef0edbc3647471af91c5b2a3e6f03",
+      "received_at": "2026-11-03T03:05:45.806534+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260718.html"
+    },
+    {
+      "body_file": "raw/8f884a7aeac2fed471cc8c9d6ebeb92c0f2da8b0cd0dbd37e85e6892e59a43b0.body.gz",
+      "body_sha256": "b2e44d26c85b575f0c82097f79189a1f813f8c800cb4e338e1197ad1330c627f",
+      "compressed_sha256": "ef9ba3740b0669d56d7a79460d6f668c1ba906ec51fb326fdf7e9713d4e05d6d",
+      "http_status": 200,
+      "metadata_file": "raw/8f884a7aeac2fed471cc8c9d6ebeb92c0f2da8b0cd0dbd37e85e6892e59a43b0.meta.json",
+      "metadata_sha256": "5488b0a505723e43ced564d76fcb31aadf67627cecbcc284cf8f22a49f8f30fc",
+      "received_at": "2026-11-03T03:07:19.827891+00:00",
+      "url": "https://npb.jp/scores/2026/0616/t-l-03/box.html"
+    },
+    {
+      "body_file": "raw/92c42f6375661311c805667508635b99304e71e6bfefb25c18eb85baedd19778.body.gz",
+      "body_sha256": "54644e44fb6a6b7e1e9780d2d779684c7aebe0ecf8092e4da42521168905a77b",
+      "compressed_sha256": "ada9a817e69e6a27c35e842295a1ff6ee40d346017095e5d1bbc848b7ec40e0a",
+      "http_status": 200,
+      "metadata_file": "raw/92c42f6375661311c805667508635b99304e71e6bfefb25c18eb85baedd19778.meta.json",
+      "metadata_sha256": "86708d31c85e202fc404f1d7b591dcbca6efd3a70aed5ca2af96896dfe0200fa",
+      "received_at": "2026-11-03T03:07:11.024543+00:00",
+      "url": "https://npb.jp/scores/2026/0515/e-h-10/box.html"
+    },
+    {
+      "body_file": "raw/93f0b18f1d59d856254303cf2cade764607a20ca59c2cc38c1cb2b8008c3d957.body.gz",
+      "body_sha256": "0ec83368c442c835db0c0be9e907e0c7b2330249f6b6d5ae98df77d1655c1274",
+      "compressed_sha256": "b3d7ec5a5cd62f8a67b87784c86ac4c56baeca0074027c1998f73affb4235911",
+      "http_status": 200,
+      "metadata_file": "raw/93f0b18f1d59d856254303cf2cade764607a20ca59c2cc38c1cb2b8008c3d957.meta.json",
+      "metadata_sha256": "eb622dd11116f55960c938ad8ecd5d6586b0340ad1f18e31881619c5f8a6d75a",
+      "received_at": "2026-11-03T03:05:22.596838+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260418.html"
+    },
+    {
+      "body_file": "raw/96bd428742c0a89ff051599341a05857d3566ee5b8c601fd6b4bfcc53d61efbb.body.gz",
+      "body_sha256": "c6cbf43c5a9e938c2935ae6dd8c669de758a0ada7efc820121e1fe4a52739771",
+      "compressed_sha256": "d1575088db575e06bf74a9a0a8d3e132661a1fad1e32988cfea79aceb71b9492",
+      "http_status": 200,
+      "metadata_file": "raw/96bd428742c0a89ff051599341a05857d3566ee5b8c601fd6b4bfcc53d61efbb.meta.json",
+      "metadata_sha256": "21c1997e3d0b9c555dfa6af2aad29ff45b0b6b25ec2a8a50ca8c2d0dfbf85972",
+      "received_at": "2026-11-03T03:07:45.160998+00:00",
+      "url": "https://npb.jp/scores/2026/0714/l-m-12/box.html"
+    },
+    {
+      "body_file": "raw/96d10607c34afe911a366f9fc5a0de8a8bd318a4af8aab1b0bc315fb3e6c0cfd.body.gz",
+      "body_sha256": "55223d6d6b5a91bfe2ec26c99e5a4cbac5e735b49e366d18aaa8d3767148a13b",
+      "compressed_sha256": "bcbb56649829a807414075952d216bc443a6a55c3282c9ac988cf65bccf2a885",
+      "http_status": 200,
+      "metadata_file": "raw/96d10607c34afe911a366f9fc5a0de8a8bd318a4af8aab1b0bc315fb3e6c0cfd.meta.json",
+      "metadata_sha256": "82636f77fb63f7cafa8a781329cdcd27b8da180ad72c69363ba1f96d1eaa0dd6",
+      "received_at": "2026-11-03T03:07:46.255877+00:00",
+      "url": "https://npb.jp/scores/2026/0714/s-g-14/box.html"
+    },
+    {
+      "body_file": "raw/97ea425d8deba16bb4e177e32f836dd7d090f0dd876fc5a480bd2dc8fab894c8.body.gz",
+      "body_sha256": "76d6aa92bb753e100b947ff56d6ec1b09e4cedd7d483ca0df37369fac4fc4f3d",
+      "compressed_sha256": "924185839f1c8a84c3578c81ca10c5f7c23f7bd8011d36d3f78f303162cb22e5",
+      "http_status": 200,
+      "metadata_file": "raw/97ea425d8deba16bb4e177e32f836dd7d090f0dd876fc5a480bd2dc8fab894c8.meta.json",
+      "metadata_sha256": "c5bf29c54deccbd03c92a853688ecfc405b5b4af3ff57b933455e1e3c0a02f92",
+      "received_at": "2026-11-03T03:05:19.303208+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260415.html"
+    },
+    {
+      "body_file": "raw/97f588e501843792cb233fae7961f62f0eea913b90cfb7bf1271658bd7ae0952.body.gz",
+      "body_sha256": "6fff966fe08560c0b160846cbe854f4bcac51d5eeb0ca4198ec247abafdb85b3",
+      "compressed_sha256": "9921d184ea424f73308641cb96b147fce2a8211b6c909c4fca28d77dc9590e8a",
+      "http_status": 200,
+      "metadata_file": "raw/97f588e501843792cb233fae7961f62f0eea913b90cfb7bf1271658bd7ae0952.meta.json",
+      "metadata_sha256": "055ec19ef64d54fe790fd75746964a185ff8af5868a63ee1774dd0c5994ce2be",
+      "received_at": "2026-11-03T03:05:53.495838+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260808.html"
+    },
+    {
+      "body_file": "raw/985b13faa4df7f6f50c9628bc8e26da2992dd6d7a79a0d22b3c91139971e6dfc.body.gz",
+      "body_sha256": "5bc62b2f6e4250e416fb114f3459c3c43b3352e2f2f7dcfdd6e014baa2196c33",
+      "compressed_sha256": "7a62a63fde8d9d7e5066e92650c8b7ced6bce41d5dbb2586bbdb8de8d6114ee6",
+      "http_status": 200,
+      "metadata_file": "raw/985b13faa4df7f6f50c9628bc8e26da2992dd6d7a79a0d22b3c91139971e6dfc.meta.json",
+      "metadata_sha256": "f5ed424759fb36ab2e593d8e8387106cec9a74e36b078500945899bd74843470",
+      "received_at": "2026-11-03T03:06:15.934031+00:00",
+      "url": "https://npb.jp/scores/2026/0329/h-f-03/box.html"
+    },
+    {
+      "body_file": "raw/989fdc10053a98ff672f77527e304630718906a8dd57e9dca2f180e79438875e.body.gz",
+      "body_sha256": "b04d622a2f8e5b6b59e1b93da3ddc930c873efde2faa457534ab39a361f37d2c",
+      "compressed_sha256": "cf658b1714e6a2302df61f7baf510eb91699b35a9a1b3b3d51481a6ec092193a",
+      "http_status": 200,
+      "metadata_file": "raw/989fdc10053a98ff672f77527e304630718906a8dd57e9dca2f180e79438875e.meta.json",
+      "metadata_sha256": "499eeb599a1bf9059a8f95701834fea96d9c66172e0e4c3976de95efe2ff99a7",
+      "received_at": "2026-11-03T03:07:38.582861+00:00",
+      "url": "https://npb.jp/scores/2026/0621/g-d-11/box.html"
+    },
+    {
+      "body_file": "raw/98fa6b8aaad10d5b8baf9ae9ec006ef4b1d6544e70a16b2d9618b0840b325288.body.gz",
+      "body_sha256": "1080845067f2d93c9eebb4269904d29d3ee3653e5724a962e26a166c8fd3c0be",
+      "compressed_sha256": "c92368065c627b056e6bcb7c9036caab34a8e99dd5999c2d3d65001599eca10c",
+      "http_status": 200,
+      "metadata_file": "raw/98fa6b8aaad10d5b8baf9ae9ec006ef4b1d6544e70a16b2d9618b0840b325288.meta.json",
+      "metadata_sha256": "50bdd306e822788de5fb9b29a16b166c592b8b4a804dd34ba89af6b2f8fecbd3",
+      "received_at": "2026-11-03T03:06:51.001214+00:00",
+      "url": "https://npb.jp/scores/2026/0512/e-b-06/box.html"
+    },
+    {
+      "body_file": "raw/99230df3c27fba70cf59a258bd4bcf383273c8c95e94a14c977c6f030168877b.body.gz",
+      "body_sha256": "a2db908c575a33f7c3e6a40518032c6748ca5a0c7f598c4b88c0745e43bf2527",
+      "compressed_sha256": "dafdf6fe0bb5cf39a458d1982822a9404c7494f8d34623065c4306d6bb8d3bc9",
+      "http_status": 200,
+      "metadata_file": "raw/99230df3c27fba70cf59a258bd4bcf383273c8c95e94a14c977c6f030168877b.meta.json",
+      "metadata_sha256": "f246d620c6eb9aa8dfcf5b44965e5e4451b82a083a6f9abe7e9e8f9e0f771fc3",
+      "received_at": "2026-11-03T03:08:19.975176+00:00",
+      "url": "https://npb.jp/scores/2026/0805/h-f-16/box.html"
+    },
+    {
+      "body_file": "raw/9c34f8bea4356163ccff126dfd9c50904047d18f0807c81f364e61614d49b738.body.gz",
+      "body_sha256": "669be2e4d646b229f96df2ba4bee9518568a1688962aa1a63114abff001021b7",
+      "compressed_sha256": "1aa80c82523334e861773261ed2eda430fda1906bf0426b0b10f16993c724f4c",
+      "http_status": 200,
+      "metadata_file": "raw/9c34f8bea4356163ccff126dfd9c50904047d18f0807c81f364e61614d49b738.meta.json",
+      "metadata_sha256": "58e4f4681d6e08a380eda8bba814e749dc5e37ed4cb18454d578f59e4374c7ba",
+      "received_at": "2026-11-03T03:06:03.688037+00:00",
+      "url": "https://npb.jp/scores/2026/0328/b-e-02/box.html"
+    },
+    {
+      "body_file": "raw/9c3bdb371f69f9607c273596f18b0aa3fe3593f2e54c2e0095cfced31a8f5c68.body.gz",
+      "body_sha256": "08b0351f55b7402fd9ba299d460e8bc3268d44f921c07f6969df933701e87485",
+      "compressed_sha256": "c20a1cae0b9bf1df4ac5a029a1beb359e32c600cd2f5cea8ea35ab6ff4e9560e",
+      "http_status": 200,
+      "metadata_file": "raw/9c3bdb371f69f9607c273596f18b0aa3fe3593f2e54c2e0095cfced31a8f5c68.meta.json",
+      "metadata_sha256": "16c091eecd8248b425ee3672335d04c227d5c91fc30040e9e91526f6f960499e",
+      "received_at": "2026-11-03T03:08:01.371347+00:00",
+      "url": "https://npb.jp/scores/2026/0716/s-g-16/box.html"
+    },
+    {
+      "body_file": "raw/9fd41429cb2dcf30a85945c949ef2f4f6fbc018a2051bfcfb9b4489e60a71c1f.body.gz",
+      "body_sha256": "8d523be373dcbc5195f6c64e54e9b8d8b077eef1f49376dccd2649d35b0990b8",
+      "compressed_sha256": "91b75ec1c6c14b8bdf2a279461bb42b76e8b4c26582b22320ffcb01b783de28b",
+      "http_status": 200,
+      "metadata_file": "raw/9fd41429cb2dcf30a85945c949ef2f4f6fbc018a2051bfcfb9b4489e60a71c1f.meta.json",
+      "metadata_sha256": "d06ce5814dbee3b6d17391818f29c128558c4718c833bd3d8d750edc5a56c66f",
+      "received_at": "2026-11-03T03:05:20.401232+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260416.html"
+    },
+    {
+      "body_file": "raw/a2bb5af567c96ba1c05cbc45d8ed6817ed72f1d31e52bea703ff6788c4ffb0d5.body.gz",
+      "body_sha256": "c71019dc4717e20bfdfa80fb59ac06a8540ae5bbc61bac5addd359bc6539898c",
+      "compressed_sha256": "9fbbf2a27a7e65f907ea82955cd9f124c56bd3cb150b003f250f45e9e0b2dcc8",
+      "http_status": 200,
+      "metadata_file": "raw/a2bb5af567c96ba1c05cbc45d8ed6817ed72f1d31e52bea703ff6788c4ffb0d5.meta.json",
+      "metadata_sha256": "92b6ad3f05023229ffcbd069ee0c1d98f5121230001dd695727177c717959ff7",
+      "received_at": "2026-11-03T03:06:26.926855+00:00",
+      "url": "https://npb.jp/scores/2026/0414/s-db-04/box.html"
+    },
+    {
+      "body_file": "raw/a310233ff6c996481812a87c902a1b125538184b47bd0e387003553c56a6f84e.body.gz",
+      "body_sha256": "cf72a44a4f2ebf7f637168dc37818a4ecb4c770c4b74f28f14ed207e9343fc8b",
+      "compressed_sha256": "a06a568d0a7b6dd711ec15a41d595c7152fbf08fe5ad5a45045504ef0ab519d8",
+      "http_status": 200,
+      "metadata_file": "raw/a310233ff6c996481812a87c902a1b125538184b47bd0e387003553c56a6f84e.meta.json",
+      "metadata_sha256": "900b1600683979c3fb5bd983ac095e507219ce8d53eb1addc2a0fd91da346c7e",
+      "received_at": "2026-11-03T03:07:42.964727+00:00",
+      "url": "https://npb.jp/scores/2026/0714/e-b-10/box.html"
+    },
+    {
+      "body_file": "raw/a6f9ca865e61d809bc36e58e637315abe82d0433525c7da0dcdee3efa0a71a1d.body.gz",
+      "body_sha256": "4e50e046b1651e628f80dc93cbd391aede26449517501150741295b4b8616f18",
+      "compressed_sha256": "fcb1d389c97ce582aaa4419a78499ef05e847c3b7772f792fe1ab996d0609b28",
+      "http_status": 200,
+      "metadata_file": "raw/a6f9ca865e61d809bc36e58e637315abe82d0433525c7da0dcdee3efa0a71a1d.meta.json",
+      "metadata_sha256": "4944d5d692ec331f18ecc873834d0086ceefbb1940d73a99c61eca817eb2b907",
+      "received_at": "2026-11-03T03:07:02.400185+00:00",
+      "url": "https://npb.jp/scores/2026/0513/m-f-08/box.html"
+    },
+    {
+      "body_file": "raw/a9a70e6fa22e469dedf1c3b80c390a654ccd2eafe7dd7c93c44268a08ffebf2f.body.gz",
+      "body_sha256": "58c293f4c2373b4f396cf8d58405d83e45d5263c7e2cf5653828c4440b0c4c70",
+      "compressed_sha256": "2df6c7438b1b800f7829241c1d449f91c69d3d411ecd7efa1529bad32b4bdfd4",
+      "http_status": 200,
+      "metadata_file": "raw/a9a70e6fa22e469dedf1c3b80c390a654ccd2eafe7dd7c93c44268a08ffebf2f.meta.json",
+      "metadata_sha256": "3efc6ff6dcffbf7e2803fa6b2f084b2d06b296bf90a552741a43c00fdabd88a0",
+      "received_at": "2026-11-03T03:05:39.223906+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260621.html"
+    },
+    {
+      "body_file": "raw/aa58ff6615da70808b24e314a0ca56cba2ddb5b30f5f7465168ebd99d21f81de.body.gz",
+      "body_sha256": "46ac42295874bd2e36c1029431bb6a5ff659331eabd403cadc5470798932db0a",
+      "compressed_sha256": "3f40a58bde2231d85a2900c672f77ffe5d1e54bb45efe5af8c0ec35adb6f424a",
+      "http_status": 200,
+      "metadata_file": "raw/aa58ff6615da70808b24e314a0ca56cba2ddb5b30f5f7465168ebd99d21f81de.meta.json",
+      "metadata_sha256": "66188a39a70e48de06b3261dafa8fb676e8eb7dca09824ba598876b9eb1b080c",
+      "received_at": "2026-11-03T03:05:23.692295+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260419.html"
+    },
+    {
+      "body_file": "raw/aad33ebc8f7ee4e0517497107350acf97573a6859e13da008dd7e1d2197c8510.body.gz",
+      "body_sha256": "19fe84025bd731fd4ebf49730b533b67f51bd19fb957d4e5201998a4a0aba309",
+      "compressed_sha256": "2290ccf386e15287e4a992176f037cc39d941a04d91c4fc015b26991398cd0ba",
+      "http_status": 200,
+      "metadata_file": "raw/aad33ebc8f7ee4e0517497107350acf97573a6859e13da008dd7e1d2197c8510.meta.json",
+      "metadata_sha256": "cb74483845b8d128d3531c55ada6792c97796b6c302876ba4e28c36b47f9aa16",
+      "received_at": "2026-11-03T03:06:17.258706+00:00",
+      "url": "https://npb.jp/scores/2026/0329/m-l-03/box.html"
+    },
+    {
+      "body_file": "raw/ab64401756c5bb2a9970009d28e0d8cb997f009fa441c7037a3e66592dcd8d1d.body.gz",
+      "body_sha256": "03b20aa7689f26bb8178d09e17b3383597159429aee0318bfea8c6f737ba43b8",
+      "compressed_sha256": "0cb6c1151e7244ce1fdb68c14534f28fc455edf84cfee363c274c7e26cbb358e",
+      "http_status": 200,
+      "metadata_file": "raw/ab64401756c5bb2a9970009d28e0d8cb997f009fa441c7037a3e66592dcd8d1d.meta.json",
+      "metadata_sha256": "7f5b7bf48af68481754e5bba6a4402b2510fd7853bf019092cad1e9f66b3684b",
+      "received_at": "2026-11-03T03:07:44.061205+00:00",
+      "url": "https://npb.jp/scores/2026/0714/f-h-12/box.html"
+    },
+    {
+      "body_file": "raw/aba166b98ef0ab0e29629cba2b8fc943f0f6386d88a554e66a7cb855634b7201.body.gz",
+      "body_sha256": "ef8c3e50a839b7401aff61f128146139775e3d8eb6a889adeddba7a5c077a045",
+      "compressed_sha256": "a609300e72319e8551100d49e7a81cbef14d61010f91cff919fe2503f7884849",
+      "http_status": 200,
+      "metadata_file": "raw/aba166b98ef0ab0e29629cba2b8fc943f0f6386d88a554e66a7cb855634b7201.meta.json",
+      "metadata_sha256": "f5afa5a1652abe5fb1e2d45a01d59e82202ef43b991951560a1d3bd8e3be4998",
+      "received_at": "2026-11-03T03:16:48.837542+00:00",
+      "url": "https://npb.jp/scores/2026/0928/l-e-25/box.html"
+    },
+    {
+      "body_file": "raw/abcef4e47f1fb3f1fc3b28436833fd70af91e133be2eefcb84d84c52f6de8561.body.gz",
+      "body_sha256": "3ed99b2bb7938e94803ecf5de44f7d0cf821eea04b2ac106430380dc96121f32",
+      "compressed_sha256": "ecbcca2e5e827d0fddeaca78690568e6e2fc2a8ae701415bdc957cb4c809ef01",
+      "http_status": 200,
+      "metadata_file": "raw/abcef4e47f1fb3f1fc3b28436833fd70af91e133be2eefcb84d84c52f6de8561.meta.json",
+      "metadata_sha256": "fa7453b3abdd33fe49ff43fb04173f68778789e9416f0c853d63026781353e34",
+      "received_at": "2026-11-03T03:16:17.423485+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260927.html"
+    },
+    {
+      "body_file": "raw/ac3868b33a99de415af6ce06c82fbdbf88a59de75377371c1946d49185e4bd96.body.gz",
+      "body_sha256": "f3d26fe28b29858ae68357ff1070ca00635b37fa33349cfca85ea7fc2c486e8a",
+      "compressed_sha256": "0b6732fb66a5af0be8805a8f598853e4f86b101c8c0092d3c5c3f941d1d46520",
+      "http_status": 200,
+      "metadata_file": "raw/ac3868b33a99de415af6ce06c82fbdbf88a59de75377371c1946d49185e4bd96.meta.json",
+      "metadata_sha256": "2b2fda5f744b47019fb7f22609f040a8738e66b4731fb61521515a4add9f9f21",
+      "received_at": "2026-11-03T03:07:55.735503+00:00",
+      "url": "https://npb.jp/scores/2026/0716/d-t-16/box.html"
+    },
+    {
+      "body_file": "raw/ac4442e63da5e3b6e53afcfc9533c1f37ccd4b39e2fb0ec72dd7fe5ccb8ee568.body.gz",
+      "body_sha256": "a5958faa2248164c02fd8e77c8190e9fd594c3e376e27c5789b9c3ffb174396a",
+      "compressed_sha256": "3454342508e331a51c176e54b109234fa0d45d37bef15f23b10cecb7237b4e20",
+      "http_status": 200,
+      "metadata_file": "raw/ac4442e63da5e3b6e53afcfc9533c1f37ccd4b39e2fb0ec72dd7fe5ccb8ee568.meta.json",
+      "metadata_sha256": "987b4e91aff5e5c7a94a6d290261c122f2569998f769a3192a909242db4ad11a",
+      "received_at": "2026-11-03T03:07:31.980956+00:00",
+      "url": "https://npb.jp/scores/2026/0620/g-d-10/box.html"
+    },
+    {
+      "body_file": "raw/ac7eb2e28d95132dda0ee9c009b3583e44ca9acd282b0a58d5a3d196e375f533.body.gz",
+      "body_sha256": "af6723e83417a8bc3c2d436efd7503d51a0dc4d8c9651b8d3ab52ff3c01f154a",
+      "compressed_sha256": "86136bf5988b0b53a4f0de651b2a2b37161aba6b3e1f6356c059dc1fbd931c54",
+      "http_status": 200,
+      "metadata_file": "raw/ac7eb2e28d95132dda0ee9c009b3583e44ca9acd282b0a58d5a3d196e375f533.meta.json",
+      "metadata_sha256": "47d16f7ba1b667bc1bf476affb8a040487d36bdcf032ab6a4d0dc88d94cc5eed",
+      "received_at": "2026-11-03T03:07:13.848622+00:00",
+      "url": "https://npb.jp/scores/2026/0515/g-db-07/box.html"
+    },
+    {
+      "body_file": "raw/ad00a6bc63593a027d79779b6a557f6bcef9b327b464699a95d1761ca71eda30.body.gz",
+      "body_sha256": "1146636f8f5dd63a11c6859e9d3898a1d2bc21701e510fc14586220de5a90806",
+      "compressed_sha256": "5899826add14c294b24e02f799a114db64f6c699f82930bee99ed3ce3073cfec",
+      "http_status": 200,
+      "metadata_file": "raw/ad00a6bc63593a027d79779b6a557f6bcef9b327b464699a95d1761ca71eda30.meta.json",
+      "metadata_sha256": "244521a3a26026aaf3fb557dbf232134142cea4d341aa1b1b1f269a8c6c8baea",
+      "received_at": "2026-11-03T03:07:40.772123+00:00",
+      "url": "https://npb.jp/scores/2026/0714/c-db-14/box.html"
+    },
+    {
+      "body_file": "raw/b698eca518b7456790fc7db629e9d23f5a16ef28c89e11868850d61c1b459542.body.gz",
+      "body_sha256": "24a9916f94968234724a9f1f0db80040538bd462786a191855d24dae1e696ae2",
+      "compressed_sha256": "f4049cb1913f5e4e9578b3fb5dea9cd828504d3ab62e71ea4fef4fee5d936ed2",
+      "http_status": 200,
+      "metadata_file": "raw/b698eca518b7456790fc7db629e9d23f5a16ef28c89e11868850d61c1b459542.meta.json",
+      "metadata_sha256": "808682a2f16586309fed6f75557b1265e25008011f0ed372d40d3d56d1c90a9e",
+      "received_at": "2026-11-03T03:08:31.254038+00:00",
+      "url": "https://npb.jp/scores/2026/0807/f-e-17/box.html"
+    },
+    {
+      "body_file": "raw/b9e26ea0b22918678051d9569ae6466beb96650c5ec1596b13ea85c8cf6625fc.body.gz",
+      "body_sha256": "ca847867729f311eed0c51667cd319692f0641e3bf2eae57877170d6666b5db3",
+      "compressed_sha256": "222aa64a55c935d261e52e3db7d26caacc797e8d673a36ca1d257a7d99acd14c",
+      "http_status": 200,
+      "metadata_file": "raw/b9e26ea0b22918678051d9569ae6466beb96650c5ec1596b13ea85c8cf6625fc.meta.json",
+      "metadata_sha256": "17365885c5be56a79d69dce85f2a8bee142c7eeed3d3436b582d9c180923ecf1",
+      "received_at": "2026-11-03T03:05:41.417327+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260714.html"
+    },
+    {
+      "body_file": "raw/ba04b4c2b9f4a2b8043003c6a83649284c8801bfc93e639c3e9f301ca3a5c4fd.body.gz",
+      "body_sha256": "b11bdb28a53168f5ae5a42d0b0bdc9bdc70fdeb4f05702a70184176cc950a78f",
+      "compressed_sha256": "27d09a2161249f3ec93e81474d6f74fd5a1289725140cac16f9f1d04fec98132",
+      "http_status": 200,
+      "metadata_file": "raw/ba04b4c2b9f4a2b8043003c6a83649284c8801bfc93e639c3e9f301ca3a5c4fd.meta.json",
+      "metadata_sha256": "b35b06715b12dd4dc4e6c0ce33793cc235cf99a9662f8525bfad2fb7392e8070",
+      "received_at": "2026-11-03T03:07:25.411616+00:00",
+      "url": "https://npb.jp/scores/2026/0619/g-d-09/box.html"
+    },
+    {
+      "body_file": "raw/ba5e6f64f6a324f816c68bd972bbb9a4249a99fd26b75ca3a3a1ef0226a5f03d.body.gz",
+      "body_sha256": "dbe66e55752f9003f6de1a46026ae1b8820f503d984475951484cf5623fea038",
+      "compressed_sha256": "9c29bf1bacc6b91a3fcccad27de6f00cfe3c8a284f5a78959a090deb17027c4b",
+      "http_status": 200,
+      "metadata_file": "raw/ba5e6f64f6a324f816c68bd972bbb9a4249a99fd26b75ca3a3a1ef0226a5f03d.meta.json",
+      "metadata_sha256": "008a41745f034a902bb39eaf2d441913d489c7c4a1ce7bb813caf481f1a0f426",
+      "received_at": "2026-11-03T03:16:16.328890+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260926.html"
+    },
+    {
+      "body_file": "raw/bb4a205fafbb1a66bf3cdd395a9d762aa179bfc4553f4359044e8b2ab1fc9935.body.gz",
+      "body_sha256": "7aad3c00449d400c43534f26a7a89c9733da4df4cde463a639cf426a59b8c460",
+      "compressed_sha256": "60b9ae189b8bec0bf9cd8efe4466c25dbfb5a44426062b382454a835c1a741cf",
+      "http_status": 200,
+      "metadata_file": "raw/bb4a205fafbb1a66bf3cdd395a9d762aa179bfc4553f4359044e8b2ab1fc9935.meta.json",
+      "metadata_sha256": "67d16b6e87fadf20fc18c7c1e3a3e27dc52c9ae8e37a34a6c834c22302bcb78b",
+      "received_at": "2026-11-03T03:06:04.795078+00:00",
+      "url": "https://npb.jp/scores/2026/0328/c-d-02/box.html"
+    },
+    {
+      "body_file": "raw/bb8e57f59d1cccd9a1ec94dcdb5128d7866a2808ddf9a19788e968c41d5dca08.body.gz",
+      "body_sha256": "1c06c62cf8fdf9ecd89672a9cf3de72778033408aeac54515441ac09dfac314b",
+      "compressed_sha256": "741951ecddbcffb9d682d9ac19c4b9270706a767621d9a8e23dabbe42de1bf31",
+      "http_status": 200,
+      "metadata_file": "raw/bb8e57f59d1cccd9a1ec94dcdb5128d7866a2808ddf9a19788e968c41d5dca08.meta.json",
+      "metadata_sha256": "d32e570e50ca8e899b880959b6b3506852683259df287f75a6fc723f1376e4c5",
+      "received_at": "2026-11-03T03:16:47.379747+00:00",
+      "url": "https://npb.jp/scores/2026/0928/db-c-25/box.html"
+    },
+    {
+      "body_file": "raw/bbc9044c83d8e0145ace812d847c795dc89b679b227deb447127cee97d0e9f00.body.gz",
+      "body_sha256": "03861a85a691c1805422365a71e5d47ccf40eaf0adf327c0fa1d08c7e5fbaa3b",
+      "compressed_sha256": "f310f553d4d843a7c196ed813136ffaa0e0507b6c2ae39a71bde98935b613c21",
+      "http_status": 200,
+      "metadata_file": "raw/bbc9044c83d8e0145ace812d847c795dc89b679b227deb447127cee97d0e9f00.meta.json",
+      "metadata_sha256": "6bc2b776eaf4bc398d016475ae801a66cd9aa7f0bf00150021470fac3d5fd6bd",
+      "received_at": "2026-11-03T03:06:39.378270+00:00",
+      "url": "https://npb.jp/scores/2026/0416/m-f-06/box.html"
+    },
+    {
+      "body_file": "raw/bbf09b53e362031c2f93d59b6224e5c7c44cfb8459c46e938a83d6e01bd529bd.body.gz",
+      "body_sha256": "f8232b7f9cc97dcc96260031336b331faa53c344ca4afa1f017b8ca8be46552a",
+      "compressed_sha256": "67102a73673e6345bad59e57a3ece068345252a87a425f80ab731b3e473508db",
+      "http_status": 200,
+      "metadata_file": "raw/bbf09b53e362031c2f93d59b6224e5c7c44cfb8459c46e938a83d6e01bd529bd.meta.json",
+      "metadata_sha256": "b95c8f91c1d09d28211f36da96fe2a18b5f549fc87019a4a94ba31b18b2c4a66",
+      "received_at": "2026-11-03T03:05:42.514574+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260715.html"
+    },
+    {
+      "body_file": "raw/bc389bfcf89b6ffef1568af69ada3a1685ca20030415753029ba615014c4a337.body.gz",
+      "body_sha256": "e45f2bc7d6ee915a7cbb974496b238e5ad800d88adafb830e1e1d46c2c11c014",
+      "compressed_sha256": "21c3a6845197fcd66c69e35db945e265625ef217af913ce51cac4f83ce9ba458",
+      "http_status": 200,
+      "metadata_file": "raw/bc389bfcf89b6ffef1568af69ada3a1685ca20030415753029ba615014c4a337.meta.json",
+      "metadata_sha256": "f31f850d9c395e576198d5841fc29d4d2001f9bb623bb97cf2e8b9a2f01c78e6",
+      "received_at": "2026-11-03T03:06:05.891949+00:00",
+      "url": "https://npb.jp/scores/2026/0328/db-s-02/box.html"
+    },
+    {
+      "body_file": "raw/bcfe4114dbee08eefdf61b601ce460b879767cf91212d17422ddbfa2376c2963.body.gz",
+      "body_sha256": "206b126c9c1ccec086030e76e570173767d6bb6458fad8bba39449119e750144",
+      "compressed_sha256": "9be2dbf1d22983781598122d3cce9facbd86f42c9086e7ebd086e0fd1d6dcdf3",
+      "http_status": 200,
+      "metadata_file": "raw/bcfe4114dbee08eefdf61b601ce460b879767cf91212d17422ddbfa2376c2963.meta.json",
+      "metadata_sha256": "6a810cd0f71b6c540f86122218df3e7c3b08a73dd8c307cd0bb3bc09137ac906",
+      "received_at": "2026-11-03T03:05:35.882260+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260618.html"
+    },
+    {
+      "body_file": "raw/beb586915a0ea02d2df7026589b2ef1937f9aa09336f8aeb5323e6089171aa3c.body.gz",
+      "body_sha256": "afe3faf0b478ba217bf635487561b21060332a9c02cb3bd05ba7190a0a53c29f",
+      "compressed_sha256": "b1061f5d200db6ccbe4ec222d318f113380b1cbde43fcb89fa9d25205072cdbc",
+      "http_status": 200,
+      "metadata_file": "raw/beb586915a0ea02d2df7026589b2ef1937f9aa09336f8aeb5323e6089171aa3c.meta.json",
+      "metadata_sha256": "41d2e6637e018619e30bd6dfaf3f3fb15263da9f47674b076597fd4ab4134210",
+      "received_at": "2026-11-03T03:06:21.454734+00:00",
+      "url": "https://npb.jp/scores/2026/0414/b-l-04/box.html"
+    },
+    {
+      "body_file": "raw/bf107d2b82072379d78a3843252669fe81255e31d643ff82d5765e88c3228f99.body.gz",
+      "body_sha256": "73b242e237a375af8f27672d983c56db438200f17e397f8f3b9581fd5e42721a",
+      "compressed_sha256": "56bb4156eec41f98975b76fe5806da4967a213879065d5d5b84eea1d7a958156",
+      "http_status": 200,
+      "metadata_file": "raw/bf107d2b82072379d78a3843252669fe81255e31d643ff82d5765e88c3228f99.meta.json",
+      "metadata_sha256": "e8e69afcf9338ca1a166f9e82ea7bee7f5811721159703aee1f3d3e96c1a8312",
+      "received_at": "2026-11-03T03:16:30.487991+00:00",
+      "url": "https://npb.jp/scores/2026/0925/l-m-22/box.html"
+    },
+    {
+      "body_file": "raw/c0a91695a1c3be903deff98e702f10a3705fe634fdec9b7513473c63e9c4b889.body.gz",
+      "body_sha256": "23200a2c0c3a55d20d0d6fc10b19a78ebbf917d6d4f2d351c7486b9799b4d989",
+      "compressed_sha256": "6ccd69a77739e090210b02dff4f67fb6bbaf65b9b9c87ff163194c9060294cf8",
+      "http_status": 200,
+      "metadata_file": "raw/c0a91695a1c3be903deff98e702f10a3705fe634fdec9b7513473c63e9c4b889.meta.json",
+      "metadata_sha256": "e89f6aa13adc7162eb5f0d847cbed77d84fa1a8a1771b7a5165cca954e65f037",
+      "received_at": "2026-11-03T03:06:36.688993+00:00",
+      "url": "https://npb.jp/scores/2026/0416/b-l-06/box.html"
+    },
+    {
+      "body_file": "raw/c1ea451cb30bbd9fa48d29719f59924cf484c171f489fa4a24298942d06b7dc8.body.gz",
+      "body_sha256": "dd67bd67b2c4b1541a81549dacda92ee7934b8a0ee070afde721b968ec801f8d",
+      "compressed_sha256": "987ec6b735fde76525316daa4e3da32a003647578bf4130d1d87accd1811498e",
+      "http_status": 200,
+      "metadata_file": "raw/c1ea451cb30bbd9fa48d29719f59924cf484c171f489fa4a24298942d06b7dc8.meta.json",
+      "metadata_sha256": "314372571d4893204ecdc347686f2490f5d167084ad332ac242430529407b62a",
+      "received_at": "2026-11-03T03:16:40.361003+00:00",
+      "url": "https://npb.jp/scores/2026/0927/db-c-24/box.html"
+    },
+    {
+      "body_file": "raw/c21a9af35988364efaa53948459abcbff71350c51145b5c1f2cedad659c91a14.body.gz",
+      "body_sha256": "4ed632ff3e4f816c5f840bcfd2ecc302db72d802f338ee963f641a79a2c2dfa6",
+      "compressed_sha256": "a1cde8798c3dca058e89514ec6e4906df2737efebb8380ff1e7407bea088859f",
+      "http_status": 200,
+      "metadata_file": "raw/c21a9af35988364efaa53948459abcbff71350c51145b5c1f2cedad659c91a14.meta.json",
+      "metadata_sha256": "bb1017639746aeb6af738f3d071015d4ae2c2d6b08ba42da5d25f8bb30660797",
+      "received_at": "2026-11-03T03:05:54.618771+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260809.html"
+    },
+    {
+      "body_file": "raw/c34a8d090a9e794ba282c55dfe96564723ff19479f3f76f1c9240ef883f5b06b.body.gz",
+      "body_sha256": "4420f617da4733e6c253c86cda6765ea6d8eec66c70f772a8aab4150419758f2",
+      "compressed_sha256": "7719260919481dffe523c0f3b8a727c5ed7489e45afcd528ae783ca79587c991",
+      "http_status": 200,
+      "metadata_file": "raw/c34a8d090a9e794ba282c55dfe96564723ff19479f3f76f1c9240ef883f5b06b.meta.json",
+      "metadata_sha256": "d9c69b79eeeb13e9370208c0dea1435ad6c2939b954aa7fdccec93c21fc41bcb",
+      "received_at": "2026-11-03T03:16:27.653975+00:00",
+      "url": "https://npb.jp/scores/2026/0925/c-g-24/box.html"
+    },
+    {
+      "body_file": "raw/c3f80fea161ff7e88df25a6bb1693841c7acbf14f2d7138b9abd0e208a9a234f.body.gz",
+      "body_sha256": "becbb05b91dd6c413881e2c35f801322e6fb07c05f37f3c4b7c487f7bd520f74",
+      "compressed_sha256": "6d2fccb5efb6e3f154bc30a3f31db85cc5ae7f5638bbbe3ad05e6d2c9ff4ea64",
+      "http_status": 200,
+      "metadata_file": "raw/c3f80fea161ff7e88df25a6bb1693841c7acbf14f2d7138b9abd0e208a9a234f.meta.json",
+      "metadata_sha256": "21018316f5c96e57e56b61b1201c2ad50ea12cea678a715a6df613dc637ec432",
+      "received_at": "2026-11-03T03:06:42.450049+00:00",
+      "url": "https://npb.jp/scores/2026/0416/t-g-05/box.html"
+    },
+    {
+      "body_file": "raw/c5b174bb24861221432229c19b39db253c28574201f5a08b8bfd3615fb332cbb.body.gz",
+      "body_sha256": "f116417f684037783b1dfd770cc02d49b839839674d7294d6acb26be05e98fd4",
+      "compressed_sha256": "9b29ecb957da76276c205d06d7e65accf6395aea69d215a27822b4cbc8e6d996",
+      "http_status": 200,
+      "metadata_file": "raw/c5b174bb24861221432229c19b39db253c28574201f5a08b8bfd3615fb332cbb.meta.json",
+      "metadata_sha256": "c9b55637ea50010f41b8ff6049c7fda37abba43935b2f1f2ef5c51bf48a8bc44",
+      "received_at": "2026-11-03T03:08:25.676657+00:00",
+      "url": "https://npb.jp/scores/2026/0806/d-s-16/box.html"
+    },
+    {
+      "body_file": "raw/c8e1b42623ff3ffd89435e292a7c3455455d473780e1b276fa4d4aabb1e609fc.body.gz",
+      "body_sha256": "e975b136989dbe41176898c3322c32529c88e0c6304712e5f811e43baa7fdd13",
+      "compressed_sha256": "bd2620e12023bd57ebd527ba1bf394e7be6af8eaae0391580f530fc729aeb0c0",
+      "http_status": 200,
+      "metadata_file": "raw/c8e1b42623ff3ffd89435e292a7c3455455d473780e1b276fa4d4aabb1e609fc.meta.json",
+      "metadata_sha256": "de1eda04960d1d3f5057f7e046609555ed4c1621e34c4ef739aa800cbb8abdc2",
+      "received_at": "2026-11-03T03:08:34.155626+00:00",
+      "url": "https://npb.jp/scores/2026/0807/l-h-18/box.html"
+    },
+    {
+      "body_file": "raw/ca41da4c80a3675a6a6d85364aaddb43bf7bcd9549a246c84af890bdc0cb27d3.body.gz",
+      "body_sha256": "d3e88df9fbbdfc9b7c709e2f3bf75d82f384460c418258415270e13fc48c2ea4",
+      "compressed_sha256": "138f5670a67c9c02ccbfc191d529b9337cc9d76e88a981c10c60dcab68579590",
+      "http_status": 200,
+      "metadata_file": "raw/ca41da4c80a3675a6a6d85364aaddb43bf7bcd9549a246c84af890bdc0cb27d3.meta.json",
+      "metadata_sha256": "fe6f91cfc6958eb8c958ac380ca47ed0820046e378f97f5f37972f632748e664",
+      "received_at": "2026-11-03T03:05:12.726077+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260327.html"
+    },
+    {
+      "body_file": "raw/cbb0e143cd1c12e8bfd3697114b3c08b51a9196b418c70c2aad67a64efdf84c2.body.gz",
+      "body_sha256": "5883c74af20fa36f6195471ec240f8c214ee12284e422a64f4ff85615135796b",
+      "compressed_sha256": "08166f235d1aa5ffd60e9027a98f8397b476202e6d051dd6ca707b8990d38614",
+      "http_status": 200,
+      "metadata_file": "raw/cbb0e143cd1c12e8bfd3697114b3c08b51a9196b418c70c2aad67a64efdf84c2.meta.json",
+      "metadata_sha256": "15d5d26badc8d82aa5cec71bef9b31c8783df9347ea05f916abae6509cc47c89",
+      "received_at": "2026-11-03T03:07:58.599700+00:00",
+      "url": "https://npb.jp/scores/2026/0716/f-h-14/box.html"
+    },
+    {
+      "body_file": "raw/cdc2ebe85e801a445a6bbf71560c14627491cc42e9691267b85c27f5367855e5.body.gz",
+      "body_sha256": "dd17b97902be1151e3ea190542cb55602f71139da844ff3c255a934584661522",
+      "compressed_sha256": "ac7dea7026c50da8288cd7cbb30d125c2a8c29229581ed65e3052895cc05fdf8",
+      "http_status": 200,
+      "metadata_file": "raw/cdc2ebe85e801a445a6bbf71560c14627491cc42e9691267b85c27f5367855e5.meta.json",
+      "metadata_sha256": "03de42e9b54ff5ab3642f36e267c7caeb09e8457a32fe13146789b0d24e061dc",
+      "received_at": "2026-11-03T03:08:05.675709+00:00",
+      "url": "https://npb.jp/scores/2026/0717/g-d-15/box.html"
+    },
+    {
+      "body_file": "raw/cf3ac8471d2e00b28931a3b6ba10949f243ad986772eed1127b9e14a9d563da2.body.gz",
+      "body_sha256": "889353202ddf85cff2eeab4303d19bc5872abf9b8ddb234ea770633b8db9f08d",
+      "compressed_sha256": "cc9d4805496542c190b7fbe40530095b8d5846d9e364b3c4379f7294f2a7d8ab",
+      "http_status": 200,
+      "metadata_file": "raw/cf3ac8471d2e00b28931a3b6ba10949f243ad986772eed1127b9e14a9d563da2.meta.json",
+      "metadata_sha256": "a32d26dbb989dd2574de6357686101ad4a7041c81e97185663108316760c8dfb",
+      "received_at": "2026-11-03T03:06:32.627647+00:00",
+      "url": "https://npb.jp/scores/2026/0415/h-e-05/box.html"
+    },
+    {
+      "body_file": "raw/d119c07eda5116af499e7fed3559092f7c76521a49329db267b44ce8a80d5b22.body.gz",
+      "body_sha256": "a1ab0fe65023df11336053e8e5a3afc189aad738c803aa5b753a8257dbc718fc",
+      "compressed_sha256": "4becaa0a868d24e369dfbd9b5d3d89ed76ae36b3a2cadd5d8be6ddb49ca8275a",
+      "http_status": 200,
+      "metadata_file": "raw/d119c07eda5116af499e7fed3559092f7c76521a49329db267b44ce8a80d5b22.meta.json",
+      "metadata_sha256": "ea3ce969de1b7264d808321a94455b277978f7e19227a417b8ba60a35c93fdd3",
+      "received_at": "2026-11-03T03:06:55.337731+00:00",
+      "url": "https://npb.jp/scores/2026/0512/m-f-07/box.html"
+    },
+    {
+      "body_file": "raw/d268ba5c32d249021a093041ada662779586dea86ca6c822a83339ecd58f4bc1.body.gz",
+      "body_sha256": "1e0519adca298e01fc3ddba2009e9d655747666642ae0be0140fe2bba9077083",
+      "compressed_sha256": "add6b97205e0b397191a762a2fb084803b9475bfce861206d161a7a79e3c1ba3",
+      "http_status": 200,
+      "metadata_file": "raw/d268ba5c32d249021a093041ada662779586dea86ca6c822a83339ecd58f4bc1.meta.json",
+      "metadata_sha256": "02a4d4f27c833fbffe466d33f77cd844d200da43a16b294cb0a6e9908276aafc",
+      "received_at": "2026-11-03T03:16:31.852761+00:00",
+      "url": "https://npb.jp/scores/2026/0925/s-d-23/box.html"
+    },
+    {
+      "body_file": "raw/d2d59e6ed1b871b85f7e90f62aaf794d5fa1b240788189ef0f5a79d98190d2ff.body.gz",
+      "body_sha256": "3aab7a0ca02345f1a2977a1fb48bf15ae05aef1646029b1584bf2c13640d5293",
+      "compressed_sha256": "9f0e3123db8ae40959e012ad1a53e47dfaba583a7c5aba4b10519866b3a80640",
+      "http_status": 200,
+      "metadata_file": "raw/d2d59e6ed1b871b85f7e90f62aaf794d5fa1b240788189ef0f5a79d98190d2ff.meta.json",
+      "metadata_sha256": "74276799920749535e85bee1773cd61054d6ba655b82d3d9bcfb6ca840e4b0f7",
+      "received_at": "2026-11-03T03:08:08.795201+00:00",
+      "url": "https://npb.jp/scores/2026/0804/d-s-14/box.html"
+    },
+    {
+      "body_file": "raw/d3be7ab54f20b8519305d4fb7c7124b8969dab8eeb92ffecc7c4c87ccd9e72a6.body.gz",
+      "body_sha256": "4c9e013cf0fb4b22449eb17b77cb27937ff8d76345fb503295c02605e05a1c13",
+      "compressed_sha256": "dccac3b0f400fb0cdbbc0305e77b19da690ec852b3beefca2f79e51081fbee55",
+      "http_status": 200,
+      "metadata_file": "raw/d3be7ab54f20b8519305d4fb7c7124b8969dab8eeb92ffecc7c4c87ccd9e72a6.meta.json",
+      "metadata_sha256": "b44b7fecb8258b869d4e3b9adafb91984ea635f9797fb5e87922cbb7a434b087",
+      "received_at": "2026-11-03T03:08:28.486996+00:00",
+      "url": "https://npb.jp/scores/2026/0806/h-f-17/box.html"
+    },
+    {
+      "body_file": "raw/d57147bba9eec5613d7891759cf3b01d7302f63f3f8012ef034e75e632ddfc7d.body.gz",
+      "body_sha256": "4df77583db45e17b40ce1f720291dff166b045f2d75ba8dca6180113a0329548",
+      "compressed_sha256": "4a7dc9b121232bed13493ee78aa99b768e703af54781cb21ef4a175f31ba041a",
+      "http_status": 200,
+      "metadata_file": "raw/d57147bba9eec5613d7891759cf3b01d7302f63f3f8012ef034e75e632ddfc7d.meta.json",
+      "metadata_sha256": "11644b0fca3e8c8faee882239419c3a84b73961e633e14968f9c6aae39d5aada",
+      "received_at": "2026-11-03T03:06:24.193952+00:00",
+      "url": "https://npb.jp/scores/2026/0414/h-e-04/box.html"
+    },
+    {
+      "body_file": "raw/d93cc1f6f71b755c749c28a08b3cce2f4f6572f6c2cf9ca30c3b03dd76320597.body.gz",
+      "body_sha256": "7d569c80fe6091ae5d9ee7a0fd68b2b175bf1986c9bb1db99d4c0b0a15b71964",
+      "compressed_sha256": "bf606ca92b8972b555510908ada5a62f61ce079be50a56611694207273a02426",
+      "http_status": 200,
+      "metadata_file": "raw/d93cc1f6f71b755c749c28a08b3cce2f4f6572f6c2cf9ca30c3b03dd76320597.meta.json",
+      "metadata_sha256": "0dde5348859e58918ea7a8f10beadff54e8a3cddcb5079f210c31edbe46a1adf",
+      "received_at": "2026-11-03T03:07:29.786956+00:00",
+      "url": "https://npb.jp/scores/2026/0620/db-t-10/box.html"
+    },
+    {
+      "body_file": "raw/d9a8de76eb46eb0f5d2ef642b0fa3711396cd26558902a32f3c855437853a5d9.body.gz",
+      "body_sha256": "9c3980110b0fce3b0995bec59db65b8b760ad71b275c357fd52ed9461c120c7f",
+      "compressed_sha256": "9026d9db9fe63f7d30861f1b11eea327ef911da2179761bcf6b0fe3d5953189d",
+      "http_status": 200,
+      "metadata_file": "raw/d9a8de76eb46eb0f5d2ef642b0fa3711396cd26558902a32f3c855437853a5d9.meta.json",
+      "metadata_sha256": "441baa332cf273abee89eb41e85dcb808c14f4b5468ae6dcd3fa7d3b4a88c9dc",
+      "received_at": "2026-11-03T03:07:35.262214+00:00",
+      "url": "https://npb.jp/scores/2026/0621/b-l-12/box.html"
+    },
+    {
+      "body_file": "raw/da89ed342d21ae32b837c988ca48a5fe6e736eecc913fe02066b34b1fbaec6cc.body.gz",
+      "body_sha256": "0a8682bb01e37dcd405162b0008a9ef67757958b565a706745ecc1873dd550ff",
+      "compressed_sha256": "3c5fe7ed77af44783f9dd682fd2df24069e1b685a437e12ef82e861f0184edd3",
+      "http_status": 200,
+      "metadata_file": "raw/da89ed342d21ae32b837c988ca48a5fe6e736eecc913fe02066b34b1fbaec6cc.meta.json",
+      "metadata_sha256": "b70509fdbcebdca74bae59ac2f836d67ad91755215ff45dfd85f1ccb4e14c048",
+      "received_at": "2026-11-03T03:06:01.480151+00:00",
+      "url": "https://npb.jp/scores/2026/0327/h-f-01/box.html"
+    },
+    {
+      "body_file": "raw/da9ca281854cfb75d800361b3ec679666359ac04253caeb25ef90c5c97a523b3.body.gz",
+      "body_sha256": "e034edcdf60fabbf6f3d665bab4a693b15785e31f417a448489412f30810a1b8",
+      "compressed_sha256": "378694a9a8e43976a30a35e4db59e570a30c0ba8b13003b5dad551387872f7b4",
+      "http_status": 200,
+      "metadata_file": "raw/da9ca281854cfb75d800361b3ec679666359ac04253caeb25ef90c5c97a523b3.meta.json",
+      "metadata_sha256": "10bd0f1e924073d029cdb6191aca1e72352304f9f585f2ce5c32e99292ceeeb5",
+      "received_at": "2026-11-03T03:07:12.389659+00:00",
+      "url": "https://npb.jp/scores/2026/0515/f-l-07/box.html"
+    },
+    {
+      "body_file": "raw/db8dc58db51e2d4398d74da3e594b832f32a1bf3e92ccc1f31a503c9529b1583.body.gz",
+      "body_sha256": "98875175f58f8eb9e48d0529b6206957abb871036ec93e022a5cd7ea2f7c6c14",
+      "compressed_sha256": "62a3c95b7c4ca1ebe51ac04bd847bcf9e56ff62291146adf5d6dfbc566505d58",
+      "http_status": 200,
+      "metadata_file": "raw/db8dc58db51e2d4398d74da3e594b832f32a1bf3e92ccc1f31a503c9529b1583.meta.json",
+      "metadata_sha256": "7978ad33908284d5757f1324c5a14b680fa83178b586a0c4c3298bd84f39b68f",
+      "received_at": "2026-11-03T03:05:29.172142+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260515.html"
+    },
+    {
+      "body_file": "raw/ddf91ba4b10ab675b64e5a5288b7706edaa4bfe464234de5b6e5de0b87eaa45f.body.gz",
+      "body_sha256": "547e1c1ed43fa145b916e85d01fff99d5dd06af42393cf6a608276b0a032c9b6",
+      "compressed_sha256": "3dfcea7648ab047621774c41248ef49d5768f22e3f5fc16284e7bf5115ecdedd",
+      "http_status": 200,
+      "metadata_file": "raw/ddf91ba4b10ab675b64e5a5288b7706edaa4bfe464234de5b6e5de0b87eaa45f.meta.json",
+      "metadata_sha256": "4b2649451049cab26ce676b290e2b3a388b77c8780b57f07e67788e5d7866dee",
+      "received_at": "2026-11-03T03:06:08.088934+00:00",
+      "url": "https://npb.jp/scores/2026/0328/h-f-02/box.html"
+    },
+    {
+      "body_file": "raw/de00a769bacbb1f85e00c601ecccb62276f88b179b3faa738e5b913d435f224a.body.gz",
+      "body_sha256": "153979e6f589e9281e15b68fe41c45862b18048e920c54dad8b0f14121d0a77b",
+      "compressed_sha256": "4427b66946f6bdd416659a8ec59904754091b611b3d32a11a7c7ca1bc73ce0e5",
+      "http_status": 200,
+      "metadata_file": "raw/de00a769bacbb1f85e00c601ecccb62276f88b179b3faa738e5b913d435f224a.meta.json",
+      "metadata_sha256": "363abdd87ea71fed6d0804cb0a8b7a5b9e45b19d7b921e51c33d30845e35ecd4",
+      "received_at": "2026-11-03T03:05:18.207338+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260414.html"
+    },
+    {
+      "body_file": "raw/e0f79474dcc318ac94e40cb562ad1df9518f9b2f88e198338e6dd33e064b8898.body.gz",
+      "body_sha256": "b76b5c5cdb21268fe8a256dd25aee369ef291b2bae726fc958dac00a5830afb2",
+      "compressed_sha256": "4e924f7b3451922a642f0a01129b7bd3835f0ae7d6af11ec9af3ef020b63aafa",
+      "http_status": 200,
+      "metadata_file": "raw/e0f79474dcc318ac94e40cb562ad1df9518f9b2f88e198338e6dd33e064b8898.meta.json",
+      "metadata_sha256": "0d3c8d7f2042fec748d4452a961a1dc2486836e9d9f82bbe98b4c06c8254053e",
+      "received_at": "2026-11-03T03:16:34.721980+00:00",
+      "url": "https://npb.jp/scores/2026/0926/db-t-24/box.html"
+    },
+    {
+      "body_file": "raw/e2efbd34d802f6c9bc3f7e5566f5bfaf944873da8800c1780f8ddaea3b565c74.body.gz",
+      "body_sha256": "0ec921e7a5c77861f45bafaa88c10ed9a400d56854ee38ae894af65af5f324cc",
+      "compressed_sha256": "d05e36cbe4f58747db71b60dd1aec6864ce7e580157bbd6f174b69d318f2b75a",
+      "http_status": 200,
+      "metadata_file": "raw/e2efbd34d802f6c9bc3f7e5566f5bfaf944873da8800c1780f8ddaea3b565c74.meta.json",
+      "metadata_sha256": "62846c002aef1197cea2e79319afb3a342b4467c892edb627f153101f6be0f9f",
+      "received_at": "2026-11-03T03:06:38.011496+00:00",
+      "url": "https://npb.jp/scores/2026/0416/h-e-06/box.html"
+    },
+    {
+      "body_file": "raw/e390d8521be1b8f7974558b4194988f12c4d05aec5bad1e9fe86f979b83e1484.body.gz",
+      "body_sha256": "db4ee999097af54ef8a16f264fd993514d5305d54583cdd9babc46a8cfb42553",
+      "compressed_sha256": "0969ded4c90c34e777d990f11e3655fb6a2d4853e3db6d43afcc5f1d9ed9d08a",
+      "http_status": 200,
+      "metadata_file": "raw/e390d8521be1b8f7974558b4194988f12c4d05aec5bad1e9fe86f979b83e1484.meta.json",
+      "metadata_sha256": "84c2585ccaf20678fe823d54c4dac6f738d843353214c8bcff65ad65bcf3d6f5",
+      "received_at": "2026-11-03T03:07:50.157973+00:00",
+      "url": "https://npb.jp/scores/2026/0715/e-b-11/box.html"
+    },
+    {
+      "body_file": "raw/e3e86568d7d48caf32e438044a37a3fe7fcec0c62e9cfb930e43f102da36231e.body.gz",
+      "body_sha256": "7bc3a7b2652e39561d174857df788f2e281931eb7c0217246972f3a615121588",
+      "compressed_sha256": "34f9dbb95d0114c0ce0cfb399e861f297c5814090f4be41a242dcdfb2a85456c",
+      "http_status": 200,
+      "metadata_file": "raw/e3e86568d7d48caf32e438044a37a3fe7fcec0c62e9cfb930e43f102da36231e.meta.json",
+      "metadata_sha256": "80188d66cf113a4ff7324767ca8f85b46a8be075a7746491d4adce7c0684e91c",
+      "received_at": "2026-11-03T03:08:27.126792+00:00",
+      "url": "https://npb.jp/scores/2026/0806/db-t-16/box.html"
+    },
+    {
+      "body_file": "raw/e48bb2683fad5f55422e1f640fe9c39ba46feb9cd627b1188119792bd907c7be.body.gz",
+      "body_sha256": "9aae417ca6a6834271d918cdf6d0763fd38622507e26e599d27214196f6352dc",
+      "compressed_sha256": "472b8726d36cba9361129f28b74f3d7d4de972f7255cb3fd46bd4012c2676af6",
+      "http_status": 200,
+      "metadata_file": "raw/e48bb2683fad5f55422e1f640fe9c39ba46feb9cd627b1188119792bd907c7be.meta.json",
+      "metadata_sha256": "75c70dcbf3259fddf5faafd0ab42a07085832b72514f592638fe4c0f0000c231",
+      "received_at": "2026-11-03T03:05:28.075456+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260514.html"
+    },
+    {
+      "body_file": "raw/e623978e3adcc83498914f90d4d31973c29b459d08a749b625fed769cc893eac.body.gz",
+      "body_sha256": "4178d689f5c4635253df63aa718421966a47d12a38216f4d68b80e921ae4ac98",
+      "compressed_sha256": "8b8af803235552aaa7b7d7455e1e6566d78eb7f6f2183cea62b5f2dcd96ae332",
+      "http_status": 200,
+      "metadata_file": "raw/e623978e3adcc83498914f90d4d31973c29b459d08a749b625fed769cc893eac.meta.json",
+      "metadata_sha256": "8a505b8d93931bd2cebe3945a4713e4c9a4e9143580779d033656e7038fe2434",
+      "received_at": "2026-11-03T03:05:16.015047+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260330.html"
+    },
+    {
+      "body_file": "raw/ee29979c49dac531902f2e8a09e961665052c60039c1fa534b60f524319ce35a.body.gz",
+      "body_sha256": "488507c2ef99136ad11fb7859052a2f346a5ede03155761e2ba2197699c838ab",
+      "compressed_sha256": "ab3dab87eee7c4998d35acda38774a5cf4fda8701a6f2f80d10a45a7759badf4",
+      "http_status": 200,
+      "metadata_file": "raw/ee29979c49dac531902f2e8a09e961665052c60039c1fa534b60f524319ce35a.meta.json",
+      "metadata_sha256": "a418935962dd5509444cb94b5817b5c652ecdad6ba74dd5de0588d96601a2470",
+      "received_at": "2026-11-03T03:05:58.098761+00:00",
+      "url": "https://npb.jp/scores/2026/0327/c-d-01/box.html"
+    },
+    {
+      "body_file": "raw/ee7a34cb4d36208e610e155e108daf10682a61802a09edbb3f92a2753146fadf.body.gz",
+      "body_sha256": "f3fb4e5c927b967554446131effb15beda470defaf9566fc5533736521a9f4ff",
+      "compressed_sha256": "27d9926a47390463e2f034daea85493b6311478f78c72da594d67fbc3ca6b5aa",
+      "http_status": 200,
+      "metadata_file": "raw/ee7a34cb4d36208e610e155e108daf10682a61802a09edbb3f92a2753146fadf.meta.json",
+      "metadata_sha256": "65f6fff2d3817a0fcd99978e51ea810c353decc24ab2e0c46764d873832cff02",
+      "received_at": "2026-11-03T03:05:40.321108+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260622.html"
+    },
+    {
+      "body_file": "raw/f08494c4b75c43b868de6fd0a50a31dab06f4e21a5f8d2a5de1f55dd776304ae.body.gz",
+      "body_sha256": "6bb70a1ccaf6a2f74cd1250492ca13356a502ae19bbea474508c4524bd832728",
+      "compressed_sha256": "a4d4ec9995c6eca673813d2126ed357ec2e54eaab6e98c44007afbb85302ef20",
+      "http_status": 200,
+      "metadata_file": "raw/f08494c4b75c43b868de6fd0a50a31dab06f4e21a5f8d2a5de1f55dd776304ae.meta.json",
+      "metadata_sha256": "d6973c5abe775cc8477641d329ad3716a4dd4c33725bd47327b5c0ba1a9651eb",
+      "received_at": "2026-11-03T03:05:50.205919+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260805.html"
+    },
+    {
+      "body_file": "raw/f10596f545d00e215640023c5cd43f5d71d2f232ad31b356dc0e3ecde21a23b9.body.gz",
+      "body_sha256": "bfc6b6393d68d846cde69302d8d223c906edb2d5c33584dd467985ed6a7af36c",
+      "compressed_sha256": "b3b3a11f7a3d4b6e6a6c083d5ae6b162ab8aff0cf0ab5ddde3b84a7fc63a945d",
+      "http_status": 200,
+      "metadata_file": "raw/f10596f545d00e215640023c5cd43f5d71d2f232ad31b356dc0e3ecde21a23b9.meta.json",
+      "metadata_sha256": "5f8a6043219c69cc2ae2b8d950cd5732942293eaf171ef33b42b5b1565afab4b",
+      "received_at": "2026-11-03T03:07:23.203247+00:00",
+      "url": "https://npb.jp/scores/2026/0619/db-t-09/box.html"
+    },
+    {
+      "body_file": "raw/f68bd6ca7357c182122c5c8bf1c215d3823892fb3964ae95723771071cc0e057.body.gz",
+      "body_sha256": "143fa0cb1d77fe8469677defa32dc6827462e963887c428dd52e232cad3e86ea",
+      "compressed_sha256": "0261787b3538a4b1aa46b77ac9af5ff8c33a26af91035d5b2700de9b9bd00dc8",
+      "http_status": 200,
+      "metadata_file": "raw/f68bd6ca7357c182122c5c8bf1c215d3823892fb3964ae95723771071cc0e057.meta.json",
+      "metadata_sha256": "68e674d4605ba9318846ee910873323529346b633149dd142d49a85c94e004fe",
+      "received_at": "2026-11-03T03:16:37.452909+00:00",
+      "url": "https://npb.jp/scores/2026/0926/l-m-23/box.html"
+    },
+    {
+      "body_file": "raw/fabe965e8790be23b08e2e05a6324b5959e3d4f398bc63fc88a29d2db6e16214.body.gz",
+      "body_sha256": "a1b7f2b9557f266b3a6fe0029296d7f4a189fa24ea8d010a1e07d36a899350ff",
+      "compressed_sha256": "b62c15e22a5f9fd58e5c1df9136819d85292a0b8651139216ce801df0226bb3c",
+      "http_status": 200,
+      "metadata_file": "raw/fabe965e8790be23b08e2e05a6324b5959e3d4f398bc63fc88a29d2db6e16214.meta.json",
+      "metadata_sha256": "71eda2bfc9abd475725aa1422901f78a9aaea00afe863860dbc09a719240bf6a",
+      "received_at": "2026-11-03T03:08:10.241038+00:00",
+      "url": "https://npb.jp/scores/2026/0804/db-t-14/box.html"
+    },
+    {
+      "body_file": "raw/fe6a6c0e1e204000f64bd8c3d44e5fb145739b38d442de50097cdc78bed2911b.body.gz",
+      "body_sha256": "daab901ec3e0cdcc23ab1a985e35a6c026d71fb40f8f89e132a21be5928f8165",
+      "compressed_sha256": "79211ea3a8b2caf2158fea75c960cd299d7399c0eea0c1517bd458100eaf142b",
+      "http_status": 200,
+      "metadata_file": "raw/fe6a6c0e1e204000f64bd8c3d44e5fb145739b38d442de50097cdc78bed2911b.meta.json",
+      "metadata_sha256": "9aff138ad76e8e98e551a75c9773d6359fc6a6c4f1128880c84e343c4d35f8ef",
+      "received_at": "2026-11-03T03:08:18.617818+00:00",
+      "url": "https://npb.jp/scores/2026/0805/db-t-15/box.html"
+    },
+    {
+      "body_file": "raw/fe9dc977dea8d02b6920ca1caf35099d9ab9e7602e57af945afde3be7ae5d36f.body.gz",
+      "body_sha256": "e096d3e4a33f997b1bce3833521dc9d7fa0d51eca10cad8f9acc22e05e307550",
+      "compressed_sha256": "4fce829162d538c4bcfc6a7532c43194d26fdff080faff07d731ea68e8f2c951",
+      "http_status": 200,
+      "metadata_file": "raw/fe9dc977dea8d02b6920ca1caf35099d9ab9e7602e57af945afde3be7ae5d36f.meta.json",
+      "metadata_sha256": "516ff595b9dd0d731780341ca71f2881bf439b95faa67c61196818f4980d4f09",
+      "received_at": "2026-11-03T03:05:13.820986+00:00",
+      "url": "https://npb.jp/bis/2026/games/gm20260328.html"
+    },
+    {
+      "body_file": "price-raw/detail-2026-114.body.gz",
+      "body_sha256": "3c59bdb19a62f3b31e7c7289a4f38933ca472a11fca4bdf2ea964a8ab2774e85",
+      "compressed_sha256": "fdef80149812d3241762288a487ee829e53cc027eaffb5f883f87785d166c32c",
+      "http_status": 200,
+      "metadata_file": "price-raw/detail-2026-114.meta.json",
+      "metadata_sha256": "c1b7aea5e3c69bd0c77ea138302ac37bb648db32a65f1d61bad5a26a12fdc576",
+      "received_at": "2026-11-03T01:37:17.930533+00:00",
+      "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "body_file": "price-raw/detail-2026-115.body.gz",
+      "body_sha256": "8a4a297a3094bef2f7a93de3f5b51c3c2a52dcde09a18b11af40ecedc7b48d50",
+      "compressed_sha256": "1fa89cc2c34c04f4c64535bce0fdf25571a19404454be443c5c56da88b7edda9",
+      "http_status": 200,
+      "metadata_file": "price-raw/detail-2026-115.meta.json",
+      "metadata_sha256": "14f5438d5420a6b976f5fce3db53700607da644492b91d72e9343ca0a4e0fb87",
+      "received_at": "2026-11-03T01:37:19.103853+00:00",
+      "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "body_file": "price-raw/detail-2026-71.body.gz",
+      "body_sha256": "38bb538c3734546871925be10d8034bc69c6bc9a7b567ae5670f5a658ddf5714",
+      "compressed_sha256": "983c76092468b537c00c33facbbd8ba99b7de39db4cd899dadb1b337df5e3a43",
+      "http_status": 200,
+      "metadata_file": "price-raw/detail-2026-71.meta.json",
+      "metadata_sha256": "6b5109248406aabb4f992ddb4b89f6f5c7d51317b88f892462a29f151bf77048",
+      "received_at": "2026-11-03T01:36:35.846652+00:00",
+      "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "body_file": "price-raw/detail-2026-72.body.gz",
+      "body_sha256": "1c69808699c85e2ffb026efc0efe7b483f1267e053a831c9b74ff12f3f454283",
+      "compressed_sha256": "92bb4a195b9a226d3b833bb64a2cd9e1ffd7d8042ec3dcde3e8d0c051f63e610",
+      "http_status": 200,
+      "metadata_file": "price-raw/detail-2026-72.meta.json",
+      "metadata_sha256": "457200ba39ec424af1ab7488dbdb994f7c7733ba4a3d64592145d2e0f7e5295c",
+      "received_at": "2026-11-03T01:36:37.052962+00:00",
+      "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "body_file": "price-raw/detail-2026-83.body.gz",
+      "body_sha256": "e974cf8b271fd135fe7ea6d29b16a26b88ab10dc0dce7fbd3655ce3887244dd9",
+      "compressed_sha256": "1c9dfd05dbcb623016296892ee132d6f6554a8190132ebed5fcd83f4e0c1c90b",
+      "http_status": 200,
+      "metadata_file": "price-raw/detail-2026-83.meta.json",
+      "metadata_sha256": "a8dac991e2d795eefaf3075c007af5b5910a6d09cdc4f5189ac70e6a287a0a98",
+      "received_at": "2026-11-03T01:36:42.871138+00:00",
+      "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "body_file": "price-raw/detail-2026-84.body.gz",
+      "body_sha256": "3235b51bca243657c343878ab098450debfe94006063921b9cc7d2c754263745",
+      "compressed_sha256": "cd4dc9f255e132414133af3b5fd63937d98c03e21af815b099ba90852f230b6f",
+      "http_status": 200,
+      "metadata_file": "price-raw/detail-2026-84.meta.json",
+      "metadata_sha256": "d0263fcb0495e250ff8d74db56ba254aa5b0cd01ecd5536dc61ea4587334ec41",
+      "received_at": "2026-11-03T01:36:44.092992+00:00",
+      "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "body_file": "price-raw/detail-2026-91.body.gz",
+      "body_sha256": "f03de52d555ea2d2fdb666b516e250ec8ad13c0bfa17cbf39d7558cc7ee645c5",
+      "compressed_sha256": "d42a4451768cea7984b39b9e9c08ed447d81d9e6398818adbeb8854e31bd213c",
+      "http_status": 200,
+      "metadata_file": "price-raw/detail-2026-91.meta.json",
+      "metadata_sha256": "0ce8c9f9c621691d170c516d6e5f494687e58d89cf14b98424c38e8a910fc4d1",
+      "received_at": "2026-11-03T01:36:52.183597+00:00",
+      "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "body_file": "price-raw/kleague--detail-2026-55.body.gz",
+      "body_sha256": "97d4f12adc80d28cea1ec3e14e8ec05d844a765d8fbc0c6255eb3a146fe169b7",
+      "compressed_sha256": "71a80d755e41b5551409e4919786f49aa3fcc0375b94460a34efd31b740b16ea",
+      "http_status": 200,
+      "metadata_file": "price-raw/kleague--detail-2026-55.meta.json",
+      "metadata_sha256": "b9fb5e5b87963d246ce83be052e2233438ed17b546d32df87e049a1102378ce4",
+      "received_at": "2026-11-03T02:20:51.416648+00:00",
+      "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "body_file": "price-raw/kleague--detail-2026-56.body.gz",
+      "body_sha256": "9ddcfe023279c87941a65a3295c40dd9c95bec27d046263da156fb7c55fdd2ad",
+      "compressed_sha256": "c507245e90fd180fe2e67f2ee688e6a2187844a6565134e45dc3e1cecd01f5e8",
+      "http_status": 200,
+      "metadata_file": "price-raw/kleague--detail-2026-56.meta.json",
+      "metadata_sha256": "f661a3c2c9363c64e5ec7ab7f6667a9a8b1bfff6e2a5908ec62fc0725ad3a1a4",
+      "received_at": "2026-11-03T02:20:52.593051+00:00",
+      "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "body_file": "price-raw/kleague--detail-2026-57.body.gz",
+      "body_sha256": "c606f939292385abd6b307f85c5ba8a15fdcd807039712c68d711f702a74d1eb",
+      "compressed_sha256": "65a5cd668abd511a2f8b8120aca4d23b303825b606a15964953e8080fe59315d",
+      "http_status": 200,
+      "metadata_file": "price-raw/kleague--detail-2026-57.meta.json",
+      "metadata_sha256": "782aa42e3ead57d725ba533602f6c52f1da0ae1f641ebea73306a7e4e4bd09af",
+      "received_at": "2026-11-03T02:20:53.909891+00:00",
+      "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "body_file": "price-raw/kleague--detail-2026-93.body.gz",
+      "body_sha256": "a9dec93e8a78b67ccf5605fc85049776e8c50dd9f1788cc806bef66ff1331cee",
+      "compressed_sha256": "75b6795f8fd1b7d7a946eabac1b4460d1be0397b17bd14a14433e654c7ea2a27",
+      "http_status": 200,
+      "metadata_file": "price-raw/kleague--detail-2026-93.meta.json",
+      "metadata_sha256": "a1bb5a9f219bb92d23120c444e0d34ceb9efe389a646f1c5045fb0e99c79da3c",
+      "received_at": "2026-11-03T02:21:01.154662+00:00",
+      "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "scope": "NPB official retrospective source capture; no fitting or accuracy/ROI evaluation",
+  "season": 2026,
+  "census_dates_inclusive": [["2026-03-27","2026-03-31"],["2026-04-14","2026-04-20"],["2026-05-12","2026-05-18"],["2026-06-16","2026-06-22"],["2026-07-14","2026-07-20"],["2026-08-04","2026-08-10"]],
+  "selection": "For each month enumerate official daily results in listed order over the full window, retaining unique first-team official game paths in chronological date then lexical path order; select at most the first 20 per month irrespective of team, player, result, market, or odds. Capture all selected pages even when cancelled; a monthly shortage is not filled with another month.",
+  "fixture_census_scope": "All official first-team game paths on the 40 selected calendar days, not a whole-season census. Incomplete or failed day remains unknown, not zero.",
+  "starter_rule": "Require official game identity, team headings and final status; identify starting batting slots by exact unique ordinal 1 through 9 and starting-position parentheses, reject duplicate/missing ordinals or missing official player IDs; rows with blank ordinal are substitutions, not starters. Pitcher first player row is actual starting pitcher, never probable or pregame confirmed. Parse baseball innings as outs 3*whole+decimal digit 0..2.",
+  "separation": "All target-game player details, outcome and score are postgame namespace only. Historic receipt time and official pregame snapshot not available mean strict PIT=0; current HTTP received_at is not a past receipt. A retrieved final box score is neither a confirmed pregame lineup nor a causal edge.",
+  "price": "Audit available official price caches read-only. Only exact unique official game/team/date, same period/product/line and full selections with observed/received provenance can be called a matched quote; otherwise report unknown or unverified. NPB draw/extra-inning/cancellation settlement is product-specific; no default 12-inning refund assumption without official product rules.",
+  "limits": {"max_http_requests":500,"min_host_interval_seconds":1.0,"timeout_seconds":15,"parallelism":1,"stop_on_http":[403,429],"stop_after_consecutive_failures":3},
+  "research_hypothesis": "A properly time-stamped pregame confirmed starter/lineup change, conditioned on the same-time market and an independently constructed pregame bullpen workload, may add information; retrospective postgame lineups here cannot test that hypothesis."
+}

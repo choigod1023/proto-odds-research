@@ -1,0 +1,60 @@
+{
+  "base_sha": "66ab3e7cc6fad96e30129397dfcc602541675f9d",
+  "blockers": [
+    "verified contemporaneous confirmed lineups and original receipt at or before decision",
+    "historical executable quotes and exact product-specific draw/void/extra-inning settlement"
+  ],
+  "branch": "codex/npb-official-information-20261103",
+  "league": "NPB",
+  "limitations": [
+    "46-day census is not the full season; September extension was preregistered after March-August descriptive results were seen",
+    "137 completed games include two rain-called games; three selected games were cancelled",
+    "current official receipts are retrospective and do not prove historical pregame receipt",
+    "source price/product links are retrospective; period and settlement unverified",
+    "68 fixtures not selected in windows; outside the windows not counted",
+    "not a model or ROI experiment"
+  ],
+  "metrics": {
+    "batter_starting_rows": 2466,
+    "batting_substitution_rows": 1264,
+    "both_starting_nines": 137,
+    "both_starting_pitchers": 137,
+    "bullpen_pitcher_rows": 865,
+    "called_games_in_completed": 2,
+    "census_days": 46,
+    "census_fixtures": 208,
+    "distinct_starting_batter_ids": 336,
+    "market_period_verified": false,
+    "not_selected_fixtures": 68,
+    "npb_connection_errors": 1,
+    "npb_http_requests": 187,
+    "npb_http_successes": 186,
+    "official_draws": 1,
+    "price_score_agreement": 77,
+    "price_sources_read": 76,
+    "retrospective_normal_winloss_price_game_candidates": 77,
+    "selected_cancelled": 3,
+    "selected_completed": 137,
+    "selected_fixtures": 140,
+    "settlement_verified": false,
+    "stored_npB_docs": 186,
+    "stored_price_docs": 11,
+    "strict_pit_lineup_and_price_games": 0
+  },
+  "next_data_needed": [
+    "official pregame lineup snapshots with actual receipt and player IDs",
+    "official pregame probable starter version history",
+    "same product full quotes before decision and receipt evidence",
+    "versioned sportstoto market settlement rules",
+    "independently received earlier completed bullpen boxscores"
+  ],
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/526",
+  "protocol_extension_sha": "cf44b0aa7a3947c958bc085ae1d64897c20d049d",
+  "protocol_sha": "65d8d0c9982c9f8032ef70f6ec7ad80f2cce1058",
+  "repo": "https://github.com/choigod1023/proto-odds-research.git",
+  "resume": "python experiments/npb-official-information-20261103/collect.py",
+  "role": "NPB official information",
+  "source_manifest_sha256": "937a6ba23d3e63b7c51807a8f2dad5f98cd35a3c3e5effc060a43543f28a8746",
+  "status": "completed_retrospective_capture_blocked_strict_pit",
+  "tests": "python -m pytest tests/test_npb_official_information_20261103.py -q: 9 passed"
+}
