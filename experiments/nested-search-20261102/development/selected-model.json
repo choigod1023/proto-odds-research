@@ -1,0 +1,50 @@
+{
+  "registration": "b28b02c24b8b820eb68c51c1a79c46cfdf80004b",
+  "config": {
+    "id": "residual:form:k=30:prior=10:weight=uniform:half=None:blend=1.0",
+    "family": "residual",
+    "space": "form",
+    "k": 30,
+    "prior": 10,
+    "weight": "uniform",
+    "half_life": null,
+    "blend": 1.0
+  },
+  "development_metrics": {
+    "games": 227,
+    "hits": 111,
+    "accuracy": 0.4889867841409692,
+    "net_units": "3.97",
+    "roi": 0.01748898678414097,
+    "logloss": 1.0707507642463467,
+    "brier": 0.645854217230556,
+    "daily_close_max_drawdown_units": "9.29",
+    "monthly_units": {
+      "2025-02": "-3.76",
+      "2025-03": "-1.01",
+      "2025-04": "-0.40",
+      "2025-05": "8.61",
+      "2025-06": "7.48",
+      "2025-07": "1.99",
+      "2025-08": "-2.63",
+      "2025-09": "0.73",
+      "2025-10": "-1.98",
+      "2025-11": "-5.06"
+    }
+  },
+  "total_definitions": 4334,
+  "complete_trials": 4334,
+  "unique_probability_vectors_rounded12": 4164,
+  "elapsed_seconds": 23.992634899914265,
+  "classification": "development winner from broad search; NOT independent validated accuracy",
+  "source_hashes": {
+    "docs/research/2026-11-02-nested-search-protocol.md": "75b28df30864467e68f5817b6270b220e6bc507c65d8315156f2adea1a901a19",
+    "experiments/nested-search-20261102/search.py": "f2f9532f5dc0ed5cb483f2283f6c10e4d45ff1682c10ff8389156b5cc5b026f6",
+    "experiments/nested-search-20261102/features.py": "f5140c46dcf5c12a1a749434e0f1da935b76d5f18764b1ede827ff74c62dbe9b",
+    "experiments/nested-search-20261102/ml_models.py": "14ddfe35d34590c3cf73edaebfb3b3b30ca9de8b7fec8433311490bb78e41d7f",
+    "experiments/nested-search-20261102/residual_models.py": "c2efbe2fe008482fa9328327c4c44f44df14e611801a7106c737cf84f6b09f26",
+    "experiments/nested-search-20261102/prepared/development.jsonl": "6447602bcd607e3f2182f6d0d40bb59d83164e96fbcd74cda5463df70899bf45",
+    "experiments/nested-search-20261102/prepared/outer-features.jsonl": "9a9ca5e69ba80fe5fccc93b27add93411ac883c64e53494c17f2016b12236ff7",
+    "experiments/nested-search-20261102/prepared/manifest.json": "20d4a275ac69a32f343cc97d93835f007ba26017d10848a2e729f3d6746cbb1e"
+  }
+}

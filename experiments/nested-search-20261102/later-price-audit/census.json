@@ -1,0 +1,308 @@
+{
+  "scope": "2026-07-27..2026-11-01 by kickoff; K League 1 full-match 3-way; no outcome/label statistics",
+  "snapshots": {
+    "folder": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots",
+    "files": 41,
+    "date_file_min": "odds_timeseries_20260726.csv",
+    "date_file_max": "odds_timeseries_20260905.csv",
+    "full3_rows_all_dates": 12877,
+    "candidate_rows_request_start_before_t30": 4555,
+    "candidate_fixture_keys": 35,
+    "official_ended_fixtures_on_identity_only": 35,
+    "unambiguous_product_fixture_keys": 35,
+    "multiple_round_or_game_number_fixture_keys": 0,
+    "candidate_kickoff_range": [
+      "2026-08-01",
+      "2026-09-06"
+    ],
+    "candidate_request_start_range": [
+      "2026-07-30T23:06:47+00:00",
+      "2026-09-05T06:16:32+00:00"
+    ],
+    "source_parser": "wisetoto get_proto_list -> li.a9 parsed in DOM order; original source HTML not preserved in identified files",
+    "selection_order": "downstream src/bets.py assumes 0 home,1 draw,2 away; original HTML labels not independently verified",
+    "strict_t30_receipt_verified_fixtures": 0,
+    "receipt_limit": "ts generated before rounds are fetched; not response completion",
+    "file_manifest": [
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260726.csv",
+        "sha256": "668a39df962966a82ea67c5fce84b2e3ee48a8f08a6a94569ba15310b1d676e3",
+        "full3_rows": 54,
+        "candidate_rows": 0
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260727.csv",
+        "sha256": "2e5d77ad2c895633b439bcb47b07b2a78636c129439286f503c742581530113f",
+        "full3_rows": 240,
+        "candidate_rows": 0
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260728.csv",
+        "sha256": "ee54364e0e2b13ec7f3d87e405ce51b387b68d111945e53f77e1e056b2737837",
+        "full3_rows": 0,
+        "candidate_rows": 0
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260729.csv",
+        "sha256": "8e6b0c9677c0a9453cccc930d8cfb2adb29b4777906e821dabb0288f19685cbb",
+        "full3_rows": 0,
+        "candidate_rows": 0
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260730.csv",
+        "sha256": "38e63b631eac984f205469711cf29b4c4950a9a38e2b47c36a9883c872c239ea",
+        "full3_rows": 24,
+        "candidate_rows": 24
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260731.csv",
+        "sha256": "f6f92cb7eb0da0d00ef52747ca172e5744957f4e2e90045cf1ff83aa4ec4efb5",
+        "full3_rows": 570,
+        "candidate_rows": 570
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260801.csv",
+        "sha256": "dc6ffd73b8ad968cf853d4e62c14e2b46dcc289b0fb30f8033f48a9d6fe6b083",
+        "full3_rows": 558,
+        "candidate_rows": 396
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260802.csv",
+        "sha256": "b43f43bce00cb31be94d6d6cc8968e14b3c153cb30167bc24c5fccf68cb7c5b6",
+        "full3_rows": 552,
+        "candidate_rows": 120
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260803.csv",
+        "sha256": "1a107855b6eb7630a267bee2a75d77c409c7933b2481f707c9939d24edc379d4",
+        "full3_rows": 540,
+        "candidate_rows": 0
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260804.csv",
+        "sha256": "5a3c1cd670e6c16659e912e787814f6c73975685cbf1ddc9d44f861ff2caaddd",
+        "full3_rows": 570,
+        "candidate_rows": 0
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260805.csv",
+        "sha256": "612d0b219dc77bfef4b99b477aa1d08f3adf7af7e96e356d586e81d6f1387670",
+        "full3_rows": 564,
+        "candidate_rows": 0
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260806.csv",
+        "sha256": "cb7a65bb353e0a82f408061987242926bfafaeb9474a2def4e604dd666f2f01b",
+        "full3_rows": 42,
+        "candidate_rows": 0
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260807.csv",
+        "sha256": "7a98c453753b25eecb1223ff5ed86cf36775ddff978b92eb7d5c1f340a387446",
+        "full3_rows": 10,
+        "candidate_rows": 10
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260808.csv",
+        "sha256": "5655f8980ab4975c4d51893aa2f4bf5fd29f06742c3427fc2f997699153be3e8",
+        "full3_rows": 330,
+        "candidate_rows": 80
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260809.csv",
+        "sha256": "5176802a42dbc08d8d727bfd714bf3f922853492caa4b738135d7945fb01a7d1",
+        "full3_rows": 470,
+        "candidate_rows": 0
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260810.csv",
+        "sha256": "41cb410dba9e37beb10b6591169d31c8ac781ecaa630b546b0c20d788ecc5e2c",
+        "full3_rows": 435,
+        "candidate_rows": 0
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260811.csv",
+        "sha256": "6ec1056b32dec89e16b7e5042b52a69940fc7aeb81ea8f5299601018820633fa",
+        "full3_rows": 210,
+        "candidate_rows": 0
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260812.csv",
+        "sha256": "c168ad530f3954db278f45debdf1b35b28c0ae0e338d616ae96847e596a82c0f",
+        "full3_rows": 420,
+        "candidate_rows": 0
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260813.csv",
+        "sha256": "73eb223151adbef789c430e8bc4c56138b73ef44a711ad2b1bc442bc55b3d083",
+        "full3_rows": 199,
+        "candidate_rows": 24
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260814.csv",
+        "sha256": "dd150b88afff47dc1534cf3280bfbb71c27237caaae9078b6398e2f4840c51e6",
+        "full3_rows": 564,
+        "candidate_rows": 564
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260815.csv",
+        "sha256": "c7fbbd9dbb862f0be7d0acaa99f6f9e29da98952a0863b6733bc55872477ee6d",
+        "full3_rows": 558,
+        "candidate_rows": 396
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260816.csv",
+        "sha256": "2997f8de2fd2bb4c1f0f6c8d4cd15bfe35402110896ea8cb6bdfe5f7d9b7b0f8",
+        "full3_rows": 546,
+        "candidate_rows": 111
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260817.csv",
+        "sha256": "7830d83385b933cd8951de812c485351ffb2e2ea18f290f5455b2a44b2272f3e",
+        "full3_rows": 522,
+        "candidate_rows": 0
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260818.csv",
+        "sha256": "e222c7f1dcf991f5ab762c401fdc9a8b2fd1fd7453541bcb4ef421fb4892d5fa",
+        "full3_rows": 570,
+        "candidate_rows": 0
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260819.csv",
+        "sha256": "7aa4e2bc60a4d542f72ae6fe2e0237e71843a525e9e627c7afe22cdd692a30c4",
+        "full3_rows": 552,
+        "candidate_rows": 0
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260820.csv",
+        "sha256": "fbdc540b227dbd0417f9aec1baa328d871012242fbc8adef6bed337d85c86794",
+        "full3_rows": 396,
+        "candidate_rows": 24
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260821.csv",
+        "sha256": "4eff2b80ed59fc36fa92729de343cfc2268967bed188d8a8d0246e9ce87159b6",
+        "full3_rows": 564,
+        "candidate_rows": 564
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260822.csv",
+        "sha256": "83e7315f938381c6f6211ccac686a05a2ff694882b1f17c2eb0e4aa7b38b9920",
+        "full3_rows": 564,
+        "candidate_rows": 344
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260823.csv",
+        "sha256": "dd762abcdd2e21e47c560c8a32b62bc6ee30b72fb1613f39b11f62fab46ec766",
+        "full3_rows": 84,
+        "candidate_rows": 28
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260824.csv",
+        "sha256": "cbae2b684510140c5425784c24e465ead4170a3361d5c4202dc2050624a166bf",
+        "full3_rows": 0,
+        "candidate_rows": 0
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260825.csv",
+        "sha256": "e2f5b6d31a71f073328229925ab00f37263080aa5c82b68decfe0a8580c5d92e",
+        "full3_rows": 0,
+        "candidate_rows": 0
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260826.csv",
+        "sha256": "64143d928d12b002d39670d2f30e730a55de4c8a39310d43e135b752c4a2827f",
+        "full3_rows": 0,
+        "candidate_rows": 0
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260827.csv",
+        "sha256": "34558d624eb160ca5318fc47d5025203dfa6405a1d2d2427cca203c38de81d27",
+        "full3_rows": 126,
+        "candidate_rows": 18
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260828.csv",
+        "sha256": "2338249c7ebcb5df5455450dedf642d4d55e74492ab580511b613a82befbf402",
+        "full3_rows": 783,
+        "candidate_rows": 522
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260829.csv",
+        "sha256": "d9f46a91217482aec0e2f232c2db652d62933b88d952d7c6df3ba7d36edb340c",
+        "full3_rows": 492,
+        "candidate_rows": 390
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260830.csv",
+        "sha256": "b885ba950b789d16dc2d0d9fd1608ae8885059e359ccccd4520630f3cfc3d86f",
+        "full3_rows": 384,
+        "candidate_rows": 112
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260831.csv",
+        "sha256": "87a705647de464fd436ead5924fe0d9ec0c3013dde7a8c9f8078bde0a7505cb2",
+        "full3_rows": 126,
+        "candidate_rows": 0
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260901.csv",
+        "sha256": "185f8575c80de118a59af667a15732f639d5f6385f1c0db8634fe0a6dc1f0399",
+        "full3_rows": 0,
+        "candidate_rows": 0
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260902.csv",
+        "sha256": "05c420d55118e0515722f929520f905af237e82faaf11faef07336c4924088ad",
+        "full3_rows": 0,
+        "candidate_rows": 0
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260904.csv",
+        "sha256": "7ce93ea0ac55875ce7e492bf70680581d12e06b9d6570aff9eb3a74375bf96bb",
+        "full3_rows": 186,
+        "candidate_rows": 186
+      },
+      {
+        "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\completed-first-half-evidence-20260906\\data\\raw\\snapshots\\odds_timeseries_20260905.csv",
+        "sha256": "3702947b6633b3064c645341b3b003182eb721f00260077dac4e5c2a91bb7a7a",
+        "full3_rows": 72,
+        "candidate_rows": 72
+      }
+    ]
+  },
+  "prior_overlap": {
+    "pr425_candidate_fixture_keys": 5,
+    "old_decay_candidate_fixture_keys": 5,
+    "old_decay_history_rows_2026": 198,
+    "old_decay_history_candidate_fixture_keys": 35,
+    "note": "identity on date, oriented teams and local clock; this is use evidence, not unseen certification"
+  },
+  "processed_archive": {
+    "path": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto\\venv\\xfip-residual-models\\data\\processed\\games.csv",
+    "sha256": "dfe95c2ace14ee42142ea0c86912b68359bc8ebee9ad3cb566812815bdec0eb0",
+    "full3_rows_in_target_period": 32,
+    "distinct_fixture_keys": 29,
+    "duplicate_extra_rows": 3,
+    "kickoff_range": [
+      "2026-08-01",
+      "2026-08-26"
+    ],
+    "matching_official_unique": 29,
+    "overlap_snapshot_candidates": 23,
+    "prior_425_overlap": 7,
+    "old_decay_overlap": 5,
+    "price_receipt": "missing; archival matches are not verified point-in-time quotes"
+  },
+  "excluded_row_reasons": {
+    "outside_requested_kickoff_period": 294,
+    "request_start_after_t30": 8028
+  },
+  "notes": [
+    "rows are repeated snapshots; fixtures are deduplicated on date, orientation and time",
+    "candidate request start before cutoff is necessary but not proof of receipt before cutoff",
+    "no source HTML or exact selection-order labels were independently verified",
+    "no 2026 fixed-DC input generated or result/ROI calculated"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "scope": "research implementation and synthetic tests only; no actual data or performance evaluation",
+  "residual_grid": {"k": [10,20,30,45,60,90,120], "prior": [10,30,60,120,240], "space": ["market","combined","form"], "weight": ["uniform","inverse"], "half_life": [null,30,90,180], "blend": [0.25,0.5,0.75,1.0]},
+  "cutoff": "for each target date include only train dates <= target date minus seven days; duplicate training IDs rejected; target labels are not inputs",
+  "spaces": "market=market probabilities; combined=market+DC; form=market+DC+12 form features; for form, standardize all concatenated columns with the eligible training bank mean and population standard deviation, with zero deviations set to one; neither targets nor excluded future rows influence fit",
+  "distance": "Euclidean, sort by distance then unique training ID, use first k; if fewer than k eligible rows, return the original market distribution",
+  "prediction": "normalize uniform or inverse distance 1/(distance+0.05) weights to sum k, then multiply exp2(-days/half_life), or 1 if null; sum weighted (onehot-label minus train-market); add blend times this sum divided by sum of weights plus prior to target-market, clip at 1e-6 and normalize",
+  "pooling_grid": {"weight": [0,0.1,0.25,0.5,0.75,1], "temperature": [0.75,1,1.25,1.5], "home_bias": [-0.15,-0.1,-0.05,0,0.05,0.1,0.15], "draw_bias": [-0.1,0,0.1]},
+  "pooling": "softmax(log((1-w)*market+w*DC)/temperature + [home_bias,draw_bias,-home_bias-draw_bias]); no labels",
+  "limitations": "Date cutoff is a conservative lag convention, not proof of actual result receipt or independent future evidence. Historical data may have been previously inspected. No production or model promotion."
+}
