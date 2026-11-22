@@ -1,0 +1,259 @@
+{
+  "classification": "fixed_candidates_new_NN_period_but_used_in_other_research_not_blind",
+  "registration_commit": "2cadaeb0a6eb823aa3faa7090a7abe91070e69fa",
+  "cohorts": {
+    "domestic": {
+      "opportunities": 89,
+      "eligible": 77,
+      "excluded": {
+        "duplicate_price_fixture": 12
+      },
+      "models": {
+        "market": {
+          "bets": 77,
+          "coverage_eligible": 1.0,
+          "coverage_opportunities": 0.8651685393258427,
+          "hits": 39,
+          "accuracy": 0.5064935064935064,
+          "roi": -0.016623376623376623,
+          "net_units": "-1.28",
+          "logloss": 1.046695173242478,
+          "brier": 0.6311700441512331,
+          "monthly_units": {
+            "2026-02": "1.40",
+            "2026-03": "-6.28",
+            "2026-04": "7.16",
+            "2026-05": "-3.56"
+          },
+          "daily_close_max_drawdown_units": "7.74"
+        },
+        "global": {
+          "bets": 77,
+          "coverage_eligible": 1.0,
+          "coverage_opportunities": 0.8651685393258427,
+          "hits": 38,
+          "accuracy": 0.4935064935064935,
+          "roi": -0.048701298701298704,
+          "net_units": "-3.75",
+          "logloss": 1.0602949723717878,
+          "brier": 0.6395891925297021,
+          "monthly_units": {
+            "2026-02": "1.40",
+            "2026-03": "-8.75",
+            "2026-04": "7.16",
+            "2026-05": "-3.56"
+          },
+          "daily_close_max_drawdown_units": "9.33"
+        },
+        "neighbor": {
+          "bets": 77,
+          "coverage_eligible": 1.0,
+          "coverage_opportunities": 0.8651685393258427,
+          "hits": 31,
+          "accuracy": 0.4025974025974026,
+          "roi": -0.25402597402597404,
+          "net_units": "-19.56",
+          "logloss": 1.0721499645099422,
+          "brier": 0.6461824961969272,
+          "monthly_units": {
+            "2026-02": "-0.83",
+            "2026-03": "-13.46",
+            "2026-04": "2.62",
+            "2026-05": "-7.89"
+          },
+          "daily_close_max_drawdown_units": "21.64"
+        }
+      },
+      "pairs": {
+        "neighbor_vs_market": {
+          "changes": {
+            "changed": 8,
+            "recovered": 0,
+            "damaged": 8,
+            "both_wrong": 0
+          },
+          "weeks": 11,
+          "accuracy_delta_ci95": [
+            -0.17242443593018306,
+            -0.04493962770417581
+          ],
+          "roi_delta_ci95": [
+            -0.39453842105263165,
+            -0.1008837121212122
+          ]
+        },
+        "neighbor_vs_global": {
+          "changes": {
+            "changed": 7,
+            "recovered": 0,
+            "damaged": 7,
+            "both_wrong": 0
+          },
+          "weeks": 11,
+          "accuracy_delta_ci95": [
+            -0.15943478260869565,
+            -0.038461538461538464
+          ],
+          "roi_delta_ci95": [
+            -0.3623747628083491,
+            -0.08628594771241846
+          ]
+        },
+        "global_vs_market": {
+          "changes": {
+            "changed": 1,
+            "recovered": 0,
+            "damaged": 1,
+            "both_wrong": 0
+          },
+          "weeks": 11,
+          "accuracy_delta_ci95": [
+            -0.036585365853658534,
+            0.0
+          ],
+          "roi_delta_ci95": [
+            -0.09036585365853658,
+            0.0
+          ]
+        }
+      },
+      "price_receipt_and_executability": "unverified unless separately evidenced",
+      "dc_availability": "assumed; provenance assertion requires independent audit",
+      "accounting": "hypothetical flat unit; not actual wallet",
+      "review_gate": {
+        "status": "criteria_not_met",
+        "automatic_adoption": false
+      }
+    },
+    "overseas": {
+      "opportunities": 120,
+      "eligible": 0,
+      "excluded": {
+        "unverified_market_and_selection_order": 120
+      },
+      "models": {
+        "market": {
+          "bets": 0,
+          "coverage_eligible": null,
+          "coverage_opportunities": 0,
+          "hits": 0,
+          "accuracy": null,
+          "roi": null,
+          "logloss": null,
+          "brier": null,
+          "net_units": "0",
+          "monthly_units": {},
+          "daily_close_max_drawdown_units": null
+        },
+        "global": {
+          "bets": 0,
+          "coverage_eligible": null,
+          "coverage_opportunities": 0,
+          "hits": 0,
+          "accuracy": null,
+          "roi": null,
+          "logloss": null,
+          "brier": null,
+          "net_units": "0",
+          "monthly_units": {},
+          "daily_close_max_drawdown_units": null
+        },
+        "neighbor": {
+          "bets": 0,
+          "coverage_eligible": null,
+          "coverage_opportunities": 0,
+          "hits": 0,
+          "accuracy": null,
+          "roi": null,
+          "logloss": null,
+          "brier": null,
+          "net_units": "0",
+          "monthly_units": {},
+          "daily_close_max_drawdown_units": null
+        }
+      },
+      "pairs": {
+        "neighbor_vs_market": {
+          "changes": {
+            "changed": 0,
+            "recovered": 0,
+            "damaged": 0,
+            "both_wrong": 0
+          },
+          "weeks": 0,
+          "accuracy_delta_ci95": null,
+          "roi_delta_ci95": null
+        },
+        "neighbor_vs_global": {
+          "changes": {
+            "changed": 0,
+            "recovered": 0,
+            "damaged": 0,
+            "both_wrong": 0
+          },
+          "weeks": 0,
+          "accuracy_delta_ci95": null,
+          "roi_delta_ci95": null
+        },
+        "global_vs_market": {
+          "changes": {
+            "changed": 0,
+            "recovered": 0,
+            "damaged": 0,
+            "both_wrong": 0
+          },
+          "weeks": 0,
+          "accuracy_delta_ci95": null,
+          "roi_delta_ci95": null
+        }
+      },
+      "price_receipt_and_executability": "unverified unless separately evidenced",
+      "dc_availability": "assumed; provenance assertion requires independent audit",
+      "accounting": "hypothetical flat unit; not actual wallet",
+      "review_gate": {
+        "status": "insufficient_data",
+        "automatic_adoption": false
+      }
+    }
+  },
+  "automatic_adoption": false,
+  "eligibility_correction": "Initial overseas market/order assertion was rejected; all120 excluded, models unchanged",
+  "actual_operating_or_tipster_or_9to1_comparison": false,
+  "monthly_wallet_loss_cap_changed": false,
+  "input_code_lf_sha256": {
+    "docs/research/2026-11-02-frozen-neighbor-period-protocol.md": "7b311502e6488ef4de2c7dbf608f8d44ad76c936a9f6214a9248503af6887be2",
+    "src/devig.py": "234d000c33279334e4989ffb33b2b57eec344ae8e78593f3308dc3966c868840",
+    "experiments/frozen-neighbor-engine-20261102/engine.py": "3872884a723f7de18503402ab2e7857d8d5d748d2a2cde4b3fc80c8c0285d3fb",
+    "experiments/frozen-neighbor-period-20261102/run.py": "34a6e30133c29c188897a117c508c27a1b6c9b76dbdcfaa7dde2518f1df37fc2",
+    "experiments/frozen-neighbor-period-20261102/prepare.py": "01e438a2522a8070c027ff2e51af9f457ad37097fb4018f2f2662a40a70783b9",
+    "experiments/frozen-neighbor-period-20261102/capture_official.py": "df7dd5931276ec0b7328838d42cfe973cb0a05f5f06e3f9ed1789803e87a7a62",
+    "experiments/frozen-neighbor-period-20261102/vendor/frozen_dc.py": "79187243175ed45556af79f1c376f8628844747188865cb57b5e0b627e48bf3f",
+    "experiments/frozen-neighbor-period-20261102/inputs/frozen-bank-source.jsonl": "158cd931f3fa576b97678dfcc0b44042b9ef1a5826183853fb6d9b0beb314f05",
+    "experiments/frozen-neighbor-period-20261102/inputs/official-history-2023-2025.jsonl": "30cc5112630eeeae6d45bf9b7840b57c658ef920f6f64a891002313174a8e6fd",
+    "experiments/frozen-neighbor-period-20261102/inputs/domestic-2026.raw.jsonl": "8d62107bbf57e8da926bfdcafa1814fde067c0ea0d3d3e23d36b5f2bfc7e3891",
+    "experiments/frozen-neighbor-period-20261102/inputs/source-manifest.json": "b64b258f56ce8a74af69b5ea8a9231ca1bbdfcd7b3bfae2e52c384fa70c8bec7",
+    "experiments/frozen-neighbor-period-20261102/official-2026/fixtures.jsonl": "a4b1e8e4f3658419e9be910bbc39793ae423e3abe2a67e76b0866c1f5030bd85",
+    "experiments/frozen-neighbor-period-20261102/official-2026/manifest.json": "87c00518511a79d48ec56fadae532b5936b4c79fe9189ac8678094996cdc1aaf",
+    "experiments/frozen-neighbor-period-20261102/official-2026/requests.json": "eaf34c3065637ba99a90fa732bee0bb7c8018ad59a73efb1e5d62840099453d2",
+    "experiments/frozen-neighbor-period-20261102/verified-inputs/dc-states.json": "438815fd656d5c90c72d8373b64a140b303c490a753c691497d4e6c99315ddf7",
+    "experiments/frozen-neighbor-period-20261102/verified-inputs/domestic-opportunities.json": "3652317d55b7ef2cbd17a0b97418068db9ae599150890a5b20c8f4b9d8acabc4",
+    "experiments/frozen-neighbor-period-20261102/verified-inputs/overseas-opportunities.json": "f4b361aad49d0d5654ca0716276a37d07dfcde823327e0f160b0152fb92b176f",
+    "experiments/frozen-neighbor-period-20261102/verified-inputs/preparation.json": "5c739f22ab8fe7f943d41108c7257711383842658f6f5268403de578e56c4945",
+    "experiments/frozen-neighbor-period-20261102/INITIAL_RUN_STATUS.md": "08c4fe355b38dad2eab840f4ae1c35e06d81068bf378f449861e0bb2d5816562",
+    "data/raw/overseas/K리그1.json": "47e2b363bd779cd31739f4f595aa124534c202e1adb1ed96af78307768751dd7",
+    "experiments/frozen-neighbor-period-20261102/official-2026/01.json": "c05461ff30280c1f10bd8a6baf8f045b22860c588c697377bdb6c0d92af29065",
+    "experiments/frozen-neighbor-period-20261102/official-2026/02.json": "febccf0c373fcb9d19e5c8e856705d7ec4ed93bd5137eeebdff457ae0f027e6f",
+    "experiments/frozen-neighbor-period-20261102/official-2026/03.json": "4387545ac1d0f74a638454c3153502ab4f45818987ce8557ceec3a4c61c7a179",
+    "experiments/frozen-neighbor-period-20261102/official-2026/04.json": "27ebd565b5f42b6ec959736f8b23935fb8c668480cad5a49499b2cd9cb144e77",
+    "experiments/frozen-neighbor-period-20261102/official-2026/05.json": "3c9d2b0ef6963fe3a8c21e701a0f0a765715a0aa084c1de12acfa08983801b54",
+    "experiments/frozen-neighbor-period-20261102/official-2026/06.json": "3d0e6bfd114abab3fed66fb8413f49b4654e2a10f1724ea97574fe642f56e2ca",
+    "experiments/frozen-neighbor-period-20261102/official-2026/07.json": "93fda68d0108871d1a1776b6c3885743830985cc08f1fc939b33db70a3eda878",
+    "experiments/frozen-neighbor-period-20261102/official-2026/08.json": "35212a46fb5a74e064e09534a2f2b7d7885e175c1b5aec42ae67fb2682c78ff4",
+    "experiments/frozen-neighbor-period-20261102/official-2026/09.json": "11d803e9e670fcaeeb6681445e837764bbaa0952e2898b07aaf4fc1d3d165bfd",
+    "experiments/frozen-neighbor-period-20261102/official-2026/10.json": "aa1c856273299f2b7a01857ed5ad4e39dab282be08d6d81a335f5a38f0742ec3",
+    "experiments/frozen-neighbor-period-20261102/official-2026/11.json": "5229682015c6f4792ef0bb9257379303d35aa456ce30bb64b279bec68390d234"
+  },
+  "distinct_fixtures": 77,
+  "overlapping_fixtures": 0,
+  "no_combined_ROI": "Do not pool overlapping fixtures or different price sources"
+}
