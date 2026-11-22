@@ -1,0 +1,28 @@
+{
+  "status": "source_join_complete_model_blocked",
+  "branch": "codex/kbo-source-model-20261108d",
+  "base": "f293e7397c2197dfdca783b77d90853a8e918c5d",
+  "protocol_commit": "7114016a",
+  "commit": "e2ff7ec2 (research); current head contains handoff update",
+  "pr": "https://github.com/choigod1023/proto-odds-research/pull/662",
+  "paths": [
+    "experiments/kbo-source-model-20261108d/REPORT.md",
+    "experiments/kbo-source-model-20261108d/PROTOCOL.md",
+    "experiments/kbo-source-model-20261108d/source-summary.json",
+    "experiments/kbo-source-model-20261108d/capture.py",
+    "experiments/kbo-source-model-20261108d/verify_join.py",
+    "tests/test_kbo_source_model_20261108d.py"
+  ],
+  "tests": [
+    "python -X utf8 -m unittest discover -s tests -p test_kbo_source_model_20261108d.py -v: 4 passed",
+    "python -X utf8 experiments/kbo-source-model-20261108d/verify_join.py: official and auxiliary join passed",
+    "git diff --check"
+  ],
+  "limits": [
+    "official robots restrict automated collection without prior approval",
+    "one retrospective fixture and player cross-source match, not prospective model data",
+    "no verified availability roster or full matched 2025/2026 training dataset",
+    "no model fit or fabricated ROI",
+    "raw response evidence stored outside git"
+  ]
+}
