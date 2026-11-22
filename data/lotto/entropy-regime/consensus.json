@@ -1,0 +1,121 @@
+{
+  "seed": 2026101707,
+  "candidates": 99387,
+  "data_through_draw": 1245,
+  "target_draw": 1246,
+  "family_order": [
+    "quantum",
+    "classical_category",
+    "shrinkage_50_4500",
+    "temporal",
+    "nonlinear",
+    "entropy_regime"
+  ],
+  "criterion": "maximize weakest family percentile, then mean; within-family average ranks; ties are midranks",
+  "global_optimum": false,
+  "validated_predictive_advantage": false,
+  "games": [
+    {
+      "numbers": [
+        2,
+        4,
+        5,
+        13,
+        16,
+        20
+      ],
+      "family_percentiles": [
+        97.61789771298058,
+        98.60746375280469,
+        79.10441003350539,
+        73.34460241279041,
+        63.64837285895874,
+        99.34666170290548
+      ],
+      "mean_percentile": 85.27823474565754,
+      "minimum_percentile": 63.64837285895874
+    },
+    {
+      "numbers": [
+        2,
+        4,
+        5,
+        15,
+        16,
+        18
+      ],
+      "family_percentiles": [
+        97.61789771298058,
+        98.60746375280469,
+        66.22344974694879,
+        73.34460241279041,
+        63.64837285895874,
+        99.34666170290548
+      ],
+      "mean_percentile": 83.13140803123144,
+      "minimum_percentile": 63.64837285895874
+    },
+    {
+      "numbers": [
+        4,
+        6,
+        7,
+        13,
+        28,
+        32
+      ],
+      "family_percentiles": [
+        76.35908116755714,
+        72.54771750832603,
+        98.550615271615,
+        77.68671959109341,
+        63.64837285895874,
+        79.59156294753505
+      ],
+      "mean_percentile": 78.06401155751423,
+      "minimum_percentile": 63.64837285895874
+    },
+    {
+      "numbers": [
+        4,
+        6,
+        7,
+        13,
+        24,
+        32
+      ],
+      "family_percentiles": [
+        76.35908116755714,
+        72.54771750832603,
+        97.43175666837716,
+        73.34460241279041,
+        63.64837285895874,
+        79.59156294753505
+      ],
+      "mean_percentile": 77.15384892725741,
+      "minimum_percentile": 63.64837285895874
+    },
+    {
+      "numbers": [
+        3,
+        4,
+        5,
+        18,
+        28,
+        38
+      ],
+      "family_percentiles": [
+        76.35908116755714,
+        72.54771750832603,
+        91.54668115548311,
+        77.68671959109341,
+        63.64837285895874,
+        79.59156294753505
+      ],
+      "mean_percentile": 76.89668920482559,
+      "minimum_percentile": 63.64837285895874
+    }
+  ],
+  "wall_seconds": 0.3306933999992907,
+  "peak_memory_mib": 165.09765625
+}
