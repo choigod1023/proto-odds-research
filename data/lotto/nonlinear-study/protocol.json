@@ -1,0 +1,45 @@
+{
+  "seed": 2026101703,
+  "draws": 1245,
+  "train_end": 740,
+  "warmup": 10,
+  "targets": [
+    "odd_count_parity",
+    "low_count_parity",
+    "sum_band",
+    "has_adjacent_numbers"
+  ],
+  "sum_band_edges": [
+    100,
+    120,
+    150,
+    170
+  ],
+  "contexts": [
+    "own_lags_1_2",
+    "own_lags_1_2_3",
+    "lag1_lag2_parity_xor",
+    "previous5_high_count",
+    "cross_odd_low_lag1",
+    "own_lags_5_10"
+  ],
+  "smoothing": 20,
+  "tests": 24,
+  "null_permutations": 999,
+  "iid_histories": 999,
+  "decision": "max held-out total log gain; plus-one family p <= .05 and positive gain",
+  "power_replicates": 100,
+  "power_permutations": 99,
+  "xor_strengths": [
+    0,
+    0.25,
+    0.5
+  ],
+  "limits": "one CPU, BelowNormal, BLAS one thread, >=25% rest, 600 seconds wall",
+  "interpretation": "exploratory previously inspected data; not full combination prediction",
+  "source_sha256": "e454ffa9aa93950340f9188407bbae9f3bc8ce8057a5b4b23c831f2155635f8e",
+  "data_sha256": {
+    "base.jsonl": "30321eef31fe7494a7ada3e2224ca548967fefcb85e2558c771b1e88971224b2",
+    "extra.jsonl": "0d7e5c56ca52b8b362896d0c00eaa450fad607b04cfe5ae9fa644900b891455e"
+  }
+}

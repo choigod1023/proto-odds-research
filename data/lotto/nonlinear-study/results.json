@@ -1,0 +1,281 @@
+{
+  "status": "completed",
+  "power": {
+    "0": {
+      "hits": 9,
+      "n": 100,
+      "rate": 0.09,
+      "ci95": [
+        0.041983595628392247,
+        0.1639822550296352
+      ]
+    },
+    "0.25": {
+      "hits": 100,
+      "n": 100,
+      "rate": 1.0,
+      "ci95": [
+        0.9637833073548235,
+        1.0
+      ]
+    },
+    "0.5": {
+      "hits": 100,
+      "n": 100,
+      "rate": 1.0,
+      "ci95": [
+        0.9637833073548235,
+        1.0
+      ]
+    }
+  },
+  "models": [
+    {
+      "target": "odd_count_parity",
+      "context": "own_lags_1_2",
+      "total_log_gain": -0.8618378359986075,
+      "bits_per_draw": -0.0024621171723676573,
+      "early_gain": -0.7180304001456804,
+      "late_gain": -0.14380743585292702,
+      "permutation_p_unadjusted": 0.577,
+      "permutation_p_family": 1.0
+    },
+    {
+      "target": "odd_count_parity",
+      "context": "own_lags_1_2_3",
+      "total_log_gain": -0.5163284663699512,
+      "bits_per_draw": -0.0014750584512905594,
+      "early_gain": -0.3646077948796988,
+      "late_gain": -0.15172067149025242,
+      "permutation_p_unadjusted": 0.28,
+      "permutation_p_family": 1.0
+    },
+    {
+      "target": "odd_count_parity",
+      "context": "lag1_lag2_parity_xor",
+      "total_log_gain": -0.20983448727717702,
+      "bits_per_draw": -0.0005994597508955675,
+      "early_gain": -0.3238148642159743,
+      "late_gain": 0.1139803769387973,
+      "permutation_p_unadjusted": 0.587,
+      "permutation_p_family": 0.999
+    },
+    {
+      "target": "odd_count_parity",
+      "context": "previous5_high_count",
+      "total_log_gain": -0.20042153478567404,
+      "bits_per_draw": -0.0005725686224210829,
+      "early_gain": -0.04237940859205541,
+      "late_gain": -0.15804212619361863,
+      "permutation_p_unadjusted": 0.331,
+      "permutation_p_family": 0.999
+    },
+    {
+      "target": "odd_count_parity",
+      "context": "cross_odd_low_lag1",
+      "total_log_gain": -0.15477436945806855,
+      "bits_per_draw": -0.0004421628025225183,
+      "early_gain": -0.6206391426937302,
+      "late_gain": 0.46586477323566167,
+      "permutation_p_unadjusted": 0.318,
+      "permutation_p_family": 0.999
+    },
+    {
+      "target": "odd_count_parity",
+      "context": "own_lags_5_10",
+      "total_log_gain": -0.1518146462050597,
+      "bits_per_draw": -0.0004337074004244596,
+      "early_gain": -0.20961736191807256,
+      "late_gain": 0.0578027157130131,
+      "permutation_p_unadjusted": 0.345,
+      "permutation_p_family": 0.999
+    },
+    {
+      "target": "low_count_parity",
+      "context": "own_lags_1_2",
+      "total_log_gain": -3.467613506307036,
+      "bits_per_draw": -0.009906354077759904,
+      "early_gain": -0.883887726284201,
+      "late_gain": -2.5837257800228346,
+      "permutation_p_unadjusted": 0.943,
+      "permutation_p_family": 1.0
+    },
+    {
+      "target": "low_count_parity",
+      "context": "own_lags_1_2_3",
+      "total_log_gain": -2.441254718501524,
+      "bits_per_draw": -0.006974229853324615,
+      "early_gain": -0.7546005687249093,
+      "late_gain": -1.686654149776615,
+      "permutation_p_unadjusted": 0.707,
+      "permutation_p_family": 1.0
+    },
+    {
+      "target": "low_count_parity",
+      "context": "lag1_lag2_parity_xor",
+      "total_log_gain": -2.2062782224367696,
+      "bits_per_draw": -0.006302943862041277,
+      "early_gain": -0.5931170859439389,
+      "late_gain": -1.6131611364928304,
+      "permutation_p_unadjusted": 0.953,
+      "permutation_p_family": 1.0
+    },
+    {
+      "target": "low_count_parity",
+      "context": "previous5_high_count",
+      "total_log_gain": -1.4186941676105256,
+      "bits_per_draw": -0.004052956515148121,
+      "early_gain": -0.6707974639207079,
+      "late_gain": -0.7478967036898178,
+      "permutation_p_unadjusted": 0.68,
+      "permutation_p_family": 1.0
+    },
+    {
+      "target": "low_count_parity",
+      "context": "cross_odd_low_lag1",
+      "total_log_gain": -3.2248395208286373,
+      "bits_per_draw": -0.009212792048242012,
+      "early_gain": -0.3851141171927417,
+      "late_gain": -2.8397254036358954,
+      "permutation_p_unadjusted": 0.938,
+      "permutation_p_family": 1.0
+    },
+    {
+      "target": "low_count_parity",
+      "context": "own_lags_5_10",
+      "total_log_gain": 0.39801021975144873,
+      "bits_per_draw": 0.0011370442975416667,
+      "early_gain": 0.3112552716024528,
+      "late_gain": 0.08675494814899606,
+      "permutation_p_unadjusted": 0.154,
+      "permutation_p_family": 0.933
+    },
+    {
+      "target": "sum_band",
+      "context": "own_lags_1_2",
+      "total_log_gain": -15.47655443072028,
+      "bits_per_draw": -0.044213759063857945,
+      "early_gain": -12.604276287743433,
+      "late_gain": -2.872278142976847,
+      "permutation_p_unadjusted": 0.829,
+      "permutation_p_family": 1.0
+    },
+    {
+      "target": "sum_band",
+      "context": "own_lags_1_2_3",
+      "total_log_gain": -9.624061125542774,
+      "bits_per_draw": -0.027494228235708545,
+      "early_gain": -8.751265561829534,
+      "late_gain": -0.8727955637132423,
+      "permutation_p_unadjusted": 0.543,
+      "permutation_p_family": 1.0
+    },
+    {
+      "target": "sum_band",
+      "context": "lag1_lag2_parity_xor",
+      "total_log_gain": -3.6583708951438876,
+      "bits_per_draw": -0.010451313956745752,
+      "early_gain": -4.086755144623128,
+      "late_gain": 0.42838424947924025,
+      "permutation_p_unadjusted": 0.899,
+      "permutation_p_family": 1.0
+    },
+    {
+      "target": "sum_band",
+      "context": "previous5_high_count",
+      "total_log_gain": -12.090107172619746,
+      "bits_per_draw": -0.03453928249852395,
+      "early_gain": -11.155206381717283,
+      "late_gain": -0.9349007909024625,
+      "permutation_p_unadjusted": 0.991,
+      "permutation_p_family": 1.0
+    },
+    {
+      "target": "sum_band",
+      "context": "cross_odd_low_lag1",
+      "total_log_gain": -1.9342707539110562,
+      "bits_per_draw": -0.005525866979017895,
+      "early_gain": -2.123883550076843,
+      "late_gain": 0.18961279616578636,
+      "permutation_p_unadjusted": 0.319,
+      "permutation_p_family": 1.0
+    },
+    {
+      "target": "sum_band",
+      "context": "own_lags_5_10",
+      "total_log_gain": -17.12579300070064,
+      "bits_per_draw": -0.04892533986812224,
+      "early_gain": -8.457783659984797,
+      "late_gain": -8.668009340715841,
+      "permutation_p_unadjusted": 0.899,
+      "permutation_p_family": 1.0
+    },
+    {
+      "target": "has_adjacent_numbers",
+      "context": "own_lags_1_2",
+      "total_log_gain": -3.1033037078119383,
+      "bits_per_draw": -0.008865585880460627,
+      "early_gain": -1.8095400642408945,
+      "late_gain": -1.2937636435710438,
+      "permutation_p_unadjusted": 0.914,
+      "permutation_p_family": 1.0
+    },
+    {
+      "target": "has_adjacent_numbers",
+      "context": "own_lags_1_2_3",
+      "total_log_gain": -4.2028923334607144,
+      "bits_per_draw": -0.012006914706681221,
+      "early_gain": -2.9867795170288582,
+      "late_gain": -1.2161128164318562,
+      "permutation_p_unadjusted": 0.88,
+      "permutation_p_family": 1.0
+    },
+    {
+      "target": "has_adjacent_numbers",
+      "context": "lag1_lag2_parity_xor",
+      "total_log_gain": 0.020365201862544025,
+      "bits_per_draw": 5.817975392830683e-05,
+      "early_gain": 0.03343962860023505,
+      "late_gain": -0.01307442673769103,
+      "permutation_p_unadjusted": 0.312,
+      "permutation_p_family": 0.995
+    },
+    {
+      "target": "has_adjacent_numbers",
+      "context": "previous5_high_count",
+      "total_log_gain": -3.3281685605718705,
+      "bits_per_draw": -0.00950798470807841,
+      "early_gain": -2.084237755365636,
+      "late_gain": -1.2439308052062341,
+      "permutation_p_unadjusted": 0.918,
+      "permutation_p_family": 1.0
+    },
+    {
+      "target": "has_adjacent_numbers",
+      "context": "cross_odd_low_lag1",
+      "total_log_gain": -2.7675169485667515,
+      "bits_per_draw": -0.007906302925293878,
+      "early_gain": -1.372846948585567,
+      "late_gain": -1.3946699999811836,
+      "permutation_p_unadjusted": 0.902,
+      "permutation_p_family": 1.0
+    },
+    {
+      "target": "has_adjacent_numbers",
+      "context": "own_lags_5_10",
+      "total_log_gain": -1.9881894908793538,
+      "bits_per_draw": -0.005679903205622172,
+      "early_gain": -1.1414303356766013,
+      "late_gain": -0.8467591552027527,
+      "permutation_p_unadjusted": 0.812,
+      "permutation_p_family": 1.0
+    }
+  ],
+  "best_index": 11,
+  "family_permutation_p": 0.933,
+  "family_iid_p": 0.936,
+  "positive_best_gain": true,
+  "wall_seconds": 32.98601779999444,
+  "cpu_seconds": 25.1875,
+  "peak_working_set_mib_this_process": 98.44140625
+}
