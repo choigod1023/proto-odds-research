@@ -1,0 +1,9 @@
+{
+  "branch": "codex/copula-tail-research-20261108b",
+  "research_commit": "8e660542",
+  "commit_note": "This file is added in a follow-up commit; research_commit identifies the code and artifacts commit.",
+  "pr": "https://github.com/choigod1023/proto-odds-research/pull/645",
+  "paths": ["experiments/copula-tail-20261108b/README.md", "experiments/copula-tail-20261108b/run.py", "experiments/copula-tail-20261108b/summary.json", "experiments/copula-tail-20261108b/predictions.jsonl.gz", "experiments/copula-tail-20261108b/test_copula_tail.py"],
+  "tests": {"command": "python -m pytest -q experiments/copula-tail-20261108b/test_copula_tail.py", "result": "5 passed"},
+  "status": "draft PR; research scope incomplete: four-sport common archive and independent raw-source audit not completed; not merged or deployed"
+}
