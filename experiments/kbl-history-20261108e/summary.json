@@ -1,0 +1,478 @@
+{
+  "inputs": {
+    "fixture_sha256": "dac4176550b0e52934aa31975e01b89391fe6bafdf10e2729de5f74fce3eff3a",
+    "price_sha256": "4bf3abf8bb82838ee72975e1ef486a471b357a03ee4d8627808780f046dae51a",
+    "alias_sha256": "0f03ec77c669d9e6fd4b0e1b4d052224422c03787b8f802c6f41f733e4b50e82",
+    "box_manifest_sha256": "4ffbd6f6d3c254bf691b7d66bcde0301472610232c715419480d3449d904de82"
+  },
+  "box_count": 525,
+  "official_results": 526,
+  "box_exclusions": {
+    "box_invalid:score_mismatch": 1,
+    "missing_or_duplicate_fixture_result": 1
+  },
+  "target_counts": {
+    "price_rows_2025": 309,
+    "price_rows_2026": 152,
+    "matched_2025": 309,
+    "insufficient_history_2025": 79,
+    "matched_2026": 152
+  },
+  "periods": {
+    "validation": {
+      "train_n": 120,
+      "beta": 0.1668505570817343,
+      "margin_train_n": 180,
+      "opportunities": 125,
+      "eligible": 103,
+      "covered": 103,
+      "coverage": 0.824,
+      "metrics": {
+        "market": {
+          "n": 103,
+          "hits": 66,
+          "accuracy": 0.6407766990291263,
+          "mean_odds": 1.4611650485436893,
+          "conditional_roi": -0.06864077669902913,
+          "logloss": 0.6565013867795159,
+          "brier": 0.23184454451248745,
+          "daily_mdd_units": 11.320000000000002
+        },
+        "team_margin": {
+          "n": 103,
+          "hits": 49,
+          "accuracy": 0.47572815533980584,
+          "mean_odds": 1.8000970873786408,
+          "conditional_roi": -0.2187378640776699,
+          "logloss": 0.7020502356546483,
+          "brier": 0.2543552946235846,
+          "daily_mdd_units": 25.049999999999997
+        },
+        "efficiency_offset": {
+          "n": 103,
+          "hits": 68,
+          "accuracy": 0.6601941747572816,
+          "mean_odds": 1.4670873786407768,
+          "conditional_roi": -0.031844660194174756,
+          "logloss": 0.6642494262090086,
+          "brier": 0.23475125190392068,
+          "daily_mdd_units": 9.379999999999999
+        }
+      },
+      "months": {
+        "2025-10": {
+          "market": {
+            "n": 48,
+            "hits": 32,
+            "accuracy": 0.6666666666666666,
+            "mean_odds": 1.4379166666666665,
+            "conditional_roi": -0.038125,
+            "logloss": 0.6573978212193715,
+            "brier": 0.2319887260095118,
+            "daily_mdd_units": 5.109999999999999
+          },
+          "team_margin": {
+            "n": 48,
+            "hits": 21,
+            "accuracy": 0.4375,
+            "mean_odds": 1.758125,
+            "conditional_roi": -0.3125,
+            "logloss": 0.7086099016594746,
+            "brier": 0.25757752443487947,
+            "daily_mdd_units": 18.08
+          },
+          "efficiency_offset": {
+            "n": 48,
+            "hits": 33,
+            "accuracy": 0.6875,
+            "mean_odds": 1.4383333333333335,
+            "conditional_roi": -0.001666666666666668,
+            "logloss": 0.6764719413355498,
+            "brier": 0.23994494566930646,
+            "daily_mdd_units": 5.109999999999999
+          }
+        },
+        "2025-11": {
+          "market": {
+            "n": 25,
+            "hits": 13,
+            "accuracy": 0.52,
+            "mean_odds": 1.4656,
+            "conditional_roi": -0.23600000000000002,
+            "logloss": 0.7158733108888982,
+            "brier": 0.2607258867498693,
+            "daily_mdd_units": 5.92
+          },
+          "team_margin": {
+            "n": 25,
+            "hits": 14,
+            "accuracy": 0.56,
+            "mean_odds": 1.8672,
+            "conditional_roi": 0.03279999999999998,
+            "logloss": 0.6818598809592069,
+            "brier": 0.2443997591986938,
+            "daily_mdd_units": 3.15
+          },
+          "efficiency_offset": {
+            "n": 25,
+            "hits": 12,
+            "accuracy": 0.48,
+            "mean_odds": 1.4680000000000002,
+            "conditional_roi": -0.3044,
+            "logloss": 0.7157168034881919,
+            "brier": 0.260419424479873,
+            "daily_mdd_units": 7.63
+          }
+        },
+        "2025-12": {
+          "market": {
+            "n": 30,
+            "hits": 21,
+            "accuracy": 0.7,
+            "mean_odds": 1.4946666666666666,
+            "conditional_roi": 0.022,
+            "logloss": 0.6055904882512616,
+            "brier": 0.20754606891943042,
+            "daily_mdd_units": 3.79
+          },
+          "team_margin": {
+            "n": 30,
+            "hits": 14,
+            "accuracy": 0.4666666666666667,
+            "mean_odds": 1.8113333333333335,
+            "conditional_roi": -0.2783333333333333,
+            "logloss": 0.7083800656264606,
+            "brier": 0.2574960064462551,
+            "daily_mdd_units": 10.03
+          },
+          "efficiency_offset": {
+            "n": 30,
+            "hits": 23,
+            "accuracy": 0.7666666666666667,
+            "mean_odds": 1.5123333333333333,
+            "conditional_roi": 0.147,
+            "logloss": 0.6018039209405568,
+            "brier": 0.20505119806600988,
+            "daily_mdd_units": 1.8900000000000001
+          }
+        }
+      },
+      "paired_day_ci": {
+        "team_margin_minus_market": {
+          "accuracy": [
+            -0.2857142857142857,
+            -0.040000000000000036
+          ],
+          "conditional_roi": [
+            -0.35908514739229025,
+            0.06747215269086346
+          ],
+          "logloss": [
+            0.0023975014498661576,
+            0.08917249745845675
+          ],
+          "brier": [
+            0.0014936514463408448,
+            0.0438999486849631
+          ]
+        },
+        "efficiency_offset_minus_market": {
+          "accuracy": [
+            -0.03000757575757578,
+            0.06734068627450972
+          ],
+          "conditional_roi": [
+            -0.049120098039215694,
+            0.12343717239370991
+          ],
+          "logloss": [
+            -0.006214274374902853,
+            0.02171354348440242
+          ],
+          "brier": [
+            -0.0032287571089419306,
+            0.0091564824714556
+          ]
+        },
+        "efficiency_offset_minus_team_margin": {
+          "accuracy": [
+            0.0666509433962264,
+            0.29592781557067266
+          ],
+          "conditional_roi": [
+            -0.02001508620689654,
+            0.3801215391419725
+          ],
+          "logloss": [
+            -0.08618724553381951,
+            0.0068333129140781875
+          ],
+          "brier": [
+            -0.04283844070453053,
+            0.0014546615696641619
+          ]
+        }
+      }
+    },
+    "evaluation": {
+      "train_n": 223,
+      "beta": 0.03947728484005611,
+      "margin_train_n": 305,
+      "opportunities": 152,
+      "eligible": 152,
+      "covered": 152,
+      "coverage": 1.0,
+      "metrics": {
+        "market": {
+          "n": 152,
+          "hits": 99,
+          "accuracy": 0.6513157894736842,
+          "mean_odds": 1.4267763157894737,
+          "conditional_roi": -0.08638157894736842,
+          "logloss": 0.6312483024729203,
+          "brier": 0.2203248058504629,
+          "daily_mdd_units": 16.62
+        },
+        "team_margin": {
+          "n": 152,
+          "hits": 86,
+          "accuracy": 0.5657894736842105,
+          "mean_odds": 1.6470394736842104,
+          "conditional_roi": -0.13927631578947366,
+          "logloss": 0.6866584118494711,
+          "brier": 0.2467413835693967,
+          "daily_mdd_units": 26.93
+        },
+        "efficiency_offset": {
+          "n": 152,
+          "hits": 100,
+          "accuracy": 0.6578947368421053,
+          "mean_odds": 1.4270394736842105,
+          "conditional_roi": -0.07480263157894737,
+          "logloss": 0.630163806851222,
+          "brier": 0.21970278999914866,
+          "daily_mdd_units": 15.549999999999999
+        }
+      },
+      "months": {
+        "2026-01": {
+          "market": {
+            "n": 48,
+            "hits": 34,
+            "accuracy": 0.7083333333333334,
+            "mean_odds": 1.4614583333333335,
+            "conditional_roi": 0.031249999999999986,
+            "logloss": 0.6284817393111747,
+            "brier": 0.21893398590794652,
+            "daily_mdd_units": 3.91
+          },
+          "team_margin": {
+            "n": 48,
+            "hits": 32,
+            "accuracy": 0.6666666666666666,
+            "mean_odds": 1.56375,
+            "conditional_roi": 0.004166666666666661,
+            "logloss": 0.6681654948789829,
+            "brier": 0.2375862719237374,
+            "daily_mdd_units": 5.0
+          },
+          "efficiency_offset": {
+            "n": 48,
+            "hits": 34,
+            "accuracy": 0.7083333333333334,
+            "mean_odds": 1.4614583333333335,
+            "conditional_roi": 0.031249999999999986,
+            "logloss": 0.6272118288754748,
+            "brier": 0.21827417055915077,
+            "daily_mdd_units": 3.91
+          }
+        },
+        "2026-02": {
+          "market": {
+            "n": 33,
+            "hits": 23,
+            "accuracy": 0.696969696969697,
+            "mean_odds": 1.4118181818181819,
+            "conditional_roi": -0.029696969696969697,
+            "logloss": 0.6153188874623803,
+            "brier": 0.21190169391568706,
+            "daily_mdd_units": 2.26
+          },
+          "team_margin": {
+            "n": 33,
+            "hits": 18,
+            "accuracy": 0.5454545454545454,
+            "mean_odds": 1.5857575757575757,
+            "conditional_roi": -0.22818181818181815,
+            "logloss": 0.6684263174225309,
+            "brier": 0.2377318622538935,
+            "daily_mdd_units": 7.679999999999999
+          },
+          "efficiency_offset": {
+            "n": 33,
+            "hits": 24,
+            "accuracy": 0.7272727272727273,
+            "mean_odds": 1.413030303030303,
+            "conditional_roi": 0.023636363636363636,
+            "logloss": 0.6126273899619784,
+            "brier": 0.21032239756790252,
+            "daily_mdd_units": 2.26
+          }
+        },
+        "2026-03": {
+          "market": {
+            "n": 42,
+            "hits": 26,
+            "accuracy": 0.6190476190476191,
+            "mean_odds": 1.3857142857142857,
+            "conditional_roi": -0.1733333333333333,
+            "logloss": 0.6118601958029698,
+            "brier": 0.2124660051757196,
+            "daily_mdd_units": 7.799999999999998
+          },
+          "team_margin": {
+            "n": 42,
+            "hits": 22,
+            "accuracy": 0.5238095238095238,
+            "mean_odds": 1.7295238095238095,
+            "conditional_roi": -0.1988095238095238,
+            "logloss": 0.6860189940671673,
+            "brier": 0.24643156600094981,
+            "daily_mdd_units": 8.35
+          },
+          "efficiency_offset": {
+            "n": 42,
+            "hits": 26,
+            "accuracy": 0.6190476190476191,
+            "mean_odds": 1.3857142857142857,
+            "conditional_roi": -0.1733333333333333,
+            "logloss": 0.6111772349470228,
+            "brier": 0.2122662101511593,
+            "daily_mdd_units": 7.799999999999998
+          }
+        },
+        "2026-04": {
+          "market": {
+            "n": 24,
+            "hits": 13,
+            "accuracy": 0.5416666666666666,
+            "mean_odds": 1.4375,
+            "conditional_roi": -0.24333333333333332,
+            "logloss": 0.6810060055738615,
+            "brier": 0.24301536666143897,
+            "daily_mdd_units": 7.9399999999999995
+          },
+          "team_margin": {
+            "n": 24,
+            "hits": 10,
+            "accuracy": 0.4166666666666667,
+            "mean_odds": 1.7770833333333333,
+            "conditional_roi": -0.28458333333333335,
+            "logloss": 0.749286327916979,
+            "brier": 0.27770590602674483,
+            "daily_mdd_units": 9.14
+          },
+          "efficiency_offset": {
+            "n": 24,
+            "hits": 13,
+            "accuracy": 0.5416666666666666,
+            "mean_odds": 1.4375,
+            "conditional_roi": -0.24333333333333332,
+            "logloss": 0.6821621619557985,
+            "brier": 0.2432120446159707,
+            "daily_mdd_units": 7.9399999999999995
+          }
+        },
+        "2026-05": {
+          "market": {
+            "n": 5,
+            "hits": 3,
+            "accuracy": 0.6,
+            "mean_odds": 1.486,
+            "conditional_roi": -0.10599999999999996,
+            "logloss": 0.6869645690383088,
+            "brier": 0.24636844984330084,
+            "daily_mdd_units": 1.0999999999999999
+          },
+          "team_margin": {
+            "n": 5,
+            "hits": 4,
+            "accuracy": 0.8,
+            "mean_odds": 1.534,
+            "conditional_roi": 0.26800000000000007,
+            "logloss": 0.689279350231274,
+            "brier": 0.2480660558297299,
+            "daily_mdd_units": 1.0
+          },
+          "efficiency_offset": {
+            "n": 5,
+            "hits": 3,
+            "accuracy": 0.6,
+            "mean_odds": 1.486,
+            "conditional_roi": -0.10599999999999996,
+            "logloss": 0.6841382463807086,
+            "brier": 0.24495097523171766,
+            "daily_mdd_units": 1.0999999999999999
+          }
+        }
+      },
+      "paired_day_ci": {
+        "team_margin_minus_market": {
+          "accuracy": [
+            -0.1712789778714437,
+            0.0
+          ],
+          "conditional_roi": [
+            -0.2054378444776757,
+            0.10324252762127746
+          ],
+          "logloss": [
+            0.016114136295408022,
+            0.09129802630052537
+          ],
+          "brier": [
+            0.008098601339026906,
+            0.043280757229800446
+          ]
+        },
+        "efficiency_offset_minus_market": {
+          "accuracy": [
+            0.0,
+            0.020547945205479423
+          ],
+          "conditional_roi": [
+            0.0,
+            0.03616438356164383
+          ],
+          "logloss": [
+            -0.003932480662437596,
+            0.0023870738884184
+          ],
+          "brier": [
+            -0.0019021516660792056,
+            0.0008686765096316944
+          ]
+        },
+        "efficiency_offset_minus_team_margin": {
+          "accuracy": [
+            0.006288325471698111,
+            0.18354430379746833
+          ],
+          "conditional_roi": [
+            -0.09666935483870967,
+            0.22127169452083756
+          ],
+          "logloss": [
+            -0.09470545804547917,
+            -0.015439179849006052
+          ],
+          "brier": [
+            -0.044673326967318676,
+            -0.007667632265423079
+          ]
+        }
+      }
+    }
+  },
+  "prediction_sha256": "ceccda8b3aaac5f15988548e11ef7a481a29f5a6cbc797c57c723f3424277e95"
+}
