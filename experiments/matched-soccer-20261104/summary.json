@@ -1,0 +1,545 @@
+{
+  "market_basis": "multiplicative_normalized_inverse_price_not_shin",
+  "input_sha256": {
+    "joined": "db1e3fd79f5318c12585cdff84042c8e07e18f2882b2f74f2f751e9fa104570d",
+    "candidates": "52f510649f8d49baa189c677e4456faf766edb3d1056dfa8f07980fb151721c2",
+    "prices": "ff0b82f54a782dc0d25c097452c0fa25f5185d9bb8f1d8c3e6add0f6bab3b512",
+    "results": "52c4726f6c500c8cdeb1ee48d0a77ea24f5c8a9a511aabe165988c4341977e09",
+    "k1_predictions": "9cd736435efb23f76758f373498792e9fcacc83621491636e324717e77c5abc0",
+    "k2_predictions": "96006c7e54b335d31bc83a4c7bebc2ed07b31427ff196a567a9d41a8257a8872"
+  },
+  "candidate_count": 670,
+  "joined_all_rows": 2770,
+  "kleague_joined_rows": 38,
+  "exclusions": {
+    "ambiguous_or_cup": 6,
+    "publication_missing": 7,
+    "other_market": 2
+  },
+  "diagnostic_events": 23,
+  "price_rows": 23,
+  "model_events": 15,
+  "model_revision_rows": 15,
+  "controls_23": {
+    "vote": {
+      "events": 23,
+      "bets": 23,
+      "abstentions": 0,
+      "hits": 12,
+      "net_units": 0.6,
+      "roi": 0.026087
+    },
+    "market": {
+      "events": 23,
+      "bets": 23,
+      "abstentions": 0,
+      "hits": 14,
+      "net_units": 3.08,
+      "roi": 0.133913
+    },
+    "market90_vote10": {
+      "events": 23,
+      "bets": 23,
+      "abstentions": 0,
+      "hits": 14,
+      "net_units": 4.13,
+      "roi": 0.179565
+    }
+  },
+  "controls_23_by_month_league": {
+    "2026-03/K1": {
+      "vote": {
+        "events": 1,
+        "bets": 1,
+        "abstentions": 0,
+        "hits": 0,
+        "net_units": -1,
+        "roi": -1.0
+      },
+      "market": {
+        "events": 1,
+        "bets": 1,
+        "abstentions": 0,
+        "hits": 1,
+        "net_units": 1.43,
+        "roi": 1.43
+      },
+      "market90_vote10": {
+        "events": 1,
+        "bets": 1,
+        "abstentions": 0,
+        "hits": 0,
+        "net_units": -1,
+        "roi": -1.0
+      }
+    },
+    "2026-03/K2": {
+      "vote": {
+        "events": 1,
+        "bets": 1,
+        "abstentions": 0,
+        "hits": 1,
+        "net_units": 0.5,
+        "roi": 0.5
+      },
+      "market": {
+        "events": 1,
+        "bets": 1,
+        "abstentions": 0,
+        "hits": 1,
+        "net_units": 0.5,
+        "roi": 0.5
+      },
+      "market90_vote10": {
+        "events": 1,
+        "bets": 1,
+        "abstentions": 0,
+        "hits": 1,
+        "net_units": 0.5,
+        "roi": 0.5
+      }
+    },
+    "2026-04/K1": {
+      "vote": {
+        "events": 4,
+        "bets": 4,
+        "abstentions": 0,
+        "hits": 1,
+        "net_units": -1.7,
+        "roi": -0.425
+      },
+      "market": {
+        "events": 4,
+        "bets": 4,
+        "abstentions": 0,
+        "hits": 3,
+        "net_units": 1.83,
+        "roi": 0.4575
+      },
+      "market90_vote10": {
+        "events": 4,
+        "bets": 4,
+        "abstentions": 0,
+        "hits": 3,
+        "net_units": 1.83,
+        "roi": 0.4575
+      }
+    },
+    "2026-04/K2": {
+      "vote": {
+        "events": 2,
+        "bets": 2,
+        "abstentions": 0,
+        "hits": 2,
+        "net_units": 1.54,
+        "roi": 0.77
+      },
+      "market": {
+        "events": 2,
+        "bets": 2,
+        "abstentions": 0,
+        "hits": 2,
+        "net_units": 1.54,
+        "roi": 0.77
+      },
+      "market90_vote10": {
+        "events": 2,
+        "bets": 2,
+        "abstentions": 0,
+        "hits": 2,
+        "net_units": 1.54,
+        "roi": 0.77
+      }
+    },
+    "2026-07/K1": {
+      "vote": {
+        "events": 2,
+        "bets": 2,
+        "abstentions": 0,
+        "hits": 0,
+        "net_units": -2,
+        "roi": -1.0
+      },
+      "market": {
+        "events": 2,
+        "bets": 2,
+        "abstentions": 0,
+        "hits": 1,
+        "net_units": 0.37,
+        "roi": 0.185
+      },
+      "market90_vote10": {
+        "events": 2,
+        "bets": 2,
+        "abstentions": 0,
+        "hits": 0,
+        "net_units": -2,
+        "roi": -1.0
+      }
+    },
+    "2026-07/K2": {
+      "vote": {
+        "events": 1,
+        "bets": 1,
+        "abstentions": 0,
+        "hits": 1,
+        "net_units": 0.44,
+        "roi": 0.44
+      },
+      "market": {
+        "events": 1,
+        "bets": 1,
+        "abstentions": 0,
+        "hits": 1,
+        "net_units": 0.44,
+        "roi": 0.44
+      },
+      "market90_vote10": {
+        "events": 1,
+        "bets": 1,
+        "abstentions": 0,
+        "hits": 1,
+        "net_units": 0.44,
+        "roi": 0.44
+      }
+    },
+    "2026-08/K1": {
+      "vote": {
+        "events": 5,
+        "bets": 5,
+        "abstentions": 0,
+        "hits": 2,
+        "net_units": -1.64,
+        "roi": -0.328
+      },
+      "market": {
+        "events": 5,
+        "bets": 5,
+        "abstentions": 0,
+        "hits": 2,
+        "net_units": -1.64,
+        "roi": -0.328
+      },
+      "market90_vote10": {
+        "events": 5,
+        "bets": 5,
+        "abstentions": 0,
+        "hits": 2,
+        "net_units": -1.64,
+        "roi": -0.328
+      }
+    },
+    "2026-08/K2": {
+      "vote": {
+        "events": 1,
+        "bets": 1,
+        "abstentions": 0,
+        "hits": 1,
+        "net_units": 1.36,
+        "roi": 1.36
+      },
+      "market": {
+        "events": 1,
+        "bets": 1,
+        "abstentions": 0,
+        "hits": 1,
+        "net_units": 1.36,
+        "roi": 1.36
+      },
+      "market90_vote10": {
+        "events": 1,
+        "bets": 1,
+        "abstentions": 0,
+        "hits": 1,
+        "net_units": 1.36,
+        "roi": 1.36
+      }
+    },
+    "2026-09/K1": {
+      "vote": {
+        "events": 6,
+        "bets": 6,
+        "abstentions": 0,
+        "hits": 4,
+        "net_units": 3.1,
+        "roi": 0.516667
+      },
+      "market": {
+        "events": 6,
+        "bets": 6,
+        "abstentions": 0,
+        "hits": 2,
+        "net_units": -2.75,
+        "roi": -0.458333
+      },
+      "market90_vote10": {
+        "events": 6,
+        "bets": 6,
+        "abstentions": 0,
+        "hits": 4,
+        "net_units": 3.1,
+        "roi": 0.516667
+      }
+    }
+  },
+  "oracle_intersection": {
+    "vote": {
+      "events": 15,
+      "bets": 15,
+      "abstentions": 0,
+      "hits": 8,
+      "net_units": 1.26,
+      "roi": 0.084
+    },
+    "market": {
+      "events": 15,
+      "bets": 15,
+      "abstentions": 0,
+      "hits": 7,
+      "net_units": -2.22,
+      "roi": -0.148
+    },
+    "market90_vote10": {
+      "events": 15,
+      "bets": 15,
+      "abstentions": 0,
+      "hits": 8,
+      "net_units": 1.26,
+      "roi": 0.084
+    },
+    "postgame_roster_oracle": {
+      "events": 15,
+      "bets": 15,
+      "abstentions": 0,
+      "hits": 5,
+      "net_units": -6.5,
+      "roi": -0.433333
+    },
+    "postgame_roster_oracle90_vote10": {
+      "events": 15,
+      "bets": 15,
+      "abstentions": 0,
+      "hits": 8,
+      "net_units": 1.26,
+      "roi": 0.084
+    }
+  },
+  "oracle_intersection_by_month_league": {
+    "2026-07/K1": {
+      "vote": {
+        "events": 2,
+        "bets": 2,
+        "abstentions": 0,
+        "hits": 0,
+        "net_units": -2,
+        "roi": -1.0
+      },
+      "market": {
+        "events": 2,
+        "bets": 2,
+        "abstentions": 0,
+        "hits": 1,
+        "net_units": 0.37,
+        "roi": 0.185
+      },
+      "market90_vote10": {
+        "events": 2,
+        "bets": 2,
+        "abstentions": 0,
+        "hits": 0,
+        "net_units": -2,
+        "roi": -1.0
+      },
+      "postgame_roster_oracle": {
+        "events": 2,
+        "bets": 2,
+        "abstentions": 0,
+        "hits": 0,
+        "net_units": -2,
+        "roi": -1.0
+      },
+      "postgame_roster_oracle90_vote10": {
+        "events": 2,
+        "bets": 2,
+        "abstentions": 0,
+        "hits": 0,
+        "net_units": -2,
+        "roi": -1.0
+      }
+    },
+    "2026-07/K2": {
+      "vote": {
+        "events": 1,
+        "bets": 1,
+        "abstentions": 0,
+        "hits": 1,
+        "net_units": 0.44,
+        "roi": 0.44
+      },
+      "market": {
+        "events": 1,
+        "bets": 1,
+        "abstentions": 0,
+        "hits": 1,
+        "net_units": 0.44,
+        "roi": 0.44
+      },
+      "market90_vote10": {
+        "events": 1,
+        "bets": 1,
+        "abstentions": 0,
+        "hits": 1,
+        "net_units": 0.44,
+        "roi": 0.44
+      },
+      "postgame_roster_oracle": {
+        "events": 1,
+        "bets": 1,
+        "abstentions": 0,
+        "hits": 1,
+        "net_units": 0.44,
+        "roi": 0.44
+      },
+      "postgame_roster_oracle90_vote10": {
+        "events": 1,
+        "bets": 1,
+        "abstentions": 0,
+        "hits": 1,
+        "net_units": 0.44,
+        "roi": 0.44
+      }
+    },
+    "2026-08/K1": {
+      "vote": {
+        "events": 5,
+        "bets": 5,
+        "abstentions": 0,
+        "hits": 2,
+        "net_units": -1.64,
+        "roi": -0.328
+      },
+      "market": {
+        "events": 5,
+        "bets": 5,
+        "abstentions": 0,
+        "hits": 2,
+        "net_units": -1.64,
+        "roi": -0.328
+      },
+      "market90_vote10": {
+        "events": 5,
+        "bets": 5,
+        "abstentions": 0,
+        "hits": 2,
+        "net_units": -1.64,
+        "roi": -0.328
+      },
+      "postgame_roster_oracle": {
+        "events": 5,
+        "bets": 5,
+        "abstentions": 0,
+        "hits": 1,
+        "net_units": -3.55,
+        "roi": -0.71
+      },
+      "postgame_roster_oracle90_vote10": {
+        "events": 5,
+        "bets": 5,
+        "abstentions": 0,
+        "hits": 2,
+        "net_units": -1.64,
+        "roi": -0.328
+      }
+    },
+    "2026-08/K2": {
+      "vote": {
+        "events": 1,
+        "bets": 1,
+        "abstentions": 0,
+        "hits": 1,
+        "net_units": 1.36,
+        "roi": 1.36
+      },
+      "market": {
+        "events": 1,
+        "bets": 1,
+        "abstentions": 0,
+        "hits": 1,
+        "net_units": 1.36,
+        "roi": 1.36
+      },
+      "market90_vote10": {
+        "events": 1,
+        "bets": 1,
+        "abstentions": 0,
+        "hits": 1,
+        "net_units": 1.36,
+        "roi": 1.36
+      },
+      "postgame_roster_oracle": {
+        "events": 1,
+        "bets": 1,
+        "abstentions": 0,
+        "hits": 1,
+        "net_units": 1.36,
+        "roi": 1.36
+      },
+      "postgame_roster_oracle90_vote10": {
+        "events": 1,
+        "bets": 1,
+        "abstentions": 0,
+        "hits": 1,
+        "net_units": 1.36,
+        "roi": 1.36
+      }
+    },
+    "2026-09/K1": {
+      "vote": {
+        "events": 6,
+        "bets": 6,
+        "abstentions": 0,
+        "hits": 4,
+        "net_units": 3.1,
+        "roi": 0.516667
+      },
+      "market": {
+        "events": 6,
+        "bets": 6,
+        "abstentions": 0,
+        "hits": 2,
+        "net_units": -2.75,
+        "roi": -0.458333
+      },
+      "market90_vote10": {
+        "events": 6,
+        "bets": 6,
+        "abstentions": 0,
+        "hits": 4,
+        "net_units": 3.1,
+        "roi": 0.516667
+      },
+      "postgame_roster_oracle": {
+        "events": 6,
+        "bets": 6,
+        "abstentions": 0,
+        "hits": 2,
+        "net_units": -2.75,
+        "roi": -0.458333
+      },
+      "postgame_roster_oracle90_vote10": {
+        "events": 6,
+        "bets": 6,
+        "abstentions": 0,
+        "hits": 4,
+        "net_units": 3.1,
+        "roi": 0.516667
+      }
+    }
+  },
+  "date_range": [
+    "2026-03-07T14:00:00+09:00",
+    "2026-09-20T19:00:00+09:00"
+  ],
+  "strict_pregame_comparison_events": 0,
+  "network_requests": 0
+}
