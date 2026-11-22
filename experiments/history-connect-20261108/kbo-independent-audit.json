@@ -1,0 +1,54 @@
+{
+  "models": {
+    "candidate": {
+      "n": 443,
+      "decided": 433,
+      "refunds": 10,
+      "hits": 248,
+      "accuracy": 0.5727482678983834,
+      "net_units": "-52.94",
+      "conditional_roi": -0.11950338600451467,
+      "mean_odds": 1.5459142212189614,
+      "logloss": 0.6790726032663892,
+      "brier": 0.24296371056567445,
+      "daily_mdd_units": "57.24"
+    },
+    "m0_projected": {
+      "n": 443,
+      "decided": 433,
+      "refunds": 10,
+      "hits": 245,
+      "accuracy": 0.5658198614318707,
+      "net_units": "-46.90",
+      "conditional_roi": -0.10586907449209933,
+      "mean_odds": 1.5998871331828448,
+      "logloss": 0.6861796758829384,
+      "brier": 0.24638909410523507,
+      "daily_mdd_units": "56.11"
+    },
+    "market": {
+      "n": 443,
+      "decided": 433,
+      "refunds": 10,
+      "hits": 252,
+      "accuracy": 0.581986143187067,
+      "net_units": "-46.87",
+      "conditional_roi": -0.10580135440180587,
+      "mean_odds": 1.5412189616252827,
+      "logloss": 0.6769705120796757,
+      "brier": 0.24196443832027809,
+      "daily_mdd_units": "51.14"
+    }
+  },
+  "period": [
+    "2026-04-07",
+    "2026-10-10"
+  ],
+  "limits": [
+    "Independent arithmetic and cohort audit only; no source identity or pregame availability certification",
+    "Conditional one-unit historical returns, not wallet returns or future profit"
+  ],
+  "predictions_sha256": "0ec4145ed022c6a64a4916af09aa6d4afe835809c44f96e7619e65bc39debb33",
+  "schema": "kbo",
+  "league_filter": null
+}

@@ -1,0 +1,41 @@
+{
+  "models": {
+    "candidate": {
+      "n": 81,
+      "decided": 81,
+      "refunds": 0,
+      "hits": 62,
+      "accuracy": 0.7654320987654321,
+      "net_units": "-2.64",
+      "conditional_roi": -0.03259259259259259,
+      "mean_odds": 1.27962962962963,
+      "logloss": 0.5499590340406623,
+      "brier": 0.18318632546256156,
+      "daily_mdd_units": "4.38"
+    },
+    "market": {
+      "n": 81,
+      "decided": 81,
+      "refunds": 0,
+      "hits": 62,
+      "accuracy": 0.7654320987654321,
+      "net_units": "-2.64",
+      "conditional_roi": -0.03259259259259259,
+      "mean_odds": 1.27962962962963,
+      "logloss": 0.5499471118856278,
+      "brier": 0.1831817631070956,
+      "daily_mdd_units": "4.38"
+    }
+  },
+  "period": [
+    "2026-06-03",
+    "2026-07-26"
+  ],
+  "limits": [
+    "Independent arithmetic and cohort audit only; no source identity or pregame availability certification",
+    "Conditional one-unit historical returns, not wallet returns or future profit"
+  ],
+  "predictions_sha256": "0a7cf683261e5d3503ad85ca783d1dbaf1954de67e4cbabdb18d5e9ae6300852",
+  "schema": "vnl",
+  "league_filter": "여배네이"
+}

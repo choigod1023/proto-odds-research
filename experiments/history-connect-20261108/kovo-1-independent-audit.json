@@ -1,0 +1,41 @@
+{
+  "models": {
+    "candidate": {
+      "n": 62,
+      "decided": 62,
+      "refunds": 0,
+      "hits": 36,
+      "accuracy": 0.5806451612903226,
+      "net_units": "-15.22",
+      "conditional_roi": -0.24548387096774194,
+      "mean_odds": 1.3272580645161292,
+      "logloss": 0.688131246786296,
+      "brier": 0.24599335578459822,
+      "daily_mdd_units": "17.02"
+    },
+    "market": {
+      "n": 62,
+      "decided": 62,
+      "refunds": 0,
+      "hits": 36,
+      "accuracy": 0.5806451612903226,
+      "net_units": "-15.22",
+      "conditional_roi": -0.24548387096774194,
+      "mean_odds": 1.3272580645161292,
+      "logloss": 0.6797645694201567,
+      "brier": 0.24299850737423076,
+      "daily_mdd_units": "17.02"
+    }
+  },
+  "period": [
+    "2026-01-01",
+    "2026-03-18"
+  ],
+  "limits": [
+    "Independent arithmetic and cohort audit only; no source identity or pregame availability certification",
+    "Conditional one-unit historical returns, not wallet returns or future profit"
+  ],
+  "predictions_sha256": "141cd97c0edb4555d3a0d192f7b2ea60957f4727a2600897bec1ef2587d5e537",
+  "schema": "kovo",
+  "league_filter": "KOVO여"
+}
