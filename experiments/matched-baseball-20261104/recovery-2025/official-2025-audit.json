@@ -1,0 +1,180 @@
+{
+  "official_schedule_source_sha256": "21c23896293e923d216f305504acb0979b7f91cbf47797fe4d6bfc4de0b5c6d6",
+  "official_schedule_received_at_recorded": "2026-11-03T05:32:13.791705+00:00",
+  "official_schedule_receipt_basis": "legacy; response-body completion basis unknown",
+  "official_date": "2025-07-18 KST",
+  "official_games": 5,
+  "completed_with_exact_id_price_and_both_models": 2,
+  "publisher_page_official_identity_proven": 0,
+  "full_joined_publisher_games": 0,
+  "blockers": [
+    "All five publisher URLs returned HTTP 404 and identical error bodies.",
+    "No publisher winner section, source fixture date/time/timezone, or FAQ available from captured bodies.",
+    "URL team order is not evidence of home or away or date.",
+    "Official source/lineup and price archives were observed retrospectively; receipt time of historical price unknown."
+  ],
+  "input_sha256": {
+    "C:\\Users\\user\\Documents\\Codex\\kbt25\\experiments\\kbo-actual-lineups-2025-20261103\\raw-evidence.jsonl.gz": "8a214d0e87c8dd84aa9178ae0c2bb8786dadb8c5c6eb4320e6d00e8943833b56",
+    "C:\\Users\\user\\Documents\\Codex\\pregame-compare\\experiments\\pregame-baseball-20261104\\overlap.json": "946efb8eae1d0a766eb378b68dd3d20914f816f6bf43ce457c758b626f44fd81",
+    "C:\\Users\\user\\Documents\\Codex\\kbtmodel\\experiments\\kbo-actual-training-20261103\\artifacts\\development.json": "e598cf380f03a8544559592cca8f055217bd4a24f1b58863b60866fa12fdec45"
+  },
+  "schedule": [
+    {
+      "official_game_id": "20250718LTLG0",
+      "date_kst": "20250718",
+      "scheduled_time_kst": "18:30",
+      "away_team_id": "LT",
+      "home_team_id": "LG",
+      "away_team": "롯데",
+      "home_team": "LG",
+      "official_status": "정상경기",
+      "official_game_state": "3",
+      "away_score": "1",
+      "home_score": "2",
+      "publisher_page_fixture_identity": "unverified; response 404",
+      "publisher_page_timezone": "unavailable",
+      "publisher_winner": "unavailable",
+      "publisher_faq_contradiction": "not inspectable"
+    },
+    {
+      "official_game_id": "20250718WOSS0",
+      "date_kst": "20250718",
+      "scheduled_time_kst": "18:30",
+      "away_team_id": "WO",
+      "home_team_id": "SS",
+      "away_team": "키움",
+      "home_team": "삼성",
+      "official_status": "우천취소",
+      "official_game_state": "4",
+      "away_score": "0",
+      "home_score": "0",
+      "publisher_page_fixture_identity": "unverified; response 404",
+      "publisher_page_timezone": "unavailable",
+      "publisher_winner": "unavailable",
+      "publisher_faq_contradiction": "not inspectable"
+    },
+    {
+      "official_game_id": "20250718OBSK0",
+      "date_kst": "20250718",
+      "scheduled_time_kst": "18:30",
+      "away_team_id": "OB",
+      "home_team_id": "SK",
+      "away_team": "두산",
+      "home_team": "SSG",
+      "official_status": "그라운드사정",
+      "official_game_state": "4",
+      "away_score": "0",
+      "home_score": "0",
+      "publisher_page_fixture_identity": "unverified; response 404",
+      "publisher_page_timezone": "unavailable",
+      "publisher_winner": "unavailable",
+      "publisher_faq_contradiction": "not inspectable"
+    },
+    {
+      "official_game_id": "20250718NCHT0",
+      "date_kst": "20250718",
+      "scheduled_time_kst": "18:30",
+      "away_team_id": "NC",
+      "home_team_id": "HT",
+      "away_team": "NC",
+      "home_team": "KIA",
+      "official_status": "우천취소",
+      "official_game_state": "4",
+      "away_score": "0",
+      "home_score": "0",
+      "publisher_page_fixture_identity": "unverified; response 404",
+      "publisher_page_timezone": "unavailable",
+      "publisher_winner": "unavailable",
+      "publisher_faq_contradiction": "not inspectable"
+    },
+    {
+      "official_game_id": "20250718HHKT0",
+      "date_kst": "20250718",
+      "scheduled_time_kst": "18:30",
+      "away_team_id": "HH",
+      "home_team_id": "KT",
+      "away_team": "한화",
+      "home_team": "KT",
+      "official_status": "정상경기",
+      "official_game_state": "3",
+      "away_score": "5",
+      "home_score": "0",
+      "publisher_page_fixture_identity": "unverified; response 404",
+      "publisher_page_timezone": "unavailable",
+      "publisher_winner": "unavailable",
+      "publisher_faq_contradiction": "not inspectable"
+    }
+  ],
+  "partial_model_price_result_rows": [
+    {
+      "fixture_id": "20250718LTLG02025",
+      "official_game_id": "20250718LTLG0",
+      "scheduled_time_kst": "18:30",
+      "away_score": 1,
+      "home_score": 2,
+      "official_winner": "home",
+      "market_id": "proto:2025:84:018:full_game_2way",
+      "prices": {
+        "away": 1.69,
+        "home": 1.84
+      },
+      "model_probabilities": {
+        "M0_actual": {
+          "away": 0.4095853502116396,
+          "home": 0.5904146497883604
+        },
+        "M2_actual": {
+          "away": 0.32694237737534015,
+          "home": 0.6730576226246597
+        }
+      },
+      "selections": {
+        "M0_actual": "home",
+        "M2_actual": "home",
+        "market": "away"
+      },
+      "profit_units": {
+        "M0_actual": 0.8400000000000001,
+        "M2_actual": 0.8400000000000001,
+        "market": -1
+      },
+      "publisher_prediction": null,
+      "comparison_scope": "official game + historical archived price + retrospective model diagnostic only; no publisher fixture link"
+    },
+    {
+      "fixture_id": "20250718HHKT02025",
+      "official_game_id": "20250718HHKT0",
+      "scheduled_time_kst": "18:30",
+      "away_score": 5,
+      "home_score": 0,
+      "official_winner": "away",
+      "market_id": "proto:2025:84:036:full_game_2way",
+      "prices": {
+        "away": 1.41,
+        "home": 2.34
+      },
+      "model_probabilities": {
+        "M0_actual": {
+          "away": 0.4144258874020429,
+          "home": 0.585574112597957
+        },
+        "M2_actual": {
+          "away": 0.3147074354894543,
+          "home": 0.6852925645105457
+        }
+      },
+      "selections": {
+        "M0_actual": "home",
+        "M2_actual": "home",
+        "market": "away"
+      },
+      "profit_units": {
+        "M0_actual": -1,
+        "M2_actual": -1,
+        "market": 0.4099999999999999
+      },
+      "publisher_prediction": null,
+      "comparison_scope": "official game + historical archived price + retrospective model diagnostic only; no publisher fixture link"
+    }
+  ]
+}
