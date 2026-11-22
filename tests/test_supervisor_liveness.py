@@ -1,14 +1,10 @@
-"""2026-11-19 13:46Z 이후 배당·점수는 갱신되는데 picks_v2만 멈춘 장애의 회귀 테스트."""
+"""2026-11-19 13:46Z 이후 판정 자식만 OOM·시간 초과로 죽고 감독자는 살아 있어
+picks_v2가 59시간 멈춘 장애의 회귀 테스트."""
 import subprocess
 import threading
-from types import SimpleNamespace
 
 import pytest
 from deploy import supervisor
-
-
-class StopLoop(Exception):
-    pass
 
 
 @pytest.fixture
@@ -24,55 +20,6 @@ def quiet(monkeypatch):
     monkeypatch.setattr(supervisor, '_market_refresh_ok', None)
     monkeypatch.setattr(supervisor, '_odds_collection_ok', None)
     return messages
-
-
-@pytest.mark.parametrize('name', ['선수·팀 정보', '무료 날씨', '무료 야구 컨텍스트'])
-def test_hung_heavy_collector_cannot_hold_decision_slot_forever(quiet, monkeypatch, name):
-    # 실제 실패 형태: 응답을 끝내지 않는 원천 때문에 자식이 끝나지 않으면
-    # 공용 판정 슬롯이 영구히 잡혀 시장 판정이 게시되지 않았다.
-    calls = []
-
-    def hang(cmd, **kwargs):
-        calls.append(kwargs)
-        assert supervisor._memory_heavy_lock.locked()
-        if kwargs.get('timeout') is None:
-            raise AssertionError('heavy collector child has no overall deadline')
-        raise subprocess.TimeoutExpired(cmd, kwargs['timeout'])
-
-    def stop(seconds):
-        raise StopLoop
-
-    monkeypatch.setattr(supervisor.subprocess, 'run', hang)
-    monkeypatch.setattr(supervisor.time, 'sleep', stop)
-    with pytest.raises(StopLoop):
-        supervisor.run_looper(name, ['collector'], 1800)
-    assert calls[0]['timeout'] == supervisor.BACKGROUND_CHILD_TIMEOUT
-    assert supervisor.BACKGROUND_CHILD_TIMEOUT < 1800
-    assert not supervisor._memory_heavy_lock.locked()
-    assert any(f'{name} 종료(rc=-1)' in message for message in quiet)
-
-
-def test_daily_timeout_releases_slot_and_continues_with_next_league(quiet, monkeypatch):
-    attempted = []
-
-    def run(cmd, **kwargs):
-        attempted.append(cmd[-1])
-        assert kwargs['timeout'] == supervisor.DAILY_CHILD_TIMEOUT
-        if len(attempted) == 1:
-            raise subprocess.TimeoutExpired(cmd, kwargs['timeout'])
-        return SimpleNamespace(returncode=0, stdout='ok\n')
-
-    def sleep(seconds):
-        assert not supervisor._memory_heavy_lock.locked()
-        if seconds == supervisor.DAILY_EVERY:
-            raise StopLoop
-
-    monkeypatch.setattr(supervisor.subprocess, 'run', run)
-    monkeypatch.setattr(supervisor.time, 'sleep', sleep)
-    with pytest.raises(StopLoop):
-        supervisor.run_daily()
-    assert attempted == ['kleague1', 'kleague2', 'j1', 'j2']
-    assert any('타임아웃' in message for message in quiet)
 
 
 def test_market_success_is_recorded_only_after_publication(quiet, monkeypatch):

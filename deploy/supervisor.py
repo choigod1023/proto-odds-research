@@ -247,15 +247,11 @@ BACKGROUND_MIN_AVAILABLE_MB = int(os.environ.get("BACKGROUND_MIN_AVAILABLE_MB", 
 
 PUSH_EVERY = 1800          # 30분마다 커밋·푸시
 DAILY_EVERY = 86400
-# 무거운 보조 수집기는 공용 판정 슬롯을 잡은 채 자식을 실행한다. 전체 제한 시간이
-# 없으면 응답을 끝내지 않는 소켓 하나가 슬롯을 영구히 점유해 시장 판정 게시가
-# 멈춘다. 배당 수집(ODDS_COLLECTION_TIMEOUT)과 같은 원칙으로 실행 시간을 묶는다.
-# 강제 종료된 자식의 SQLite 트랜잭션은 롤백되고 커널 flock은 자동 해제된다.
-BACKGROUND_CHILD_TIMEOUT = int(os.environ.get("BACKGROUND_CHILD_TIMEOUT", "1500"))
-DAILY_CHILD_TIMEOUT = int(os.environ.get("DAILY_CHILD_TIMEOUT", "1800"))
 # 배당 수집은 계속 성공하는데 시장 판정이 이 시간 동안 한 번도 성공하지 못하면
 # 감독자를 종료해 Fly 재시작 정책(fly.toml [[restart]] always)이 새 프로세스로
-# 올리게 한다. 원천 장애로 배당 수집 자체가 실패하는 동안은 재시작해도 낫지 않으므로
+# 올리게 한다. 2026-11-19~22 판정 자식은 원장 전체(165MB JSON)를 읽느라 RSS가
+# 670~800MB였고, 1GB 머신에서 OOM(rc=-9)·300초 시간 초과로 반복 실패했다.
+# 같은 코드가 사람의 재시작 직후에는 성공했다(2026-11-22 00:59Z, peak 668MB). 원천 장애로 배당 수집 자체가 실패하는 동안은 재시작해도 낫지 않으므로
 # 종료하지 않는다. 재시작 후 다시 이 시간만큼 기다리므로 재시작은 3시간에 최대 1회다.
 MARKET_STALL_EXIT_SECONDS = int(os.environ.get("MARKET_STALL_EXIT_SECONDS", "10800"))
 MARKET_STALL_ODDS_FRESH_SECONDS = 1800
@@ -299,8 +295,9 @@ def _market_stall_seconds(now: float | None = None) -> float | None:
 def run_market_stall_monitor(stop=None, exit_process=os._exit) -> None:
     """판정 정지를 프로세스 종료로 바꿔 머신 재시작 정책이 복구하게 한다.
 
-    2026-11-19 13:46Z 이후 배당·점수는 갱신되는데 picks_v2만 36시간 넘게
-    멈췄다. 프로세스는 살아 있어 Fly 재시작 정책이 개입하지 못했다.
+    2026-11-19 13:46Z 이후 배당·점수는 갱신되는데 picks_v2만 59시간 멈췄다.
+    판정 자식만 OOM·시간 초과로 죽고 감독자는 살아 있어 Fly 재시작 정책이
+    개입하지 못했다. 사람이 재시작하자 바로 회복됐다.
     """
     stop = stop if stop is not None else threading.Event()
     while not stop.wait(MARKET_STALL_CHECK_SECONDS):
@@ -739,8 +736,7 @@ def run_looper(name: str, cmd: list[str], interval: int,
                         if name in TIPSTER_LOOPERS or name == 'KBO M0 사전예측':
                             rc = _collect_tipster_and_publish(name, cmd)
                         else:
-                            rc = subprocess.run(cmd, cwd=REPO,
-                                                timeout=BACKGROUND_CHILD_TIMEOUT).returncode
+                            rc = subprocess.run(cmd, cwd=REPO).returncode
                 finally:
                     if name == "다종목 픽스터":
                         _tipster_wait_started = None
@@ -1031,14 +1027,8 @@ def run_daily() -> None:
                     # 하루 1회짜리라 서둘 이유가 없으니 사이를 넉넉히 둔다.
                     time.sleep(300)
                 log(f"{name} 실행")
-                try:
-                    with _background_slot(name):
-                        r = subprocess.run(cmd, cwd=REPO, capture_output=True, text=True,
-                                           timeout=DAILY_CHILD_TIMEOUT)
-                except subprocess.TimeoutExpired:
-                    # 예외로 이 스레드가 끝나면 하루 1회 수집이 영구히 멈춘다.
-                    log(f"{name} 타임아웃({DAILY_CHILD_TIMEOUT}s) — 다음 주기 재시도")
-                    continue
+                with _background_slot(name):
+                    r = subprocess.run(cmd, cwd=REPO, capture_output=True, text=True)
                 tail = (r.stdout or "").strip().splitlines()[-1:] or ["(출력 없음)"]
                 log(f"{name} 완료 — {tail[0][:120]}")
         time.sleep(DAILY_EVERY)
