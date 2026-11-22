@@ -1,0 +1,123 @@
+{
+  "task": "nba-score-components-20261108",
+  "branch": "codex/nba-score-components-20261108",
+  "base_main": "f293e739",
+  "protocol_commit": "9820e1f2",
+  "status": "research_completed_not_merged_not_deployed",
+  "comparison_counts": {
+    "A": 487,
+    "B": 773
+  },
+  "evaluation_price_rows": 804,
+  "evaluation_excluded": 31,
+  "new_exclusions": {},
+  "models": {
+    "validation": {
+      "components": {
+        "n": 487,
+        "wins": 316,
+        "hit_rate": 0.648870636550308,
+        "roi": -0.07320328542094456,
+        "log_loss": 0.6390262047858296,
+        "brier": 0.2239419710475808,
+        "mean_odds": 1.5234291581108832,
+        "daily_mdd": 35.65
+      },
+      "market_home": {
+        "n": 487,
+        "wins": 316,
+        "hit_rate": 0.648870636550308,
+        "roi": -0.17086242299794657,
+        "log_loss": 0.6132736811646049,
+        "brier": 0.213052014044628,
+        "mean_odds": 1.3182135523613963,
+        "daily_mdd": 83.99999999999999
+      },
+      "candidate": {
+        "n": 487,
+        "wins": 316,
+        "hit_rate": 0.648870636550308,
+        "roi": -0.17067761806981518,
+        "log_loss": 0.6130665122188226,
+        "brier": 0.21298545103162742,
+        "mean_odds": 1.3185831622176594,
+        "daily_mdd": 83.91
+      },
+      "existing_outcome_form": {
+        "n": 487,
+        "wins": 310,
+        "hit_rate": 0.6365503080082136,
+        "roi": -0.13172484599589324,
+        "log_loss": 0.6536861683586177,
+        "brier": 0.23072542055584203,
+        "mean_odds": 1.4428747433264888,
+        "daily_mdd": 64.80999999999999
+      }
+    },
+    "evaluation": {
+      "components": {
+        "n": 773,
+        "wins": 508,
+        "hit_rate": 0.6571798188874515,
+        "roi": -0.08883570504527812,
+        "log_loss": 0.6293527607657456,
+        "brier": 0.2194681839414368,
+        "mean_odds": 1.5687063389391978,
+        "daily_mdd": 71.55999999999999
+      },
+      "market_home": {
+        "n": 773,
+        "wins": 547,
+        "hit_rate": 0.7076326002587322,
+        "roi": -0.11596377749029754,
+        "log_loss": 0.5576601600060767,
+        "brier": 0.18787924672721104,
+        "mean_odds": 1.2929624838292368,
+        "daily_mdd": 89.82000000000001
+      },
+      "candidate": {
+        "n": 773,
+        "wins": 546,
+        "hit_rate": 0.7063389391979301,
+        "roi": -0.11811125485122899,
+        "log_loss": 0.5565762028897107,
+        "brier": 0.18763143609861135,
+        "mean_odds": 1.2931694695989648,
+        "daily_mdd": 91.48
+      },
+      "existing_outcome_form": {
+        "n": 773,
+        "wins": 537,
+        "hit_rate": 0.6946959896507116,
+        "roi": -0.06861578266494178,
+        "log_loss": 0.5967870090906267,
+        "brier": 0.20456772492214864,
+        "mean_odds": 1.4503492884864166,
+        "daily_mdd": 59.33
+      }
+    }
+  },
+  "validated_edge": false,
+  "production_changed": false,
+  "source": "ESPN retrospective publisher cache; not official NBA",
+  "limitations": [
+    "prior research examined both periods",
+    "price receipt time, product identity and overtime settlement unverified",
+    "estimated possessions are not official possessions",
+    "only win/loss conditional retrospective comparison"
+  ],
+  "artifacts": [
+    "PROTOCOL.md",
+    "REPORT.md",
+    "results.json",
+    "manifest.json",
+    "predictions.jsonl.gz"
+  ],
+  "prediction_schema": "period A/B; probabilities market, prior_efficiency, prior_outcome_form, components; selected fields named for model",
+  "tests": [
+    "python -m pytest -q: 2760 passed, 6 skipped, 123 subtests passed (before 4 additional targeted tests)",
+    "python -m pytest -q tests/test_nba_score_components.py: 9 passed",
+    "python scripts/measure_market_refresh_memory.py: passed, exact_outputs_equal true",
+    "independent aggregation and receipt and price hashes verified"
+  ]
+}

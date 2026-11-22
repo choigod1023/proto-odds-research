@@ -1,0 +1,64 @@
+{
+  "prior_commit": "83928e36",
+  "parser_source_sha256": "747fe8e10d056bee78cb7ede21092717b5768e4d8f22d056308eac35b85cf21b",
+  "prior_predictions_sha256": "0c5049b1570d06ced2a3cb1c3a2f6a175dca06b26c4af44558dfdfdad180a286",
+  "training_cutoffs": {
+    "validation": "2025-08-28",
+    "evaluation": "2025-12-28"
+  },
+  "verified_receipt_digest": "22c9faec81e9fb5c127bb8be48d6feb45a6ee1774581e44a246543d9a4e32634",
+  "source_receipts": {
+    "scoreboard": {
+      "count": 400,
+      "status_counts": {
+        "200": 400
+      },
+      "first_received_at": "2026-11-08T07:56:36.915214+00:00",
+      "last_received_at": "2026-11-08T08:00:58.760769+00:00",
+      "receipts_sha256": "3a4e2afe402161ee30757f69f670d6e7fde5d8c0b4dc9a25d38161b9a55df428"
+    },
+    "summary": {
+      "count": 2365,
+      "status_counts": {
+        "200": 2357,
+        "404": 8
+      },
+      "first_received_at": "2026-11-08T08:01:04.346886+00:00",
+      "last_received_at": "2026-11-08T08:28:21.438971+00:00",
+      "receipts_sha256": "fb82a2e4365449c1d0bfd500fd1157386695c5c1fdc6e939d1c37f25753acdc7"
+    },
+    "price_sha256": "4bf3abf8bb82838ee72975e1ef486a471b357a03ee4d8627808780f046dae51a"
+  },
+  "games": 2351,
+  "complete_component_boxes": 2343,
+  "duplicate_scoreboards": 0,
+  "conflicting_ids": 0,
+  "excluded": {},
+  "price_archive_sha256": "4bf3abf8bb82838ee72975e1ef486a471b357a03ee4d8627808780f046dae51a",
+  "priors": {
+    "validation": [
+      0.5113484746288461,
+      0.5453295916614169,
+      0.36793896313136837,
+      0.36023559375994907,
+      0.21399264496924028,
+      0.779587256404642
+    ],
+    "evaluation": [
+      0.5073764652935318,
+      0.5459872022203377,
+      0.3643924639689852,
+      0.35892731673042394,
+      0.22487202595837613,
+      0.7810617201954552
+    ]
+  },
+  "prior_order": [
+    "2pa_per_estimated_opportunity",
+    "2p_accuracy",
+    "3pa_per_estimated_opportunity",
+    "3p_accuracy",
+    "fta_per_estimated_opportunity",
+    "ft_accuracy"
+  ]
+}
