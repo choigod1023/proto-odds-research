@@ -1,0 +1,220 @@
+{
+  "counts": {
+    "attributed_events": 263530,
+    "missing_athlete_id_without_recorded_activity": 21,
+    "multi_participant_events": 73816,
+    "player_box_match": 25756,
+    "player_box_mismatch": 84,
+    "player_box_unavailable": 6108,
+    "shooting_events": 263925,
+    "team_minutes_display_precision_consistent": 2293,
+    "team_minutes_unresolved": 77,
+    "team_with_unattributed": 36,
+    "unattributed_first_participant_not_on_team": 32,
+    "unattributed_name_id_disagreement": 363
+  },
+  "geometry_status": "internally_consistent_unofficial",
+  "hard_labels": [
+    "two_0_4",
+    "two_4_10",
+    "two_10_16",
+    "two_16_plus",
+    "two_unknown",
+    "three_0_24",
+    "three_24_27",
+    "three_27_plus",
+    "three_unknown"
+  ],
+  "minutes": "integer MIN fields are converted to seconds at 60-second display precision, not exact seconds; MM:SS 1-second precision",
+  "player_games_sha256": "89767e94af2328bfdb3d1894b8485c417c6bca445f6f4271518977b748ac0403",
+  "player_rows": 31948,
+  "pool_sha256": "1899869c9b8a0cff51e9f2ed7cce57cf08d9a18b51213f46042d9361ebfcd691",
+  "predictions_sha256": "fd71c7ecfebb88f432cf2c4ea3ff621f993645e5ab7cec8a8df65fceb6a84a75",
+  "soft": "uniform radius interval [max(0,r-1),r+1]; hard-zone boundaries",
+  "source_games": 1185,
+  "source_scope": "retrospectively retrieved ESPN summary; no contemporaneous evidence",
+  "target_games": 1260,
+  "team_audit_sha256": "e881863369e6930a4705535898e160bf1b0e57f260a3f3f2b14d177ba68262f1",
+  "unattributed_examples": [
+    {
+      "game_id": "401705022",
+      "play_id": "4017050227",
+      "reason": "name_id_disagreement",
+      "text": "Carlton Carrington makes 24-foot three pointer (Bilal Coulibaly assists)"
+    },
+    {
+      "game_id": "401705022",
+      "play_id": "40170502217",
+      "reason": "name_id_disagreement",
+      "text": "Alexandre Sarr misses layup"
+    },
+    {
+      "game_id": "401705022",
+      "play_id": "40170502228",
+      "reason": "name_id_disagreement",
+      "text": "Alexandre Sarr misses layup"
+    },
+    {
+      "game_id": "401705022",
+      "play_id": "40170502232",
+      "reason": "name_id_disagreement",
+      "text": "Carlton Carrington makes 5-foot dunk (Justin Champagnie assists)"
+    },
+    {
+      "game_id": "401705022",
+      "play_id": "40170502250",
+      "reason": "name_id_disagreement",
+      "text": "Alexandre Sarr makes 26-foot three point jumper (Jordan Poole assists)"
+    },
+    {
+      "game_id": "401705022",
+      "play_id": "40170502258",
+      "reason": "name_id_disagreement",
+      "text": "Alexandre Sarr makes layup (Jordan Poole assists)"
+    },
+    {
+      "game_id": "401705022",
+      "play_id": "40170502265",
+      "reason": "name_id_disagreement",
+      "text": "Alexandre Sarr misses free throw 1 of 1"
+    },
+    {
+      "game_id": "401705022",
+      "play_id": "40170502269",
+      "reason": "name_id_disagreement",
+      "text": "Alexandre Sarr misses driving floating jump shot"
+    },
+    {
+      "game_id": "401705022",
+      "play_id": "40170502276",
+      "reason": "name_id_disagreement",
+      "text": "Carlton Carrington misses 19-foot pullup jump shot"
+    },
+    {
+      "game_id": "401705022",
+      "play_id": "401705022267",
+      "reason": "name_id_disagreement",
+      "text": "Carlton Carrington makes 23-foot three point jumper (Corey Kispert assists)"
+    },
+    {
+      "game_id": "401705022",
+      "play_id": "401705022294",
+      "reason": "name_id_disagreement",
+      "text": "Alexandre Sarr misses 8-foot two point shot"
+    },
+    {
+      "game_id": "401705022",
+      "play_id": "401705022329",
+      "reason": "name_id_disagreement",
+      "text": "Alexandre Sarr makes driving floating jump shot (Kyle Kuzma assists)"
+    },
+    {
+      "game_id": "401705022",
+      "play_id": "401705022340",
+      "reason": "name_id_disagreement",
+      "text": "Alexandre Sarr misses 27-foot three point jumper"
+    },
+    {
+      "game_id": "401705022",
+      "play_id": "401705022366",
+      "reason": "name_id_disagreement",
+      "text": "Alexandre Sarr makes 4-foot dunk (Kyle Kuzma assists)"
+    },
+    {
+      "game_id": "401705022",
+      "play_id": "401705022418",
+      "reason": "name_id_disagreement",
+      "text": "Alexandre Sarr makes 6-foot driving floating jump shot (Carlton Carrington assists)"
+    },
+    {
+      "game_id": "401705022",
+      "play_id": "401705022507",
+      "reason": "name_id_disagreement",
+      "text": "Carlton Carrington makes 26-foot three point jumper (Jonas Valanciunas assists)"
+    },
+    {
+      "game_id": "401705022",
+      "play_id": "401705022599",
+      "reason": "name_id_disagreement",
+      "text": "Alexandre Sarr misses two point shot"
+    },
+    {
+      "game_id": "401705023",
+      "play_id": "40170502347",
+      "reason": "name_id_disagreement",
+      "text": "Jimmy Butler makes free throw 1 of 2"
+    },
+    {
+      "game_id": "401705023",
+      "play_id": "40170502348",
+      "reason": "name_id_disagreement",
+      "text": "Jimmy Butler makes free throw 2 of 2"
+    },
+    {
+      "game_id": "401705023",
+      "play_id": "40170502384",
+      "reason": "name_id_disagreement",
+      "text": "Jimmy Butler misses 24-foot three point jumper"
+    },
+    {
+      "game_id": "401705023",
+      "play_id": "401705023169",
+      "reason": "name_id_disagreement",
+      "text": "Brandon Boston misses two point shot"
+    },
+    {
+      "game_id": "401705023",
+      "play_id": "401705023204",
+      "reason": "name_id_disagreement",
+      "text": "Brandon Boston makes free throw 1 of 2"
+    },
+    {
+      "game_id": "401705023",
+      "play_id": "401705023205",
+      "reason": "name_id_disagreement",
+      "text": "Brandon Boston makes free throw 2 of 2"
+    },
+    {
+      "game_id": "401705023",
+      "play_id": "401705023233",
+      "reason": "name_id_disagreement",
+      "text": "Brandon Boston makes 14-foot pullup jump shot (Dejounte Murray assists)"
+    },
+    {
+      "game_id": "401705023",
+      "play_id": "401705023243",
+      "reason": "name_id_disagreement",
+      "text": "Brandon Boston misses 27-foot three point step back jumpshot"
+    },
+    {
+      "game_id": "401705023",
+      "play_id": "401705023264",
+      "reason": "name_id_disagreement",
+      "text": "Daniel Theis blocks Jimmy Butler 's 2-foot layup"
+    },
+    {
+      "game_id": "401705023",
+      "play_id": "401705023278",
+      "reason": "name_id_disagreement",
+      "text": "Brandon Boston makes 7-foot two point shot (Trey Murphy III assists)"
+    },
+    {
+      "game_id": "401705023",
+      "play_id": "401705023285",
+      "reason": "name_id_disagreement",
+      "text": "Jimmy Butler makes 23-foot three point jumper (Nikola Jovic assists)"
+    },
+    {
+      "game_id": "401705023",
+      "play_id": "401705023287",
+      "reason": "name_id_disagreement",
+      "text": "Brandon Boston makes driving layup (CJ McCollum assists)"
+    },
+    {
+      "game_id": "401705023",
+      "play_id": "401705023317",
+      "reason": "name_id_disagreement",
+      "text": "Jimmy Butler makes driving layup (Bam Adebayo assists)"
+    }
+  ]
+}
