@@ -1,11 +1,15 @@
 /** 경기 설명 패널의 자료형을 한곳에서 정리한다. 레거시 선발 문자열도 계속 읽는다. */
 export function starterFor(game, side) {
-  const starters = game?.baseball_current || game?.["선발"];
-  if (!starters) return null;
-  const detail = starters[`${side}_detail`];
-  if (detail) return detail;
-  const legacy = starters[side];
-  return legacy ? { name: legacy, announced: true } : null;
+  const read = (info) => info?.[`${side}_detail`]
+    || (info?.[side] ? { name: info[side], announced: true } : null);
+  const prior = read(game?.["선발"]);
+  if (!game?.baseball_current) return prior;
+  const current = read(game.baseball_current);
+  const name = (player) => String(player?.name || "").normalize("NFKC").replace(/\s+/g, "").toLowerCase();
+  const id = (player) => player?.player_id ?? player?.id;
+  if (!current || current.stats || !prior?.stats || !name(current) || name(current) !== name(prior)
+    || (id(current) != null && id(prior) != null && String(id(current)) !== String(id(prior)))) return current;
+  return { ...current, stats: prior.stats, stats_source: prior.stats_source };
 }
 
 export function teamRecordFor(game, side) {

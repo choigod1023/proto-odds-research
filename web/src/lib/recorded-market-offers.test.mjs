@@ -47,3 +47,19 @@ test("carried-forward prices do not inherit the artifact generation time as an o
  assert.equal(recordedMarketOffers(options,{...game,prediction_revision_id:"other"})[0].selections[0].provenance.kind,"unverified");
  assert.equal(recordedMarketOffers(options,{...game,prediction_record:{...game.prediction_record,odds:9}})[0].selections[0].provenance.kind,"unverified");
 });
+
+test("a multi-market price is linked only to the exact pregame ledger entry", () => {
+ const rows=total.map((row,i)=>({...row,selection_id:`sel${i}`,offer_id:`off${i}`}));
+ const fixture={year:2026,round:1,sport:"sc",league:"K리그1",date:"11.07(토) 13:00",home:"A",away:"B"};
+ const market={event_id:"event",fixture,prediction_snapshot_id:"snapshot",kickoff:"2026-11-07T04:00:00Z",captured_at:"2026-11-07T03:10:00Z",
+  market_recommendation_options:[{...rows[0]}]};
+ const game={...fixture,event_id:"event",prediction_revision_id:"snapshot",market_prediction_record:market};
+ const price=(game,options=rows)=>recordedMarketOffers(options,game)[0].selections[0].provenance.kind;
+ assert.equal(price(game),"ledger_pick");
+ assert.equal(recordedMarketOffers(rows,game)[0].selections[1].provenance.kind,"unverified");
+ assert.equal(price({...game,round:2}),"unverified");
+ assert.equal(price({...game,event_id:"another"}),"unverified");
+ assert.equal(price({...game,prediction_revision_id:"old"}),"unverified");
+ assert.equal(price({...game,market_prediction_record:{...market,captured_at:"2026-11-07T03:30:00Z"}}),"unverified");
+ assert.equal(price(game,[{...rows[0],배당:2.19},rows[1]]),"unverified");
+});

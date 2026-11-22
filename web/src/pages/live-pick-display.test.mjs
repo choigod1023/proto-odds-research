@@ -70,6 +70,16 @@ test("live card renders the saved pick and prior even with no current options", 
     assert.match(html, /현재 적중 확률/);
     assert.match(html, /경기 전 적중 확률/);
     assert.doesNotMatch(html, /NaN/);
+    const tabsGame = { ...g, form_home: { last10: "7승 3패" },
+      prediction_record: { ...g.prediction_record, prediction_snapshot_id: "old", offer_id: "offer" },
+      decision_snapshot: { decision_id: "old", selection_id: "saved", offer_id: "offer" } };
+    const tabsMarkup = (initialDetailTab) => renderToStaticMarkup(createElement(Game, { ...props,
+      g: tabsGame, initialDetailTab, lv: { ...lv, period_scores: [{period: 1, home: 2, away: 1}] } }));
+    assert.match(tabsMarkup("summary"), /최근 팀 기록과 맞대결.*7승 3패/);
+    assert.doesNotMatch(tabsMarkup("summary"), /이닝별 스코어보드/);
+    assert.match(tabsMarkup("progress"), /이닝별 스코어보드/);
+    assert.match(tabsMarkup("evidence"), /사전 기록 · 승패.*1.80배.*이 사전 픽과 일치하는 당시 판단 근거를 확인하지 못했습니다/);
+    assert.doesNotMatch(tabsMarkup("evidence"), /이 픽을 가지 말아야 하는 이유/);
     const missingProbability = renderToStaticMarkup(createElement(Game, { ...props,
       g: { ...g, prediction_record: { ...g.prediction_record, probability: null } } }));
     assert.match(missingProbability, /경기 전 예측 픽/);

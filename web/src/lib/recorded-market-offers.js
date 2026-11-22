@@ -1,4 +1,6 @@
-// Display complete offers without asserting their ledger status or live availability.
+import { scheduledAt } from "./match-status.js";
+
+// Display complete offers without assuming ledger status or live availability.
 const OUTCOMES = {
   "승패|2": ["홈", "원정"], "승무패|3": ["홈", "무", "원정"],
   "핸디캡|2": ["핸디홈", "핸디원정"], "핸디캡|3": ["핸디홈", "핸디무", "핸디원정"],
@@ -23,6 +25,27 @@ function priceProvenance(row, game) {
     kind: "overlay_unverified",
     documentGeneratedAt: knownTimestamp(game?._liveOddsRecalculatedAt),
   };
+  const market = game?.market_prediction_record;
+  const fixture = market?.fixture;
+  const hasFixture = fixture && Object.keys(fixture).length > 0;
+  const fixtureMatches = hasFixture && ["year", "round", "sport", "league", "date", "home", "away"]
+    .every(key => game?.[key] != null && String(game[key]) === String(market.fixture[key]));
+  const sameEvent = Boolean(market?.event_id && game?.event_id && market.event_id === game.event_id);
+  const start = market ? scheduledAt(game) : null;
+  if (text(row.selection_id) && text(row.offer_id) && text(market?.prediction_snapshot_id)
+    && market.prediction_snapshot_id === game?.prediction_revision_id
+    && (hasFixture ? fixtureMatches : sameEvent)
+    && (!market.event_id || market.event_id === game?.event_id)
+    && Number.isFinite(start) && knownTimestamp(market.kickoff) && Date.parse(market.kickoff) === start
+    && knownTimestamp(market.captured_at) && Date.parse(market.captured_at) < start - 1800000
+    && Array.isArray(market.market_recommendation_options)) {
+    const matches = market.market_recommendation_options.filter(option =>
+      option?.selection_id === row.selection_id && option.offer_id === row.offer_id
+      && String(option["게임번호"]) === String(row["게임번호"]) && option.market === row.market
+      && text(option.label) === text(row.label) && (option.line ?? null) === (row.line ?? null)
+      && option["선택"] === row["선택"] && Number(option["배당"]) === Number(row["배당"]));
+    if (matches.length === 1) return { kind: "ledger_pick", at: market.captured_at };
+  }
   const record = game?.prediction_record;
   const recorded = game?.prediction_status === "recorded_pregame"
     && typeof game?.prediction_revision_id === "string" && game.prediction_revision_id

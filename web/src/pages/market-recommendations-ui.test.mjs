@@ -30,15 +30,19 @@ test('the pregame pick area includes winner, handicap and total in the card and 
       : html.split('class="match-call-inline"')[1].split('<span class="flex flex-wrap items-start gap-1.5">')[0];
     assert.match(pickArea,/예측 픽/);
     assert.match(pickArea,/승패/);
-    assert.match(pickArea,/언더오버 U 2\.5 · 오버/);
     assert.match(pickArea,/핸디캡 H -1\.5 · 핸디홈/);
-    assert.match(pickArea,/1\.90배.*시장 배당 기준/);
     assert.equal((html.match(/aria-label="경기 추천 1픽"/g) || []).length,1);
     assert.match(pickArea,/경기 추천 1픽.*핸디캡 H -1\.5 · 핸디홈.*배당 기준 적중 가능성 51\.4%/);
     if(detailOnly) {
-      assert.match(html,/이 추천을 선택 목록에 담기/);
-      assert.ok(html.indexOf('핸디캡 · 언더오버 사전 픽') < html.indexOf('모델별 픽 비교'));
+      assert.match(pickArea,/핸디캡·언더오버 사전 픽 2건/);
+      assert.doesNotMatch(html,/모델별 픽 비교|이 추천을 선택 목록에 담기|언더오버 U 2\.5 · 오버/);
+      const marketTab=renderToStaticMarkup(createElement(Game,{...props,detailOnly:true,initialDetailTab:'markets'}));
+      assert.match(marketTab,/언더오버 U 2\.5 · 오버.*1\.90배/);
+      assert.match(marketTab,/이 추천을 선택 목록에 담기/);
+      assert.ok(marketTab.indexOf('핸디캡 · 언더오버 사전 픽') < marketTab.indexOf('모델별 픽 비교'));
     } else {
+      assert.match(pickArea,/언더오버 U 2\.5 · 오버/);
+      assert.match(pickArea,/1\.90배.*시장 배당 기준/);
       assert.doesNotMatch(html,/모델별 픽 비교/);
       assert.match(pickArea,/<b>승패 홈 · <span[^>]*>2\.10배<\/span><\/b>/);
       assert.match(html,/title="경기 추천 1픽 · 핸디캡 H -1\.5 · 핸디홈 배당"[^>]*>.*?핸디홈 · H -1\.5<\/span><span[^>]*>1\.80<\/span>/);
@@ -48,8 +52,8 @@ test('the pregame pick area includes winner, handicap and total in the card and 
   const fallback = renderToStaticMarkup(createElement(Game,{...props,g:{...g,options:[],market_recommendations:null}}));
   assert.doesNotMatch(fallback,/경기 추천 1픽/);
   assert.match(fallback,/title="승패 · 홈 배당"[^>]*>.*?홈<\/span><span[^>]*>2\.10<\/span>/);
-  const marketOnly=renderToStaticMarkup(createElement(Game,{...props,g:{...g,options},opts:options,todayOption:null,detailOnly:true}));
-  assert.match(marketOnly,/승패 계열 사전 픽 없음.*언더오버 U 2\.5 · 오버/);
+  const marketOnly=renderToStaticMarkup(createElement(Game,{...props,g:{...g,options},opts:options,todayOption:null,detailOnly:true,initialDetailTab:'markets'}));
+  assert.match(marketOnly,/언더오버 U 2\.5 · 오버/);
   const fixture=Object.fromEntries(['sport','league','home','away','year','round','date'].map(k=>[k,g[k]]));
   const record={prediction_snapshot_id:'snapshot',fixture,kickoff:'2099-09-06T09:00:00Z',captured_at:'2099-09-06T07:00:00Z',
     market_recommendations:{version:'multi-market-recommendations-v1',generated_at:'2099-09-06T06:59:00Z',items:[item]},
@@ -57,7 +61,7 @@ test('the pregame pick area includes winner, handicap and total in the card and 
     market_recommendation_results:[{result:'hit',selection_id:'s1',offer_id:'o1',market:'언더오버',line:2.5,settlement_rule:'regulation',odds:'1.9',net_units:'0.9'}]};
   Date.now=()=>Date.parse('2099-09-06T08:45:00Z');
   for(const detailOnly of [false,true]){
-    const html=renderToStaticMarkup(createElement(Game,{...props,g:{...g,market_prediction_record:record,featured_pick_record:{...featured,result:{result:"hit"}}},detailOnly}));
+    const html=renderToStaticMarkup(createElement(Game,{...props,g:{...g,market_prediction_record:record,featured_pick_record:{...featured,result:{result:"hit"}}},detailOnly,initialDetailTab:'markets'}));
     if(detailOnly) {
       assert.match(html,/보존된 경기 전 추천.*순손익 \+0\.90단위/);
     } else {
@@ -67,7 +71,7 @@ test('the pregame pick area includes winner, handicap and total in the card and 
     assert.doesNotMatch(html,/이 추천을 선택 목록에 담기/);
     assert.match(html,/경기 추천 1픽 · 사전 보존 · 적중.*핸디캡 H -1\.5 · 핸디홈/);
   }
-  const savedRender = (recordChanges, gameChanges={}) => renderToStaticMarkup(createElement(Game,{...props,detailOnly:true,g:{...g,...gameChanges,market_prediction_record:{...record,...recordChanges}}}));
+  const savedRender = (recordChanges, gameChanges={}) => renderToStaticMarkup(createElement(Game,{...props,detailOnly:true,initialDetailTab:'markets',g:{...g,...gameChanges,market_prediction_record:{...record,...recordChanges}}}));
   assert.match(savedRender({}, {options:[]}),/보존된 경기 전 추천/);
   assert.match(savedRender({fixture:undefined,market_recommendation_options:[]}),/보존된 경기 전 추천/);
   assert.doesNotMatch(savedRender({fixture:undefined}, {options:[]}),/보존된 경기 전 추천/);
