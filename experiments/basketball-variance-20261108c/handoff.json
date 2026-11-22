@@ -1,0 +1,19 @@
+{
+  "status": "retrospective_winner_experiment_complete_handicap_unverified",
+  "branch": "codex/basketball-variance-20261108c",
+  "protocol_commit": "99e4fb56",
+  "research_commit": "974b7e3c",
+  "handoff_commit": "see branch HEAD",
+  "pull_request": "https://github.com/choigod1023/proto-odds-research/pull/657",
+  "report": "experiments/basketball-variance-20261108c/REPORT.md",
+  "protocol": "experiments/basketball-variance-20261108c/PROTOCOL.md",
+  "predictions": "experiments/basketball-variance-20261108c/predictions.jsonl.gz",
+  "summary": "experiments/basketball-variance-20261108c/summary.json",
+  "tests": "python -m pytest tests/test_basketball_variance_20261108c.py tests/test_basketball_comparison_sources.py -q: 13 passed; prediction gzip byte-reproducible",
+  "limits": [
+    "2025/2026 exact handicap product, line, complete prices and overtime settlement cohort is not established.",
+    "Winner price product identity, overtime rule, actual pregame receipt and execution are unverified; conditional ROI is a hypothetical calculation, not actual return.",
+    "KBL retrospective winner comparison only; no NBA or WKBL effectiveness claim, no operating-model replay, no injury or lineup substitution.",
+    "Student-t and normal make identical winner picks; no accuracy or ROI improvement was demonstrated."
+  ]
+}
