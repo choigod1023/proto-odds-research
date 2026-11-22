@@ -1,0 +1,9 @@
+{
+  "league": "2025 J1 League", "phase": "regular season", "range": "2025-02-14 through 2025-12-31 inclusive",
+  "census": "Official J.League match search for calendar months February through December 2025, category j1; deduplicate exact official match URL id; report gaps, retries and count. Selection must not use results or player identity.",
+  "selection": "Sort unique official fixture ids by official match URL (MMDD sequence) then take 100 distinct equally spaced ranks floor(i*(N-1)/99), i=0..99; if fewer than 100 use all. Fetch official /lineup/ once each, stopping on 403/429, never infer availability before actual 2026 receipt.",
+  "market": "full-match regular-time 1X2 only; no handicap, totals, qualification, extra time or shootout; official price match requires exact date, team identity, product, all choices, and result; ambiguity means unavailable.",
+  "policy": "Pregame starting XI and bench retrospective reconstruction only; distinguish actual receipt, publication claims and independent point-in-time evidence; final score and target-match statistics are labels only. No model fit, ROI, live heuristic, operating changes or promotions.",
+  "limit": "500 HTTP requests max including probes, minimum one second per host, 15 second timeout, stop on 403/429. Save raw bytes, request parameters, status, actual receipt UTC and SHA; caching and exclusive collector lock; resume only absent requests.",
+  "hypothesis": "Official starting-XI continuity since the team's prior match may add information beyond same-price market probability; only previous match lineups received/available at decision are eligible in a subsequent prospective study. No target-game outcome or postgame stat in features."
+}
