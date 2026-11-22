@@ -1,0 +1,45 @@
+{
+  "probe_scope": "read-only investigation, pre-existing KBO sample; not a real M0 comparison",
+  "production_checkout": "be716c1ac63a930a6d9abccd5a886ab032153b89",
+  "production_source_comparison": "src/ai_decision.py and src/prediction_runtime.py have no diff versus b3f0d5d6",
+  "operating_record_market_observed_at": "2026-11-04T08:32:47.000000Z",
+  "same_fixture_round_snapshot_market": "KBO full-game 2-way win/loss",
+  "same_fixture_snapshot_game_no": "2395",
+  "same_fixture_snapshot_example_observed_at": "2026-11-04T08:25:09+00:00",
+  "same_fixture_snapshot_odds_equal_operating_record": true,
+  "production_offer_function_home_and_away_match_with_string_game_no": [
+    true,
+    true
+  ],
+  "integer_game_no_matches": [
+    false,
+    false
+  ],
+  "strict_bridge_candidate_market_id": "G101:260131:2395",
+  "strict_bridge_home_and_away_ids_match": [
+    true,
+    true
+  ],
+  "snapshot_observation_equals_operating_price_observation": false,
+  "actual_m0_betman_market_id_verified": false,
+  "actual_m0_capture_verified": false,
+  "fly_cli_pty_false_exit_code": 1,
+  "fly_cli_error": "Error: The handle is invalid.",
+  "bounded_synthetic_transport_probe": {
+    "json_returned": true,
+    "operating_records": 36,
+    "exit_code": 1,
+    "accepted_as_transport_success": false
+  },
+  "limitations": "Snapshot and operating ledger clocks differ. Candidate market ID is only a test candidate; no raw Betman matchSeq or source receipt was verified. Nonzero Fly result is rejected even with JSON output.",
+  "bounded_machine_exec_probe": {
+    "cli_exit_code": 0,
+    "remote_exit_code": 0,
+    "exporter_raw_sha_matches": true,
+    "prediction_rows": 36,
+    "mapping": "exact_kbo_fixture_and_both_offer_ids",
+    "official_id_and_market": "synthetic test values",
+    "actual_m0_capture": false,
+    "saved_replay_receipt": "not saved in this diagnostic probe"
+  }
+}
