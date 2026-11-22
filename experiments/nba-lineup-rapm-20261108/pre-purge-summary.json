@@ -1,0 +1,44 @@
+{
+  "train_games": 594,
+  "validation_total": 224,
+  "validation_scored": 224,
+  "test_total": 411,
+  "test_scored": 411,
+  "unscored_reason": "fewer than five validated prior team games ending at least 4 days before start",
+  "models": {
+    "team": {
+      "rmse": 16.066630875843554,
+      "accuracy": 0.6934306569343066,
+      "log_loss": 0.5701346311208503,
+      "brier": 0.19281553410361393,
+      "calibration_intercept": -0.2645946554331649,
+      "calibration_slope": 0.15933300369370154
+    },
+    "player": {
+      "rmse": 15.514629943576,
+      "accuracy": 0.7274939172749392,
+      "log_loss": 0.5636627073716134,
+      "brier": 0.1896620456892306,
+      "calibration_intercept": -0.18086141112661114,
+      "calibration_slope": 0.11456866606132193
+    },
+    "pair": {
+      "rmse": 15.492749129396199,
+      "accuracy": 0.7420924574209246,
+      "log_loss": 0.5636263795076178,
+      "brier": 0.18966043272391203,
+      "calibration_intercept": -0.17542686150860912,
+      "calibration_slope": 0.11301242559977424
+    }
+  },
+  "price_matched_n": 0,
+  "roi": null,
+  "mdd": null,
+  "seed": 20261108,
+  "training_cutoff_utc": "2026-01-15T00:00:00Z",
+  "test_start_utc": "2026-02-15T00:00:00Z",
+  "ridge_alpha": 20,
+  "pair_penalty_multiplier": 10,
+  "prior_games": 5,
+  "minimum_prior_age_days": 4
+}

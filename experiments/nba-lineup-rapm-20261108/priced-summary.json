@@ -1,0 +1,192 @@
+{
+  "source_sha256": "b8eb5c8ffa2906d2f1b2daa003d1656c9dd7009c58fd9c0eca655d40631cd37b",
+  "join_counts": {
+    "matched": 411
+  },
+  "sample": "unique NBA team alias + KST date; final archived outcome agrees with PBP",
+  "market_claim": "prior research primary full-game 2-way; individual product identity and overtime settlement not present in ledger",
+  "availability": "archived prices and kickoff timezone uncertified; not proof of pregame executable prices",
+  "metrics": {
+    "market": {
+      "n": 411,
+      "hits": 314,
+      "accuracy": 0.7639902676399026,
+      "roi": -0.07418491484184915,
+      "mdd_units": 31.92999999999994,
+      "log_loss": 0.4906389228407477,
+      "brier": 0.15910206212257244
+    },
+    "team": {
+      "n": 411,
+      "hits": 288,
+      "accuracy": 0.7007299270072993,
+      "roi": -0.09975669099756691,
+      "mdd_units": 45.420000000000016,
+      "log_loss": 0.5691842016953201,
+      "brier": 0.19227247161499358
+    },
+    "player": {
+      "n": 411,
+      "hits": 291,
+      "accuracy": 0.708029197080292,
+      "roi": -0.09250608272506082,
+      "mdd_units": 43.00999999999997,
+      "log_loss": 0.5631891951701462,
+      "brier": 0.18956760433062075
+    },
+    "pair": {
+      "n": 411,
+      "hits": 297,
+      "accuracy": 0.7226277372262774,
+      "roi": -0.06124087591240875,
+      "mdd_units": 31.639999999999965,
+      "log_loss": 0.5626221636010935,
+      "brier": 0.18932803806580248
+    }
+  },
+  "monthly": {
+    "2026-02": {
+      "market": {
+        "n": 71,
+        "hits": 50,
+        "accuracy": 0.704225352112676,
+        "roi": -0.10633802816901408,
+        "mdd_units": 7.819999999999999,
+        "log_loss": 0.5393075276213534,
+        "brier": 0.1819427004980483
+      },
+      "team": {
+        "n": 71,
+        "hits": 50,
+        "accuracy": 0.704225352112676,
+        "roi": -0.01309859154929577,
+        "mdd_units": 6.66,
+        "log_loss": 0.5754923809654829,
+        "brier": 0.19514671169343747
+      },
+      "player": {
+        "n": 71,
+        "hits": 52,
+        "accuracy": 0.7323943661971831,
+        "roi": 0.016760563380281694,
+        "mdd_units": 3.94,
+        "log_loss": 0.5686047475466833,
+        "brier": 0.19203742086987785
+      },
+      "pair": {
+        "n": 71,
+        "hits": 50,
+        "accuracy": 0.704225352112676,
+        "roi": -0.0367605633802817,
+        "mdd_units": 4.880000000000001,
+        "log_loss": 0.5706909596135129,
+        "brier": 0.19306031925039616
+      }
+    },
+    "2026-03": {
+      "market": {
+        "n": 237,
+        "hits": 181,
+        "accuracy": 0.7637130801687764,
+        "roi": -0.08759493670886075,
+        "mdd_units": 23.479999999999997,
+        "log_loss": 0.4876365865615545,
+        "brier": 0.15714580604600384
+      },
+      "team": {
+        "n": 237,
+        "hits": 167,
+        "accuracy": 0.7046413502109705,
+        "roi": -0.11869198312236287,
+        "mdd_units": 33.75999999999999,
+        "log_loss": 0.5703179111258787,
+        "brier": 0.1930274961325959
+      },
+      "player": {
+        "n": 237,
+        "hits": 167,
+        "accuracy": 0.7046413502109705,
+        "roi": -0.1309704641350211,
+        "mdd_units": 33.70999999999998,
+        "log_loss": 0.564572930350894,
+        "brier": 0.19010237099139785
+      },
+      "pair": {
+        "n": 237,
+        "hits": 172,
+        "accuracy": 0.7257383966244726,
+        "roi": -0.09320675105485232,
+        "mdd_units": 28.020000000000003,
+        "log_loss": 0.5638628649130188,
+        "brier": 0.18978652666414916
+      }
+    },
+    "2026-04": {
+      "market": {
+        "n": 103,
+        "hits": 83,
+        "accuracy": 0.8058252427184466,
+        "roi": -0.021165048543689318,
+        "mdd_units": 4.150000000000001,
+        "log_loss": 0.4639989496246874,
+        "brier": 0.1478588326612906
+      },
+      "team": {
+        "n": 103,
+        "hits": 71,
+        "accuracy": 0.6893203883495146,
+        "roi": -0.11592233009708737,
+        "mdd_units": 14.640000000000008,
+        "log_loss": 0.5622272127319808,
+        "brier": 0.18855390990391332
+      },
+      "player": {
+        "n": 103,
+        "hits": 72,
+        "accuracy": 0.6990291262135923,
+        "roi": -0.07932038834951456,
+        "mdd_units": 11.400000000000004,
+        "log_loss": 0.5562722101548904,
+        "brier": 0.18663462692390795
+      },
+      "pair": {
+        "n": 103,
+        "hits": 75,
+        "accuracy": 0.7281553398058253,
+        "roi": -0.004563106796116504,
+        "mdd_units": 8.000000000000002,
+        "log_loss": 0.5542053604184908,
+        "brier": 0.18570033163945
+      }
+    }
+  },
+  "paired": {
+    "player_minus_market": {
+      "changed_picks": 81,
+      "roi_difference": -0.01832116788321167,
+      "weekly_paired_roi_ci95": [
+        -0.10802178150021069,
+        0.06916824158208006
+      ],
+      "weeks": 9
+    },
+    "pair_minus_market": {
+      "changed_picks": 83,
+      "roi_difference": 0.012944038929440398,
+      "weekly_paired_roi_ci95": [
+        -0.06547404593187058,
+        0.09444501192368834
+      ],
+      "weeks": 9
+    },
+    "pair_minus_player": {
+      "changed_picks": 10,
+      "roi_difference": 0.03126520681265207,
+      "weekly_paired_roi_ci95": [
+        -0.0023601272514443233,
+        0.0673265344564097
+      ],
+      "weeks": 9
+    }
+  }
+}

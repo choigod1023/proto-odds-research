@@ -1,0 +1,49 @@
+{
+  "train_games": 566,
+  "train_purged_for_4day_label_lag": 28,
+  "validation_total": 224,
+  "validation_scored": 203,
+  "validation_purged_for_4day_label_lag": 21,
+  "test_total": 411,
+  "test_scored": 411,
+  "unscored_reason": "fewer than five validated prior team games ending at least 4 days before start",
+  "models": {
+    "team": {
+      "rmse": 16.089335050512027,
+      "accuracy": 0.7007299270072993,
+      "log_loss": 0.5691842016953202,
+      "brier": 0.19227247161499358,
+      "calibration_intercept": -0.1953694808999083,
+      "calibration_slope": 0.1579800084403571
+    },
+    "player": {
+      "rmse": 15.62382674418437,
+      "accuracy": 0.708029197080292,
+      "log_loss": 0.5631891951701462,
+      "brier": 0.18956760433062075,
+      "calibration_intercept": -0.11917158757929378,
+      "calibration_slope": 0.1160253367362646
+    },
+    "pair": {
+      "rmse": 15.596688760041232,
+      "accuracy": 0.7226277372262774,
+      "log_loss": 0.5626221636010934,
+      "brier": 0.18932803806580248,
+      "calibration_intercept": -0.1123863130100569,
+      "calibration_slope": 0.11456694030106349
+    }
+  },
+  "price_matched_n": 0,
+  "roi": null,
+  "mdd": null,
+  "seed": 20261108,
+  "training_cutoff_utc": "2026-01-15T00:00:00Z",
+  "test_start_utc": "2026-02-15T00:00:00Z",
+  "ridge_alpha": 20,
+  "pair_penalty_multiplier": 10,
+  "prior_games": 5,
+  "minimum_prior_age_days": 4,
+  "first_event_to_pregame_buffer_minutes": 30,
+  "reference_price_matches": 411,
+  "strict_exact_product_settlement_matches": 0
+}
