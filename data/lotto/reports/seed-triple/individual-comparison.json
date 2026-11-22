@@ -1,0 +1,163 @@
+{
+  "interpretation": "descriptive per-seed comparison, no reselection; reused historical evaluation data",
+  "control_sha256": "a0fce4bed2569eb7f9cd55a85d0a018b0d4194a813c2606933fe6976ceaa64c6",
+  "individual_control_seeds": 50000,
+  "validation": {
+    "baseline_mean_matches": 0.79994936,
+    "baseline_reference_interval_95": [
+      0.704,
+      0.9
+    ],
+    "per_seed": [
+      {
+        "seed": "862879196780149093",
+        "histogram": [
+          83,
+          124,
+          35,
+          8,
+          0,
+          0,
+          0
+        ],
+        "mean_matches": 0.872,
+        "baseline_fraction_at_least_selected": 0.0811
+      },
+      {
+        "seed": "4133058859547278505",
+        "histogram": [
+          98,
+          112,
+          34,
+          6,
+          0,
+          0,
+          0
+        ],
+        "mean_matches": 0.792,
+        "baseline_fraction_at_least_selected": 0.5766
+      },
+      {
+        "seed": "10796522787573961961",
+        "histogram": [
+          94,
+          110,
+          42,
+          4,
+          0,
+          0,
+          0
+        ],
+        "mean_matches": 0.824,
+        "baseline_fraction_at_least_selected": 0.32574
+      },
+      {
+        "seed": "15585017975376459500",
+        "histogram": [
+          114,
+          98,
+          32,
+          6,
+          0,
+          0,
+          0
+        ],
+        "mean_matches": 0.72,
+        "baseline_fraction_at_least_selected": 0.95142
+      },
+      {
+        "seed": "18312488190086753215",
+        "histogram": [
+          119,
+          90,
+          34,
+          7,
+          0,
+          0,
+          0
+        ],
+        "mean_matches": 0.716,
+        "baseline_fraction_at_least_selected": 0.95932
+      }
+    ]
+  },
+  "final": {
+    "baseline_mean_matches": 0.7999971774193548,
+    "baseline_reference_interval_95": [
+      0.7016129032258065,
+      0.8991935483870968
+    ],
+    "per_seed": [
+      {
+        "seed": "862879196780149093",
+        "histogram": [
+          90,
+          111,
+          40,
+          7,
+          0,
+          0,
+          0
+        ],
+        "mean_matches": 0.8548387096774194,
+        "baseline_fraction_at_least_selected": 0.14338
+      },
+      {
+        "seed": "4133058859547278505",
+        "histogram": [
+          100,
+          109,
+          32,
+          6,
+          1,
+          0,
+          0
+        ],
+        "mean_matches": 0.7862903225806451,
+        "baseline_fraction_at_least_selected": 0.62366
+      },
+      {
+        "seed": "10796522787573961961",
+        "histogram": [
+          100,
+          113,
+          32,
+          3,
+          0,
+          0,
+          0
+        ],
+        "mean_matches": 0.75,
+        "baseline_fraction_at_least_selected": 0.85152
+      },
+      {
+        "seed": "15585017975376459500",
+        "histogram": [
+          101,
+          111,
+          30,
+          5,
+          1,
+          0,
+          0
+        ],
+        "mean_matches": 0.7661290322580645,
+        "baseline_fraction_at_least_selected": 0.76498
+      },
+      {
+        "seed": "18312488190086753215",
+        "histogram": [
+          118,
+          87,
+          36,
+          7,
+          0,
+          0,
+          0
+        ],
+        "mean_matches": 0.7258064516129032,
+        "baseline_fraction_at_least_selected": 0.93774
+      }
+    ]
+  }
+}
