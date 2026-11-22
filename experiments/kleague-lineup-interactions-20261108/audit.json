@@ -1,0 +1,76 @@
+{
+  "audit": "passed",
+  "n_connected": 789,
+  "n_common_eval": 105,
+  "n_model_prediction_rows": 1155,
+  "metrics": {
+    "market": {
+      "n": 105,
+      "accuracy": 0.45714285714285713,
+      "roi": -0.12485714285714286,
+      "logloss": 1.050997540211447
+    },
+    "team_projected": {
+      "n": 105,
+      "accuracy": 0.3142857142857143,
+      "roi": -0.35895238095238097,
+      "logloss": 1.116543422720417
+    },
+    "additive_projected": {
+      "n": 105,
+      "accuracy": 0.3333333333333333,
+      "roi": -0.33076190476190476,
+      "logloss": 1.104799502673397
+    },
+    "additive_oracle": {
+      "n": 105,
+      "accuracy": 0.34285714285714286,
+      "roi": -0.29619047619047617,
+      "logloss": 1.109112878868403
+    },
+    "pair_projected": {
+      "n": 105,
+      "accuracy": 0.3333333333333333,
+      "roi": -0.33161904761904765,
+      "logloss": 1.1036674422531147
+    },
+    "pair_oracle": {
+      "n": 105,
+      "accuracy": 0.3333333333333333,
+      "roi": -0.31723809523809526,
+      "logloss": 1.1085518886680412
+    },
+    "anchored_team_projected": {
+      "n": 105,
+      "accuracy": 0.42857142857142855,
+      "roi": -0.18152380952380953,
+      "logloss": 1.0850732594760322
+    },
+    "anchored_additive_projected": {
+      "n": 105,
+      "accuracy": 0.42857142857142855,
+      "roi": -0.18,
+      "logloss": 1.0808013455461243
+    },
+    "anchored_additive_oracle": {
+      "n": 105,
+      "accuracy": 0.38095238095238093,
+      "roi": -0.2898095238095238,
+      "logloss": 1.0849038491345893
+    },
+    "anchored_pair_projected": {
+      "n": 105,
+      "accuracy": 0.42857142857142855,
+      "roi": -0.18,
+      "logloss": 1.081183362645376
+    },
+    "anchored_pair_oracle": {
+      "n": 105,
+      "accuracy": 0.37142857142857144,
+      "roi": -0.3110476190476191,
+      "logloss": 1.0854715307832288
+    }
+  },
+  "strict_pregame_capture_count": 0,
+  "not_operational_model_replay": true
+}

@@ -1,0 +1,73 @@
+{
+  "nba": {
+    "audit": "passed",
+    "reference_price_games": 411,
+    "strict_product_rule_proof": false,
+    "models": {
+      "market": {
+        "n": 411,
+        "hits": 314,
+        "accuracy": 0.7639902676399026,
+        "roi": -0.07418491484184915,
+        "logloss": 0.4906389228407486
+      },
+      "team": {
+        "n": 411,
+        "hits": 288,
+        "accuracy": 0.7007299270072993,
+        "roi": -0.09975669099756691,
+        "logloss": 0.5691842016953201
+      },
+      "player": {
+        "n": 411,
+        "hits": 291,
+        "accuracy": 0.708029197080292,
+        "roi": -0.09250608272506083,
+        "logloss": 0.5631891951701461
+      },
+      "pair": {
+        "n": 411,
+        "hits": 297,
+        "accuracy": 0.7226277372262774,
+        "roi": -0.06124087591240876,
+        "logloss": 0.562622163601093
+      }
+    }
+  },
+  "soccer": {
+    "audit": "passed",
+    "reference_price_games": 112,
+    "price_source": "third-party Football-Data/Bet365 mirror, NOT Proto",
+    "execution_proven": false,
+    "models": {
+      "market": {
+        "n": 112,
+        "hits": 57,
+        "accuracy": 0.5089285714285714,
+        "roi": -0.064375,
+        "logloss": 0.9843500559267255
+      },
+      "poisson": {
+        "n": 112,
+        "hits": 57,
+        "accuracy": 0.5089285714285714,
+        "roi": -0.016160714285714285,
+        "logloss": 1.0512035259763763
+      },
+      "sequence": {
+        "n": 112,
+        "hits": 57,
+        "accuracy": 0.5089285714285714,
+        "roi": -0.016160714285714285,
+        "logloss": 1.0509591998240322
+      },
+      "state_path": {
+        "n": 112,
+        "hits": 57,
+        "accuracy": 0.5089285714285714,
+        "roi": -0.016160714285714285,
+        "logloss": 1.0452077606827779
+      }
+    }
+  }
+}
