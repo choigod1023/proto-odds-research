@@ -1,0 +1,2076 @@
+[
+  {
+    "name": "closed-page",
+    "method": "GET",
+    "url": "https://www.betman.co.kr/main/mainPage/gamebuy/closedGameList.do",
+    "request_json": null,
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:33:53.743794+00:00",
+    "http_status": 200,
+    "content_type": "text/html; charset=UTF-8",
+    "body_sha256": "0daa5176f5845469e26fec2893c1e47b599f8edae7cc8a88ba4dccad6dbe3f28",
+    "body_file": "evidence/closed-page.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "closed-list",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/closedList.do",
+    "request_json": {
+      "gmId": "G101",
+      "draw": 1,
+      "start": 0,
+      "length": 20,
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:33:54.483648+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "888656df506914a1ccdc26d4832044e1d2701ee70e303a4580efc9d29e84a39a",
+    "body_file": "evidence/closed-list.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2023-43",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "230043",
+      "gameYear": "2023",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:34:08.938629+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "e73e425b14f02397407458af9735a5d50d94b2ec8462e86cbb684f8261d371e8",
+    "body_file": "evidence/detail-2023-43.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2024-39",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "240039",
+      "gameYear": "2024",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:34:10.013255+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "63a7ca80ad54771ebdc6ea759d6deaff08e98bae35061750531c91eef67942bd",
+    "body_file": "evidence/detail-2024-39.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-40",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260040",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:34:11.161461+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "223aaed48d8ee1914fdad9d1a3d4f85801c02c096513283accd29f63aa81d0c4",
+    "body_file": "evidence/detail-2026-40.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2023-42",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "230042",
+      "gameYear": "2023",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:35:35.614192+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "b527c73a0a3686d48f763e68a0ef279b1e3ed835ee778211739c7aa70bd0c0be",
+    "body_file": "evidence/detail-2023-42.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2023-46",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "230046",
+      "gameYear": "2023",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:35:36.802280+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "6ca6867e9305f461533a3672d824fd0e5c301f5224adaa2ddef66a31d113e429",
+    "body_file": "evidence/detail-2023-46.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2023-55",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "230055",
+      "gameYear": "2023",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:35:37.976204+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "df7d240b95fa4927b2ff7c0ce08baad7dad3858fdad1e9a92b9533a69370c31c",
+    "body_file": "evidence/detail-2023-55.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2023-58",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "230058",
+      "gameYear": "2023",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:35:39.157342+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "e4c1db76594c49082a46725caca5e7f0720541e28438203fa3cbc0f7fece1f57",
+    "body_file": "evidence/detail-2023-58.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2023-66",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "230066",
+      "gameYear": "2023",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:35:40.261079+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "737d7a73ce29ef563514e87d618c7a6a1b0680ffbfa389d589db6f88a9abca9d",
+    "body_file": "evidence/detail-2023-66.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2023-69",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "230069",
+      "gameYear": "2023",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:35:41.355308+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "5439f1513e20a636fea438957b396b477f57d7a782e8d6bcf3a8849b3a82707d",
+    "body_file": "evidence/detail-2023-69.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2023-70",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "230070",
+      "gameYear": "2023",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:35:42.509200+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "5f1171a4c5f27b1f28b25eff79fd9f6b3344b98199c029d1698e76b044fafb07",
+    "body_file": "evidence/detail-2023-70.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2023-86",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "230086",
+      "gameYear": "2023",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:35:43.601846+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "683fc5dd8fd9e783dde20d3967335ba18132763e6597abe9e335d502b06d6024",
+    "body_file": "evidence/detail-2023-86.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2023-87",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "230087",
+      "gameYear": "2023",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:35:44.719110+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "9637e606395fa8b660827037c32fb9b4c5755b2e6e89deea853b10cb64a54584",
+    "body_file": "evidence/detail-2023-87.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2023-90",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "230090",
+      "gameYear": "2023",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:35:45.850857+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "c218e37a92dc16ab28ff00b0d69b95c90115952bca9ac2ad36cab4f3f2b412b9",
+    "body_file": "evidence/detail-2023-90.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2023-94",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "230094",
+      "gameYear": "2023",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:35:46.918299+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "e6ff8ac966129fa2f5264c3e8c926201f160106eedc397d325a858e298d4008c",
+    "body_file": "evidence/detail-2023-94.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2023-105",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "230105",
+      "gameYear": "2023",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:35:48.054467+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "0e5667337f4791714858c38fdf435ce128b9063a7851ca8c6b9d6db450270c1e",
+    "body_file": "evidence/detail-2023-105.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2023-113",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "230113",
+      "gameYear": "2023",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:35:49.193584+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "d80900762365ca98e905d206bb88731e8324d5e4b7676a8ddef5ba66cd2a3d26",
+    "body_file": "evidence/detail-2023-113.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2024-38",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "240038",
+      "gameYear": "2024",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:35:50.296912+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "0f519564bac8ca19dcd429e0fb1a7de00b75db6ea8a8f13a4ce1bb289bbddc79",
+    "body_file": "evidence/detail-2024-38.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2024-49",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "240049",
+      "gameYear": "2024",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:35:51.489238+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "370bff26ebae6539b8b83d4094567ccbbed7ae29c3c85cefaf7257d8156865c5",
+    "body_file": "evidence/detail-2024-49.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2024-59",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "240059",
+      "gameYear": "2024",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:35:52.574176+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "ece52ab4cfbdd3f58875d00aa47fef37035435934db01e714dcea8afd7798980",
+    "body_file": "evidence/detail-2024-59.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2024-60",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "240060",
+      "gameYear": "2024",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:35:53.682218+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "e787dda25e0da64907abf9bbe442db90b32c1bc0a29d7b4fe241756f6d1c5e63",
+    "body_file": "evidence/detail-2024-60.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2024-61",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "240061",
+      "gameYear": "2024",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:35:54.890019+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "de4805b021c55a8739d8406d4f394b24544e983ce90be27a173bf50245cc605e",
+    "body_file": "evidence/detail-2024-61.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2024-70",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "240070",
+      "gameYear": "2024",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:35:56.046787+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "01a646fe0115109e3fadad5d708f8ca852620ca0133827cfaa66b53d20ae0391",
+    "body_file": "evidence/detail-2024-70.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2024-77",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "240077",
+      "gameYear": "2024",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:35:57.127002+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "faffc204750e87dfc56e121bbb225c4af0519df47f6ffaa327e6340eb4eb247d",
+    "body_file": "evidence/detail-2024-77.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2024-79",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "240079",
+      "gameYear": "2024",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:35:58.275253+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "62725fb5f64db088e81018c8a1534eac7342d0d5615c00f0374aff9ae7c73ea0",
+    "body_file": "evidence/detail-2024-79.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2024-109",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "240109",
+      "gameYear": "2024",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:35:59.472932+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "59872c84b0f7b952c37dc76cc1a10b5b300e388747e5e60630d3e31916dd3073",
+    "body_file": "evidence/detail-2024-109.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2024-115",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "240115",
+      "gameYear": "2024",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:00.689464+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "37b66bfe7e87f4eca794d8d57f6cd865deb5921d6c718884892bc964e44ba409",
+    "body_file": "evidence/detail-2024-115.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2024-119",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "240119",
+      "gameYear": "2024",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:01.795247+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "4d1907933b358eca11950cccfd5586e07d13be47870bff81772bb4075fb2e83e",
+    "body_file": "evidence/detail-2024-119.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2025-35",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "250035",
+      "gameYear": "2025",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:02.945297+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "8147c2df9c35bd9bc9a6fee0533db68816b061340fe51b816dfd6f13f40deaa1",
+    "body_file": "evidence/detail-2025-35.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2025-38",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "250038",
+      "gameYear": "2025",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:04.164702+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "dda3e1b72793281342d15352a5c5ab3ddfb3fe90886ecbdb4e5af97127ecec92",
+    "body_file": "evidence/detail-2025-38.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2025-51",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "250051",
+      "gameYear": "2025",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:05.286022+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "588fad6e22e1f75809a7b5af5d9bd4b2b8ffa6f83917f05680386cc3248492fb",
+    "body_file": "evidence/detail-2025-51.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2025-52",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "250052",
+      "gameYear": "2025",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:06.401557+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "488dfd695a289628c2dcae8bcf0c31b65038123eca47a64354aef0428f32a182",
+    "body_file": "evidence/detail-2025-52.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2025-56",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "250056",
+      "gameYear": "2025",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:07.618209+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "bc509b6f5ec774f10d0ba3da7b1a15d98f7164e9c7ff60b1b8373cb61a186210",
+    "body_file": "evidence/detail-2025-56.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2025-59",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "250059",
+      "gameYear": "2025",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:08.855866+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "7fa9d144eaee29524d2d8a1af562b5ec5a9f125f94b08b69c3448157d93182c2",
+    "body_file": "evidence/detail-2025-59.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2025-60",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "250060",
+      "gameYear": "2025",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:09.961710+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "d8784e47f03d50aaae83968c81783d736744374df75946d4c3a277f88b97acac",
+    "body_file": "evidence/detail-2025-60.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2025-61",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "250061",
+      "gameYear": "2025",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:11.077166+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "b4cc55b6e161eae74efcfe4768b44aa70020f57bd5b2db237db35ae050585976",
+    "body_file": "evidence/detail-2025-61.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2025-62",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "250062",
+      "gameYear": "2025",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:12.296098+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "31602ee9551478e3c286862ed84d498f491ed81a3f7d0456781e64841ce26bdc",
+    "body_file": "evidence/detail-2025-62.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2025-63",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "250063",
+      "gameYear": "2025",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:13.393291+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "7a00436b44054e7fc4454b71a49762fc9ad7ed6df8a57ba3fa33639b66de06b4",
+    "body_file": "evidence/detail-2025-63.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2025-64",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "250064",
+      "gameYear": "2025",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:14.507897+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "24ecfd89278e6099d9dedea81943595772ab58e2bb8652e71edf4812dc3841da",
+    "body_file": "evidence/detail-2025-64.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2025-69",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "250069",
+      "gameYear": "2025",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:15.649364+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "f3547230d5eba8625044a0589cff81fa1860390a8d180296811fa06b14f74780",
+    "body_file": "evidence/detail-2025-69.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2025-71",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "250071",
+      "gameYear": "2025",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:16.855750+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "3dbcb41298f9026ed087fa743bfa349df07dffc617df063a9e35d30b9118e050",
+    "body_file": "evidence/detail-2025-71.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2025-74",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "250074",
+      "gameYear": "2025",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:18.071667+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "70acd7236b9733386b68711a67e0d66a4469479ac52f4abe71726caaf7f20740",
+    "body_file": "evidence/detail-2025-74.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2025-76",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "250076",
+      "gameYear": "2025",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:19.203318+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "d25fd1e9d7fa3bec6b0783acd3ba4b2af3c122f0bc288bb481b2af4eb01d23d0",
+    "body_file": "evidence/detail-2025-76.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2025-86",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "250086",
+      "gameYear": "2025",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:20.294310+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "0c97fa173271e1839e3bf46dd496b7e8bdb2f71618ff03b3b6cb9b8a9e8317e8",
+    "body_file": "evidence/detail-2025-86.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2025-88",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "250088",
+      "gameYear": "2025",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:21.377978+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "18079237e3bfd1d892eb685fef2f4b45e60d308216942d33c2ca4b171ade4576",
+    "body_file": "evidence/detail-2025-88.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2025-89",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "250089",
+      "gameYear": "2025",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:22.481127+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "864a7356f1f1dc05439fc2b15ac6314fe503c54e147f2ef0f7eb1881172899c2",
+    "body_file": "evidence/detail-2025-89.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2025-90",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "250090",
+      "gameYear": "2025",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:23.652810+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "93561e5b997e210c6cb41ce9847d4bad50effaf7f25530ef650ebd9c31f6e985",
+    "body_file": "evidence/detail-2025-90.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2025-96",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "250096",
+      "gameYear": "2025",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:24.863862+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "a37b2b9ff3a1ab37fd12012d506edce6118ab60c5822e9e0e02974dbdd684859",
+    "body_file": "evidence/detail-2025-96.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2025-98",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "250098",
+      "gameYear": "2025",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:26.000275+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "91b911864d7f403e4a988c385fd24e634d033ce9a2d6bfa4eb7ef82ddd73d5ba",
+    "body_file": "evidence/detail-2025-98.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2025-102",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "250102",
+      "gameYear": "2025",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:27.244974+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "9edcf0e657dda60a3a39f5bbfcbe7b7a104e9b6e6a4277548e7c7b7ba9875238",
+    "body_file": "evidence/detail-2025-102.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2025-116",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "250116",
+      "gameYear": "2025",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:28.422071+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "3e3cd94b2621aa54d3859f7b764f3b426a07268446ee65aebb717e94a95f6a3f",
+    "body_file": "evidence/detail-2025-116.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2025-117",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "250117",
+      "gameYear": "2025",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:29.635009+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "f8acb2b04c981faa18bbb7a4423eca5f717d1bb48c65579adeae9bfc60a78b04",
+    "body_file": "evidence/detail-2025-117.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-48",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260048",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:31.017533+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "da48defef404deaafafe94448bf63cad6b0c4dd37008c187b0dfbc4c984d8d65",
+    "body_file": "evidence/detail-2026-48.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-52",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260052",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:32.192676+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "2dabb3f8b10183e393cfc75ca514c0c3b0888998e65dab60b95bffc1abe66d12",
+    "body_file": "evidence/detail-2026-52.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-54",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260054",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:33.495900+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "c2f336c0629175afcc80687a3409a585fca57028c872cca7b6c17d2a07e6ce69",
+    "body_file": "evidence/detail-2026-54.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-65",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260065",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:34.682493+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "1dc22f70e2016f5e1350e31931d34acbd960f42bbde2129fe2c1605921354afb",
+    "body_file": "evidence/detail-2026-65.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-71",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260071",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:35.846652+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "38bb538c3734546871925be10d8034bc69c6bc9a7b567ae5670f5a658ddf5714",
+    "body_file": "evidence/detail-2026-71.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-72",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260072",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:37.052962+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "1c69808699c85e2ffb026efc0efe7b483f1267e053a831c9b74ff12f3f454283",
+    "body_file": "evidence/detail-2026-72.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-77",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260077",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:38.241647+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "16f75efbb7ac3e51b791b6073ec3a880f4292ac67fcd73454e33c07d2418ada3",
+    "body_file": "evidence/detail-2026-77.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-78",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260078",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:39.474694+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "9425de8e1f91c140969fd369d21edbf070a2fe63a2ccdee78d08a31c1b342a8c",
+    "body_file": "evidence/detail-2026-78.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-79",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260079",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:40.621974+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "55a7082dbb87ca6ca062eeb49c0d64b67cfad7b0ea31b120e2f3d71913ab2c5d",
+    "body_file": "evidence/detail-2026-79.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-80",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260080",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:41.766874+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "cff64db05158a1d1ce7197ad99351160e4f3ef21046c1caf88e0d1975ebe1e5d",
+    "body_file": "evidence/detail-2026-80.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-83",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260083",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:42.871138+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "e974cf8b271fd135fe7ea6d29b16a26b88ab10dc0dce7fbd3655ce3887244dd9",
+    "body_file": "evidence/detail-2026-83.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-84",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260084",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:44.092992+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "3235b51bca243657c343878ab098450debfe94006063921b9cc7d2c754263745",
+    "body_file": "evidence/detail-2026-84.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-85",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260085",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:45.234432+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "2c02c9400048be80e6fc416573ac759d3f75d4d5ac84e0633a4310b3ac58f3e7",
+    "body_file": "evidence/detail-2026-85.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-86",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260086",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:46.390076+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "179457a239388733f8afdd039726b11f6e88e526fe16cda982d00daaf9cbcc53",
+    "body_file": "evidence/detail-2026-86.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-87",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260087",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:47.591797+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "e37b3af8140685947b1502bce02031c54ec8924b52994099c19ff777ea857d49",
+    "body_file": "evidence/detail-2026-87.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-88",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260088",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:48.701721+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "3d6845160b8d635fa0625559e64b3013e5e0d3234ea2adcb2b61115e06ba3bf9",
+    "body_file": "evidence/detail-2026-88.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-89",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260089",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:49.831997+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "8f490976e19b8916e193d474395a0026609f44b5c4764531f1eb6d05dc7a5256",
+    "body_file": "evidence/detail-2026-89.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-90",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260090",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:51.059877+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "7285ffb8a7bfb726cfff85e5854d482e847b95c3600b73df16984aee78392aa3",
+    "body_file": "evidence/detail-2026-90.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-91",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260091",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:52.183597+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "f03de52d555ea2d2fdb666b516e250ec8ad13c0bfa17cbf39d7558cc7ee645c5",
+    "body_file": "evidence/detail-2026-91.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-94",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260094",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:53.304596+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "5da9b4862777baa7dec984b4641e23e1910f97ecd1c752685932466cd24a056c",
+    "body_file": "evidence/detail-2026-94.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-95",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260095",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:54.479977+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "d368fe0f0d3d817558178cdcf2e2409942e0b8c8b3a486bb79e619dbe9e0ba79",
+    "body_file": "evidence/detail-2026-95.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-96",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260096",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:55.733613+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "4a65f20d4a5c59a6a9768c473e5d92d2b1f6bf26c2d03c0f22b9acbe1a30a126",
+    "body_file": "evidence/detail-2026-96.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-97",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260097",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:56.871384+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "0d49d05f90ff01c776f95df8d203fb9efd1430914a0f3aac6501c4cc762d1c5b",
+    "body_file": "evidence/detail-2026-97.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-98",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260098",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:58.069345+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "a589b58ed4185f7598ff6d6d6664f216110ae021c755a488fc03b7bc65328e33",
+    "body_file": "evidence/detail-2026-98.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-99",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260099",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:36:59.350636+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "0c6c940d0a0bbc6fce3dea0c8e5b5f5cb8cfe55d826ef9a8ec101fad53e2bad7",
+    "body_file": "evidence/detail-2026-99.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-100",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260100",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:37:00.511499+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "3b704dd8069609efda3f201c2f780c4b0e8fc65e6b74d001875c7e8a57546e43",
+    "body_file": "evidence/detail-2026-100.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-101",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260101",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:37:01.719174+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "0c47e22f24f76c7463b26ad8175d2791a008d8bdce689dd8a61ff72f2b4685bd",
+    "body_file": "evidence/detail-2026-101.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-102",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260102",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:37:03.044840+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "130ff7f818b1457e65d9c726ad08a2b1077f87f6f2d0e41b01b420c23e2fd14b",
+    "body_file": "evidence/detail-2026-102.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-103",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260103",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:37:04.212002+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "72aaefa3072c1ec899fae38ec46714f2e4c9efc3e04a874fa4d43b11ce3333d7",
+    "body_file": "evidence/detail-2026-103.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-104",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260104",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:37:05.392292+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "944be35398fc40bca8f53f50419391e63cfb9d5794923564458074a35381fe3d",
+    "body_file": "evidence/detail-2026-104.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-105",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260105",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:37:06.715733+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "79a09dc9f23ce7c50127036b71c5db5b4502816f112bfc804eddc84e4a82e271",
+    "body_file": "evidence/detail-2026-105.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-106",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260106",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:37:07.892296+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "d71dd2b6ca9490cd7e91ed2ea6d31cc2b73a28aff8760e1424680b5fb32f0adf",
+    "body_file": "evidence/detail-2026-106.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-107",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260107",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:37:09.103110+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "d3564b2eb01d2c865bd5c3254d752a2ec2214a21f7834cf178e2b23e96d76272",
+    "body_file": "evidence/detail-2026-107.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-108",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260108",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:37:10.431742+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "4f6aa5d1ab69959e59e84a3eb3d2536112f72b8bca976d6a167c86e35a71df7d",
+    "body_file": "evidence/detail-2026-108.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-109",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260109",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:37:11.671915+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "bb6f71273c4f1e99d9de025d8b3120a4cc4938c522be573bc01e6689f42504da",
+    "body_file": "evidence/detail-2026-109.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-110",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260110",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:37:12.930571+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "a209d7861fdd0bf842a5d2ec9c1ccc4d40021da06d553a48a21ba1b209294cc7",
+    "body_file": "evidence/detail-2026-110.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-111",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260111",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:37:14.288797+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "f9b86f866af43baae79ead130f206c8395af8b4a278ae9c4a0573ab1272f5d2a",
+    "body_file": "evidence/detail-2026-111.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-112",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260112",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:37:15.455329+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "e5614b9089b0ad5535cfaf2c269d16d32ffb6856133ec9c11076addcb18510c6",
+    "body_file": "evidence/detail-2026-112.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-113",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260113",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:37:16.640052+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "dad661296e1815afacd476ba76610a024244a9f583a8cfda35644bdfefebbe4f",
+    "body_file": "evidence/detail-2026-113.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-114",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260114",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:37:17.930533+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "3c59bdb19a62f3b31e7c7289a4f38933ca472a11fca4bdf2ea964a8ab2774e85",
+    "body_file": "evidence/detail-2026-114.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-115",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260115",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:37:19.103853+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "8a4a297a3094bef2f7a93de3f5b51c3c2a52dcde09a18b11af40ecedc7b48d50",
+    "body_file": "evidence/detail-2026-115.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-116",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260116",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:37:20.276853+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "f577b69d989e465e66d71f235021d8880ef4bd6f0ab80c6677da94b52fe9e555",
+    "body_file": "evidence/detail-2026-116.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-117",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260117",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:37:21.512239+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "ed31441ffae0945ef568a9aaf5917be13d7820739749b45b066c651772bdf907",
+    "body_file": "evidence/detail-2026-117.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-118",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260118",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:37:22.672882+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "3172988ab75d0208e178da43dd301cff4d8461079d1094167735f42de80d99bc",
+    "body_file": "evidence/detail-2026-118.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-119",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260119",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:37:23.792536+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "e2c75235c3baec090fa44be950ddc1e5e385a28cd290b6b4955ebcd12642725e",
+    "body_file": "evidence/detail-2026-119.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-120",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260120",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:37:25.048673+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "286f6be82f2af1493bf22d2dd24532ed69019f49a0b8d71e82224df23d9ef63e",
+    "body_file": "evidence/detail-2026-120.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-121",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260121",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:37:26.202302+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "9c79210d3043aa32ae3ea6886dd22449c10fd18f861c7e4713af4a976929fcde",
+    "body_file": "evidence/detail-2026-121.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-122",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260122",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:37:27.403637+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "bfa1a596f4949768a736eaa1c63537d679b5b83c2dd47667333ea71fe4848204",
+    "body_file": "evidence/detail-2026-122.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-123",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260123",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:37:28.664667+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "2a183197a6888b17b9370ab30df3e987c42a97fad85dca657fdc1db79e289209",
+    "body_file": "evidence/detail-2026-123.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-124",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260124",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:37:29.801260+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "9a221c19f3e42b04ccc8e2d21b4c538ee453f87e31055257958f9ccef56b3c97",
+    "body_file": "evidence/detail-2026-124.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  },
+  {
+    "name": "detail-2026-127",
+    "method": "POST",
+    "url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do",
+    "request_json": {
+      "gmId": "G101",
+      "gmTs": "260127",
+      "gameYear": "2026",
+      "_sbmInfo": {
+        "debugMode": "false"
+      }
+    },
+    "timeout_seconds": 15,
+    "received_at": "2026-11-03T01:37:30.917719+00:00",
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "body_sha256": "503cdd85a69a8b7f4e137bee23b3db3e9e2544fc4ac0cd94458557a0c978c558",
+    "body_file": "evidence/detail-2026-127.body.gz",
+    "body_encoding": "gzip; sha256 is of decompressed response bytes"
+  }
+]
