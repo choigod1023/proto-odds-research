@@ -1,0 +1,151 @@
+{
+  "scope": "evidence availability; no invented model probabilities",
+  "monthly_loss_limit_krw": 50000,
+  "stake_krw": 10000,
+  "ticket_legs": 2,
+  "weekly_ticket_variants": [
+    2,
+    3
+  ],
+  "budget_scope": "all sports combined, separately for each model arm",
+  "simulation_status": "not_run; budget is a protocol constraint, not a measured result",
+  "claims": [
+    {
+      "id": "facts-001",
+      "sport": "bs",
+      "status": "missing_official_event_match"
+    },
+    {
+      "id": "facts-002",
+      "sport": "bs",
+      "status": "missing_official_event_match"
+    },
+    {
+      "id": "facts-003",
+      "sport": "bs",
+      "status": "missing_official_event_match"
+    },
+    {
+      "id": "facts-004",
+      "sport": "bs",
+      "status": "missing_official_event_match"
+    },
+    {
+      "id": "facts-005",
+      "sport": "sc",
+      "status": "missing_official_event_match"
+    },
+    {
+      "id": "facts-006",
+      "sport": "sc",
+      "status": "missing_official_event_match"
+    },
+    {
+      "id": "facts-007",
+      "sport": "sc",
+      "status": "missing_official_event_match"
+    },
+    {
+      "id": "facts-008",
+      "sport": "sc",
+      "status": "missing_official_event_match"
+    },
+    {
+      "id": "facts-009",
+      "sport": "bk",
+      "status": "missing_official_event_match"
+    },
+    {
+      "id": "facts-010",
+      "sport": "bk",
+      "status": "missing_official_event_match"
+    },
+    {
+      "id": "facts-011",
+      "sport": "bk",
+      "status": "missing_official_event_match"
+    },
+    {
+      "id": "facts-012",
+      "sport": "bk",
+      "status": "missing_official_event_match"
+    },
+    {
+      "id": "facts-013",
+      "sport": "vl",
+      "status": "missing_official_event_match"
+    },
+    {
+      "id": "facts-014",
+      "sport": "vl",
+      "status": "missing_official_event_match"
+    },
+    {
+      "id": "facts-015",
+      "sport": "vl",
+      "status": "missing_official_event_match"
+    }
+  ],
+  "sports": {
+    "bs": {
+      "collected_claims": 4,
+      "eligibility": {
+        "missing_official_event_match": 4
+      },
+      "paired_model_evaluation": "not_run_missing_fitted_challenger_and_paired_pregame_records",
+      "hit_rate_delta": null,
+      "roi_delta": null,
+      "monthly_profit_delta": null,
+      "drawdown_delta": null,
+      "profitable_month_fraction_delta": null
+    },
+    "sc": {
+      "collected_claims": 4,
+      "eligibility": {
+        "missing_official_event_match": 4
+      },
+      "paired_model_evaluation": "not_run_missing_fitted_challenger_and_paired_pregame_records",
+      "hit_rate_delta": null,
+      "roi_delta": null,
+      "monthly_profit_delta": null,
+      "drawdown_delta": null,
+      "profitable_month_fraction_delta": null
+    },
+    "bk": {
+      "collected_claims": 4,
+      "eligibility": {
+        "missing_official_event_match": 4
+      },
+      "paired_model_evaluation": "not_run_missing_fitted_challenger_and_paired_pregame_records",
+      "hit_rate_delta": null,
+      "roi_delta": null,
+      "monthly_profit_delta": null,
+      "drawdown_delta": null,
+      "profitable_month_fraction_delta": null
+    },
+    "vl": {
+      "collected_claims": 3,
+      "eligibility": {
+        "missing_official_event_match": 3
+      },
+      "paired_model_evaluation": "not_run_missing_fitted_challenger_and_paired_pregame_records",
+      "hit_rate_delta": null,
+      "roi_delta": null,
+      "monthly_profit_delta": null,
+      "drawdown_delta": null,
+      "profitable_month_fraction_delta": null
+    }
+  },
+  "retrospective_starters": {
+    "sha256": "45c81a540cf8d99a33fbabf1afd6168b96530c77d59ed42d9aca9596cfcd982f",
+    "records": 9201,
+    "both_starters_named": 9152,
+    "aware_observed_at": 0,
+    "date_range": [
+      "2023-03-31",
+      "2026-08-10"
+    ],
+    "limitation": "Actual starters in retrospective results do not prove announced starters were known pregame."
+  },
+  "claims_sha256": "126808b8a26b01ad4fb0354dc55cfe40f937d5002e5e174f9e25720927b6afdc"
+}
