@@ -1,0 +1,114 @@
+{
+  "role": "novel_model_development",
+  "status": "exploratory_comparison_complete",
+  "repo": "https://github.com/choigod1023/proto-odds-research",
+  "branch": "codex/terra-novel-model-20261102",
+  "base_sha": "69c91f7cef35595ab637cf484bb61456f0e73f08",
+  "protocol_sha": "ba8755fc04624142cc9134239f78e314b7e3f01a",
+  "implementation_pre_results_sha": "5da0bfb",
+  "commit": "see git HEAD",
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/497",
+  "changed_paths": [
+    "experiments/novel-neighbor-20261102/",
+    "tests/test_novel_neighbor_20261102.py",
+    "docs/research/2026-11-02-novel-neighbor.md"
+  ],
+  "inputs_and_sha": [
+    {
+      "path": "C:/Users/user/Documents/ChatGPT/sportstoto-worktrees/kleague-three-candidates-20261101/experiments/kleague-three-candidates-20261101/oof.jsonl",
+      "sha256": "158cd931f3fa576b97678dfcc0b44042b9ef1a5826183853fb6d9b0beb314f05",
+      "rows": 455
+    }
+  ],
+  "commands": [
+    "python -X utf8 experiments/novel-neighbor-20261102/run.py",
+    "python -X utf8 experiments/novel-neighbor-20261102/verify.py",
+    "python -m pytest -q tests/test_novel_neighbor_20261102.py",
+    "python -m pytest -q"
+  ],
+  "tests": {
+    "targeted": "6 passed",
+    "independent": "227 probability replays and 681 Decimal settlements; max error 0",
+    "full": "2251 passed, 6 skipped, 93 subtests passed (collected before final added poison test); final targeted includes poison test: 6 passed"
+  },
+  "metrics": {
+    "validation_train_n": 144,
+    "validation_n": 78,
+    "selected_k": 60,
+    "test_n": 227,
+    "market": {
+      "n": 227,
+      "coverage": 1.0,
+      "hits": 99,
+      "accuracy": 0.43612334801762115,
+      "roi": -0.14687224669603524,
+      "net_units": "-33.34",
+      "logloss": 1.067662434713992,
+      "brier": 0.6459779170324235,
+      "pick_changes_vs_market": 0,
+      "monthly_units": {
+        "2025-02": "3.23",
+        "2025-03": "-2.08",
+        "2025-04": "-4.59",
+        "2025-05": "-5.78",
+        "2025-06": "-0.57",
+        "2025-07": "1.99",
+        "2025-08": "-5.88",
+        "2025-09": "-7.12",
+        "2025-10": "-4.83",
+        "2025-11": "-7.71"
+      },
+      "daily_close_max_drawdown_units": "37.99"
+    },
+    "neighbor": {
+      "n": 227,
+      "coverage": 1.0,
+      "hits": 96,
+      "accuracy": 0.42290748898678415,
+      "roi": -0.07951541850220264,
+      "net_units": "-18.05",
+      "logloss": 1.0781129450290805,
+      "brier": 0.6522864978917,
+      "pick_changes_vs_market": 77,
+      "monthly_units": {
+        "2025-02": "2.26",
+        "2025-03": "-7.27",
+        "2025-04": "6.85",
+        "2025-05": "-11.72",
+        "2025-06": "-9.14",
+        "2025-07": "-1.09",
+        "2025-08": "9.17",
+        "2025-09": "-1.87",
+        "2025-10": "-1.68",
+        "2025-11": "-3.56"
+      },
+      "daily_close_max_drawdown_units": "25.58"
+    },
+    "paired_vs_market": {
+      "observed_weeks": 37,
+      "resamples": 5000,
+      "seed": 20261102,
+      "accuracy_delta_ci95": [
+        -0.07234643102264927,
+        0.045272166105499376
+      ],
+      "roi_delta_ci95": [
+        -0.07689861111111113,
+        0.2138721850613155
+      ],
+      "interpretation": "descriptive only; time dependence and repeated prior inspection remain"
+    }
+  },
+  "limitations": [
+    "2025 previously examined, exploratory; not blind or independent",
+    "archive price receipt/executability unverified",
+    "actual tipster, frozen 9:1 and current operating picks unavailable",
+    "OOF DC inputs inherit prior provenance and may use earlier 2025 outcomes after assumed 7-day availability",
+    "daily-close hypothetical P&L is not actual wallet exposure"
+  ],
+  "blockers": [
+    "fresh authenticated future sample and matching operating ledger unavailable"
+  ],
+  "next_dependency": "Coordinator independent audit; newly recovered data only if identity, same product, timing and official settlement are verified; preregister before testing it.",
+  "results_commit": "ae91d22f661fb91acfd0cf90bc6a1f4091bae7e7"
+}

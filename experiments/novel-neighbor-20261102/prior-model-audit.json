@@ -1,0 +1,16 @@
+{
+  "audited_scope": [
+    "scripts/sport_model_tournament.py (#364: FORM ridge offset/form-only plus HistGradientBoosting at depths 2/4 and mixes)",
+    "PR #425 official-player data plus fixed KBO/NPB residual test",
+    "PR #426 author history prior-weighted votes",
+    "PR #430 regularized baseball market-offset residual",
+    "PR #453 and #455 market-conditioned vote residual softmax",
+    "PR #433 dynamic Bayesian outcome/score latent state; #448 is serving operations, not that model",
+    "PR #488 market-informed score Laplace",
+    "PR #490 market-goal Bayesian, sigmoid mixture gate, favorite-longshot GLM"
+  ],
+  "search": "rg nearest|neighbou?r|knn|KDTree|BallTree on named research code and repository Python: no implementation found; literature survey mentions KNN, not proof no work ever existed outside audited code",
+  "difference": "local nonparametric nearest-neighbor empirical labels in paired market and out-of-time team probability space; no fitted additive offset/softmax, tree, Poisson model, vote coefficient, or gate",
+  "primary_reference": "https://isl.stanford.edu/~cover/papers/transIT/0021cove.pdf",
+  "interpretation": "Cover and Hart study nearest-neighbor classification; uniform-k count and Laplace pseudocount are project design, not exact reproduction or guarantee under temporal dependence."
+}
