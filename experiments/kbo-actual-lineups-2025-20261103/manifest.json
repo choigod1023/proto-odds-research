@@ -1,0 +1,39 @@
+{
+  "status": "ready_for_join",
+  "denominator": 736,
+  "stage1_processed": 736,
+  "stage2_processed": 736,
+  "counts": {
+    "complete_verified": 731,
+    "official_lineup_confirmed": 731,
+    "both_actual_starters": 736,
+    "source_kickoff_mismatches": 9,
+    "encoded_year_alias_verified": 16,
+    "changed_scheduled_starters_verified": 0,
+    "starter_name_change_or_alias_verified": 2
+  },
+  "game_exclusion_reasons": {
+    "lineup_flag_false": 5,
+    "complete_verified_lineup_unavailable": 5
+  },
+  "player_exclusion_reasons": {},
+  "new_requests": 1892,
+  "request_cap": 2400,
+  "profile_stop_reason": null,
+  "daily_disambiguated_pitchers": 5,
+  "daily_identity_sha256": "122b959a62cba5402410aade27a4b44cea24305fb14e83484a9349e7613e11b2",
+  "unconfirmed_review_sha256": "6de038f9768d9053b86a1364a1ab7adf1167e725fc1b08dc2693630eb3d8182e",
+  "source_rows_sha256": "66433dd4706e602befd75f8084ee43eb2e84a54b2657438c37733e3d80531c8c",
+  "contract_sha256": "512c6172eb792ed6e5f7afe7b90d4cfaa0e4087b05e0a497ec7cf9a997cb2480",
+  "identity_archive_sha256": "24bdea9094046bdab4967d314c043d548a252599b652009d5ffdabd341cc84e8",
+  "pitcher_identity_archive_sha256": "c87faa6a43140dad067860086b00140fe8f05883a9e42121fd2e8f7233775a66",
+  "identity_candidates_gzip_sha256": "96a92e22458cb93822df4ff573a7f1f34cf0f76cfc1f74fff10948ea00275644",
+  "identity_candidates_uncompressed_sha256": "03d9071c1ba7277dd6d269e00d473eefa70c0f0b722a302aad0bf60754c211b7",
+  "lineups_gzip_sha256": "dc7e9b3b539a8e34e2023240990c966946f4e42ae242c515b5efb63d0a0620c5",
+  "lineups_uncompressed_sha256": "0e2c38836a650419cdf29465a3c1fad961f0efb2ae8334e637657a311c74c759",
+  "evidence_gzip_sha256": "8a214d0e87c8dd84aa9178ae0c2bb8786dadb8c5c6eb4320e6d00e8943833b56",
+  "complete_verified_definition": "official confirmed batting identities plus actual pitcher markers; post-announcement batting changes are not established",
+  "historical_receipt_proven": false,
+  "historical_publication_time_proven": false,
+  "target_game_statistics_used_as_features": false
+}

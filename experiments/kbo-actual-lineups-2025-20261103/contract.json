@@ -1,0 +1,124 @@
+{
+  "schema": "kbo-actual-roster-training-comparison-v1",
+  "date_kst": "2026-11-03",
+  "human_requested_full_collection_and_comparison": true,
+  "manual_not_automation": true,
+  "source_pins": {
+    "old_data_commit": "13291d23e855e0d500327cb39ac64a480e395837",
+    "fresh_history_inputs_commit": "0d980b40697997021256be9f42f6fd254b3c1049",
+    "fixed_M0_M2_commit": "d08ccb708033fb6b067e84e80eae81ea3c9b4cfa",
+    "old_review_commit": "b0dd76f1a740470769449381fd17fd7c7f03bed1",
+    "raw_rows_sha256": "66433dd4706e602befd75f8084ee43eb2e84a54b2657438c37733e3d80531c8c",
+    "raw_labels_sha256": "ef32ffe806b41521f5bd53c12d0eea1362bd44293181fc3ebb7c24c6fcb249ca"
+  },
+  "collection": {
+    "target_seasons": [
+      2023,
+      2024,
+      2025
+    ],
+    "archived_game_denominators": {
+      "2023": 723,
+      "2024": 728,
+      "2025": 736
+    },
+    "no_outcome_or_odds_based_sampling": true,
+    "public_official_sources_and_existing_cache": true,
+    "max_new_direct_requests_per_season_worker": 2400,
+    "min_seconds_between_each_workers_direct_requests": 1.5,
+    "cache_first": true,
+    "backoff_on_429_or_timeout": true,
+    "no_authentication_bypass_or_secrets": true
+  },
+  "roster_eligibility": {
+    "batting": "official game-linked confirmed lineup ordered slots 1..9, matching teams and game; actual starting lineup record is allowed with explicit source semantics",
+    "not_allowed": [
+      "first nine postgame batters assumed starters",
+      "batting order number alone assumed starter",
+      "unconfirmed recent/default lineup",
+      "winning pitcher mistaken for starter",
+      "schedule probable pitcher alone assumed actual starter"
+    ],
+    "starter": "official actual pitching record with explicit start flag or verified presentation order/starting field; crosscheck schedule ID/name and record mismatches",
+    "player_identity": "unique official identity linkage for the official starting names; same-game official record/profile identity-only linkage is allowed in retrospective tier; no target performance values in features",
+    "announcement_vs_actual": "keep distinct if changed; actual-used roster is primary retrospective target; exact historical preannouncement receipt is not claimed",
+    "duplicates_or_ambiguous_identity": "exclude with reason, no guessed/fuzzy ID or zero substitute"
+  },
+  "input_construction": {
+    "paired_training": "same eligible fixture IDs for projected and actual rosters; never compare reduced actual training volume to full projected and attribute all change to rosters",
+    "player_histories": "identical canonical past raw and official supplement for both, target and same-calendar-day performance excluded, last ten complete component observations; observed zero retained, missing not zero",
+    "keep_base_features": "team/rest/park fields unchanged per fixture in both schemes",
+    "role_vocabulary": "fit partition only; unknown identity neutral role effect with preserved separate directional and symmetric quality flags",
+    "pit_proof": "actual roster recovery is retrospective fact linkage, not proof of historical received-at",
+    "pitcher_bf": "do not use as batters-faced; ERA ER/outs definition fixed",
+    "no_new_model_features": "only roster selectors and corresponding past player history change; no new ratios, time-decay, thresholds or stacking"
+  },
+  "model_families": {
+    "M0": "preceding aggregate independent Poisson, base L2=10 fixed",
+    "M2": "preceding corrected v2 multinomial with 12 symmetric missingness/unknown counts; base L2=10 and player L2=100 fixed"
+  },
+  "primary_design": {
+    "cells": [
+      "M0 projected-trained matched",
+      "M0 actual-trained matched",
+      "M2 projected-trained matched",
+      "M2 actual-trained matched"
+    ],
+    "fixed_hyperparameters_no_new_search": true,
+    "development_fit": "2023-2024 eligible paired cases",
+    "development_evaluation": "2025 eligible paired cases, report actual and projected input scenarios",
+    "final_fit": "2023-2025 eligible paired cases",
+    "boundary_embargo_days": 7,
+    "final_primary_test": "2026 verified actual lineup/starter common subset of preceding709 target fixtures",
+    "final_secondary_test": "projected selectors on same final target subset",
+    "if_actual_starter_verification_reduces_target": "all models and price ledgers use same reduced subset; disclose denominator/exclusions and do not reuse full709 numbers as new result",
+    "old_full_training_models": "replay frozen M0 and corrected M2 on identical new test inputs as contextual references; old full training sizes differ and are not a roster-only causal contrast",
+    "minimum_fit_gate": "at least100 training cases across2teams and all required outcomes; otherwise finite blocked_data with source counts, not fabricated performance",
+    "no_2026_family_or_hyperparameter_reselection": true,
+    "prediction_freeze": "commit selected settings/input hashes/models/predictions before final label settlement",
+    "all_years_previously_seen": "retrospective reused diagnostics only, not blind holdout"
+  },
+  "settlement": {
+    "prices": "reuse same frozen original strict and extended ledgers, same product/full-game two-way, draw refunds count in stake denominator",
+    "same_intersection_for_all_cells": true,
+    "strict_and_extended_separate": true,
+    "current_buyReject_sensitivity": "same seven nonzero current reject originals excluded for all models as sensitivity, not historical sellability proof",
+    "stake": "flat1unit per fixture, no actual wagering, no monthly wallet replay",
+    "no_price_based_feature_or_threshold_selection": true
+  },
+  "metrics": [
+    "3way accuracy/log loss/Brier",
+    "conditional home-away accuracy/log loss/Brier on decisive outcomes",
+    "mean predicted draw and observed draw rate",
+    "Decimal unit ROI/net/monthly net/daily-close drawdown",
+    "paired calendar-week95% intervals and pick changes",
+    "known/unknown roster coverage by training scheme and season",
+    "matched training/test counts and complete exclusion reasons"
+  ],
+  "required_tests": [
+    "official roster/actual starter evidence and unique IDs",
+    "raw and Git blob source hashes and both autocrlf byte checks",
+    "target/same-day/future performance poison",
+    "names/ID identity linkage separated from target statistics",
+    "same fixture cohorts/unchanged nonplayer fields",
+    "no zero filling or fake BF denominator",
+    "paired-null/unknown regression from corrected M2",
+    "train-only vocab/scaling",
+    "M0/M2 refit and prediction independent replay",
+    "refund/price/monthly/drawdown/paired metrics independent settlement"
+  ],
+  "no_changes": [
+    "production",
+    "DB",
+    "schedules",
+    "automation queue",
+    "existing monthly simulated wallet",
+    "model adoption",
+    "merging",
+    "deployment",
+    "paid scaling",
+    "real betting",
+    "email"
+  ],
+  "existing_monthly_simulation_loss_limit_krw": 50000
+}
