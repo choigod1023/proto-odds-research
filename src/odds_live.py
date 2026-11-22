@@ -36,7 +36,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from snapshot import find_live_rounds, _fetch, _fetch_observation, UNPLAYED  # noqa: E402
-from wisetoto import CACHE, _session                   # noqa: E402
+from wisetoto import CACHE, _session, clean_market_team as _clean_team                   # noqa: E402
 from runtime_db import (export_site_artifacts, load_artifact,  # noqa: E402
                         persist_artifact, database_enabled, RuntimeDatabase)
 from live_market_refresh import refresh_once           # noqa: E402
@@ -46,11 +46,6 @@ ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "docs" / "data" / "live_odds.json"
 PICKS = ROOT / "docs" / "data" / "picks_v2.json"
 LINE = re.compile(r"[-+]?\d+(?:\.\d+)?")
-
-
-def _clean_team(value: str) -> str:
-    text = re.sub(r"^\s*-?\d+(?:\.\d+)?\s+", "", str(value or "").strip())
-    return re.sub(r"\s+-?\d+(?:\.\d+)?\s*$", "", text).strip()
 
 
 def _start_hint(season: int) -> int:
@@ -88,20 +83,27 @@ def _recent_scan_rounds(previous_odds: dict | None) -> list[int] | None:
 
 
 def collect(previous_picks: dict | None = None,
-            previous_odds: dict | None = None, *, price_windows=None) -> dict:
+            previous_odds: dict | None = None, *, price_windows=None, kbo_prices=None) -> dict:
     sess = _session()
 
     def fetch(year, rnd):
-        if price_windows is None:
+        if price_windows is None and kbo_prices is None:
             return _fetch(sess, year, rnd)
         observation = _fetch_observation(sess, year, rnd)
         if observation is None:
             return None
         rows, received, body = observation
-        try:
-            price_windows.observe(year, rnd, rows, received, body)
-        except Exception as exc:  # Research evidence must not block odds publishing.
-            print(f"  [{year}-{rnd}] K리그 배당 원본 보존 실패: {type(exc).__name__}", flush=True)
+        if kbo_prices is not None:
+            from kbo_operating_prices import observe
+            try:
+                observe(kbo_prices, year, rnd, rows, received, body)
+            except (OSError, ValueError) as exc:
+                print(f"  [{year}-{rnd}] KBO 배당 원본 보존 실패: {type(exc).__name__}", flush=True)
+        if price_windows is not None:
+            try:
+                price_windows.observe(year, rnd, rows, received, body)
+            except Exception as exc:  # Research evidence must not block odds publishing.
+                print(f"  [{year}-{rnd}] K리그 배당 원본 보존 실패: {type(exc).__name__}", flush=True)
         return rows
 
     season = datetime.now(timezone.utc).year
@@ -292,6 +294,8 @@ def main(argv: list[str]) -> int:
             if database is not None and "--kleague-price-windows" in argv:
                 from kleague_price_windows import PriceWindowRecorder
                 options["price_windows"] = PriceWindowRecorder(database)
+            if database is not None and collect_only:
+                options["kbo_prices"] = database.path.parent / "research" / "kbo-operating-price-v1"
             data = merge_market_history(
                 collect(previous_picks, previous_odds, **options), previous_odds,
                 previous_picks,

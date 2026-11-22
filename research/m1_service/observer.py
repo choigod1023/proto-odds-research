@@ -186,9 +186,10 @@ class Recorder:
     Source clocks are local collector evidence, not independent certification.
     """
     def __init__(self, path, validator, *, archive_root=None, price_archive_root=None,
-                 clock=lambda: datetime.now(timezone.utc), infer=forecast):
+                 operating_price_archive=None, clock=lambda: datetime.now(timezone.utc), infer=forecast):
         self.path = Path(path); self.validator = validator; self.root = archive_root
         self.price_root = price_archive_root
+        self.operating_price_archive = operating_price_archive
         self.clock = clock; self.infer = infer
 
     def has_capture(self, event, market_id=None):
@@ -228,6 +229,9 @@ class Recorder:
         end = self.clock(); kickoff = moment(payload['event']['kickoff_at'])
         if end < start or end > kickoff-timedelta(minutes=30):
             raise ValueError('M1 inference completed after T-30 or clock moved backwards')
+        if self.operating_price_archive is not None:
+            from kbo_operating_prices import verify
+            verify(self.operating_price_archive, payload['operating_price_evidence'], payload['event'], end)
         market = None if unpriced else payload['market']
         if market and any(end >= moment(market[k]) for k in ('close_at', 'round_close_at')):
             raise ValueError('market closed during M1 inference')

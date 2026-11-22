@@ -149,6 +149,10 @@ def build(game, rows, as_of, built_at, *, distribution=None, market_candidates=N
                    for c in candidates.get('offers', [])):
                 raise ValueError('tied_exact_line_tipster_votes')
             m0 = distribution.get('status') == 'available' and game.get('league') == 'KBO'
+            operating_price = distribution.get('operating_price_evidence')
+            if m0 and operating_price is not None:
+                from kbo_operating_prices import matches_offer
+                m0 = bool(exact and observed_price and matches_offer(operating_price, game, terms, offers, price_time))
             comparisons = {}
             score_masses = {}
             if m0:

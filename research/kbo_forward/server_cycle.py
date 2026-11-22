@@ -57,7 +57,8 @@ def main():
     parser.add_argument('--state', type=Path, required=True)
     parser.add_argument('--m1-state', type=Path, required=True)
     args = parser.parse_args()
-    result = run_once(args.state, m1_state=args.m1_state)
+    result = run_once(args.state, m1_state=args.m1_state,
+                      operating_prices=args.state.parent / 'kbo-operating-price-v1')
     count = publish_index(args.m1_state)  # Also repairs a missing index after a prior interrupted publication.
     print(json.dumps({'status':result['status'], 'm0_indexed_fixtures':count,
                       'captures':result.get('captured_this_run'), 'requests':result.get('requests')}))

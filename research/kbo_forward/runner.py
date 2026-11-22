@@ -1,5 +1,6 @@
 """Bounded direct-source observer. No betting, refit, production DB or services."""
 import argparse,copy,gzip,hashlib,json,os,sys,traceback
+from collections import Counter
 from datetime import datetime,timezone,timedelta
 from pathlib import Path
 
@@ -108,7 +109,8 @@ def capture_lineup_revisions(state, official, games, quotes, clock, infer, repor
             )
 
 
-def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.infer_frozen,m1_state=None,watch_lineup_revisions=False):
+def run_once(state, official=None, price_fn=None, clock=ledger.utcnow, infer=ledger.infer_frozen,
+             m1_state=None, watch_lineup_revisions=False, operating_prices=None):
     state=Path(state);state.mkdir(parents=True,exist_ok=True)
     with single_writer(state/"observer.lock") as owned:
         if not owned:return {"status":"another_run_active"}
@@ -117,11 +119,16 @@ def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.
         if official is None:
             from connected import ConnectedOfficial
             official=ConnectedOfficial(state/"official",max_requests=80)
-        if price_fn is None:
+        if operating_prices is not None:
+            sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
+            from kbo_operating_prices import capture as capture_operating_prices
+        elif price_fn is None:
             from prices import collect_prices
             price_fn=collect_prices
         m1_observer=None
         report={"started_at":started.isoformat(),"status":"ok","captured_this_run":0,"unpriced_this_run":0,"settled_this_run":0,"excluded":[],"requests":0,"scheduler_scope":"separate local task; PC must be awake/online"}
+        if operating_prices is not None:
+            report["scheduler_scope"] = "server cycle with operating price receipts"
         if m1_state is not None:
             try:
                 from research.m1_service.observer import Recorder
@@ -129,7 +136,9 @@ def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.
                 if m1_path.resolve()==path.resolve():raise ValueError('M1 ledger must be separate')
                 m1_observer=Recorder(m1_path,ledger.validate_model_snapshot,
                                      archive_root=getattr(official,'root',None),
-                                     price_archive_root=state/'prices/price-evidence',clock=clock)
+                                     price_archive_root=state/'prices/price-evidence',
+                                     operating_price_archive=state/'operating-price-evidence' if operating_prices is not None else None,
+                                     clock=clock)
             except Exception as exc:
                 report['m1_status']='blocked'
                 report['m1_candidate_excluded']=[{'reason':'M1 initialization: '+str(exc)[:250]}]
@@ -151,10 +160,13 @@ def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.
                 if g["source"]["G_DT"]>=today.strftime("%Y%m%d"):
                     ledger.observe_opportunity(e,path,g.get("receipt",{}),clock=clock)
             candidates=[]
+            operating_fixture_counts = Counter()
             for g in games:
                 e=event(g);delta=ledger.moment(e["kickoff_at"])-clock()
+                if operating_prices is not None:
+                    operating_fixture_counts[e["home_id"], e["away_id"], e["kickoff_at"]] += 1
                 if timedelta(minutes=30)<=delta<=timedelta(hours=3) and str(g["source"].get("GAME_STATE_SC"))=="1" and str(g["source"].get("CANCEL_SC_ID"))=="0":candidates.append(g)
-            price_result=price_fn(state/"prices",[event(g) for g in candidates]) if candidates else {"quotes":[],"excluded":[],"requests":[]}
+            price_result=price_fn(state/"prices",[event(g) for g in candidates]) if candidates and operating_prices is None else {"quotes":[],"excluded":[],"requests":[]}
             report["price_excluded"]=price_result["excluded"];report["price_request_count"]=len(price_result["requests"])
             if price_result["requests"]:
                 with (state/"price-request-receipts.jsonl").open("ab") as sink:
@@ -196,8 +208,20 @@ def run_once(state,official=None,price_fn=None,clock=ledger.utcnow,infer=ledger.
                         x["evidence"].pop("odds",None)
                         rec=ledger.capture_unpriced(x,path,clock=clock,infer=infer);report["unpriced_this_run"]+=int(rec is not None)
                         if m1_observer is not None:
-                            try:m1_observer.capture(x,unpriced=True)
-                            except Exception as exc:report.setdefault('m1_candidate_excluded',[]).append({'official_game_id':official_id,'reason':str(exc)[:300]})
+                            try:
+                                if operating_prices is not None:
+                                    e = x['event']
+                                    if operating_fixture_counts[e["home_id"], e["away_id"], e["kickoff_at"]] != 1:
+                                        raise ValueError('ambiguous KBO fixture at operating price receipt')
+                                    evidence = capture_operating_prices(
+                                        operating_prices, state / 'operating-price-evidence', x['event'], clock())
+                                    if evidence is None:
+                                        raise ValueError('no fresh unambiguous operating KBO price receipt')
+                                    x['operating_price_evidence'] = evidence
+                                m1_observer.capture(x, unpriced=True)
+                            except Exception as exc:
+                                report.setdefault('m1_candidate_excluded', []).append(
+                                    {'official_game_id': official_id, 'reason': str(exc)[:300]})
                     for q in qs:
                         if q["home_id"]!=x["event"]["home_id"] or q["away_id"]!=x["event"]["away_id"] or ledger.moment(q["kickoff_at"])!=ledger.moment(x["event"]["kickoff_at"]):raise ValueError("price event metadata mismatch")
                         priced=copy.deepcopy(x);priced["market"],priced["evidence"]["odds"]=price_packet(q,state,x["event"])

@@ -121,6 +121,10 @@ def _verified_capture(record, root, meta):
             raise ValueError('stale odds at capture')
         if any(captured >= _time(payload['market'][k]) for k in ('close_at', 'round_close_at')):
             raise ValueError('market closed at capture')
+    operating_price = payload.get('operating_price_evidence')
+    if operating_price is not None:
+        from kbo_operating_prices import verify
+        verify(root / 'kbo-m0-forward-v1' / 'operating-price-evidence', operating_price, event, captured)
     actual = record['models']['m0_actual']
     recomputed = model.forecast(row)
     if not _same(actual, recomputed['m0_actual']):
@@ -136,6 +140,7 @@ def _verified_capture(record, root, meta):
         if (arm := record['models'].get(name)) is not None and _same(arm, recomputed[name])
     }
     return {'event': event, 'captured': captured, 'capture_hash': record['hash'], 'companions': companions,
+            'operating_price_evidence': operating_price,
             'artifact_hash': meta['bundle_sha256'], 'source_evidence_hash': observer.digest(observer.canonical(payload['evidence'])),
             'home_mean': actual['home_rate'], 'away_mean': actual['away_rate']}
 
@@ -331,6 +336,8 @@ def get_distribution(game, as_of, built_at, *, root=None):
                 'capture_hash': c['capture_hash'], 'artifact_hash': c['artifact_hash'],
                 'official_game_id': c['event']['official_game_id'], 'kickoff_at': c['event']['kickoff_at'],
                 'scope': 'full_game', 'source_evidence_hash': c['source_evidence_hash'],
+                **({'operating_price_evidence': c['operating_price_evidence']}
+                   if c['operating_price_evidence'] is not None else {}),
                 'companions': {name: dict(rates) for name, rates in c['companions'].items()}}
     except (OSError, ValueError, TypeError, KeyError, OverflowError, AttributeError, EOFError) as exc:
         return {'status': 'unavailable', 'reason': str(exc)}
