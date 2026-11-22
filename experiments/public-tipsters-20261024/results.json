@@ -1,0 +1,930 @@
+{
+  "scope": "exploratory historical backfill; no promotion",
+  "baseline": "prior research market-residual model, NOT frozen production predictions",
+  "games_sha256": "dfe95c2ace14ee42142ea0c86912b68359bc8ebee9ad3cb566812815bdec0eb0",
+  "picks_sha256": "397ab4ac5888d75fa935f8e92baecac37d82d1dc8eb5ae51d020613b7cc46318",
+  "collected_date_kst": "2026-10-24",
+  "quality": {
+    "input_rows": 184473,
+    "valid_unique_market_rows": 174620,
+    "invalid_rows": 3448,
+    "conflicting_reissues_excluded": 584,
+    "score_conflicts": 0,
+    "joined_primary_events": 45184
+  },
+  "collected": 22,
+  "strict_eligible": 0,
+  "matched": 15,
+  "sports": {
+    "bs": {
+      "n": 10,
+      "train_n": 8093,
+      "train_end": "2024-11-24 00:00:00",
+      "scores": {
+        "baseline": {
+          "n": 10,
+          "hits": 3,
+          "accuracy": 0.3,
+          "roi": -0.533,
+          "changed_picks": 0,
+          "accuracy_delta": 0.0,
+          "roi_delta": 0.0
+        },
+        "tipster_only": {
+          "n": 10,
+          "hits": 3,
+          "accuracy": 0.3,
+          "roi": -0.5109999999999999,
+          "changed_picks": 2,
+          "accuracy_delta": 0.0,
+          "roi_delta": 0.02200000000000013
+        },
+        "logit_signal_0.1": {
+          "n": 10,
+          "hits": 3,
+          "accuracy": 0.3,
+          "roi": -0.533,
+          "changed_picks": 0,
+          "accuracy_delta": 0.0,
+          "roi_delta": 0.0
+        },
+        "logit_signal_0.25": {
+          "n": 10,
+          "hits": 3,
+          "accuracy": 0.3,
+          "roi": -0.5109999999999999,
+          "changed_picks": 2,
+          "accuracy_delta": 0.0,
+          "roi_delta": 0.02200000000000013
+        },
+        "logit_signal_0.5": {
+          "n": 10,
+          "hits": 3,
+          "accuracy": 0.3,
+          "roi": -0.5109999999999999,
+          "changed_picks": 2,
+          "accuracy_delta": 0.0,
+          "roi_delta": 0.02200000000000013
+        }
+      }
+    },
+    "bk": {
+      "n": 3,
+      "train_n": 3679,
+      "train_end": "2024-12-31 00:00:00",
+      "scores": {
+        "baseline": {
+          "n": 3,
+          "hits": 2,
+          "accuracy": 0.6666666666666666,
+          "roi": -0.013333333333333345,
+          "changed_picks": 0,
+          "accuracy_delta": 0.0,
+          "roi_delta": 0.0
+        },
+        "tipster_only": {
+          "n": 3,
+          "hits": 1,
+          "accuracy": 0.3333333333333333,
+          "roi": -0.5666666666666667,
+          "changed_picks": 1,
+          "accuracy_delta": -0.3333333333333333,
+          "roi_delta": -0.5533333333333333
+        },
+        "logit_signal_0.1": {
+          "n": 3,
+          "hits": 1,
+          "accuracy": 0.3333333333333333,
+          "roi": -0.5666666666666667,
+          "changed_picks": 1,
+          "accuracy_delta": -0.3333333333333333,
+          "roi_delta": -0.5533333333333333
+        },
+        "logit_signal_0.25": {
+          "n": 3,
+          "hits": 1,
+          "accuracy": 0.3333333333333333,
+          "roi": -0.5666666666666667,
+          "changed_picks": 1,
+          "accuracy_delta": -0.3333333333333333,
+          "roi_delta": -0.5533333333333333
+        },
+        "logit_signal_0.5": {
+          "n": 3,
+          "hits": 1,
+          "accuracy": 0.3333333333333333,
+          "roi": -0.5666666666666667,
+          "changed_picks": 1,
+          "accuracy_delta": -0.3333333333333333,
+          "roi_delta": -0.5533333333333333
+        }
+      }
+    },
+    "sc": {
+      "n": 2,
+      "train_n": 11688,
+      "train_end": "2024-12-31 00:00:00",
+      "scores": {
+        "baseline": {
+          "n": 2,
+          "hits": 1,
+          "accuracy": 0.5,
+          "roi": -0.30500000000000005,
+          "changed_picks": 0,
+          "accuracy_delta": 0.0,
+          "roi_delta": 0.0
+        },
+        "tipster_only": {
+          "n": 2,
+          "hits": 1,
+          "accuracy": 0.5,
+          "roi": -0.30500000000000005,
+          "changed_picks": 0,
+          "accuracy_delta": 0.0,
+          "roi_delta": 0.0
+        },
+        "logit_signal_0.1": {
+          "n": 2,
+          "hits": 1,
+          "accuracy": 0.5,
+          "roi": -0.30500000000000005,
+          "changed_picks": 0,
+          "accuracy_delta": 0.0,
+          "roi_delta": 0.0
+        },
+        "logit_signal_0.25": {
+          "n": 2,
+          "hits": 1,
+          "accuracy": 0.5,
+          "roi": -0.30500000000000005,
+          "changed_picks": 0,
+          "accuracy_delta": 0.0,
+          "roi_delta": 0.0
+        },
+        "logit_signal_0.5": {
+          "n": 2,
+          "hits": 1,
+          "accuracy": 0.5,
+          "roi": -0.30500000000000005,
+          "changed_picks": 0,
+          "accuracy_delta": 0.0,
+          "roi_delta": 0.0
+        }
+      }
+    },
+    "vl": {
+      "n": 0,
+      "reason": "no matched nonconflicting settled sample"
+    }
+  },
+  "audit": [
+    {
+      "source": "attv24",
+      "id": 19714,
+      "date": "2025-08-31",
+      "sport": "bs",
+      "home": "KT",
+      "away": "KIA",
+      "choice": "away",
+      "display_time": "18:00",
+      "conflict": false,
+      "url": "https://www.attv24.com/sports_analysis/19714",
+      "strict_eligible": false,
+      "timing_status": "historical_backfill_no_pregame_snapshot",
+      "matching_events": 1,
+      "status": "exploratory_only",
+      "data_index": 33184,
+      "kickoff": "2025-08-31 18:00:00",
+      "choice_index": 1
+    },
+    {
+      "source": "attv24",
+      "id": 19024,
+      "date": "2025-08-19",
+      "sport": "bs",
+      "home": "한화",
+      "away": "두산",
+      "choice": "home",
+      "display_time": "18:30",
+      "conflict": false,
+      "url": "https://www.attv24.com/sports_analysis/19024",
+      "strict_eligible": false,
+      "timing_status": "historical_backfill_no_pregame_snapshot",
+      "matching_events": 1,
+      "status": "exploratory_only",
+      "data_index": 32597,
+      "kickoff": "2025-08-19 18:30:00",
+      "choice_index": 0
+    },
+    {
+      "source": "attv24",
+      "id": 14377,
+      "date": "2025-04-18",
+      "sport": "bs",
+      "home": "키움",
+      "away": "KT",
+      "choice": "away",
+      "display_time": "18:30",
+      "conflict": false,
+      "url": "https://www.attv24.com/sports_analysis/14377",
+      "strict_eligible": false,
+      "timing_status": "historical_backfill_no_pregame_snapshot",
+      "matching_events": 1,
+      "status": "exploratory_only",
+      "data_index": 28153,
+      "kickoff": "2025-04-18 18:30:00",
+      "choice_index": 1
+    },
+    {
+      "source": "attv24",
+      "id": 19025,
+      "date": "2025-08-19",
+      "sport": "bs",
+      "home": "삼성",
+      "away": "NC",
+      "choice": "home",
+      "display_time": "18:30",
+      "conflict": false,
+      "url": "https://www.attv24.com/sports_analysis/19025",
+      "strict_eligible": false,
+      "timing_status": "historical_backfill_no_pregame_snapshot",
+      "matching_events": 0,
+      "status": "unmatched"
+    },
+    {
+      "source": "attv24",
+      "id": 19403,
+      "date": "2025-08-26",
+      "sport": "bs",
+      "home": "NC",
+      "away": "LG",
+      "choice": "away",
+      "display_time": "18:30",
+      "conflict": false,
+      "url": "https://www.attv24.com/sports_analysis/19403",
+      "strict_eligible": false,
+      "timing_status": "historical_backfill_no_pregame_snapshot",
+      "matching_events": 1,
+      "status": "exploratory_only",
+      "data_index": 32918,
+      "kickoff": "2025-08-26 18:30:00",
+      "choice_index": 1
+    },
+    {
+      "source": "attv24",
+      "id": 19270,
+      "date": "2025-08-23",
+      "sport": "bs",
+      "home": "KIA",
+      "away": "LG",
+      "choice": "away",
+      "display_time": "18:00",
+      "conflict": false,
+      "url": "https://www.attv24.com/sports_analysis/19270",
+      "strict_eligible": false,
+      "timing_status": "historical_backfill_no_pregame_snapshot",
+      "matching_events": 1,
+      "status": "exploratory_only",
+      "data_index": 32730,
+      "kickoff": "2025-08-23 18:00:00",
+      "choice_index": 1
+    },
+    {
+      "source": "attv24",
+      "id": 17962,
+      "date": "2025-07-20",
+      "sport": "bs",
+      "home": "SSG",
+      "away": "두산",
+      "choice": "home",
+      "display_time": "18:00",
+      "conflict": false,
+      "url": "https://www.attv24.com/sports_analysis/17962",
+      "strict_eligible": false,
+      "timing_status": "historical_backfill_no_pregame_snapshot",
+      "matching_events": 1,
+      "status": "exploratory_only",
+      "data_index": 31583,
+      "kickoff": "2025-07-20 18:00:00",
+      "choice_index": 0
+    },
+    {
+      "source": "attv24",
+      "id": 19266,
+      "date": "2025-08-23",
+      "sport": "bs",
+      "home": "두산",
+      "away": "KT",
+      "choice": "away",
+      "display_time": "18:00",
+      "conflict": false,
+      "url": "https://www.attv24.com/sports_analysis/19266",
+      "strict_eligible": false,
+      "timing_status": "historical_backfill_no_pregame_snapshot",
+      "matching_events": 1,
+      "status": "exploratory_only",
+      "data_index": 32732,
+      "kickoff": "2025-08-23 18:00:00",
+      "choice_index": 1
+    },
+    {
+      "source": "attv24",
+      "id": 20781,
+      "date": "2025-09-21",
+      "sport": "bs",
+      "home": "SSG",
+      "away": "두산",
+      "choice": "home",
+      "display_time": "14:00",
+      "conflict": false,
+      "url": "https://www.attv24.com/sports_analysis/20781",
+      "strict_eligible": false,
+      "timing_status": "historical_backfill_no_pregame_snapshot",
+      "matching_events": 1,
+      "status": "exploratory_only",
+      "data_index": 34123,
+      "kickoff": "2025-09-21 14:00:00",
+      "choice_index": 0
+    },
+    {
+      "source": "attv24",
+      "id": 16051,
+      "date": "2025-05-29",
+      "sport": "bs",
+      "home": "SSG",
+      "away": "NC",
+      "choice": "away",
+      "display_time": "18:30",
+      "conflict": true,
+      "url": "https://www.attv24.com/sports_analysis/16051",
+      "strict_eligible": false,
+      "timing_status": "historical_backfill_no_pregame_snapshot",
+      "matching_events": 1,
+      "status": "conflicting_card_and_body"
+    },
+    {
+      "source": "attv24",
+      "id": 16589,
+      "date": "2025-06-12",
+      "sport": "bs",
+      "home": "KT",
+      "away": "롯데",
+      "choice": "home",
+      "display_time": "18:30",
+      "conflict": false,
+      "url": "https://www.attv24.com/sports_analysis/16589",
+      "strict_eligible": false,
+      "timing_status": "historical_backfill_no_pregame_snapshot",
+      "matching_events": 1,
+      "status": "exploratory_only",
+      "data_index": 30467,
+      "kickoff": "2025-06-12 18:30:00",
+      "choice_index": 0
+    },
+    {
+      "source": "attv24",
+      "id": 17521,
+      "date": "2025-07-06",
+      "sport": "bs",
+      "home": "두산",
+      "away": "KT",
+      "choice": "away",
+      "display_time": "18:00",
+      "conflict": false,
+      "url": "https://www.attv24.com/sports_analysis/17521",
+      "strict_eligible": false,
+      "timing_status": "historical_backfill_no_pregame_snapshot",
+      "matching_events": 1,
+      "status": "exploratory_only",
+      "data_index": 31173,
+      "kickoff": "2025-07-06 18:00:00",
+      "choice_index": 1
+    },
+    {
+      "source": "attv24",
+      "id": 21671,
+      "date": "2025-10-19",
+      "sport": "sc",
+      "home": "풀럼",
+      "away": "아스널",
+      "choice": "away",
+      "display_time": "01:30",
+      "conflict": false,
+      "url": "https://www.attv24.com/sports_analysis/21671",
+      "strict_eligible": false,
+      "timing_status": "historical_backfill_no_pregame_snapshot",
+      "matching_events": 1,
+      "status": "exploratory_only",
+      "data_index": 35064,
+      "kickoff": "2025-10-19 01:30:00",
+      "choice_index": 2
+    },
+    {
+      "source": "attv24",
+      "id": 22836,
+      "date": "2025-11-22",
+      "sport": "sc",
+      "home": "서울",
+      "away": "김천상무",
+      "choice": "home",
+      "display_time": "14:00",
+      "conflict": false,
+      "url": "https://www.attv24.com/sports_analysis/22836",
+      "strict_eligible": false,
+      "timing_status": "historical_backfill_no_pregame_snapshot",
+      "matching_events": 1,
+      "status": "exploratory_only",
+      "data_index": 36184,
+      "kickoff": "2025-11-22 14:00:00",
+      "choice_index": 0
+    },
+    {
+      "source": "attv24",
+      "id": 14759,
+      "date": "2025-04-27",
+      "sport": "sc",
+      "home": "포항",
+      "away": "서울",
+      "choice": "away",
+      "display_time": "14:00",
+      "conflict": true,
+      "url": "https://www.attv24.com/sports_analysis/14759",
+      "strict_eligible": false,
+      "timing_status": "historical_backfill_no_pregame_snapshot",
+      "matching_events": 1,
+      "status": "conflicting_card_and_body"
+    },
+    {
+      "source": "attv24",
+      "id": 19147,
+      "date": "2025-08-23",
+      "sport": "sc",
+      "home": "서울이랜드",
+      "away": "김포",
+      "choice": "away",
+      "display_time": "19:00",
+      "conflict": true,
+      "url": "https://www.attv24.com/sports_analysis/19147",
+      "strict_eligible": false,
+      "timing_status": "historical_backfill_no_pregame_snapshot",
+      "matching_events": 1,
+      "status": "conflicting_card_and_body"
+    },
+    {
+      "source": "attv24",
+      "id": 21424,
+      "date": "2025-10-09",
+      "sport": "bk",
+      "home": "KT",
+      "away": "삼성",
+      "choice": "home",
+      "display_time": "14:00",
+      "conflict": false,
+      "url": "https://www.attv24.com/sports_analysis/21424",
+      "strict_eligible": false,
+      "timing_status": "historical_backfill_no_pregame_snapshot",
+      "matching_events": 1,
+      "status": "exploratory_only",
+      "data_index": 34837,
+      "kickoff": "2025-10-09 14:00:00",
+      "choice_index": 0
+    },
+    {
+      "source": "attv24",
+      "id": 15082,
+      "date": "2025-05-05",
+      "sport": "bk",
+      "home": "SK",
+      "away": "LG",
+      "choice": "home",
+      "display_time": "14:00",
+      "conflict": false,
+      "url": "https://www.attv24.com/sports_analysis/15082",
+      "strict_eligible": false,
+      "timing_status": "historical_backfill_no_pregame_snapshot",
+      "matching_events": 1,
+      "status": "exploratory_only",
+      "data_index": 28969,
+      "kickoff": "2025-05-05 14:00:00",
+      "choice_index": 0
+    },
+    {
+      "source": "attv24",
+      "id": 22020,
+      "date": "2025-10-26",
+      "sport": "bk",
+      "home": "삼성",
+      "away": "소노",
+      "choice": "away",
+      "display_time": "16:30",
+      "conflict": false,
+      "url": "https://www.attv24.com/sports_analysis/22020",
+      "strict_eligible": false,
+      "timing_status": "historical_backfill_no_pregame_snapshot",
+      "matching_events": 1,
+      "status": "exploratory_only",
+      "data_index": 35382,
+      "kickoff": "2025-10-26 16:30:00",
+      "choice_index": 1
+    },
+    {
+      "source": "attv24",
+      "id": 17272,
+      "date": "2025-06-29",
+      "sport": "sc",
+      "home": "서울",
+      "away": "포항",
+      "choice": "away",
+      "display_time": "19:00",
+      "conflict": false,
+      "url": "https://www.attv24.com/sports_analysis/17272",
+      "strict_eligible": false,
+      "timing_status": "historical_backfill_no_pregame_snapshot",
+      "matching_events": 0,
+      "status": "unmatched"
+    },
+    {
+      "source": "goli",
+      "id": 297857,
+      "date": "2026-10-24",
+      "sport": "vl",
+      "home": "한국전력",
+      "away": "현대캐피탈",
+      "choice": "home",
+      "display_time": "02:08",
+      "conflict": false,
+      "url": "https://www.goli.tv/board/analysis/297857?page=1",
+      "strict_eligible": false,
+      "timing_status": "historical_backfill_no_pregame_snapshot",
+      "matching_events": 0,
+      "status": "unmatched"
+    },
+    {
+      "source": "goli",
+      "id": 297856,
+      "date": "2026-10-24",
+      "sport": "bk",
+      "home": "소노",
+      "away": "KCC",
+      "choice": "home",
+      "display_time": "02:07",
+      "conflict": false,
+      "url": "https://www.goli.tv/board/analysis/297856?page=1",
+      "strict_eligible": false,
+      "timing_status": "historical_backfill_no_pregame_snapshot",
+      "matching_events": 0,
+      "status": "unmatched"
+    }
+  ],
+  "ledger": [
+    {
+      "url": "https://www.attv24.com/sports_analysis/19714",
+      "sport": "bs",
+      "date": "2025-08-31",
+      "home": "KT",
+      "away": "KIA",
+      "odds": [
+        1.62,
+        1.93
+      ],
+      "y": 0,
+      "probability": [
+        0.5465933797077698,
+        0.45340662029223017
+      ],
+      "choices": {
+        "baseline": 0,
+        "tipster_only": 1,
+        "logit_signal_0.1": 0,
+        "logit_signal_0.25": 1,
+        "logit_signal_0.5": 1
+      }
+    },
+    {
+      "url": "https://www.attv24.com/sports_analysis/19024",
+      "sport": "bs",
+      "date": "2025-08-19",
+      "home": "한화",
+      "away": "두산",
+      "odds": [
+        1.45,
+        2.24
+      ],
+      "y": 1,
+      "probability": [
+        0.6154177792824992,
+        0.3845822207175008
+      ],
+      "choices": {
+        "baseline": 0,
+        "tipster_only": 0,
+        "logit_signal_0.1": 0,
+        "logit_signal_0.25": 0,
+        "logit_signal_0.5": 0
+      }
+    },
+    {
+      "url": "https://www.attv24.com/sports_analysis/14377",
+      "sport": "bs",
+      "date": "2025-04-18",
+      "home": "키움",
+      "away": "KT",
+      "odds": [
+        2.72,
+        1.3
+      ],
+      "y": 0,
+      "probability": [
+        0.31532734876801227,
+        0.6846726512319876
+      ],
+      "choices": {
+        "baseline": 1,
+        "tipster_only": 1,
+        "logit_signal_0.1": 1,
+        "logit_signal_0.25": 1,
+        "logit_signal_0.5": 1
+      }
+    },
+    {
+      "url": "https://www.attv24.com/sports_analysis/19403",
+      "sport": "bs",
+      "date": "2025-08-26",
+      "home": "NC",
+      "away": "LG",
+      "odds": [
+        1.85,
+        1.68
+      ],
+      "y": 0,
+      "probability": [
+        0.4946386633734509,
+        0.5053613366265491
+      ],
+      "choices": {
+        "baseline": 1,
+        "tipster_only": 1,
+        "logit_signal_0.1": 1,
+        "logit_signal_0.25": 1,
+        "logit_signal_0.5": 1
+      }
+    },
+    {
+      "url": "https://www.attv24.com/sports_analysis/19270",
+      "sport": "bs",
+      "date": "2025-08-23",
+      "home": "KIA",
+      "away": "LG",
+      "odds": [
+        1.69,
+        1.84
+      ],
+      "y": 1,
+      "probability": [
+        0.5444786299159924,
+        0.4555213700840076
+      ],
+      "choices": {
+        "baseline": 0,
+        "tipster_only": 1,
+        "logit_signal_0.1": 0,
+        "logit_signal_0.25": 1,
+        "logit_signal_0.5": 1
+      }
+    },
+    {
+      "url": "https://www.attv24.com/sports_analysis/17962",
+      "sport": "bs",
+      "date": "2025-07-20",
+      "home": "SSG",
+      "away": "두산",
+      "odds": [
+        1.63,
+        1.91
+      ],
+      "y": 1,
+      "probability": [
+        0.5414160887050993,
+        0.4585839112949007
+      ],
+      "choices": {
+        "baseline": 0,
+        "tipster_only": 0,
+        "logit_signal_0.1": 0,
+        "logit_signal_0.25": 0,
+        "logit_signal_0.5": 0
+      }
+    },
+    {
+      "url": "https://www.attv24.com/sports_analysis/19266",
+      "sport": "bs",
+      "date": "2025-08-23",
+      "home": "두산",
+      "away": "KT",
+      "odds": [
+        1.99,
+        1.58
+      ],
+      "y": 1,
+      "probability": [
+        0.42915642767710466,
+        0.5708435723228954
+      ],
+      "choices": {
+        "baseline": 1,
+        "tipster_only": 1,
+        "logit_signal_0.1": 1,
+        "logit_signal_0.25": 1,
+        "logit_signal_0.5": 1
+      }
+    },
+    {
+      "url": "https://www.attv24.com/sports_analysis/20781",
+      "sport": "bs",
+      "date": "2025-09-21",
+      "home": "SSG",
+      "away": "두산",
+      "odds": [
+        1.47,
+        2.13
+      ],
+      "y": 0,
+      "probability": [
+        0.5929699272706325,
+        0.40703007272936753
+      ],
+      "choices": {
+        "baseline": 0,
+        "tipster_only": 0,
+        "logit_signal_0.1": 0,
+        "logit_signal_0.25": 0,
+        "logit_signal_0.5": 0
+      }
+    },
+    {
+      "url": "https://www.attv24.com/sports_analysis/16589",
+      "sport": "bs",
+      "date": "2025-06-12",
+      "home": "KT",
+      "away": "롯데",
+      "odds": [
+        1.5,
+        2.13
+      ],
+      "y": 1,
+      "probability": [
+        0.5904555144743753,
+        0.4095444855256248
+      ],
+      "choices": {
+        "baseline": 0,
+        "tipster_only": 0,
+        "logit_signal_0.1": 0,
+        "logit_signal_0.25": 0,
+        "logit_signal_0.5": 0
+      }
+    },
+    {
+      "url": "https://www.attv24.com/sports_analysis/17521",
+      "sport": "bs",
+      "date": "2025-07-06",
+      "home": "두산",
+      "away": "KT",
+      "odds": [
+        2.15,
+        1.49
+      ],
+      "y": 0,
+      "probability": [
+        0.40921584116316917,
+        0.5907841588368309
+      ],
+      "choices": {
+        "baseline": 1,
+        "tipster_only": 1,
+        "logit_signal_0.1": 1,
+        "logit_signal_0.25": 1,
+        "logit_signal_0.5": 1
+      }
+    },
+    {
+      "url": "https://www.attv24.com/sports_analysis/21424",
+      "sport": "bk",
+      "date": "2025-10-09",
+      "home": "KT소닉붐",
+      "away": "서울삼성",
+      "odds": [
+        1.3,
+        2.63
+      ],
+      "y": 0,
+      "probability": [
+        0.662787889717383,
+        0.3372121102826169
+      ],
+      "choices": {
+        "baseline": 0,
+        "tipster_only": 0,
+        "logit_signal_0.1": 0,
+        "logit_signal_0.25": 0,
+        "logit_signal_0.5": 0
+      }
+    },
+    {
+      "url": "https://www.attv24.com/sports_analysis/15082",
+      "sport": "bk",
+      "date": "2025-05-05",
+      "home": "서울SK",
+      "away": "창원LG",
+      "odds": [
+        1.5,
+        2.13
+      ],
+      "y": 1,
+      "probability": [
+        0.5864431482807588,
+        0.41355685171924117
+      ],
+      "choices": {
+        "baseline": 0,
+        "tipster_only": 0,
+        "logit_signal_0.1": 0,
+        "logit_signal_0.25": 0,
+        "logit_signal_0.5": 0
+      }
+    },
+    {
+      "url": "https://www.attv24.com/sports_analysis/22020",
+      "sport": "bk",
+      "date": "2025-10-26",
+      "home": "서울삼성",
+      "away": "고양소노",
+      "odds": [
+        1.66,
+        1.83
+      ],
+      "y": 0,
+      "probability": [
+        0.500073077266376,
+        0.49992692273362394
+      ],
+      "choices": {
+        "baseline": 0,
+        "tipster_only": 1,
+        "logit_signal_0.1": 1,
+        "logit_signal_0.25": 1,
+        "logit_signal_0.5": 1
+      }
+    },
+    {
+      "url": "https://www.attv24.com/sports_analysis/21671",
+      "sport": "sc",
+      "date": "2025-10-19",
+      "home": "풀럼",
+      "away": "아스널",
+      "odds": [
+        5.8,
+        3.7,
+        1.39
+      ],
+      "y": 2,
+      "probability": [
+        0.12389951786859829,
+        0.2286158472756895,
+        0.6474846348557123
+      ],
+      "choices": {
+        "baseline": 2,
+        "tipster_only": 2,
+        "logit_signal_0.1": 2,
+        "logit_signal_0.25": 2,
+        "logit_signal_0.5": 2
+      }
+    },
+    {
+      "url": "https://www.attv24.com/sports_analysis/22836",
+      "sport": "sc",
+      "date": "2025-11-22",
+      "home": "FC서울",
+      "away": "김천상무",
+      "odds": [
+        1.63,
+        3.5,
+        3.8
+      ],
+      "y": 2,
+      "probability": [
+        0.5412087380590047,
+        0.25009074639163126,
+        0.20870051554936409
+      ],
+      "choices": {
+        "baseline": 0,
+        "tipster_only": 0,
+        "logit_signal_0.1": 0,
+        "logit_signal_0.25": 0,
+        "logit_signal_0.5": 0
+      }
+    }
+  ]
+}
