@@ -1,0 +1,391 @@
+{
+  "schema_version": "kbo-official-information-full-2026-v1",
+  "status": "ready_retrospective_only_no_model_fit_or_scoring",
+  "protocol_commit": "97b76a9c7a605a4ba3526530b1d4fdabb320f640",
+  "parent_contract_commit": "69694632",
+  "source_commit": "b24739cf52435070586f8687011fd473a16123e4",
+  "source_sha256": "f82acede0093fa2a6a2176018a812ac9c279ad893d3ffb3bed9a16cb37b6c5d3",
+  "source_byte_policy": "original dataset, gzip and official rows require exact raw bytes versus pinned Git blob; four fixed text manifests compared after explicit CRLF-to-LF normalization with both SHA256 recorded",
+  "v5_manifest_sha256": "55af2f6db005a88d26914b13988ef4d864b075b902c523f53f4b096220e5b5e4",
+  "v5_audit_sha256": "449e6860f4c28c5dd9766cf16f93da7722e1afacd8f7e733035a571165a40eb7",
+  "raw_git_blob_checks": {
+    "experiments/kbo-player-data-20261103/rows.jsonl": {
+      "raw_sha256": "66433dd4706e602befd75f8084ee43eb2e84a54b2657438c37733e3d80531c8c",
+      "git_blob_sha256": "66433dd4706e602befd75f8084ee43eb2e84a54b2657438c37733e3d80531c8c",
+      "exact_bytes_equal": true
+    },
+    "experiments/kbo-player-data-20261103/labels.jsonl": {
+      "raw_sha256": "ef32ffe806b41521f5bd53c12d0eea1362bd44293181fc3ebb7c24c6fcb249ca",
+      "git_blob_sha256": "ef32ffe806b41521f5bd53c12d0eea1362bd44293181fc3ebb7c24c6fcb249ca",
+      "exact_bytes_equal": true
+    },
+    "experiments/kbo-player-data-20261103/prior-projected-features.jsonl.gz": {
+      "raw_sha256": "eca78a16ca59ccc1de6eca47713acded513541c59cddbbb4d8dd193e7c5b27ae",
+      "git_blob_sha256": "eca78a16ca59ccc1de6eca47713acded513541c59cddbbb4d8dd193e7c5b27ae",
+      "exact_bytes_equal": true
+    },
+    "data/raw/detail/kbo_batters_indiv_2023_2026.json": {
+      "raw_sha256": "24bdea9094046bdab4967d314c043d548a252599b652009d5ffdabd341cc84e8",
+      "git_blob_sha256": "24bdea9094046bdab4967d314c043d548a252599b652009d5ffdabd341cc84e8",
+      "exact_bytes_equal": true
+    },
+    "experiments/kbo-player-data-20261103/official-lineup-overlay-2026.jsonl.gz": {
+      "raw_sha256": "ddc66e073ada98ef9cbf469fac64aed53e45ac3d4e44a1e4330f2c661eced627",
+      "git_blob_sha256": "ddc66e073ada98ef9cbf469fac64aed53e45ac3d4e44a1e4330f2c661eced627",
+      "exact_bytes_equal": true
+    },
+    "data/raw/detail/kbo_baseball_2023_2026.json": {
+      "raw_sha256": "c87faa6a43140dad067860086b00140fe8f05883a9e42121fd2e8f7233775a66",
+      "git_blob_sha256": "c87faa6a43140dad067860086b00140fe8f05883a9e42121fd2e8f7233775a66",
+      "exact_bytes_equal": true
+    },
+    "data/model_candidates/kbo/archived-games.jsonl.gz": {
+      "raw_sha256": "c1561a252f226edcfaceffefedc0295394b2905a7368078b96cf71ba76389fce",
+      "git_blob_sha256": "c1561a252f226edcfaceffefedc0295394b2905a7368078b96cf71ba76389fce",
+      "exact_bytes_equal": true
+    },
+    "experiments/kbo-player-data-20261103/official-starter-only-2026.jsonl.gz": {
+      "raw_sha256": "beda5b82e7cd9045e01fdb09b5b27061ce2f82cd58b568b057bd119f37609fce",
+      "git_blob_sha256": "beda5b82e7cd9045e01fdb09b5b27061ce2f82cd58b568b057bd119f37609fce",
+      "exact_bytes_equal": true
+    },
+    "experiments/kbo-player-data-20261103/official-batting-and-starter-2026.jsonl.gz": {
+      "raw_sha256": "4306cc9b429446de30677a4916577ac0680480d36aa2cdd509eb487e20a0cb7a",
+      "git_blob_sha256": "4306cc9b429446de30677a4916577ac0680480d36aa2cdd509eb487e20a0cb7a",
+      "exact_bytes_equal": true
+    },
+    "experiments/kbo-player-data-20261103/inventory.json": {
+      "raw_sha256": "b8fea1a1f4087f7408358f2dcb0f21e39b6eb9d2e1f07d46d4ceb878cd8cccf0",
+      "git_blob_sha256": "192f872247f1e3be8817d6ee69fdaa426021462bc074df3dcd209aeb3ab87b5d",
+      "byte_policy": "explicit CRLF to LF for text manifest only"
+    },
+    "experiments/kbo-player-data-20261103/prior-projected-manifest.json": {
+      "raw_sha256": "8da1fc6f925e771b3de35977ef164bda06b020b9344bbe4ada0e7b4b6535558c",
+      "git_blob_sha256": "3a33620ef9e73b523d7b3d0acf1f70ce31f92a58d23bfacbcff31296d2583d6c",
+      "byte_policy": "explicit CRLF to LF for text manifest only"
+    },
+    "experiments/kbo-player-data-20261103/official-lineup-overlay-2026-manifest.json": {
+      "raw_sha256": "cc13ad05209efa9f4c8a2902c7d5f1e24e73e0cfa43dbdc55e58eea972e78008",
+      "git_blob_sha256": "aa79da87440a712f6dd8c367b5c1abf12709669b77e3b623e3c03f829a2d6487",
+      "byte_policy": "explicit CRLF to LF for text manifest only"
+    },
+    "experiments/kbo-player-data-20261103/official-pitcher-factorial-manifest.json": {
+      "raw_sha256": "ffd995d2d0dd9680761de789c4e2281c87bce612e947ae785f32cbe475b0bc7e",
+      "git_blob_sha256": "afab03a97351a045b52e040fbfe057274b02a65c7dbe52c16033a677a4e49f35",
+      "byte_policy": "explicit CRLF to LF for text manifest only"
+    },
+    "full_official_source": {
+      "raw_sha256": "f82acede0093fa2a6a2176018a812ac9c279ad893d3ffb3bed9a16cb37b6c5d3",
+      "git_blob_sha256": "f82acede0093fa2a6a2176018a812ac9c279ad893d3ffb3bed9a16cb37b6c5d3",
+      "exact_bytes_equal": true
+    }
+  },
+  "source_opportunities": 726,
+  "source_lineups_with_ids": 709,
+  "source_ids_unavailable": 17,
+  "source_player_id_basis_counts": {
+    "postgame_same_game_side_order_and_official_profile_name": 8460,
+    "postgame_other_game_same_team_season_name_and_official_profile_name": 4302
+  },
+  "common_cohort": 709,
+  "exclusion_reasons": {
+    "lineup_player_ids_unavailable": 17
+  },
+  "original_193_overlap": 193,
+  "new_complement": 516,
+  "original_193_features_identical": true,
+  "unchanged_nonplayer_features_sha256": "4881002bfcd57d5c06d320688f8e379294d74079de33d5e627b2a052958774d7",
+  "variant_nonplayer_hashes": {
+    "official_batting_only": "4881002bfcd57d5c06d320688f8e379294d74079de33d5e627b2a052958774d7",
+    "official_starter_only": "4881002bfcd57d5c06d320688f8e379294d74079de33d5e627b2a052958774d7",
+    "official_batting_and_starter": "4881002bfcd57d5c06d320688f8e379294d74079de33d5e627b2a052958774d7"
+  },
+  "cohort_file_sha256": "f8995e367882320398d2c7600ef08bc2cd9d709d35aeac33c4c8f1177f8ac7af",
+  "output_sha256": {
+    "official_batting_only": "789a413ab35575b2461dd2d6943485e88be55f96e1eab9364b6e706691ee3e58",
+    "official_starter_only": "c5481b7fd7a36bc345e11ec953225ab659431408059cbb03fedab40050df6a46",
+    "official_batting_and_starter": "f16c08073737188b9bd2dec9de59791cdeb72033e6bba8c3061061809a2a8131"
+  },
+  "source_last_dates": {
+    "batters": {
+      "all_source_latest_date": "2026-07-26",
+      "archive_linked_latest_date": "2026-07-26",
+      "source_rows": 2896
+    },
+    "pitchers": {
+      "all_source_latest_date": "2026-07-26",
+      "archive_linked_latest_date": "2026-07-26",
+      "source_rows": 2884
+    }
+  },
+  "selected_targets_after_source_last": {
+    "batters": 239,
+    "pitchers": 239
+  },
+  "freshness": {
+    "batters": {
+      "2026-03": {
+        "observed": 262,
+        "no_history": 8,
+        "median_days": 2.0,
+        "p90_nearest_rank_days": 179,
+        "max_days": 1049,
+        "greater_than_14_days": 88,
+        "greater_than_30_days": 88,
+        "greater_than_60_days": 88,
+        "greater_than_90_days": 88
+      },
+      "2026-04": {
+        "observed": 2195,
+        "no_history": 1,
+        "median_days": 1,
+        "p90_nearest_rank_days": 2,
+        "max_days": 684,
+        "greater_than_14_days": 21,
+        "greater_than_30_days": 15,
+        "greater_than_60_days": 15,
+        "greater_than_90_days": 15
+      },
+      "2026-05": {
+        "observed": 2301,
+        "no_history": 3,
+        "median_days": 1,
+        "p90_nearest_rank_days": 2,
+        "max_days": 588,
+        "greater_than_14_days": 27,
+        "greater_than_30_days": 10,
+        "greater_than_60_days": 7,
+        "greater_than_90_days": 7
+      },
+      "2026-06": {
+        "observed": 2213,
+        "no_history": 1,
+        "median_days": 1,
+        "p90_nearest_rank_days": 2,
+        "max_days": 648,
+        "greater_than_14_days": 33,
+        "greater_than_30_days": 25,
+        "greater_than_60_days": 11,
+        "greater_than_90_days": 5
+      },
+      "2026-07": {
+        "observed": 1832,
+        "no_history": 4,
+        "median_days": 1.0,
+        "p90_nearest_rank_days": 5,
+        "max_days": 87,
+        "greater_than_14_days": 21,
+        "greater_than_30_days": 18,
+        "greater_than_60_days": 6,
+        "greater_than_90_days": 0
+      },
+      "2026-08": {
+        "observed": 1494,
+        "no_history": 0,
+        "median_days": 24.0,
+        "p90_nearest_rank_days": 34,
+        "max_days": 126,
+        "greater_than_14_days": 1323,
+        "greater_than_30_days": 351,
+        "greater_than_60_days": 41,
+        "greater_than_90_days": 19
+      },
+      "2026-09": {
+        "observed": 1638,
+        "no_history": 0,
+        "median_days": 51.0,
+        "p90_nearest_rank_days": 66,
+        "max_days": 1205,
+        "greater_than_14_days": 1638,
+        "greater_than_30_days": 1638,
+        "greater_than_60_days": 382,
+        "greater_than_90_days": 37
+      },
+      "2026-10": {
+        "observed": 810,
+        "no_history": 0,
+        "median_days": 73.0,
+        "p90_nearest_rank_days": 92,
+        "max_days": 185,
+        "greater_than_14_days": 810,
+        "greater_than_30_days": 810,
+        "greater_than_60_days": 810,
+        "greater_than_90_days": 84
+      },
+      "new_complement": {
+        "observed": 9281,
+        "no_history": 7,
+        "median_days": 3,
+        "p90_nearest_rank_days": 67,
+        "max_days": 1205,
+        "greater_than_14_days": 3833,
+        "greater_than_30_days": 2844,
+        "greater_than_60_days": 1251,
+        "greater_than_90_days": 146
+      },
+      "original_193": {
+        "observed": 3464,
+        "no_history": 10,
+        "median_days": 1.0,
+        "p90_nearest_rank_days": 2,
+        "max_days": 1049,
+        "greater_than_14_days": 128,
+        "greater_than_30_days": 111,
+        "greater_than_60_days": 109,
+        "greater_than_90_days": 109
+      },
+      "overall": {
+        "observed": 12745,
+        "no_history": 17,
+        "median_days": 2,
+        "p90_nearest_rank_days": 63,
+        "max_days": 1205,
+        "greater_than_14_days": 3961,
+        "greater_than_30_days": 2955,
+        "greater_than_60_days": 1360,
+        "greater_than_90_days": 255
+      }
+    },
+    "pitchers": {
+      "2026-03": {
+        "observed": 17,
+        "no_history": 13,
+        "median_days": 179,
+        "p90_nearest_rank_days": 186,
+        "max_days": 199,
+        "greater_than_14_days": 17,
+        "greater_than_30_days": 17,
+        "greater_than_60_days": 17,
+        "greater_than_90_days": 17
+      },
+      "2026-04": {
+        "observed": 240,
+        "no_history": 4,
+        "median_days": 6.0,
+        "p90_nearest_rank_days": 16,
+        "max_days": 955,
+        "greater_than_14_days": 25,
+        "greater_than_30_days": 23,
+        "greater_than_60_days": 23,
+        "greater_than_90_days": 23
+      },
+      "2026-05": {
+        "observed": 254,
+        "no_history": 2,
+        "median_days": 6.0,
+        "p90_nearest_rank_days": 10,
+        "max_days": 642,
+        "greater_than_14_days": 13,
+        "greater_than_30_days": 7,
+        "greater_than_60_days": 4,
+        "greater_than_90_days": 4
+      },
+      "2026-06": {
+        "observed": 243,
+        "no_history": 3,
+        "median_days": 6,
+        "p90_nearest_rank_days": 11,
+        "max_days": 650,
+        "greater_than_14_days": 10,
+        "greater_than_30_days": 5,
+        "greater_than_60_days": 4,
+        "greater_than_90_days": 3
+      },
+      "2026-07": {
+        "observed": 199,
+        "no_history": 5,
+        "median_days": 6,
+        "p90_nearest_rank_days": 14,
+        "max_days": 42,
+        "greater_than_14_days": 19,
+        "greater_than_30_days": 2,
+        "greater_than_60_days": 0,
+        "greater_than_90_days": 0
+      },
+      "2026-08": {
+        "observed": 157,
+        "no_history": 9,
+        "median_days": 26,
+        "p90_nearest_rank_days": 36,
+        "max_days": 61,
+        "greater_than_14_days": 140,
+        "greater_than_30_days": 48,
+        "greater_than_60_days": 1,
+        "greater_than_90_days": 0
+      },
+      "2026-09": {
+        "observed": 170,
+        "no_history": 12,
+        "median_days": 54.0,
+        "p90_nearest_rank_days": 69,
+        "max_days": 728,
+        "greater_than_14_days": 170,
+        "greater_than_30_days": 170,
+        "greater_than_60_days": 53,
+        "greater_than_90_days": 5
+      },
+      "2026-10": {
+        "observed": 80,
+        "no_history": 10,
+        "median_days": 76.0,
+        "p90_nearest_rank_days": 96,
+        "max_days": 112,
+        "greater_than_14_days": 80,
+        "greater_than_30_days": 80,
+        "greater_than_60_days": 80,
+        "greater_than_90_days": 13
+      },
+      "new_complement": {
+        "observed": 993,
+        "no_history": 39,
+        "median_days": 9,
+        "p90_nearest_rank_days": 69,
+        "max_days": 728,
+        "greater_than_14_days": 424,
+        "greater_than_30_days": 308,
+        "greater_than_60_days": 139,
+        "greater_than_90_days": 22
+      },
+      "original_193": {
+        "observed": 367,
+        "no_history": 19,
+        "median_days": 6,
+        "p90_nearest_rank_days": 156,
+        "max_days": 955,
+        "greater_than_14_days": 50,
+        "greater_than_30_days": 44,
+        "greater_than_60_days": 43,
+        "greater_than_90_days": 43
+      },
+      "overall": {
+        "observed": 1360,
+        "no_history": 58,
+        "median_days": 7.0,
+        "p90_nearest_rank_days": 70,
+        "max_days": 955,
+        "greater_than_14_days": 474,
+        "greater_than_30_days": 352,
+        "greater_than_60_days": 182,
+        "greater_than_90_days": 65
+      }
+    }
+  },
+  "postgame_first_pitcher_crosscheck_sides": {
+    "match": 940,
+    "missing": 478,
+    "mismatch": 0
+  },
+  "postgame_crosscheck_affects_selection": false,
+  "archived_market_present": 354,
+  "archived_market_missing": 355,
+  "price_receipt_verified": 0,
+  "point_in_time_verified": 0,
+  "limitations": [
+    "Expansion after H1 193 outcome observed: not blind or independent.",
+    "Official lineup and schedule pitcher publication/receipt before game unproven; retrospective availability assumed.",
+    "256 source fixtures require date and oriented-team uniqueness; official current profiles and crosswalk do not independently prove identity. Same-team same-season player-ID crosswalk can draw on later source records for identity, not player statistics; no pregame identity claim.",
+    "No true game end or prior observation timestamps; prior calendar date completion is assumed.",
+    "Raw BF meaning unverified. Missing and stale prior data are not filled with target or later stats.",
+    "Existing frozen adapter requires separate explicit scenario support; no model fitting, tuning, predictions, ROI or operational change."
+  ]
+}

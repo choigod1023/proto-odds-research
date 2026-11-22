@@ -1,0 +1,509 @@
+{
+  "availability": "completed_at and top-level received_at null; source observations retain actual 2026-11-03 receipts; prior calendar dates assumed completed",
+  "cohorts": {
+    "all": 709,
+    "excluded": 17,
+    "new_516": 516,
+    "original_193": 193
+  },
+  "counts": {
+    "batter_complete": 3939,
+    "batter_incomplete_daily_not_captured": 2799,
+    "batter_incomplete_missing_player_id": 227,
+    "batter_zero_ab_bb": 537,
+    "batter_zero_pa": 518,
+    "pitcher_complete": 1805,
+    "pitcher_incomplete_duplicate_id": 8,
+    "pitcher_incomplete_missing_id_or_stats": 764
+  },
+  "freshness": {
+    "full709": {
+      "official_batter": {
+        "max_days": 1049,
+        "median_days": 1,
+        "missing": 19,
+        "observed": 12743,
+        "over_14_days": 1879,
+        "over_30_days": 1399,
+        "over_60_days": 667,
+        "over_90_days": 181,
+        "p90_days_nearest_rank": 35
+      },
+      "official_bullpen": {
+        "max_days": 2,
+        "median_days": 1,
+        "missing": 79,
+        "observed": 1339,
+        "over_14_days": 0,
+        "over_30_days": 0,
+        "over_60_days": 0,
+        "over_90_days": 0,
+        "p90_days_nearest_rank": 2
+      },
+      "official_pitcher": {
+        "max_days": 955,
+        "median_days": 6.0,
+        "missing": 32,
+        "observed": 1386,
+        "over_14_days": 125,
+        "over_30_days": 63,
+        "over_60_days": 53,
+        "over_90_days": 50,
+        "p90_days_nearest_rank": 14
+      },
+      "projected_batter": {
+        "max_days": 186,
+        "median_days": 1.0,
+        "missing": 198,
+        "observed": 12564,
+        "over_14_days": 1647,
+        "over_30_days": 1259,
+        "over_60_days": 589,
+        "over_90_days": 145,
+        "p90_days_nearest_rank": 31
+      },
+      "projected_bullpen": {
+        "max_days": 2,
+        "median_days": 1,
+        "missing": 79,
+        "observed": 1339,
+        "over_14_days": 0,
+        "over_30_days": 0,
+        "over_60_days": 0,
+        "over_90_days": 0,
+        "p90_days_nearest_rank": 2
+      },
+      "projected_pitcher": {
+        "max_days": 189,
+        "median_days": 6.0,
+        "missing": 0,
+        "observed": 1418,
+        "over_14_days": 125,
+        "over_30_days": 46,
+        "over_60_days": 46,
+        "over_90_days": 46,
+        "p90_days_nearest_rank": 14
+      }
+    },
+    "new_516": {
+      "official_batter": {
+        "max_days": 733,
+        "median_days": 1,
+        "missing": 7,
+        "observed": 9281,
+        "over_14_days": 1737,
+        "over_30_days": 1277,
+        "over_60_days": 547,
+        "over_90_days": 61,
+        "p90_days_nearest_rank": 44
+      },
+      "official_bullpen": {
+        "max_days": 2,
+        "median_days": 1,
+        "missing": 69,
+        "observed": 963,
+        "over_14_days": 0,
+        "over_30_days": 0,
+        "over_60_days": 0,
+        "over_90_days": 0,
+        "p90_days_nearest_rank": 2
+      },
+      "official_pitcher": {
+        "max_days": 704,
+        "median_days": 6.0,
+        "missing": 12,
+        "observed": 1020,
+        "over_14_days": 75,
+        "over_30_days": 18,
+        "over_60_days": 10,
+        "over_90_days": 7,
+        "p90_days_nearest_rank": 13
+      },
+      "projected_batter": {
+        "max_days": 139,
+        "median_days": 1.0,
+        "missing": 198,
+        "observed": 9090,
+        "over_14_days": 1556,
+        "over_30_days": 1168,
+        "over_60_days": 498,
+        "over_90_days": 54,
+        "p90_days_nearest_rank": 40
+      },
+      "projected_bullpen": {
+        "max_days": 2,
+        "median_days": 1,
+        "missing": 69,
+        "observed": 963,
+        "over_14_days": 0,
+        "over_30_days": 0,
+        "over_60_days": 0,
+        "over_90_days": 0,
+        "p90_days_nearest_rank": 2
+      },
+      "projected_pitcher": {
+        "max_days": 26,
+        "median_days": 6.0,
+        "missing": 0,
+        "observed": 1032,
+        "over_14_days": 79,
+        "over_30_days": 0,
+        "over_60_days": 0,
+        "over_90_days": 0,
+        "p90_days_nearest_rank": 14
+      }
+    },
+    "original_193": {
+      "official_batter": {
+        "max_days": 1049,
+        "median_days": 1.0,
+        "missing": 12,
+        "observed": 3462,
+        "over_14_days": 142,
+        "over_30_days": 122,
+        "over_60_days": 120,
+        "over_90_days": 120,
+        "p90_days_nearest_rank": 2
+      },
+      "official_bullpen": {
+        "max_days": 2,
+        "median_days": 1.0,
+        "missing": 10,
+        "observed": 376,
+        "over_14_days": 0,
+        "over_30_days": 0,
+        "over_60_days": 0,
+        "over_90_days": 0,
+        "p90_days_nearest_rank": 2
+      },
+      "official_pitcher": {
+        "max_days": 955,
+        "median_days": 6.0,
+        "missing": 20,
+        "observed": 366,
+        "over_14_days": 50,
+        "over_30_days": 45,
+        "over_60_days": 43,
+        "over_90_days": 43,
+        "p90_days_nearest_rank": 156
+      },
+      "projected_batter": {
+        "max_days": 186,
+        "median_days": 1.0,
+        "missing": 0,
+        "observed": 3474,
+        "over_14_days": 91,
+        "over_30_days": 91,
+        "over_60_days": 91,
+        "over_90_days": 91,
+        "p90_days_nearest_rank": 2
+      },
+      "projected_bullpen": {
+        "max_days": 2,
+        "median_days": 1.0,
+        "missing": 10,
+        "observed": 376,
+        "over_14_days": 0,
+        "over_30_days": 0,
+        "over_60_days": 0,
+        "over_90_days": 0,
+        "p90_days_nearest_rank": 2
+      },
+      "projected_pitcher": {
+        "max_days": 189,
+        "median_days": 6.0,
+        "missing": 0,
+        "observed": 386,
+        "over_14_days": 46,
+        "over_30_days": 46,
+        "over_60_days": 46,
+        "over_90_days": 46,
+        "p90_days_nearest_rank": 153
+      }
+    },
+    "target_after_2026_07_26": {
+      "official_batter": {
+        "max_days": 185,
+        "median_days": 3.0,
+        "missing": 0,
+        "observed": 4302,
+        "over_14_days": 1674,
+        "over_30_days": 1237,
+        "over_60_days": 532,
+        "over_90_days": 54,
+        "p90_days_nearest_rank": 66
+      },
+      "official_bullpen": {
+        "max_days": 2,
+        "median_days": 1,
+        "missing": 45,
+        "observed": 433,
+        "over_14_days": 0,
+        "over_30_days": 0,
+        "over_60_days": 0,
+        "over_90_days": 0,
+        "p90_days_nearest_rank": 2
+      },
+      "official_pitcher": {
+        "max_days": 704,
+        "median_days": 6.0,
+        "missing": 4,
+        "observed": 474,
+        "over_14_days": 42,
+        "over_30_days": 8,
+        "over_60_days": 4,
+        "over_90_days": 2,
+        "p90_days_nearest_rank": 14
+      },
+      "projected_batter": {
+        "max_days": 139,
+        "median_days": 2.0,
+        "missing": 198,
+        "observed": 4104,
+        "over_14_days": 1556,
+        "over_30_days": 1168,
+        "over_60_days": 498,
+        "over_90_days": 54,
+        "p90_days_nearest_rank": 66
+      },
+      "projected_bullpen": {
+        "max_days": 2,
+        "median_days": 1,
+        "missing": 45,
+        "observed": 433,
+        "over_14_days": 0,
+        "over_30_days": 0,
+        "over_60_days": 0,
+        "over_90_days": 0,
+        "p90_days_nearest_rank": 2
+      },
+      "projected_pitcher": {
+        "max_days": 26,
+        "median_days": 7.0,
+        "missing": 0,
+        "observed": 478,
+        "over_14_days": 65,
+        "over_30_days": 0,
+        "over_60_days": 0,
+        "over_90_days": 0,
+        "p90_days_nearest_rank": 15
+      }
+    },
+    "target_on_or_before_2026_07_26": {
+      "official_batter": {
+        "max_days": 1049,
+        "median_days": 1,
+        "missing": 19,
+        "observed": 8441,
+        "over_14_days": 205,
+        "over_30_days": 162,
+        "over_60_days": 135,
+        "over_90_days": 127,
+        "p90_days_nearest_rank": 3
+      },
+      "official_bullpen": {
+        "max_days": 2,
+        "median_days": 1.0,
+        "missing": 34,
+        "observed": 906,
+        "over_14_days": 0,
+        "over_30_days": 0,
+        "over_60_days": 0,
+        "over_90_days": 0,
+        "p90_days_nearest_rank": 2
+      },
+      "official_pitcher": {
+        "max_days": 955,
+        "median_days": 6.0,
+        "missing": 28,
+        "observed": 912,
+        "over_14_days": 83,
+        "over_30_days": 55,
+        "over_60_days": 49,
+        "over_90_days": 48,
+        "p90_days_nearest_rank": 13
+      },
+      "projected_batter": {
+        "max_days": 186,
+        "median_days": 1.0,
+        "missing": 0,
+        "observed": 8460,
+        "over_14_days": 91,
+        "over_30_days": 91,
+        "over_60_days": 91,
+        "over_90_days": 91,
+        "p90_days_nearest_rank": 2
+      },
+      "projected_bullpen": {
+        "max_days": 2,
+        "median_days": 1.0,
+        "missing": 34,
+        "observed": 906,
+        "over_14_days": 0,
+        "over_30_days": 0,
+        "over_60_days": 0,
+        "over_90_days": 0,
+        "p90_days_nearest_rank": 2
+      },
+      "projected_pitcher": {
+        "max_days": 189,
+        "median_days": 6.0,
+        "missing": 0,
+        "observed": 940,
+        "over_14_days": 60,
+        "over_30_days": 46,
+        "over_60_days": 46,
+        "over_90_days": 46,
+        "p90_days_nearest_rank": 11
+      }
+    }
+  },
+  "freshness_definition": "Latest usable observation within the selected last ten complete records; AB+BB>0 for batter, outs>0 for pitcher. Zero-only histories count missing for usable freshness but remain observed in the input. Bullpen zero outs is usable.",
+  "input_checks": {
+    "data/model_candidates/kbo/archived-games.jsonl.gz": {
+      "exact_bytes_equal": true,
+      "git_blob_sha256": "c1561a252f226edcfaceffefedc0295394b2905a7368078b96cf71ba76389fce",
+      "raw_sha256": "c1561a252f226edcfaceffefedc0295394b2905a7368078b96cf71ba76389fce"
+    },
+    "data/raw/detail/kbo_baseball_2023_2026.json": {
+      "exact_bytes_equal": true,
+      "git_blob_sha256": "c87faa6a43140dad067860086b00140fe8f05883a9e42121fd2e8f7233775a66",
+      "raw_sha256": "c87faa6a43140dad067860086b00140fe8f05883a9e42121fd2e8f7233775a66"
+    },
+    "data/raw/detail/kbo_batters_indiv_2023_2026.json": {
+      "exact_bytes_equal": true,
+      "git_blob_sha256": "24bdea9094046bdab4967d314c043d548a252599b652009d5ffdabd341cc84e8",
+      "raw_sha256": "24bdea9094046bdab4967d314c043d548a252599b652009d5ffdabd341cc84e8"
+    },
+    "experiments/kbo-player-data-20261103/inventory.json": {
+      "byte_policy": "explicit CRLF to LF for text manifest only",
+      "git_blob_sha256": "192f872247f1e3be8817d6ee69fdaa426021462bc074df3dcd209aeb3ab87b5d",
+      "raw_sha256": "b8fea1a1f4087f7408358f2dcb0f21e39b6eb9d2e1f07d46d4ceb878cd8cccf0"
+    },
+    "experiments/kbo-player-data-20261103/labels.jsonl": {
+      "exact_bytes_equal": true,
+      "git_blob_sha256": "ef32ffe806b41521f5bd53c12d0eea1362bd44293181fc3ebb7c24c6fcb249ca",
+      "raw_sha256": "ef32ffe806b41521f5bd53c12d0eea1362bd44293181fc3ebb7c24c6fcb249ca"
+    },
+    "experiments/kbo-player-data-20261103/official-batting-and-starter-2026.jsonl.gz": {
+      "exact_bytes_equal": true,
+      "git_blob_sha256": "4306cc9b429446de30677a4916577ac0680480d36aa2cdd509eb487e20a0cb7a",
+      "raw_sha256": "4306cc9b429446de30677a4916577ac0680480d36aa2cdd509eb487e20a0cb7a"
+    },
+    "experiments/kbo-player-data-20261103/official-lineup-overlay-2026-manifest.json": {
+      "byte_policy": "explicit CRLF to LF for text manifest only",
+      "git_blob_sha256": "aa79da87440a712f6dd8c367b5c1abf12709669b77e3b623e3c03f829a2d6487",
+      "raw_sha256": "cc13ad05209efa9f4c8a2902c7d5f1e24e73e0cfa43dbdc55e58eea972e78008"
+    },
+    "experiments/kbo-player-data-20261103/official-lineup-overlay-2026.jsonl.gz": {
+      "exact_bytes_equal": true,
+      "git_blob_sha256": "ddc66e073ada98ef9cbf469fac64aed53e45ac3d4e44a1e4330f2c661eced627",
+      "raw_sha256": "ddc66e073ada98ef9cbf469fac64aed53e45ac3d4e44a1e4330f2c661eced627"
+    },
+    "experiments/kbo-player-data-20261103/official-pitcher-factorial-manifest.json": {
+      "byte_policy": "explicit CRLF to LF for text manifest only",
+      "git_blob_sha256": "afab03a97351a045b52e040fbfe057274b02a65c7dbe52c16033a677a4e49f35",
+      "raw_sha256": "ffd995d2d0dd9680761de789c4e2281c87bce612e947ae785f32cbe475b0bc7e"
+    },
+    "experiments/kbo-player-data-20261103/official-starter-only-2026.jsonl.gz": {
+      "exact_bytes_equal": true,
+      "git_blob_sha256": "beda5b82e7cd9045e01fdb09b5b27061ce2f82cd58b568b057bd119f37609fce",
+      "raw_sha256": "beda5b82e7cd9045e01fdb09b5b27061ce2f82cd58b568b057bd119f37609fce"
+    },
+    "experiments/kbo-player-data-20261103/prior-projected-features.jsonl.gz": {
+      "exact_bytes_equal": true,
+      "git_blob_sha256": "eca78a16ca59ccc1de6eca47713acded513541c59cddbbb4d8dd193e7c5b27ae",
+      "raw_sha256": "eca78a16ca59ccc1de6eca47713acded513541c59cddbbb4d8dd193e7c5b27ae"
+    },
+    "experiments/kbo-player-data-20261103/prior-projected-manifest.json": {
+      "byte_policy": "explicit CRLF to LF for text manifest only",
+      "git_blob_sha256": "3a33620ef9e73b523d7b3d0acf1f70ce31f92a58d23bfacbcff31296d2583d6c",
+      "raw_sha256": "8da1fc6f925e771b3de35977ef164bda06b020b9344bbe4ada0e7b4b6535558c"
+    },
+    "experiments/kbo-player-data-20261103/rows.jsonl": {
+      "exact_bytes_equal": true,
+      "git_blob_sha256": "66433dd4706e602befd75f8084ee43eb2e84a54b2657438c37733e3d80531c8c",
+      "raw_sha256": "66433dd4706e602befd75f8084ee43eb2e84a54b2657438c37733e3d80531c8c"
+    },
+    "full_official_source": {
+      "exact_bytes_equal": true,
+      "git_blob_sha256": "f82acede0093fa2a6a2176018a812ac9c279ad893d3ffb3bed9a16cb37b6c5d3",
+      "raw_sha256": "f82acede0093fa2a6a2176018a812ac9c279ad893d3ffb3bed9a16cb37b6c5d3"
+    },
+    "gap/artifacts/normalized-records.jsonl.gz": {
+      "exact_git_blob_equal": true,
+      "sha256": "e9d84a6ee8dd3d0262fa6ef04a8fc6e23c79b6b5b04f52fc85a4223b41bc3334"
+    },
+    "gap/artifacts/raw-responses.jsonl.gz": {
+      "exact_git_blob_equal": true,
+      "sha256": "8aeaf579f7ac84a642c3017810f8cf42c101bda2f6290a7fa3779a1d6fa72500"
+    },
+    "gap/v2/artifacts/official-daily-raw.jsonl.gz": {
+      "exact_git_blob_equal": true,
+      "sha256": "53ed7b68ee3c8c2f642f114bff7138d28d80c01932b1841911e19032a543ac39"
+    },
+    "gap/v2/artifacts/supplement-v2.jsonl.gz": {
+      "exact_git_blob_equal": true,
+      "sha256": "0293a109c20c3f3344215dd1bd7bfad5e55f2755ada22e01e3c0a5329fd67c84"
+    }
+  },
+  "outputs_sha256": {
+    "incomplete_batters": "9132f681b25a8bb413fe03f1d4dfdb8a58b046f0ec9f422278c2c7d4806a2ef4",
+    "official_batting_and_starter": "82a1e8630fafe2e790957900e981512fdfc8e70ba536f5ced45ac785f79dc706",
+    "official_batting_only": "8e8bc1850c18af2e258a26805e3090abce621264adf15b0b6d1d748ab57a8e06",
+    "official_starter_only": "65b4cad44b30e8185760dbabbcaebe4dd26f29dffa3ac7fe57dd7e05cc05c757",
+    "projected": "8b090ed9b204a50584c5e2a854bd0c6210a133a8518de78db51ca8f4217aa23f"
+  },
+  "point_in_time_verified": 0,
+  "policy": [
+    "Four outputs share the exact fixed 709 games and identical non-player features.",
+    "For each target, all same-day histories excluded; latest 10 complete observed games, including zero-PA observations.",
+    "Matched AB/H/pure BB required; BB_plus_HBP is never used.",
+    "Duplicate pitcher IDs per game/side excluded from personal history; relief outs retain unidentified pitchers when team-outs reconciliation succeeds.",
+    "Official target lineups and schedule starters are retrospective assumptions; prior lineup and five-starter selector use strictly earlier dates.",
+    "Incomplete records, unavailable identities, missing bullpen coverage and zero denominators remain unknown; no zero imputation.",
+    "The archived feature adapter requires an explicit separate scenario integration; no fitting or performance results."
+  ],
+  "protocol_commit": "1a15ab92da2d26a1744600716a44dcdf4f6bc37b",
+  "schema": "kbo-fresh-history-input-v1",
+  "selection_counts": {
+    "full709": {
+      "official_batter_zero_denominator_histories": 2,
+      "official_lineup_selected_sides": 1418,
+      "official_pitcher_zero_denominator_histories": 1,
+      "official_starter_selected_sides": 1418,
+      "projected_lineup_selected_sides": 1396,
+      "projected_starter_selected_sides": 1418
+    },
+    "new_516": {
+      "official_lineup_selected_sides": 1032,
+      "official_starter_selected_sides": 1032,
+      "projected_lineup_selected_sides": 1010,
+      "projected_starter_selected_sides": 1032
+    },
+    "original_193": {
+      "official_batter_zero_denominator_histories": 2,
+      "official_lineup_selected_sides": 386,
+      "official_pitcher_zero_denominator_histories": 1,
+      "official_starter_selected_sides": 386,
+      "projected_lineup_selected_sides": 386,
+      "projected_starter_selected_sides": 386
+    },
+    "target_after_2026_07_26": {
+      "official_lineup_selected_sides": 478,
+      "official_starter_selected_sides": 478,
+      "projected_lineup_selected_sides": 456,
+      "projected_starter_selected_sides": 478
+    },
+    "target_on_or_before_2026_07_26": {
+      "official_batter_zero_denominator_histories": 2,
+      "official_lineup_selected_sides": 940,
+      "official_pitcher_zero_denominator_histories": 1,
+      "official_starter_selected_sides": 940,
+      "projected_lineup_selected_sides": 940,
+      "projected_starter_selected_sides": 940
+    }
+  },
+  "source_commit": "d11367b7b37f3ea34f4c08987ca042af9235575e",
+  "status": "retrospective_only_no_scoring_no_model_fit"
+}

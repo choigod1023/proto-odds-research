@@ -1,0 +1,101 @@
+{
+  "role": "KBO data linkage",
+  "status": "ready_retrospective_only",
+  "protocol_commit": "867afbdd",
+  "base_sha": "66ab3e7cc6fad96e30129397dfcc602541675f9d",
+  "source_paths": {
+    "games": "C:\\Users\\user\\Documents\\Codex\\kbodata\\data\\model_candidates\\kbo\\archived-games.jsonl.gz",
+    "batters": "C:\\Users\\user\\Documents\\Codex\\kbodata\\data\\raw\\detail\\kbo_batters_indiv_2023_2026.json",
+    "pitchers": "C:\\Users\\user\\Documents\\Codex\\kbodata\\data\\raw\\detail\\kbo_baseball_2023_2026.json",
+    "starters": "C:\\Users\\user\\Documents\\Codex\\kbodata\\data\\raw\\kbo_starters.json",
+    "domestic_market": "C:\\Users\\user\\Documents\\ChatGPT\\sportstoto-worktrees\\internal-game-factors\\data\\processed\\games.csv.tmp",
+    "tipster": "C:\\Users\\user\\Documents\\Codex\\kbodata\\data\\raw\\picksters\\tailslips_pick_events.jsonl"
+  },
+  "source_sha256": {
+    "games": "c1561a252f226edcfaceffefedc0295394b2905a7368078b96cf71ba76389fce",
+    "batters": "24bdea9094046bdab4967d314c043d548a252599b652009d5ffdabd341cc84e8",
+    "pitchers": "c87faa6a43140dad067860086b00140fe8f05883a9e42121fd2e8f7233775a66",
+    "starters": "8e9a415c76c72dc6f0a57e284e2f1ea22dad42c7bb904d54f8dce08f4754c606",
+    "domestic_market": "9ffddb2dcbc4297c32e6ad3826f392e1842e52e10b509e4cbe47eed1f84b9da4",
+    "tipster": "68a45cce93eb7f3213c6803f2a56b1c293c181276af7f74965c8f4d66d6d717d"
+  },
+  "dataset_paths": {
+    "rows": "C:\\Users\\user\\Documents\\Codex\\kbodata\\experiments\\kbo-player-data-20261103\\rows.jsonl",
+    "labels": "C:\\Users\\user\\Documents\\Codex\\kbodata\\experiments\\kbo-player-data-20261103\\labels.jsonl",
+    "inventory": "C:\\Users\\user\\Documents\\Codex\\kbodata\\experiments\\kbo-player-data-20261103\\inventory.json"
+  },
+  "dataset_sha256": {
+    "rows.jsonl": "66433dd4706e602befd75f8084ee43eb2e84a54b2657438c37733e3d80531c8c",
+    "labels.jsonl": "ef32ffe806b41521f5bd53c12d0eea1362bd44293181fc3ebb7c24c6fcb249ca"
+  },
+  "date_range": [
+    "2023-04-01",
+    "2026-10-27"
+  ],
+  "season_counts": {
+    "2023": 723,
+    "2024": 728,
+    "2025": 736,
+    "2026": 726
+  },
+  "counts": {
+    "fixtures": 2913,
+    "retrospective_unproven": 2913,
+    "point_in_time_verified": 0,
+    "with_market": 2459,
+    "missing_market": 454,
+    "with_kickoff": 2652,
+    "both_lineups": 2652,
+    "both_starters": 2647,
+    "tipster_verified": 0,
+    "tipster_rows_audited": 58995,
+    "tipster_kbo_header_marked": 0,
+    "price_receipt_verified": 0
+  },
+  "missing_reasons": {
+    "market_invalid_or_void": 79,
+    "market_parse_failure": 243,
+    "market_missing_or_unmatched": 454,
+    "home_starter_source_conflict": 3,
+    "home_starter_missing": 264,
+    "kickoff_missing_or_ambiguous": 261,
+    "market_excluded_no_kickoff": 261,
+    "home_lineup_missing": 261,
+    "away_lineup_missing": 261,
+    "away_starter_missing": 263,
+    "away_starter_source_conflict": 2
+  },
+  "model_definition": "data linkage only; no model fitted",
+  "commands": [
+    "python experiments/kbo-player-data-20261103/build.py",
+    "python -m pytest experiments/kbo-player-data-20261103/test_build.py -q -p no:cacheprovider"
+  ],
+  "tests": "4 passed; source conflict, unmatched/duplicate market checks, target score/stat poisoning and same-day isolation; full feature time and output SHA checks",
+  "splits": "2023-2026 source seasons only; no train/validation/test split selected by data worker",
+  "metrics": null,
+  "limitations": [
+    "Team IDs are source names; fixture/player IDs not independently authenticated.",
+    "Archived scores are not independently authenticated official results.",
+    "Same-day updates excluded; previous calendar day completion and availability are retrospective assumptions, not observed receipt.",
+    "Player lineup and starter identities use postgame inference; never prospective.",
+    "Prices lack actual receipt; market is null on missing, ambiguous, time or score conflict.",
+    "No independently linked tipster votes, bullpen 24/48h or actual decision timestamp. TailSlips events were scanned by game_header marker only; no KBO header is not proof that all possible tipster sources lack KBO.",
+    "A batter/pitcher aggregate has partial source coverage; absent history or invalid stat makes the player history null, not zero. Previous-game relief count is not a 24/48h pitch count.",
+    "Consumers must wait for this ready manifest and verify SHA256 before reading both output files.",
+    "Source archive lacks verified phase labels: regular and postseason cannot be cleanly separated.",
+    "Only exact 2-way full-game winner; KBO 승①패 is a distinct 1-run margin market and is not a 3-way draw market.",
+    "Prior-game relief appearance counts are not complete bullpen pitch counts.",
+    "Target lineup and starter are postgame reconstructed and cannot support pregame availability claims.",
+    "No unit ROI, official result authentication, actual operating forecast replay or independent price receipt claim."
+  ],
+  "next_data_needed": [
+    "KBO official game/team/player IDs and date, kickoff/revision, game-end completeness including doubleheaders",
+    "timestamped actual pregame confirmed lineup/starter bytes and independent receipt witness",
+    "prior completed official pitcher appearances and pitch counts, 24h/48h schedule completeness and receipt times",
+    "full exact market offers with actual predecision receipt and cancellation/refund rules",
+    "official results/revisions/receipt and linked genuine contemporaneous tipster ballots"
+  ],
+  "branch": "codex/kbo-player-data-20261103",
+  "commit": "b9f2d44",
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/511"
+}
