@@ -16,11 +16,14 @@ test("explorer groups by sport and league and renders only the first league with
     const { GameList, Game } = await server.ssrLoadModule("/src/pages/Markets.jsx");
     const base = { year: 2099, date: "09.06(일) 18:00", round: 1, status: "경기전", options: [], sport: "bs" };
     const games = Array.from({ length: 40 }, (_, index) => ({ ...base,
-      league: index < 2 ? "A리그" : "B리그", home: `홈${index}`, away: `원정${index}` }));
+      league: index < 2 ? "KBO" : "EPL", sport: index < 2 ? "bs" : "sc",
+      home: `홈${index}`, away: `원정${index}` }));
     const html = renderToStaticMarkup(createElement(GameList, { data: { live: games, past: [], year: 2099 } }));
     assert.match(html, /2개 리그 · 40경기/);
     assert.equal((html.match(/class="league-heading"/g) || []).length, 2);
     assert.equal((html.match(/class="match-row game-info-trigger"/g) || []).length, 2);
+    assert.ok(html.indexOf("KBO<small>") < html.indexOf("EPL<small>"));
+    assert.match(html, /aria-pressed="false">아시아 경기만/);
     assert.match(html, /aria-expanded="true"/);
     assert.match(html, /aria-expanded="false"/);
     assert.doesNotMatch(html, /경기 목록 페이지|pagination/);
