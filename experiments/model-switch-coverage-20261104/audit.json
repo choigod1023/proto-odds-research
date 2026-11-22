@@ -1,0 +1,81 @@
+{
+  "read_at_utc": "2026-11-04T14:06:24.875010+00:00",
+  "evidence": {
+    "local_pregame": {
+      "sha256": "77c224f03c28217f552cb98b96a02e350a1e0e79d12a7145a81a3296a693d4e0",
+      "bytes": 14150261
+    },
+    "local_revisions": {
+      "sha256": "63da00d27fec9568aaf0492614b7986ebdeee21165ac2a7751892d1a9fc534de",
+      "bytes": 216085
+    },
+    "local_forward": {
+      "sha256": "52a36692759a6e0dcf7d160ef9672390cae9f325e7ce77d2c3d8a9b577474398",
+      "bytes": 1967
+    },
+    "local_forward_last_run": {
+      "sha256": "e417e38b586ec3a456f555eef374aa9a50a21a7c3bb7d423df67e2cc79887c9b",
+      "bytes": 1154
+    },
+    "local_history_preflight": {
+      "sha256": "2304750c3574ecc0fdf488a4e6fbffe9f19088a668ac91b350d37a4fe5ac9a15",
+      "bytes": 466
+    },
+    "prior_vote_experiment_inputs": {
+      "sha256": "d9dd77e73cf1469988de15813c9267cea448cb4dd41d9549db52b4549052efbd",
+      "bytes": 37561
+    },
+    "prior_vote_experiment_manifest": {
+      "sha256": "d133aa2422ea4f61891270b76d1fc2fdc3fe79ae968b17e358ca6f5720b58055",
+      "bytes": 1225
+    }
+  },
+  "scope": "Local file bytes and prior experiment summary only; no direct production response. No source-post-received or retrospective cohort is used as prospective sample.",
+  "local_pregame": {
+    "rows": 1326,
+    "captured_at_min": "2026-08-28T12:12:58.964003Z",
+    "captured_at_max": "2026-09-02T14:08:08.062140Z",
+    "tipster_vote_mentions": 0
+  },
+  "local_revisions": {
+    "rows": 262,
+    "changed_at_min": "2026-08-27T13:23:24+00:00",
+    "changed_at_max": "2026-09-02T14:39:13+00:00",
+    "tipster_vote_mentions": 0
+  },
+  "prior_vote_summary": {
+    "rows": 14,
+    "kbo_rows": 1,
+    "raw_chain_claimed_by_prior_experiment": true,
+    "raw_ledger_bytes_present_in_this_audit": false
+  },
+  "forward": {
+    "record_types": {
+      "opportunity": 2
+    },
+    "last_run_finished_at": "2026-11-04T01:43:52.781053+00:00",
+    "last_run_status": "ok",
+    "last_run_price_requests": 0,
+    "preflight_received_at": "2026-11-03T09:59:59.487096+00:00",
+    "preflight_predictions_generated": 0,
+    "preflight_unresolved_history_identities": 1
+  },
+  "candidate_fixture_matches": [
+    {
+      "vote_snapshot": "dec_b2902c19266c8357",
+      "official_game_id": "20261103SSKT0",
+      "kickoff": "2026-11-03T09:30:00.000000Z",
+      "vote_captured_at": "2026-11-03T08:52:44.032484Z",
+      "vote_times_before_cutoff": true,
+      "opportunity_received_at": "2026-11-03T09:39:22.414274+00:00",
+      "opportunity_before_cutoff": false,
+      "forward_forecast_records_for_event": 0
+    }
+  ],
+  "strict_common_sample": {
+    "count": 0,
+    "status": "unavailable",
+    "reason": "No forward capture or unpriced forecast records in the inspected ledger."
+  },
+  "lineage": "Frozen KBO 2023-25 M0 baseline must be bound to coefficient artifact and actual pre-cutoff input/forecast; e0:residual:0.03 and historical reconstructed forecasts are not interchangeable. Seed/history preparation is not a forecast or proof of earlier availability. Price receipt, matching product and independently validated bytes remain separate requirements."
+}
