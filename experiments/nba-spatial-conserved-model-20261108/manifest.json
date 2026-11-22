@@ -1,0 +1,52 @@
+{
+  "diagnostics_sha256": "81b945252206211b477a7c342f5b1a595e2fdadc5a877aa1ee6d860e535c2e3a",
+  "hard_source_sha256": "1899869c9b8a0cff51e9f2ed7cce57cf08d9a18b51213f46042d9361ebfcd691",
+  "soft_source_sha256": "968a0b873a575ef0f25b37d81e3c8bbd41c49a5b94c2d57427439a982cb209c4",
+  "prior_prediction_sha256": "fd71c7ecfebb88f432cf2c4ea3ff621f993645e5ab7cec8a8df65fceb6a84a75",
+  "prior_train_sha256": "f6e48cf01cd450bb6850d30f493bd23eb5bfd8428122f7ee793ce7fcdd79768b",
+  "prior_manifest_sha256": "bece2bb550d0be667bc93ce5e3270680611be4a18d0fc118449b26831017024a",
+  "prior_script_commit": "f116f87e",
+  "states": {
+    "A": {
+      "hard": {
+        "beta": 0.02969713883088063,
+        "n": 721,
+        "penalty_l2": 10,
+        "train_from": "2025-01-01",
+        "train_through": "2025-08-28",
+        "train_ids_sha256": "d7885d17f96f2991369329954e43d72d04cbd50e465e426fbc71830fbd7c79c6"
+      },
+      "soft": {
+        "beta": 0.03645713619204478,
+        "n": 721,
+        "penalty_l2": 10,
+        "train_from": "2025-01-01",
+        "train_through": "2025-08-28",
+        "train_ids_sha256": "d7885d17f96f2991369329954e43d72d04cbd50e465e426fbc71830fbd7c79c6"
+      }
+    },
+    "B": {
+      "hard": {
+        "beta": -0.0011903606933254287,
+        "n": 1187,
+        "penalty_l2": 10,
+        "train_from": "2025-01-01",
+        "train_through": "2025-12-28",
+        "train_ids_sha256": "9872623ea70e750c3975290cd8c8edacf38ff79f5e02f6046446ec712250d79c"
+      },
+      "soft": {
+        "beta": -0.0019919794318531627,
+        "n": 1187,
+        "penalty_l2": 10,
+        "train_from": "2025-01-01",
+        "train_through": "2025-12-28",
+        "train_ids_sha256": "9872623ea70e750c3975290cd8c8edacf38ff79f5e02f6046446ec712250d79c"
+      }
+    }
+  },
+  "nonspatial_reconstruction_max_abs_error": 1.6653345369377348e-14,
+  "train_rows": 1908,
+  "evaluation_rows": 1260,
+  "price_sha256": "4bf3abf8bb82838ee72975e1ef486a471b357a03ee4d8627808780f046dae51a",
+  "protocol_commit": "c854390e"
+}
