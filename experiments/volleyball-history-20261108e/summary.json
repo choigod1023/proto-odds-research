@@ -1,0 +1,297 @@
+{
+  "source_sha256": "4bf3abf8bb82838ee72975e1ef486a471b357a03ee4d8627808780f046dae51a",
+  "source_files": {
+    "2025/VNL_Men_Team_2025.csv": {
+      "status": "ok",
+      "url": "https://raw.githubusercontent.com/volleyballdataroom/VNL/main/2025/VNL_Men_Team_2025.csv",
+      "http_status": 200,
+      "received_at": "2026-11-08T07:52:38.340299+00:00",
+      "sha256": "4f5f0197ec6292dc5e79cc63eea44f97e7b4c5e0df7f01a320b9234aa4c39e9d",
+      "bytes": 180115
+    },
+    "2025/VNL_Women_Team_2025.csv": {
+      "status": "ok",
+      "url": "https://raw.githubusercontent.com/volleyballdataroom/VNL/main/2025/VNL_Women_Team_2025.csv",
+      "http_status": 200,
+      "received_at": "2026-11-08T07:52:40.982805+00:00",
+      "sha256": "666f384364f94810995cf1df8e7f0e6ced06f81b0a6010e224fbf54435f5dc75",
+      "bytes": 186566
+    },
+    "2026/VNL_Men_Team_2026.csv": {
+      "status": "ok",
+      "url": "https://raw.githubusercontent.com/volleyballdataroom/VNL/main/2026/VNL_Men_Team_2026.csv",
+      "http_status": 200,
+      "received_at": "2026-11-08T07:52:43.692583+00:00",
+      "sha256": "2650cb502677323800e69299f46d15550c777c231ac7daf185ff25f8de127b07",
+      "bytes": 177058
+    },
+    "2026/VNL_Women_Team_2026.csv": {
+      "status": "ok",
+      "url": "https://raw.githubusercontent.com/volleyballdataroom/VNL/main/2026/VNL_Women_Team_2026.csv",
+      "http_status": 200,
+      "received_at": "2026-11-08T07:52:46.353099+00:00",
+      "sha256": "e26ee4763f10870e5036d090bd9119d368041ac1dc5b8a88251edae469595f84",
+      "bytes": 184694
+    }
+  },
+  "source_audit": {
+    "games_2025_Men": 116,
+    "games_2025_Women": 116,
+    "games_2026_Men": 116,
+    "games_2026_Women": 114,
+    "invalid_score_or_stats": 1,
+    "total_disagreement": 2,
+    "invalid_team_pairs": 1
+  },
+  "joins": {
+    "여배네이/2025/prices": 88,
+    "여배네이/2025/insufficient_prior": 22,
+    "여배네이/2025/unmatched_or_ambiguous": 40,
+    "남배네이/2025/prices": 95,
+    "남배네이/2025/insufficient_prior": 32,
+    "남배네이/2025/unmatched_or_ambiguous": 36,
+    "여배네이/2025/eligible": 26,
+    "남배네이/2025/eligible": 27,
+    "여배네이/2026/prices": 110,
+    "여배네이/2026/eligible": 81,
+    "여배네이/2026/unmatched_or_ambiguous": 26,
+    "남배네이/2026/prices": 106,
+    "남배네이/2026/eligible": 48,
+    "남배네이/2026/unmatched_or_ambiguous": 56,
+    "남배네이/2026/insufficient_prior": 2,
+    "여배네이/2026/insufficient_prior": 3
+  },
+  "groups": {
+    "남배네이": {
+      "train": 21,
+      "validation": 6,
+      "test": 48,
+      "all_price_rows": 106,
+      "coverage": 0.4528301886792453,
+      "beta": 0.001379140580296756,
+      "validation_market": {
+        "n": 6,
+        "accuracy": 0.6666666666666666,
+        "roi": -0.12,
+        "mean_odds": 1.3566666666666667,
+        "log_loss": 0.604113083614372,
+        "brier": 0.20840691345564624,
+        "mdd": 1.0
+      },
+      "validation_candidate": {
+        "n": 6,
+        "accuracy": 0.6666666666666666,
+        "roi": -0.12,
+        "mean_odds": 1.3566666666666667,
+        "log_loss": 0.6041873055209241,
+        "brier": 0.2084364968200083,
+        "mdd": 1.0
+      },
+      "market": {
+        "n": 48,
+        "accuracy": 0.7916666666666666,
+        "roi": -0.003124999999999984,
+        "mean_odds": 1.2897916666666667,
+        "log_loss": 0.489345660120957,
+        "brier": 0.1579479463621618,
+        "mdd": 3.48
+      },
+      "candidate": {
+        "n": 48,
+        "accuracy": 0.7916666666666666,
+        "roi": -0.003124999999999984,
+        "mean_odds": 1.2897916666666667,
+        "log_loss": 0.48934531601175285,
+        "brier": 0.15794768958330851,
+        "mdd": 3.48
+      },
+      "changed_picks": 0,
+      "paired_95": {
+        "accuracy": [
+          0.0,
+          0.0
+        ],
+        "roi": [
+          0.0,
+          0.0
+        ],
+        "log_loss": [
+          -7.737792684574251e-06,
+          7.754554696026693e-06
+        ],
+        "brier": [
+          -3.4194466293959586e-06,
+          3.1832822232215305e-06
+        ]
+      },
+      "monthly": {
+        "2026-06": {
+          "market": {
+            "n": 27,
+            "accuracy": 0.7777777777777778,
+            "roi": -0.03814814814814813,
+            "mean_odds": 1.267777777777778,
+            "log_loss": 0.49901996292616185,
+            "brier": 0.16196144296471693,
+            "mdd": 2.64
+          },
+          "candidate": {
+            "n": 27,
+            "accuracy": 0.7777777777777778,
+            "roi": -0.03814814814814813,
+            "mean_odds": 1.267777777777778,
+            "log_loss": 0.49902558435365796,
+            "brier": 0.16196394464379238,
+            "mdd": 2.64
+          }
+        },
+        "2026-07": {
+          "market": {
+            "n": 17,
+            "accuracy": 0.8235294117647058,
+            "roi": 0.05235294117647061,
+            "mean_odds": 1.3188235294117645,
+            "log_loss": 0.44726571235103835,
+            "brier": 0.14030499796886195,
+            "mdd": 1.3199999999999998
+          },
+          "candidate": {
+            "n": 17,
+            "accuracy": 0.8235294117647058,
+            "roi": 0.05235294117647061,
+            "mean_odds": 1.3188235294117645,
+            "log_loss": 0.4472555850353137,
+            "brier": 0.14030020079266275,
+            "mdd": 1.3199999999999998
+          }
+        },
+        "2026-08": {
+          "market": {
+            "n": 4,
+            "accuracy": 0.75,
+            "roi": -0.0025000000000000022,
+            "mean_odds": 1.315,
+            "log_loss": 0.6028838942079788,
+            "brier": 0.20583937496643928,
+            "mdd": 1.0
+          },
+          "candidate": {
+            "n": 4,
+            "accuracy": 0.75,
+            "roi": -0.0025000000000000022,
+            "mean_odds": 1.315,
+            "log_loss": 0.6028848613537592,
+            "brier": 0.2058397952852869,
+            "mdd": 1.0
+          }
+        }
+      }
+    },
+    "여배네이": {
+      "train": 21,
+      "validation": 5,
+      "test": 81,
+      "all_price_rows": 110,
+      "coverage": 0.7363636363636363,
+      "beta": 0.004082188644739748,
+      "validation_market": {
+        "n": 5,
+        "accuracy": 0.6,
+        "roi": -0.22199999999999998,
+        "mean_odds": 1.452,
+        "log_loss": 0.5118731524753439,
+        "brier": 0.17155834666821906,
+        "mdd": 1.88
+      },
+      "validation_candidate": {
+        "n": 5,
+        "accuracy": 0.6,
+        "roi": -0.22199999999999998,
+        "mean_odds": 1.452,
+        "log_loss": 0.51182465396995,
+        "brier": 0.17153851707841286,
+        "mdd": 1.88
+      },
+      "market": {
+        "n": 81,
+        "accuracy": 0.7654320987654321,
+        "roi": -0.032592592592592604,
+        "mean_odds": 1.2796296296296297,
+        "log_loss": 0.5499471118856282,
+        "brier": 0.18318176310709566,
+        "mdd": 4.600000000000001
+      },
+      "candidate": {
+        "n": 81,
+        "accuracy": 0.7654320987654321,
+        "roi": -0.032592592592592604,
+        "mean_odds": 1.2796296296296297,
+        "log_loss": 0.5499590340406625,
+        "brier": 0.18318632546256153,
+        "mdd": 4.600000000000001
+      },
+      "changed_picks": 0,
+      "paired_95": {
+        "accuracy": [
+          0.0,
+          0.0
+        ],
+        "roi": [
+          0.0,
+          0.0
+        ],
+        "log_loss": [
+          -1.9258790545725878e-05,
+          4.709734827644524e-05
+        ],
+        "brier": [
+          -7.668216887276453e-06,
+          1.8985396070033543e-05
+        ]
+      },
+      "monthly": {
+        "2026-06": {
+          "market": {
+            "n": 47,
+            "accuracy": 0.7446808510638298,
+            "roi": -0.06553191489361704,
+            "mean_odds": 1.268723404255319,
+            "log_loss": 0.5708087228349029,
+            "brier": 0.19272160639904443,
+            "mdd": 4.38
+          },
+          "candidate": {
+            "n": 47,
+            "accuracy": 0.7446808510638298,
+            "roi": -0.06553191489361704,
+            "mean_odds": 1.268723404255319,
+            "log_loss": 0.5708293746501829,
+            "brier": 0.19272835628814738,
+            "mdd": 4.38
+          }
+        },
+        "2026-07": {
+          "market": {
+            "n": 34,
+            "accuracy": 0.7941176470588235,
+            "roi": 0.012941176470588227,
+            "mean_odds": 1.2947058823529412,
+            "log_loss": 0.521109002632219,
+            "brier": 0.16999433267410763,
+            "mdd": 2.0
+          },
+          "candidate": {
+            "n": 34,
+            "accuracy": 0.7941176470588235,
+            "roi": 0.012941176470588227,
+            "mean_odds": 1.2947058823529412,
+            "log_loss": 0.5211088573157372,
+            "brier": 0.1699958710860163,
+            "mdd": 2.0
+          }
+        }
+      }
+    }
+  },
+  "scope": "third party VNL retrospective, not KOVO or pregame certified"
+}
