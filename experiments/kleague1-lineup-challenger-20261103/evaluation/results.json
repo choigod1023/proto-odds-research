@@ -1,0 +1,159 @@
+{
+  "classification": "retrospective_lineup_known_reused_2026_not_blind",
+  "frozen_commit": "77bb7c3ebe3dee87bd75fca5046b05577a9996f2",
+  "test_total": 114,
+  "price_common_n": 113,
+  "price_excluded": {
+    "missing_price": 1
+  },
+  "all_test_1x2": {
+    "team": {
+      "n": 114,
+      "hits": 43,
+      "accuracy": 0.37719298245614036,
+      "logloss": 1.106914040175708,
+      "brier": 0.6712030458790424
+    },
+    "lineup": {
+      "n": 114,
+      "hits": 42,
+      "accuracy": 0.3684210526315789,
+      "logloss": 1.1059111745409462,
+      "brier": 0.6705453271907907
+    }
+  },
+  "priced_common": {
+    "market": {
+      "n": 113,
+      "hits": 44,
+      "accuracy": 0.3893805309734513,
+      "logloss": 1.0858088752059258,
+      "brier": 0.6600378137887188,
+      "net": -29.63,
+      "roi": -0.262212389380531,
+      "monthly_net": {
+        "2026-07": -13.18,
+        "2026-08": -7.25,
+        "2026-09": -6.04,
+        "2026-10": -2.97,
+        "2026-11": -0.19
+      },
+      "daily_close_max_drawdown": 29.63
+    },
+    "team": {
+      "n": 113,
+      "hits": 42,
+      "accuracy": 0.37168141592920356,
+      "logloss": 1.1090940341299114,
+      "brier": 0.6727162448981936,
+      "net": -26.82,
+      "roi": -0.23734513274336283,
+      "monthly_net": {
+        "2026-07": -9.9,
+        "2026-08": -3.13,
+        "2026-09": -8.75,
+        "2026-10": -2.84,
+        "2026-11": -2.2
+      },
+      "daily_close_max_drawdown": 26.82
+    },
+    "lineup": {
+      "n": 113,
+      "hits": 41,
+      "accuracy": 0.36283185840707965,
+      "logloss": 1.1082704230646656,
+      "brier": 0.672193120029113,
+      "net": -30.71,
+      "roi": -0.27176991150442475,
+      "monthly_net": {
+        "2026-07": -9.9,
+        "2026-08": -4.86,
+        "2026-09": -10.91,
+        "2026-10": -2.84,
+        "2026-11": -2.2
+      },
+      "daily_close_max_drawdown": 30.71
+    }
+  },
+  "history_coverage_by_split": {
+    "train": {
+      "fixtures": 228,
+      "sides_previous_missing": 12,
+      "sides_fewer_than_three": 36
+    },
+    "validation": {
+      "fixtures": 90,
+      "sides_previous_missing": 2,
+      "sides_fewer_than_three": 6
+    },
+    "embargo": {
+      "fixtures": 0,
+      "sides_previous_missing": 0,
+      "sides_fewer_than_three": 0
+    },
+    "test": {
+      "fixtures": 114,
+      "sides_previous_missing": 0,
+      "sides_fewer_than_three": 0
+    }
+  },
+  "changed_picks_all_test": {
+    "lineup_vs_team": 7
+  },
+  "changed_picks": {
+    "lineup_vs_team": 7,
+    "lineup_vs_market": 23
+  },
+  "paired_week_bootstrap": {
+    "team": {
+      "weeks": 17,
+      "resamples": 2000,
+      "seed": 20261103,
+      "lineup_minus_reference": {
+        "accuracy": [
+          -0.05594545454545454,
+          0.05001262626262618
+        ],
+        "roi": [
+          -0.15431999999999996,
+          0.0949747287264419
+        ],
+        "logloss": [
+          -0.004328714289119695,
+          0.0024326550291301516
+        ]
+      }
+    },
+    "market": {
+      "weeks": 17,
+      "resamples": 2000,
+      "seed": 20261103,
+      "lineup_minus_reference": {
+        "accuracy": [
+          -0.08333333333333337,
+          0.028846153846153855
+        ],
+        "roi": [
+          -0.14921884057971013,
+          0.12729720877837114
+        ],
+        "logloss": [
+          -0.01549615454159316,
+          0.05815840685487504
+        ]
+      }
+    }
+  },
+  "test_lineup_history": {
+    "fixtures": 114,
+    "sides_previous_missing": 0,
+    "sides_fewer_than_three": 0,
+    "unknown_team_sides": 0
+  },
+  "limits": [
+    "Retrospective official actual XI and official stored prices; historical pregame receipt and execution unverified.",
+    "Reused 2026 and 114-test sample: not blind and not proof of edge.",
+    "No current operating 9:1/tipster frozen replay; flat-unit simulation is not monthly loss-limit wallet."
+  ],
+  "ledger_sha256": "fb396cc9e241fda433558a2f834722ffcc9ce9216cd31506371cbe445e4777d5"
+}
