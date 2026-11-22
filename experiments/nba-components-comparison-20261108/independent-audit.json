@@ -1,0 +1,670 @@
+{
+  "schema": "nba-components-independent-audit-v1",
+  "groups": {
+    "A": {
+      "n": 487,
+      "actual_dates": [
+        "2025-10-22",
+        "2025-12-31"
+      ],
+      "models": {
+        "components": {
+          "n": 487,
+          "hits": 316,
+          "accuracy": 0.648870636550308,
+          "roi": -0.07320328542094456,
+          "net_units": "-35.65",
+          "mean_odds": 1.5234291581108832,
+          "logloss": 0.6390262047858294,
+          "brier": 0.22394197104758096,
+          "daily_mdd_units": "35.65"
+        },
+        "market": {
+          "n": 487,
+          "hits": 316,
+          "accuracy": 0.648870636550308,
+          "roi": -0.1708624229979466,
+          "net_units": "-83.21",
+          "mean_odds": 1.3182135523613951,
+          "logloss": 0.6132736811646057,
+          "brier": 0.21305201404462767,
+          "daily_mdd_units": "84.00"
+        },
+        "prior_efficiency": {
+          "n": 487,
+          "hits": 316,
+          "accuracy": 0.648870636550308,
+          "roi": -0.17067761806981518,
+          "net_units": "-83.12",
+          "mean_odds": 1.318583162217658,
+          "logloss": 0.6130665122188226,
+          "brier": 0.21298545103162722,
+          "daily_mdd_units": "83.91"
+        },
+        "prior_outcome_form": {
+          "n": 487,
+          "hits": 310,
+          "accuracy": 0.6365503080082136,
+          "roi": -0.13172484599589324,
+          "net_units": "-64.15",
+          "mean_odds": 1.4428747433264888,
+          "logloss": 0.6536861683586171,
+          "brier": 0.23072542055584186,
+          "daily_mdd_units": "64.81"
+        }
+      },
+      "monthly": {
+        "2025-10": {
+          "components": {
+            "n": 72,
+            "hits": 42,
+            "accuracy": 0.5833333333333334,
+            "roi": -0.11736111111111111,
+            "net_units": "-8.45",
+            "mean_odds": 1.6722222222222218,
+            "logloss": 0.6709015516852316,
+            "brier": 0.23927925917895726,
+            "daily_mdd_units": "11.79"
+          },
+          "market": {
+            "n": 72,
+            "hits": 46,
+            "accuracy": 0.6388888888888888,
+            "roi": -0.15583333333333332,
+            "net_units": "-11.22",
+            "mean_odds": 1.376111111111111,
+            "logloss": 0.6019418367970556,
+            "brier": 0.20786833938530455,
+            "daily_mdd_units": "12.01"
+          },
+          "prior_efficiency": {
+            "n": 72,
+            "hits": 46,
+            "accuracy": 0.6388888888888888,
+            "roi": -0.15583333333333332,
+            "net_units": "-11.22",
+            "mean_odds": 1.376111111111111,
+            "logloss": 0.6020702285113653,
+            "brier": 0.20800810140106304,
+            "daily_mdd_units": "12.01"
+          },
+          "prior_outcome_form": {
+            "n": 72,
+            "hits": 46,
+            "accuracy": 0.6388888888888888,
+            "roi": -0.06986111111111111,
+            "net_units": "-5.03",
+            "mean_odds": 1.5526388888888887,
+            "logloss": 0.6521167172165679,
+            "brier": 0.22915239705208393,
+            "daily_mdd_units": "10.03"
+          }
+        },
+        "2025-11": {
+          "components": {
+            "n": 219,
+            "hits": 156,
+            "accuracy": 0.7123287671232876,
+            "roi": -0.017945205479452053,
+            "net_units": "-3.93",
+            "mean_odds": 1.4773059360730592,
+            "logloss": 0.6018432801033364,
+            "brier": 0.20601095000085856,
+            "daily_mdd_units": "13.51"
+          },
+          "market": {
+            "n": 219,
+            "hits": 153,
+            "accuracy": 0.6986301369863014,
+            "roi": -0.11648401826484019,
+            "net_units": "-25.51",
+            "mean_odds": 1.3096347031963467,
+            "logloss": 0.5624452681571227,
+            "brier": 0.1903606407299119,
+            "daily_mdd_units": "25.51"
+          },
+          "prior_efficiency": {
+            "n": 219,
+            "hits": 152,
+            "accuracy": 0.6940639269406392,
+            "roi": -0.12415525114155251,
+            "net_units": "-27.19",
+            "mean_odds": 1.3101826484018262,
+            "logloss": 0.5600039868283107,
+            "brier": 0.18939922331416706,
+            "daily_mdd_units": "27.19"
+          },
+          "prior_outcome_form": {
+            "n": 219,
+            "hits": 151,
+            "accuracy": 0.6894977168949772,
+            "roi": -0.0547945205479452,
+            "net_units": "-12.00",
+            "mean_odds": 1.4658904109589035,
+            "logloss": 0.6138716932526906,
+            "brier": 0.21314142092990487,
+            "daily_mdd_units": "17.69"
+          }
+        },
+        "2025-12": {
+          "components": {
+            "n": 196,
+            "hits": 118,
+            "accuracy": 0.6020408163265306,
+            "roi": -0.11872448979591836,
+            "net_units": "-23.27",
+            "mean_odds": 1.5203061224489791,
+            "logloss": 0.6688631207486309,
+            "brier": 0.23834303667907605,
+            "daily_mdd_units": "29.70"
+          },
+          "market": {
+            "n": 196,
+            "hits": 117,
+            "accuracy": 0.5969387755102041,
+            "roi": -0.23714285714285716,
+            "net_units": "-46.48",
+            "mean_odds": 1.3065306122448979,
+            "logloss": 0.6742293711804318,
+            "brier": 0.24031035757214883,
+            "daily_mdd_units": "46.48"
+          },
+          "prior_efficiency": {
+            "n": 196,
+            "hits": 118,
+            "accuracy": 0.6020408163265306,
+            "roi": -0.22811224489795917,
+            "net_units": "-44.71",
+            "mean_odds": 1.3068367346938774,
+            "logloss": 0.6763952136854499,
+            "brier": 0.24116786451899705,
+            "daily_mdd_units": "44.71"
+          },
+          "prior_outcome_form": {
+            "n": 196,
+            "hits": 113,
+            "accuracy": 0.576530612244898,
+            "roi": -0.24040816326530612,
+            "net_units": "-47.12",
+            "mean_odds": 1.3768367346938777,
+            "logloss": 0.6987492833097689,
+            "brier": 0.2509506940780402,
+            "daily_mdd_units": "47.12"
+          }
+        }
+      },
+      "changed_from_market": {
+        "components": 112,
+        "market": 0,
+        "prior_efficiency": 4,
+        "prior_outcome_form": 90
+      },
+      "components_switches": {
+        "market": {
+          "n": 112,
+          "components": {
+            "n": 112,
+            "hits": 56,
+            "accuracy": 0.5,
+            "roi": 0.1369642857142857,
+            "net_units": "15.34",
+            "mean_odds": 2.340446428571429,
+            "logloss": 0.7023430043811933,
+            "brier": 0.25445208223285154,
+            "daily_mdd_units": "9.21"
+          },
+          "reference": {
+            "n": 112,
+            "hits": 56,
+            "accuracy": 0.5,
+            "roi": -0.28767857142857145,
+            "net_units": "-32.22",
+            "mean_odds": 1.4481249999999999,
+            "logloss": 0.7111252265179553,
+            "brier": 0.2580080886233011,
+            "daily_mdd_units": "33.34"
+          },
+          "interpretation": "Post-hoc description of changed picks, not a new betting-selection policy"
+        },
+        "prior_efficiency": {
+          "n": 108,
+          "components": {
+            "n": 108,
+            "hits": 54,
+            "accuracy": 0.5,
+            "roi": 0.1464814814814815,
+            "net_units": "15.82",
+            "mean_odds": 2.361851851851852,
+            "logloss": 0.6998401459778506,
+            "brier": 0.2533468772788841,
+            "daily_mdd_units": "8.21"
+          },
+          "reference": {
+            "n": 108,
+            "hits": 54,
+            "accuracy": 0.5,
+            "roi": -0.29305555555555557,
+            "net_units": "-31.65",
+            "mean_odds": 1.4381481481481482,
+            "logloss": 0.7102770412126728,
+            "brier": 0.25759743159370313,
+            "daily_mdd_units": "32.77"
+          },
+          "interpretation": "Post-hoc description of changed picks, not a new betting-selection policy"
+        },
+        "prior_outcome_form": {
+          "n": 116,
+          "components": {
+            "n": 116,
+            "hits": 61,
+            "accuracy": 0.5258620689655172,
+            "roi": 0.0453448275862069,
+            "net_units": "5.26",
+            "mean_odds": 2.0631896551724127,
+            "logloss": 0.7008354812957946,
+            "brier": 0.25354050396852645,
+            "daily_mdd_units": "14.13"
+          },
+          "reference": {
+            "n": 116,
+            "hits": 55,
+            "accuracy": 0.47413793103448276,
+            "roi": -0.2003448275862069,
+            "net_units": "-23.24",
+            "mean_odds": 1.7250000000000005,
+            "logloss": 0.7296355821731978,
+            "brier": 0.2677182781458981,
+            "daily_mdd_units": "27.14"
+          },
+          "interpretation": "Post-hoc description of changed picks, not a new betting-selection policy"
+        }
+      }
+    },
+    "B": {
+      "n": 773,
+      "actual_dates": [
+        "2026-01-01",
+        "2026-05-04"
+      ],
+      "models": {
+        "components": {
+          "n": 773,
+          "hits": 508,
+          "accuracy": 0.6571798188874515,
+          "roi": -0.08883570504527814,
+          "net_units": "-68.67",
+          "mean_odds": 1.5687063389391955,
+          "logloss": 0.6293527607657452,
+          "brier": 0.2194681839414369,
+          "daily_mdd_units": "71.56"
+        },
+        "market": {
+          "n": 773,
+          "hits": 547,
+          "accuracy": 0.7076326002587322,
+          "roi": -0.11596377749029754,
+          "net_units": "-89.64",
+          "mean_odds": 1.2929624838292344,
+          "logloss": 0.5576601600060774,
+          "brier": 0.18787924672721062,
+          "daily_mdd_units": "89.82"
+        },
+        "prior_efficiency": {
+          "n": 773,
+          "hits": 546,
+          "accuracy": 0.7063389391979301,
+          "roi": -0.11811125485122898,
+          "net_units": "-91.30",
+          "mean_odds": 1.2931694695989626,
+          "logloss": 0.5565762028897104,
+          "brier": 0.18763143609861122,
+          "daily_mdd_units": "91.48"
+        },
+        "prior_outcome_form": {
+          "n": 773,
+          "hits": 537,
+          "accuracy": 0.6946959896507116,
+          "roi": -0.06861578266494178,
+          "net_units": "-53.04",
+          "mean_odds": 1.450349288486414,
+          "logloss": 0.5967870090906264,
+          "brier": 0.20456772492214875,
+          "daily_mdd_units": "59.33"
+        }
+      },
+      "monthly": {
+        "2026-01": {
+          "components": {
+            "n": 236,
+            "hits": 133,
+            "accuracy": 0.5635593220338984,
+            "roi": -0.15555084745762712,
+            "net_units": "-36.71",
+            "mean_odds": 1.6918644067796604,
+            "logloss": 0.6811079859243917,
+            "brier": 0.24385696352768055,
+            "daily_mdd_units": "39.42"
+          },
+          "market": {
+            "n": 236,
+            "hits": 151,
+            "accuracy": 0.6398305084745762,
+            "roi": -0.1578813559322034,
+            "net_units": "-37.26",
+            "mean_odds": 1.3454237288135593,
+            "logloss": 0.6401734618863412,
+            "brier": 0.22360129870615197,
+            "daily_mdd_units": "37.26"
+          },
+          "prior_efficiency": {
+            "n": 236,
+            "hits": 151,
+            "accuracy": 0.6398305084745762,
+            "roi": -0.15766949152542373,
+            "net_units": "-37.21",
+            "mean_odds": 1.3458474576271187,
+            "logloss": 0.641586885638366,
+            "brier": 0.22408647271785817,
+            "daily_mdd_units": "37.21"
+          },
+          "prior_outcome_form": {
+            "n": 236,
+            "hits": 146,
+            "accuracy": 0.6186440677966102,
+            "roi": -0.11796610169491525,
+            "net_units": "-27.84",
+            "mean_odds": 1.5014406779661007,
+            "logloss": 0.6554141326219258,
+            "brier": 0.23080445736845312,
+            "daily_mdd_units": "30.03"
+          }
+        },
+        "2026-02": {
+          "components": {
+            "n": 167,
+            "hits": 111,
+            "accuracy": 0.6646706586826348,
+            "roi": -0.03293413173652695,
+            "net_units": "-5.50",
+            "mean_odds": 1.6049101796407177,
+            "logloss": 0.6360780898870079,
+            "brier": 0.22250390085439578,
+            "daily_mdd_units": "11.40"
+          },
+          "market": {
+            "n": 167,
+            "hits": 117,
+            "accuracy": 0.7005988023952096,
+            "roi": -0.10712574850299401,
+            "net_units": "-17.89",
+            "mean_odds": 1.3120958083832328,
+            "logloss": 0.5689993220891553,
+            "brier": 0.19309799947713144,
+            "daily_mdd_units": "17.99"
+          },
+          "prior_efficiency": {
+            "n": 167,
+            "hits": 116,
+            "accuracy": 0.6946107784431138,
+            "roi": -0.11736526946107785,
+            "net_units": "-19.60",
+            "mean_odds": 1.3124550898203584,
+            "logloss": 0.5676010220564052,
+            "brier": 0.19267313182080117,
+            "daily_mdd_units": "19.70"
+          },
+          "prior_outcome_form": {
+            "n": 167,
+            "hits": 107,
+            "accuracy": 0.6407185628742516,
+            "roi": -0.12748502994011976,
+            "net_units": "-21.29",
+            "mean_odds": 1.5467065868263463,
+            "logloss": 0.637540518056026,
+            "brier": 0.2240094420294322,
+            "daily_mdd_units": "21.29"
+          }
+        },
+        "2026-03": {
+          "components": {
+            "n": 237,
+            "hits": 172,
+            "accuracy": 0.7257383966244726,
+            "roi": -0.05354430379746836,
+            "net_units": "-12.69",
+            "mean_odds": 1.4905063291139224,
+            "logloss": 0.5869345805889954,
+            "brier": 0.199524227045658,
+            "daily_mdd_units": "17.96"
+          },
+          "market": {
+            "n": 237,
+            "hits": 181,
+            "accuracy": 0.7637130801687764,
+            "roi": -0.08759493670886076,
+            "net_units": "-20.76",
+            "mean_odds": 1.243459915611813,
+            "logloss": 0.4876365865615542,
+            "brier": 0.15714580604600367,
+            "daily_mdd_units": "22.10"
+          },
+          "prior_efficiency": {
+            "n": 237,
+            "hits": 181,
+            "accuracy": 0.7637130801687764,
+            "roi": -0.08759493670886076,
+            "net_units": "-20.76",
+            "mean_odds": 1.243459915611813,
+            "logloss": 0.48483992583146773,
+            "brier": 0.15635082949541854,
+            "daily_mdd_units": "22.10"
+          },
+          "prior_outcome_form": {
+            "n": 237,
+            "hits": 184,
+            "accuracy": 0.7763713080168776,
+            "roi": -0.014135021097046414,
+            "net_units": "-3.35",
+            "mean_odds": 1.355822784810125,
+            "logloss": 0.5356897730069947,
+            "brier": 0.17632021630023076,
+            "daily_mdd_units": "8.64"
+          }
+        },
+        "2026-04": {
+          "components": {
+            "n": 128,
+            "hits": 91,
+            "accuracy": 0.7109375,
+            "roi": -0.077734375,
+            "net_units": "-9.95",
+            "mean_odds": 1.4424218749999997,
+            "logloss": 0.597714568223376,
+            "brier": 0.20456283920392415,
+            "daily_mdd_units": "11.03"
+          },
+          "market": {
+            "n": 128,
+            "hits": 96,
+            "accuracy": 0.75,
+            "roi": -0.08890625,
+            "net_units": "-11.38",
+            "mean_odds": 1.2605468750000004,
+            "logloss": 0.5120308752615343,
+            "brier": 0.16815589530324918,
+            "daily_mdd_units": "12.30"
+          },
+          "prior_efficiency": {
+            "n": 128,
+            "hits": 96,
+            "accuracy": 0.75,
+            "roi": -0.08890625,
+            "net_units": "-11.38",
+            "mean_odds": 1.2605468750000004,
+            "logloss": 0.5095188141546141,
+            "brier": 0.16761856786895585,
+            "daily_mdd_units": "12.30"
+          },
+          "prior_outcome_form": {
+            "n": 128,
+            "hits": 97,
+            "accuracy": 0.7578125,
+            "roi": -0.003203125,
+            "net_units": "-0.41",
+            "mean_odds": 1.40328125,
+            "logloss": 0.5445253258220025,
+            "brier": 0.1812165214325836,
+            "daily_mdd_units": "5.64"
+          }
+        },
+        "2026-05": {
+          "components": {
+            "n": 5,
+            "hits": 1,
+            "accuracy": 0.2,
+            "roi": -0.764,
+            "net_units": "-3.82",
+            "mean_odds": 1.4859999999999998,
+            "logloss": 0.7824396100901222,
+            "brier": 0.29384522471813523,
+            "daily_mdd_units": "4"
+          },
+          "market": {
+            "n": 5,
+            "hits": 2,
+            "accuracy": 0.4,
+            "roi": -0.47,
+            "net_units": "-2.35",
+            "mean_odds": 1.3539999999999999,
+            "logloss": 0.7715313684133902,
+            "brier": 0.28917493621649537,
+            "daily_mdd_units": "2.53"
+          },
+          "prior_efficiency": {
+            "n": 5,
+            "hits": 2,
+            "accuracy": 0.4,
+            "roi": -0.47,
+            "net_units": "-2.35",
+            "mean_odds": 1.3539999999999999,
+            "logloss": 0.7808117011647765,
+            "brier": 0.2935912502195538,
+            "daily_mdd_units": "2.53"
+          },
+          "prior_outcome_form": {
+            "n": 5,
+            "hits": 3,
+            "accuracy": 0.6,
+            "roi": -0.03,
+            "net_units": "-0.15",
+            "mean_odds": 1.506,
+            "logloss": 0.7023276610099192,
+            "brier": 0.2535633200850761,
+            "daily_mdd_units": "1"
+          }
+        }
+      },
+      "changed_from_market": {
+        "components": 201,
+        "market": 0,
+        "prior_efficiency": 5,
+        "prior_outcome_form": 142
+      },
+      "components_switches": {
+        "market": {
+          "n": 201,
+          "components": {
+            "n": 201,
+            "hits": 81,
+            "accuracy": 0.40298507462686567,
+            "roi": -0.06895522388059701,
+            "net_units": "-13.86",
+            "mean_odds": 2.480995024875622,
+            "logloss": 0.7299675929824571,
+            "brier": 0.26777184775903834,
+            "daily_mdd_units": "25.65"
+          },
+          "reference": {
+            "n": 201,
+            "hits": 120,
+            "accuracy": 0.5970149253731343,
+            "roi": -0.17328358208955225,
+            "net_units": "-34.83",
+            "mean_odds": 1.420547263681592,
+            "logloss": 0.6515912157716642,
+            "brier": 0.2295334992273228,
+            "daily_mdd_units": "35.74"
+          },
+          "interpretation": "Post-hoc description of changed picks, not a new betting-selection policy"
+        },
+        "prior_efficiency": {
+          "n": 196,
+          "components": {
+            "n": 196,
+            "hits": 79,
+            "accuracy": 0.4030612244897959,
+            "roi": -0.06306122448979593,
+            "net_units": "-12.36",
+            "mean_odds": 2.4994897959183677,
+            "logloss": 0.7281674669850707,
+            "brier": 0.2669172583672222,
+            "daily_mdd_units": "24.15"
+          },
+          "reference": {
+            "n": 196,
+            "hits": 117,
+            "accuracy": 0.5969387755102041,
+            "roi": -0.1785204081632653,
+            "net_units": "-34.99",
+            "mean_odds": 1.4128061224489796,
+            "logloss": 0.6503621872190961,
+            "brier": 0.22899458443476678,
+            "daily_mdd_units": "35.90"
+          },
+          "interpretation": "Post-hoc description of changed picks, not a new betting-selection policy"
+        },
+        "prior_outcome_form": {
+          "n": 211,
+          "components": {
+            "n": 211,
+            "hits": 91,
+            "accuracy": 0.4312796208530806,
+            "roi": -0.1766350710900474,
+            "net_units": "-37.27",
+            "mean_odds": 2.1854502369668234,
+            "logloss": 0.719423456584473,
+            "brier": 0.26254244792154996,
+            "daily_mdd_units": "37.27"
+          },
+          "reference": {
+            "n": 211,
+            "hits": 120,
+            "accuracy": 0.5687203791469194,
+            "roi": -0.10255924170616114,
+            "net_units": "-21.64",
+            "mean_odds": 1.7518483412322265,
+            "logloss": 0.6779856507162534,
+            "brier": 0.2424701609359159,
+            "daily_mdd_units": "29.67"
+          },
+          "interpretation": "Post-hoc description of changed picks, not a new betting-selection policy"
+        }
+      }
+    }
+  },
+  "n": 1260,
+  "frozen_cohort_n": 1260,
+  "coverage": 1.0,
+  "excluded_ids": [],
+  "excluded_by_month": {},
+  "limits": [
+    "Independent saved-forecast arithmetic and frozen comparison audit; no fitting",
+    "Does not independently certify historical receipt times, model feature causality or settlement rules",
+    "One unit per event conditional historical returns; not a wallet or future expected profit"
+  ],
+  "input_sha256": {
+    "predictions": "5e9187cd52a38c19954f3727da8132c490df8b6b1086b2db2cd7f00fa3dcccfd",
+    "frozen_baseline": "0c5049b1570d06ced2a3cb1c3a2f6a175dca06b26c4af44558dfdfdad180a286",
+    "prices": "4bf3abf8bb82838ee72975e1ef486a471b357a03ee4d8627808780f046dae51a"
+  }
+}
