@@ -1,0 +1,62 @@
+{
+  "params": {
+    "score_factors": [
+      1.12209884102993,
+      0.8519444520868297,
+      1.1993884043252283
+    ],
+    "red_factor": 0.6794146581406789,
+    "red_hazard": 0.0008695652173913044,
+    "used": 230,
+    "excluded_score_mismatch": [],
+    "training_goal_count": 608,
+    "training_red_count": 36
+  },
+  "paths_per_game": 3000,
+  "seed": "20261108 + match ID",
+  "metrics": {
+    "n": 112,
+    "accuracy": 0.5089285714285714,
+    "log_loss": 1.0452077606827779,
+    "brier": 0.6304198293117625
+  },
+  "changed_picks": 2,
+  "changed_metrics": {
+    "poisson": {
+      "n": 2,
+      "accuracy": 0.0,
+      "log_loss": 1.3438388468455522,
+      "brier": 0.819575395643011
+    },
+    "state_path": {
+      "n": 2,
+      "accuracy": 0.0,
+      "log_loss": 1.1556241495782102,
+      "brier": 0.7039725736554234
+    }
+  },
+  "paired_week_accuracy_delta_ci": [
+    0.0,
+    0.0
+  ],
+  "monthly": {
+    "2016-03": {
+      "n": 35,
+      "accuracy": 0.5428571428571428,
+      "log_loss": 1.0592169038713724,
+      "brier": 0.6398066698863827
+    },
+    "2016-04": {
+      "n": 49,
+      "accuracy": 0.5918367346938775,
+      "log_loss": 1.0138714658136345,
+      "brier": 0.6094474647991849
+    },
+    "2016-05": {
+      "n": 28,
+      "accuracy": 0.32142857142857145,
+      "log_loss": 1.0825348477180359,
+      "brier": 0.6553879164904987
+    }
+  }
+}

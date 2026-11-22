@@ -1,0 +1,221 @@
+{
+  "population": 112,
+  "matched": 112,
+  "excluded": [],
+  "aliases": {
+    "AFC Bournemouth": "Bournemouth",
+    "Arsenal": "Arsenal",
+    "Aston Villa": "Aston Villa",
+    "Chelsea": "Chelsea",
+    "Crystal Palace": "Crystal Palace",
+    "Everton": "Everton",
+    "Leicester City": "Leicester",
+    "Liverpool": "Liverpool",
+    "Manchester City": "Man City",
+    "Manchester United": "Man United",
+    "Newcastle United": "Newcastle",
+    "Norwich City": "Norwich",
+    "Southampton": "Southampton",
+    "Stoke City": "Stoke",
+    "Sunderland": "Sunderland",
+    "Swansea City": "Swansea",
+    "Tottenham Hotspur": "Tottenham",
+    "Watford": "Watford",
+    "West Bromwich Albion": "West Brom",
+    "West Ham United": "West Ham"
+  },
+  "market": "B365 normalized inverse odds, no-vig; 1X2 full-time; flat one-unit stake per fixture",
+  "metrics": {
+    "poisson": {
+      "n": 112,
+      "hits": 57,
+      "accuracy": 0.5089285714285714,
+      "roi": -0.01616071428571429,
+      "log_loss": 1.0512035259763766,
+      "brier": 0.6319380820999537,
+      "daily_close_mdd_units": 14.059999999999999
+    },
+    "sequence": {
+      "n": 112,
+      "hits": 57,
+      "accuracy": 0.5089285714285714,
+      "roi": -0.01616071428571429,
+      "log_loss": 1.0509591998240324,
+      "brier": 0.6317957937354951,
+      "daily_close_mdd_units": 14.059999999999999
+    },
+    "state_path": {
+      "n": 112,
+      "hits": 57,
+      "accuracy": 0.5089285714285714,
+      "roi": -0.01616071428571429,
+      "log_loss": 1.0452077606827779,
+      "brier": 0.6304198293117625,
+      "daily_close_mdd_units": 14.059999999999999
+    },
+    "market": {
+      "n": 112,
+      "hits": 57,
+      "accuracy": 0.5089285714285714,
+      "roi": -0.064375,
+      "log_loss": 0.9843500559267254,
+      "brier": 0.5883132590382542,
+      "daily_close_mdd_units": 11.719999999999999
+    }
+  },
+  "monthly": {
+    "2016-03": {
+      "poisson": {
+        "n": 35,
+        "hits": 19,
+        "accuracy": 0.5428571428571428,
+        "roi": 0.13314285714285712,
+        "log_loss": 1.0471648487893785,
+        "brier": 0.6305621084051481,
+        "daily_close_mdd_units": 1.3900000000000001
+      },
+      "sequence": {
+        "n": 35,
+        "hits": 19,
+        "accuracy": 0.5428571428571428,
+        "roi": 0.13314285714285712,
+        "log_loss": 1.0470780194035043,
+        "brier": 0.6304934892793372,
+        "daily_close_mdd_units": 1.3900000000000001
+      },
+      "state_path": {
+        "n": 35,
+        "hits": 19,
+        "accuracy": 0.5428571428571428,
+        "roi": 0.13314285714285712,
+        "log_loss": 1.0592169038713724,
+        "brier": 0.6398066698863827,
+        "daily_close_mdd_units": 1.3900000000000001
+      },
+      "market": {
+        "n": 35,
+        "hits": 16,
+        "accuracy": 0.45714285714285713,
+        "roi": -0.10914285714285717,
+        "log_loss": 1.0518434413107414,
+        "brier": 0.6348731363032624,
+        "daily_close_mdd_units": 3.9800000000000004
+      }
+    },
+    "2016-04": {
+      "poisson": {
+        "n": 49,
+        "hits": 29,
+        "accuracy": 0.5918367346938775,
+        "roi": 0.09510204081632655,
+        "log_loss": 1.0231053544587296,
+        "brier": 0.6115253376144008,
+        "daily_close_mdd_units": 2.26
+      },
+      "sequence": {
+        "n": 49,
+        "hits": 29,
+        "accuracy": 0.5918367346938775,
+        "roi": 0.09510204081632655,
+        "log_loss": 1.0226503435180327,
+        "brier": 0.6112573496296666,
+        "daily_close_mdd_units": 2.26
+      },
+      "state_path": {
+        "n": 49,
+        "hits": 29,
+        "accuracy": 0.5918367346938775,
+        "roi": 0.09510204081632655,
+        "log_loss": 1.0138714658136345,
+        "brier": 0.6094474647991849,
+        "daily_close_mdd_units": 2.26
+      },
+      "market": {
+        "n": 49,
+        "hits": 31,
+        "accuracy": 0.6326530612244898,
+        "roi": 0.1563265306122449,
+        "log_loss": 0.8919866626371752,
+        "brier": 0.5261903669675634,
+        "daily_close_mdd_units": 1.7800000000000002
+      }
+    },
+    "2016-05": {
+      "poisson": {
+        "n": 28,
+        "hits": 9,
+        "accuracy": 0.32142857142857145,
+        "roi": -0.3975,
+        "log_loss": 1.1054236726160063,
+        "brier": 0.6693803520681784,
+        "daily_close_mdd_units": 11.799999999999999
+      },
+      "sequence": {
+        "n": 28,
+        "hits": 9,
+        "accuracy": 0.32142857142857145,
+        "roi": -0.3975,
+        "log_loss": 1.1053511738851913,
+        "brier": 0.6693659514908924,
+        "daily_close_mdd_units": 11.799999999999999
+      },
+      "state_path": {
+        "n": 28,
+        "hits": 9,
+        "accuracy": 0.32142857142857145,
+        "roi": -0.3975,
+        "log_loss": 1.0825348477180359,
+        "brier": 0.6553879164904987,
+        "daily_close_mdd_units": 11.799999999999999
+      },
+      "market": {
+        "n": 28,
+        "hits": 10,
+        "accuracy": 0.35714285714285715,
+        "roi": -0.3946428571428572,
+        "log_loss": 1.0616192624534184,
+        "brier": 0.6388284735807027,
+        "daily_close_mdd_units": 11.719999999999999
+      }
+    }
+  },
+  "changed_picks_vs_market": {
+    "poisson": 15,
+    "sequence": 15,
+    "state_path": 15
+  },
+  "paired_week_bootstrap_vs_market_95pct": {
+    "poisson": {
+      "accuracy": [
+        -0.05050505050505055,
+        0.04761904761904767
+      ],
+      "roi": [
+        -0.06485436893203883,
+        0.1576086956521739
+      ]
+    },
+    "sequence": {
+      "accuracy": [
+        -0.05050505050505055,
+        0.04761904761904767
+      ],
+      "roi": [
+        -0.06485436893203883,
+        0.1576086956521739
+      ]
+    },
+    "state_path": {
+      "accuracy": [
+        -0.05050505050505055,
+        0.04761904761904767
+      ],
+      "roi": [
+        -0.06485436893203883,
+        0.1576086956521739
+      ]
+    }
+  },
+  "weeks": 11,
+  "seed": 20261108
+}
