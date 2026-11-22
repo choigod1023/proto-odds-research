@@ -1,0 +1,76 @@
+{
+  "documents": [
+    {
+      "schema": "public-pregame-claims-v1",
+      "source": "sportsmole",
+      "source_url": "https://www.sportsmole.co.uk/football/liverpool/champions-league/preview/liverpool-vs-villarreal-prediction-team-news-lineups_607180.html",
+      "title": "Preview: Liverpool vs Villarreal - prediction, team news, lineups",
+      "observed_at": "2026-10-25T07:04:30.533984+00:00",
+      "published_at": "2026-10-18T20:53:00Z",
+      "modified_at": "2026-10-19T14:42:33Z",
+      "document_sha256": "ba3f843770af2a0f9e8b103a0c707db7864e95a63ef07d31421b0949fea13dd1",
+      "status": "captured",
+      "claims": [
+        {
+          "summary": "Unfortunately for Liverpool, both Szoboszlai and Jeremie Frimpong had to be withdrawn against Brentford due to muscle injuries, with the pair set to be out for some time.",
+          "kinds": [
+            "absence"
+          ],
+          "content_sha256": "fa13f200f906a5e5902ac3379e0fe8f79fdbb4ec7d7fe3361f9d07dc119a417c",
+          "claim_status": "publisher_claim_requires_review",
+          "verification": {
+            "confirmed": false
+          }
+        },
+        {
+          "summary": "Ryan Gravenberch was suspended for the Reds' trip to the Gtech, meaning he is available for Tuesday's clash, so he will almost certainly come into midfield alongside Alexis Mac Allister.",
+          "kinds": [
+            "absence"
+          ],
+          "content_sha256": "499dec83564b0fc3936f77f8a17e1cbc11afff2de894d1840a766dc8740a8c76",
+          "claim_status": "publisher_claim_requires_review",
+          "verification": {
+            "confirmed": false
+          }
+        },
+        {
+          "summary": "Liverpool possible starting lineup:",
+          "kinds": [
+            "starter"
+          ],
+          "content_sha256": "1003283e2458870d62d28f294429f7b8cdce0344f0910277b7481947f98fc894",
+          "claim_status": "publisher_claim_requires_review",
+          "verification": {
+            "confirmed": false
+          }
+        },
+        {
+          "summary": "Villarreal possible starting lineup:",
+          "kinds": [
+            "starter"
+          ],
+          "content_sha256": "2b9aa4346b29b632277e95b02e4885a898060a5d1eefd3f41675165799bd9b3d",
+          "claim_status": "publisher_claim_requires_review",
+          "verification": {
+            "confirmed": false
+          }
+        }
+      ],
+      "affects_probability": false,
+      "training_eligible": false,
+      "link_status": "missing_reviewed_fixture"
+    }
+  ],
+  "records": [],
+  "failures": [
+    {
+      "index": 1,
+      "error_type": "ConnectionError",
+      "reason": "fetch_failed"
+    }
+  ],
+  "monthly_loss_limit_krw": 50000,
+  "roi_delta": null,
+  "simulation_status": "not_run",
+  "affects_probability": false
+}
