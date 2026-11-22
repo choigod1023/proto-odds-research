@@ -1,0 +1,88 @@
+{
+  "role": "K League 2 official lineup research",
+  "league": "K League 2",
+  "status": "cohort_captured_historical_timing_blocked",
+  "repo": "https://github.com/choigod1023/proto-odds-research",
+  "branch": "codex/kleague2-official-lineup-20261103",
+  "base_sha": "66ab3e7cc6fad96e30129397dfcc602541675f9d",
+  "input_sha256s": {
+    "2024-2-1-info.bin": "701b326dafe462fac506323c2ef82976555e51feabc5fb4d474306a6327b7066",
+    "2024-2-1-match.bin": "f3e6b1625faed755bb83e955b19d2bc813582c8d71a6897a98a1183d3d504cc2",
+    "2024-2-schedule-03.bin": "c92a27fdf70ffb8c0e3b47b02b9a86775f2ac7f6a3fcec8cde859bbcb605e14f",
+    "2025-1-1-info.bin": "1eccbec6f490167da68f54dd5c434564a3f617ef605d3d72ba230e2889913581",
+    "2025-1-1-match.bin": "7f1a52a0a449fa11e254ed02dcdbf56601448ca38eae3f9ca070419c7e271f2c",
+    "2025-2-1-info.bin": "999f3c18a6abab4d39fdff05e47e8fc7855cbb1e701a760df02dbcbaa00c5785",
+    "2025-2-1-match.bin": "725810da293e2963a077d4c0fec0df15f473d9e0e0574b77bdbc65d6d6d73180",
+    "2025-2-253-info.bin": "266e39ce7afe1a66cd6534b18a24361b70f5cc7d51ea85ef06cd7c46107f1e97",
+    "2025-2-253-match.bin": "33f1ec667ff3e03f01dbf289f1f08c9ba263fed5355a1ae39d7dccd731d1bce3",
+    "2026-2-1-info.bin": "ae12f916527bf419c263c36488f107af3836981074d6f5125e2ac916fdf722e7",
+    "2026-2-1-match.bin": "82dd637fdcb71ece1f9506353ab56091566978d81c63a7573b852732aedeab6e",
+    "2026-2-schedule-02.bin": "acac198f1f686a7f40d4e93e8236d81f2fbc1b8378372e406425e94e31b136ac",
+    "review-targets.jsonl.gz": "71af2473a3969c80af386af8d2ebe13d7585f200ea243a2ad8dac2469e6778d0",
+    "review-predictions.jsonl.gz": "41fca09ed45b3be5a5c06bb369143233b85198e0d3d43aacd67225b9d8fc12bd"
+  },
+  "new_input_ids": [
+    "official-k2-2026-census-272",
+    "official-k2-2025-census-275",
+    "official-lineup-pages-523"
+  ],
+  "protocol_sha": null,
+  "tests": [
+    "python -m unittest discover -s tests -p test_kleague2*20261103.py -v: 7 passed",
+    "12 earlier committed raw bytes verified against recorded hashes",
+    "live duplicate collector blocked by Windows file lock",
+    "1126 staged Git blobs match manifest SHA256",
+    "independent sparse checkouts core.autocrlf=true and false: 1126 hashes match, clean worktrees"
+  ],
+  "metrics": {
+    "season_2026": {
+      "bench_player_rows": 4461,
+      "captured": 248,
+      "census": 272,
+      "certified_historical_pregame": 0,
+      "complete_lineups": 248,
+      "finished": 248,
+      "missing_game_ids": [],
+      "not_captured": 0,
+      "not_finished": 24,
+      "parse_errors": [],
+      "parse_failed": 0,
+      "starting_player_rows": 5456,
+      "substitution_player_rows": 4665,
+      "unresolved_partner_ids": 3
+    },
+    "season_2025": {
+      "bench_player_rows": 3848,
+      "captured": 275,
+      "census": 275,
+      "certified_historical_pregame": 0,
+      "complete_lineups": 275,
+      "finished": 275,
+      "missing_game_ids": [],
+      "not_captured": 0,
+      "not_finished": 0,
+      "parse_errors": [],
+      "parse_failed": 0,
+      "starting_player_rows": 6050,
+      "substitution_player_rows": 5146,
+      "unresolved_partner_ids": 18
+    },
+    "review_targets": 9,
+    "review_identity_matched_lineup_3way_and_result": 9,
+    "review_prediction_rows": 72,
+    "independent_historical_pregame_receipts": 0
+  },
+  "limitations": [
+    "Official schedule is the census; independent completeness verification absent.",
+    "All lineup pages were received after the historical matches; no T-30 receipt authentication.",
+    "Target records omit separate product ID, price ID and prediction ID; input lines refer to retrospective calculations, not frozen operating predictions.",
+    "Substitution counts are player rows, not distinct substitutions."
+  ],
+  "blockers": [
+    "No authenticated historical predecision lineup receipt, product-specific executable prices or frozen operating ledger."
+  ],
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/515",
+  "next_data_needed": [
+    "New actual-receipt predecision official lineup, same product price and frozen operating prediction; independently authenticated timing."
+  ]
+}
