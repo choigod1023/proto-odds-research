@@ -1,0 +1,170 @@
+{
+  "base_main": "88d607459d9c8b4674ff132cba410db828166dea",
+  "sources": {
+    "m0_m1_m2_contract": {
+      "ref": "849e43a5",
+      "path": "experiments/kbo-player-effects-20261103/contract.json",
+      "sha256_git_blob_bytes": "6ffdf7947559df052c248a1f9fb5e7ad871321f52e7920126934bf21771465ed",
+      "top_level_keys": [
+        "base_main",
+        "candidate_families",
+        "date_kst",
+        "evaluation",
+        "existing_monthly_simulation_loss_limit_krw",
+        "fit_rules",
+        "future_evaluation",
+        "hypothesis",
+        "input_pins",
+        "manual_human_request",
+        "out_of_scope",
+        "purpose",
+        "required_tests",
+        "schema",
+        "source_truth",
+        "sources",
+        "temporal_protocol"
+      ],
+      "candidate_families": {
+        "M0_reference": {
+          "family": "same aggregate-player independent Poisson reference refit",
+          "base_team_and_scalar_l2": 10,
+          "roster_identity_effects": false
+        },
+        "M1_roster_poisson": {
+          "family": "penalized hitter and opposing starter identity effects added to reference log-run means",
+          "base_team_and_scalar_l2": 10,
+          "player_l2_grid": [
+            1,
+            10,
+            100
+          ],
+          "batting_weights": "ORDER_PA 4.7,4.6,4.5,4.4,4.3,4.2,4.1,4.0,3.9 divided by their mean; fixed, no search",
+          "effects": "own nine hitter effects plus opposing starter effect, distinct roles; no target outcome/statistics"
+        },
+        "M2_roster_outcome": {
+          "family": "ridge three-category multinomial logistic using same past scalar features, home-away weighted hitter exposure and home-away starter exposure",
+          "base_team_and_scalar_l2": 10,
+          "player_l2_grid": [
+            1,
+            10,
+            100
+          ],
+          "draw": "explicit draw category; no arbitrary probability threshold",
+          "no_market_or_tipster_input": true,
+          "team_identity": "home-minus-away team categorical exposures, train-only vocabulary, base L2=10",
+          "batting_weights": "same fixed ORDER_PA weights as M1, normalized to mean one"
+        }
+      }
+    },
+    "m2_corrected_results": {
+      "ref": "d08ccb70",
+      "path": "experiments/kbo-player-effects-20261103/v2/results.json",
+      "sha256_git_blob_bytes": "1b120334063c0ff535d3ff74c3ab0f55dc01a3c4bb878204b745b05f2c0d1b55",
+      "top_level_keys": [
+        "not_blind_prior_2026_seen",
+        "price_ledgers",
+        "scenarios",
+        "selected_family",
+        "unchanged_M0_M1_verified",
+        "v1_result_sha256",
+        "v2_prediction_commit",
+        "v2_prediction_sha256"
+      ]
+    },
+    "actual_training_dispatch": {
+      "ref": "dcf953f2",
+      "path": "experiments/kbo-actual-training-20261103/dispatch.json",
+      "sha256_git_blob_bytes": "369523b667a4e7288dfc02a9e0fcfaf5b549b2c55e0f43ce50226b014caf66c3",
+      "top_level_keys": [
+        "actual_receipt_proven",
+        "automatic_model_adoption",
+        "automation_queue_changes",
+        "contract_commit",
+        "contract_sha256",
+        "existing_monthly_simulation_loss_limit_krw",
+        "measured_actual_scenario",
+        "parent_contract_validation",
+        "parent_history_coverage",
+        "parent_input_byte_audit",
+        "parent_settlement_result",
+        "parent_settlement_script",
+        "preparation_defect",
+        "preparation_tests_are_not_actual_model_results",
+        "production_changes",
+        "progress_is_not_final_verified_data",
+        "schema",
+        "source_2023_worker_replay",
+        "source_2024_capture_limitations",
+        "source_2025_collection_progress",
+        "started_at_utc",
+        "verified_2023_name_alias",
+        "wallet_changes",
+        "workers"
+      ],
+      "measured_actual_scenario": {
+        "evaluation_games": 709,
+        "price_games": 667,
+        "M0_actual": {
+          "hits": 418,
+          "net_units": "-29.05",
+          "roi": -0.04355322338830585
+        },
+        "M2_actual": {
+          "hits": 396,
+          "net_units": "-49.25",
+          "roi": -0.07383808095952024
+        },
+        "all_negative_roi": true,
+        "superiority_established": false
+      }
+    },
+    "followup_manifest": {
+      "ref": "HEAD",
+      "path": "experiments/kbo-m0-followup-20261103/historical/manifest.json",
+      "sha256_git_blob_bytes": "582ffc31c3567deeeb1e555b25533c595c9af8d77d6d7495d08100d84fcfab52",
+      "top_level_keys": [
+        "contract_sha256",
+        "not_fresh_holdout",
+        "old_contract_sha256",
+        "recipe",
+        "sha256",
+        "target_labels_or_prices_read",
+        "target_n",
+        "target_year",
+        "training_label_poison_guard",
+        "training_n",
+        "training_only_scalers",
+        "training_year"
+      ]
+    },
+    "mlb_manifest": {
+      "ref": "HEAD",
+      "path": "data/model_candidates/mlb/manifest.json",
+      "sha256_git_blob_bytes": "2a7f85c6dcf45e7356553c82caafa8d72ce184825a59f1a7814db5293246e276",
+      "top_level_keys": [
+        "accepted",
+        "artifacts",
+        "excluded",
+        "fixture_sha256",
+        "lineage",
+        "source_files",
+        "version"
+      ]
+    },
+    "kbo_manifest": {
+      "ref": "HEAD",
+      "path": "data/model_candidates/kbo/input-manifest.json",
+      "sha256_git_blob_bytes": "8ece6e04c83f9f0a2c866aa8eeda31ed73ea18fe4ef58ce2f801d88194d02ee2",
+      "top_level_keys": [
+        "availability_policy",
+        "bundled",
+        "contemporary_availability_proven",
+        "partitions",
+        "seed_games",
+        "seed_through",
+        "source_directory",
+        "sources"
+      ]
+    }
+  }
+}

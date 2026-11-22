@@ -1,0 +1,24 @@
+# 보존 모델 목록 — 2026-11-04
+
+기준 `origin/main` 88d607459d9c8b4674ff132cba410db828166dea 및 아래 명시한 별도 Git 커밋을 읽었다. 선수정보와 M0/M1/M2는 사라진 것으로 확인되지 않았다. 다만 일부는 main이 아닌 연구 브랜치의 Git 객체에 있고, 보존·선택·운영 연결·실제 배포는 서로 다르다. 이 목록은 저장된 코드와 결과의 감사이며 재학습, 신규 원천 수집, 운영 상태 확인은 하지 않았다. `experiments/model-inventory-20261104/audit.py`가 여섯 JSON Git blob을 직접 파싱하고 원본 바이트 해시와 모델 계약을 `inventory.json`에 기록한다. 다른 브랜치 전용 객체가 없는 clone에서는 해당 객체를 가져와야 한다.
+
+## 선수정보와 KBO M0/M1/M2
+
+- 선수정보 수집과 입력 경로는 main의 `src/player_info.py`, `src/pregame_player_capture.py`, `src/kbo_starters.py`, `src/npb_lineups.py`, `src/lineup_soccer.py`에 있다. `src/generate_v2.py`는 `player_info.collect`를 가져오고 `src/context_features.py`는 축구 라인업을 읽는다. `data/raw/player_info.json` 등 저장 파일이 있다는 사실만으로 현재 운영에서 각 입력이 적시에 확보되거나 확률에 사용된다는 뜻은 아니다.
+- 별도 연구 커밋 `849e43a5`의 `experiments/kbo-player-effects-20261103/{contract.json,research.py,report.md,artifacts/}`에 원본 계열과 결과가 있다. M0는 과거 선수 집계 기반 독립 Poisson, M1은 타순별 타자와 상대 선발의 역할별 선수 ID 효과를 더한 Poisson, M2는 같은 과거 집계와 팀·타자·선발 노출을 쓰는 3-way 다항 모델이다. 시장·픽스터 입력은 M2 계약에 없다. M1/M2 선수 페널티 후보 1/10/100은 2023 학습 723·2024 검증 728에서 100이 선택됐고, 2025 검증 736의 log loss로 M2를 선택했다. 2026년 709경기는 이미 열람한 회고 표본이다.
+- 원본 M2의 양측 결측 표시 상쇄 결함을 수정한 코드 `849e43a5:experiments/kbo-player-effects-20261103/v2/research_v2.py`, 고정 선택 `d28b4101`, 예측 `18c2e84d`, 결과 `d08ccb70:experiments/kbo-player-effects-20261103/v2/results.json`, 독립 감사 `b0dd76f1:experiments/kbo-player-effects-review-20261103/v2-independent-audit.md`가 별도 브랜치에 보존됐다. 원본 M0/M1과 결과는 보존됐고 수정은 2026 결과를 본 뒤 이루어졌다. 수정된 연구가 운영에 채택됐다는 근거는 없다.
+- 실제 타순·선발 연결 후 재학습 비교는 `dcf953f2:experiments/kbo-actual-training-20261103/RESULTS.md`, `dispatch.json`, `parent-settlement.json`에 보존됐다. [총괄 #532](https://github.com/choigod1023/proto-odds-research/pull/532), [입력 #534](https://github.com/choigod1023/proto-odds-research/pull/534), [모델 #535](https://github.com/choigod1023/proto-odds-research/pull/535), [검토 #533](https://github.com/choigod1023/proto-odds-research/pull/533)는 해당 보고서에 기록된 참조이며 병합 여부나 배포를 여기서 추정하지 않는다. 2023/24/25 학습은 각각 723/728/731경기, 2026-03-28~10-27 평가는 709경기, 가격 연결은 667경기다. 실제 명단 학습 M0는 418/709, 가격 표본 ROI -4.36%, M2는 396/709, -7.38%다. 적중 분모와 가격 분모는 다르다. 단폴 1단위, 무승부 환급 포함이며 실제 구매·월 한도 계좌 수익이 아니다. 경기 전 실제 명단 수신과 배당 체결은 입증되지 않았고 이미 본 기간이다.
+- main의 `experiments/kbo-m0-followup-20261103/`에는 2024/25/26 M0, shrink, NB2 및 1:1:1 혼합의 코드·입력 매니페스트·예측·결과와 독립 검토가 있다. `REPORT.md`의 M0 적중은 각각 385/728, 393/731, 418/709이고 가격 표본은 714/676/667이다. 2024 학습은 2023년 723경기, 2025 학습 1,451경기, 2026 학습 2,182경기다. 혼합과 M0의 ROI 차이에 대한 세 연도별 주간 bootstrap 구간은 모두 0을 포함한다. 전향 출처 인증 정산은 0건이다. 과거 자료는 현재 실제 14경기와 다른 모집단이다.
+
+## 시장·내부모델·분포·보정
+
+- `src/ai_decision.py`의 기본 버전은 `shin-market-anchor-v1`, 분포 버전은 `score-distribution-shadow-v1`이다. `src/probability_pipeline.py`는 잔차를 shadow로 계산하고 승격 증거가 통과한 경우에만 적용하도록 설계됐다. 추가로 `src/ai_decision.py`의 `PROMOTED_ARTIFACT_HASHES`는 빈 집합이며 검토된 hash 허용을 요구한다. 이는 이 checkout의 코드 상태이지 실제 서버의 현재 상태 증명이 아니다.
+- 과거 내부 맥락 모델 흔적은 `docs/research/2026-10-01-local-tournament-report.md`: 2026-08-28~09-01 로컬 원장 revision 1,326행 중 `internal-context-blend-v2` 10행, `shin-market-anchor-v1` 1,316행. 1,326행은 독립 경기 수가 아니며 고유 경기 207개다. 결과 연결 원장을 찾지 못한 제한적 로컬 감사로 전체 운영 이력을 단정하지 않는다.
+- 잔차·보정 연구는 `src/market_residual_experiment.py`, `src/recent_calibration_experiment.py`, `scripts/evaluate_market_residual.py`, `experiments/recent-calibration-20260907/`, `docs/research/2026-10-01-draw-calibration-report.md`에 남았다. 동적 득점 상태는 `experiments/dynamic-score-state-model-20261030/{model.py,results/}` 및 해당 `docs/research/2026-10-30-dynamic-score-state-model.md`에 있다. 해당 동적 모델에 실제 선발·라인업 층은 연결되지 않았다고 문서가 명시한다. 개별 실험의 평가기간과 입력은 각 보고서를 따라야 한다.
+
+## 픽스터와 새로운 후보
+
+- `src/fixed_tipster_hybrid.py`에 `tipster-vote-v1`, `market90-tipster10-v2`, `mlb-market90-tipster10-v1`이 남았다. 현재 checkout의 vote 경로는 `affects_probability=False`, `affects_selection=True`를 기록한다. 시장 9:1과 픽스터 단독 투표와 기존 75:25는 서로 다른 정의다. `src/ai_decision.py`와 `src/generate_v2.py`에 호출 경로가 있다. 코드의 operational 표시는 현재 서버 확인과 다르다.
+- `docs/HYBRID_PROMOTION.md`의 2026-10-25 MLB 기존모델 75:픽스터 25는 별도 승인 기준을 둔 후보이며 당시 전향 세 팔 수집은 활성화되지 않았다. `experiments/tipster-three-arm-20261025/README.md`는 보존된 TailSlips 로그 58,995행에서 검증 가능한 판정 표본 0건이라고 명시한다. 이는 당시 로컬 로그 범위이지 모든 현재 픽스터 자료의 부재를 뜻하지 않는다.
+- `data/model_candidates/mlb/`의 동결 `linear:l2=10`은 선수 타순·선발 지표를 사용한다. `data/model_candidates/kbo/`의 `e0:residual:0.03`은 동적 팀 전력과 9:1 기준의 잔차이며 선발·타순 직접 모델이 아니다. `src/mlb_frozen_candidate.py`, `src/kbo_frozen_candidate.py`와 `docs/research/2026-10-29-baseball-candidate-integration.md` 참조. 후자는 `promoted=False`로 연구 비교를 기록한다. 같은 문서는 #414의 시장/투표 비교 기록을 당시 배포에서 확인했으나 이것을 야구 후보 적중이나 현재 배포 상태의 증거로 보지 않는다.
+- `docs/research/2026-10-25-research-scope-correction.md`에 따라 `experiments/sport-tournament-20261025/`의 시장/모델 혼합은 픽스터 혼합 실험이 아니다. 새 후보나 과거 ROI를 실제 사용자 수익, 미래 수익 또는 현재 실제 14경기 비교로 바꿔 해석하지 않는다.
