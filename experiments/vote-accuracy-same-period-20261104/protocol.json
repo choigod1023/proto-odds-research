@@ -1,0 +1,37 @@
+{
+  "version": "same-period-vote-ranking-v1",
+  "created_before_alternative_grading": true,
+  "honesty": "Retrospective diagnostic; baseline14 results already viewed. Not a new blind holdout.",
+  "period_kst": [
+    "2026-10-29",
+    "2026-11-03"
+  ],
+  "primary_cohort": "Exactly the14 frozen actual_tipster_vote snapshot IDs in PR558 performance-after.json. No prior policy, no market fallback, no later revision.",
+  "rules": [
+    {
+      "id": "frozen_vote",
+      "definition": "Use original saved full-game winner selection and price."
+    },
+    {
+      "id": "market_same_product",
+      "definition": "Choose largest normalized frozen market_probability within the same moneyline product (market,label,line), never another market. Ties abstain."
+    },
+    {
+      "id": "market90_vote10",
+      "definition": "Choose argmax(0.90*normalized frozen market_probability +0.10*vote_share), within same moneyline product. Ties abstain. Vote share is a ranking heuristic, not calibrated win probability."
+    },
+    {
+      "id": "vote_market_agreement",
+      "definition": "Keep original vote only when it equals the unique market top choice; otherwise abstain. Report coverage and baseline on identical retained subset; no claim of all-fixture predictive lift."
+    }
+  ],
+  "no_training_or_threshold_search": true,
+  "market_weight_fixed": "0.90",
+  "single_stake_won": 10000,
+  "risk_ledger": "No live bets, no wallet change; existing monthly -50000won paper ledger preserved. ROI is uncapped equal-stake diagnostic, not that account return.",
+  "grading": "Direct official Betman DOM-normalized same event, kickoff, full-game market, label and n-way; reject contradictions. Use captured frozen option odds, never official closing odds. A picked option must match selection_id and offer_id computed from the frozen fixture and saved product.",
+  "timing": "as_of,captured_at,market_observed_at and all vote receipts strictly before T30; no fixture facts obtained after that time are inputs.",
+  "uncertainty": "Exact paired McNemar for equal eligible fixture comparisons; no fitted weights on these14, no promotion based on tiny same-period improvement.",
+  "secondary": "If broadening, show same-period current-policy fallback rows separately and never call them tipster-evaluated matches.",
+  "operating_changes": false
+}
