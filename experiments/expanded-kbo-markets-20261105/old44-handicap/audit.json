@@ -1,0 +1,740 @@
+{
+  "input_sources": {
+    "manifest": {
+      "path": "C:\\Users\\user\\Documents\\Codex\\market-outcomes-validation\\experiments\\pregame-proto-prices-20261104\\manifest-v2.json",
+      "sha256_file": "f91800d7a7daf09762f66c6ae16cbafcd557bc9ca3b26f7b7940d2eacbfa4cc6"
+    },
+    "cohort": {
+      "path": "C:\\Users\\user\\Documents\\Codex\\market-outcomes-validation\\experiments\\m0-multimarket-20261105\\cohort.json",
+      "sha256_file": "a9c20e35be4446474de045a8b9fedda300f607ba00aacc7e8183e9c9a3a6ecbf"
+    },
+    "forecast": {
+      "path": "C:\\Users\\user\\Documents\\Codex\\market-outcomes-validation\\experiments\\m1-service-20261104\\replay\\replayed-709.json.gz",
+      "sha256_file": "a597ed066534cce92cfb12606d7f7e3edcc7591b3a6c1d17e7777c8b04e8b505"
+    }
+  },
+  "archives_verified": 76,
+  "raw_sources": [
+    {
+      "round": "260040",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-40.body.gz",
+      "body_sha256": "223aaed48d8ee1914fdad9d1a3d4f85801c02c096513283accd29f63aa81d0c4",
+      "gzip_sha256": "c3607a1476a8380112e5ec601d912939cac0097ba72e1f55a22b38e9166f36eb",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260048",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-48.body.gz",
+      "body_sha256": "da48defef404deaafafe94448bf63cad6b0c4dd37008c187b0dfbc4c984d8d65",
+      "gzip_sha256": "33d65361585f69af3f11c03b4bc975ad3e5addc71e76eb92839c90fa0cd2f5d2",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260052",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-52.body.gz",
+      "body_sha256": "2dabb3f8b10183e393cfc75ca514c0c3b0888998e65dab60b95bffc1abe66d12",
+      "gzip_sha256": "8b7b8b4514eeec99983c30b839cb6773b1eeedaae03cb6e49c599a13d9f658ad",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260054",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-54.body.gz",
+      "body_sha256": "c2f336c0629175afcc80687a3409a585fca57028c872cca7b6c17d2a07e6ce69",
+      "gzip_sha256": "1778326df8ac6c6b216d9f3c0a12156cb66bcc631d9159f5143ec78ea75efeaa",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260065",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-65.body.gz",
+      "body_sha256": "1dc22f70e2016f5e1350e31931d34acbd960f42bbde2129fe2c1605921354afb",
+      "gzip_sha256": "c4809cb4886250f99044752ea3f88e95e3bab89635db14c25aaf4859c86db47f",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260071",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-71.body.gz",
+      "body_sha256": "38bb538c3734546871925be10d8034bc69c6bc9a7b567ae5670f5a658ddf5714",
+      "gzip_sha256": "983c76092468b537c00c33facbbd8ba99b7de39db4cd899dadb1b337df5e3a43",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260072",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-72.body.gz",
+      "body_sha256": "1c69808699c85e2ffb026efc0efe7b483f1267e053a831c9b74ff12f3f454283",
+      "gzip_sha256": "92bb4a195b9a226d3b833bb64a2cd9e1ffd7d8042ec3dcde3e8d0c051f63e610",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260077",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-77.body.gz",
+      "body_sha256": "16f75efbb7ac3e51b791b6073ec3a880f4292ac67fcd73454e33c07d2418ada3",
+      "gzip_sha256": "06c94cfb73150c98508c6813afcd11166e3fea0b54eae76eba63d1b9f5183d0f",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260078",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-78.body.gz",
+      "body_sha256": "9425de8e1f91c140969fd369d21edbf070a2fe63a2ccdee78d08a31c1b342a8c",
+      "gzip_sha256": "6012efde9125a681954f4cfe1077936a7168b6a8b1aaf82e0fb84b98f5e75eb5",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260079",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-79.body.gz",
+      "body_sha256": "55a7082dbb87ca6ca062eeb49c0d64b67cfad7b0ea31b120e2f3d71913ab2c5d",
+      "gzip_sha256": "ed9d6f352e48b6ca72a96b11d70702966c897618586bcb3ed8eeb03f7072964a",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260080",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-80.body.gz",
+      "body_sha256": "cff64db05158a1d1ce7197ad99351160e4f3ef21046c1caf88e0d1975ebe1e5d",
+      "gzip_sha256": "4ce9be61b19e5c798e9f34c83372ae72c4515226b736459a34d6ea0a5a18009b",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260083",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-83.body.gz",
+      "body_sha256": "e974cf8b271fd135fe7ea6d29b16a26b88ab10dc0dce7fbd3655ce3887244dd9",
+      "gzip_sha256": "1c9dfd05dbcb623016296892ee132d6f6554a8190132ebed5fcd83f4e0c1c90b",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260084",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-84.body.gz",
+      "body_sha256": "3235b51bca243657c343878ab098450debfe94006063921b9cc7d2c754263745",
+      "gzip_sha256": "cd4dc9f255e132414133af3b5fd63937d98c03e21af815b099ba90852f230b6f",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260085",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-85.body.gz",
+      "body_sha256": "2c02c9400048be80e6fc416573ac759d3f75d4d5ac84e0633a4310b3ac58f3e7",
+      "gzip_sha256": "9fffcb3ecc029de26aeb14132d59b6b749aa9b58b83a6089c10516e0c3d1e361",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260086",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-86.body.gz",
+      "body_sha256": "179457a239388733f8afdd039726b11f6e88e526fe16cda982d00daaf9cbcc53",
+      "gzip_sha256": "4183b23e60d8846733c41062d981b2d8f56902ce8fe22f1531ef803f1acfa279",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260087",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-87.body.gz",
+      "body_sha256": "e37b3af8140685947b1502bce02031c54ec8924b52994099c19ff777ea857d49",
+      "gzip_sha256": "8dd79053e3094e94bc26fff2a2c6e307a40b9470a52d875ea76f5f6783a54e18",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260088",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-88.body.gz",
+      "body_sha256": "3d6845160b8d635fa0625559e64b3013e5e0d3234ea2adcb2b61115e06ba3bf9",
+      "gzip_sha256": "c57e64cf488b93428ab4f6f6e8338a14a74130b949ed01b8d456293fafd78a00",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260089",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-89.body.gz",
+      "body_sha256": "8f490976e19b8916e193d474395a0026609f44b5c4764531f1eb6d05dc7a5256",
+      "gzip_sha256": "ea2f24203d1679a658be0693da7c6b087944f0817d87fd662f13bd7d12017ba7",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260090",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-90.body.gz",
+      "body_sha256": "7285ffb8a7bfb726cfff85e5854d482e847b95c3600b73df16984aee78392aa3",
+      "gzip_sha256": "c78ec28a20bb2127a56bd24c9b32257077b73396e48628e4a24dd19941cb791e",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260091",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-91.body.gz",
+      "body_sha256": "f03de52d555ea2d2fdb666b516e250ec8ad13c0bfa17cbf39d7558cc7ee645c5",
+      "gzip_sha256": "d42a4451768cea7984b39b9e9c08ed447d81d9e6398818adbeb8854e31bd213c",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260094",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-94.body.gz",
+      "body_sha256": "5da9b4862777baa7dec984b4641e23e1910f97ecd1c752685932466cd24a056c",
+      "gzip_sha256": "dece551da3a8f365e16e9a9ee92819a51314bca4cd210803196e42edae007e62",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260095",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-95.body.gz",
+      "body_sha256": "d368fe0f0d3d817558178cdcf2e2409942e0b8c8b3a486bb79e619dbe9e0ba79",
+      "gzip_sha256": "cc6e8149474f2d821522b22d3233e0e83a612752c5de33ef00636494ad002633",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260096",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-96.body.gz",
+      "body_sha256": "4a65f20d4a5c59a6a9768c473e5d92d2b1f6bf26c2d03c0f22b9acbe1a30a126",
+      "gzip_sha256": "eee7a43e0f849fa1494f0865f9ef1c210bd8898ed55f3c52d6296d63b88ee676",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260097",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-97.body.gz",
+      "body_sha256": "0d49d05f90ff01c776f95df8d203fb9efd1430914a0f3aac6501c4cc762d1c5b",
+      "gzip_sha256": "fa870a7655be638718c943542633246f61bdfa5f6a82563d2ec51855e3111d3c",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260098",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-98.body.gz",
+      "body_sha256": "a589b58ed4185f7598ff6d6d6664f216110ae021c755a488fc03b7bc65328e33",
+      "gzip_sha256": "988fff8af8c6908fb0890ac95eff3aa097f36fc9b47ac114dee3f61910872757",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260099",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-99.body.gz",
+      "body_sha256": "0c6c940d0a0bbc6fce3dea0c8e5b5f5cb8cfe55d826ef9a8ec101fad53e2bad7",
+      "gzip_sha256": "32f8ac22d080740c174687e6cd88832406a41cde58c3c306aa9457086ce9e242",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260100",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-100.body.gz",
+      "body_sha256": "3b704dd8069609efda3f201c2f780c4b0e8fc65e6b74d001875c7e8a57546e43",
+      "gzip_sha256": "782a9b76b0af421d500a02ca4f85ba517aa93958ddedfe2cbb48dd0456a1392e",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260101",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-101.body.gz",
+      "body_sha256": "0c47e22f24f76c7463b26ad8175d2791a008d8bdce689dd8a61ff72f2b4685bd",
+      "gzip_sha256": "2029d8f8ba5d6e57c5e28d94f8a5681826c0c07ed18f6205b28a6fe878e0f13c",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260102",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-102.body.gz",
+      "body_sha256": "130ff7f818b1457e65d9c726ad08a2b1077f87f6f2d0e41b01b420c23e2fd14b",
+      "gzip_sha256": "dfaf49191c340d89d1430f261458952f2be06250bac34e3d9175d51c33829089",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260103",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-103.body.gz",
+      "body_sha256": "72aaefa3072c1ec899fae38ec46714f2e4c9efc3e04a874fa4d43b11ce3333d7",
+      "gzip_sha256": "71a2d2ad423125e280e758b827f438aabe97a845b0b98bfd98efb2bd3480e56d",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260104",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-104.body.gz",
+      "body_sha256": "944be35398fc40bca8f53f50419391e63cfb9d5794923564458074a35381fe3d",
+      "gzip_sha256": "2f072263a2ae27574709b617f66a744e614a8b6dca5a7023b62f13dc7fe487bc",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260105",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-105.body.gz",
+      "body_sha256": "79a09dc9f23ce7c50127036b71c5db5b4502816f112bfc804eddc84e4a82e271",
+      "gzip_sha256": "232b4837d40f44481cb8ba5b32c22bcb535109299139c022d08cc875647e9959",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260106",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-106.body.gz",
+      "body_sha256": "d71dd2b6ca9490cd7e91ed2ea6d31cc2b73a28aff8760e1424680b5fb32f0adf",
+      "gzip_sha256": "bdb083de448c5df16f3d68e9b0c466e37954c545607ee08017ee7dbd81fb38f5",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260107",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-107.body.gz",
+      "body_sha256": "d3564b2eb01d2c865bd5c3254d752a2ec2214a21f7834cf178e2b23e96d76272",
+      "gzip_sha256": "c54563ea990e0b0c2c47ca9eba44bcc2f4a717e34cb3c96cdbb8746d89f30fb9",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260108",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-108.body.gz",
+      "body_sha256": "4f6aa5d1ab69959e59e84a3eb3d2536112f72b8bca976d6a167c86e35a71df7d",
+      "gzip_sha256": "c25b480596d206fd0a3203367fd938572b5db14faae2fcbc451bd368cefa3ef0",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260109",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-109.body.gz",
+      "body_sha256": "bb6f71273c4f1e99d9de025d8b3120a4cc4938c522be573bc01e6689f42504da",
+      "gzip_sha256": "6e2667bd9328d56ec0bd5dfc852e3807488a3ca627ef67f00a184c345b64205e",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260110",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-110.body.gz",
+      "body_sha256": "a209d7861fdd0bf842a5d2ec9c1ccc4d40021da06d553a48a21ba1b209294cc7",
+      "gzip_sha256": "0278a181b1209673c7e7efd51d597ade32198a9e25f318a92b3030f79b061178",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260111",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-111.body.gz",
+      "body_sha256": "f9b86f866af43baae79ead130f206c8395af8b4a278ae9c4a0573ab1272f5d2a",
+      "gzip_sha256": "132502e47c6596f52737707b59d962a999a8b14fb282d73badb297510a9091f5",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260112",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-112.body.gz",
+      "body_sha256": "e5614b9089b0ad5535cfaf2c269d16d32ffb6856133ec9c11076addcb18510c6",
+      "gzip_sha256": "8ecf80d1c941798236cbb55bbf57f76c77c754c7b8ce9057281214c0593bf424",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260113",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-113.body.gz",
+      "body_sha256": "dad661296e1815afacd476ba76610a024244a9f583a8cfda35644bdfefebbe4f",
+      "gzip_sha256": "360b848e39ca8399834ec9d4aeee4947626ed46c802e80c408fececa54c75230",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260114",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-114.body.gz",
+      "body_sha256": "3c59bdb19a62f3b31e7c7289a4f38933ca472a11fca4bdf2ea964a8ab2774e85",
+      "gzip_sha256": "fdef80149812d3241762288a487ee829e53cc027eaffb5f883f87785d166c32c",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260115",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-115.body.gz",
+      "body_sha256": "8a4a297a3094bef2f7a93de3f5b51c3c2a52dcde09a18b11af40ecedc7b48d50",
+      "gzip_sha256": "1fa89cc2c34c04f4c64535bce0fdf25571a19404454be443c5c56da88b7edda9",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260116",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-116.body.gz",
+      "body_sha256": "f577b69d989e465e66d71f235021d8880ef4bd6f0ab80c6677da94b52fe9e555",
+      "gzip_sha256": "0a64bd2ae77d3dffbf5787c6ace3428004a2070b68b2347dbfc70309a0cff77f",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260117",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-117.body.gz",
+      "body_sha256": "ed31441ffae0945ef568a9aaf5917be13d7820739749b45b066c651772bdf907",
+      "gzip_sha256": "cb8e3464b6d10bc9ac567518be3169619bee6bc0e129ee1d189704440b46cf12",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260118",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-118.body.gz",
+      "body_sha256": "3172988ab75d0208e178da43dd301cff4d8461079d1094167735f42de80d99bc",
+      "gzip_sha256": "27ed4ff11c488e7ea6fd9719009120cac5bdc5c5292550b10c9dce8267fb187b",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260119",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-119.body.gz",
+      "body_sha256": "e2c75235c3baec090fa44be950ddc1e5e385a28cd290b6b4955ebcd12642725e",
+      "gzip_sha256": "fb57e0000ae3d76aee682dcb026b7dcf767752b0ad118aa90da1abc170bd7c51",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260120",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-120.body.gz",
+      "body_sha256": "286f6be82f2af1493bf22d2dd24532ed69019f49a0b8d71e82224df23d9ef63e",
+      "gzip_sha256": "c1a9bdb23e9e714465e39c1c7ba461a6c976153687d71ed9067588a3cd658b50",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260121",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-121.body.gz",
+      "body_sha256": "9c79210d3043aa32ae3ea6886dd22449c10fd18f861c7e4713af4a976929fcde",
+      "gzip_sha256": "c4e37c079d6f373497f0825e601967472f56b53425d95fb06284031d23d73ea5",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260122",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-122.body.gz",
+      "body_sha256": "bfa1a596f4949768a736eaa1c63537d679b5b83c2dd47667333ea71fe4848204",
+      "gzip_sha256": "7466803e9a2c45b2395cb2420342f4ac29b709e8ececf0914fac00d615d8391e",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260123",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-123.body.gz",
+      "body_sha256": "2a183197a6888b17b9370ab30df3e987c42a97fad85dca657fdc1db79e289209",
+      "gzip_sha256": "a8ba0521821084c5d9b646ac6e056f7ecca776d0e9263730d2e3f6c1151a4c1f",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260124",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-124.body.gz",
+      "body_sha256": "9a221c19f3e42b04ccc8e2d21b4c538ee453f87e31055257958f9ccef56b3c97",
+      "gzip_sha256": "5ac5057c56f847510477212b66367ccbdb4944d22b297e5bd0f5fb4fbe95da7d",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260127",
+      "path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-127.body.gz",
+      "body_sha256": "503cdd85a69a8b7f4e137bee23b3db3e9e2544fc4ac0cd94458557a0c978c558",
+      "gzip_sha256": "87f5d7d239cade327143870a0cacd233d4682daaaad5624944149a6c65e90ccc",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260026",
+      "path": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2026-26.body.gz",
+      "body_sha256": "82f079e43ccf658e1628bbd0e6756f2ccaf6818d6bb697f9a5172dc798b67abc",
+      "gzip_sha256": "5d824bb29aa97f82f2fd63a182478483c6c378857236bebb87ce64a2ac258e96",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260027",
+      "path": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2026-27.body.gz",
+      "body_sha256": "d136eebc7d389fe169dba41d6b9bbf750b6217217e2670be1ddb86b3299f5aa0",
+      "gzip_sha256": "416386bd943d6f30be83e99908f33399975ec7a81a051b3b3fd0ac8f0e5c1087",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260029",
+      "path": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2026-29.body.gz",
+      "body_sha256": "f9f8b695e788551954a205e54881a029fd34f125591af70445f4b0d452e18029",
+      "gzip_sha256": "a0a52f955e23fab529decc89b48c53409fbd2c9a2fd33c9bfc87ef0ccca13035",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260032",
+      "path": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2026-32.body.gz",
+      "body_sha256": "d4b92f93a8cc1078c0c4f8ffc2e9fd1cd02f27e6c741ebc204ccdc2033dc9708",
+      "gzip_sha256": "e2f595acff5bd750d96427eb582e875b72ede1d91c5b3d3e9f8ecaabad36e747",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260033",
+      "path": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2026-33.body.gz",
+      "body_sha256": "24864326c80c0a8b909f55c98107f2fbc71eee29ac7a5db84d3297c8d1bc7202",
+      "gzip_sha256": "69df483fc616e7786872a08220732ade55d3722013a930ce745ad573f93d1a5d",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260034",
+      "path": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2026-34.body.gz",
+      "body_sha256": "98aa4d902a7d4271e5e24d1e87675a0773cff46f4dc2580b5a2fffce053e0b44",
+      "gzip_sha256": "748dadd0071b87a9f04a1abdac577911c9cc5a0798b16121d4ae4f1bdb94361f",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260036",
+      "path": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2026-36.body.gz",
+      "body_sha256": "5c1e68a76f130014025ca055d26dc5a03fa277f17c35ffea230247ec397da721",
+      "gzip_sha256": "016b7a2b4d8173e783f2375ec4690ac316a3d54d93ec6845bbce7e6c33121cb7",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260039",
+      "path": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2026-39.body.gz",
+      "body_sha256": "70cb6368364ef1bf2aa7c4e091d11c351d0befb9c47d25177d6bbe0baad6f621",
+      "gzip_sha256": "39a7d29dd3ebec57419056714bd9b8ac6a75f96c52b58883d6fd3cf28a1b6c3d",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260042",
+      "path": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2026-42.body.gz",
+      "body_sha256": "4dcf0c8d272c3a4fe144a7c32694b5f55947ebf3f1308cbcb7e5ffcb90cee04c",
+      "gzip_sha256": "6227d45e7a8d1f34baac82ad52eeb3b447bf99a9c93062971ddad8f7f3fd3236",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260045",
+      "path": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2026-45.body.gz",
+      "body_sha256": "8559277bf85f9146215151ee61364e6f44b32c26adf4a01101d8ea03061f21e7",
+      "gzip_sha256": "794f1ca449389398e04b3d33a396f24c8478376b03ad5784001379521769b45d",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260046",
+      "path": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2026-46.body.gz",
+      "body_sha256": "f6786a3f1acd7c17c07ca3382f6cc11e1c125dd3025583f3b8d0ef253305969c",
+      "gzip_sha256": "060ca8204c26ceaa3e542dbcab5d50bbc8f7a23e6ebb17ca8efda53d545c644d",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260047",
+      "path": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2026-47.body.gz",
+      "body_sha256": "6f26fb4494eaa1879faf13328053dd1f36ff123b017e44a3d5f98dd26046d1e5",
+      "gzip_sha256": "250ef392fa460e86c339843e7b7873f9caf2d5df9d81a6d3d81f63ef7c577639",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260051",
+      "path": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2026-51.body.gz",
+      "body_sha256": "b89175fc054750aa8e3965c467a3f6f5b317634b0245dc181259c962955be800",
+      "gzip_sha256": "074db562cb40deacdd00e17a98fe60d86314a5e4744ad14a58a7cdff0d059292",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260055",
+      "path": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2026-55.body.gz",
+      "body_sha256": "97d4f12adc80d28cea1ec3e14e8ec05d844a765d8fbc0c6255eb3a146fe169b7",
+      "gzip_sha256": "71a80d755e41b5551409e4919786f49aa3fcc0375b94460a34efd31b740b16ea",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260056",
+      "path": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2026-56.body.gz",
+      "body_sha256": "9ddcfe023279c87941a65a3295c40dd9c95bec27d046263da156fb7c55fdd2ad",
+      "gzip_sha256": "c507245e90fd180fe2e67f2ee688e6a2187844a6565134e45dc3e1cecd01f5e8",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260057",
+      "path": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2026-57.body.gz",
+      "body_sha256": "c606f939292385abd6b307f85c5ba8a15fdcd807039712c68d711f702a74d1eb",
+      "gzip_sha256": "65a5cd668abd511a2f8b8120aca4d23b303825b606a15964953e8080fe59315d",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260060",
+      "path": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2026-60.body.gz",
+      "body_sha256": "5cd65a6ac83993ef98de1fcaee58e631ba4019a4aa680298b5992a6a05c74d32",
+      "gzip_sha256": "b9516aab11d63eb29b7a2640fa4ed67245caab784b08945614da949fcd6b515c",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260061",
+      "path": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2026-61.body.gz",
+      "body_sha256": "ece585818510d64fd51a0e695e2f77e052be9cfd34b7cc883d26b02e03e95548",
+      "gzip_sha256": "c13089fd22d9c1324e0b0280b1e693e9555a0f990057d27138a8b7c4f98a827e",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260063",
+      "path": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2026-63.body.gz",
+      "body_sha256": "75b3e5d463b0796ab4789f42e741b65bf4660efe11bc4d1d968d966dae0fc213",
+      "gzip_sha256": "3a6cf6b00247ce157043080b263b3ae5712829d308ef2f7f2b105ecfb9e957b6",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260066",
+      "path": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2026-66.body.gz",
+      "body_sha256": "f38bebbea027304007501c8befac40715a7a097a98da0e56f8bbc47ac7c22b50",
+      "gzip_sha256": "a901f5fe6fe947333647f2702136340c27448de3685dc80230b5f0f6efe9d904",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260081",
+      "path": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2026-81.body.gz",
+      "body_sha256": "d31e4440bb4494c395bcb70937012c9e483d40df29bdf011b19e9faabf6349e3",
+      "gzip_sha256": "167d8166c1c0177e6f2d4970f5d2253998d4173bd8012bc4d746a93c8ce1e20f",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260093",
+      "path": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2026-93.body.gz",
+      "body_sha256": "a9dec93e8a78b67ccf5605fc85049776e8c50dd9f1788cc806bef66ff1331cee",
+      "gzip_sha256": "75b6795f8fd1b7d7a946eabac1b4460d1be0397b17bd14a14433e654c7ea2a27",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260126",
+      "path": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2026-126.body.gz",
+      "body_sha256": "c65829a6a5afe973e4f74f942377e35db99684296701919e98ff54456ad3af14",
+      "gzip_sha256": "c4e96eb2745b66630d1f57d53fde7033d12135514f39ed8660407e2a3a56a66a",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    },
+    {
+      "round": "260129",
+      "path": "C:\\Users\\user\\Documents\\Codex\\klprice\\experiments\\kleague-official-prices-20261103\\evidence\\detail-2026-129.body.gz",
+      "body_sha256": "bccf6d0d61cb1cd4a5c69ece92007c8032afc447fb6259248a15be005707ceb1",
+      "gzip_sha256": "f2c6387bf5e95ac40652ae159000dc78a5e266c14b1b0e6f64fc239e7f14d288",
+      "source_url": "https://www.betman.co.kr/buyPsblGame/gameInfoInq.do"
+    }
+  ],
+  "general_result_matrix": [
+    {
+      "outcome": "away",
+      "code": "2",
+      "count": 25
+    },
+    {
+      "outcome": "draw",
+      "code": "4",
+      "count": 1
+    },
+    {
+      "outcome": "home",
+      "code": "0",
+      "count": 20
+    }
+  ],
+  "handicap_result_matrix": [
+    {
+      "line_sign": "negative",
+      "outcome": "away",
+      "code": "2",
+      "count": 18
+    },
+    {
+      "line_sign": "negative",
+      "outcome": "home",
+      "code": "0",
+      "count": 10
+    },
+    {
+      "line_sign": "positive",
+      "outcome": "away",
+      "code": "2",
+      "count": 5
+    },
+    {
+      "line_sign": "positive",
+      "outcome": "home",
+      "code": "0",
+      "count": 12
+    }
+  ],
+  "original_draw_proof": [
+    {
+      "round": "260040",
+      "fixture_key": [
+        "260040",
+        "20260331",
+        "SS",
+        "OB"
+      ],
+      "body_path": "C:\\Users\\user\\Documents\\Codex\\kbo-official-odds-20261103\\experiments\\kbo-official-odds-20261103\\evidence\\detail-2026-40.body.gz",
+      "body_sha256": "223aaed48d8ee1914fdad9d1a3d4f85801c02c096513283accd29f63aa81d0c4",
+      "general_raw": {
+        "itemCode": "BS",
+        "itemName": null,
+        "gameName": null,
+        "gameDate": 1774949400000,
+        "endDate": 1774949400000,
+        "unsetEndDate": "N",
+        "leagueCode": "BS001",
+        "leagueName": "KBO",
+        "leagueShortName": "KBO",
+        "domastic": true,
+        "managedLeague": true,
+        "meetStadiumFullName": "대구삼성라이온즈파크",
+        "matchSeq": 192,
+        "homeId": "SS",
+        "awayId": "OB",
+        "homeName": "삼성라이온즈",
+        "awayName": "두산베어스",
+        "winTxt": null,
+        "winAllot": 1.61,
+        "drawTxt": null,
+        "drawAllot": 0.0,
+        "loseTxt": null,
+        "loseAllot": 1.89,
+        "handi": 0,
+        "winHandi": 0.0,
+        "drawHandi": 0.0,
+        "loseHandi": 0.0,
+        "neutral": null,
+        "noticeNo": "0",
+        "gameReject": "0",
+        "buyReject": "0",
+        "protoStatus": "4",
+        "gameResult": "4",
+        "gameSubject": null,
+        "live": "N",
+        "sgl": "1",
+        "unsetSchedule": "N",
+        "mchScore": "5:5",
+        "betId": null,
+        "betNm": null,
+        "betTypId": null,
+        "betTypNm": null,
+        "prlYn": null,
+        "grndsYn": null,
+        "grndsList": [],
+        "relatedGmYn": null,
+        "gameKey": "삼성    :두산    ",
+        "natId": "100",
+        "lngtrYn": null,
+        "wlTypClCd": null,
+        "matchSportId": 2,
+        "sortSeq": 9999
+      },
+      "handicap_raw": {
+        "itemCode": "BS",
+        "itemName": null,
+        "gameName": null,
+        "gameDate": 1774949400000,
+        "endDate": 1774949400000,
+        "unsetEndDate": "N",
+        "leagueCode": "BS001",
+        "leagueName": "KBO",
+        "leagueShortName": "KBO",
+        "domastic": true,
+        "managedLeague": true,
+        "meetStadiumFullName": "대구삼성라이온즈파크",
+        "matchSeq": 194,
+        "homeId": "SS",
+        "awayId": "OB",
+        "homeName": "삼성라이온즈",
+        "awayName": "두산베어스",
+        "winTxt": null,
+        "winAllot": 2.81,
+        "drawTxt": null,
+        "drawAllot": 0.0,
+        "loseTxt": null,
+        "loseAllot": 1.26,
+        "handi": 2,
+        "winHandi": -2.5,
+        "drawHandi": 0.0,
+        "loseHandi": 2.5,
+        "neutral": null,
+        "noticeNo": "213133",
+        "gameReject": "0",
+        "buyReject": "0",
+        "protoStatus": "4",
+        "gameResult": "2",
+        "gameSubject": null,
+        "live": "N",
+        "sgl": "1",
+        "unsetSchedule": "N",
+        "mchScore": "2.5:5",
+        "betId": null,
+        "betNm": null,
+        "betTypId": null,
+        "betTypNm": null,
+        "prlYn": null,
+        "grndsYn": null,
+        "grndsList": [],
+        "relatedGmYn": null,
+        "gameKey": "삼성    :두산    ",
+        "natId": "100",
+        "lngtrYn": null,
+        "wlTypClCd": null,
+        "matchSportId": 2,
+        "sortSeq": 9999
+      }
+    }
+  ],
+  "fixed_cohort_size": 44,
+  "comparisons": {
+    "model": {
+      "n": 44,
+      "hits": 29,
+      "losses": 15,
+      "refunds": 0,
+      "gross_units": "38.17",
+      "net_units": "-5.83",
+      "roi": -0.1325
+    },
+    "market_favorite": {
+      "n": 44,
+      "hits": 29,
+      "losses": 15,
+      "refunds": 0,
+      "gross_units": "38.17",
+      "net_units": "-5.83",
+      "roi": -0.1325
+    }
+  },
+  "same_model_and_market_selection": 44,
+  "retrospective": true,
+  "pregame_receipt_proven": false,
+  "execution_price_verified": false
+}
