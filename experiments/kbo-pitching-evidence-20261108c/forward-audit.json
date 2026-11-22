@@ -1,0 +1,58 @@
+{
+  "source_sha256": "181e1b070f435a5356054d6d8677e181fe6ba76350deb3218af82e9a62a929be",
+  "scope": "only 3 existing forward captures, receipt and archive hash checks; not full ledger validation",
+  "captures": [
+    {
+      "fixture_id": "20261106KTSS0",
+      "frozen_at": "2026-11-06T08:44:36.111498+00:00",
+      "reason": [
+        "home:normalized_history_missing_pitch_count",
+        "away:no_identified_starter_appearance_in_10_days",
+        "raw_name_to_player_id_pitch_count_join_unverified"
+      ],
+      "starter_history_games": {
+        "home": 2,
+        "away": 0
+      },
+      "raw_box_pitch_count_fields": 16,
+      "complete_feature_pair": false
+    },
+    {
+      "fixture_id": "20261107KTSS0",
+      "frozen_at": "2026-11-07T04:09:50.509949+00:00",
+      "reason": [
+        "home:normalized_history_missing_pitch_count",
+        "away:unresolved_pitcher_identity_in_history",
+        "away:normalized_history_missing_pitch_count",
+        "raw_name_to_player_id_pitch_count_join_unverified"
+      ],
+      "starter_history_games": {
+        "home": 1,
+        "away": 1
+      },
+      "raw_box_pitch_count_fields": 18,
+      "complete_feature_pair": false
+    },
+    {
+      "fixture_id": "20261108KTSS0",
+      "frozen_at": "2026-11-08T04:09:50.354343+00:00",
+      "reason": [
+        "home:normalized_history_missing_pitch_count",
+        "away:unresolved_pitcher_identity_in_history",
+        "away:normalized_history_missing_pitch_count",
+        "raw_name_to_player_id_pitch_count_join_unverified"
+      ],
+      "starter_history_games": {
+        "home": 3,
+        "away": 1
+      },
+      "raw_box_pitch_count_fields": 20,
+      "complete_feature_pair": false
+    }
+  ],
+  "limits": [
+    "raw box rows use names; normalized player-ID records omit pitch counts",
+    "no reconstructed capture, no new official HTTP requests",
+    "prior 10-day appearances and receipt cutoffs checked; source team and name mapping require independent validation"
+  ]
+}
