@@ -1,0 +1,1973 @@
+{
+  "actual_execution_proven": false,
+  "historical_receipt_proven": false,
+  "official_score_comparison": {
+    "basis": "same-game official schedule currently retrieved; archive label status unchanged",
+    "matched": 709,
+    "mismatch": 0,
+    "missing": 0
+  },
+  "prediction_commit": "ff2bef35988eb5add154b4bebf8b265f42792db1",
+  "prediction_sha256": "b41b8dc71af26ccfb5b17ad568309dd4bf742df15e2ba8aaf5091eda693aabbd",
+  "scenarios": {
+    "actual": {
+      "outcome_paired": {
+        "M0_actual_vs_M0_projected": {
+          "accuracy_delta_ci95": [
+            -0.007378000155061082,
+            0.056239966828719005
+          ],
+          "brier_delta_ci95": [
+            -0.009420488871479853,
+            -0.00016232310146174382
+          ],
+          "changed": 84,
+          "logloss_delta_ci95": [
+            -0.011022226348489665,
+            0.0003494648202558817
+          ],
+          "weeks": 32
+        },
+        "M2_actual_vs_M0_actual": {
+          "accuracy_delta_ci95": [
+            -0.06346754684354626,
+            0.0031058319304966974
+          ],
+          "brier_delta_ci95": [
+            -0.02453300249764415,
+            -0.006987723694364211
+          ],
+          "changed": 172,
+          "logloss_delta_ci95": [
+            -0.08862262022056243,
+            -0.05032832311773332
+          ],
+          "weeks": 32
+        },
+        "M2_actual_vs_M2_projected": {
+          "accuracy_delta_ci95": [
+            -0.023287671232876714,
+            0.035156548642966357
+          ],
+          "brier_delta_ci95": [
+            -0.006887143925355515,
+            0.0021130972558522343
+          ],
+          "changed": 111,
+          "logloss_delta_ci95": [
+            -0.007045731181304232,
+            0.0034930833635191524
+          ],
+          "weeks": 32
+        },
+        "M2_projected_vs_M0_projected": {
+          "accuracy_delta_ci95": [
+            -0.054055041883989255,
+            0.03174663208702542
+          ],
+          "brier_delta_ci95": [
+            -0.026817384199427294,
+            -0.00938244091820271
+          ],
+          "changed": 179,
+          "logloss_delta_ci95": [
+            -0.09240576652396726,
+            -0.05348981616609893
+          ],
+          "weeks": 32
+        },
+        "oldfull_M0_vs_M0_projected": {
+          "accuracy_delta_ci95": [
+            -0.0038760943470020157,
+            0.009433962264150943
+          ],
+          "brier_delta_ci95": [
+            -0.0003389898758429234,
+            0.000308578821122779
+          ],
+          "changed": 6,
+          "logloss_delta_ci95": [
+            -0.0003810223697895036,
+            0.0003866813824482814
+          ],
+          "weeks": 32
+        },
+        "oldfull_M2_vs_M2_projected": {
+          "accuracy_delta_ci95": [
+            -0.01591939045554396,
+            0.00990239849020462
+          ],
+          "brier_delta_ci95": [
+            -0.0005861120980600194,
+            0.0006896676826758822
+          ],
+          "changed": 20,
+          "logloss_delta_ci95": [
+            -0.0006317574234938553,
+            0.0007543516130546263
+          ],
+          "weeks": 32
+        }
+      },
+      "outcomes": {
+        "M0_actual": {
+          "accuracy": 0.5895627644569816,
+          "brier": 0.522587210442674,
+          "conditional_accuracy": 0.6031746031746031,
+          "conditional_brier": 0.4844366091185885,
+          "conditional_logloss": 0.6777601402102921,
+          "decisive": 693,
+          "decisive_hits": 418,
+          "draws": 16,
+          "hits": 418,
+          "logloss": 0.8403966941918163,
+          "mean_draw_probability": 0.12581007405678665,
+          "n": 709
+        },
+        "M0_projected": {
+          "accuracy": 0.5655853314527504,
+          "brier": 0.5272630420831758,
+          "conditional_accuracy": 0.5786435786435786,
+          "conditional_brier": 0.4895028401668865,
+          "conditional_logloss": 0.6826758846866343,
+          "decisive": 693,
+          "decisive_hits": 401,
+          "draws": 16,
+          "hits": 401,
+          "logloss": 0.8456783804602761,
+          "mean_draw_probability": 0.1261887170132447,
+          "n": 709
+        },
+        "M2_actual": {
+          "accuracy": 0.5585331452750353,
+          "brier": 0.5070532060896394,
+          "conditional_accuracy": 0.5714285714285714,
+          "conditional_brier": 0.48458338726385214,
+          "conditional_logloss": 0.6776182903881223,
+          "decisive": 693,
+          "decisive_hits": 396,
+          "draws": 16,
+          "hits": 396,
+          "logloss": 0.7706217097825548,
+          "mean_draw_probability": 0.019611400856868712,
+          "n": 709
+        },
+        "M2_projected": {
+          "accuracy": 0.5528913963328632,
+          "brier": 0.5093078492078147,
+          "conditional_accuracy": 0.5656565656565656,
+          "conditional_brier": 0.4869995459782712,
+          "conditional_logloss": 0.679962723068233,
+          "decisive": 693,
+          "decisive_hits": 392,
+          "draws": 16,
+          "hits": 392,
+          "logloss": 0.7723177859977247,
+          "mean_draw_probability": 0.019650661811492654,
+          "n": 709
+        },
+        "oldfull_M0": {
+          "accuracy": 0.5684062059238364,
+          "brier": 0.527238987619408,
+          "conditional_accuracy": 0.5815295815295816,
+          "conditional_brier": 0.4894190629334553,
+          "conditional_logloss": 0.6825823570935056,
+          "decisive": 693,
+          "decisive_hits": 403,
+          "draws": 16,
+          "hits": 403,
+          "logloss": 0.8456724068155381,
+          "mean_draw_probability": 0.1262753905751573,
+          "n": 709
+        },
+        "oldfull_M2": {
+          "accuracy": 0.5500705218617772,
+          "brier": 0.5093239052425897,
+          "conditional_accuracy": 0.5627705627705628,
+          "conditional_brier": 0.48701262044471144,
+          "conditional_logloss": 0.6799763311860944,
+          "decisive": 693,
+          "decisive_hits": 390,
+          "draws": 16,
+          "hits": 390,
+          "logloss": 0.7723462972485765,
+          "mean_draw_probability": 0.01963348195500874,
+          "n": 709
+        }
+      },
+      "price_cohorts": {
+        "extended_day_team_source_confirmed": {
+          "current_reject_excluded": 0,
+          "fixtures": 667,
+          "models": {
+            "M0_actual": {
+              "bets": 667,
+              "conditional_brier": 0.48507347606377954,
+              "conditional_logloss": 0.6784931322473227,
+              "decisive_accuracy": 0.6058282208588958,
+              "draw_refunds": 15,
+              "hits": 395,
+              "max_daily_close_drawdown_units": "40.98",
+              "monthly_units": {
+                "2026-03": "-2.73",
+                "2026-04": "-16.38",
+                "2026-05": "1.30",
+                "2026-06": "3.80",
+                "2026-07": "-20.59",
+                "2026-08": "5.00",
+                "2026-09": "2.42",
+                "2026-10": "-1.87"
+              },
+              "net_units": "-29.05",
+              "roi": -0.04355322338830585
+            },
+            "M0_projected": {
+              "bets": 667,
+              "conditional_brier": 0.4904098649227437,
+              "conditional_logloss": 0.683647808760293,
+              "decisive_accuracy": 0.5766871165644172,
+              "draw_refunds": 15,
+              "hits": 376,
+              "max_daily_close_drawdown_units": "67.68",
+              "monthly_units": {
+                "2026-03": "-4.38",
+                "2026-04": "-1.23",
+                "2026-05": "-2.30",
+                "2026-06": "-6.39",
+                "2026-07": "-22.98",
+                "2026-08": "-9.04",
+                "2026-09": "0.39",
+                "2026-10": "-12.28"
+              },
+              "net_units": "-58.21",
+              "roi": -0.08727136431784108
+            },
+            "M2_actual": {
+              "bets": 667,
+              "conditional_brier": 0.4845625535696234,
+              "conditional_logloss": 0.6775964052337661,
+              "decisive_accuracy": 0.5736196319018405,
+              "draw_refunds": 15,
+              "hits": 374,
+              "max_daily_close_drawdown_units": "67.74",
+              "monthly_units": {
+                "2026-03": "0.79",
+                "2026-04": "3.15",
+                "2026-05": "-23.03",
+                "2026-06": "-6.58",
+                "2026-07": "-24.16",
+                "2026-08": "0.27",
+                "2026-09": "2.61",
+                "2026-10": "-2.30"
+              },
+              "net_units": "-49.25",
+              "roi": -0.07383808095952024
+            },
+            "M2_projected": {
+              "bets": 667,
+              "conditional_brier": 0.4870921367464559,
+              "conditional_logloss": 0.6800556260802487,
+              "decisive_accuracy": 0.5690184049079755,
+              "draw_refunds": 15,
+              "hits": 371,
+              "max_daily_close_drawdown_units": "61.51",
+              "monthly_units": {
+                "2026-03": "-4.66",
+                "2026-04": "4.87",
+                "2026-05": "-19.57",
+                "2026-06": "-9.81",
+                "2026-07": "-23.92",
+                "2026-08": "-0.82",
+                "2026-09": "9.81",
+                "2026-10": "-8.79"
+              },
+              "net_units": "-52.89",
+              "roi": -0.07929535232383808
+            },
+            "oldfull_M0": {
+              "bets": 667,
+              "conditional_brier": 0.49034359777533243,
+              "conditional_logloss": 0.683571434445148,
+              "decisive_accuracy": 0.5797546012269938,
+              "draw_refunds": 15,
+              "hits": 378,
+              "max_daily_close_drawdown_units": "64.83",
+              "monthly_units": {
+                "2026-03": "-4.38",
+                "2026-04": "-1.23",
+                "2026-05": "-6.12",
+                "2026-06": "-6.39",
+                "2026-07": "-17.87",
+                "2026-08": "-9.04",
+                "2026-09": "1.95",
+                "2026-10": "-12.28"
+              },
+              "net_units": "-55.36",
+              "roi": -0.08299850074962518
+            },
+            "oldfull_M2": {
+              "bets": 667,
+              "conditional_brier": 0.4871497339889395,
+              "conditional_logloss": 0.6801123778186517,
+              "decisive_accuracy": 0.5644171779141104,
+              "draw_refunds": 15,
+              "hits": 368,
+              "max_daily_close_drawdown_units": "68.30",
+              "monthly_units": {
+                "2026-03": "-4.66",
+                "2026-04": "4.15",
+                "2026-05": "-16.78",
+                "2026-06": "-17.58",
+                "2026-07": "-23.92",
+                "2026-08": "-0.95",
+                "2026-09": "9.81",
+                "2026-10": "-6.85"
+              },
+              "net_units": "-56.78",
+              "roi": -0.08512743628185906
+            }
+          },
+          "paired": {
+            "M0_actual_vs_M0_projected": {
+              "accuracy_ci95": [
+                -0.0031398408419971765,
+                0.06283779504576442
+              ],
+              "changed": 82,
+              "roi_ci95": [
+                -0.011220151542486017,
+                0.10034746599093079
+              ],
+              "weeks": 30
+            },
+            "M2_actual_vs_M0_actual": {
+              "accuracy_ci95": [
+                -0.06593448729184925,
+                0.003362200567833233
+              ],
+              "changed": 159,
+              "roi_ci95": [
+                -0.08540902048319328,
+                0.028678493367092946
+              ],
+              "weeks": 30
+            },
+            "M2_actual_vs_M2_projected": {
+              "accuracy_ci95": [
+                -0.023611675283111765,
+                0.03486529318541997
+              ],
+              "changed": 101,
+              "roi_ci95": [
+                -0.04114307323668393,
+                0.05418509944612284
+              ],
+              "weeks": 30
+            },
+            "M2_projected_vs_M0_projected": {
+              "accuracy_ci95": [
+                -0.05229982025258014,
+                0.038963858138966634
+              ],
+              "changed": 164,
+              "roi_ci95": [
+                -0.06614335937499997,
+                0.08514734447057384
+              ],
+              "weeks": 30
+            },
+            "oldfull_M0_vs_M0_projected": {
+              "accuracy_ci95": [
+                -0.004144221915285451,
+                0.010291658258500655
+              ],
+              "changed": 6,
+              "roi_ci95": [
+                -0.00814388496592495,
+                0.01650123629939237
+              ],
+              "weeks": 30
+            },
+            "oldfull_M2_vs_M2_projected": {
+              "accuracy_ci95": [
+                -0.01866251944012442,
+                0.008547741566609481
+              ],
+              "changed": 17,
+              "roi_ci95": [
+                -0.027829344218539664,
+                0.015763814133867526
+              ],
+              "weeks": 30
+            }
+          }
+        },
+        "extended_day_team_source_confirmed_current_reject_excluded": {
+          "current_reject_excluded": 7,
+          "fixtures": 660,
+          "models": {
+            "M0_actual": {
+              "bets": 660,
+              "conditional_brier": 0.4856378497242497,
+              "conditional_logloss": 0.6790871137027235,
+              "decisive_accuracy": 0.6062015503875969,
+              "draw_refunds": 15,
+              "hits": 391,
+              "max_daily_close_drawdown_units": "41.73",
+              "monthly_units": {
+                "2026-03": "-1.73",
+                "2026-04": "-15.38",
+                "2026-05": "-0.70",
+                "2026-06": "4.05",
+                "2026-07": "-20.59",
+                "2026-08": "5.00",
+                "2026-09": "2.42",
+                "2026-10": "-1.87"
+              },
+              "net_units": "-28.80",
+              "roi": -0.04363636363636364
+            },
+            "M0_projected": {
+              "bets": 660,
+              "conditional_brier": 0.4915187471794982,
+              "conditional_logloss": 0.6847851932432207,
+              "decisive_accuracy": 0.5736434108527132,
+              "draw_refunds": 15,
+              "hits": 370,
+              "max_daily_close_drawdown_units": "70.78",
+              "monthly_units": {
+                "2026-03": "-5.18",
+                "2026-04": "-2.58",
+                "2026-05": "-4.30",
+                "2026-06": "-6.14",
+                "2026-07": "-22.98",
+                "2026-08": "-9.04",
+                "2026-09": "0.39",
+                "2026-10": "-12.28"
+              },
+              "net_units": "-62.11",
+              "roi": -0.09410606060606061
+            },
+            "M2_actual": {
+              "bets": 660,
+              "conditional_brier": 0.4845767514697287,
+              "conditional_logloss": 0.6776115088437976,
+              "decisive_accuracy": 0.5736434108527132,
+              "draw_refunds": 15,
+              "hits": 370,
+              "max_daily_close_drawdown_units": "69.09",
+              "monthly_units": {
+                "2026-03": "1.79",
+                "2026-04": "1.80",
+                "2026-05": "-23.28",
+                "2026-06": "-6.33",
+                "2026-07": "-24.16",
+                "2026-08": "0.27",
+                "2026-09": "2.61",
+                "2026-10": "-2.30"
+              },
+              "net_units": "-49.60",
+              "roi": -0.07515151515151515
+            },
+            "M2_projected": {
+              "bets": 660,
+              "conditional_brier": 0.4869462322333349,
+              "conditional_logloss": 0.6799052624524919,
+              "decisive_accuracy": 0.5689922480620155,
+              "draw_refunds": 15,
+              "hits": 367,
+              "max_daily_close_drawdown_units": "62.86",
+              "monthly_units": {
+                "2026-03": "-3.66",
+                "2026-04": "3.52",
+                "2026-05": "-19.82",
+                "2026-06": "-9.56",
+                "2026-07": "-23.92",
+                "2026-08": "-0.82",
+                "2026-09": "9.81",
+                "2026-10": "-8.79"
+              },
+              "net_units": "-53.24",
+              "roi": -0.08066666666666666
+            },
+            "oldfull_M0": {
+              "bets": 660,
+              "conditional_brier": 0.49144331065675073,
+              "conditional_logloss": 0.6846989970978851,
+              "decisive_accuracy": 0.5767441860465117,
+              "draw_refunds": 15,
+              "hits": 372,
+              "max_daily_close_drawdown_units": "67.93",
+              "monthly_units": {
+                "2026-03": "-5.18",
+                "2026-04": "-2.58",
+                "2026-05": "-8.12",
+                "2026-06": "-6.14",
+                "2026-07": "-17.87",
+                "2026-08": "-9.04",
+                "2026-09": "1.95",
+                "2026-10": "-12.28"
+              },
+              "net_units": "-59.26",
+              "roi": -0.08978787878787879
+            },
+            "oldfull_M2": {
+              "bets": 660,
+              "conditional_brier": 0.48699451516741366,
+              "conditional_logloss": 0.6799521479654895,
+              "decisive_accuracy": 0.5643410852713179,
+              "draw_refunds": 15,
+              "hits": 364,
+              "max_daily_close_drawdown_units": "69.65",
+              "monthly_units": {
+                "2026-03": "-3.66",
+                "2026-04": "2.80",
+                "2026-05": "-17.03",
+                "2026-06": "-17.33",
+                "2026-07": "-23.92",
+                "2026-08": "-0.95",
+                "2026-09": "9.81",
+                "2026-10": "-6.85"
+              },
+              "net_units": "-57.13",
+              "roi": -0.08656060606060606
+            }
+          },
+          "paired": {
+            "M0_actual_vs_M0_projected": {
+              "accuracy_ci95": [
+                0.0,
+                0.06645819730828362
+              ],
+              "changed": 80,
+              "roi_ci95": [
+                -0.005418781677038557,
+                0.10776957234252671
+              ],
+              "weeks": 30
+            },
+            "M2_actual_vs_M0_actual": {
+              "accuracy_ci95": [
+                -0.06565694255992764,
+                0.0030540223135642895
+              ],
+              "changed": 157,
+              "roi_ci95": [
+                -0.08652458681066928,
+                0.026827225672877823
+              ],
+              "weeks": 30
+            },
+            "M2_actual_vs_M2_projected": {
+              "accuracy_ci95": [
+                -0.023880597014925373,
+                0.03527435943166279
+              ],
+              "changed": 101,
+              "roi_ci95": [
+                -0.041714874815905745,
+                0.05477612528669722
+              ],
+              "weeks": 30
+            },
+            "M2_projected_vs_M0_projected": {
+              "accuracy_ci95": [
+                -0.04971029973457629,
+                0.04186065236115792
+              ],
+              "changed": 162,
+              "roi_ci95": [
+                -0.06145587927519206,
+                0.09105732548701291
+              ],
+              "weeks": 30
+            },
+            "oldfull_M0_vs_M0_projected": {
+              "accuracy_ci95": [
+                -0.004219557853449812,
+                0.010363142513939431
+              ],
+              "changed": 6,
+              "roi_ci95": [
+                -0.008252657069959113,
+                0.016601854987622643
+              ],
+              "weeks": 30
+            },
+            "oldfull_M2_vs_M2_projected": {
+              "accuracy_ci95": [
+                -0.01886919938806731,
+                0.00860975112452723
+              ],
+              "changed": 17,
+              "roi_ci95": [
+                -0.02816582683925505,
+                0.015936998059411848
+              ],
+              "weeks": 30
+            }
+          }
+        },
+        "strict_original_time_match": {
+          "current_reject_excluded": 0,
+          "fixtures": 439,
+          "models": {
+            "M0_actual": {
+              "bets": 439,
+              "conditional_brier": 0.48570538196546476,
+              "conditional_logloss": 0.6786941054581,
+              "decisive_accuracy": 0.5920745920745921,
+              "draw_refunds": 10,
+              "hits": 254,
+              "max_daily_close_drawdown_units": "30.89",
+              "monthly_units": {
+                "2026-03": "-2.73",
+                "2026-04": "-16.38",
+                "2026-05": "1.30",
+                "2026-06": "3.80",
+                "2026-07": "-14.66"
+              },
+              "net_units": "-28.67",
+              "roi": -0.06530751708428247
+            },
+            "M0_projected": {
+              "bets": 439,
+              "conditional_brier": 0.48868953383232516,
+              "conditional_logloss": 0.6817261356471345,
+              "decisive_accuracy": 0.5804195804195804,
+              "draw_refunds": 10,
+              "hits": 249,
+              "max_daily_close_drawdown_units": "44.36",
+              "monthly_units": {
+                "2026-03": "-4.38",
+                "2026-04": "-1.23",
+                "2026-05": "-2.30",
+                "2026-06": "-6.39",
+                "2026-07": "-20.59"
+              },
+              "net_units": "-34.89",
+              "roi": -0.0794760820045558
+            },
+            "M2_actual": {
+              "bets": 439,
+              "conditional_brier": 0.49031587896116735,
+              "conditional_logloss": 0.6834372524073885,
+              "decisive_accuracy": 0.5594405594405595,
+              "draw_refunds": 10,
+              "hits": 240,
+              "max_daily_close_drawdown_units": "57.12",
+              "monthly_units": {
+                "2026-03": "0.79",
+                "2026-04": "3.15",
+                "2026-05": "-23.03",
+                "2026-06": "-6.58",
+                "2026-07": "-19.60"
+              },
+              "net_units": "-45.27",
+              "roi": -0.10312072892938497
+            },
+            "M2_projected": {
+              "bets": 439,
+              "conditional_brier": 0.490745527584131,
+              "conditional_logloss": 0.6837236533997616,
+              "decisive_accuracy": 0.5431235431235432,
+              "draw_refunds": 10,
+              "hits": 233,
+              "max_daily_close_drawdown_units": "57.98",
+              "monthly_units": {
+                "2026-03": "-4.66",
+                "2026-04": "4.87",
+                "2026-05": "-19.57",
+                "2026-06": "-9.81",
+                "2026-07": "-22.13"
+              },
+              "net_units": "-51.30",
+              "roi": -0.11685649202733485
+            },
+            "oldfull_M0": {
+              "bets": 439,
+              "conditional_brier": 0.488637216250944,
+              "conditional_logloss": 0.6816776756233466,
+              "decisive_accuracy": 0.5804195804195804,
+              "draw_refunds": 10,
+              "hits": 249,
+              "max_daily_close_drawdown_units": "45.01",
+              "monthly_units": {
+                "2026-03": "-4.38",
+                "2026-04": "-1.23",
+                "2026-05": "-6.12",
+                "2026-06": "-6.39",
+                "2026-07": "-17.42"
+              },
+              "net_units": "-35.54",
+              "roi": -0.08095671981776766
+            },
+            "oldfull_M2": {
+              "bets": 439,
+              "conditional_brier": 0.49073265688881296,
+              "conditional_logloss": 0.6837108156105878,
+              "decisive_accuracy": 0.5337995337995338,
+              "draw_refunds": 10,
+              "hits": 229,
+              "max_daily_close_drawdown_units": "63.14",
+              "monthly_units": {
+                "2026-03": "-4.66",
+                "2026-04": "4.15",
+                "2026-05": "-16.78",
+                "2026-06": "-17.58",
+                "2026-07": "-22.13"
+              },
+              "net_units": "-57.00",
+              "roi": -0.12984054669703873
+            }
+          },
+          "paired": {
+            "M0_actual_vs_M0_projected": {
+              "accuracy_ci95": [
+                -0.024512271351493618,
+                0.04728132387706856
+              ],
+              "changed": 50,
+              "roi_ci95": [
+                -0.04891696462274042,
+                0.0748073785005993
+              ],
+              "weeks": 17
+            },
+            "M2_actual_vs_M0_actual": {
+              "accuracy_ci95": [
+                -0.08274382255951573,
+                0.021328280667784878
+              ],
+              "changed": 110,
+              "roi_ci95": [
+                -0.11665703397663506,
+                0.05056558921454874
+              ],
+              "weeks": 17
+            },
+            "M2_actual_vs_M2_projected": {
+              "accuracy_ci95": [
+                -0.019397074824238365,
+                0.055067873428063525
+              ],
+              "changed": 71,
+              "roi_ci95": [
+                -0.04604512787007652,
+                0.07942612781954883
+              ],
+              "weeks": 17
+            },
+            "M2_projected_vs_M0_projected": {
+              "accuracy_ci95": [
+                -0.09002490746186045,
+                0.0221132939053293
+              ],
+              "changed": 115,
+              "roi_ci95": [
+                -0.1247530873084429,
+                0.06359830848475435
+              ],
+              "weeks": 17
+            },
+            "oldfull_M0_vs_M0_projected": {
+              "accuracy_ci95": [
+                -0.008772411798727588,
+                0.009685230024213076
+              ],
+              "changed": 4,
+              "roi_ci95": [
+                -0.01716884126119883,
+                0.01458416997828783
+              ],
+              "weeks": 17
+            },
+            "oldfull_M2_vs_M2_projected": {
+              "accuracy_ci95": [
+                -0.028736267927982912,
+                0.009259259259259259
+              ],
+              "changed": 14,
+              "roi_ci95": [
+                -0.044461238098343556,
+                0.017057958892361846
+              ],
+              "weeks": 17
+            }
+          }
+        },
+        "strict_original_time_match_current_reject_excluded": {
+          "current_reject_excluded": 7,
+          "fixtures": 432,
+          "models": {
+            "M0_actual": {
+              "bets": 432,
+              "conditional_brier": 0.4865784728477281,
+              "conditional_logloss": 0.6796053017879792,
+              "decisive_accuracy": 0.5924170616113744,
+              "draw_refunds": 10,
+              "hits": 250,
+              "max_daily_close_drawdown_units": "31.64",
+              "monthly_units": {
+                "2026-03": "-1.73",
+                "2026-04": "-15.38",
+                "2026-05": "-0.70",
+                "2026-06": "4.05",
+                "2026-07": "-14.66"
+              },
+              "net_units": "-28.42",
+              "roi": -0.06578703703703703
+            },
+            "M0_projected": {
+              "bets": 432,
+              "conditional_brier": 0.49035585311662316,
+              "conditional_logloss": 0.6834326789639505,
+              "decisive_accuracy": 0.5758293838862559,
+              "draw_refunds": 10,
+              "hits": 243,
+              "max_daily_close_drawdown_units": "47.46",
+              "monthly_units": {
+                "2026-03": "-5.18",
+                "2026-04": "-2.58",
+                "2026-05": "-4.30",
+                "2026-06": "-6.14",
+                "2026-07": "-20.59"
+              },
+              "net_units": "-38.79",
+              "roi": -0.08979166666666667
+            },
+            "M2_actual": {
+              "bets": 432,
+              "conditional_brier": 0.4904330138505246,
+              "conditional_logloss": 0.6835572233995347,
+              "decisive_accuracy": 0.5592417061611374,
+              "draw_refunds": 10,
+              "hits": 236,
+              "max_daily_close_drawdown_units": "58.47",
+              "monthly_units": {
+                "2026-03": "1.79",
+                "2026-04": "1.80",
+                "2026-05": "-23.28",
+                "2026-06": "-6.33",
+                "2026-07": "-19.60"
+              },
+              "net_units": "-45.62",
+              "roi": -0.10560185185185185
+            },
+            "M2_projected": {
+              "bets": 432,
+              "conditional_brier": 0.49058312314076735,
+              "conditional_logloss": 0.6835546762702202,
+              "decisive_accuracy": 0.542654028436019,
+              "draw_refunds": 10,
+              "hits": 229,
+              "max_daily_close_drawdown_units": "59.33",
+              "monthly_units": {
+                "2026-03": "-3.66",
+                "2026-04": "3.52",
+                "2026-05": "-19.82",
+                "2026-06": "-9.56",
+                "2026-07": "-22.13"
+              },
+              "net_units": "-51.65",
+              "roi": -0.11956018518518519
+            },
+            "oldfull_M0": {
+              "bets": 432,
+              "conditional_brier": 0.4902897521226124,
+              "conditional_logloss": 0.6833696699343957,
+              "decisive_accuracy": 0.5758293838862559,
+              "draw_refunds": 10,
+              "hits": 243,
+              "max_daily_close_drawdown_units": "48.11",
+              "monthly_units": {
+                "2026-03": "-5.18",
+                "2026-04": "-2.58",
+                "2026-05": "-8.12",
+                "2026-06": "-6.14",
+                "2026-07": "-17.42"
+              },
+              "net_units": "-39.44",
+              "roi": -0.09129629629629629
+            },
+            "oldfull_M2": {
+              "bets": 432,
+              "conditional_brier": 0.4905548472215498,
+              "conditional_logloss": 0.6835256042581087,
+              "decisive_accuracy": 0.533175355450237,
+              "draw_refunds": 10,
+              "hits": 225,
+              "max_daily_close_drawdown_units": "64.49",
+              "monthly_units": {
+                "2026-03": "-3.66",
+                "2026-04": "2.80",
+                "2026-05": "-17.03",
+                "2026-06": "-17.33",
+                "2026-07": "-22.13"
+              },
+              "net_units": "-57.35",
+              "roi": -0.13275462962962964
+            }
+          },
+          "paired": {
+            "M0_actual_vs_M0_projected": {
+              "accuracy_ci95": [
+                -0.021037668354379712,
+                0.05308009477214681
+              ],
+              "changed": 48,
+              "roi_ci95": [
+                -0.04165142658407266,
+                0.08639645059407425
+              ],
+              "weeks": 17
+            },
+            "M2_actual_vs_M0_actual": {
+              "accuracy_ci95": [
+                -0.08196931483816729,
+                0.020883188979725686
+              ],
+              "changed": 108,
+              "roi_ci95": [
+                -0.11752164734558855,
+                0.04855221896203916
+              ],
+              "weeks": 17
+            },
+            "M2_actual_vs_M2_projected": {
+              "accuracy_ci95": [
+                -0.019653215806782035,
+                0.05620608899297424
+              ],
+              "changed": 71,
+              "roi_ci95": [
+                -0.04688298045476385,
+                0.08041987771112134
+              ],
+              "weeks": 17
+            },
+            "M2_projected_vs_M0_projected": {
+              "accuracy_ci95": [
+                -0.08654084158415841,
+                0.02659751773049643
+              ],
+              "changed": 113,
+              "roi_ci95": [
+                -0.11913814252336451,
+                0.07139284555132422
+              ],
+              "weeks": 17
+            },
+            "oldfull_M0_vs_M0_projected": {
+              "accuracy_ci95": [
+                -0.00898927016904545,
+                0.00980392156862745
+              ],
+              "changed": 4,
+              "roi_ci95": [
+                -0.01752449792062862,
+                0.014710299667346877
+              ],
+              "weeks": 17
+            },
+            "oldfull_M2_vs_M2_projected": {
+              "accuracy_ci95": [
+                -0.029198147436718315,
+                0.00941287720762062
+              ],
+              "changed": 14,
+              "roi_ci95": [
+                -0.04511288964598998,
+                0.017316690371213195
+              ],
+              "weeks": 17
+            }
+          }
+        }
+      }
+    },
+    "projected": {
+      "outcome_paired": {
+        "M0_actual_vs_M0_projected": {
+          "accuracy_delta_ci95": [
+            -0.04238469482972613,
+            0.024783354541500865
+          ],
+          "brier_delta_ci95": [
+            -0.0038537744678625633,
+            0.005253486279591204
+          ],
+          "changed": 98,
+          "logloss_delta_ci95": [
+            -0.004768134587198082,
+            0.006147416210062882
+          ],
+          "weeks": 32
+        },
+        "M2_actual_vs_M0_actual": {
+          "accuracy_delta_ci95": [
+            -0.03047111514941965,
+            0.050505050505050504
+          ],
+          "brier_delta_ci95": [
+            -0.027999540077433854,
+            -0.009721926868814568
+          ],
+          "changed": 178,
+          "logloss_delta_ci95": [
+            -0.09327098323323033,
+            -0.0533498992625593
+          ],
+          "weeks": 32
+        },
+        "M2_actual_vs_M2_projected": {
+          "accuracy_delta_ci95": [
+            -0.01823035656005222,
+            0.04058663548933532
+          ],
+          "brier_delta_ci95": [
+            -0.0028262301482710633,
+            0.006240435337180743
+          ],
+          "changed": 122,
+          "logloss_delta_ci95": [
+            -0.0028411540033930227,
+            0.007656142339975581
+          ],
+          "weeks": 32
+        },
+        "M2_projected_vs_M0_projected": {
+          "accuracy_delta_ci95": [
+            -0.051481709986864625,
+            0.03834944197490584
+          ],
+          "brier_delta_ci95": [
+            -0.028625205463453145,
+            -0.01088748226230442
+          ],
+          "changed": 186,
+          "logloss_delta_ci95": [
+            -0.0943426097799545,
+            -0.055763466155625836
+          ],
+          "weeks": 32
+        },
+        "oldfull_M0_vs_M0_projected": {
+          "accuracy_delta_ci95": [
+            -0.006821515368386525,
+            0.0068124544006194
+          ],
+          "brier_delta_ci95": [
+            -0.00030802954267696947,
+            0.00034498193988042756
+          ],
+          "changed": 6,
+          "logloss_delta_ci95": [
+            -0.0003436486905426482,
+            0.0004304090577939171
+          ],
+          "weeks": 32
+        },
+        "oldfull_M2_vs_M2_projected": {
+          "accuracy_delta_ci95": [
+            -0.006631299734748011,
+            0.015536723163841809
+          ],
+          "brier_delta_ci95": [
+            -0.0003920817916295211,
+            0.000773948575536478
+          ],
+          "changed": 20,
+          "logloss_delta_ci95": [
+            -0.0004092248918509423,
+            0.0008676467120335499
+          ],
+          "weeks": 32
+        }
+      },
+      "outcomes": {
+        "M0_actual": {
+          "accuracy": 0.5528913963328632,
+          "brier": 0.5296540598340522,
+          "conditional_accuracy": 0.5656565656565656,
+          "conditional_brier": 0.49254546038025326,
+          "conditional_logloss": 0.686108621897923,
+          "decisive": 693,
+          "decisive_hits": 392,
+          "draws": 16,
+          "hits": 392,
+          "logloss": 0.8483930011552476,
+          "mean_draw_probability": 0.1255358534676467,
+          "n": 709
+        },
+        "M0_projected": {
+          "accuracy": 0.5613540197461213,
+          "brier": 0.5288820052751935,
+          "conditional_accuracy": 0.5743145743145743,
+          "conditional_brier": 0.4915130491925707,
+          "conditional_logloss": 0.6849243722245145,
+          "decisive": 693,
+          "decisive_hits": 398,
+          "draws": 16,
+          "hits": 398,
+          "logloss": 0.8475927926086433,
+          "mean_draw_probability": 0.1260243436724863,
+          "n": 709
+        },
+        "M2_actual": {
+          "accuracy": 0.5641748942172073,
+          "brier": 0.5109956515273393,
+          "conditional_accuracy": 0.5772005772005772,
+          "conditional_brier": 0.48869867447483356,
+          "conditional_logloss": 0.6817914472468177,
+          "decisive": 693,
+          "decisive_hits": 400,
+          "draws": 16,
+          "hits": 400,
+          "logloss": 0.7744725352901516,
+          "mean_draw_probability": 0.019645694171093624,
+          "n": 709
+        },
+        "M2_projected": {
+          "accuracy": 0.5528913963328632,
+          "brier": 0.5093917609169893,
+          "conditional_accuracy": 0.5656565656565656,
+          "conditional_brier": 0.4870899055249988,
+          "conditional_logloss": 0.6800496184212159,
+          "decisive": 693,
+          "decisive_hits": 392,
+          "draws": 16,
+          "hits": 392,
+          "logloss": 0.7721186715777976,
+          "mean_draw_probability": 0.01952382486255385,
+          "n": 709
+        },
+        "oldfull_M0": {
+          "accuracy": 0.5613540197461213,
+          "brier": 0.5288939965726187,
+          "conditional_accuracy": 0.5743145743145743,
+          "conditional_brier": 0.4914680594433776,
+          "conditional_logloss": 0.6848726903881011,
+          "decisive": 693,
+          "decisive_hits": 398,
+          "draws": 16,
+          "hits": 398,
+          "logloss": 0.8476298888795561,
+          "mean_draw_probability": 0.12611177240836852,
+          "n": 709
+        },
+        "oldfull_M2": {
+          "accuracy": 0.5571227080394923,
+          "brier": 0.509550260415788,
+          "conditional_accuracy": 0.56998556998557,
+          "conditional_brier": 0.487248853598798,
+          "conditional_logloss": 0.680218490793865,
+          "decisive": 693,
+          "decisive_hits": 395,
+          "draws": 16,
+          "hits": 395,
+          "logloss": 0.7723144827133579,
+          "mean_draw_probability": 0.019505109940218195,
+          "n": 709
+        }
+      },
+      "price_cohorts": {
+        "extended_day_team_source_confirmed": {
+          "current_reject_excluded": 0,
+          "fixtures": 667,
+          "models": {
+            "M0_actual": {
+              "bets": 667,
+              "conditional_brier": 0.494001332764808,
+              "conditional_logloss": 0.6876692612678783,
+              "decisive_accuracy": 0.5628834355828221,
+              "draw_refunds": 15,
+              "hits": 367,
+              "max_daily_close_drawdown_units": "72.24",
+              "monthly_units": {
+                "2026-03": "-8.08",
+                "2026-04": "-9.45",
+                "2026-05": "-9.43",
+                "2026-06": "-2.77",
+                "2026-07": "-27.04",
+                "2026-08": "-4.27",
+                "2026-09": "-7.02",
+                "2026-10": "-4.18"
+              },
+              "net_units": "-72.24",
+              "roi": -0.10830584707646176
+            },
+            "M0_projected": {
+              "bets": 667,
+              "conditional_brier": 0.49258414783143345,
+              "conditional_logloss": 0.6860770682790376,
+              "decisive_accuracy": 0.5751533742331288,
+              "draw_refunds": 15,
+              "hits": 375,
+              "max_daily_close_drawdown_units": "71.39",
+              "monthly_units": {
+                "2026-03": "-4.42",
+                "2026-04": "-3.23",
+                "2026-05": "-6.04",
+                "2026-06": "-2.62",
+                "2026-07": "-25.19",
+                "2026-08": "-10.75",
+                "2026-09": "3.58",
+                "2026-10": "-12.25"
+              },
+              "net_units": "-60.92",
+              "roi": -0.0913343328335832
+            },
+            "M2_actual": {
+              "bets": 667,
+              "conditional_brier": 0.48924351264046234,
+              "conditional_logloss": 0.6823556164742809,
+              "decisive_accuracy": 0.5766871165644172,
+              "draw_refunds": 15,
+              "hits": 376,
+              "max_daily_close_drawdown_units": "59.03",
+              "monthly_units": {
+                "2026-03": "-6.32",
+                "2026-04": "5.71",
+                "2026-05": "-5.35",
+                "2026-06": "-16.73",
+                "2026-07": "-24.21",
+                "2026-08": "-4.12",
+                "2026-09": "6.61",
+                "2026-10": "1.86"
+              },
+              "net_units": "-42.55",
+              "roi": -0.06379310344827586
+            },
+            "M2_projected": {
+              "bets": 667,
+              "conditional_brier": 0.4879862212706424,
+              "conditional_logloss": 0.6809723444675386,
+              "decisive_accuracy": 0.5628834355828221,
+              "draw_refunds": 15,
+              "hits": 367,
+              "max_daily_close_drawdown_units": "79.82",
+              "monthly_units": {
+                "2026-03": "-1.00",
+                "2026-04": "13.59",
+                "2026-05": "-21.54",
+                "2026-06": "-20.16",
+                "2026-07": "-24.98",
+                "2026-08": "-5.86",
+                "2026-09": "9.32",
+                "2026-10": "-6.52"
+              },
+              "net_units": "-57.15",
+              "roi": -0.08568215892053974
+            },
+            "oldfull_M0": {
+              "bets": 667,
+              "conditional_brier": 0.492556089271451,
+              "conditional_logloss": 0.6860418245010746,
+              "decisive_accuracy": 0.5720858895705522,
+              "draw_refunds": 15,
+              "hits": 373,
+              "max_daily_close_drawdown_units": "73.54",
+              "monthly_units": {
+                "2026-03": "-4.42",
+                "2026-04": "-3.31",
+                "2026-05": "-7.79",
+                "2026-06": "-2.62",
+                "2026-07": "-25.19",
+                "2026-08": "-10.75",
+                "2026-09": "1.61",
+                "2026-10": "-12.25"
+              },
+              "net_units": "-64.72",
+              "roi": -0.09703148425787106
+            },
+            "oldfull_M2": {
+              "bets": 667,
+              "conditional_brier": 0.4881662937278739,
+              "conditional_logloss": 0.6811608964344975,
+              "decisive_accuracy": 0.5690184049079755,
+              "draw_refunds": 15,
+              "hits": 371,
+              "max_daily_close_drawdown_units": "67.17",
+              "monthly_units": {
+                "2026-03": "-2.97",
+                "2026-04": "11.52",
+                "2026-05": "-17.05",
+                "2026-06": "-11.48",
+                "2026-07": "-25.03",
+                "2026-08": "-5.86",
+                "2026-09": "4.50",
+                "2026-10": "-6.52"
+              },
+              "net_units": "-52.89",
+              "roi": -0.07929535232383808
+            }
+          },
+          "paired": {
+            "M0_actual_vs_M0_projected": {
+              "accuracy_ci95": [
+                -0.04596353789418353,
+                0.02094332369201478
+              ],
+              "changed": 87,
+              "roi_ci95": [
+                -0.07266995884773661,
+                0.038874275978256406
+              ],
+              "weeks": 30
+            },
+            "M2_actual_vs_M0_actual": {
+              "accuracy_ci95": [
+                -0.028995135299483124,
+                0.057315473960284746
+              ],
+              "changed": 161,
+              "roi_ci95": [
+                -0.02983013404684274,
+                0.11955696051475914
+              ],
+              "weeks": 30
+            },
+            "M2_actual_vs_M2_projected": {
+              "accuracy_ci95": [
+                -0.01225114854517611,
+                0.04024767801857585
+              ],
+              "changed": 112,
+              "roi_ci95": [
+                -0.022300825728029636,
+                0.06663320841610981
+              ],
+              "weeks": 30
+            },
+            "M2_projected_vs_M0_projected": {
+              "accuracy_ci95": [
+                -0.05864898259635102,
+                0.039125932062966
+              ],
+              "changed": 174,
+              "roi_ci95": [
+                -0.0719899281087622,
+                0.09315042353479842
+              ],
+              "weeks": 30
+            },
+            "oldfull_M0_vs_M0_projected": {
+              "accuracy_ci95": [
+                -0.009118888009881889,
+                0.0029456167103279578
+              ],
+              "changed": 4,
+              "roi_ci95": [
+                -0.01606874391658485,
+                0.004204641973819144
+              ],
+              "weeks": 30
+            },
+            "oldfull_M2_vs_M2_projected": {
+              "accuracy_ci95": [
+                -0.004934822205306655,
+                0.018212442993414627
+              ],
+              "changed": 18,
+              "roi_ci95": [
+                -0.01495699408950183,
+                0.028839467231412872
+              ],
+              "weeks": 30
+            }
+          }
+        },
+        "extended_day_team_source_confirmed_current_reject_excluded": {
+          "current_reject_excluded": 7,
+          "fixtures": 660,
+          "models": {
+            "M0_actual": {
+              "bets": 660,
+              "conditional_brier": 0.49458937790718926,
+              "conditional_logloss": 0.688281742270664,
+              "decisive_accuracy": 0.5627906976744186,
+              "draw_refunds": 15,
+              "hits": 363,
+              "max_daily_close_drawdown_units": "71.99",
+              "monthly_units": {
+                "2026-03": "-7.08",
+                "2026-04": "-8.45",
+                "2026-05": "-11.43",
+                "2026-06": "-2.52",
+                "2026-07": "-27.04",
+                "2026-08": "-4.27",
+                "2026-09": "-7.02",
+                "2026-10": "-4.18"
+              },
+              "net_units": "-71.99",
+              "roi": -0.10907575757575758
+            },
+            "M0_projected": {
+              "bets": 660,
+              "conditional_brier": 0.4933945350491912,
+              "conditional_logloss": 0.6869177248139576,
+              "decisive_accuracy": 0.5736434108527132,
+              "draw_refunds": 15,
+              "hits": 370,
+              "max_daily_close_drawdown_units": "74.49",
+              "monthly_units": {
+                "2026-03": "-3.42",
+                "2026-04": "-4.58",
+                "2026-05": "-8.04",
+                "2026-06": "-2.37",
+                "2026-07": "-25.19",
+                "2026-08": "-10.75",
+                "2026-09": "3.58",
+                "2026-10": "-12.25"
+              },
+              "net_units": "-63.02",
+              "roi": -0.09548484848484848
+            },
+            "M2_actual": {
+              "bets": 660,
+              "conditional_brier": 0.48900535102490655,
+              "conditional_logloss": 0.6821144196916027,
+              "decisive_accuracy": 0.5767441860465117,
+              "draw_refunds": 15,
+              "hits": 372,
+              "max_daily_close_drawdown_units": "60.38",
+              "monthly_units": {
+                "2026-03": "-5.32",
+                "2026-04": "4.36",
+                "2026-05": "-5.60",
+                "2026-06": "-16.48",
+                "2026-07": "-24.21",
+                "2026-08": "-4.12",
+                "2026-09": "6.61",
+                "2026-10": "1.86"
+              },
+              "net_units": "-42.90",
+              "roi": -0.065
+            },
+            "M2_projected": {
+              "bets": 660,
+              "conditional_brier": 0.48780292840392364,
+              "conditional_logloss": 0.680779987020951,
+              "decisive_accuracy": 0.5627906976744186,
+              "draw_refunds": 15,
+              "hits": 363,
+              "max_daily_close_drawdown_units": "81.01",
+              "monthly_units": {
+                "2026-03": "0.00",
+                "2026-04": "12.24",
+                "2026-05": "-21.79",
+                "2026-06": "-19.91",
+                "2026-07": "-24.98",
+                "2026-08": "-5.86",
+                "2026-09": "9.32",
+                "2026-10": "-6.52"
+              },
+              "net_units": "-57.50",
+              "roi": -0.08712121212121213
+            },
+            "oldfull_M0": {
+              "bets": 660,
+              "conditional_brier": 0.493357393181518,
+              "conditional_logloss": 0.6868727701038769,
+              "decisive_accuracy": 0.5705426356589147,
+              "draw_refunds": 15,
+              "hits": 368,
+              "max_daily_close_drawdown_units": "76.64",
+              "monthly_units": {
+                "2026-03": "-3.42",
+                "2026-04": "-4.66",
+                "2026-05": "-9.79",
+                "2026-06": "-2.37",
+                "2026-07": "-25.19",
+                "2026-08": "-10.75",
+                "2026-09": "1.61",
+                "2026-10": "-12.25"
+              },
+              "net_units": "-66.82",
+              "roi": -0.10124242424242424
+            },
+            "oldfull_M2": {
+              "bets": 660,
+              "conditional_brier": 0.48798506629029675,
+              "conditional_logloss": 0.680970333445095,
+              "decisive_accuracy": 0.5689922480620155,
+              "draw_refunds": 15,
+              "hits": 367,
+              "max_daily_close_drawdown_units": "68.52",
+              "monthly_units": {
+                "2026-03": "-1.97",
+                "2026-04": "10.17",
+                "2026-05": "-17.30",
+                "2026-06": "-11.23",
+                "2026-07": "-25.03",
+                "2026-08": "-5.86",
+                "2026-09": "4.50",
+                "2026-10": "-6.52"
+              },
+              "net_units": "-53.24",
+              "roi": -0.08066666666666666
+            }
+          },
+          "paired": {
+            "M0_actual_vs_M0_projected": {
+              "accuracy_ci95": [
+                -0.0457359556177529,
+                0.02279809011046035
+              ],
+              "changed": 86,
+              "roi_ci95": [
+                -0.07166113037893385,
+                0.04422367881004577
+              ],
+              "weeks": 30
+            },
+            "M2_actual_vs_M0_actual": {
+              "accuracy_ci95": [
+                -0.028911758767433914,
+                0.05773295708697756
+              ],
+              "changed": 159,
+              "roi_ci95": [
+                -0.0305819118771505,
+                0.11937564140205068
+              ],
+              "weeks": 30
+            },
+            "M2_actual_vs_M2_projected": {
+              "accuracy_ci95": [
+                -0.012362690439390594,
+                0.04068946104985872
+              ],
+              "changed": 112,
+              "roi_ci95": [
+                -0.02251852474448629,
+                0.06725414755351676
+              ],
+              "weeks": 30
+            },
+            "M2_projected_vs_M0_projected": {
+              "accuracy_ci95": [
+                -0.05732528617878936,
+                0.04079478872957775
+              ],
+              "changed": 173,
+              "roi_ci95": [
+                -0.07007167005320429,
+                0.09684691341100023
+              ],
+              "weeks": 30
+            },
+            "oldfull_M0_vs_M0_projected": {
+              "accuracy_ci95": [
+                -0.009225234175418677,
+                0.0029630728651500148
+              ],
+              "changed": 4,
+              "roi_ci95": [
+                -0.016310961945031715,
+                0.004254256448447392
+              ],
+              "weeks": 30
+            },
+            "oldfull_M2_vs_M2_projected": {
+              "accuracy_ci95": [
+                -0.004991888519134775,
+                0.01836425947278133
+              ],
+              "changed": 18,
+              "roi_ci95": [
+                -0.01509714019495413,
+                0.029001906371179127
+              ],
+              "weeks": 30
+            }
+          }
+        },
+        "strict_original_time_match": {
+          "current_reject_excluded": 0,
+          "fixtures": 439,
+          "models": {
+            "M0_actual": {
+              "bets": 439,
+              "conditional_brier": 0.4931599698448649,
+              "conditional_logloss": 0.6868624569484604,
+              "decisive_accuracy": 0.5594405594405595,
+              "draw_refunds": 10,
+              "hits": 240,
+              "max_daily_close_drawdown_units": "50.94",
+              "monthly_units": {
+                "2026-03": "-8.08",
+                "2026-04": "-9.45",
+                "2026-05": "-9.43",
+                "2026-06": "-2.77",
+                "2026-07": "-21.21"
+              },
+              "net_units": "-50.94",
+              "roi": -0.1160364464692483
+            },
+            "M0_projected": {
+              "bets": 439,
+              "conditional_brier": 0.4926996450098799,
+              "conditional_logloss": 0.6861074577696817,
+              "decisive_accuracy": 0.5734265734265734,
+              "draw_refunds": 10,
+              "hits": 246,
+              "max_daily_close_drawdown_units": "51.52",
+              "monthly_units": {
+                "2026-03": "-4.42",
+                "2026-04": "-3.23",
+                "2026-05": "-6.04",
+                "2026-06": "-2.62",
+                "2026-07": "-24.74"
+              },
+              "net_units": "-41.05",
+              "roi": -0.09350797266514807
+            },
+            "M2_actual": {
+              "bets": 439,
+              "conditional_brier": 0.4934590752601119,
+              "conditional_logloss": 0.6866505342088827,
+              "decisive_accuracy": 0.5594405594405595,
+              "draw_refunds": 10,
+              "hits": 240,
+              "max_daily_close_drawdown_units": "43.44",
+              "monthly_units": {
+                "2026-03": "-6.32",
+                "2026-04": "5.71",
+                "2026-05": "-5.35",
+                "2026-06": "-16.73",
+                "2026-07": "-19.18"
+              },
+              "net_units": "-41.87",
+              "roi": -0.09537585421412301
+            },
+            "M2_projected": {
+              "bets": 439,
+              "conditional_brier": 0.4906654790680729,
+              "conditional_logloss": 0.6836468084725733,
+              "decisive_accuracy": 0.5407925407925408,
+              "draw_refunds": 10,
+              "hits": 232,
+              "max_daily_close_drawdown_units": "66.46",
+              "monthly_units": {
+                "2026-03": "-1.00",
+                "2026-04": "13.59",
+                "2026-05": "-21.54",
+                "2026-06": "-20.16",
+                "2026-07": "-23.19"
+              },
+              "net_units": "-52.30",
+              "roi": -0.11913439635535307
+            },
+            "oldfull_M0": {
+              "bets": 439,
+              "conditional_brier": 0.49267866085808915,
+              "conditional_logloss": 0.6860937421824864,
+              "decisive_accuracy": 0.5710955710955711,
+              "draw_refunds": 10,
+              "hits": 245,
+              "max_daily_close_drawdown_units": "51.70",
+              "monthly_units": {
+                "2026-03": "-4.42",
+                "2026-04": "-3.31",
+                "2026-05": "-7.79",
+                "2026-06": "-2.62",
+                "2026-07": "-24.74"
+              },
+              "net_units": "-42.88",
+              "roi": -0.09767653758542141
+            },
+            "oldfull_M2": {
+              "bets": 439,
+              "conditional_brier": 0.49079233011431894,
+              "conditional_logloss": 0.6837798543555906,
+              "decisive_accuracy": 0.5524475524475524,
+              "draw_refunds": 10,
+              "hits": 237,
+              "max_daily_close_drawdown_units": "55.78",
+              "monthly_units": {
+                "2026-03": "-2.97",
+                "2026-04": "11.52",
+                "2026-05": "-17.05",
+                "2026-06": "-11.48",
+                "2026-07": "-25.21"
+              },
+              "net_units": "-45.19",
+              "roi": -0.10293849658314351
+            }
+          },
+          "paired": {
+            "M0_actual_vs_M0_projected": {
+              "accuracy_ci95": [
+                -0.05470759434143345,
+                0.02168805657412256
+              ],
+              "changed": 51,
+              "roi_ci95": [
+                -0.0903042902232216,
+                0.038071523388116306
+              ],
+              "weeks": 17
+            },
+            "M2_actual_vs_M0_actual": {
+              "accuracy_ci95": [
+                -0.053243828950760505,
+                0.04793065628077715
+              ],
+              "changed": 103,
+              "roi_ci95": [
+                -0.06826532698926907,
+                0.10283218421827454
+              ],
+              "weeks": 17
+            },
+            "M2_actual_vs_M2_projected": {
+              "accuracy_ci95": [
+                -0.013954301512441047,
+                0.05134474327628362
+              ],
+              "changed": 77,
+              "roi_ci95": [
+                -0.03166097449690216,
+                0.07938106758832561
+              ],
+              "weeks": 17
+            },
+            "M2_projected_vs_M0_projected": {
+              "accuracy_ci95": [
+                -0.09259369226708894,
+                0.04186290453732311
+              ],
+              "changed": 119,
+              "roi_ci95": [
+                -0.1255274601451319,
+                0.09878854588248798
+              ],
+              "weeks": 17
+            },
+            "oldfull_M0_vs_M0_projected": {
+              "accuracy_ci95": [
+                -0.009877154382104876,
+                0.005025125628140704
+              ],
+              "changed": 3,
+              "roi_ci95": [
+                -0.016588541666666665,
+                0.007602905569007264
+              ],
+              "weeks": 17
+            },
+            "oldfull_M2_vs_M2_projected": {
+              "accuracy_ci95": [
+                -0.0025511835168850147,
+                0.02702702702702703
+              ],
+              "changed": 15,
+              "roi_ci95": [
+                -0.010982072829131651,
+                0.04383045510924529
+              ],
+              "weeks": 17
+            }
+          }
+        },
+        "strict_original_time_match_current_reject_excluded": {
+          "current_reject_excluded": 7,
+          "fixtures": 432,
+          "models": {
+            "M0_actual": {
+              "bets": 432,
+              "conditional_brier": 0.49404480296428743,
+              "conditional_logloss": 0.6877852119640074,
+              "decisive_accuracy": 0.5592417061611374,
+              "draw_refunds": 10,
+              "hits": 236,
+              "max_daily_close_drawdown_units": "50.69",
+              "monthly_units": {
+                "2026-03": "-7.08",
+                "2026-04": "-8.45",
+                "2026-05": "-11.43",
+                "2026-06": "-2.52",
+                "2026-07": "-21.21"
+              },
+              "net_units": "-50.69",
+              "roi": -0.11733796296296296
+            },
+            "M0_projected": {
+              "bets": 432,
+              "conditional_brier": 0.4939401858527777,
+              "conditional_logloss": 0.6873928515883025,
+              "decisive_accuracy": 0.5710900473933649,
+              "draw_refunds": 10,
+              "hits": 241,
+              "max_daily_close_drawdown_units": "54.62",
+              "monthly_units": {
+                "2026-03": "-3.42",
+                "2026-04": "-4.58",
+                "2026-05": "-8.04",
+                "2026-06": "-2.37",
+                "2026-07": "-24.74"
+              },
+              "net_units": "-43.15",
+              "roi": -0.09988425925925926
+            },
+            "M2_actual": {
+              "bets": 432,
+              "conditional_brier": 0.49316498686272797,
+              "conditional_logloss": 0.6863531230698181,
+              "decisive_accuracy": 0.5592417061611374,
+              "draw_refunds": 10,
+              "hits": 236,
+              "max_daily_close_drawdown_units": "44.79",
+              "monthly_units": {
+                "2026-03": "-5.32",
+                "2026-04": "4.36",
+                "2026-05": "-5.60",
+                "2026-06": "-16.48",
+                "2026-07": "-19.18"
+              },
+              "net_units": "-42.22",
+              "roi": -0.09773148148148147
+            },
+            "M2_projected": {
+              "bets": 432,
+              "conditional_brier": 0.4904297703134483,
+              "conditional_logloss": 0.6833971655696971,
+              "decisive_accuracy": 0.5402843601895735,
+              "draw_refunds": 10,
+              "hits": 228,
+              "max_daily_close_drawdown_units": "67.65",
+              "monthly_units": {
+                "2026-03": "0.00",
+                "2026-04": "12.24",
+                "2026-05": "-21.79",
+                "2026-06": "-19.91",
+                "2026-07": "-23.19"
+              },
+              "net_units": "-52.65",
+              "roi": -0.121875
+            },
+            "oldfull_M0": {
+              "bets": 432,
+              "conditional_brier": 0.4939054357943442,
+              "conditional_logloss": 0.687364650565371,
+              "decisive_accuracy": 0.5687203791469194,
+              "draw_refunds": 10,
+              "hits": 240,
+              "max_daily_close_drawdown_units": "54.80",
+              "monthly_units": {
+                "2026-03": "-3.42",
+                "2026-04": "-4.66",
+                "2026-05": "-9.79",
+                "2026-06": "-2.37",
+                "2026-07": "-24.74"
+              },
+              "net_units": "-44.98",
+              "roi": -0.10412037037037038
+            },
+            "oldfull_M2": {
+              "bets": 432,
+              "conditional_brier": 0.4905588954163755,
+              "conditional_logloss": 0.6835320334486785,
+              "decisive_accuracy": 0.5521327014218009,
+              "draw_refunds": 10,
+              "hits": 233,
+              "max_daily_close_drawdown_units": "57.13",
+              "monthly_units": {
+                "2026-03": "-1.97",
+                "2026-04": "10.17",
+                "2026-05": "-17.30",
+                "2026-06": "-11.23",
+                "2026-07": "-25.21"
+              },
+              "net_units": "-45.54",
+              "roi": -0.10541666666666667
+            }
+          },
+          "paired": {
+            "M0_actual_vs_M0_projected": {
+              "accuracy_ci95": [
+                -0.05476785714285714,
+                0.025522041763341066
+              ],
+              "changed": 50,
+              "roi_ci95": [
+                -0.09007460255162661,
+                0.04696475248378887
+              ],
+              "weeks": 17
+            },
+            "M2_actual_vs_M0_actual": {
+              "accuracy_ci95": [
+                -0.05324074074074074,
+                0.04810487452809233
+              ],
+              "changed": 101,
+              "roi_ci95": [
+                -0.06939633516716037,
+                0.10384807088717485
+              ],
+              "weeks": 17
+            },
+            "M2_actual_vs_M2_projected": {
+              "accuracy_ci95": [
+                -0.014150943396226415,
+                0.05223924912255822
+              ],
+              "changed": 77,
+              "roi_ci95": [
+                -0.032015834838608336,
+                0.08063859738208075
+              ],
+              "weeks": 17
+            },
+            "M2_projected_vs_M0_projected": {
+              "accuracy_ci95": [
+                -0.09234521930689814,
+                0.04455561753358433
+              ],
+              "changed": 118,
+              "roi_ci95": [
+                -0.12412467874867068,
+                0.10307696934638366
+              ],
+              "weeks": 17
+            },
+            "oldfull_M0_vs_M0_projected": {
+              "accuracy_ci95": [
+                -0.010076842138826005,
+                0.005076465041784523
+              ],
+              "changed": 3,
+              "roi_ci95": [
+                -0.016923832923832923,
+                0.0076970262242828024
+              ],
+              "weeks": 17
+            },
+            "oldfull_M2_vs_M2_projected": {
+              "accuracy_ci95": [
+                -0.0026045075261780103,
+                0.027397982775562095
+              ],
+              "changed": 15,
+              "roi_ci95": [
+                -0.011235316341895238,
+                0.044511719862363554
+              ],
+              "weeks": 17
+            }
+          }
+        }
+      }
+    }
+  },
+  "score_source_commit": "d08ccb708033fb6b067e84e80eae81ea3c9b4cfa",
+  "weekly_bootstrap": {
+    "interval": "percentile 2.5-97.5",
+    "resamples": 5000,
+    "seed": 20261103,
+    "unit": "ISO calendar week"
+  }
+}
