@@ -1,0 +1,39 @@
+{
+  "task": "nba-espn-history-20261108",
+  "branch": "codex/nba-espn-history-20261108e",
+  "base_main": "f293e739",
+  "mode": "efficiency",
+  "status": "research_completed_not_merged_not_deployed",
+  "price_rows": 2133,
+  "matched_outcome_agrees": 2133,
+  "eligible_fit": 664,
+  "validation_rows": 487,
+  "holdout_rows": 773,
+  "actual_holdout_dates": "2026-01-01 through 2026-05-04; price rows through 2026-06-14 only",
+  "summary_http_404": 8,
+  "candidate_roi": -0.11811125485122899,
+  "market_roi": -0.11596377749029754,
+  "validated_edge": false,
+  "production_changed": false,
+  "source": "ESPN public publisher, collected retrospectively; not NBA official",
+  "limitations": [
+    "price receipt time, product ID and overtime/settlement rules unverified",
+    "prior research examined this period",
+    "single official NBA archived score crosscheck does not certify publisher dataset"
+  ],
+  "artifacts": [
+    "PROTOCOL.md",
+    "availability.json",
+    "official_crosscheck.json",
+    "source_receipts.json",
+    "results.json",
+    "predictions.jsonl.gz",
+    "audit.json",
+    "REPORT.md"
+  ],
+  "tests": [
+    "python -m pytest -q tests/test_nba_espn_research.py tests/test_league_nba_audit.py: 10 passed",
+    "python -m pytest -q tests/test_nba_espn_research.py tests/test_league_nba_audit.py tests/test_all_sports_underdog.py: 20 passed before final small regression additions",
+    "python scripts/nba_espn_audit.py: 1260 rows passed"
+  ]
+}
