@@ -1,0 +1,55 @@
+{
+  "causality": "Retrospective completed-by-next-day assumption; no actual historical reception; only completed source game_date strictly before target game_date; never expose outcome namespace as current target features.",
+  "coverage": {
+    "batting_rows": 6965,
+    "batting_rows_missing_id": 227,
+    "batting_rows_with_id": 6738,
+    "er_team_person_mismatch_games": 8,
+    "outs_team_person_mismatch_sides": 0,
+    "pitcher_rows": 2577,
+    "pitcher_rows_missing_id": 817,
+    "pitcher_rows_with_id": 1760,
+    "score_run_check_mismatch_sides": 0,
+    "starting_pitchers_missing_id": 10
+  },
+  "files": {
+    "normalized-records.jsonl.gz": "e9d84a6ee8dd3d0262fa6ef04a8fc6e23c79b6b5b04f52fc85a4223b41bc3334",
+    "raw-responses.jsonl.gz": "8aeaf579f7ac84a642c3017810f8cf42c101bda2f6290a7fa3779a1d6fa72500"
+  },
+  "kbo_official_rules_pdf": {
+    "bytes": 5270217,
+    "content_type": "application/pdf",
+    "method": "GET",
+    "received_at": "2026-11-03T02:48:23.365445+00:00",
+    "sha256": "deb2c0d58ef41c6631f47a3dcfbe37d853a97275b9891ad50f0a8525b302a16a",
+    "status": 200,
+    "url": "https://6ptotvmi5753.edge.naverncp.com/KBO_FILE/ebook/pdf/2026_%EC%95%BC%EA%B5%AC%EA%B7%9C%EC%B9%99.pdf"
+  },
+  "official_record_response_count": 512,
+  "official_schedule_response_count": 66,
+  "preliminary_unarchived_probes": {
+    "endpoint_post": 4,
+    "note": "Exploratory only; page GETs had no enforced one-second spacing. None used as normalized evidence.",
+    "page_get": 3
+  },
+  "schema": "kbo-official-record-gap-v1",
+  "scope": {
+    "feature_rule": "completed game_date < target_date; retrospective completed-by-next-day assumption",
+    "historical_receipt_proven": false,
+    "input_denominator": 726,
+    "new_requests": 0,
+    "pitcher_archive_sha256": "c87faa6a43140dad067860086b00140fe8f05883a9e42121fd2e8f7233775a66",
+    "processed": 256,
+    "records_sha256": "53d7c625614631452f84f67ccde618eae73f145bc1bcdf1bd391d347df67370a",
+    "remaining": 0,
+    "source_lineups_sha256": "f82acede0093fa2a6a2176018a812ac9c279ad893d3ffb3bed9a16cb37b6c5d3",
+    "statuses": {
+      "ok": 256
+    },
+    "stop_reason": "complete",
+    "window_denominator": 256,
+    "window_end": "20261027",
+    "window_start": "20260727"
+  },
+  "source_lineup_file": "PR #514, official-lineups-2026.jsonl"
+}
