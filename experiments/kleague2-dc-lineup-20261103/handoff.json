@@ -1,0 +1,320 @@
+{
+  "base_sha": "66ab3e7cc6fad96e30129397dfcc602541675f9d",
+  "blockers": [
+    "No independent certified pregame lineup receipt or executable odds; prior test results were known."
+  ],
+  "branch": "codex/kleague2-lineup-challenger-20261103",
+  "frozen_prediction_commit": "bfb3c162a2c33936e4edb347ed41c2af0d393b3c",
+  "frozen_prediction_sha256": "b3e4783a3af9c16fdd04dfe6d37b9a565f765091c4b18b7805cf6ba62e13bf13",
+  "input_sha256s": {
+    "poisson_frozen": "96006c7e54b335d31bc83a4c7bebc2ed07b31427ff196a567a9d41a8257a8872",
+    "poisson_metrics": "982913ed8bb2181807afea3beff9e36104b73aa3880acf94173adee8278695cb",
+    "poisson_model": "516d12df1fcc47abafc3d28aca25a43a79a18b11766137b77f6d8b00cb801227",
+    "poisson_scored": "74f7a3db105dcf30d0aa9737fe0013bf23490ee23e041eaf85780f3b8dcbffe2"
+  },
+  "league": "K League 2",
+  "limitations": [
+    "DC addendum registered after the Poisson test was already observed; not blind.",
+    "Official XI and price data are retrospective with no verified pregame receipt or executable price.",
+    "No frozen operating prediction comparison; no production adoption.",
+    "No K1, cup or national-team player history."
+  ],
+  "metrics": {
+    "changed_picks": {
+      "dc_lineup_vs_dc_team": 10,
+      "dc_lineup_vs_dc_team_priced": 10
+    },
+    "dc_freeze_commit": "bfb3c162a2c33936e4edb347ed41c2af0d393b3c",
+    "dc_predictions_sha256": "b3e4783a3af9c16fdd04dfe6d37b9a565f765091c4b18b7805cf6ba62e13bf13",
+    "dc_protocol_commit": "d576040ecae5010380abf2df1c433dbf09add13e",
+    "excluded": {
+      "non_regular_playoff": 2
+    },
+    "limitations": [
+      "DC addendum registered after the Poisson test was already observed; not blind.",
+      "Official XI and price data are retrospective with no verified pregame receipt or executable price.",
+      "No frozen operating prediction comparison; no production adoption.",
+      "No K1, cup or national-team player history."
+    ],
+    "min_test_tau": {
+      "lineup": 0.9446911022107982,
+      "team_only": 0.9355244724374215
+    },
+    "missing_features": {
+      "fewer_than_three_team_sides": 0,
+      "no_previous_team_sides": 0
+    },
+    "paired_ci95": {
+      "accuracy": {
+        "ci95": [
+          -0.0234375,
+          0.0390625
+        ],
+        "resamples": 2000,
+        "seed": 20261103,
+        "weeks": 16
+      },
+      "brier": {
+        "ci95": [
+          -0.00046988383785042385,
+          0.0021576704287516453
+        ],
+        "resamples": 2000,
+        "seed": 20261103,
+        "weeks": 16
+      },
+      "logloss": {
+        "ci95": [
+          -0.0008738760869180407,
+          0.002932090763626252
+        ],
+        "resamples": 2000,
+        "seed": 20261103,
+        "weeks": 16
+      }
+    },
+    "price_lineup_vs_market_ci95": {
+      "accuracy": {
+        "ci95": [
+          -0.09375,
+          0.015625
+        ],
+        "resamples": 2000,
+        "seed": 20261103,
+        "weeks": 16
+      },
+      "brier": {
+        "ci95": [
+          0.005384810413965199,
+          0.06500699841830437
+        ],
+        "resamples": 2000,
+        "seed": 20261103,
+        "weeks": 16
+      },
+      "logloss": {
+        "ci95": [
+          0.005920531435068388,
+          0.09030876494211183
+        ],
+        "resamples": 2000,
+        "seed": 20261103,
+        "weeks": 16
+      },
+      "roi": {
+        "ci95": [
+          -0.1950403389517716,
+          0.05452488751406072
+        ],
+        "resamples": 2000,
+        "seed": 20261103,
+        "weeks": 16
+      }
+    },
+    "price_metrics": {
+      "dc_lineup": {
+        "accuracy": 0.44881889763779526,
+        "brier": 0.6512334337733467,
+        "hits": 57,
+        "logloss": 1.077599733355361,
+        "n": 127
+      },
+      "dc_team": {
+        "accuracy": 0.4409448818897638,
+        "brier": 0.6502894499054128,
+        "hits": 56,
+        "logloss": 1.07642992777264,
+        "n": 127
+      },
+      "market": {
+        "accuracy": 0.4881889763779528,
+        "brier": 0.6167385531131133,
+        "hits": 62,
+        "logloss": 1.0296651924374511,
+        "n": 127
+      },
+      "poisson_lineup": {
+        "accuracy": 0.4566929133858268,
+        "brier": 0.6520843065526095,
+        "hits": 58,
+        "logloss": 1.0792591156769071,
+        "n": 127
+      },
+      "poisson_team": {
+        "accuracy": 0.44881889763779526,
+        "brier": 0.6513280955416013,
+        "hits": 57,
+        "logloss": 1.0784595725267294,
+        "n": 127
+      }
+    },
+    "price_n": 127,
+    "price_paired_ci95": {
+      "accuracy": {
+        "ci95": [
+          -0.023622047244094557,
+          0.03968253968253965
+        ],
+        "resamples": 2000,
+        "seed": 20261103,
+        "weeks": 16
+      },
+      "brier": {
+        "ci95": [
+          -0.0003970009089770715,
+          0.0022679045171961755
+        ],
+        "resamples": 2000,
+        "seed": 20261103,
+        "weeks": 16
+      },
+      "logloss": {
+        "ci95": [
+          -0.0007530764251400923,
+          0.0030583813377387486
+        ],
+        "resamples": 2000,
+        "seed": 20261103,
+        "weeks": 16
+      },
+      "roi": {
+        "ci95": [
+          -0.07444364439324118,
+          0.09126984126984122
+        ],
+        "resamples": 2000,
+        "seed": 20261103,
+        "weeks": 16
+      }
+    },
+    "price_returns": {
+      "dc_lineup": {
+        "daily_closing_max_drawdown_units": 28.20000000000001,
+        "monthly_profit_units": {
+          "2026-07": -10.440000000000003,
+          "2026-08": -8.72,
+          "2026-09": -5.96,
+          "2026-10": 1.2699999999999991,
+          "2026-11": 0.19000000000000017
+        },
+        "n": 127,
+        "profit_units": -23.660000000000007,
+        "roi": -0.18629921259842525
+      },
+      "dc_team": {
+        "daily_closing_max_drawdown_units": 31.770000000000007,
+        "monthly_profit_units": {
+          "2026-07": -15.050000000000002,
+          "2026-08": -7.68,
+          "2026-09": -3.54,
+          "2026-10": 1.2699999999999991,
+          "2026-11": 0.19000000000000017
+        },
+        "n": 127,
+        "profit_units": -24.810000000000006,
+        "roi": -0.19535433070866146
+      },
+      "market": {
+        "daily_closing_max_drawdown_units": 17.62,
+        "monthly_profit_units": {
+          "2026-07": -5.710000000000001,
+          "2026-08": -2.6300000000000003,
+          "2026-09": -3.8200000000000003,
+          "2026-10": 0.25999999999999845,
+          "2026-11": -2.76
+        },
+        "n": 127,
+        "profit_units": -14.66,
+        "roi": -0.11543307086614173
+      },
+      "poisson_lineup": {
+        "daily_closing_max_drawdown_units": 28.20000000000001,
+        "monthly_profit_units": {
+          "2026-07": -10.440000000000003,
+          "2026-08": -8.72,
+          "2026-09": -3.54,
+          "2026-10": 1.2699999999999991,
+          "2026-11": 0.19000000000000017
+        },
+        "n": 127,
+        "profit_units": -21.240000000000006,
+        "roi": -0.16724409448818903
+      },
+      "poisson_team": {
+        "daily_closing_max_drawdown_units": 29.810000000000006,
+        "monthly_profit_units": {
+          "2026-07": -15.050000000000002,
+          "2026-08": -5.72,
+          "2026-09": -3.54,
+          "2026-10": 1.2699999999999991,
+          "2026-11": 0.19000000000000017
+        },
+        "n": 127,
+        "profit_units": -22.850000000000005,
+        "roi": -0.17992125984251972
+      }
+    },
+    "prior_protocol_commit": "ead1596c636233d6042c26e65d3e50d68309d35f",
+    "prior_scored_sha256": "74f7a3db105dcf30d0aa9737fe0013bf23490ee23e041eaf85780f3b8dcbffe2",
+    "refit_rho": {
+      "lineup": -0.03672367572796409,
+      "team_only": -0.04217196614800114
+    },
+    "status": "retrospective_followup_after_prior_test_seen_not_blind",
+    "test_metrics": {
+      "dc_lineup": {
+        "accuracy": 0.453125,
+        "brier": 0.6503101634889689,
+        "hits": 58,
+        "logloss": 1.0762451480469855,
+        "n": 128
+      },
+      "dc_team": {
+        "accuracy": 0.4453125,
+        "brier": 0.6494726734169154,
+        "hits": 57,
+        "logloss": 1.0752180967717224,
+        "n": 128
+      },
+      "poisson_lineup": {
+        "accuracy": 0.4609375,
+        "brier": 0.651108963326051,
+        "hits": 59,
+        "logloss": 1.0778186405288555,
+        "n": 128
+      },
+      "poisson_team": {
+        "accuracy": 0.453125,
+        "brier": 0.6504480016260359,
+        "hits": 58,
+        "logloss": 1.0771424420529412,
+        "n": 128
+      }
+    },
+    "test_n": 128,
+    "test_scoreline_logloss": {
+      "lineup": 2.9311678399922454,
+      "team_only": 2.9291091631525563
+    },
+    "unknown_team_sides": {
+      "lineup": 0,
+      "team_only": 0
+    }
+  },
+  "new_input_ids": [
+    "dc-followup:same-original-128-fixtures-and-127-prices"
+  ],
+  "next_data_needed": [
+    "Timestamped official lineup receipts, matched executable odds and frozen operating decisions in fresh prospective fixtures."
+  ],
+  "pr_url": "https://github.com/choigod1023/proto-odds-research/pull/518",
+  "protocol_sha": "d576040ecae5010380abf2df1c433dbf09add13e",
+  "role": "K League 2 Dixon-Coles lineup challenger",
+  "status": "dc_addendum_completed_retrospective_not_blind",
+  "tests": [
+    "existing DC tests: 10 passed, 4 deselected",
+    "DC targeted tests: 9 passed",
+    "prior Poisson tests: 8 passed",
+    "independent Decimal ledger checks for five methods and 127 matched games"
+  ]
+}

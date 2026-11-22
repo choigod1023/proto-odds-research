@@ -1,0 +1,57 @@
+{
+  "excluded": {
+    "non_regular_playoff": 2
+  },
+  "folds": [
+    273,
+    120,
+    128
+  ],
+  "selected_alpha": {
+    "lineup": 100,
+    "team_only": 100
+  },
+  "test_results_scored": false,
+  "validation": {
+    "lineup": [
+      {
+        "alpha": 1,
+        "train_rho": -0.04994707114440287,
+        "validation_min_tau": 0.8560517169575824,
+        "validation_score_logloss": 2.9949838218869598
+      },
+      {
+        "alpha": 10,
+        "train_rho": -0.042499032006767364,
+        "validation_min_tau": 0.8939801378896547,
+        "validation_score_logloss": 2.9206117304860206
+      },
+      {
+        "alpha": 100,
+        "train_rho": -0.025934635340918527,
+        "validation_min_tau": 0.9592321354387221,
+        "validation_score_logloss": 2.872268546364255
+      }
+    ],
+    "team_only": [
+      {
+        "alpha": 1,
+        "train_rho": -0.04786645117904582,
+        "validation_min_tau": 0.8609631100586372,
+        "validation_score_logloss": 2.951144303259328
+      },
+      {
+        "alpha": 10,
+        "train_rho": -0.04244444382718563,
+        "validation_min_tau": 0.8952986645986997,
+        "validation_score_logloss": 2.903836243115285
+      },
+      {
+        "alpha": 100,
+        "train_rho": -0.025709687588379375,
+        "validation_min_tau": 0.9596980657022008,
+        "validation_score_logloss": 2.869751910752287
+      }
+    ]
+  }
+}
