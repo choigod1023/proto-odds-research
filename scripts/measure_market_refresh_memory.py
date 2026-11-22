@@ -102,6 +102,9 @@ def child(mode, path, output):
         from runtime_db import RuntimeDatabase
         import live_market_refresh as refresh
         refresh.PREDICTION_LEDGER = path.parent / 'synthetic-prediction-ledger.jsonl'
+        # Seed fixtures carry fixed historical dates. This benchmark compares
+        # memory and output parity, not live-board retention, so keep them all.
+        refresh.LIVE_RETENTION_DAYS = 36500
         from prediction_ledger import PredictionLedger
         original_verify=PredictionLedger._read_verified_storage
         original_get=RuntimeDatabase.get_artifact; original_records=RuntimeDatabase.prediction_records
