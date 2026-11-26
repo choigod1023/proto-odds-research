@@ -1,0 +1,27 @@
+{
+  "full_pytest": "1867 passed, 6 skipped, 93 subtests passed",
+  "focused_tests": 22,
+  "replay_exact_byte_match": {
+    "named-kbl-exception-predictions.jsonl.gz": true,
+    "predictions.jsonl.gz": true,
+    "quote-only-predictions.jsonl.gz": true,
+    "results.json": true,
+    "strict-diagnostic-predictions.jsonl.gz": true
+  },
+  "all_manifest_hashes_match": true,
+  "tested_input_rows": 44396,
+  "settlement_independent_rows": 215782,
+  "named_kbl_settlement_rows": 195,
+  "strict_fixed9to1_policy_comparison_n": 0,
+  "later_disjoint_period_n": 0,
+  "limitations": [
+    "same exposed archive",
+    "receipt-certified0",
+    "special KBL scope addendum after primary results, no adoption",
+    "new-period validation unavailable",
+    "actual9:1 policy support0"
+  ],
+  "quote_predictions_independent_of_invalid_threeway_labels": true,
+  "protocol_hash_in_manifest": true,
+  "hash_paths_repo_relative": true
+}

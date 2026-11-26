@@ -1,0 +1,150 @@
+{
+  "study": "E",
+  "topic": "shrunk-market-residual",
+  "base_commit": "421544799673a38eb7cb32f70397476bc1f507c2",
+  "version": 1,
+  "hypothesis": "Fixed market logit plus small L2 residuals and genuinely shrunk league slope deviations can improve accuracy; no forced flips or adoption of prior failed KBO.",
+  "prior_negative_history": {
+    "402": "strict492 market=fixed9:1 57.52%; other blends worse",
+    "403": "disagreement180 market98 vote82; temperature argmax unchanged",
+    "405_411_413": "baseball replacement failures; MLB home-constant collapse",
+    "424_425": "small-sample apparent gains failed later40: new60%/ROI-8.475 vs fixed9:1 65%/-0.9",
+    "419_422_423": "no stable joint accuracy/ROI improvement",
+    "420": "audit fetch 404, no evidence inferred"
+  },
+  "data": {
+    "targets": "PR425 committed cases.jsonl.gz; only retrospective_year_strict__claimed_time_only KBO/NPB/MLB binary fullgame, actual external_p required; no auxiliary or saved_pregame training/test",
+    "history": "PR405 committed history.jsonl only projected dates, teams, scores and source provenance; historical result strength restricted to global training cutoff, never validation/test outcomes",
+    "audited_features": [
+      "PR425 phase2+phase3 primary baseball feature rows",
+      "PR424 MLB calendar-features and exact features, preserve evidence and source hashes"
+    ],
+    "certified_receipt_rows_expected": 0,
+    "existing_exposure": "All reused archive data already exposed; chronological test is retrospective, NOT blind holdout."
+  },
+  "chronology": {
+    "split": "Global pooled unique target local day sorted; first floor(0.60*D) train, next to floor(0.80*D) validation, rest test. Same dates never split across leagues. Exclude training kickoffs within48h of earliest validation decision. NO refit on validation.",
+    "min_train_per_league": 30,
+    "min_train_classes": 2,
+    "min_validation_global": 10,
+    "min_test_per_league_for_claim": 10,
+    "fallback": "market probability for unsupported leagues, report fallback and effective coverage",
+    "history_freeze": "Past-result strength uses last30 team results with source date <= targetday-2 AND no later than retained training max date; exclude target IDs and dates. Test labels cannot enter history. Rest uses earlier scheduled/played dates only, never scores; incomplete archive gaps are observed schedule gaps, not certified rest."
+  },
+  "features": {
+    "core": [
+      "penalized intercept",
+      "clipped7 observed rest-day home-away gap",
+      "beta(5,5) last30 historical win-strength home-away; draw half win; min10/team else0 difference"
+    ],
+    "audited_extra": [
+      "KBO observed prior-date starter-pitches home-away /100",
+      "KBO observed relief-appearances home-away /10",
+      "NPB observed relief-pitches home-away /100",
+      "MLB prior2-4date ge30pitches-relievers home-away /3",
+      "KBO/NPB/MLB workload-present indicators"
+    ],
+    "missing": "zero numerical residual plus explicit presence indicators; no fabricated starter identity, no KBO relief pitchcount, no final odds or postgame target lineup",
+    "evidence_gate": "Every used field finite, source sha256 valid, actual observed timestamp present; max_fact_time <= decision, or max_fact_date calendar-end+24h <= decision; source dates strictly earlier and target source ID absent. observed_at after decision allowed ONLY retrospective. Strict gate requires independent pregame receipt registry, absent means0.",
+    "scaling": "training-only mean and population std; std floor1e-8 ->1; same scaler for all leagues",
+    "market": "single fixed offset log(p_home/p_away), p from normalized inverse of SAME case decimal odds on ALL train/validation/test. Never transfer proxy offsets. Report original saved market (Shin) and actual fixed9:1 =0.9*saved market+0.1*actual votes separately; same-price proportional market is additional control."
+  },
+  "model": {
+    "formula": "p_home=sigmoid(fixed market logit + x*(beta_global + delta_league)); optimize SUM logloss +0.5*lambda_global*||beta_global||²+0.5*lambda_deviation*sum||delta_league||². Independent models use separate penalized league vectors. All coefficients including intercept shrunk toward0, never hard-thresholded.",
+    "optimizer": "scipy L-BFGS-B float64 deterministic zero init, analytic gradient, maxiter2000, ftol1e-13, gtol1e-8; nonconvergence fails, no replacing candidate",
+    "no_pooled_dummy_substitute": true
+  },
+  "candidates": [
+    {
+      "id": "core-independent-10",
+      "features": "core",
+      "architecture": "independent",
+      "l2": 10
+    },
+    {
+      "id": "core-independent-100",
+      "features": "core",
+      "architecture": "independent",
+      "l2": 100
+    },
+    {
+      "id": "core-partial-10",
+      "features": "core",
+      "architecture": "partial",
+      "l2_global": 10,
+      "l2_deviation": 10
+    },
+    {
+      "id": "core-partial-100",
+      "features": "core",
+      "architecture": "partial",
+      "l2_global": 10,
+      "l2_deviation": 100
+    },
+    {
+      "id": "audited-independent-10",
+      "features": "audited",
+      "architecture": "independent",
+      "l2": 10
+    },
+    {
+      "id": "audited-independent-100",
+      "features": "audited",
+      "architecture": "independent",
+      "l2": 100
+    },
+    {
+      "id": "audited-partial-10",
+      "features": "audited",
+      "architecture": "partial",
+      "l2_global": 10,
+      "l2_deviation": 10
+    },
+    {
+      "id": "audited-partial-100",
+      "features": "audited",
+      "architecture": "partial",
+      "l2_global": 10,
+      "l2_deviation": 100
+    },
+    {
+      "id": "intercept-independent-10",
+      "features": "intercept",
+      "architecture": "independent",
+      "l2": 10
+    },
+    {
+      "id": "intercept-independent-100",
+      "features": "intercept",
+      "architecture": "independent",
+      "l2": 100
+    }
+  ],
+  "trial_count": 10,
+  "selection": "On validation ONLY maximize accuracy, then minimize logloss, then lexicographic candidate id. Persist every tried candidate including controls, never select on test. Baselines are not fitted trials.",
+  "inference": {
+    "bootstrap": "5000 paired ISO-week cluster resamples, seed20261030; ordinary95% CIs accuracy and ROI differences vs original market AND actual fixed9:1, plus proportional market; resample shared cases, preserve paired differences.",
+    "multiplicity": "Exact one-sided paired sign/binomial test on discordant correctness (diagnostic independence caveat); Holm correction across all10 candidates x3leagues x2 required baselines =60, unavailable contrasts p=1. Weekly bootstrap98+ simultaneous Bonferroni family CIs: alpha=.05/60 for both accuracy and ROI, report low-tail Monte Carlo precision. Formal improvement requires selected candidate adjusted p<.05 and simultaneous accuracy lower>0 vs market and fixed9:1, minimum20 flipped test games total and10 per league; no future inference from retrospective data.",
+    "no_abstention": "all eligible common cases receive a pick; unsupported models fallback market, separately mark support."
+  },
+  "metrics": [
+    "n, coverage and effective fitted coverage",
+    "accuracy, flat1unit ROI, exact integer-cents profits, logloss, binary Brier",
+    "paired accuracy/ROI CIs vs original market and actual fixed9:1 and proportional market",
+    "market flip counts, flip-subset accuracy and baseline accuracy",
+    "home/away choice shares, home-constant accuracy/ROI, exact agreement to home constant",
+    "selected coefficient norm and signs; same selected architecture refit on early/late halves of TRAIN only, minimum15 per league, stability diagnostic not selection"
+  ],
+  "leakage_tests": [
+    "test outcome flip leaves training scaler/coefficients/selection/predictions byte-identical",
+    "validation outcome flip leaves training parameters and candidate predictions identical (selection may change)",
+    "history scores after training cutoff flip leaves features and predictions unchanged",
+    "test raw current/postgame/final odds extra fields ignored; market_p sourced only same frozen case odds",
+    "late fact/current target sourceID/invalid hash/missing clock rejected",
+    "analytic gradient finite-difference; true partial pooling slopes and shrink effect checked",
+    "independent settlement and metrics with decimal arithmetic; per-event picks/profit exact equality; independent weekly intervals and Holm values cross-check",
+    "source/input/output SHA256 and deterministic offline cold replay"
+  ],
+  "scope": "Only experiments/shrunk-market-residual-20261030/** tests/test_shrunk_market_residual*.py docs/research/2026-10-30-shrunk-market-residual{.md,-protocol.json}; no operation/network collection/merge/deploy.",
+  "deliverable": "Korean report begins 예/아니오, focused and full pytest exact counts, protocol commit then results commit, push isolated branch and draft main PR; no merge/deploy."
+}

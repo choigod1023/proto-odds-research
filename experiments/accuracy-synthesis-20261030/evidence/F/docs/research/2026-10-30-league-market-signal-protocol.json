@@ -1,0 +1,70 @@
+{
+  "study": "F league-market-signal",
+  "version": "1",
+  "base": "421544799673a38eb7cb32f70397476bc1f507c2",
+  "frozen_before_new_results": true,
+  "hypothesis": "Some predeclared league/full-market/odds-bin cells may retain positive flat-stake ROI and higher accuracy than market on later retrospective fixtures, after adjustment. No forward receipt-certified claim.",
+  "inputs": {
+    "archive": "PR422 ARCHIVE/events.jsonl.gz 44396 frames; settled-only, internally linked identities, retrospective unknown price receipt; no actual tipster probabilities",
+    "actual_vote_comparator": "PR402 strict-results.json event_ledger exact strict common492; original Shin picks and actual vote9:1 references; source publication/receipt uncertified",
+    "additional_period": "Search existing PR425 canonical cases for physically disjoint later dates beyond archive maximum. If none, report zero, never relabel overlapping fixtures as additional test."
+  },
+  "candidates": {
+    "leagues": "All distinct league names present in inputs before outcome lookup",
+    "market_families": {
+      "ML": [
+        "승패",
+        "승무패"
+      ],
+      "HC": [
+        "핸디캡"
+      ],
+      "OU": [
+        "언더오버"
+      ]
+    },
+    "odds_bins": [
+      [
+        1.01,
+        1.5
+      ],
+      [
+        1.5,
+        2
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        5
+      ],
+      [
+        5,
+        10
+      ],
+      [
+        10,
+        null
+      ]
+    ],
+    "candidate_count": "league_count*3*6 including empty cells; every cell retained in multiplicity family",
+    "pick": "One exact canonical product per physical fixture/family selected by earliest issue_year,round,numeric game_no,market_id without outcomes; within bin choose highest inverse-odds probability, stable side-index tie break; no eligible side abstains. Market baseline highest implied probability in SAME product.",
+    "KBL_exception": "predeclared KBL/ML/[5,10) and across all market families; no post-test bin changes"
+  },
+  "split": "Global chronological unique KST dates first1/3 train,second1/3 validation,last1/3 test. Selection uses only first2/3: >=30train >=15validation nonvoid bets and positive ROI in BOTH. No test-based rules.",
+  "metrics": [
+    "n,coverage,hit_rate,flat1unit ROI,market calibration_gap",
+    "weekly cluster bootstrap95% paired accuracy and ROI deltas vs SAME-product market on same selected opportunities",
+    "actual492 supplemental comparison vs original market AND actual fixed9:1; no 9:1 fiction on archive",
+    "all cell trial table BH-FDR one-sided cluster-sign randomization of weekly ROI sums vs0, accuracy delta and ROI delta vsmarket; union of all3families (not selected cells only) atq.05",
+    "minimum independent discordant-pair power atalpha.05two-sided/80%: +3pp,+5pp sensitivity disagreement .2,.5; normal approximation and league baseline conservative independent proportions; not guarantee"
+  ],
+  "inference": "2000 weekly bootstrap;9999 shared-seed weekly Rademacher sign flips of centered-null weekly sums; signs shared across cells preserve fixture dependence; approximate symmetric-cluster-null assumption, not exact randomized betting experiment. Minimum8testweeks for inference; otherwise p1. No iid row test or multiple-choice pseudo-independent n.",
+  "leakage": "heldout winner/refund permutation leaves canonicalization,predictions,train/validation selection unchanged. Reconstruct samegroup prices from only allowed quote fields, reject outcomes passed as features. Actual pregame certified0, source-time gate rejects postkickoff receipt, no claim archived prices were not closing.",
+  "settlement": "refund returns stake; otherwise hit*odds-1. Independent Decimal payout ledger verifies integer cent profits and hit denominators. Accuracy excludes void; ROI denominator includes refunded stake.",
+  "hashes_replay": "rawinput+owncode+protocol+results SHA256 and offline commands, deterministic gzipmtime0; no manifest self-reference",
+  "restrictions": "research only ownexperiments tests docs; no operating code/DB/scheduler/config/budget/merge/deploy",
+  "source_evidence": "PR398-425 bodies and docs20261028-30 audited exact heads in parent .local-test/accuracy-pr-audit; PR420404 explicitly missing"
+}

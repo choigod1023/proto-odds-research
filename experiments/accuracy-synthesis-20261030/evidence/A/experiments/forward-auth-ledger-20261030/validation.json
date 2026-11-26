@@ -1,0 +1,35 @@
+{
+  "protocol_commit": "9e9fca0496fab156b80185c22ba0b9b196a70247",
+  "byte_identical_offline_replay": {
+    "results.json": true,
+    "frozen-predictions.json": true,
+    "historical-projections.jsonl.gz": true,
+    "synthetic-ledger.jsonl": true,
+    "synthetic-checkpoint.json": true,
+    "synthetic-trust.json": true
+  },
+  "verified_manifest_entries": 34,
+  "logs": {
+    "focused-tests.log": {
+      "sha256": "769ca4e1c6e6addd1d059905ee72878fb2476a46130d5c8a8097d847874b2bf5",
+      "summary": "54 passed in 1.27s"
+    },
+    "full-tests.log": {
+      "sha256": "e6b8af732d7bf4ac90a80236e2a5b05c356630289d0a67ed470b856d14b03fb3",
+      "summary": "1899 passed, 6 skipped, 93 subtests passed in 32.94s"
+    },
+    "ci-root-deps-tests.log": {
+      "sha256": "883a20975d3bf6622825319dff46c2e1238ea11a962aa1e0ca5570d93898cb90",
+      "summary": "1885 passed, 20 skipped, 93 subtests passed in 30.14s"
+    }
+  },
+  "source_code_all_lf": true,
+  "dependency_versions": {
+    "signature_tests": "cryptography50.0.2 enabled locally via bundled optional package",
+    "root_deps_simulation": "default interpreter has no cryptography;14 signature tests skipped"
+  },
+  "real_external_witness_configured": false,
+  "staged_blob_sha256_equal": 44,
+  "staged_scope_valid": true,
+  "git_diff_cached_check": "passed; verbatim PR API bodies retain upstream doubled CR under evidence-only whitespace attribute"
+}
